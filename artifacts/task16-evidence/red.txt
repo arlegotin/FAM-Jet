@@ -1,0 +1,97 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 9 items
+
+tests/test_baselines.py::test_stehfest_factorial_fixtures_and_invalid_orders FAILED [ 11%]
+tests/test_baselines.py::test_impulse_high_precision_literal_and_fp32_cancellation FAILED [ 22%]
+tests/test_baselines.py::test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics FAILED [ 33%]
+tests/test_baselines.py::test_scalar_legendre_basis_and_minimum_norm_hand_calculation FAILED [ 44%]
+tests/test_baselines.py::test_original_native_control_is_causal_and_counts_both_arrays FAILED [ 55%]
+tests/test_baselines.py::test_source_fixture_revisions_targets_and_shared_token_table FAILED [ 66%]
+tests/test_baselines.py::test_reproduction_config_is_explicit_and_separate_from_main_training FAILED [ 77%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions FAILED [ 88%]
+tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success FAILED [100%]
+
+=================================== FAILURES ===================================
+_____________ test_stehfest_factorial_fixtures_and_invalid_orders ______________
+
+    def test_stehfest_factorial_fixtures_and_invalid_orders():
+>       from famjet.memory.gaver import stehfest_weights
+E       ModuleNotFoundError: No module named 'famjet.memory.gaver'
+
+tests/test_baselines.py:11: ModuleNotFoundError
+__________ test_impulse_high_precision_literal_and_fp32_cancellation ___________
+
+    def test_impulse_high_precision_literal_and_fp32_cancellation():
+>       from famjet.memory.gaver import gaver_rates, gaver_step, reconstruct
+E       ModuleNotFoundError: No module named 'famjet.memory.gaver'
+
+tests/test_baselines.py:19: ModuleNotFoundError
+________ test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics ________
+
+    def test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics():
+>       from famjet.memory.gaver import gaver_rates, gaver_step, reconstruct
+E       ModuleNotFoundError: No module named 'famjet.memory.gaver'
+
+tests/test_baselines.py:34: ModuleNotFoundError
+_________ test_scalar_legendre_basis_and_minimum_norm_hand_calculation _________
+
+    def test_scalar_legendre_basis_and_minimum_norm_hand_calculation():
+>       from famjet.memory.associative_hippo import location_basis, minimum_norm_delta
+E       ModuleNotFoundError: No module named 'famjet.memory.associative_hippo'
+
+tests/test_baselines.py:48: ModuleNotFoundError
+________ test_original_native_control_is_causal_and_counts_both_arrays _________
+
+    def test_original_native_control_is_causal_and_counts_both_arrays():
+>       from famjet.memory.associative_hippo import OriginalAssociativeHiPPO
+E       ModuleNotFoundError: No module named 'famjet.memory.associative_hippo'
+
+tests/test_baselines.py:61: ModuleNotFoundError
+_________ test_source_fixture_revisions_targets_and_shared_token_table _________
+
+    def test_source_fixture_revisions_targets_and_shared_token_table():
+>       from famjet.memory.associative_hippo import token_table, associative_episodes
+E       ModuleNotFoundError: No module named 'famjet.memory.associative_hippo'
+
+tests/test_baselines.py:77: ModuleNotFoundError
+_____ test_reproduction_config_is_explicit_and_separate_from_main_training _____
+
+    def test_reproduction_config_is_explicit_and_separate_from_main_training():
+        from famjet.config import load_config
+>       from famjet.reproduce import load_reproduction_config
+E       ModuleNotFoundError: No module named 'famjet.reproduce'
+
+tests/test_baselines.py:93: ModuleNotFoundError
+__________ test_dispatcher_records_equations_and_explicit_exclusions ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4013/test_dispatcher_records_equati0')
+
+    def test_dispatcher_records_equations_and_explicit_exclusions(tmp_path):
+>       from famjet.reproduce import load_reproduction_config, reproduce_baseline
+E       ModuleNotFoundError: No module named 'famjet.reproduce'
+
+tests/test_baselines.py:103: ModuleNotFoundError
+__ test_short_source_control_retains_failure_and_rejects_zero_target_success ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4013/test_short_source_control_reta0')
+
+    def test_short_source_control_retains_failure_and_rejects_zero_target_success(tmp_path):
+>       from famjet.reproduce import load_reproduction_config, reproduce_baseline
+E       ModuleNotFoundError: No module named 'famjet.reproduce'
+
+tests/test_baselines.py:118: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_baselines.py::test_stehfest_factorial_fixtures_and_invalid_orders
+FAILED tests/test_baselines.py::test_impulse_high_precision_literal_and_fp32_cancellation
+FAILED tests/test_baselines.py::test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics
+FAILED tests/test_baselines.py::test_scalar_legendre_basis_and_minimum_norm_hand_calculation
+FAILED tests/test_baselines.py::test_original_native_control_is_causal_and_counts_both_arrays
+FAILED tests/test_baselines.py::test_source_fixture_revisions_targets_and_shared_token_table
+FAILED tests/test_baselines.py::test_reproduction_config_is_explicit_and_separate_from_main_training
+FAILED tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions
+FAILED tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success
+============================== 9 failed in 2.02s ===============================

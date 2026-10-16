@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 11 items
+
+tests/test_baselines.py::test_stehfest_factorial_fixtures_and_invalid_orders PASSED [  9%]
+tests/test_baselines.py::test_impulse_high_precision_literal_and_fp32_cancellation PASSED [ 18%]
+tests/test_baselines.py::test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics PASSED [ 27%]
+tests/test_baselines.py::test_scalar_legendre_basis_and_minimum_norm_hand_calculation PASSED [ 36%]
+tests/test_baselines.py::test_original_native_control_is_causal_and_counts_both_arrays PASSED [ 45%]
+tests/test_baselines.py::test_original_post_write_read_and_zoh_history_small_calculation PASSED [ 54%]
+tests/test_baselines.py::test_source_fixture_revisions_targets_and_shared_token_table PASSED [ 63%]
+tests/test_baselines.py::test_reproduction_config_is_explicit_and_separate_from_main_training PASSED [ 72%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions PASSED [ 81%]
+tests/test_baselines.py::test_source_resource_failure_is_retained_before_training PASSED [ 90%]
+tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success PASSED [100%]
+
+============================== 11 passed in 1.44s ==============================

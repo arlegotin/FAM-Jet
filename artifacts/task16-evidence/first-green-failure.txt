@@ -1,0 +1,71 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 9 items
+
+tests/test_baselines.py::test_stehfest_factorial_fixtures_and_invalid_orders PASSED [ 11%]
+tests/test_baselines.py::test_impulse_high_precision_literal_and_fp32_cancellation PASSED [ 22%]
+tests/test_baselines.py::test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics PASSED [ 33%]
+tests/test_baselines.py::test_scalar_legendre_basis_and_minimum_norm_hand_calculation PASSED [ 44%]
+tests/test_baselines.py::test_original_native_control_is_causal_and_counts_both_arrays PASSED [ 55%]
+tests/test_baselines.py::test_source_fixture_revisions_targets_and_shared_token_table PASSED [ 66%]
+tests/test_baselines.py::test_reproduction_config_is_explicit_and_separate_from_main_training PASSED [ 77%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions PASSED [ 88%]
+tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success FAILED [100%]
+
+=================================== FAILURES ===================================
+__ test_short_source_control_retains_failure_and_rejects_zero_target_success ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4016/test_short_source_control_reta0')
+
+    def test_short_source_control_retains_failure_and_rejects_zero_target_success(tmp_path):
+        from famjet.reproduce import load_reproduction_config, reproduce_baseline
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        a=replace(cfg.reproduction.associative,max_steps=1,train_episodes=16,eval_episodes=8)
+        cfg=replace(cfg,reproduction=replace(cfg.reproduction,associative=a))
+>       report=reproduce_baseline('associative_original',cfg,tmp_path)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_baselines.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:312: in reproduce_baseline
+    atomic_json(folder/'report.json',record)
+famjet/artifacts.py:17: in atomic_json
+    payload = canonical_json(value) + b'\n'
+              ^^^^^^^^^^^^^^^^^^^^^
+famjet/provenance.py:35: in canonical_json
+    _check_json(value)
+famjet/provenance.py:28: in _check_json
+    _check_json(item)
+famjet/provenance.py:28: in _check_json
+    _check_json(item)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = '2.14.1'
+
+    def _check_json(value: object) -> None:
+        if value is None or type(value) in (str, bool, int):
+            return
+        if type(value) is float:
+            if not math.isfinite(value):
+                raise ValueError('JSON numbers must be finite')
+            return
+        if type(value) in (list, tuple):
+            for item in value:
+                _check_json(item)
+            return
+        if type(value) is dict:
+            for key, item in value.items():
+                if type(key) is not str:
+                    raise TypeError('JSON object keys must be strings')
+                _check_json(item)
+            return
+>       raise TypeError(f'Unsupported JSON value: {type(value).__name__}')
+E       TypeError: Unsupported JSON value: TorchVersion
+
+famjet/provenance.py:30: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success
+========================= 1 failed, 8 passed in 2.50s ==========================

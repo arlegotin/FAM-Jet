@@ -1,0 +1,101 @@
+schema_version: 1
+phase: smoke
+seed: 20261013
+data:
+  generator_version: initial_spec_v1
+  key_features: one_hot
+  key_dim: 16
+  value_dim: 8
+  length: 128
+  queries_per_history: 8
+model:
+  method: jet
+  heads: 1
+  J: 4
+  K: 16
+  precision: float32
+  rates:
+    mode: fixed
+    bounds: [0.001, 1.0]
+    spacing: log
+  writer: fixed
+  encode: terminal
+  reader:
+    kind: structured
+    width: 128
+    layers: 2
+    activation: silu
+  epsilon: 1.0e-8
+  numerical_support_floor: 1.0e-8
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+# Task12 resolves the versioned non-scientific execution policy externally:
+# constant LR, no clipping, chunk32, one independent training fit history.
+# resolved_config.json/checkpoints bind the policy hash beside this strict config.
+training:
+  microbatch: 1
+  effective_batch: 1
+  optimizer: AdamW
+  learning_rate: 1.0e-3
+  weight_decay: 0.0
+  optimizer_steps: 2
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 0
+  asset_disk_budget_bytes: 0
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-5
+  atol: 1.0e-6
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null
+# This dedicated subtype's fields are rejected by the ordinary train/config loader.
+# Common model/training fields above are inert context, not source-control settings.
+reproduction:
+  version: 1
+  purpose: standalone_source_controls_not_scientific_training
+  methods: [gaver_equations, associative_original, gaver_deferred, associative_deferred, compact_gru_routing, gaver_source_reuse]
+  gaver_evaluations: 12
+  gaver_lags: [1.0, 2.0]
+  max_seconds: 600.0
+  additional_peak_limit_bytes: 201326592
+  pilot_steps: 3
+  associative:
+    token_seed: 42
+    train_data_seed: 42
+    eval_data_seed: 44
+    initialization_seed: 42
+    train_draw_seed: 43
+    train_episodes: 10000
+    eval_episodes: 256
+    max_steps: 3500
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    min_retrieval_accuracy: 0.5
+    min_cosine: 0.5
+    max_prior_mse_fraction: 0.75
+    require_latest_b_improvement: true

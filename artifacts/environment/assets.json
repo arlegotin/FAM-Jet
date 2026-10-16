@@ -85,6 +85,29 @@
       "license_blob": "d50677fec39f78e04515c615d30ad16741f8a29c",
       "scope": "independent ordinary-tensor equations; no vendored source/models; research/evaluation source restrictions visible; no legal-clearance claim",
       "adaptation_ledger": "docs/baseline_adaptations.md"
+    },
+    {
+      "source_record": "R22",
+      "repository": "cogneuroai/time-local-transformer",
+      "commit": "99a1a04eb67771a4b1c4b05f7909e1697b8b94ae",
+      "path": "gaver_cell.py",
+      "git_blob": "a380990b7add55b4f0109ad03a8d2d40ae5b3b31",
+      "license": "unresolved; no source reuse",
+      "scope": "independent specification equations only; no source download/vendoring; deferred comparator excluded",
+      "adaptation_ledger": "docs/baseline_adaptations.md"
+    },
+    {
+      "source_record": "R07",
+      "repository": "jackgoffinet/hippo-zoo",
+      "commit": "04e38b3cf246f4c50cb6c6a7e10597e2e37eebc7",
+      "path": "src/mpm/models.py",
+      "git_blob": "35acec2230e392d80e2fe8a68c3028cf97a8afd8",
+      "task_blob": "496617838c7065f61252b8193e7cc90e6609c44a",
+      "script_blob": "d7424b3c9037071ced23d0228477c9b4d6fba95c",
+      "license": "MIT",
+      "copyright": "2026 Jack Goffinet",
+      "scope": "independent scalar-location original source control; no source copied; deferred comparator excluded",
+      "adaptation_ledger": "docs/baseline_adaptations.md"
     }
   ]
 }

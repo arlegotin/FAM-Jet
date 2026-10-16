@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/reproduce.py", line 330, in <module>
+    if __name__=='__main__': raise SystemExit(main())
+                                              ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/reproduce.py", line 322, in main
+    results=[reproduce_baseline(name,config,args.out) for name in config.reproduction.methods]
+             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/reproduce.py", line 311, in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/reproduce.py", line 248, in _associative_control
+    loss=update(model,opt,xt[index:index+1],yt[index:index+1])
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/reproduce.py", line 213, in update
+    prediction,_=model(x)
+                 ~~~~~^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/memory/associative_hippo.py", line 92, in forward
+    read=torch.einsum('bcn,bn->bc',C,location_basis(query,self.associative_order))
+                                     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/memory/associative_hippo.py", line 21, in location_basis
+    polys.append(((2*r-1)*z*polys[-1]-(r-1)*polys[-2])/r)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
