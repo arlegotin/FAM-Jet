@@ -15,8 +15,15 @@ def main(argv: list[str] | None = None) -> int:
     from famjet.config import load_config
     from famjet.train import train_model
     destination=args.run_dir or Path('artifacts/runs')/(datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:8])
-    path=train_model(load_config(args.config),destination,resume=args.resume)
-    print(f'completed non-scientific smoke: {path}')
+    config=load_config(args.config)
+    if config.phase=='development':
+        if args.resume is not None: raise ValueError('use explicit development continuation protocol')
+        from famjet.analysis.development import run_development
+        record=run_development(config,destination)
+        print(f'development {record["status"]}: {destination}')
+    else:
+        path=train_model(config,destination,resume=args.resume)
+        print(f'completed non-scientific smoke: {path}')
     return 0
 
 

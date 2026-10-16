@@ -43,16 +43,21 @@ def _preflight_model(context, config):
     """
     from famjet.train import _check_smoke_dimensions
     from famjet.readers.structured import validate_reader_schema
-    _check_smoke_dimensions(config)
+    if config.phase=='development':
+        from famjet.analysis.development import resolve_policy
+        if context['execution_policy']!=resolve_policy(config): raise ValueError('checkpoint development policy mismatch')
+    else:
+        _check_smoke_dimensions(config)
     m,d=config.model,config.data
     try:
         wire=context['model']; schema=wire['schema']; kernel=schema['kernel']
         reader=schema['reader']; validate_reader_schema(reader)
         count_name='mixer_dim' if m.method=='delta' else 'coefficients' if m.method in {'polynomial','multiscale'} else 'anchors'
         count=m.delta.dim if m.method=='delta' else m.multiscale.order*m.multiscale.scale_order if m.method=='multiscale' else sum(m.polynomial.orders) if m.method=='polynomial' else m.J
+        from famjet.analysis.development import reader_budget
         expected_reader={'kind':m.reader.kind,
             'feature_spec':{'family':m.method,count_name:count,'key_dim':m.K,'value_dim':d.value_dim},
-            'query_spec':{'key_dim':m.K},'budget':{'width':m.reader.width,'hidden_layers':m.reader.layers}}
+            'query_spec':{'key_dim':m.K},'budget':reader_budget(m.reader)}
         if wire['kind'] != 'task' or m.method not in {'jet','bank','polynomial','multiscale','delta'} or kernel['kind'] != m.method or reader != expected_reader:
             raise ValueError('checkpoint reader/model configuration mismatch')
         if schema['inference_config'] != {'schema_version':1,'writer':m.writer,'rate_mode':'fixed' if m.rates is None else m.rates.mode} or schema['frozen_rates'] is not False:
@@ -145,7 +150,7 @@ def _validate(context):
     if ids != [f'train-{i:012d}' for i in range(step*config.training.effective_batch)]:
         raise ValueError('checkpoint consumed sampler sequence mismatch')
     sampler=context['sampler']
-    if set(sampler) != {'namespace','seed','position'} or sampler['namespace'] != 'shared_training_draws_v1' or sampler['seed'] != config.seed or sampler['position'] != len(ids)+acc:
+    if set(sampler) != {'namespace','seed','position'} or sampler['namespace'] != context['execution_policy']['draw_namespace'] or sampler['seed'] != (config.seed if config.development is None else config.development.data_seed) or sampler['position'] != len(ids)+acc:
         raise ValueError('checkpoint sampler mismatch')
     if context['scheduler'] != {'kind':'constant','last_step':step} or context['scaler'] is not None:
         raise ValueError('checkpoint scheduler/scaler mismatch')

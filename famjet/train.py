@@ -64,8 +64,9 @@ def make_model(config, policy=None):
                    else torch.linspace(lo,hi,m.J)).reshape(1,-1).to(device)
         kernel=(JetMemory if m.method=='jet' else ExpBankMemory)(rates,m.K,d.value_dim,
             eps=m.epsilon,support_floor=m.numerical_support_floor,chunk_size=policy['terminal_chunk'])
+    from famjet.analysis.development import reader_budget
     reader=make_reader(m.reader.kind,kernel.reader_feature_spec,
-        dict(key_dim=m.K),dict(width=m.reader.width,hidden_layers=m.reader.layers)).to(device)
+        dict(key_dim=m.K),reader_budget(m.reader)).to(device)
     return TaskModel(kernel,reader,config).to(device)
 
 
@@ -162,8 +163,13 @@ def _source():
 
 
 def identities(config,policy):
-    data={'generator':asdict(config.data),'split':'training','seed':config.seed,
+    data={'generator':asdict(config.data),'split':'training','seed':config.seed if config.development is None else config.development.data_seed,
           'draw_namespace':policy['draw_namespace'],'fit_namespace':policy['fit_namespace']}
+    if config.development is not None:
+        data.update(length_weights=policy['length_weights'],regime_weights=policy['regime_weights'],
+            task_weights={'mean':.5,'contrast':.5},
+            cell_identity_namespace='task18-{fit|train}-N{length}-{regime}-{ordinal:012d}',
+            fit_histories_per_cell=config.development.fit_histories_per_cell)
     return {'config_hash':canonical_hash(asdict(config)),'policy_hash':canonical_hash(policy),
         'source_hash':source_identity(),'lock_hash':hashlib.sha256((ROOT/'requirements.lock').read_bytes()).hexdigest(),
         'data_hash':canonical_hash(data)},data
@@ -177,7 +183,7 @@ def _context(config,policy,identity,data,source,model,optimizer,step,ids):
         'optimizer':optimizer.state_dict(),
         'optimizer_active_parameters':[n for n,p in model.named_parameters() if p in optimizer.state],
         'scheduler':{'kind':'constant','last_step':step},'scaler':None,
-        'rng':capture_rng(config.resources.device),'sampler':{'namespace':policy['draw_namespace'],'seed':config.seed,'position':len(ids)},
+        'rng':capture_rng(config.resources.device),'sampler':{'namespace':policy['draw_namespace'],'seed':data['seed'],'position':len(ids)},
         'completed_step':step,'accumulation_position':0,'consumed_episode_ids':list(ids),'restarted_accumulation':False}
 
 
@@ -194,12 +200,15 @@ def _check_smoke_dimensions(config):
 
 
 def _resource_check(config, policy):
-    if config.phase != 'smoke':
+    if config.phase=='development':
+        from famjet.analysis.development import resolve_policy
+        if policy!=resolve_policy(config): raise ValueError('development policy mismatch')
+    elif config.phase != 'smoke':
         raise ValueError('non-smoke training requires Task18/20 explicit policy and sustained resource calibration')
-    if policy != SMOKE_POLICY: raise ValueError('unregistered smoke execution policy')
+    if config.phase=='smoke' and policy != SMOKE_POLICY: raise ValueError('unregistered smoke execution policy')
     if config.data.generator.namespace != 'training' or config.data.beijing is not None:
         raise ValueError('training requires exploratory synthetic training namespace')
-    _check_smoke_dimensions(config)
+    if config.phase=='smoke': _check_smoke_dimensions(config)
     if config.resources.checkpoint_retention<2: raise ValueError('two checkpoints required for atomic recovery')
     provenance_path=ROOT/config.resources.resource_provenance
     if not provenance_path.is_file(): raise ValueError('missing resource provenance')
@@ -256,13 +265,15 @@ def _prediction_records(model,ep,run_id,split,*,policy=None,manifest_hash=None,s
         yield row
 
 
-def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None) -> Path:
+def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None, observer=None, stop_at=None) -> Path:
     run_dir=Path(run_dir)
     run_dir.mkdir(parents=True,exist_ok=False)
+    from famjet.analysis.development import resolve_policy,fit_panel,draw_config
     policy=dict(SMOKE_POLICY)
+    if stop_at is not None and not 0<=stop_at<=config.training.optimizer_steps: raise ValueError('invalid stop boundary')
     start=time.perf_counter(); baseline=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     record={'schema_version':1,'id':run_dir.name,'phase':config.phase,'status':'initializing',
-        'scientific_status':'non_scientific_smoke','start_utc':_now(),'end_utc':None,'failure_category':None,
+        'scientific_status':policy['scientific_status'],'start_utc':_now(),'end_utc':None,'failure_category':None,
         'completed_step':0,'consumed_episode_ids':[],'attempted_episode_ids':[],'checkpoints':[],
         'resume':str(resume) if resume else None,'seeds':{'training':config.seed},'execution_policy':policy,
         'machine':{'platform':platform.platform(),'python':platform.python_version(),'torch':str(torch.__version__),
@@ -272,6 +283,8 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
     atomic_json(run_dir/'run.json',record)
     checkpoint_path=run_dir/'checkpoint.pt'
     try:
+        policy=dict(SMOKE_POLICY) if config.phase=='smoke' else resolve_policy(config)
+        record.update(execution_policy=policy,scientific_status=policy['scientific_status'])
         if config.data.generator_version!='initial_spec_v2_targets':
             raise ValueError('legacy target semantics forbidden for new training')
         _resource_check(config,policy)
@@ -287,6 +300,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
         if config.model.method in {'polynomial','multiscale'}:
             record[config.model.method+'_construction']={**model.kernel.preparation_cost([]),
                 'seconds':time.perf_counter()-construction_start,'boundary':'complete_model_construction_including_cpu_fp64_matrices'}
+        record['construction_seconds']=time.perf_counter()-construction_start
         optimizer=make_optimizer(model,config)
         step,consumed=0,[]
         if resume is not None:
@@ -297,25 +311,44 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
             step=context['completed_step']; consumed=list(context['consumed_episode_ids'])
             restore_rng(context['rng'],config.resources.device)
         else:
-            fit=move_episode(generate_episode(config,config.seed,'training_preprocessing_v1-000000000000'),config.resources.device)
-            append_jsonl(run_dir/'preprocessing.jsonl',{'episode_ids':list(fit.events.history_ids),
-                'hashes':fit.metadata['hashes'],'split':'training','purpose':'frozen_statistics'})
-            model.fit_statistics([fit])
-            del fit
+            fit_start=time.perf_counter()
+            fits=fit_panel(config) if config.phase=='development' else [generate_episode(config,config.seed,'training_preprocessing_v1-000000000000')]
+            for fit in fits:
+                append_jsonl(run_dir/'preprocessing.jsonl',{'episode_ids':list(fit.events.history_ids),
+                    'hashes':fit.metadata['hashes'],'split':'training','purpose':'frozen_statistics'})
+            generation_seconds=time.perf_counter()-fit_start
+            model.fit_statistics([move_episode(fit,config.resources.device) for fit in fits])
+            record['preprocessing_seconds']={'generation':generation_seconds,'total':time.perf_counter()-fit_start}
+            if config.development is not None and config.development.fit_histories_per_cell>=4:
+                from famjet.eval.metrics import fit_target_statistics
+                nested=fit_target_statistics([ep for i,ep in enumerate(fits) if i%config.development.fit_histories_per_cell<2])
+                record['statistics_stability']={t:{'nested_scale':nested['tasks'][t]['scale'],'full_scale':v['scale'],
+                    'relative_scale_change':abs(v['scale']/nested['tasks'][t]['scale']-1)} for t,v in model.target_statistics['tasks'].items()}
+            record['preprocessing']={'target_statistics':model.target_statistics,'fit_provenance':model.fit_provenance}
+            del fits,fit
         record.update(status='running',completed_step=step,consumed_episode_ids=consumed)
         save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
         record['checkpoints']=[str(checkpoint_path),str(checkpoint_path.with_suffix('.pt.previous'))]
         atomic_json(run_dir/'run.json',record)
-        for step_index in range(step,config.training.optimizer_steps):
+        if observer is not None: observer(model,step,run_dir)
+        for step_index in range(step,config.training.optimizer_steps if stop_at is None else stop_at):
             optimizer.zero_grad(set_to_none=True)
             preparation=[]
-            step_ids=[]; loss_sum=0.; before=model._parameter_hash()
+            step_ids=[]; loss_sum=0.; generation_seconds=0.; before=model._parameter_hash()
             _sync(config.resources.device); tick=time.perf_counter()
             for offset in range(0,config.training.effective_batch,config.training.microbatch):
                 ids=[f'train-{len(consumed)+offset+i:012d}' for i in range(config.training.microbatch)]
                 record['attempted_episode_ids'].extend(ids); step_ids.extend(ids)
                 atomic_json(run_dir/'run.json',record)
-                episodes=[generate_episode(config,config.seed,i) for i in ids]
+                generation_start=time.perf_counter()
+                if config.phase=='development':
+                    episodes=[]
+                    for ordinal in range(len(consumed)+offset,len(consumed)+offset+config.training.microbatch):
+                        dc,draw_id=draw_config(config,ordinal)
+                        episodes.append(generate_episode(dc,config.development.data_seed,draw_id))
+                else:
+                    episodes=[generate_episode(config,config.seed,i) for i in ids]
+                generation_seconds+=time.perf_counter()-generation_start
                 for ep in episodes:
                     append_jsonl(run_dir/'draws.jsonl',{'step':step_index+1,'episode_id':ep.events.history_ids[0],
                         'regime':ep.metadata['regime'],'hashes':ep.metadata['hashes'],'status':ep.metadata['status']})
@@ -329,6 +362,8 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
                 del result,loss,ep,episodes
             norm=torch.linalg.vector_norm(torch.stack([torch.linalg.vector_norm(p.grad) for p in model.parameters() if p.grad is not None]))
             if not bool(torch.isfinite(norm)): raise FloatingPointError('nonfinite gradients')
+            if policy['gradient_clip_norm'] is not None:
+                torch.nn.utils.clip_grad_norm_(model.parameters(),policy['gradient_clip_norm'],error_if_nonfinite=True)
             optimizer.step(); optimizer.zero_grad(set_to_none=True)
             if not all(bool(torch.isfinite(p).all()) for p in model.parameters()): raise FloatingPointError('nonfinite updated parameters')
             consumed.extend(step_ids); step=step_index+1
@@ -337,8 +372,11 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
             record.update(completed_step=step,consumed_episode_ids=list(consumed))
             append_jsonl(run_dir/'training.jsonl',{'step':step,'episode_ids':step_ids,'loss':loss_sum,
                 'learning_rate':optimizer.param_groups[0]['lr'],'gradient_norm':float(norm),
-                'gradient_clip_norm':None,'writer_hash_before':before,'writer_hash_after':model._parameter_hash()})
-            save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
+                'gradient_clip_norm':policy['gradient_clip_norm'],'writer_hash_before':before,'writer_hash_after':model._parameter_hash()})
+            if config.phase=='smoke' or step in config.development.milestones or step==stop_at:
+                save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
+            if observer is not None and step in config.development.milestones:
+                observer(model,step,run_dir)
             peak=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             additional=max(0,peak-baseline)*(1 if platform.system()=='Darwin' else 1024)
             record['actual_budgets']={'rss_highwater_additional_bytes':additional,
@@ -350,17 +388,17 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
             append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'length':config.data.length,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
                 'device':config.resources.device,'precision':'float32','boundary':'training_generate_forward_backward_optimizer',
                 'cold_warm':'cold' if step_index==0 else 'warm','block':step_index,'order':0,'repetitions':1,
-                'seconds':elapsed,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
+                'seconds':elapsed,'generation_seconds':generation_seconds,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
                 'polynomial_allocation':asdict(config.model.polynomial) if config.model.polynomial is not None else None,
                 'multiscale_allocation':asdict(config.model.multiscale) if config.model.multiscale is not None else None,
                 'delta_allocation':asdict(config.model.delta) if config.model.delta is not None else None,
                 'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
                 'events':config.data.length*len(step_ids),'queries':config.data.queries_per_history*len(step_ids),
-                'memory':record['actual_budgets'],'pressure':None,'power':None,'status':'non_scientific_smoke'})
+                'memory':record['actual_budgets'],'pressure':None,'power':None,'status':policy['scientific_status']})
             check_smoke_memory(config,additional)
             atomic_json(run_dir/'run.json',record)
         model.eval()
-        probe=move_episode(generate_episode(config,config.seed,'train-000000000000'),config.resources.device)
+        probe=move_episode(generate_episode(config,config.seed if config.development is None else config.development.data_seed,'train-000000000000'),config.resources.device)
         for prediction in _prediction_records(model,probe,record['id'],'training',scientific=False):
             append_jsonl(run_dir/'predictions.jsonl',prediction)
         record.update(status='completed',parameter_hash=canonical_hash(export_method(model)))

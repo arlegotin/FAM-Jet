@@ -58,6 +58,9 @@ class ReaderConfig:
     width: int
     layers: int
     activation: str
+    rank: int | None = None
+    max_parameters: int | None = None
+    max_macs: int | None = None
 
 
 @dataclass(frozen=True)
@@ -162,6 +165,19 @@ class ConfirmationConfig:
 
 
 @dataclass(frozen=True)
+class DevelopmentConfig:
+    mode: str
+    lengths: tuple[int, ...]
+    data_seed: int
+    fit_histories_per_cell: int
+    eval_histories_per_cell: int
+    milestones: tuple[int, ...]
+    calibration_path: str | None = None
+    calibration_hash: str | None = None
+    gradient_clip_norm: float | None = None
+
+
+@dataclass(frozen=True)
 class RunConfig:
     schema_version: int
     phase: str
@@ -172,6 +188,7 @@ class RunConfig:
     resources: ResourceConfig
     numerics: NumericsConfig
     confirmation: ConfirmationConfig
+    development: DevelopmentConfig | None = field(default=None, kw_only=True)
 
     def __post_init__(self) -> None:
         validate_config(self)
@@ -377,6 +394,23 @@ def validate_config(config: RunConfig) -> None:
     for name in ('independent_histories', 'training_replicates'):
         if getattr(c, name) is not None:
             _positive(getattr(c, name), f'confirmation.{name}')
+    for name in ('rank','max_parameters','max_macs'):
+        if getattr(m.reader,name) is not None: _positive(getattr(m.reader,name),'reader.'+name)
+    dev=config.development
+    if dev is not None:
+        if config.phase!='development' or dev.mode not in {'calibration','simple','learning'}:
+            raise ValueError('development policy requires explicit development phase/mode')
+        if not dev.lengths or len(set(dev.lengths))!=len(dev.lengths) or min(dev.lengths)<=0:
+            raise ValueError('invalid development length population')
+        if d.length not in dev.lengths or not 0<=dev.data_seed<2**63:
+            raise ValueError('development length/data seed mismatch')
+        for name in ('fit_histories_per_cell','eval_histories_per_cell'):
+            _positive(getattr(dev,name),'development.'+name)
+        if not dev.milestones or tuple(sorted(set(dev.milestones)))!=dev.milestones or dev.milestones[0]!=0 or dev.milestones[-1]!=t.optimizer_steps:
+            raise ValueError('development milestones must span immutable training horizon')
+        if dev.gradient_clip_norm is not None: _positive(dev.gradient_clip_norm,'gradient_clip_norm')
+        if (dev.calibration_path is None)!=(dev.calibration_hash is None):
+            raise ValueError('calibration path and hash must be paired')
     if config.phase in {'confirmation', 'replication'}:
         def unresolved(value):
             if value is None or value == '' or value == [] or value == {}:
@@ -428,4 +462,7 @@ def config_documents_equal(left, right):
         document['model'].setdefault('polynomial', None)
         document['model'].setdefault('multiscale', None)
         document['model'].setdefault('delta', None)
+        document.setdefault('development', None)
+        for key in ('rank','max_parameters','max_macs'):
+            document['model']['reader'].setdefault(key,None)
     return canonical_json(left) == canonical_json(right)
