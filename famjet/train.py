@@ -156,14 +156,19 @@ def check_smoke_memory(config, additional_bytes):
         raise MemoryError('smoke additional allocation exceeds reserved envelope')
 
 
+def _check_smoke_dimensions(config):
+    """Pure preallocation bound shared with raw checkpoint descriptor checks."""
+    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or config.model.J>4 or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128 or config.model.reader.layers>2:
+        raise ValueError('outside tiny smoke envelope; sustained calibration required')
+
+
 def _resource_check(config, policy):
     if config.phase != 'smoke':
         raise ValueError('non-smoke training requires Task18/20 explicit policy and sustained resource calibration')
     if policy != SMOKE_POLICY: raise ValueError('unregistered smoke execution policy')
     if config.data.generator.namespace != 'training' or config.data.beijing is not None:
         raise ValueError('training requires exploratory synthetic training namespace')
-    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or config.model.J>4 or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128:
-        raise ValueError('outside tiny smoke envelope; sustained calibration required')
+    _check_smoke_dimensions(config)
     if config.resources.checkpoint_retention<2: raise ValueError('two checkpoints required for atomic recovery')
     provenance_path=ROOT/config.resources.resource_provenance
     if not provenance_path.is_file(): raise ValueError('missing resource provenance')

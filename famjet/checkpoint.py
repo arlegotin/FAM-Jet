@@ -1,6 +1,7 @@
 """Checksummed atomic optimizer-boundary checkpoints, separate from snapshots."""
 import hashlib
 import io
+import math
 from pathlib import Path
 import random
 import numpy as np
@@ -34,6 +35,49 @@ def restore_rng(rng, device):
         torch.mps.set_rng_state(rng['torch_mps'])
 
 
+def _preflight_model(context, config):
+    """Bind allocation descriptors to the bounded training constructor schema.
+
+    No model/tensor reconstruction occurs here. The registry still owns full
+    wire semantics; this checks only sizes and configuration compatibility.
+    """
+    from famjet.train import _check_smoke_dimensions
+    from famjet.readers.structured import validate_reader_schema
+    _check_smoke_dimensions(config)
+    m,d=config.model,config.data
+    try:
+        wire=context['model']; schema=wire['schema']; kernel=schema['kernel']
+        reader=schema['reader']; validate_reader_schema(reader)
+        expected_reader={'kind':m.reader.kind,
+            'feature_spec':{'family':m.method,'anchors':m.J,'key_dim':m.K,'value_dim':d.value_dim},
+            'query_spec':{'key_dim':m.K},'budget':{'width':m.reader.width,'hidden_layers':m.reader.layers}}
+        if wire['kind'] != 'task' or m.method not in {'jet','bank'} or kernel['kind'] != m.method or reader != expected_reader:
+            raise ValueError('checkpoint reader/model configuration mismatch')
+        if schema['inference_config'] != {'schema_version':1,'writer':m.writer,'rate_mode':m.rates.mode} or schema['frozen_rates'] is not False:
+            raise ValueError('checkpoint training model configuration mismatch')
+        ks=kernel['schema']
+        if any(type(ks[k]) is not int or ks[k] != value for k,value in [('key_dim',m.K),('value_dim',d.value_dim)]):
+            raise ValueError('checkpoint kernel dimensions mismatch')
+        source=ks['rate_source']
+        if m.rates.mode == 'learned':
+            expected_source={'count':m.J,'log_min':math.log(m.rates.bounds[0]),'log_max':math.log(m.rates.bounds[1])}
+            if type(source) is not dict or type(source.get('count')) is not int or source != expected_source:
+                raise ValueError('checkpoint learned rate source mismatch')
+            names={'logits','represented_rates'}
+        else:
+            if source is not None: raise ValueError('checkpoint fixed rate source mismatch')
+            names={'rates'}
+        weights=kernel['weights']
+        if type(weights) is not dict or set(weights) != names:
+            raise ValueError('checkpoint rate components mismatch')
+        for value in weights.values():
+            if (type(value) is not dict or value.get('shape') != [1,m.J]
+                    or any(type(x) is not int for x in value['shape']) or value.get('dtype') != m.precision):
+                raise ValueError('checkpoint rate component layout mismatch')
+    except (KeyError,TypeError,AttributeError) as exc:
+        raise ValueError('checkpoint allocation descriptor schema mismatch') from exc
+
+
 def _validate(context):
     from famjet.config import RunConfig, _parse
     from famjet.eval.isolation import _reconstruct
@@ -48,6 +92,7 @@ def _validate(context):
             raise ValueError(f'invalid checkpoint {field}')
         try: int(context[field],16)
         except ValueError as exc: raise ValueError(f'invalid checkpoint {field}') from exc
+    _preflight_model(context,config)
     step,acc=context['completed_step'],context['accumulation_position']
     if type(step) is not int or not 0 <= step <= config.training.optimizer_steps or type(acc) is not int or not 0 <= acc < config.training.effective_batch:
         raise ValueError('invalid checkpoint step/accumulation')
@@ -78,22 +123,43 @@ def _validate(context):
         raise ValueError('checkpoint writer/rate mismatch')
     optimizer=torch.optim.AdamW(model.parameters(),lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
     original=optimizer.state_dict()['param_groups']
-    groups=context['optimizer'].get('param_groups')
-    if groups != original: raise ValueError('checkpoint optimizer hyperparameter/group mismatch')
-    optimizer.load_state_dict(context['optimizer'])
-    names=[n for n,p in model.named_parameters() if p in optimizer.state]
-    if names != context['optimizer_active_parameters']:
+    raw=context['optimizer']
+    if type(raw) is not dict or set(raw) != {'state','param_groups'}:
+        raise ValueError('checkpoint optimizer schema/cache mismatch')
+    groups=raw['param_groups']
+    if (type(groups) is not list or len(groups) != 1 or type(groups[0]) is not dict
+            or type(groups[0].get('params')) is not list
+            or any(type(i) is not int for i in groups[0]['params']) or groups != original):
+        raise ValueError('checkpoint optimizer hyperparameter/group mismatch')
+    # Validate the serialized mapping before load_state_dict can cast moment
+    # dtypes or reinterpret IDs. Registration order fixes ID -> parameter/name.
+    parameters=dict(zip(original[0]['params'],model.named_parameters()))
+    states=raw['state']
+    if type(states) is not dict or any(type(i) is not int or i not in parameters for i in states):
+        raise ValueError('checkpoint optimizer parameter ID mismatch')
+    names=[name for i,(name,_) in parameters.items() if i in states]
+    if type(context['optimizer_active_parameters']) is not list or names != context['optimizer_active_parameters']:
         raise ValueError('checkpoint incomplete optimizer state')
-    for parameter,state in optimizer.state.items():
+    for i,state in states.items():
+        parameter=parameters[i][1]
+        if type(state) is not dict or set(state) != {'step','exp_avg','exp_avg_sq'}:
+            raise ValueError('checkpoint optimizer state/cache schema mismatch')
         for key in ['exp_avg','exp_avg_sq']:
-            value=state.get(key)
-            if not isinstance(value,torch.Tensor) or value.shape != parameter.shape or value.dtype != parameter.dtype:
+            value=state[key]
+            if (not isinstance(value,torch.Tensor) or value.layout != torch.strided
+                    or value.shape != parameter.shape or value.dtype != parameter.dtype):
                 raise ValueError('checkpoint optimizer moment shape/dtype mismatch')
-        if not {'step','exp_avg','exp_avg_sq'} <= set(state) or int(state['step']) != step:
-            raise ValueError('checkpoint optimizer step/state mismatch')
-        if not all(torch.isfinite(v).all() for v in state.values() if isinstance(v,torch.Tensor)):
-            raise ValueError('checkpoint nonfinite optimizer state')
-    if step and not optimizer.state: raise ValueError('checkpoint missing optimizer state')
+            if not bool(torch.isfinite(value).all()):
+                raise ValueError('checkpoint nonfinite optimizer moment')
+        if not bool((state['exp_avg_sq'] >= 0).all()):
+            raise ValueError('checkpoint negative optimizer second moment')
+        counter=state['step']
+        if (not isinstance(counter,torch.Tensor) or counter.layout != torch.strided
+                or counter.ndim != 0 or counter.dtype not in {torch.float32,torch.float64}
+                or not bool(torch.isfinite(counter)) or counter.item() != step):
+            raise ValueError('checkpoint optimizer step mismatch')
+    if step and not states: raise ValueError('checkpoint missing optimizer state')
+    optimizer.load_state_dict(raw)
 
 
 def save_checkpoint(path: Path, context: dict) -> None:
@@ -122,10 +188,10 @@ def load_checkpoint(path: Path, expected: dict) -> dict:
         context=torch.load(io.BytesIO(payload),map_location='cpu',weights_only=True)
     except (ValueError,EOFError,RuntimeError) as exc:
         raise ValueError('corrupt checkpoint/checksum') from exc
-    _validate(context)
     for field,value in expected.items():
-        if field not in _FIELDS or context[field] != value:
+        if type(context) is not dict or field not in _FIELDS or context.get(field) != value:
             raise ValueError(f'checkpoint {field} mismatch')
+    _validate(context)
     context['restarted_accumulation']=context['accumulation_position'] > 0
     context['sampler']['position']=len(context['consumed_episode_ids'])
     context['accumulation_position']=0

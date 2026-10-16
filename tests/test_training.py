@@ -209,3 +209,19 @@ def test_config_cannot_raise_the_discovered_smoke_ceiling(tmp_path):
     with pytest.raises(ValueError,match='discovered|provenance'):
         t.train_model(c,tmp_path/'unsafe')
     assert json.loads((tmp_path/'unsafe'/'run.json').read_text())['status']=='failed'
+
+
+@pytest.mark.parametrize('resume',[False,True])
+def test_excessive_reader_depth_rejected_before_model_allocation(tmp_path,monkeypatch,resume):
+    t=api(); c=tiny()
+    c=replace(c,model=replace(c.model,reader=replace(c.model.reader,layers=1_000_000)))
+    # This guard prevents a huge test allocation even if preflight regresses.
+    def allocation_forbidden(*args,**kwargs):
+        pytest.fail('oversized reader reached model construction')
+    monkeypatch.setattr(t,'make_model',allocation_forbidden)
+    with pytest.raises(ValueError,match='smoke envelope'):
+        t.train_model(c,tmp_path/'refused',resume=tmp_path/'unused.pt' if resume else None)
+    record=json.loads((tmp_path/'refused'/'run.json').read_text())
+    assert record['status']=='failed' and record['completed_step']==0
+    assert record['attempted_episode_ids']==[]
+    assert not (tmp_path/'refused'/'checkpoint.pt').exists()

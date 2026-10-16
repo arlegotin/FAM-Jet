@@ -118,3 +118,107 @@ def test_checkpoint_validation_does_not_advance_rng(tmp_path):
     context=load_checkpoint(path,{})
     save_checkpoint(tmp_path/'copy.pt',context)
     equal_tree(previous,capture_rng('cpu'))
+
+
+@pytest.fixture(scope='module')
+def completed_checkpoint(tmp_path_factory):
+    from famjet.checkpoint import load_checkpoint
+    t=api()
+    return load_checkpoint(t.train_model(tiny(),tmp_path_factory.mktemp('raw-adam')/'run'),{})
+
+
+@pytest.mark.parametrize('boundary',['save','load'])
+@pytest.mark.parametrize('damage',['float64_mean','float64_second_moment','fractional_step',
+    'vector_step','nonfinite_step','extra_state_cache','negative_second_moment',
+    'unknown_parameter_id','float_parameter_id','float_group_id','extra_optimizer_cache'])
+def test_raw_adam_checkpoint_rejected_before_coercion(tmp_path,completed_checkpoint,boundary,damage):
+    import hashlib
+    import io
+    from famjet.checkpoint import save_checkpoint,load_checkpoint,capture_rng
+    context=copy.deepcopy(completed_checkpoint)
+    optimizer=context['optimizer']; states=optimizer['state']; key=next(iter(states)); state=states[key]
+    if damage=='float64_mean': state['exp_avg']=state['exp_avg'].double()
+    elif damage=='float64_second_moment': state['exp_avg_sq']=state['exp_avg_sq'].double()
+    elif damage=='fractional_step': state['step'].fill_(2.5)
+    elif damage=='vector_step': state['step']=state['step'].reshape(1)
+    elif damage=='nonfinite_step': state['step'].fill_(float('inf'))
+    elif damage=='extra_state_cache': state['unexpected_cache']=state['exp_avg'].clone()
+    elif damage=='negative_second_moment': state['exp_avg_sq'].flatten()[0]=-1
+    elif damage=='unknown_parameter_id': states[99999]=states.pop(key)
+    elif damage=='float_parameter_id': states[float(key)]=states.pop(key)
+    elif damage=='float_group_id': optimizer['param_groups'][0]['params'][0]=0.
+    else: optimizer['unexpected_cache']=torch.ones(4)
+    path=tmp_path/'malformed.pt'
+    previous=capture_rng('cpu')
+    if boundary=='load':
+        # Bypass the saving validator to exercise acceptance of raw serialized
+        # bytes with a correct checksum, not checksum-corruption rejection.
+        buffer=io.BytesIO(); torch.save(context,buffer); payload=buffer.getvalue()
+        path.write_bytes(b'FAMJET-CHECKPOINT-1\n'+hashlib.sha256(payload).hexdigest().encode()+b'\n'+payload)
+    with pytest.raises(ValueError,match='checkpoint'):
+        if boundary=='save': save_checkpoint(path,context)
+        else: load_checkpoint(path,{})
+    equal_tree(previous,capture_rng('cpu'))
+
+
+@pytest.mark.parametrize('boundary',['save','load'])
+@pytest.mark.parametrize('damage',['reader_depth','reader_width','reader_rank','reader_features',
+    'kernel_key_dim','kernel_value_dim','component_shape','source_count','config_depth'])
+def test_checkpoint_descriptors_reject_before_model_allocation(tmp_path,completed_checkpoint,monkeypatch,damage,boundary):
+    import famjet.eval.isolation as isolation
+    import hashlib
+    import io
+    from famjet.checkpoint import save_checkpoint,load_checkpoint
+    from famjet.provenance import canonical_hash
+    context=copy.deepcopy(completed_checkpoint)
+    model=context['model']; schema=model['schema']; kernel=schema['kernel']
+    if damage=='reader_depth': schema['reader']['budget']['hidden_layers']=1_000_000
+    elif damage=='reader_width': schema['reader']['budget']['width']=1_000_000
+    elif damage=='reader_rank': schema['reader']['budget']['rank']=1_000_000
+    elif damage=='reader_features': schema['reader']['feature_spec']['anchors']=1_000_000
+    elif damage=='kernel_key_dim': kernel['schema']['key_dim']=1_000_000
+    elif damage=='kernel_value_dim': kernel['schema']['value_dim']=1_000_000
+    elif damage=='component_shape': kernel['weights']['rates']['shape']=[1,1_000_000]
+    elif damage=='source_count':
+        context['config']['model']['rates']['mode']='learned'
+        schema['inference_config']['rate_mode']='learned'
+        kernel['schema']['rate_source']={'count':1_000_000,'log_min':-6.907755278982137,'log_max':0.}
+    else: context['config']['model']['reader']['layers']=1_000_000
+    # Matching digests make this exercise descriptor/config preflight, rather
+    # than an incidental changed-hash rejection.
+    context['model_hash']=canonical_hash(model)
+    context['config_hash']=canonical_hash(context['config'])
+    def allocation_forbidden(*args,**kwargs):
+        pytest.fail('oversized checkpoint reached model reconstruction')
+    monkeypatch.setattr(isolation,'_reconstruct',allocation_forbidden)
+    path=tmp_path/'oversized.pt'
+    if boundary=='load':
+        buffer=io.BytesIO(); torch.save(context,buffer); payload=buffer.getvalue()
+        path.write_bytes(b'FAMJET-CHECKPOINT-1\n'+hashlib.sha256(payload).hexdigest().encode()+b'\n'+payload)
+    with pytest.raises(ValueError,match='checkpoint|smoke envelope'):
+        if boundary=='save': save_checkpoint(path,context)
+        else: load_checkpoint(path,{})
+
+
+def test_expected_checkpoint_identity_checked_before_reconstruction(tmp_path,completed_checkpoint,monkeypatch):
+    import famjet.eval.isolation as isolation
+    from famjet.checkpoint import save_checkpoint,load_checkpoint
+    path=tmp_path/'valid.pt'; save_checkpoint(path,completed_checkpoint)
+    def allocation_forbidden(*args,**kwargs):
+        pytest.fail('identity mismatch reached model reconstruction')
+    monkeypatch.setattr(isolation,'_reconstruct',allocation_forbidden)
+    with pytest.raises(ValueError,match='config_hash mismatch'):
+        load_checkpoint(path,{'config_hash':'wrong'})
+
+
+def test_rejected_raw_adam_preserves_current_and_previous(tmp_path,completed_checkpoint):
+    from famjet.checkpoint import save_checkpoint
+    path=tmp_path/'valid.pt'
+    save_checkpoint(path,completed_checkpoint); save_checkpoint(path,completed_checkpoint)
+    previous=path.with_suffix('.pt.previous')
+    original=(path.read_bytes(),previous.read_bytes())
+    bad=copy.deepcopy(completed_checkpoint)
+    next(iter(bad['optimizer']['state'].values()))['exp_avg']=torch.zeros(1,dtype=torch.float64)
+    with pytest.raises(ValueError,match='moment'):
+        save_checkpoint(path,bad)
+    assert (path.read_bytes(),previous.read_bytes())==original
