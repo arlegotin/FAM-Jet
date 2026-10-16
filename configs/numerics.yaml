@@ -1,0 +1,15 @@
+schema_version: 1
+ordinary_fp64:
+  rtol: 1.0e-12
+  atol: 1.0e-12
+ordinary_fp32:
+  rtol: 1.0e-5
+  atol: 1.0e-6
+# Diagnostic central differences have truncation/cancellation error; these
+# checks do not expand ordinary recurrence tolerances.
+normalized_derivative:
+  log_rate_step: 1.0e-5
+  relative_error_max: 1.0e-8
+hermite:
+  expected_minimum: -0.135026
+  absolute_tolerance: 1.0e-5
