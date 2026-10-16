@@ -30,6 +30,9 @@ model:
   learned_abstention_threshold: null
   interpolation: false
   probes: 1
+# Task12 resolves the versioned non-scientific execution policy externally:
+# constant LR, no clipping, chunk32, one independent training fit history.
+# resolved_config.json/checkpoints bind the policy hash beside this strict config.
 training:
   microbatch: 1
   effective_batch: 1
