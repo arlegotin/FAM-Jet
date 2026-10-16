@@ -1,0 +1,18 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_current_manifest_names_target_semantics_and_rejects_relabeling ______
+
+    def test_current_manifest_names_target_semantics_and_rejects_relabeling():
+        from pathlib import Path
+        from famjet.config import load_config
+        from famjet.eval.splits import _population_manifest,_split_roots,_check_seal,_seal
+        c=load_config(Path('configs/smoke.yaml'))
+        payload=_population_manifest(c,_split_roots(c))
+>       assert payload['target_semantics']=='observed_event_targets_v2'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'target_semantics'
+
+tests/test_target_arithmetic.py:69: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_target_arithmetic.py::test_current_manifest_names_target_semantics_and_rejects_relabeling
+1 failed in 0.69s

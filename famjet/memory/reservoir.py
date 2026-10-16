@@ -61,7 +61,7 @@ class Reservoir(PackedHistory):
         fraction=size/n if n else 1.
         r.diagnostics.update(sampling_fraction=torch.tensor([[fraction]],dtype=torch.float64),
                              sampling_uncertainty=torch.tensor([[n>size]]),
-                             zero_sample=~(r.diagnostics['observed_counts'][:,:,0]>0).all(-1))
+                             zero_sample=~(r.diagnostics['observed_counts'][:,:,:2 if query.get('task') in {'contrast','change_sign'} else 1]>0).all(-1).all(-1))
         return r
 
     def _validate_state(self):
@@ -151,7 +151,7 @@ class HybridStore:
         r.diagnostics.update(overlap_count=torch.tensor([[overlap]]),
                              sampling_fraction=torch.tensor([[min(n,self.reservoir_capacity)/n if n else 1.]],dtype=torch.float64),
                              sampling_uncertainty=~r.diagnostics['evidence_complete'],
-                             zero_sample=~(r.diagnostics['observed_counts'][:,:,0]>0).all(-1))
+                             zero_sample=~(r.diagnostics['observed_counts'][:,:,:2 if query.get('task') in {'contrast','change_sign'} else 1]>0).all(-1).all(-1))
         return r
 
     def _validate_state(self):

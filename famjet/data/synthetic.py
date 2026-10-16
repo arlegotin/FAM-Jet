@@ -20,6 +20,8 @@ from famjet.provenance import canonical_hash,derive_seed
 from famjet.types import Episode,EventBatch,QueryBatch
 
 GENERATOR_VERSION='initial_spec_v1'
+CURRENT_GENERATOR_VERSION='initial_spec_v2_targets'
+GENERATOR_VERSIONS=(GENERATOR_VERSION,CURRENT_GENERATOR_VERSION)
 FEATURE_VERSION='squared_gaussian.pcg64_box_muller_v1'
 SEED_VERSION='sha256_named_v1'
 NAMESPACES=('training','development_fit','development_calibration','pilot','confirmation','replication')
@@ -78,7 +80,7 @@ def key_features(key_id: int,feature_seed: int,key_dim: int) -> np.ndarray:
 
 def _check_exploratory(config):
     validate_config(config)
-    if config.data.generator_version!=GENERATOR_VERSION:
+    if config.data.generator_version not in GENERATOR_VERSIONS:
         raise ValueError('unsupported generator version')
     if config.phase in {'pilot','confirmation','replication'} or config.data.generator.namespace in PROTECTED:
         raise ValueError('protected generation requires a future frozen-manifest runner')
@@ -97,7 +99,7 @@ def _check_exploratory(config):
 
 
 def _root(config,split_seed):
-    return derive_seed(split_seed,GENERATOR_VERSION,config.data.generator.namespace)
+    return derive_seed(split_seed,'initial_spec_v1',config.data.generator.namespace)
 
 
 def _rng(seed,namespace,identity):
@@ -303,8 +305,9 @@ def generate_episode(config: RunConfig,split_seed: int,episode_id: str) -> Episo
     root=_root(config,split_seed)
     events,regime,schedule=_history(config,root,episode_id)
     queries,diagnostics=queries_for_history(events,config,split_seed,episode_id)
-    oracle=exact_targets(events,queries)
-    metadata={'generator_version':GENERATOR_VERSION,'seed_version':SEED_VERSION,'feature_version':FEATURE_VERSION,
+    current=config.data.generator_version==CURRENT_GENERATOR_VERSION
+    oracle=exact_targets(events,queries,arithmetic_version=2 if current else 1)
+    metadata={**({'target_semantics':'observed_event_targets_v2'} if current else {}),'generator_version':config.data.generator_version,'seed_version':SEED_VERSION,'feature_version':FEATURE_VERSION,
               'namespace':config.data.generator.namespace,'split':config.data.generator.namespace,
               'split_root':root,'population':config.data.generator.population,
               'regime':regime,'regime_weight':.25,'robustness':config.data.generator.robustness,

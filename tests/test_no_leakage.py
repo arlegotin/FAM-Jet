@@ -371,3 +371,13 @@ def test_native_learned_bank_preserves_represented_rates_in_cpu_worker():
     assert model_identity(method)!=original_identity
     with pytest.raises(ValueError,match='parameter hash'):
         isolated_features(method,state,queries)
+
+
+def test_target_version_change_does_not_open_protected_namespaces():
+    from famjet.data.synthetic import generate_episode
+    c=config()
+    for version in ('initial_spec_v1','initial_spec_v2_targets'):
+        for namespace in ('pilot','confirmation','replication'):
+            candidate=replace(c,data=replace(c.data,generator_version=version,generator=replace(c.data.generator,namespace=namespace)))
+            with pytest.raises(ValueError,match='protected'):
+                generate_episode(candidate,37,'forbidden')

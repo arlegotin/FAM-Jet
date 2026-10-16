@@ -1,0 +1,93 @@
+.F..                                                                     [100%]
+=================================== FAILURES ===================================
+______ test_mid_episode_state_quarantine_retains_all_queries_and_trigger _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107cfa8b0>
+
+    def test_mid_episode_state_quarantine_retains_all_queries_and_trigger(monkeypatch):
+        import torch
+        from famjet.train import make_model,move_episode,_prediction_records
+        from famjet.data.synthetic import generate_episode
+        from test_training import tiny
+        c=tiny(); model=make_model(c)
+        fit=move_episode(generate_episode(c,c.seed,'fit'),'cpu'); model.fit_statistics([fit])
+        ep=move_episode(generate_episode(c,c.seed,'read'),'cpu')
+        encode=model.encode; calls=[]
+        def injected(events,state=None,*,mode='stream'):
+            result=encode(events,state,mode=mode); calls.append(mode)
+            if len(calls)==3:
+                next(v for v in result.payload.values() if v.is_floating_point() and v.ndim>1).fill_(float('nan'))
+            return result
+        monkeypatch.setattr(model,'encode',injected)
+>       rows=list(_prediction_records(model,ep,'run','development_fit'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_harness.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/train.py:249: in _prediction_records
+    for row in score_episode(model,ep,method=model.kernel.reader_feature_spec['family'],policy=policy,manifest_hash=manifest_hash):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/runner.py:90: in score_episode
+    for row in score_predictions(batch,stats,policy):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predictions = PredictionBatch(history_ids=('read',), query_ids=tensor([[0, 1]]), prediction=tensor([[[nan, nan, nan, nan, nan, nan, ...'4c9c64eeef0b95f77bebea487f2220aefe32a17390d43306b05886ef2a920c33', 'output_convention': 'numeric'}}, schema_version=1)
+statistics = {'schema_version': 2, 'target_semantics': 'observed_event_targets_v2', 'split': 'training', 'variance_ddof': 0, ...}
+policy = {'version': 2, 'primary_tasks': ['contrast', 'mean'], 'support_calibration': None, 'expected_inventory': [{'history_id': 'read', 'replicate': 0, 'regime': 'periodic_impulses', 'tasks': {'mean': [0], 'contrast': [1]}}], ...}
+
+    def score_predictions(predictions, statistics: dict, policy: dict) -> list[dict]:
+        """Score all active queries under an explicit external v2 evaluation contract.
+    
+        Output convention is numeric, binary_probability, binary_logit, categorical_logits,
+        or categorical_probability. Logit CE is evaluated before probability rounding.
+        Abstention never changes the primary loss. No untrained support confidence is
+        exposed; calibrated support requires a separately frozen calibration identity.
+        """
+        import math
+        from famjet.provenance import canonical_hash
+        c=predictions.metadata.get('scoring_v2')
+        if not isinstance(c,dict) or c.get('version')!=2:
+            raise ValueError('explicit scoring_v2 contract required')
+        required={'present','tasks','target_valid','numeric_supported','prediction_valid','quarantined',
+                  'quarantine_trigger','method','replicate','regime','target_semantics','manifest_hash','statistics_hash'}
+        if not required<=c.keys(): raise ValueError('incomplete scoring_v2 contract')
+        if statistics.get('schema_version')!=2 or statistics.get('split')!='training' or statistics.get('target_semantics')!=TARGET_SEMANTICS or c['target_semantics']!=TARGET_SEMANTICS:
+            raise ValueError('current training target semantics required')
+        if c['statistics_hash']!=canonical_hash(statistics): raise ValueError('statistics hash mismatch')
+        if policy.get('version')!=2 or not {'primary_tasks','expected_inventory','task_weights','regime_weights','support_calibration'}<=policy.keys():
+            raise ValueError('complete scoring policy required')
+        if policy['support_calibration'] is not None:
+            raise ValueError('support calibration unavailable until separate development calibration is implemented')
+        for weights in (policy['task_weights'],policy['regime_weights']):
+            if not weights or any(not np.isfinite(x) or x<=0 for x in weights.values()) or not math.isclose(sum(weights.values()),1.,abs_tol=1e-12):
+                raise ValueError('frozen positive normalized weights required')
+        shape=tuple(predictions.query_ids.shape)
+        if len(shape)!=2 or len(predictions.history_ids)!=shape[0]: raise ValueError('prediction shape mismatch')
+        for field in ('present','tasks','target_valid','numeric_supported','prediction_valid','quarantined'):
+            if np.asarray(c[field]).shape!=shape: raise ValueError('scoring field shape mismatch: '+field)
+        for t in (predictions.prediction,predictions.target,predictions.supported,predictions.failure,predictions.abstained):
+            if tuple(t.shape[:2])!=shape: raise ValueError('prediction shape mismatch')
+        rows=[]
+        raw=predictions.prediction.detach().cpu().numpy().astype(float)
+        targets=predictions.target.detach().cpu().numpy().astype(float)
+        for b,h in enumerate(predictions.history_ids):
+            for q in range(shape[1]):
+                if not c['present'][b][q]: continue
+                task=c['tasks'][b][q]
+                if task not in TASKS: raise ValueError('unknown task')
+                target=np.atleast_1d(targets[b,q]); pred=np.atleast_1d(raw[b,q])
+                valid=bool(c['target_valid'][b][q])
+                if valid and not np.isfinite(target).all(): raise ValueError('valid target must be finite')
+                if not valid and task in policy['primary_tasks']: raise ValueError('missing primary target')
+                st=statistics['tasks'].get(task)
+                if not st or st.get('status')!='ok': raise ValueError('missing training prior')
+                categorical=task in CATEGORICAL_TASKS|BINARY_TASKS
+                if not categorical and task in policy['primary_tasks'] and (st['scale'] is None or not np.isfinite(st['scale']) or st['scale']<=0):
+>                   raise ValueError('primary scale must be finite positive')
+E                   ValueError: primary scale must be finite positive
+
+famjet/eval/metrics.py:135: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_harness.py::test_mid_episode_state_quarantine_retains_all_queries_and_trigger
+1 failed, 3 passed in 0.67s

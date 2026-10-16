@@ -232,11 +232,22 @@ class PackedHistory:
         elif (counts[0] > 0).all() and (task == 'mean' or (counts[1] > 0).all()):
             supported = True
             with np.errstate(over='ignore', invalid='ignore'):
-                label = (np.where(a['observed'][recent],a['values'][recent],0.) *
-                         (1. if weights is None else weights[recent,None])).sum(axis=0,dtype=np.dtype(accumulation_dtype))/counts[0]
+                def mean(indices, count):
+                    # Independent retained-value reduction; FP32 retention remains quantized.
+                    if weights is not None or accumulation_dtype!='float64':
+                        return (np.where(a['observed'][indices],a['values'][indices],0.) *
+                                (1. if weights is None else weights[indices,None])).sum(axis=0,dtype=np.dtype(accumulation_dtype))/count
+                    from fractions import Fraction
+                    result=[]
+                    for k in range(self.value_dim):
+                        observed=[float(a['values'][j,k]) for j in indices if a['observed'][j,k]]
+                        try: value=math.fsum(observed)/len(observed)
+                        except OverflowError: value=float(sum(Fraction(x) for x in observed)/len(observed))
+                        result.append(value)
+                    return np.asarray(result)
+                label=mean(recent,counts[0])
                 if task != 'mean':
-                    label -= (np.where(a['observed'][older],a['values'][older],0.) *
-                              (1. if weights is None else weights[older,None])).sum(axis=0,dtype=np.dtype(accumulation_dtype))/counts[1]
+                    label -= mean(older,counts[1])
                     if task == 'change_sign' and np.isfinite(label).all():
                         label = np.sign(label)
         failure = label is not None and not np.isfinite(label).all()

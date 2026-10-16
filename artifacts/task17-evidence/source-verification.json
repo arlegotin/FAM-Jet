@@ -1,0 +1,11 @@
+{
+  "current_package_source_hash": "23bccaaefb2e5893cadbc569402dcfb895aec63e46252cceb7ed2bdaf7232871",
+  "native_809_pass_package_hash": "264d46d50f522328805dab95a280a2ae1349489a5db2c1a5657684e7e77c97a6",
+  "prior_source_hash_method": "reconstruct exact pre-header-fix runner line; all remaining package bytes unchanged",
+  "native_809_log": "full-native-before-byte-fix.txt",
+  "final_covering_log": "final-covering-byte-fix.txt",
+  "final_covering_result": "43 passed, 1 skipped in 3.38s; skipped sandbox-native owned-storage case passed in previous native809 suite",
+  "final_change": "reuse existing state_ledger on quarantine; fixes missing40-byte logical Snapshot header",
+  "math_native_ops_source_controls_changed": false,
+  "redundant_full_rerun": "stopped on root direction:118 passed, KeyboardInterrupt,5.51s"
+}

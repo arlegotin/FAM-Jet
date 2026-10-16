@@ -107,8 +107,9 @@ def test_empty_retained_evidence_is_unsupported(task):
 def test_numeric_failure_distinct_from_missing_evidence():
     from famjet.memory.exact_store import PackedHistory
     s=PackedHistory(None,1,'exact')
-    s.update(event(0,1e308)); s.update(event(1,1e308))
-    r=s.query(query())
+    # +1e308 - (-1e308) is genuinely outside finite FP64; its two means are finite.
+    s.update(event(0,-1e308)); s.update(event(1,1e308))
+    r=s.query(query(T=1,task='contrast',start=0.,end=1.))
     assert r.support.item() and r.failure.item()
     assert not r.diagnostics['prediction_valid'].item()
 

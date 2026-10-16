@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "fixture": "deterministic_harness_v1",
+  "seed": null,
+  "scientific_comparison": false,
+  "aa": {
+    "expected": 0.0,
+    "effect": 0.0
+  },
+  "aa_swapped": {
+    "expected": 0.0,
+    "effect": 0.0
+  },
+  "exact_vs_ring": {
+    "expected": "positive",
+    "effect": 36.0,
+    "target": 4.0,
+    "exact": 4.0,
+    "ring": 10.0
+  },
+  "wrong_moment_sign": {
+    "expected": "detected",
+    "status": "detected",
+    "error": 3.29110974382367
+  },
+  "reversed_temporal_labels": {
+    "expected": "detected",
+    "status": "detected",
+    "correct": 8.0,
+    "reversed": -8.0
+  },
+  "leaked_writer": {
+    "expected": "rejected",
+    "status": "rejected",
+    "boundary": "closed isolated writer registry"
+  },
+  "independent_retraining": {
+    "status": "pending_task18",
+    "reason": "requires independent real training runs; no label-bias claim"
+  }
+}

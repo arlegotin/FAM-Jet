@@ -1,0 +1,227 @@
+FFFFFFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values0] _
+
+values = [1e+16, 1.0, -1e+16, 1.0], padding = 0
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert 0.25 == 0.5
+E        +  where 0.25 = <built-in method item of Tensor object at 0x110726080>()
+E        +    where <built-in method item of Tensor object at 0x110726080> = tensor([[[0.2500]]], dtype=torch.float64).item
+E        +      where tensor([[[0.2500]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.2500]]], dtype=torch.float64), tar...[[[0.25]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.2500]]], dtype=torch.float64), tar...[[[0.25]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1, 2, 3]]), timestamps=tensor([[0., 0., 0., 0.]], dtype=torch.flo...[True],\n         [True],\n         [True]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values1] _
+
+values = [1e+308, 1e+308], padding = 0
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert inf == 1e+308
+E        +  where inf = <built-in method item of Tensor object at 0x110744a00>()
+E        +    where <built-in method item of Tensor object at 0x110744a00> = tensor([[[inf]]], dtype=torch.float64).item
+E        +      where tensor([[[inf]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1]]), timestamps=tensor([[0., 0.]], dtype=torch.float64), key_ids...bserved=tensor([[[True],\n         [True]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values2] _
+
+values = [1e+308, 1e+308, -1e+308, -1e+308, 1.0], padding = 0
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert inf == 0.2
+E        +  where inf = <built-in method item of Tensor object at 0x110746800>()
+E        +    where <built-in method item of Tensor object at 0x110746800> = tensor([[[inf]]], dtype=torch.float64).item
+E        +      where tensor([[[inf]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1, 2, 3, 4]]), timestamps=tensor([[0., 0., 0., 0., 0.]], dtype=to...[True],\n         [True],\n         [True]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values0] _
+
+values = [1e+16, 1.0, -1e+16, 1.0], padding = 4
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert 0.0 == 0.5
+E        +  where 0.0 = <built-in method item of Tensor object at 0x1107473e0>()
+E        +    where <built-in method item of Tensor object at 0x1107473e0> = tensor([[[0.]]], dtype=torch.float64).item
+E        +      where tensor([[[0.]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.]]], dtype=torch.float64), target=... [[[0.0]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.]]], dtype=torch.float64), target=... [[[0.0]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1, 2, 3, 4, 5, 6, 7]]), timestamps=tensor([[0., 0., 0., 0., 0., 0...lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values1] _
+
+values = [1e+308, 1e+308], padding = 4
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert inf == 1e+308
+E        +  where inf = <built-in method item of Tensor object at 0x110747de0>()
+E        +    where <built-in method item of Tensor object at 0x110747de0> = tensor([[[inf]]], dtype=torch.float64).item
+E        +      where tensor([[[inf]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1, 2, 3, 4, 5]]), timestamps=tensor([[0., 0., 0., 0., 0., 0.]], d...lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values2] _
+
+values = [1e+308, 1e+308, -1e+308, -1e+308, 1.0], padding = 4
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert nan == 0.2
+E        +  where nan = <built-in method item of Tensor object at 0x110758a50>()
+E        +    where <built-in method item of Tensor object at 0x110758a50> = tensor([[[nan]]], dtype=torch.float64).item
+E        +      where tensor([[[nan]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[nan]]], dtype=torch.float64), target... [[[nan]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[nan]]], dtype=torch.float64), target... [[[nan]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[0, 1, 2, 3, 4, 5, 6, 7, 8]]), timestamps=tensor([[0., 0., 0., 0., 0....lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values0] _
+
+values = [1e+16, 1.0, -1e+16, 1.0], padding = 17
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert 0.0 == 0.5
+E        +  where 0.0 = <built-in method item of Tensor object at 0x110747430>()
+E        +    where <built-in method item of Tensor object at 0x110747430> = tensor([[[0.]]], dtype=torch.float64).item
+E        +      where tensor([[[0.]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.]]], dtype=torch.float64), target=... [[[0.0]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[0.]]], dtype=torch.float64), target=... [[[0.0]]], 'observed_counts': [[[[4], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, ...lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values1] _
+
+values = [1e+308, 1e+308], padding = 17
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert inf == 1e+308
+E        +  where inf = <built-in method item of Tensor object at 0x110746ad0>()
+E        +    where <built-in method item of Tensor object at 0x110746ad0> = tensor([[[inf]]], dtype=torch.float64).item
+E        +      where tensor([[[inf]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[inf]]], dtype=torch.float64), target... [[[inf]]], 'observed_counts': [[[[2], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, ...lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+_ test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values2] _
+
+values = [1e+308, 1e+308, -1e+308, -1e+308, 1.0], padding = 17
+
+    @pytest.mark.parametrize('values',[[1e16,1.,-1e16,1.],[1e308,1e308], [1e308,1e308,-1e308,-1e308,1.]])
+    @pytest.mark.parametrize('padding',[0,4,17])
+    def test_reference_and_store_mean_match_rational_truth_without_padding_dependence(values,padding):
+        e,q=arithmetic(values,padding)
+        truth=float(sum(map(Fraction,values))/len(values))
+>       assert exact_targets(e,q).target.item()==truth
+E       AssertionError: assert nan == 0.2
+E        +  where nan = <built-in method item of Tensor object at 0x110744730>()
+E        +    where <built-in method item of Tensor object at 0x110744730> = tensor([[[nan]]], dtype=torch.float64).item
+E        +      where tensor([[[nan]]], dtype=torch.float64) = PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[nan]]], dtype=torch.float64), target... [[[nan]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1).target
+E        +        where PredictionBatch(history_ids=('h',), query_ids=tensor([[0]]), prediction=tensor([[[nan]]], dtype=torch.float64), target... [[[nan]]], 'observed_counts': [[[[5], [0]]]], 'output_family': 'numeric', 'target_valid': [[True]]}, schema_version=1) = exact_targets(EventBatch(history_ids=('h',), event_ids=tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, ...lse],\n         [False],\n         [False]]]), time_unit='ticks', normalization='shared', auxiliary={}, schema_version=1), QueryBatch(history_ids=('h',), query_ids=tensor([[0]]), T=tensor([[0.]], dtype=torch.float64), key_ids=tensor([[1]]), ...float64), age_end=tensor([[1.]], dtype=torch.float64), present=tensor([[True]]), lengths=tensor([1]), schema_version=1))
+
+tests/test_target_arithmetic.py:27: AssertionError
+__________ test_target_version_alias_preserves_event_query_seed_draws __________
+
+    def test_target_version_alias_preserves_event_query_seed_draws():
+        from pathlib import Path
+        from famjet.config import load_config
+        from famjet.data.synthetic import generate_episode
+        c=load_config(Path('configs/smoke.yaml'))
+        old=replace(c,data=replace(c.data,generator_version='initial_spec_v1'))
+        new=replace(c,data=replace(c.data,generator_version='initial_spec_v2_targets'))
+>       a,b=(generate_episode(x,20261013,'arithmetic-version') for x in [old,new])
+        ^^^
+
+tests/test_target_arithmetic.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_target_arithmetic.py:39: in <genexpr>
+    a,b=(generate_episode(x,20261013,'arithmetic-version') for x in [old,new])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/data/synthetic.py:300: in generate_episode
+    _check_exploratory(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='smoke', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_targets',...boundaries=None, resource_envelopes=None, independent_histories=None, training_replicates=None, multiple_testing=None))
+
+    def _check_exploratory(config):
+        validate_config(config)
+        if config.data.generator_version!=GENERATOR_VERSION:
+>           raise ValueError('unsupported generator version')
+E           ValueError: unsupported generator version
+
+famjet/data/synthetic.py:82: ValueError
+____ test_reservoir_and_hybrid_zero_sample_include_older_contrast_interval _____
+
+    def test_reservoir_and_hybrid_zero_sample_include_older_contrast_interval():
+        from famjet.memory.reservoir import Reservoir,HybridStore
+        for s in [Reservoir(2,1,3),HybridStore(1,1,1,3)]:
+            s.update({'timestamp':0.,'event_id':0,'key_id':1,'value':np.array([2.]),'observed':np.array([True])})
+            r=s.query({'T':0.,'key_id':1,'task':'contrast','age_start':0.,'age_end':1.})
+>           assert r.diagnostics['zero_sample'].item() and not r.diagnostics['prediction_valid'].item()
+E           assert (False)
+E            +  where False = <built-in method item of Tensor object at 0x110bc4690>()
+E            +    where <built-in method item of Tensor object at 0x110bc4690> = tensor([[False]]).item
+
+tests/test_target_arithmetic.py:52: AssertionError
+=============================== warnings summary ===============================
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values1]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values2]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values1]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values2]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values1]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values2]
+  /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:49: RuntimeWarning: overflow encountered in reduce
+    return umr_sum(a, axis, dtype, out, keepdims, initial, where)
+
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values2]
+tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values2]
+  /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:49: RuntimeWarning: invalid value encountered in reduce
+    return umr_sum(a, axis, dtype, out, keepdims, initial, where)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values0]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values1]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[0-values2]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values0]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values1]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[4-values2]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values0]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values1]
+FAILED tests/test_target_arithmetic.py::test_reference_and_store_mean_match_rational_truth_without_padding_dependence[17-values2]
+FAILED tests/test_target_arithmetic.py::test_target_version_alias_preserves_event_query_seed_draws
+FAILED tests/test_target_arithmetic.py::test_reservoir_and_hybrid_zero_sample_include_older_contrast_interval
+11 failed, 8 warnings in 1.14s

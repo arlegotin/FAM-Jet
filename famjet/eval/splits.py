@@ -6,7 +6,7 @@ from pathlib import Path
 from famjet.artifacts import atomic_json
 from famjet.config import RunConfig,_parse,config_documents_equal
 from famjet.data._processes import REGIMES,ROBUSTNESS
-from famjet.data.synthetic import (FEATURE_VERSION,GENERATOR_VERSION,NAMESPACES,POPULATIONS,
+from famjet.data.synthetic import (FEATURE_VERSION,GENERATOR_VERSION,GENERATOR_VERSIONS,NAMESPACES,POPULATIONS,
                                    PROTECTED,SEED_VERSION,generate_episode)
 from famjet.provenance import canonical_hash,canonical_json,derive_seed
 
@@ -21,8 +21,10 @@ def _seal(payload):
 def _check_seal(payload):
     if type(payload) is not dict or payload.get('manifest_version')!=MANIFEST_VERSION:
         raise ValueError('unknown split manifest version')
-    if payload.get('generator_version')!=GENERATOR_VERSION:
+    if payload.get('generator_version') not in GENERATOR_VERSIONS:
         raise ValueError('unknown generator version')
+    if payload.get('generator_version')=='initial_spec_v2_targets' and payload.get('target_semantics')!='observed_event_targets_v2':
+        raise ValueError('manifest target semantics mismatch')
     if payload.get('seed_version')!=SEED_VERSION or payload.get('feature_version')!=FEATURE_VERSION:
         raise ValueError('unknown seed/feature version')
     if payload.get('manifest_hash')!=canonical_hash({k:v for k,v in payload.items() if k!='manifest_hash'}):
@@ -85,7 +87,8 @@ def _population_manifest(config,roots):
                 entries.append({'episode_id':identity,'regime':regime,'status':e.metadata['status'],
                                 'diagnostics':e.metadata['diagnostics'],'hashes':e.metadata['hashes']})
         records[namespace]={**roots[namespace],'episodes':entries}
-    return _seal({'manifest_version':MANIFEST_VERSION,'generator_version':GENERATOR_VERSION,
+    return _seal({'manifest_version':MANIFEST_VERSION,'generator_version':config.data.generator_version,
+                  **({'target_semantics':'observed_event_targets_v2'} if config.data.generator_version=='initial_spec_v2_targets' else {}),
                   'seed_version':SEED_VERSION,'feature_version':FEATURE_VERSION,
                   'artifact_kind':'exploratory_population_inventory','config':asdict(config),
                   'regime_weights':{r:.25 for r in REGIMES},'splits':records})
@@ -109,7 +112,8 @@ def build_split_manifest(config: RunConfig,out: Path) -> dict:
     directory=out.parent/(out.stem+'.populations')
     for name,c in _suite_configs(config):
         payloads[name]=_population_manifest(c,roots)
-    manifest=_seal({'manifest_version':MANIFEST_VERSION,'generator_version':GENERATOR_VERSION,
+    manifest=_seal({'manifest_version':MANIFEST_VERSION,'generator_version':config.data.generator_version,
+                  **({'target_semantics':'observed_event_targets_v2'} if config.data.generator_version=='initial_spec_v2_targets' else {}),
                     'seed_version':SEED_VERSION,'feature_version':FEATURE_VERSION,
                     'artifact_kind':'exploratory_split_reservations','config_hash':canonical_hash(asdict(config)),
                     'config':asdict(config),

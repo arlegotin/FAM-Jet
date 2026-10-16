@@ -1,5 +1,6 @@
 """Raw observed-event arithmetic: sole label source for compressed methods."""
 from fractions import Fraction
+import math
 
 import numpy as np
 import torch
@@ -25,7 +26,16 @@ def exact_time_difference(newer: int | float, older: int | float) -> int | Fract
     return Fraction(newer) - Fraction(older)
 
 
-def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
+def _observed_mean(values):
+    """Compensated finite mean; exact rational fallback on intermediate overflow."""
+    values=list(map(float,values))
+    try:
+        return math.fsum(values)/len(values)
+    except OverflowError:
+        return float(sum(map(Fraction,values))/len(values))
+
+
+def exact_targets(events: EventBatch, queries: QueryBatch, *, arithmetic_version=2) -> PredictionBatch:
     """CPU FP64 labels with NaN unsupported tensors and null JSON metadata.
 
     Numeric tasks return [B,Q,V], binary [B,Q,1], categorical [B,Q].
@@ -39,6 +49,7 @@ def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
     coordinate. Latest uses the entire vector of the latest observed event,
     and is unsupported if that vector has missing coordinates.
     """
+    if arithmetic_version not in (1,2): raise ValueError("unknown target arithmetic version")
     validate_events(events)
     validate_queries(queries)
     if events.history_ids != queries.history_ids or events.key_features.shape[2] != queries.key_features.shape[2]:
@@ -91,9 +102,14 @@ def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
                                 raise ValueError('categorical tasks require observed V32 one-hot values')
                             label = float(label.argmax())
             elif (c0 > 0).all() and (task == 'mean' or (c1 > 0).all()):
-                label = np.where(obs[b,:n] & recent[:,None],vals[b,:n],0.).sum(axis=0)/c0
+                label = (np.where(obs[b,:n] & recent[:,None],vals[b,:n],0.).sum(axis=0)/c0 if arithmetic_version==1 else
+                         np.array([_observed_mean(vals[b,:n,k][obs[b,:n,k] & recent]) for k in range(vals.shape[2])]))
                 if task != 'mean':
-                    label -= np.where(obs[b,:n] & older[:,None],vals[b,:n],0.).sum(axis=0)/c1
+                    with np.errstate(over='ignore',invalid='ignore'):
+                        label -= (np.where(obs[b,:n] & older[:,None],vals[b,:n],0.).sum(axis=0)/c1 if arithmetic_version==1 else
+                                  np.array([_observed_mean(vals[b,:n,k][obs[b,:n,k] & older]) for k in range(vals.shape[2])]))
+                    if arithmetic_version==2 and not np.isfinite(label).all():
+                        raise ArithmeticError('nonrepresentable observed-event contrast')
                     if task == 'change_sign':
                         label = np.sign(label)
             if label is not None:
@@ -104,4 +120,4 @@ def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
     t = torch.from_numpy(target)
     s = torch.from_numpy(support)
     return PredictionBatch(events.history_ids,queries.query_ids.clone(),t.clone(),t,s,torch.zeros_like(s),torch.from_numpy(~valid),
-                           {'oracle_version':1,'targets':rows,'observed_counts':counts.tolist(),'output_family':family,'target_valid':valid.tolist()})
+                           {'oracle_version':arithmetic_version,**({'target_semantics':'observed_event_targets_v2'} if arithmetic_version==2 else {}),'targets':rows,'observed_counts':counts.tolist(),'output_family':family,'target_valid':valid.tolist()})

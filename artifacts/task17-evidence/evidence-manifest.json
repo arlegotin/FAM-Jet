@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "audit.txt",
+      "sha256": "abf53fe9d1c8eaa6088c64d0423e9e6588f7a8db1f32e9d32ea44777a4e68880",
+      "bytes": 98
+    },
+    {
+      "path": "build-audit.py",
+      "sha256": "7e8f3cd18a2c69a53b93e4debb4653a9ab56b4900de81dad42594fd8d72c6ecd",
+      "bytes": 4436
+    },
+    {
+      "path": "controls.json",
+      "sha256": "d9f0ee4ed7a2f8054025a6de55a5a5e77d847b6f196fe2f168a7aab4621e342a",
+      "bytes": 881
+    },
+    {
+      "path": "final-covering-byte-fix.txt",
+      "sha256": "4406b957e17e6fd4939698344785d1c91416fa9f353325c95cfbe32a0f66acc2",
+      "bytes": 110
+    },
+    {
+      "path": "final-focused.txt",
+      "sha256": "30446f9e1f7203c8512a4af70014a6349820fc6697dfdfbf9ed16dac0c14cbd9",
+      "bytes": 99
+    },
+    {
+      "path": "full-native-before-byte-fix.txt",
+      "sha256": "80a94720447de957179ac59421800390ab9f93f15ea2d3d8be66fc3fb78dd9a3",
+      "bytes": 1009
+    },
+    {
+      "path": "full-native-first-failure.txt",
+      "sha256": "4cfc3d4c60c49c14aa044b6d1474a8126ec19afa9ddfe8645fe452bff2e74a21",
+      "bytes": 4171
+    },
+    {
+      "path": "full-native-stopped-after-direction.txt",
+      "sha256": "2ffddf324a48b5e686e42d07c38f9a63f4be2cf7a6ae94fbbb79a80fc9a2e99a",
+      "bytes": 426
+    },
+    {
+      "path": "full-native.txt",
+      "sha256": "4cfc3d4c60c49c14aa044b6d1474a8126ec19afa9ddfe8645fe452bff2e74a21",
+      "bytes": 4171
+    },
+    {
+      "path": "green-nonrepresentable-contrast.txt",
+      "sha256": "2a378adf15a55081bd7fe0e60493c7c7d7098c7637925a052ca4da08199d28e1",
+      "bytes": 99
+    },
+    {
+      "path": "green-quarantine-bytes.txt",
+      "sha256": "3d81d90a2a96b7060ae62c03efd0f1eafb10562798cb57623da39e33ca7606d8",
+      "bytes": 99
+    },
+    {
+      "path": "nullspace.json",
+      "sha256": "51b75009f8977a764322c9c4c5cab4dd8f6bdbde8be53306d3f81eff71b705ff",
+      "bytes": 5327
+    },
+    {
+      "path": "prepare-synthetic-v2.txt",
+      "sha256": "ed10b93ab403c3b0c39b163ad2119075f621ed76c4e8d4a4b8637c020fa4db65",
+      "bytes": 72
+    },
+    {
+      "path": "red-numeric-prior.txt",
+      "sha256": "c5630ebd1e03ddec5d53776e2cfed32f8d5641d314acc6fb6b99da821b629f3d",
+      "bytes": 962
+    },
+    {
+      "path": "red-quarantine-bytes.txt",
+      "sha256": "b46b6e2c17f3479e24337444a7453d25ecb479126abe4b4d6328d5aa32fd06c2",
+      "bytes": 2006
+    },
+    {
+      "path": "source-verification.json",
+      "sha256": "7578907a45841e81febb482c89be7aee2824e0374d6e0149ae003b1bef797713",
+      "bytes": 823
+    },
+    {
+      "path": "task17-collection.txt",
+      "sha256": "1fa7f345a943f4c3ee6217ddded6f095bd06978d0eea0413f2d4b2062dec2285",
+      "bytes": 190541
+    },
+    {
+      "path": "task17-covering.txt",
+      "sha256": "a0c5751c020e9174caabaea584885bc374720de8d3ac8a5ba60e8b83c064a428",
+      "bytes": 111
+    },
+    {
+      "path": "task17-focused.txt",
+      "sha256": "eb24862326665b8a1c6cf0399fc9f336bbd6b558370eed8089a1000119a7baca",
+      "bytes": 6860
+    },
+    {
+      "path": "task17-green-controls.txt",
+      "sha256": "95e87ae0356c0a84c06d2d8a6e1fb5c649b9655224d9209034b0eb4de5533518",
+      "bytes": 2626
+    },
+    {
+      "path": "task17-green-semantics.txt",
+      "sha256": "3c45c895af180ba13823a5bdb06b10781ebeb63818c54cae60c943ea3d34458a",
+      "bytes": 98
+    },
+    {
+      "path": "task17-green1.txt",
+      "sha256": "7eb1170525a0fed0e7fc4d3d58456d3ea41f52bc959226f3d1c599ed8b486464",
+      "bytes": 99
+    },
+    {
+      "path": "task17-green3.txt",
+      "sha256": "291a67b90c9e6861961e4528dae3c1f25cd045666ee39774f0c0e99d1f6b371f",
+      "bytes": 6873
+    },
+    {
+      "path": "task17-green4.txt",
+      "sha256": "1141260be80eb4914b716bc9d57f6b35733ee9bbe48d790fadc027d19655652b",
+      "bytes": 99
+    },
+    {
+      "path": "task17-green5.txt",
+      "sha256": "c6370ad78488ed883c542235459f874bc2d46c52758a46b2cd8e92d087b2a0f2",
+      "bytes": 99
+    },
+    {
+      "path": "task17-green6.txt",
+      "sha256": "fc8337a95b90565cd4bdc07c020a9a2fd0dda1551ac42dcc32efd37747339ed4",
+      "bytes": 99
+    },
+    {
+      "path": "task17-red-beijing.txt",
+      "sha256": "c07f5712a69d7f3c287ccfbbb95a7270ee6c538560a8ea5fed493345263d9554",
+      "bytes": 1173
+    },
+    {
+      "path": "task17-red-calibration.txt",
+      "sha256": "4a84f0c41746f0d4f517aaecdc4f54933116efedd0ca2b42b1aa16adcf0e5224",
+      "bytes": 907
+    },
+    {
+      "path": "task17-red-contract.txt",
+      "sha256": "25448c28962e775777a1b75d7173dcf5d4247fb48e53309f7ab460e031f98a39",
+      "bytes": 859
+    },
+    {
+      "path": "task17-red-semantics.txt",
+      "sha256": "9369a97d733896da6e256e4b3b2eff2821b23c54d29d37938a68968ad77afaaf",
+      "bytes": 1003
+    },
+    {
+      "path": "task17-red1.txt",
+      "sha256": "078a5629dba288ab16718f0198d4f6bcc75e258ecea37b08ef237010ff64b819",
+      "bytes": 4305
+    },
+    {
+      "path": "task17-red2.txt",
+      "sha256": "06f1fbc62b7c893d73005cd6151362cf24f06f5db3a9b946136ca15fe7cac3c3",
+      "bytes": 23095
+    },
+    {
+      "path": "task17-red3.txt",
+      "sha256": "733bc37a471399f68c00dea3b0d75bed31358adec97deb0f833a54a8093d7681",
+      "bytes": 5233
+    },
+    {
+      "path": "version-mapping.json",
+      "sha256": "98597b09797ed2f21ccc0661af87f0c21b2ae177cfdfdd5013ba4ebfacdc077f",
+      "bytes": 231628
+    }
+  ]
+}

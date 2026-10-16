@@ -305,8 +305,12 @@ def test_constant_impulse_random_and_full_history_numeric_fixtures():
     full=generate_episode(config(population='full_history'),7,'values')
     for q,key in enumerate(full.queries.key_ids[0].tolist()):
         matching=[i for i,k in enumerate(full.events.key_ids[0].tolist()) if k==key]
-        want=full.events.values[0,matching].mean(0)
-        torch.testing.assert_close(full.labels[0,q],want,rtol=0,atol=0)
+        from fractions import Fraction
+        # Independent represented-value truth. fsum then division may double-round
+        # by one ULP; this is not a universal correctly-rounded-mean claim.
+        want=np.array([float(sum(Fraction(float(full.events.values[0,i,v])) for i in matching)/len(matching))
+                       for v in range(full.events.values.shape[-1])])
+        assert np.all(abs(full.labels[0,q].numpy()-want)<=abs(np.spacing(want)))
 
 
 def test_secondary_latest_labels_from_last_raw_observation():

@@ -3,7 +3,7 @@ schema_version: 1
 phase: development
 seed: 20261013
 data:
-  generator_version: beijing_observed_v1
+  generator_version: beijing_observed_v2_targets
   key_features: one_hot
   key_dim: 12
   value_dim: 1
@@ -21,7 +21,7 @@ data:
     robustness: standard
   beijing:
     archive_path: data/raw/beijing-uci501.zip
-    derived_path: data/derived/beijing_v1
+    derived_path: data/derived/beijing_v2_targets
     query_grid_version: station_mean_contrast_widths_1_6_24_72_168_v1
 model:
   method: jet

@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_missing_numeric_prior_is_config_failure_even_for_usable_output ______
+
+    def test_missing_numeric_prior_is_config_failure_even_for_usable_output():
+        from famjet.eval.metrics import score_predictions
+        from famjet.provenance import canonical_hash
+        b,s,p=case(); s['tasks']['mean']['mean']=None
+        b.metadata['scoring_v2']['statistics_hash']=canonical_hash(s)
+>       with pytest.raises(ValueError,match='prior'): score_predictions(b,s,p)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_metrics.py:179: Failed
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_missing_numeric_prior_is_config_failure_even_for_usable_output
+1 failed in 0.51s

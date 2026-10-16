@@ -1,0 +1,57 @@
+........................................................................ [  8%]
+........................................................................ [ 17%]
+........................................................................ [ 26%]
+..................................F................................... [ 35%]
+........................................................................ [ 44%]
+........................................................................ [ 53%]
+........................................................................ [ 62%]
+........................................................................ [ 71%]
+........................................................................ [ 79%]
+.........................F.............................................. [ 88%]
+........................................................................ [ 97%]
+..................                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_numeric_failure_distinct_from_missing_evidence ______________
+
+    def test_numeric_failure_distinct_from_missing_evidence():
+        from famjet.memory.exact_store import PackedHistory
+        s=PackedHistory(None,1,'exact')
+        s.update(event(0,1e308)); s.update(event(1,1e308))
+        r=s.query(query())
+>       assert r.support.item() and r.failure.item()
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method item of Tensor object at 0x11d7528a0>()
+E        +    where <built-in method item of Tensor object at 0x11d7528a0> = tensor([[True]]).item
+E        +      where tensor([[True]]) = ReadResult(prediction=tensor([[[1.0000e+308]]], dtype=torch.float64), logits=None, support=tensor([[True]]), failure=t...: tensor([[[[2],\n          [0]]]]), 'retained_count': tensor([[2]]), 'scanned_slots': tensor([[2]])}, schema_version=1).support
+E        +  and   False = <built-in method item of Tensor object at 0x11d708050>()
+E        +    where <built-in method item of Tensor object at 0x11d708050> = tensor([[False]]).item
+E        +      where tensor([[False]]) = ReadResult(prediction=tensor([[[1.0000e+308]]], dtype=torch.float64), logits=None, support=tensor([[True]]), failure=t...: tensor([[[[2],\n          [0]]]]), 'retained_count': tensor([[2]]), 'scanned_slots': tensor([[2]])}, schema_version=1).failure
+
+tests/test_exact_store.py:112: AssertionError
+________ test_constant_impulse_random_and_full_history_numeric_fixtures ________
+
+    def test_constant_impulse_random_and_full_history_numeric_fixtures():
+        from famjet.data.synthetic import generate_episode
+        constant=generate_episode(config(population='constant'),7,'values')
+        assert (constant.events.values==1).all()
+        impulse=generate_episode(config(population='impulse'),7,'values')
+        assert torch.count_nonzero(impulse.events.values).item()==8
+        assert impulse.events.values[0,64].tolist()==[1.]*8
+        random=generate_episode(config(population='random'),7,'values')
+        assert not torch.equal(random.events.values[:,:,0],random.events.values[:,:,1])
+        full=generate_episode(config(population='full_history'),7,'values')
+        for q,key in enumerate(full.queries.key_ids[0].tolist()):
+            matching=[i for i,k in enumerate(full.events.key_ids[0].tolist()) if k==key]
+            want=full.events.values[0,matching].mean(0)
+>           torch.testing.assert_close(full.labels[0,q],want,rtol=0,atol=0)
+E           AssertionError: Tensor-likes are not equal!
+E           
+E           Mismatched elements: 3 / 8 (37.5%)
+E           Greatest absolute difference: 2.220446049250313e-16 at index (3,)
+E           Greatest relative difference: 2.5498383462893965e-16 at index (5,)
+
+tests/test_synthetic.py:309: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_exact_store.py::test_numeric_failure_distinct_from_missing_evidence
+FAILED tests/test_synthetic.py::test_constant_impulse_random_and_full_history_numeric_fixtures
+2 failed, 806 passed, 2 subtests passed in 104.07s (0:01:44)

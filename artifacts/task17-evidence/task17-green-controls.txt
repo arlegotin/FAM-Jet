@@ -1,0 +1,44 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_deterministic_controls_and_unexecuted_training_gate ___________
+
+    def test_deterministic_controls_and_unexecuted_training_gate():
+        from famjet.eval.controls import run_controls
+        from famjet.config import load_config
+        from pathlib import Path
+>       r=run_controls(load_config(Path('configs/smoke.yaml')))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_harness.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='smoke', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_targets',...boundaries=None, resource_envelopes=None, independent_histories=None, training_replicates=None, multiple_testing=None))
+
+    def run_controls(config) -> dict:
+        """Small fixed controls; independent retraining explicitly remains Task18."""
+        from famjet.memory.exact_store import PackedHistory
+        from famjet.memory.oracle import direct_moments
+        from famjet.eval.isolation import export_method
+        from famjet.models.task_model import TaskModel
+        exact=PackedHistory(None,1,'exact'); ring=PackedHistory(1,1,'recent')
+        for i,value in enumerate([0.,2.,10.]):
+            event=dict(timestamp=float(i),event_id=i,key_id=1,value=np.array([value]),observed=np.array([True]))
+            exact.update(event); ring.update(event)
+        query=dict(T=2.,key_id=1,task='mean',age_start=0.,age_end=3.)
+        truth=4.; e=exact.query(query).prediction.item(); r=ring.query(query).prediction.item()
+        effect=(r-truth)**2-(e-truth)**2
+        # Recent mean10 minus preceding mean2=8; reversing interval labels gives -8.
+        contrast=exact.query({**query,'task':'contrast','age_end':1.}).prediction.item()
+        z,h=direct_moments(np.array([0.,1.]),np.array([[2.],[3.]]),np.array([.5]),2.)
+        hand=.5*2*np.exp(-1)*2+.5*np.exp(-.5)*3
+        wrong_moment_error=float(abs(-h.item()-hand))
+        class QueryLeakingWriter(TaskModel):
+            pass
+>       leaked=QueryLeakingWriter(config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: TaskModel.__init__() missing 2 required positional arguments: 'reader' and 'config'
+
+famjet/eval/controls.py:81: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_harness.py::test_deterministic_controls_and_unexecuted_training_gate
+1 failed, 1 passed in 1.13s

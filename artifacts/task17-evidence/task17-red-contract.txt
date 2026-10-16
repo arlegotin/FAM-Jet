@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_scoring_contract_rejects_ambiguous_masks_and_output_convention ______
+
+    def test_scoring_contract_rejects_ambiguous_masks_and_output_convention():
+        from famjet.eval.metrics import score_predictions
+        b,s,p=case(); b.metadata['scoring_v2']['present']=[['false']]
+>       with pytest.raises(ValueError,match='boolean'): score_predictions(b,s,p)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_metrics.py:161: Failed
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_scoring_contract_rejects_ambiguous_masks_and_output_convention
+1 failed in 0.50s

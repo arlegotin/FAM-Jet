@@ -1,0 +1,93 @@
+FF.F                                                                     [100%]
+=================================== FAILURES ===================================
+___________ test_deterministic_controls_and_unexecuted_training_gate ___________
+
+    def test_deterministic_controls_and_unexecuted_training_gate():
+        from famjet.eval.controls import run_controls
+        from famjet.config import load_config
+        from pathlib import Path
+>       r=run_controls(load_config(Path('configs/smoke.yaml')))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_harness.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='smoke', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_targets',...boundaries=None, resource_envelopes=None, independent_histories=None, training_replicates=None, multiple_testing=None))
+
+    def run_controls(config) -> dict:
+        """Small fixed controls; independent retraining explicitly remains Task18."""
+        from famjet.memory.exact_store import PackedHistory
+        from famjet.memory.oracle import direct_moments
+        from famjet.eval.isolation import export_method
+        from famjet.models.task_model import TaskModel
+        exact=PackedHistory(None,1,'exact'); ring=PackedHistory(1,1,'recent')
+        for i,value in enumerate([0.,2.,10.]):
+            event=dict(timestamp=float(i),event_id=i,key_id=1,value=np.array([value]),observed=np.array([True]))
+            exact.update(event); ring.update(event)
+        query=dict(T=2.,key_id=1,task='mean',age_start=0.,age_end=3.)
+        truth=4.; e=exact.query(query).prediction.item(); r=ring.query(query).prediction.item()
+        effect=(r-truth)**2-(e-truth)**2
+        # Recent mean10 minus preceding mean2=8; reversing interval labels gives -8.
+        contrast=exact.query({**query,'task':'contrast','age_end':1.}).prediction.item()
+        z,h=direct_moments(np.array([0.,1.]),np.array([[2.],[3.]]),np.array([.5]),2.)
+        hand=.5*2*np.exp(-1)*2+.5*np.exp(-.5)*3
+        wrong_moment_error=float(abs(-h.item()-hand))
+        class QueryLeakingWriter(TaskModel):
+            pass
+>       leaked=QueryLeakingWriter(config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: TaskModel.__init__() missing 2 required positional arguments: 'reader' and 'config'
+
+famjet/eval/controls.py:81: TypeError
+______ test_mid_episode_state_quarantine_retains_all_queries_and_trigger _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1065da8b0>
+
+    def test_mid_episode_state_quarantine_retains_all_queries_and_trigger(monkeypatch):
+        import torch
+        from famjet.train import make_model,move_episode,_prediction_records
+        from famjet.data.synthetic import generate_episode
+        from test_training import tiny
+        c=tiny(); model=make_model(c)
+        fit=move_episode(generate_episode(c,c.seed,'fit'),'cpu'); model.fit_statistics([fit])
+        ep=move_episode(generate_episode(c,c.seed,'read'),'cpu')
+        encode=model.encode; calls=[]
+        def injected(events,state=None,*,mode='stream'):
+            result=encode(events,state,mode=mode); calls.append(mode)
+            if len(calls)==3:
+                next(v for v in result.payload.values() if v.is_floating_point() and v.ndim>1).fill_(float('nan'))
+            return result
+        monkeypatch.setattr(model,'encode',injected)
+        rows=list(_prediction_records(model,ep,'run','development_fit'))
+>       assert len(rows)==2 and all(r['eligible'] and r['fallback'] and r['quarantined'] for r in rows)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_harness.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x10cfb14b0>
+
+>   assert len(rows)==2 and all(r['eligible'] and r['fallback'] and r['quarantined'] for r in rows)
+                                ^^^^^^^^^^^^^
+E   KeyError: 'eligible'
+
+tests/test_harness.py:34: KeyError
+_________ test_new_training_rejects_legacy_targets_before_optimization _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4035/test_new_training_rejects_lega0')
+
+    def test_new_training_rejects_legacy_targets_before_optimization(tmp_path):
+        from dataclasses import replace
+        from famjet.train import train_model
+        from test_training import tiny
+        c=tiny(); c=replace(c,data=replace(c.data,generator_version='initial_spec_v1'))
+>       with pytest.raises(ValueError,match='legacy target'): train_model(c,tmp_path/'legacy')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_harness.py:63: Failed
+=========================== short test summary info ============================
+FAILED tests/test_harness.py::test_deterministic_controls_and_unexecuted_training_gate
+FAILED tests/test_harness.py::test_mid_episode_state_quarantine_retains_all_queries_and_trigger
+FAILED tests/test_harness.py::test_new_training_rejects_legacy_targets_before_optimization
+3 failed, 1 passed in 35.64s

@@ -1,0 +1,19 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_archived_beijing_manifest_verifies_but_cannot_supply_current_training __
+
+    def test_archived_beijing_manifest_verifies_but_cannot_supply_current_training():
+        from pathlib import Path
+        from famjet.data.beijing import _verify_manifest,iter_beijing_episodes
+        path=Path('configs/manifests/beijing_v1.json')
+        assert _verify_manifest(path)['preparation_version']=='beijing_observed_v1'
+>       with pytest.raises(ValueError,match='legacy target'): list(iter_beijing_episodes(path,'training'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'legacy target'
+E         Actual message: 'Beijing oracle labels do not replay'
+
+tests/test_target_arithmetic.py:60: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_target_arithmetic.py::test_archived_beijing_manifest_verifies_but_cannot_supply_current_training
+1 failed in 1.07s

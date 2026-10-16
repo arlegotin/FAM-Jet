@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_categorical_calibration_uses_scored_probability_not_support_head _____
+
+    def test_categorical_calibration_uses_scored_probability_not_support_head():
+        from famjet.eval.metrics import score_predictions,aggregate_scores
+        b,s,p=case('presence',(.2,),(0.,))
+        report=aggregate_scores(score_predictions(b,s,p))
+>       assert report['categorical_by_task']['presence']['brier']==pytest.approx(.08)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'categorical_by_task'
+
+tests/test_metrics.py:153: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_categorical_calibration_uses_scored_probability_not_support_head
+1 failed in 0.48s

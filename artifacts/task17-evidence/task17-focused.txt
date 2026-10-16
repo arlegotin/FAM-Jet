@@ -1,0 +1,89 @@
+........................................................................ [ 61%]
+....F.......................................s                            [100%]
+=================================== FAILURES ===================================
+_________ test_evaluate_manifest_development_only_and_hash_validation __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4038/test_evaluate_manifest_develop0')
+
+    def test_evaluate_manifest_development_only_and_hash_validation(tmp_path):
+        t=api(); c=tiny()
+        from famjet.eval.splits import _population_manifest,_split_roots
+        from famjet.artifacts import atomic_json
+        p=t.train_model(c,tmp_path/'train')
+        manifest=_population_manifest(c,_split_roots(c))
+        atomic_json(tmp_path/'manifest.json',manifest)
+>       out=t.evaluate_model(p,tmp_path/'manifest.json',tmp_path/'evaluation')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/train.py:442: in evaluate_model
+    for row in _prediction_records(model,ep,out.name,'development_fit',policy=scoring_policy,manifest_hash=root_hash):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/train.py:251: in _prediction_records
+    for row in score_episode(model,ep,method=model.kernel.reader_feature_spec['family'],policy=policy,manifest_hash=manifest_hash):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/runner.py:90: in score_episode
+    for row in score_predictions(batch,stats,policy):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predictions = PredictionBatch(history_ids=('episode-0000',), query_ids=tensor([[0, 1]]), prediction=tensor([[[ -0.7985, -17.4794,  -...'aec2fe0d3c30e9e3a56e29251a3fbbfd02124fe9f8746d26ceead3ee945c398a', 'output_convention': 'numeric'}}, schema_version=1)
+statistics = {'schema_version': 2, 'target_semantics': 'observed_event_targets_v2', 'split': 'training', 'variance_ddof': 0, ...}
+policy = {'version': 2, 'primary_tasks': ['contrast', 'mean'], 'support_calibration': None, 'expected_inventory': [{'history_id...y_id': 'episode-0003', 'replicate': 0, 'regime': 'irregular_revisions', 'tasks': {'mean': [0], 'contrast': [1]}}], ...}
+
+    def score_predictions(predictions, statistics: dict, policy: dict) -> list[dict]:
+        """Score all active queries under an explicit external v2 evaluation contract.
+    
+        Output convention is numeric, binary_probability, binary_logit, categorical_logits,
+        or categorical_probability. Logit CE is evaluated before probability rounding.
+        Abstention never changes the primary loss. No untrained support confidence is
+        exposed; calibrated support requires a separately frozen calibration identity.
+        """
+        import math
+        from famjet.provenance import canonical_hash
+        c=predictions.metadata.get('scoring_v2')
+        if not isinstance(c,dict) or c.get('version')!=2:
+            raise ValueError('explicit scoring_v2 contract required')
+        required={'present','tasks','target_valid','numeric_supported','prediction_valid','quarantined',
+                  'quarantine_trigger','method','replicate','regime','target_semantics','manifest_hash','statistics_hash'}
+        if not required<=c.keys(): raise ValueError('incomplete scoring_v2 contract')
+        if statistics.get('schema_version')!=2 or statistics.get('split')!='training' or statistics.get('target_semantics')!=TARGET_SEMANTICS or c['target_semantics']!=TARGET_SEMANTICS:
+            raise ValueError('current training target semantics required')
+        if c['statistics_hash']!=canonical_hash(statistics): raise ValueError('statistics hash mismatch')
+        if policy.get('version')!=2 or not {'primary_tasks','expected_inventory','task_weights','regime_weights','support_calibration'}<=policy.keys():
+            raise ValueError('complete scoring policy required')
+        if policy['support_calibration'] is not None:
+            raise ValueError('support calibration unavailable until separate development calibration is implemented')
+        for weights in (policy['task_weights'],policy['regime_weights']):
+            if not weights or any(not np.isfinite(x) or x<=0 for x in weights.values()) or not math.isclose(sum(weights.values()),1.,abs_tol=1e-12):
+                raise ValueError('frozen positive normalized weights required')
+        shape=tuple(predictions.query_ids.shape)
+        if len(shape)!=2 or len(predictions.history_ids)!=shape[0]: raise ValueError('prediction shape mismatch')
+        for field in ('present','tasks','target_valid','numeric_supported','prediction_valid','quarantined'):
+            if np.asarray(c[field]).shape!=shape: raise ValueError('scoring field shape mismatch: '+field)
+        for t in (predictions.prediction,predictions.target,predictions.supported,predictions.failure,predictions.abstained):
+            if tuple(t.shape[:2])!=shape: raise ValueError('prediction shape mismatch')
+        rows=[]
+        raw=predictions.prediction.detach().cpu().numpy().astype(float)
+        targets=predictions.target.detach().cpu().numpy().astype(float)
+        for b,h in enumerate(predictions.history_ids):
+            for q in range(shape[1]):
+                if not c['present'][b][q]: continue
+                task=c['tasks'][b][q]
+                if task not in TASKS: raise ValueError('unknown task')
+                target=np.atleast_1d(targets[b,q]); pred=np.atleast_1d(raw[b,q])
+                valid=bool(c['target_valid'][b][q])
+                if valid and not np.isfinite(target).all(): raise ValueError('valid target must be finite')
+                if not valid and task in policy['primary_tasks']: raise ValueError('missing primary target')
+                st=statistics['tasks'].get(task)
+                if not st or st.get('status')!='ok': raise ValueError('missing training prior')
+                categorical=task in CATEGORICAL_TASKS|BINARY_TASKS
+                if not categorical and task in policy['primary_tasks'] and (st['scale'] is None or not np.isfinite(st['scale']) or st['scale']<=0):
+>                   raise ValueError('primary scale must be finite positive')
+E                   ValueError: primary scale must be finite positive
+
+famjet/eval/metrics.py:135: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_training.py::test_evaluate_manifest_development_only_and_hash_validation
+1 failed, 115 passed, 1 skipped in 50.63s

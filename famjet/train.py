@@ -213,7 +213,7 @@ def _resource_check(config, policy):
     if shutil.disk_usage(ROOT).free < 64*1024**2: raise OSError('insufficient checkpoint/log disk reserve')
 
 
-def _prediction_records(model,ep,run_id,split):
+def _historical_prediction_records(model,ep,run_id,split):
     with torch.no_grad():
         state=model.encode(ep.events,mode='terminal')
         result=model.read(state,ep.queries)
@@ -241,7 +241,19 @@ def _prediction_records(model,ep,run_id,split):
                 'status':('ok' if bool(result.diagnostics['prediction_valid'][b,j]) else 'unsupported_prediction') if finite and label_valid and not bool(result.failure[b,j]) else 'missing_or_failed',
                 'payload_bytes':payload_bytes,
                 'diagnostics':{'prediction_valid':bool(result.diagnostics['prediction_valid'][b,j]),
-                               'scientific_scoring':'deferred_to_task17'}}
+                               'scientific_scoring':'historical_unscored_v1'}}
+
+
+def _prediction_records(model,ep,run_id,split,*,policy=None,manifest_hash=None,scientific=True):
+    from famjet.eval.runner import score_episode,episode_policy
+    if not scientific and policy is None:
+        policy=episode_policy([ep]); policy['primary_tasks']=[]
+    for row in score_episode(model,ep,method=model.kernel.reader_feature_spec['family'],policy=policy,manifest_hash=manifest_hash):
+        row.update(run_id=run_id,split=split,cluster_id=row['history_id'])
+        b=ep.queries.history_ids.index(row['history_id'])
+        j=ep.queries.query_ids[b].tolist().index(row['query_id'])
+        row['window']=[float(ep.queries.age_start[b,j]),float(ep.queries.age_end[b,j])]
+        yield row
 
 
 def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None) -> Path:
@@ -260,6 +272,8 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
     atomic_json(run_dir/'run.json',record)
     checkpoint_path=run_dir/'checkpoint.pt'
     try:
+        if config.data.generator_version!='initial_spec_v2_targets':
+            raise ValueError('legacy target semantics forbidden for new training')
         _resource_check(config,policy)
         torch.set_num_threads(config.resources.cpu_threads)
         identity,data=identities(config,policy); source=_source()
@@ -347,7 +361,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
             atomic_json(run_dir/'run.json',record)
         model.eval()
         probe=move_episode(generate_episode(config,config.seed,'train-000000000000'),config.resources.device)
-        for prediction in _prediction_records(model,probe,record['id'],'training'):
+        for prediction in _prediction_records(model,probe,record['id'],'training',scientific=False):
             append_jsonl(run_dir/'predictions.jsonl',prediction)
         record.update(status='completed',parameter_hash=canonical_hash(export_method(model)))
         return checkpoint_path
@@ -364,17 +378,17 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
 
 
 def evaluate_model(checkpoint: Path, manifest: Path, out: Path) -> Path:
-    """Raw development_fit diagnostics from a sealed exploratory inventory.
+    """Failure-complete development diagnostics from a sealed current inventory.
 
-    Protected splits are reservation-only. Task17 owns failure-complete scoring;
-    these records never claim scientific selection or confirmation evidence.
+    Protected splits remain reservation-only. Smoke checkpoints cannot claim
+    scientific primary selection; undefined normalized scales remain explicit.
     """
     import json
     from famjet.config import _parse
     from famjet.eval.splits import _check_seal, _verify_splits
     out=Path(out); out.mkdir(parents=True,exist_ok=False)
     record={'schema_version':1,'id':out.name,'status':'running','phase':'development_fit',
-        'split':'development_fit','scientific_status':'raw_diagnostics_only','start_utc':_now(),
+        'split':'development_fit','scientific_status':'development_failure_complete_diagnostics','start_utc':_now(),
         'checkpoint':str(checkpoint),'manifest':str(manifest),'failure_category':None}
     atomic_json(out/'run.json',record)
     try:
@@ -404,12 +418,24 @@ def evaluate_model(checkpoint: Path, manifest: Path, out: Path) -> Path:
         a.pop('length'); b.pop('length')
         if a!=b: raise ValueError('manifest/checkpoint data schema/population mismatch')
         if eval_config.phase not in {'smoke','development'}: raise ValueError('protected manifest evaluation forbidden')
+        if eval_config.data.generator_version!='initial_spec_v2_targets': raise ValueError('legacy target semantics forbidden for new evaluation')
         split=payload['splits']['development_fit']
         record.update(manifest_hash=root_hash,population_manifest_hash=payload['manifest_hash'],
             config=ctx['config'],evaluation_config=payload['config'],model_hash=ctx['model_hash'],
             config_hash=ctx['config_hash'],data_hash=ctx['data_hash'],source_hash=ctx['source_hash'],lock_hash=ctx['lock_hash'])
         atomic_json(out/'run.json',record)
         model=_reconstruct(ctx['model']).to(config.resources.device).eval()
+        from famjet.eval.runner import episode_policy
+        inventory=[]
+        for entry in split['episodes']:
+            g=replace(eval_config.data.generator,namespace='development_fit',regime=entry['regime'])
+            inventory.append(generate_episode(replace(eval_config,data=replace(eval_config.data,generator=g)),split['root'],entry['episode_id']))
+        scoring_policy=episode_policy(inventory)
+        scoring_policy['regime_weights']=payload['regime_weights']
+        if ctx['execution_policy'].get('scientific_status')=='non_scientific_smoke':
+            scoring_policy['primary_tasks']=[]
+        del inventory
+        atomic_json(out/'scoring_policy.json',scoring_policy)
         path=out/'predictions.jsonl'
         for entry in split['episodes']:
             g=replace(eval_config.data.generator,namespace='development_fit',regime=entry['regime'])
@@ -417,7 +443,7 @@ def evaluate_model(checkpoint: Path, manifest: Path, out: Path) -> Path:
             episode=generate_episode(c,split['root'],entry['episode_id'])
             if episode.metadata['hashes']!=entry['hashes']: raise ValueError('regenerated manifest episode hash mismatch')
             ep=move_episode(episode,config.resources.device)
-            for row in _prediction_records(model,ep,out.name,'development_fit'):
+            for row in _prediction_records(model,ep,out.name,'development_fit',policy=scoring_policy,manifest_hash=root_hash):
                 append_jsonl(path,row)
             if not bool(ep.queries.present.any()):
                 append_jsonl(path,{'run_id':out.name,'history_id':ep.events.history_ids[0],

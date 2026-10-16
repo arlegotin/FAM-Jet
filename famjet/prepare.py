@@ -18,9 +18,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--out', type=Path)
     args = parser.parse_args(argv)
     config = load_config(args.config)
-    dataset = args.dataset or ('beijing' if config.data.generator_version == 'beijing_observed_v1' else 'synthetic')
+    dataset = args.dataset or ('beijing' if config.data.generator_version in ('beijing_observed_v1','beijing_observed_v2_targets') else 'synthetic')
     if dataset == 'synthetic':
-        out = args.out or Path('configs/manifests/synthetic_v1.json')
+        out = args.out or Path('configs/manifests/synthetic_v2_targets.json' if config.data.generator_version=='initial_spec_v2_targets' else 'configs/manifests/synthetic_v1.json')
         if out.exists():
             manifest = verify_split_manifest(out)
             # Checking an existing sealed inventory must also honor the supplied config.
@@ -31,7 +31,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f'checked synthetic manifest: {out}')
         return 0
     archive = args.archive or Path(config.data.beijing.archive_path if config.data.beijing else 'data/raw/beijing-uci501.zip')
-    out = args.out or Path('configs/manifests/beijing_v1.json')
+    out = args.out or Path('configs/manifests/beijing_v2_targets.json' if config.data.generator_version=='beijing_observed_v2_targets' else 'configs/manifests/beijing_v1.json')
     if not archive.is_file():
         if out.exists():
             previous = json.loads(out.read_text())

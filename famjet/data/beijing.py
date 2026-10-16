@@ -27,7 +27,8 @@ from famjet.eval.oracle import exact_targets
 from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import Episode, EventBatch, QueryBatch
 
-VERSION = 'beijing_observed_v1'
+LEGACY_VERSION = 'beijing_observed_v1'
+VERSION = 'beijing_observed_v2_targets'
 QUERY_GRID = 'station_mean_contrast_widths_1_6_24_72_168_v1'
 STATIONS = ('Aotizhongxin', 'Changping', 'Dingling', 'Dongsi', 'Guanyuan', 'Gucheng',
             'Huairou', 'Nongzhanguan', 'Shunyi', 'Tiantan', 'Wanliu', 'Wanshouxigong')
@@ -222,7 +223,7 @@ def make_episode(data, block, normalization, *, normalized):
     queries = _queries(block)
     target = exact_targets(events,queries)
     return Episode(events,queries,target.target,target.supported,
-        {**block,'preparation_version':VERSION,'query_grid_version':QUERY_GRID,
+        {**block,'target_semantics':'observed_event_targets_v2','preparation_version':VERSION,'query_grid_version':QUERY_GRID,
          'normalization':'training_standardized' if normalized else 'raw_micrograms_per_m3',
          'target_valid':target.metadata['target_valid'], 'observed_counts':target.metadata['observed_counts'],
          'last_event_to_query_hours':block['end_tick']-int(times[-1]) if n else None,
@@ -237,7 +238,7 @@ def _verify_manifest(path):
     manifest = json.loads(Path(path).read_text())
     if manifest.get('manifest_hash') != canonical_hash({k:v for k,v in manifest.items() if k != 'manifest_hash'}):
         raise ValueError('Beijing manifest checksum mismatch')
-    if manifest.get('preparation_version') != VERSION or manifest.get('query_grid_version') != QUERY_GRID:
+    if manifest.get('preparation_version') not in (LEGACY_VERSION,VERSION) or manifest.get('query_grid_version') != QUERY_GRID:
         raise ValueError('unknown Beijing preparation/query version')
     return manifest
 
@@ -268,6 +269,7 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
     if config.data.beijing is None or config.data.beijing.query_grid_version != QUERY_GRID or config.data.queries_per_history != 120:
         raise ValueError('Beijing requires registered 120-query grid')
     archive,out = Path(archive),Path(out)
+    if config.data.generator_version!=VERSION: raise ValueError('legacy target preparation requires original historical source')
     bulk = Path(config.data.beijing.derived_path)
     budget = config.resources.asset_disk_budget_bytes
     if budget < MAX_DECODED_BYTES:
@@ -339,7 +341,7 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
         training = [make_episode(data,b,normalization,normalized=True) for b in inventory['training']['blocks']]
         statistics = fit_target_statistics(training)
         result = _seal({'schema_version':1,'status':'prepared','dataset':'beijing',
-            'preparation_version':VERSION,'query_grid_version':QUERY_GRID,
+            'preparation_version':VERSION,'target_semantics':'observed_event_targets_v2','query_grid_version':QUERY_GRID,
             'query_convention':{'width_hours':[1,6,24,72,168],'tasks':['mean','contrast'],
                 'recent_age_start_hours':'1 except width168 uses0','age_end':'start+width; exclusive',
                 'contrast_older':'[start+width,start+2*width)','query_time':'block_end',
@@ -386,6 +388,7 @@ def iter_beijing_episodes(manifest: Path, split: str):
         raise ValueError('unknown Beijing split')
     manifest = Path(manifest)
     payload = _verify_manifest(manifest)
+    if payload['preparation_version']!=VERSION: raise ValueError('legacy target labels cannot supply current scientific episodes; v2 preparation pending')
     for block in payload['splits'][split]['blocks']:
         path = (manifest.parent/block['artifact']).resolve()
         # Paths are constrained to the configured bulk directory, including .. relpaths.

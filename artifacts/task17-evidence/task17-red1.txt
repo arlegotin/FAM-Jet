@@ -1,0 +1,68 @@
+FFFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+______ test_numeric_scale_fallback_and_abstention_do_not_drop_denominator ______
+
+    def test_numeric_scale_fallback_and_abstention_do_not_drop_denominator():
+>       from famjet.eval.metrics import score_predictions
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:32: ImportError
+__ test_binary_absence_validity_uses_effective_prediction_not_feature_support __
+
+    def test_binary_absence_validity_uses_effective_prediction_not_feature_support():
+>       from famjet.eval.metrics import score_predictions
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:46: ImportError
+_________ test_categorical_full_prior_ties_and_explicit_infinite_loss __________
+
+    def test_categorical_full_prior_ties_and_explicit_infinite_loss():
+>       from famjet.eval.metrics import score_predictions, aggregate_scores
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:58: ImportError
+____ test_change_sign_fallback_keeps_numeric_mean_and_constant_task_blocks _____
+
+    def test_change_sign_fallback_keeps_numeric_mean_and_constant_task_blocks():
+>       from famjet.eval.metrics import score_predictions,aggregate_scores
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:71: ImportError
+__________ test_legacy_and_missing_primary_labels_are_contract_errors __________
+
+    def test_legacy_and_missing_primary_labels_are_contract_errors():
+>       from famjet.eval.metrics import score_predictions
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:87: ImportError
+______ test_equal_task_history_regime_weight_and_complete_pair_inventory _______
+
+    def test_equal_task_history_regime_weight_and_complete_pair_inventory():
+>       from famjet.eval.metrics import score_predictions,history_effects,aggregate_scores,history_effects_inventory
+E       ImportError: cannot import name 'score_predictions' from 'famjet.eval.metrics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/eval/metrics.py)
+
+tests/test_metrics.py:95: ImportError
+___________ test_deterministic_controls_and_unexecuted_training_gate ___________
+
+    def test_deterministic_controls_and_unexecuted_training_gate():
+>       from famjet.eval.controls import run_controls
+E       ModuleNotFoundError: No module named 'famjet.eval.controls'
+
+tests/test_harness.py:6: ModuleNotFoundError
+_ test_both_fixed_linear_nullspaces_have_small_erasure_and_large_other_response _
+
+    def test_both_fixed_linear_nullspaces_have_small_erasure_and_large_other_response():
+>       from famjet.eval.controls import kernel_nullspace_fixture
+E       ModuleNotFoundError: No module named 'famjet.eval.controls'
+
+tests/test_kernel_limits.py:6: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_numeric_scale_fallback_and_abstention_do_not_drop_denominator
+FAILED tests/test_metrics.py::test_binary_absence_validity_uses_effective_prediction_not_feature_support
+FAILED tests/test_metrics.py::test_categorical_full_prior_ties_and_explicit_infinite_loss
+FAILED tests/test_metrics.py::test_change_sign_fallback_keeps_numeric_mean_and_constant_task_blocks
+FAILED tests/test_metrics.py::test_legacy_and_missing_primary_labels_are_contract_errors
+FAILED tests/test_metrics.py::test_equal_task_history_regime_weight_and_complete_pair_inventory
+FAILED tests/test_harness.py::test_deterministic_controls_and_unexecuted_training_gate
+FAILED tests/test_kernel_limits.py::test_both_fixed_linear_nullspaces_have_small_erasure_and_large_other_response
+8 failed in 0.89s

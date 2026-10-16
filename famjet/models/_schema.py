@@ -68,8 +68,11 @@ def training_metadata(provenance, statistics, value_dim):
     _number(provenance['t_ref'], positive=True)
     _require(type(provenance['reference_source']) is str and provenance['reference_source'] in
              {'median_positive_training_gap', 'explicit_duration'})
-    _keys(statistics, ('schema_version', 'split', 'variance_ddof', 'pooling', 'constant_policy', 'tasks'))
-    _require(type(statistics['schema_version']) is int and statistics['schema_version'] == 1)
+    _keys(statistics, ('schema_version', 'split', 'variance_ddof', 'pooling', 'constant_policy', 'tasks') +
+          (('target_semantics',) if statistics.get('schema_version')==2 else ()))
+    if statistics.get('schema_version')==2:
+        _require(statistics['target_semantics']=='observed_event_targets_v2')
+    _require(type(statistics['schema_version']) is int and statistics['schema_version'] in (1,2))
     _require(type(statistics['variance_ddof']) is int and statistics['variance_ddof'] == 0)
     _require(type(statistics['split']) is str and statistics['split'] == 'training')
     _require(type(statistics['pooling']) is str and statistics['pooling'] == 'queries_within_task_then_coordinate_variances')

@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_mid_episode_state_quarantine_retains_all_queries_and_trigger _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a519350>
+
+    def test_mid_episode_state_quarantine_retains_all_queries_and_trigger(monkeypatch):
+        import torch
+        from famjet.train import make_model,move_episode,_prediction_records
+        from famjet.data.synthetic import generate_episode
+        from test_training import tiny
+        c=tiny(); model=make_model(c)
+        fit=[move_episode(generate_episode(c,c.seed,x),'cpu') for x in ['fit','fit2']]; model.fit_statistics(fit)
+        ep=move_episode(generate_episode(c,c.seed,'read'),'cpu')
+        encode=model.encode; calls=[]; byte_counts=[]
+        def injected(events,state=None,*,mode='stream'):
+            result=encode(events,state,mode=mode); calls.append(mode)
+            byte_counts.append(model.persistent_nbytes(result))
+            if len(calls)==3:
+                next(v for v in result.payload.values() if v.is_floating_point() and v.ndim>1).fill_(float('nan'))
+            return result
+        monkeypatch.setattr(model,'encode',injected)
+        rows=list(_prediction_records(model,ep,'run','development_fit'))
+        assert len(rows)==2 and all(r['eligible'] and r['fallback'] and r['quarantined'] for r in rows)
+        assert all(r['loss'] is not None for r in rows)
+        assert rows[0]['quarantine_trigger']['event_offset']==3
+        assert rows[0]['quarantine_trigger']['input']['event_id']==2
+        assert calls==['stream']*3
+>       assert rows[0]['payload_bytes']==byte_counts[2]
+E       assert 2393 == 2433
+
+tests/test_harness.py:40: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_harness.py::test_mid_episode_state_quarantine_retains_all_queries_and_trigger
+1 failed in 0.67s
