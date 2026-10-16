@@ -1,4 +1,6 @@
 """Raw observed-event arithmetic: sole label source for compressed methods."""
+from fractions import Fraction
+
 import numpy as np
 import torch
 from famjet.data.schema import validate_events, validate_queries
@@ -10,6 +12,19 @@ CATEGORICAL_TASKS = frozenset({'corrected_categorical', 'random_binding'})
 TASKS = NUMERIC_TASKS | BINARY_TASKS | CATEGORICAL_TASKS
 
 
+def exact_time_difference(newer: int | float, older: int | float) -> int | Fraction:
+    """Subtract validated finite scalar timestamps without mixed-dtype rounding.
+
+    Python ints retain their full tick value; each float denotes its exact stored
+    binary value, not an inferred decimal or rounded integer timestamp. Returning
+    a rational for any float operand preserves exact age/endpoint comparisons.
+    This host oracle helper is not a floating-point streaming kernel operation.
+    """
+    if isinstance(newer, int) and isinstance(older, int):
+        return newer - older
+    return Fraction(newer) - Fraction(older)
+
+
 def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
     """CPU FP64 labels with NaN unsupported tensors and null JSON metadata.
 
@@ -17,6 +32,8 @@ def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
     Binary labels are always valid on active queries; their support denotes
     factual evidence, so absent presence has label 0, support false, abstained
     false. metadata.target_valid distinguishes label validity from evidence.
+    Mixed event/query time dtypes retain exact represented values through
+    exact_time_difference; integer ticks are never coerced to floats.
     Batches may mix tasks only within one output family. Shared query support
     requires every value coordinate; independent observations are averaged per
     coordinate. Latest uses the entire vector of the latest observed event,
@@ -49,8 +66,7 @@ def exact_targets(events: EventBatch, queries: QueryBatch) -> PredictionBatch:
         for q in range(int(queries.lengths[b])):
             task = queries.tasks[b][q]
             T = queries.T[b,q].item()
-            # Python integer subtraction preserves tick arithmetic before comparison.
-            age = [T-t for t in times]
+            age = [exact_time_difference(T,t) for t in times]
             match = np.array([ids[i] == queries.key_ids[b,q].item() and age[i] >= 0 for i in range(n)],dtype=bool)
             written = match & obs[b,:n].any(axis=1)
             lo,hi = queries.age_start[b,q].item(),queries.age_end[b,q].item()

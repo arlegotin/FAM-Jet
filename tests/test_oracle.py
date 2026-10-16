@@ -115,3 +115,26 @@ def test_absent_presence_is_valid_even_without_factual_support():
     assert s['class_distribution']==[1.,0.]
     assert s['scale'] is None
     assert s['constant_coordinates']==[True]
+
+
+def test_mixed_float_query_integer_ticks_preserve_half_open_boundaries():
+    from dataclasses import replace
+    from famjet.eval.oracle import exact_targets
+    e,q=fixture()
+    e.timestamps=torch.tensor([[2**60-2,2**60-1,2**60,2**60]],dtype=torch.int64)
+    q=replace(q,T=torch.tensor([[2**60]],dtype=torch.float64))
+    r=exact_targets(e,q)
+    assert r.target.tolist()==[[[12.,7.]]]
+    assert r.metadata['observed_counts'][0][0][0]==[2,2]
+
+
+@pytest.mark.parametrize('newer,older,expected', [
+    (float(2**60),2**60-1,1),
+    (2**60-1,float(2**60),-1),
+    (2**60,2**60-1,1),
+    (0.5,0,0.5),
+    (0,0.5,-0.5),
+])
+def test_exact_time_difference(newer,older,expected):
+    from famjet.eval.oracle import exact_time_difference
+    assert exact_time_difference(newer,older)==expected
