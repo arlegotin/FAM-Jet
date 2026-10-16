@@ -97,6 +97,9 @@ def model_ledger(model: torch.nn.Module) -> dict:
     """
     if not isinstance(model, torch.nn.Module):
         raise TypeError('model_ledger requires nn.Module')
+    from famjet.models.task_model import TaskModel
+    if type(model) is TaskModel:
+        model.validate_metadata()
     for module in model.modules():
         for name, value in vars(module).items():
             if name in {'_parameters', '_buffers', '_modules'}:

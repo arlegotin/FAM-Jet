@@ -30,7 +30,7 @@ from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import QueryBatch, ReadResult, FeatureBatch
 from famjet.models.task_model import TaskModel
 from famjet.readers.structured import make_reader
-from famjet.config import _parse, RunConfig
+from famjet.models._schema import inference_config, training_metadata
 from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapshot_hash,
                                   tensor_record, tensor_from_record)
 
@@ -93,17 +93,18 @@ def _reconstruct(spec, *, freeze_rates=False):
     kind, schema = spec['kind'], spec['schema']
     _require(type(schema) is dict and type(spec['weights']) is dict, 'invalid method schema')
     if kind == 'task':
-        _require(set(schema) == {'kernel', 'reader', 'config', 'fit_provenance', 'target_statistics', 'frozen_rates'},
+        _require(set(schema) == {'kernel', 'reader', 'inference_config', 'fit_provenance', 'target_statistics', 'frozen_rates'},
                  'invalid task schema')
+        _require(type(schema['frozen_rates']) is bool, 'invalid inference frozen-rate schema')
+        config = inference_config(schema['inference_config'])
         kernel = _reconstruct(schema['kernel'], freeze_rates=freeze_rates)
+        provenance, statistics = training_metadata(schema['fit_provenance'], schema['target_statistics'], kernel.value_dim)
         # Static audit must not perturb the caller's future initialization/dropout RNG.
         with torch.random.fork_rng(devices=[]):
             reader = make_reader(**schema['reader']).to(dtype=kernel.rates.dtype)
-            config = _parse(schema['config'], RunConfig, 'config')
-            frozen = schema['frozen_rates'] or (freeze_rates and config.model.rates.mode == 'learned')
-            method = TaskModel(kernel, reader, config, _frozen_rates=frozen)
-        method.fit_provenance = schema['fit_provenance']
-        method.target_statistics = schema['target_statistics']
+            frozen = schema['frozen_rates'] or (freeze_rates and config['rate_mode'] == 'learned')
+            method = TaskModel._from_inference(kernel, reader, config, _frozen_rates=frozen)
+        method.fit_provenance, method.target_statistics = provenance, statistics
         expected = {k: v for k, v in method.state_dict().items() if not k.startswith('kernel.')}
         _require(set(expected) == set(spec['weights']), 'invalid task weights')
         with torch.no_grad():
@@ -146,8 +147,10 @@ def export_method(method):
     if kind == 'task':
         from famjet.readers.mlp import NumericReader
         _require(type(method.reader) is NumericReader, 'unregistered task reader')
-        schema = dict(kernel=export_method(method.kernel), reader=method.reader.schema, config=method.config,
-                      fit_provenance=method.fit_provenance, target_statistics=method.target_statistics,
+        provenance, statistics = method.validate_metadata()
+        schema = dict(kernel=export_method(method.kernel), reader=method.reader.schema,
+                      inference_config=inference_config(method.inference_config),
+                      fit_provenance=provenance, target_statistics=statistics,
                       frozen_rates=method._frozen_rates)
         weights = {k: tensor_record(v) for k, v in method.state_dict().items() if not k.startswith('kernel.')}
     elif kind == 'packed':

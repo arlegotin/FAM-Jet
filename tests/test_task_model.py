@@ -14,15 +14,20 @@ from famjet.memory.jet import JetState
 from famjet.types import Episode
 
 
-def model(family='jet', kind='structured', learned=False, dtype=torch.float64, device='cpu'):
-    assert importlib.util.find_spec('famjet.models.task_model') is not None, 'TaskModel is missing'
-    from famjet.models.task_model import TaskModel
-    from famjet.readers.structured import make_reader
+def configuration(family='jet', kind='structured', learned=False, dtype=torch.float64):
     cfg = load_config(Path('configs/smoke.yaml'))
     cfg = replace(cfg, data=replace(cfg.data, key_dim=3, value_dim=2), model=replace(cfg.model,
         method=family, K=3, J=2, precision=str(dtype).split('.')[-1], writer='learned' if learned else 'fixed',
         rates=replace(cfg.model.rates, mode='learned' if learned else 'fixed'),
         reader=replace(cfg.model.reader, kind=kind, width=16)))
+    return cfg
+
+
+def model(family='jet', kind='structured', learned=False, dtype=torch.float64, device='cpu'):
+    assert importlib.util.find_spec('famjet.models.task_model') is not None, 'TaskModel is missing'
+    from famjet.models.task_model import TaskModel
+    from famjet.readers.structured import make_reader
+    cfg = configuration(family, kind, learned, dtype)
     rates = BoundedRates(2, math.log(.1), math.log(1.)).to(device=device, dtype=dtype) if learned else torch.tensor([[.1, 1.]], device=device, dtype=dtype)
     kernel = (JetMemory if family == 'jet' else ExpBankMemory)(rates, 3, 2,
         eps=cfg.model.epsilon, support_floor=cfg.model.numerical_support_floor, t_ref=2.)
@@ -177,6 +182,11 @@ def test_categorical_v32_logits_cross_entropy():
     assert out.prediction is None and out.logits.shape == (2, 1, 32)
     ep = Episode(e, q, torch.tensor([[0], [31]]), torch.ones(2, 1, dtype=torch.bool))
     torch.testing.assert_close(m.loss(out, ep), torch.nn.functional.cross_entropy(out.logits[:, 0], ep.labels[:, 0]))
+    from famjet.eval.isolation import isolated_read
+    m.fit_statistics([replace(ep, metadata={'split': 'training'})])
+    assert len(m.target_statistics['tasks']['corrected_categorical']['class_distribution']) == 32
+    state = m.encode(e)
+    torch.testing.assert_close(m.read(state, q).logits, isolated_read(m, state, q).logits)
 
 
 @pytest.mark.parametrize('family', ['jet', 'bank'])
@@ -219,8 +229,7 @@ def test_fixed_writer_has_no_projection_and_ignores_future_queries():
 def test_configuration_dtype_and_rate_mismatch_rejected():
     from famjet.models.task_model import TaskModel
     m = model()
-    from famjet.config import _parse, RunConfig
-    cfg = _parse(m.config, RunConfig, 'config')
+    cfg = configuration()
     with pytest.raises(ValueError, match='precision'):
         TaskModel(m.kernel, m.reader, replace(cfg, model=replace(cfg.model, precision='float32')))
 
@@ -312,13 +321,157 @@ def test_learned_rates_train_and_invalidate_snapshots(family):
 @pytest.mark.parametrize('family', ['jet', 'bank'])
 def test_frozen_inference_rates_cannot_masquerade_as_training(family):
     from famjet.eval.isolation import export_method, _reconstruct
-    from famjet.config import _parse, RunConfig
     from famjet.models.task_model import TaskModel
     m = model(family, learned=True)
     frozen = _reconstruct(export_method(m), freeze_rates=True)
     assert frozen._frozen_rates and not hasattr(frozen.kernel, 'rate_source')
     assert frozen._parameter_hash() == m._parameter_hash()
     with pytest.raises(ValueError, match='rate mode'):
-        TaskModel(frozen.kernel, frozen.reader, _parse(m.config, RunConfig, 'config'))
+        TaskModel(frozen.kernel, frozen.reader, configuration(family, learned=True))
     with pytest.raises(ValueError, match='inference'):
         frozen.encode(events())
+
+
+@pytest.mark.parametrize('field', ['fit_provenance', 'target_statistics'])
+@pytest.mark.parametrize('operation', ['export', 'identity', 'ledger'])
+def test_metadata_inventory_rejects_raw_history(field, operation):
+    from famjet.eval.isolation import export_method, model_identity
+    from famjet.eval.budgets import model_ledger
+    m = model()
+    setattr(m, field, {'raw_history': events().values.tolist()})
+    call = {'export': export_method, 'identity': model_identity, 'ledger': model_ledger}[operation]
+    with pytest.raises(ValueError, match='metadata|provenance|statistics'):
+        call(m)
+
+
+def test_full_run_config_is_not_retained_in_inference_model():
+    from famjet.models.task_model import TaskModel
+    from famjet.eval.isolation import export_method, _reconstruct
+    m = model()
+    # The input RunConfig may contain scientific Any fields, but its unrestricted
+    # payload belongs to external RunContext and must not survive projection.
+    cfg = configuration()
+    cfg = replace(cfg, confirmation=replace(cfg.confirmation,
+        metrics={'raw_history': events().values.tolist()}))
+    n = TaskModel(m.kernel, m.reader, cfg)
+    assert not hasattr(n, 'config')
+    wire = export_method(n)
+    assert 'confirmation' not in wire['schema']['inference_config']
+    assert 'raw_history' not in str(wire)
+    assert not hasattr(_reconstruct(wire), 'config')
+
+
+def fitted_model():
+    m = model(); e = events(); q = queries(e, [[8], [7]])
+    ep = Episode(e, q, torch.tensor([[[1., -2.]], [[3., 4.]]], dtype=torch.float64),
+                 torch.ones(2, 1, dtype=torch.bool), {'split': 'training'})
+    m.fit_statistics([ep])
+    return m
+
+
+@pytest.mark.parametrize('field,key,value', [
+    ('fit_provenance', 'history_count', True),
+    ('fit_provenance', 'history_count', 2**1000),
+    ('fit_provenance', 'history_identity_hash', 'a'*10000),
+    ('fit_provenance', 't_ref', float('inf')),
+    ('fit_provenance', 'reference_source', {'raw_history': [1, 2, 3]}),
+    ('fit_provenance', 'writer_hash', 'not-a-digest'),
+    ('target_statistics', 'schema_version', True),
+    ('target_statistics', 'pooling', 'raw_history'*10000),
+])
+def test_closed_metadata_rejects_bad_scalars(field, key, value):
+    from famjet.eval.isolation import export_method
+    m = fitted_model()
+    getattr(m, field)[key] = value
+    with pytest.raises(ValueError, match='metadata|provenance|statistics'): export_method(m)
+
+
+@pytest.mark.parametrize('key,value', [
+    ('raw_history', [[1, 2]]*20),
+    ('mean', [1.]*10000),
+    ('mean', [[1.], [2.]]),
+    ('mean', [1., float('nan')]),
+    ('mean', [True, 2.]),
+    ('coordinate_variance', [-1., 1.]),
+    ('constant_coordinates', [0, 1]),
+    ('class_distribution', [0.5, 0.5]),
+    ('scale', float('inf')),
+    ('count', 2**1000),
+])
+def test_closed_task_summaries_reject_unknown_or_oversized_nested_payloads(key, value):
+    from famjet.eval.isolation import export_method
+    m = fitted_model()
+    m.target_statistics['tasks']['mean'][key] = value
+    from famjet.provenance import canonical_hash
+    try:
+        m.fit_provenance['target_hash'] = canonical_hash(m.target_statistics)
+    except ValueError:  # NaN/inf cannot have a valid canonical hash.
+        pass
+    with pytest.raises(ValueError, match='metadata|provenance|statistics'): export_method(m)
+
+
+@pytest.mark.parametrize('location', ['provenance', 'statistics', 'task', 'inference', 'oversized_mean'])
+def test_numeric_wire_reconstruction_rejects_hidden_metadata(location):
+    from famjet.eval.isolation import export_method, _reconstruct
+    m = fitted_model(); wire = export_method(m)
+    if location == 'provenance':
+        wire['schema']['fit_provenance']['raw_history'] = events().values.tolist()
+    elif location == 'statistics':
+        wire['schema']['target_statistics']['raw_history'] = events().values.tolist()
+    elif location == 'task':
+        wire['schema']['target_statistics']['tasks']['invented'] = {'raw_history': [1.]}
+    elif location == 'oversized_mean':
+        wire['schema']['target_statistics']['tasks']['mean']['mean'] = [1.]*10000
+    else:
+        wire['schema'].setdefault('inference_config', {})['confirmation'] = {'metrics': [1.]*10000}
+    from famjet.provenance import canonical_hash
+    wire['schema']['fit_provenance']['target_hash'] = canonical_hash(wire['schema']['target_statistics'])
+    with pytest.raises(ValueError, match='schema|metadata|provenance|statistics|inference'):
+        _reconstruct(wire)
+
+
+@pytest.mark.parametrize('payload', [
+    {'raw_history': [[1., 2.]]*100},
+    {'schema_version': True, 'writer': 'fixed', 'rate_mode': 'fixed'},
+    {'schema_version': 1, 'writer': 'fixed', 'rate_mode': {'history': [1.]}},
+])
+@pytest.mark.parametrize('operation', ['export', 'reconstruct', 'ledger'])
+def test_inference_config_is_closed_at_every_boundary(payload, operation):
+    from famjet.eval.isolation import export_method, _reconstruct
+    from famjet.eval.budgets import model_ledger
+    m = model()
+    if operation == 'reconstruct':
+        wire = export_method(m); wire['schema']['inference_config'] = payload
+        call = lambda: _reconstruct(wire)
+    else:
+        m.inference_config = payload
+        call = lambda: (export_method(m) if operation == 'export' else model_ledger(m))
+    with pytest.raises(ValueError, match='schema|metadata|inference'): call()
+
+
+@pytest.mark.parametrize('status', ['constant_numeric', 'unsupported_numeric', 'binary'])
+def test_closed_fitted_metadata_roundtrips_all_training_statuses(status):
+    from famjet.eval.isolation import export_method, _reconstruct, isolated_read
+    m = model(); e = events(); q = queries(e, [[8], [7]])
+    labels = torch.ones(2, 1, 2, dtype=torch.float64)
+    supported = torch.zeros(2, 1, dtype=torch.bool) if status == 'unsupported_numeric' else torch.ones(2, 1, dtype=torch.bool)
+    if status == 'binary':
+        q = replace(q, tasks=(('presence',), ('presence',)))
+        labels = torch.tensor([[[0.]], [[1.]]], dtype=torch.float64)
+        supported = torch.zeros(2, 1, dtype=torch.bool)
+    m.fit_statistics([Episode(e, q, labels, supported, {'split': 'training'})])
+    wire = export_method(m); restored = _reconstruct(wire)
+    assert restored.target_statistics == m.target_statistics
+    assert restored.fit_provenance == m.fit_provenance
+    state = m.encode(e)
+    torch.testing.assert_close(m.read(state, q).prediction, isolated_read(m, state, q).prediction)
+    # Validated wire metadata owns its copies rather than mutating fitted state.
+    wire['schema']['fit_provenance']['history_count'] += 1
+    assert m.fit_provenance['history_count'] == 2
+
+
+def test_reader_budget_cannot_hide_oversized_scalar_history_from_ledger():
+    from famjet.eval.budgets import model_ledger
+    m = model()
+    m.reader.schema['budget']['max_parameters'] = 2**1000
+    with pytest.raises(ValueError, match='budget|schema|metadata'): model_ledger(m)

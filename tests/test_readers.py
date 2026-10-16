@@ -90,3 +90,14 @@ def test_derived_sign_does_not_allocate_an_unused_task_column():
     task_columns = x[0, :, 3:-2]
     assert task_columns.shape == (7, 7)
     assert torch.equal(task_columns.sum(0), torch.ones(7, dtype=task_columns.dtype))
+
+
+@pytest.mark.parametrize('kind,budget', [
+    ('fixed_scale:'+'0'*1000, dict(width=8, hidden_layers=2)),
+    ('structured', dict(width=8, hidden_layers=2, max_parameters=2**1000)),
+    ('structured', dict(width=8, hidden_layers=2, max_macs=2**1000)),
+])
+def test_reader_schema_rejects_oversized_inactive_metadata(kind, budget):
+    _, make = api()
+    with pytest.raises(ValueError, match='anchor|budget|schema'):
+        make(kind, dict(family='jet', anchors=2, key_dim=3, value_dim=2), dict(key_dim=3), budget)

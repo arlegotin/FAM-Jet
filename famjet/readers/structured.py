@@ -13,12 +13,16 @@ KINDS = {'structured', 'generic_contracted', 'generic_full', 'fixed_scale',
 def fixed_anchor(kind):
     if kind == 'fixed_scale':
         return 0
-    if kind.startswith('fixed_scale:') and kind.split(':')[1].isdigit():
-        return int(kind.split(':')[1])
+    if type(kind) is str and kind.startswith('fixed_scale:') and len(kind) <= 31:
+        suffix = kind.removeprefix('fixed_scale:')
+        if suffix.isascii() and suffix.isdigit() and suffix == str(int(suffix)):
+            return int(suffix)
     raise ValueError('invalid fixed-scale anchor')
 
 
 def input_width(kind, feature_spec, query_spec):
+    if type(kind) is not str or type(feature_spec) is not dict or type(query_spec) is not dict:
+        raise ValueError('invalid reader schema')
     selected_anchor = fixed_anchor(kind) if kind.startswith('fixed_scale') else None
     kind = 'fixed_scale' if selected_anchor is not None else kind
     if kind not in KINDS:
@@ -26,7 +30,7 @@ def input_width(kind, feature_spec, query_spec):
     if set(feature_spec) != {'family', 'anchors', 'key_dim', 'value_dim'} or set(query_spec) != {'key_dim'}:
         raise ValueError('invalid reader feature/query schema')
     family, j, k, v = (feature_spec[n] for n in ('family', 'anchors', 'key_dim', 'value_dim'))
-    if family not in {'jet', 'bank'} or any(type(x) is not int or x <= 0 for x in (j, k, v)) or query_spec['key_dim'] != k:
+    if type(family) is not str or family not in {'jet', 'bank'} or any(type(x) is not int or not 0 < x <= 2**63-1 for x in (j, k, v)) or type(query_spec['key_dim']) is not int or query_spec['key_dim'] != k:
         raise ValueError('invalid reader dimensions/family')
     if selected_anchor is not None and selected_anchor >= j:
         raise ValueError('fixed-scale anchor outside retained rates')
@@ -40,19 +44,29 @@ def input_width(kind, feature_spec, query_spec):
     return widths[kind] + k + len(QUERY_TASK_ORDER) + 2
 
 
+def validate_reader_schema(schema):
+    if type(schema) is not dict or set(schema) != {'kind', 'feature_spec', 'query_spec', 'budget'}:
+        raise ValueError('invalid reader schema')
+    dim = input_width(schema['kind'], schema['feature_spec'], schema['query_spec'])
+    budget = schema['budget']
+    if type(budget) is not dict or set(budget) - {'width', 'hidden_layers', 'rank', 'max_parameters', 'max_macs'} or not {'width', 'hidden_layers'} <= set(budget):
+        raise ValueError('invalid reader budget')
+    for name, value in budget.items():
+        minimum = 0 if name == 'hidden_layers' else 1
+        if type(value) is not int or not minimum <= value <= 2**63-1:
+            raise ValueError('invalid reader budget')
+    return dim
+
+
 def make_reader(kind: str, feature_spec: dict, query_spec: dict, budget: dict):
     """Budget selects an actual first-layer rank; never adds dummy weights.
 
     max_parameters/max_macs are optional ceilings. rank, if supplied, is exact.
     Schemas and the chosen rank survive strict numeric inference reconstruction.
     """
-    if set(budget) - {'width', 'hidden_layers', 'rank', 'max_parameters', 'max_macs'} or not {'width', 'hidden_layers'} <= set(budget):
-        raise ValueError('invalid reader budget')
-    dim = input_width(kind, feature_spec, query_spec)
+    schema = dict(kind=kind, feature_spec=feature_spec, query_spec=query_spec, budget=budget)
+    dim = validate_reader_schema(schema)
     width, layers = budget['width'], budget['hidden_layers']
-    for name in ('max_parameters', 'max_macs', 'rank'):
-        if name in budget and (type(budget[name]) is not int or budget[name] <= 0):
-            raise ValueError('invalid reader budget')
     schema = dict(kind=kind, feature_spec=dict(feature_spec), query_spec=dict(query_spec), budget=dict(budget))
     ranks = [budget['rank']] if 'rank' in budget else [None]
     if 'rank' not in budget and kind == 'generic_full' and layers:

@@ -4,7 +4,7 @@ Fixed writers preserve raw public keys, values and auxiliary gates (default1).
 Learned maps are event-local, rate-independent and preserve state dimensions.
 Task12 owns optimizers/run lifecycle; Task17 owns failure-complete scoring.
 """
-from dataclasses import asdict, replace
+from dataclasses import replace
 import math
 import statistics
 import torch
@@ -16,8 +16,9 @@ from famjet.eval.oracle import BINARY_TASKS, CATEGORICAL_TASKS, exact_time_diffe
 from famjet.memory.jet import JetMemory
 from famjet.memory.expbank import ExpBankMemory
 from famjet.provenance import canonical_hash
-from famjet.readers.structured import TASK_ORDER, memory_inputs, query_inputs, input_width
+from famjet.readers.structured import TASK_ORDER, memory_inputs, query_inputs, input_width, validate_reader_schema
 from famjet.types import FeatureBatch, ReadResult
+from famjet.models._schema import inference_config, training_metadata
 
 
 class CausalWriter(nn.Module):
@@ -45,7 +46,6 @@ class CausalWriter(nn.Module):
 
 class TaskModel(nn.Module):
     def __init__(self, kernel: nn.Module, reader: nn.Module, config: RunConfig, *, _frozen_rates=False):
-        super().__init__()
         if type(kernel) not in (JetMemory, ExpBankMemory):
             raise ValueError('TaskModel requires registered jet or bank kernel')
         family = 'jet' if type(kernel) is JetMemory else 'bank'
@@ -54,12 +54,6 @@ class TaskModel(nn.Module):
             raise ValueError('kernel/config dimensions or family mismatch')
         if str(kernel.rates.dtype).split('.')[-1] != m.precision:
             raise ValueError('kernel/config precision mismatch')
-        learned = hasattr(kernel, 'rate_source')
-        if type(_frozen_rates) is not bool or (_frozen_rates and (m.rates.mode != 'learned' or learned)):
-            raise ValueError('invalid inference frozen-rate marker')
-        if not _frozen_rates and learned != (m.rates.mode == 'learned'):
-            raise ValueError('kernel/config rate mode mismatch')
-        self._frozen_rates = _frozen_rates
         if m.interpolation or m.probes != 1 or m.reader.activation != 'silu':
             raise ValueError('unsupported TaskModel interpolation/probes/activation')
         expected = dict(family=family, anchors=m.J, key_dim=m.K, value_dim=d.value_dim)
@@ -71,14 +65,51 @@ class TaskModel(nn.Module):
             raise ValueError('reader input width mismatch')
         if kernel.eps != m.epsilon or kernel.support_floor != m.numerical_support_floor:
             raise ValueError('kernel/config support policy mismatch')
-        self.config = asdict(config)
+        self._initialize(kernel, reader, {'schema_version': 1, 'writer': m.writer,
+                         'rate_mode': m.rates.mode}, _frozen_rates)
+
+    @classmethod
+    def _from_inference(cls, kernel, reader, schema, *, _frozen_rates=False):
+        """Strict worker construction without inventing/retaining a RunConfig."""
+        model = cls.__new__(cls)
+        model._initialize(kernel, reader, schema, _frozen_rates)
+        return model
+
+    def _initialize(self, kernel, reader, schema, frozen_rates):
+        nn.Module.__init__(self)
+        self.inference_config = inference_config(schema)
+        if type(kernel) not in (JetMemory, ExpBankMemory):
+            raise ValueError('TaskModel requires registered jet or bank kernel')
+        from famjet.readers.mlp import NumericReader
+        if type(reader) is not NumericReader or reader.schema is None:
+            raise ValueError('TaskModel requires registered reader schema')
+        validate_reader_schema(reader.schema)
+        expected = dict(family='jet' if type(kernel) is JetMemory else 'bank',
+                        anchors=kernel.rates.numel(), key_dim=kernel.key_dim, value_dim=kernel.value_dim)
+        if reader.schema['feature_spec'] != expected or input_width(reader.schema['kind'], expected,
+                reader.schema['query_spec']) != reader.input_dim:
+            raise ValueError('reader/kernel schema mismatch')
+        learned = hasattr(kernel, 'rate_source')
+        mode = self.inference_config['rate_mode']
+        if type(frozen_rates) is not bool or (frozen_rates and (mode != 'learned' or learned)):
+            raise ValueError('invalid inference frozen-rate marker')
+        if not frozen_rates and learned != (mode == 'learned'):
+            raise ValueError('kernel/config rate mode mismatch')
+        self._frozen_rates = frozen_rates
         self.kernel, self.reader = kernel, reader
-        self.writer = CausalWriter(m.K, d.value_dim).to(kernel.rates) if m.writer == 'learned' else None
-        self.query_map = nn.Linear(m.K, m.K).to(kernel.rates) if m.writer == 'learned' else None
+        learned_writer = self.inference_config['writer'] == 'learned'
+        self.writer = CausalWriter(kernel.key_dim, kernel.value_dim).to(kernel.rates) if learned_writer else None
+        self.query_map = nn.Linear(kernel.key_dim, kernel.key_dim).to(kernel.rates) if learned_writer else None
         self.fit_provenance = None
         self.target_statistics = None
-        self.register_buffer('target_mean', kernel.rates.new_zeros((len(TASK_ORDER), d.value_dim)))
+        self.register_buffer('target_mean', kernel.rates.new_zeros((len(TASK_ORDER), kernel.value_dim)))
         self.register_buffer('target_scale', kernel.rates.new_ones((len(TASK_ORDER), 1)))
+
+    def validate_metadata(self):
+        """Called by static export and direct ledger inspection, before copying."""
+        inference_config(self.inference_config)
+        validate_reader_schema(self.reader.schema)
+        return training_metadata(self.fit_provenance, self.target_statistics, self.kernel.value_dim)
 
     def _parameter_hash(self):
         if self.writer is None:
@@ -249,6 +280,12 @@ class TaskModel(nn.Module):
                     target_scale[index].fill_(record['scale'] or 1.)
         finally:
             self.kernel.t_ref = previous
+        provenance = {'split': 'training',
+            'history_identity_hash': canonical_hash([h for ep in episodes for h in ep.events.history_ids]),
+            'history_count': sum(len(ep.events.history_ids) for ep in episodes),
+            't_ref': reference, 'reference_source': 'median_positive_training_gap' if gaps else 'explicit_duration',
+            'feature_rows': x.shape[0], 'writer_hash': self._parameter_hash(), 'target_hash': canonical_hash(targets)}
+        provenance, targets = training_metadata(provenance, targets, self.kernel.value_dim)
         with torch.no_grad():
             self.reader.feature_mean.copy_(mean)
             self.reader.feature_scale.copy_(scale)
@@ -256,8 +293,4 @@ class TaskModel(nn.Module):
             self.target_scale.copy_(target_scale)
         self.kernel.t_ref = reference
         self.target_statistics = targets
-        self.fit_provenance = {'split': 'training',
-            'history_identity_hash': canonical_hash([h for ep in episodes for h in ep.events.history_ids]),
-            'history_count': sum(len(ep.events.history_ids) for ep in episodes),
-            't_ref': reference, 'reference_source': 'median_positive_training_gap' if gaps else 'explicit_duration',
-            'feature_rows': x.shape[0], 'writer_hash': self._parameter_hash(), 'target_hash': canonical_hash(targets)}
+        self.fit_provenance = provenance
