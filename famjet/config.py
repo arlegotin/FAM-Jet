@@ -77,6 +77,18 @@ class MultiscaleConfig:
 
 
 @dataclass(frozen=True)
+class DeltaConfig:
+    dim: int
+    head_key_dim: int
+    head_value_dim: int
+    variant: str = 'gdn2'
+    conv_length: int = 4
+    decay_policy: str = 'raw_per_observed_event'
+    erase_policy: str = 'raw_paper'
+    allow_neg_eigval: bool = False
+
+
+@dataclass(frozen=True)
 class ModelConfig:
     method: str
     heads: int
@@ -94,6 +106,7 @@ class ModelConfig:
     probes: int
     polynomial: PolynomialConfig | None = None
     multiscale: MultiscaleConfig | None = None
+    delta: DeltaConfig | None = None
 
 
 @dataclass(frozen=True)
@@ -289,7 +302,16 @@ def validate_config(config: RunConfig) -> None:
         raise ValueError('model.K must equal data.key_dim')
     if m.precision not in {'float32', 'float64'}:
         raise ValueError('precision requires float32 or float64; frontier needs registration')
-    if m.method == 'multiscale':
+    if m.method != 'delta' and (m.delta is not None or m.writer == 'native_delta'):
+        raise ValueError('native delta allocation/writer requires delta family')
+    if m.method == 'delta':
+        if any(x is not None for x in (m.J,m.rates,m.polynomial,m.multiscale)) or m.delta is None:
+            raise ValueError('delta requires typed allocation and null J/rates/polynomial/multiscale')
+        from famjet.memory.delta import validate_delta
+        validate_delta(heads=m.heads,**asdict(m.delta))
+        if m.writer != 'native_delta' or m.reader.kind != 'delta_mixer' or m.encode != 'stream':
+            raise ValueError('delta requires native_delta writer, delta_mixer reader and stream recompute')
+    elif m.method == 'multiscale':
         if m.J is not None or m.rates is not None or m.polynomial is not None or m.multiscale is None:
             raise ValueError('multiscale requires typed allocation and explicit null J/rates/polynomial')
         from famjet.memory.multiscale import validate_system
@@ -321,7 +343,7 @@ def validate_config(config: RunConfig) -> None:
         low, high = m.rates.bounds
         if not 0 < low <= high:
             raise ValueError('rate bounds must be positive and ordered')
-    if m.writer not in {'fixed', 'learned'} or m.encode not in {'terminal', 'stream'}:
+    if m.writer not in {'fixed', 'learned', 'native_delta'} or m.encode not in {'terminal', 'stream'}:
         raise ValueError('unknown writer/encode mode')
     if not m.method or not m.reader.kind or m.reader.activation not in {'silu', 'relu', 'gelu', 'tanh'}:
         raise ValueError('method/reader/activation required')
@@ -393,7 +415,7 @@ def save_resolved_config(path: Path, config: RunConfig) -> None:
 
 
 def config_documents_equal(left, right):
-    """After seal checks, permit ONLY known absent/default-null polynomial/multiscale additions.
+    """After seal checks, permit ONLY known absent/default-null polynomial/multiscale/delta additions.
 
     Parsing validates both complete schemas. No generic missing/null stripping,
     unknown fields, scientific changes or original seal/hash rewrite is allowed.
@@ -405,4 +427,5 @@ def config_documents_equal(left, right):
     for document in (left, right):
         document['model'].setdefault('polynomial', None)
         document['model'].setdefault('multiscale', None)
+        document['model'].setdefault('delta', None)
     return canonical_json(left) == canonical_json(right)

@@ -1,0 +1,27 @@
+..s...s..s...........sss........s....delta_task_gradient cpu kernel.q_conv pointwise_ratio=0.00155995111 norm_ratio=0.00247243353
+delta_task_gradient cpu kernel.k_conv pointwise_ratio=0.00168088229 norm_ratio=0.0032565409
+delta_task_gradient cpu kernel.v_conv pointwise_ratio=0.00299497966 norm_ratio=0.00505371545
+delta_task_gradient cpu kernel.A_log pointwise_ratio=2.27124967e-05 norm_ratio=2.27124967e-05
+delta_task_gradient cpu kernel.dt_bias pointwise_ratio=9.81280004e-05 norm_ratio=0.000108778924
+delta_task_gradient cpu kernel.norm_scale pointwise_ratio=0.000685273226 norm_ratio=0.00110441766
+delta_task_gradient cpu kernel.event_adapter.weight pointwise_ratio=0.0149162245 norm_ratio=0.0313040262
+delta_task_gradient cpu kernel.query_adapter.weight pointwise_ratio=0.0313925018 norm_ratio=0.0406444527
+delta_task_gradient cpu kernel.q_proj.weight pointwise_ratio=0.00487207825 norm_ratio=0.0097845679
+delta_task_gradient cpu kernel.k_proj.weight pointwise_ratio=0.00394196451 norm_ratio=0.00701349716
+delta_task_gradient cpu kernel.v_proj.weight pointwise_ratio=0.026178073 norm_ratio=0.031038586
+delta_task_gradient cpu kernel.decay_in.weight pointwise_ratio=4.29629372e-06 norm_ratio=7.37768207e-06
+delta_task_gradient cpu kernel.decay_out.weight pointwise_ratio=3.5523406e-06 norm_ratio=4.94132795e-06
+delta_task_gradient cpu kernel.erase.weight pointwise_ratio=1.80290764e-05 norm_ratio=4.45312903e-05
+delta_task_gradient cpu kernel.write.weight pointwise_ratio=0.000187421309 norm_ratio=0.00036904348
+delta_task_gradient cpu kernel.output_gate_in.weight pointwise_ratio=0.0240055354 norm_ratio=0.0303167902
+delta_task_gradient cpu kernel.output_gate_out.weight pointwise_ratio=0.0248802213 norm_ratio=0.0237617347
+delta_task_gradient cpu kernel.output_gate_out.bias pointwise_ratio=0.0740562801 norm_ratio=0.0440420909
+delta_task_gradient cpu kernel.output.weight pointwise_ratio=0.0136988467 norm_ratio=0.0177928209
+delta_task_gradient cpu reader.hidden.0.weight pointwise_ratio=0.00628561371 norm_ratio=0.0122458901
+delta_task_gradient cpu reader.hidden.0.bias pointwise_ratio=0.000812416763 norm_ratio=0.00104301218
+delta_task_gradient cpu reader.hidden.2.weight pointwise_ratio=0.00075341162 norm_ratio=0.00260284139
+delta_task_gradient cpu reader.hidden.2.bias pointwise_ratio=0.00124484755 norm_ratio=0.00188762658
+delta_task_gradient cpu reader.output.weight pointwise_ratio=0.000996495546 norm_ratio=0.00140626583
+delta_task_gradient cpu reader.output.bias pointwise_ratio=0.00289253252 norm_ratio=0.00284320334
+.s
+31 passed, 8 skipped in 2.97s

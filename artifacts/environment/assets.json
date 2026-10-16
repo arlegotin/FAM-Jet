@@ -70,6 +70,21 @@
       "license_path": "LICENSE.md",
       "scope": "source equations independently implemented; no vendored source or model weights",
       "adaptation_ledger": "docs/baseline_adaptations.md"
+    },
+    {
+      "source_record": "R11",
+      "repository": "NVlabs/GatedDeltaNet-2",
+      "commit": "de8476de0fecae08fc16f0bf3154900244c61c73",
+      "paper": "arXiv:2605.22791v1",
+      "path": "lit_gpt/gdn2.py",
+      "git_blob": "4a0199c69b2097d2637bb8714d707bd53e67e91d",
+      "recurrent_blob": "a1f6e9bf949a4d724ead1df6b539e282596a6c60",
+      "guard_chunk_blob": "565e3d31f35e46d754081d45c8b3672c8e466e66",
+      "license": "NVIDIA Source Code License-NC",
+      "license_path": "LICENSE",
+      "license_blob": "d50677fec39f78e04515c615d30ad16741f8a29c",
+      "scope": "independent ordinary-tensor equations; no vendored source/models; research/evaluation source restrictions visible; no legal-clearance claim",
+      "adaptation_ledger": "docs/baseline_adaptations.md"
     }
   ]
 }

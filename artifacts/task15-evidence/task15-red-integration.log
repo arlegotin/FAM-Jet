@@ -1,0 +1,104 @@
+..s...s..sFFFFF                                                          [100%]
+=================================== FAILURES ===================================
+_____ test_task_registration_static_export_and_real_tied_parameters[gdn2] ______
+
+variant = 'gdn2'
+
+    @pytest.mark.parametrize('variant',['gdn2','kda','gdn'])
+    def test_task_registration_static_export_and_real_tied_parameters(variant):
+        from famjet.train import make_model
+        from famjet.eval.isolation import export_method,_reconstruct
+>       m=make_model(delta_config(variant=variant))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_delta.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+device = 'cpu', variant = 'gdn2', erase_policy = 'raw_paper'
+
+    def delta_config(device='cpu',variant='gdn2',erase_policy='raw_paper'):
+        from pathlib import Path
+>       from famjet.config import load_config, DeltaConfig
+E       ImportError: cannot import name 'DeltaConfig' from 'famjet.config' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/config.py)
+
+tests/test_delta.py:97: ImportError
+______ test_task_registration_static_export_and_real_tied_parameters[kda] ______
+
+variant = 'kda'
+
+    @pytest.mark.parametrize('variant',['gdn2','kda','gdn'])
+    def test_task_registration_static_export_and_real_tied_parameters(variant):
+        from famjet.train import make_model
+        from famjet.eval.isolation import export_method,_reconstruct
+>       m=make_model(delta_config(variant=variant))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_delta.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+device = 'cpu', variant = 'kda', erase_policy = 'raw_paper'
+
+    def delta_config(device='cpu',variant='gdn2',erase_policy='raw_paper'):
+        from pathlib import Path
+>       from famjet.config import load_config, DeltaConfig
+E       ImportError: cannot import name 'DeltaConfig' from 'famjet.config' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/config.py)
+
+tests/test_delta.py:97: ImportError
+______ test_task_registration_static_export_and_real_tied_parameters[gdn] ______
+
+variant = 'gdn'
+
+    @pytest.mark.parametrize('variant',['gdn2','kda','gdn'])
+    def test_task_registration_static_export_and_real_tied_parameters(variant):
+        from famjet.train import make_model
+        from famjet.eval.isolation import export_method,_reconstruct
+>       m=make_model(delta_config(variant=variant))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_delta.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+device = 'cpu', variant = 'gdn', erase_policy = 'raw_paper'
+
+    def delta_config(device='cpu',variant='gdn2',erase_policy='raw_paper'):
+        from pathlib import Path
+>       from famjet.config import load_config, DeltaConfig
+E       ImportError: cannot import name 'DeltaConfig' from 'famjet.config' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/config.py)
+
+tests/test_delta.py:97: ImportError
+_________________ test_fit_reference_hash_and_atomic_rollback __________________
+
+    def test_fit_reference_hash_and_atomic_rollback():
+        from famjet.train import make_model
+        from famjet.types import Episode
+        from famjet.eval.isolation import model_identity
+>       m=make_model(delta_config())
+                     ^^^^^^^^^^^^^^
+
+tests/test_delta.py:127: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+device = 'cpu', variant = 'gdn2', erase_policy = 'raw_paper'
+
+    def delta_config(device='cpu',variant='gdn2',erase_policy='raw_paper'):
+        from pathlib import Path
+>       from famjet.config import load_config, DeltaConfig
+E       ImportError: cannot import name 'DeltaConfig' from 'famjet.config' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/config.py)
+
+tests/test_delta.py:97: ImportError
+______________ test_optimizer_no_decay_and_exact_training_resume _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3980/test_optimizer_no_decay_and_ex0')
+
+    def test_optimizer_no_decay_and_exact_training_resume(tmp_path):
+>       from famjet.train import make_model,make_optimizer,train_model
+E       ImportError: cannot import name 'make_optimizer' from 'famjet.train' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/train.py)
+
+tests/test_delta.py:139: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_delta.py::test_task_registration_static_export_and_real_tied_parameters[gdn2]
+FAILED tests/test_delta.py::test_task_registration_static_export_and_real_tied_parameters[kda]
+FAILED tests/test_delta.py::test_task_registration_static_export_and_real_tied_parameters[gdn]
+FAILED tests/test_delta.py::test_fit_reference_hash_and_atomic_rollback - Imp...
+FAILED tests/test_delta.py::test_optimizer_no_decay_and_exact_training_resume
+5 failed, 7 passed, 3 skipped in 3.37s

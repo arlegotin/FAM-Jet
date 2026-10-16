@@ -24,6 +24,7 @@ from famjet.memory._fixed_writer import _digest_tensor
 from famjet.memory.exact_store import PackedHistoryMemory
 from famjet.memory.reservoir import ReservoirMemory, HybridMemory
 from famjet.memory.buckets import TemporalBucketsMemory
+from famjet.memory.delta import DeltaMixer
 from famjet.memory.jet import JetMemory
 from famjet.memory.hippo import PolynomialMemory
 from famjet.memory.multiscale import MultiscaleMemory
@@ -38,7 +39,7 @@ from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapsho
 
 REGISTRY_VERSION = 2
 _REGISTRY = {'packed': PackedHistoryMemory, 'reservoir': ReservoirMemory, 'hybrid': HybridMemory,
-             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory, 'multiscale': MultiscaleMemory}
+             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory, 'multiscale': MultiscaleMemory, 'delta': DeltaMixer}
 _ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -116,6 +117,22 @@ def _reconstruct(spec, *, freeze_rates=False):
                          and bool(torch.isfinite(source).all()), 'invalid task weight shape/dtype/value')
                 destination.copy_(source)
         return method
+    if kind == 'delta':
+        from famjet.memory.delta import validate_delta_weights
+        validate_delta_weights(schema,spec['weights'])
+        with torch.random.fork_rng(devices=[]):
+            method=DeltaMixer(**{**schema,'dtype':getattr(torch,schema['dtype'])})
+        expected=method.state_dict()
+        _require(set(expected)==set(spec['weights']),'invalid delta weights')
+        with torch.no_grad():
+            for name,destination in expected.items():
+                record=spec['weights'][name]
+                _require(type(record) is dict and record.get('shape')==list(destination.shape)
+                         and record.get('dtype')==schema['dtype'],'invalid delta weight layout')
+                source=tensor_from_record(record)
+                _require(bool(torch.isfinite(source).all()),'invalid delta weight values')
+                destination.copy_(source)
+        return method
     if kind == 'multiscale':
         _require(set(schema) == {'order','scale_order','epsilon','tau0','key_dim','value_dim',
                                 'declared_gaps','cache_limit_bytes','t_ref','chunk_size','dtype'}, 'invalid multiscale schema')
@@ -167,6 +184,10 @@ def export_method(method):
                       fit_provenance=provenance, target_statistics=statistics,
                       frozen_rates=method._frozen_rates)
         weights = {k: tensor_record(v) for k, v in method.state_dict().items() if not k.startswith('kernel.')}
+    elif kind == 'delta':
+        schema={k:getattr(method,k) for k in DeltaMixer.schema_fields}
+        schema['dtype']=str(method.reference_tensor.dtype).removeprefix('torch.')
+        weights={k:tensor_record(v) for k,v in method.state_dict().items()}
     elif kind == 'multiscale':
         schema = {k:getattr(method,k) for k in ('order','scale_order','epsilon','tau0','key_dim','value_dim',
                                              'declared_gaps','cache_limit_bytes','t_ref','chunk_size')}

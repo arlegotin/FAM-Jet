@@ -105,7 +105,17 @@ def _pack_times(values):
 
 
 class SnapshotMemory(nn.Module):
-    """Common H=1 shared-normalization snapshot/stream ownership contract."""
+    """Shared stream ownership; default H=1 shapes, explicit family metadata hooks."""
+    def _payload_shapes(self, batch_size):
+        return {name: (batch_size, 1, self.coefficient_count, self.key_dim, self.value_dim+1)
+                for name in self._state_keys}
+
+    def _extra_metadata(self, batch_size):
+        return {}
+
+    def _check_extra_metadata(self, state):
+        pass
+
     def init_state(self, batch_size: int, *, device: str, dtype: str) -> Snapshot:
         _require(type(batch_size) is int and batch_size > 0, 'batch_size must be positive integer')
         _require(dtype in {'float32', 'float64'}, 'dtype must be float32 or float64')
@@ -115,8 +125,9 @@ class SnapshotMemory(nn.Module):
                  and (requested.index is None or requested.index == self.reference_tensor.device.index)
                  and dt == self.reference_tensor.dtype,
                  'state device/dtype must match module reference tensor')
-        z = torch.zeros(batch_size, 1, self.coefficient_count, self.key_dim, self.value_dim+1, device=device, dtype=dt)
-        return Snapshot({**self._zero_payload(z), 'history_hash': torch.zeros(batch_size, 32, dtype=torch.uint8),
+        core = {name: torch.zeros(shape, device=device, dtype=dt)
+                for name, shape in self._payload_shapes(batch_size).items()}
+        return Snapshot({**core, **self._extra_metadata(batch_size), 'history_hash': torch.zeros(batch_size, 32, dtype=torch.uint8),
                          'time_unit_hash': torch.zeros(32, dtype=torch.uint8),
                          'last_event_id': torch.full((batch_size,), -1, dtype=torch.int64)},
                         torch.zeros(batch_size, dtype=torch.int64), torch.zeros(batch_size, dtype=torch.bool),
@@ -125,12 +136,12 @@ class SnapshotMemory(nn.Module):
     def _check_snapshot(self, state):
         _require(state.schema_version == 1 and state.parameter_hash == self._parameter_hash(),
                  'snapshot schema/parameter hash mismatch')
-        expected = {*self._state_keys, 'history_hash', 'time_unit_hash', 'last_event_id'}
+        expected = {*self._state_keys, *self._extra_metadata(state.last_time.numel()), 'history_hash', 'time_unit_hash', 'last_event_id'}
         _require(set(state.payload) == expected, 'invalid snapshot payload')
         b = state.last_time.numel()
         for name in self._state_keys:
             tensor = state.payload[name]
-            _require(tensor.shape == (b, 1, self.coefficient_count, self.key_dim, self.value_dim+1)
+            _require(tensor.shape == self._payload_shapes(b)[name]
                      and tensor.dtype == self.reference_tensor.dtype and tensor.device == self.reference_tensor.device,
                      'snapshot state layout mismatch')
         for name, tensor, shape, dtypes in [
@@ -144,6 +155,7 @@ class SnapshotMemory(nn.Module):
                      and bool(torch.isfinite(tensor).all()), f'invalid snapshot {name}')
         _require(bool((state.event_offset >= 0).all()), 'invalid snapshot event_offset')
         _check_identity(state)
+        self._check_extra_metadata(state)
 
     def encode(self, events: EventBatch, state: Snapshot | None = None, *, mode='stream') -> Snapshot:
         _require(mode in {'stream', 'terminal'}, 'mode must be stream or terminal')
@@ -173,6 +185,7 @@ class SnapshotMemory(nn.Module):
         core = {name: state.payload[name] for name in self._state_keys}
         for name, tensor in core.items():
             _finite(tensor, f'snapshot.{name}')
+        core.update({name: state.payload[name] for name in self._extra_metadata(b)})
         core = self._encode_core(events, core, gates, times, lengths, last, valid, first_gaps, mode)
         for i, length in enumerate(lengths):
             if length:

@@ -48,18 +48,31 @@ def _preflight_model(context, config):
     try:
         wire=context['model']; schema=wire['schema']; kernel=schema['kernel']
         reader=schema['reader']; validate_reader_schema(reader)
-        count_name='coefficients' if m.method in {'polynomial','multiscale'} else 'anchors'
-        count=m.multiscale.order*m.multiscale.scale_order if m.method=='multiscale' else sum(m.polynomial.orders) if m.method=='polynomial' else m.J
+        count_name='mixer_dim' if m.method=='delta' else 'coefficients' if m.method in {'polynomial','multiscale'} else 'anchors'
+        count=m.delta.dim if m.method=='delta' else m.multiscale.order*m.multiscale.scale_order if m.method=='multiscale' else sum(m.polynomial.orders) if m.method=='polynomial' else m.J
         expected_reader={'kind':m.reader.kind,
             'feature_spec':{'family':m.method,count_name:count,'key_dim':m.K,'value_dim':d.value_dim},
             'query_spec':{'key_dim':m.K},'budget':{'width':m.reader.width,'hidden_layers':m.reader.layers}}
-        if wire['kind'] != 'task' or m.method not in {'jet','bank','polynomial','multiscale'} or kernel['kind'] != m.method or reader != expected_reader:
+        if wire['kind'] != 'task' or m.method not in {'jet','bank','polynomial','multiscale','delta'} or kernel['kind'] != m.method or reader != expected_reader:
             raise ValueError('checkpoint reader/model configuration mismatch')
         if schema['inference_config'] != {'schema_version':1,'writer':m.writer,'rate_mode':'fixed' if m.rates is None else m.rates.mode} or schema['frozen_rates'] is not False:
             raise ValueError('checkpoint training model configuration mismatch')
         ks=kernel['schema']
         if any(type(ks[k]) is not int or ks[k] != value for k,value in [('key_dim',m.K),('value_dim',d.value_dim)]):
             raise ValueError('checkpoint kernel dimensions mismatch')
+        if m.method == 'delta':
+            from dataclasses import asdict
+            from famjet.memory.delta import DeltaMixer, validate_delta, validate_delta_weights
+            if set(ks)!={*DeltaMixer.schema_fields,'dtype'}:
+                raise ValueError('checkpoint delta schema mismatch')
+            if any(ks[k]!=v or type(ks[k]) is not type(v) for k,v in asdict(m.delta).items()):
+                raise ValueError('checkpoint delta allocation mismatch')
+            if (type(ks['heads']) is not int or ks['heads']!=m.heads or ks['dtype']!=m.precision
+                    or type(ks['t_ref']) not in (float,int) or not math.isfinite(ks['t_ref']) or ks['t_ref']<=0):
+                raise ValueError('checkpoint delta construction mismatch')
+            validate_delta(heads=m.heads,**asdict(m.delta))
+            validate_delta_weights(ks,kernel['weights'])
+            return
         if m.method == 'multiscale':
             from famjet.memory.multiscale import validate_system
             from famjet.memory.hippo import validate_allocation
@@ -153,23 +166,26 @@ def _validate(context):
     model=model.to(config.resources.device)
     if model._parameter_hash() != context['writer_hash']:
         raise ValueError('checkpoint writer/rate mismatch')
-    optimizer=torch.optim.AdamW(model.parameters(),lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
+    from famjet.train import make_optimizer, optimizer_named_groups
+    optimizer=make_optimizer(model,config)
     original=optimizer.state_dict()['param_groups']
     raw=context['optimizer']
     if type(raw) is not dict or set(raw) != {'state','param_groups'}:
         raise ValueError('checkpoint optimizer schema/cache mismatch')
     groups=raw['param_groups']
-    if (type(groups) is not list or len(groups) != 1 or type(groups[0]) is not dict
-            or type(groups[0].get('params')) is not list
-            or any(type(i) is not int for i in groups[0]['params']) or groups != original):
+    if (type(groups) is not list or len(groups)!=len(original)
+            or any(type(g) is not dict or type(g.get('params')) is not list
+                   or any(type(i) is not int for i in g['params']) for g in groups)
+            or groups != original):
         raise ValueError('checkpoint optimizer hyperparameter/group mismatch')
-    # Validate the serialized mapping before load_state_dict can cast moment
-    # dtypes or reinterpret IDs. Registration order fixes ID -> parameter/name.
-    parameters=dict(zip(original[0]['params'],model.named_parameters()))
+    # Validate raw IDs/moments before load_state_dict can cast or reinterpret.
+    parameters={i:pair for group,named in zip(original,optimizer_named_groups(model))
+                for i,pair in zip(group['params'],named)}
     states=raw['state']
     if type(states) is not dict or any(type(i) is not int or i not in parameters for i in states):
         raise ValueError('checkpoint optimizer parameter ID mismatch')
-    names=[name for i,(name,_) in parameters.items() if i in states]
+    active_names={name for i,(name,_) in parameters.items() if i in states}
+    names=[name for name,_ in model.named_parameters() if name in active_names]
     if type(context['optimizer_active_parameters']) is not list or names != context['optimizer_active_parameters']:
         raise ValueError('checkpoint incomplete optimizer state')
     for i,state in states.items():

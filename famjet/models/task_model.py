@@ -4,7 +4,7 @@ Fixed writers preserve raw public keys, values and auxiliary gates (default1).
 Learned maps are event-local, rate-independent and preserve state dimensions.
 Task12 owns optimizers/run lifecycle; Task17 owns failure-complete scoring.
 """
-from dataclasses import replace
+from dataclasses import asdict, replace
 import math
 import statistics
 import torch
@@ -13,6 +13,7 @@ from famjet.config import RunConfig
 from famjet.data.schema import validate_events, validate_queries
 from famjet.eval.metrics import fit_target_statistics
 from famjet.eval.oracle import BINARY_TASKS, CATEGORICAL_TASKS, exact_time_difference
+from famjet.memory.delta import DeltaMixer
 from famjet.memory.jet import JetMemory
 from famjet.memory.hippo import PolynomialMemory
 from famjet.memory.multiscale import MultiscaleMemory
@@ -48,17 +49,20 @@ class CausalWriter(nn.Module):
 
 class TaskModel(nn.Module):
     def __init__(self, kernel: nn.Module, reader: nn.Module, config: RunConfig, *, _frozen_rates=False):
-        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory, MultiscaleMemory):
+        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory, MultiscaleMemory, DeltaMixer):
             raise ValueError('TaskModel requires registered memory kernel')
         family = kernel.reader_feature_spec['family']
         m, d = config.model, config.data
-        if m.method != family or m.heads != 1 or m.K != kernel.key_dim or d.value_dim != kernel.value_dim:
+        if m.method != family or m.heads != (kernel.heads if family=='delta' else 1) or m.K != kernel.key_dim or d.value_dim != kernel.value_dim:
             raise ValueError('kernel/config dimensions or family mismatch')
         if str(kernel.reference_tensor.dtype).split('.')[-1] != m.precision:
             raise ValueError('kernel/config precision mismatch')
         if m.interpolation or m.probes != 1 or m.reader.activation != 'silu':
             raise ValueError('unsupported TaskModel interpolation/probes/activation')
-        if family == 'multiscale':
+        if family == 'delta':
+            if m.writer != 'native_delta' or any(getattr(kernel,k) != v for k,v in asdict(m.delta).items()):
+                raise ValueError('delta allocation/writer mismatch')
+        elif family == 'multiscale':
             if kernel.cache_limit_bytes != config.resources.cache_limit_bytes:
                 raise ValueError('multiscale cache allowance/config mismatch')
             if any(getattr(kernel,k) != getattr(m.multiscale,k) for k in ('order','scale_order','epsilon','tau0','declared_gaps')):
@@ -77,7 +81,7 @@ class TaskModel(nn.Module):
             raise ValueError('reader/config architecture mismatch')
         if input_width(m.reader.kind, expected, dict(key_dim=m.K)) != reader.input_dim:
             raise ValueError('reader input width mismatch')
-        if family not in {'polynomial','multiscale'} and (kernel.eps != m.epsilon or kernel.support_floor != m.numerical_support_floor):
+        if family not in {'polynomial','multiscale','delta'} and (kernel.eps != m.epsilon or kernel.support_floor != m.numerical_support_floor):
             raise ValueError('kernel/config support policy mismatch')
         self._initialize(kernel, reader, {'schema_version': 1, 'writer': m.writer,
                          'rate_mode': 'fixed' if m.rates is None else m.rates.mode}, _frozen_rates)
@@ -92,7 +96,7 @@ class TaskModel(nn.Module):
     def _initialize(self, kernel, reader, schema, frozen_rates):
         nn.Module.__init__(self)
         self.inference_config = inference_config(schema)
-        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory, MultiscaleMemory):
+        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory, MultiscaleMemory, DeltaMixer):
             raise ValueError('TaskModel requires registered memory kernel')
         from famjet.readers.mlp import NumericReader
         if type(reader) is not NumericReader or reader.schema is None:
@@ -102,6 +106,8 @@ class TaskModel(nn.Module):
         if reader.schema['feature_spec'] != expected or input_width(reader.schema['kind'], expected,
                 reader.schema['query_spec']) != reader.input_dim:
             raise ValueError('reader/kernel schema mismatch')
+        if (type(kernel) is DeltaMixer) != (self.inference_config['writer']=='native_delta'):
+            raise ValueError('native delta writer/kernel mismatch')
         learned = hasattr(kernel, 'rate_source')
         mode = self.inference_config['rate_mode']
         if type(frozen_rates) is not bool or (frozen_rates and (mode != 'learned' or learned)):
@@ -293,19 +299,19 @@ class TaskModel(nn.Module):
                     index = TASK_ORDER.index(task)
                     target_mean[index].copy_(target_mean.new_tensor(record['mean']))
                     target_scale[index].fill_(record['scale'] or 1.)
-        finally:
+            provenance = {'split': 'training',
+                'history_identity_hash': canonical_hash([h for ep in episodes for h in ep.events.history_ids]),
+                'history_count': sum(len(ep.events.history_ids) for ep in episodes),
+                't_ref': reference, 'reference_source': 'median_positive_training_gap' if gaps else 'explicit_duration',
+                'feature_rows': x.shape[0], 'writer_hash': self._parameter_hash(), 'target_hash': canonical_hash(targets)}
+            provenance, targets = training_metadata(provenance, targets, self.kernel.value_dim)
+        except Exception:
             self.kernel.t_ref = previous
-        provenance = {'split': 'training',
-            'history_identity_hash': canonical_hash([h for ep in episodes for h in ep.events.history_ids]),
-            'history_count': sum(len(ep.events.history_ids) for ep in episodes),
-            't_ref': reference, 'reference_source': 'median_positive_training_gap' if gaps else 'explicit_duration',
-            'feature_rows': x.shape[0], 'writer_hash': self._parameter_hash(), 'target_hash': canonical_hash(targets)}
-        provenance, targets = training_metadata(provenance, targets, self.kernel.value_dim)
+            raise
         with torch.no_grad():
             self.reader.feature_mean.copy_(mean)
             self.reader.feature_scale.copy_(scale)
             self.target_mean.copy_(target_mean)
             self.target_scale.copy_(target_scale)
-        self.kernel.t_ref = reference
         self.target_statistics = targets
         self.fit_provenance = provenance

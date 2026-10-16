@@ -1,0 +1,82 @@
+[
+  {
+    "control": "native_event_mixer_signed_retention",
+    "step": 0,
+    "heldout_mse": 0.1477363109588623
+  },
+  {
+    "control": "native_event_mixer_signed_retention",
+    "step": 50,
+    "heldout_mse": 0.0017725515644997358
+  },
+  {
+    "control": "native_event_mixer_signed_retention",
+    "step": 100,
+    "heldout_mse": 0.00020561768906190991
+  },
+  {
+    "control": "native_event_mixer_signed_retention",
+    "step": 150,
+    "heldout_mse": 0.0001917663321364671
+  },
+  {
+    "control": "native_event_mixer_signed_retention",
+    "step": 200,
+    "heldout_mse": 5.236673678155057e-05
+  },
+  {
+    "control": "native_event_mixer_signed_retention",
+    "initial": 0.1477363109588623,
+    "final": 5.236673678155057e-05,
+    "seconds": 0.4110817080363631,
+    "steps": 200,
+    "seeds": [
+      1501,
+      1502,
+      1503
+    ],
+    "active_parameters": 349,
+    "adapter_parameters_excluded_from_native_control": 160,
+    "claim": "excluded-episode retention control only; no scientific convergence"
+  },
+  {
+    "control": "deferred_full_window_mean",
+    "step": 0,
+    "heldout_mse": 0.18975648283958435
+  },
+  {
+    "control": "deferred_full_window_mean",
+    "step": 50,
+    "heldout_mse": 0.007429554592818022
+  },
+  {
+    "control": "deferred_full_window_mean",
+    "step": 100,
+    "heldout_mse": 0.0027638238389045
+  },
+  {
+    "control": "deferred_full_window_mean",
+    "step": 150,
+    "heldout_mse": 0.0009262545499950647
+  },
+  {
+    "control": "deferred_full_window_mean",
+    "initial": 0.18975648283958435,
+    "final": 0.0009262545499950647,
+    "seconds": 2.018918541027233,
+    "steps": 150,
+    "seeds": [
+      1504,
+      1505,
+      1506
+    ],
+    "claim": "excluded-history basic learning only; no scientific convergence",
+    "allocated_parameters": 815
+  },
+  {
+    "cpu_rss_highwater_bytes": 316096512,
+    "precision": "float32",
+    "device": "cpu",
+    "scope": "tiny synthetic development controls; fallback0/fastmath0; no protected data"
+  }
+]

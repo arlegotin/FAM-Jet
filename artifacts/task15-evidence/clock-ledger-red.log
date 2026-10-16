@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_observation_clock_ledger_classifies_every_clock_byte ___________
+
+    def test_observation_clock_ledger_classifies_every_clock_byte():
+        from famjet.eval.budgets import state_ledger
+        m=DeltaMixer(3,2); s=m.encode(delta_events(torch.float32)); ledger=state_ledger(s)
+        for name,size in [('first_observed_time',16),('last_observed_time',16),('has_observation',2)]:
+>           assert ledger['metadata']['payload.'+name]==size
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'payload.first_observed_time'
+
+tests/test_delta.py:364: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_delta.py::test_observation_clock_ledger_classifies_every_clock_byte
+1 failed, 35 deselected in 0.57s

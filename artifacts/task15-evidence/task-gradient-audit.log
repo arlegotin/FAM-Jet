@@ -1,0 +1,18 @@
+[
+  {
+    "device": "cpu",
+    "loss_fp32": 0.007641572970896959,
+    "loss_fp64": 0.007641573766096714,
+    "output_pointwise": 0.006453656080005481,
+    "max_parameter_pointwise": 0.0740562800540275,
+    "max_parameter_norm": 0.04404209086416458
+  },
+  {
+    "device": "mps",
+    "loss_fp32": 0.007641574367880821,
+    "loss_fp64": 0.007641573303472121,
+    "output_pointwise": 0.003386897822952259,
+    "max_parameter_pointwise": 0.10786355424572933,
+    "max_parameter_norm": 0.05197142886514681
+  }
+]

@@ -50,7 +50,7 @@ def inference_config(value):
     _keys(value, ('schema_version', 'writer', 'rate_mode'))
     _require(type(value['schema_version']) is int and value['schema_version'] == 1)
     for field in ('writer', 'rate_mode'):
-        _require(type(value[field]) is str and value[field] in {'fixed', 'learned'})
+        _require(type(value[field]) is str and value[field] in ({'fixed','learned','native_delta'} if field=='writer' else {'fixed','learned'}))
     return dict(value)
 
 

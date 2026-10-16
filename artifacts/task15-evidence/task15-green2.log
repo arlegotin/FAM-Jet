@@ -1,0 +1,60 @@
+..s...s..s...FF                                                          [100%]
+=================================== FAILURES ===================================
+_________________ test_fit_reference_hash_and_atomic_rollback __________________
+
+    def test_fit_reference_hash_and_atomic_rollback():
+        from famjet.train import make_model
+        from famjet.types import Episode
+        from famjet.eval.isolation import model_identity
+        m=make_model(delta_config())
+        e=delta_events(torch.float32); q=queries(e,[[8,10],[7,10]])
+        ep=Episode(e,q,torch.ones(2,2,2),torch.ones(2,2,dtype=torch.bool),metadata={'split':'training'})
+        m.fit_statistics([ep])
+>       assert m.kernel.t_ref==2 and m.fit_provenance['writer_hash']==m._parameter_hash()
+E       assert (1.5 == 2)
+E        +  where 1.5 = DeltaMixer(\n  (event_adapter): Linear(in_features=7, out_features=8, bias=False)\n  (query_adapter): Linear(in_features..._out): Linear(in_features=4, out_features=4, bias=True)\n  (output): Linear(in_features=4, out_features=8, bias=False)\n).t_ref
+E        +    where DeltaMixer(\n  (event_adapter): Linear(in_features=7, out_features=8, bias=False)\n  (query_adapter): Linear(in_features..._out): Linear(in_features=4, out_features=4, bias=True)\n  (output): Linear(in_features=4, out_features=8, bias=False)\n) = TaskModel(\n  (kernel): DeltaMixer(\n    (event_adapter): Linear(in_features=7, out_features=8, bias=False)\n    (query_a... Linear(in_features=8, out_features=2, bias=True)\n    (support): Linear(in_features=8, out_features=1, bias=True)\n  )\n).kernel
+
+tests/test_delta.py:131: AssertionError
+______________ test_optimizer_no_decay_and_exact_training_resume _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3981/test_optimizer_no_decay_and_ex0')
+
+    def test_optimizer_no_decay_and_exact_training_resume(tmp_path):
+        from famjet.train import make_model,make_optimizer,train_model
+        from famjet.checkpoint import load_checkpoint
+        c=delta_config(); m=make_model(c); opt=make_optimizer(m,c)
+        assert len(opt.param_groups)==2 and opt.param_groups[1]['weight_decay']==0
+        assert {id(x) for x in opt.param_groups[1]['params']}=={id(m.kernel.A_log),id(m.kernel.dt_bias)}
+>       full=load_checkpoint(train_model(c,tmp_path/'full'),{})
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_delta.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/train.py:286: in train_model
+    fit=move_episode(generate_episode(config,config.seed,'training_preprocessing_v1-000000000000'),config.resources.device)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/data/synthetic.py:300: in generate_episode
+    _check_exploratory(config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='smoke', seed=20261013, data=DataConfig(generator_version='initial_spec_v1', key_fea...boundaries=None, resource_envelopes=None, independent_histories=None, training_replicates=None, multiple_testing=None))
+
+    def _check_exploratory(config):
+        validate_config(config)
+        if config.data.generator_version!=GENERATOR_VERSION:
+            raise ValueError('unsupported generator version')
+        if config.phase in {'pilot','confirmation','replication'} or config.data.generator.namespace in PROTECTED:
+            raise ValueError('protected generation requires a future frozen-manifest runner')
+        d,g=config.data,config.data.generator
+        if d.queries_per_history%2:
+            raise ValueError('balanced populations require an even query count')
+        if d.key_features=='one_hot' and (d.key_dim!=16 or g.key_load!=16):
+>           raise ValueError('one_hot population requires 16 public coordinates/load')
+E           ValueError: one_hot population requires 16 public coordinates/load
+
+famjet/data/synthetic.py:89: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_delta.py::test_fit_reference_hash_and_atomic_rollback - ass...
+FAILED tests/test_delta.py::test_optimizer_no_decay_and_exact_training_resume
+2 failed, 10 passed, 3 skipped in 2.96s

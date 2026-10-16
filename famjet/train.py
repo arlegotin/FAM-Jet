@@ -21,6 +21,7 @@ from famjet.config import RunConfig
 from famjet.data.synthetic import generate_episode
 from famjet.eval.isolation import export_method, source_identity, _reconstruct
 from famjet.eval.oracle import BINARY_TASKS, CATEGORICAL_TASKS
+from famjet.memory.delta import DeltaMixer
 from famjet.memory.jet import JetMemory
 from famjet.memory.hippo import PolynomialMemory
 from famjet.memory.multiscale import MultiscaleMemory
@@ -42,7 +43,9 @@ def make_model(config, policy=None):
     m,d=config.model,config.data
     device=config.resources.device
     if m.precision != 'float32': raise ValueError('training requires FP32')
-    if m.method == 'multiscale':
+    if m.method == 'delta':
+        kernel=DeltaMixer(m.K,d.value_dim,heads=m.heads,**asdict(m.delta),device=device)
+    elif m.method == 'multiscale':
         p=m.multiscale
         kernel=MultiscaleMemory(p.order,p.scale_order,p.epsilon,p.tau0,m.K,d.value_dim,
             declared_gaps=p.declared_gaps,cache_limit_bytes=config.resources.cache_limit_bytes,
@@ -64,6 +67,22 @@ def make_model(config, policy=None):
     reader=make_reader(m.reader.kind,kernel.reader_feature_spec,
         dict(key_dim=m.K),dict(width=m.reader.width,hidden_layers=m.reader.layers)).to(device)
     return TaskModel(kernel,reader,config).to(device)
+
+
+def optimizer_named_groups(model):
+    """Canonical registration order within explicit decay/no-decay groups."""
+    named=list(model.named_parameters())
+    if type(model.kernel) is not DeltaMixer:
+        return [named]
+    excluded={'kernel.A_log','kernel.dt_bias'}
+    return [[(n,p) for n,p in named if n not in excluded],[(n,p) for n,p in named if n in excluded]]
+
+
+def make_optimizer(model,config):
+    groups=optimizer_named_groups(model)
+    parameters=[{'params':[p for _,p in group], 'weight_decay':config.training.weight_decay if i==0 else 0.}
+                for i,group in enumerate(groups)]
+    return torch.optim.AdamW(parameters,lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
 
 
 def move_episode(ep, device):
@@ -170,7 +189,7 @@ def check_smoke_memory(config, additional_bytes):
 
 def _check_smoke_dimensions(config):
     """Pure preallocation bound shared with raw checkpoint descriptor checks."""
-    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or (config.model.multiscale.order*config.model.multiscale.scale_order>8 if config.model.method=='multiscale' else sum(config.model.polynomial.orders)>8 if config.model.method=='polynomial' else config.model.J>4) or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128 or config.model.reader.layers>2:
+    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or ((config.model.delta.dim>32 or config.model.delta.head_key_dim>8 or config.model.delta.head_value_dim>8 or config.model.delta.conv_length>4) if config.model.method=='delta' else config.model.multiscale.order*config.model.multiscale.scale_order>8 if config.model.method=='multiscale' else sum(config.model.polynomial.orders)>8 if config.model.method=='polynomial' else config.model.J>4) or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128 or config.model.reader.layers>2:
         raise ValueError('outside tiny smoke envelope; sustained calibration required')
 
 
@@ -254,12 +273,12 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
         if config.model.method in {'polynomial','multiscale'}:
             record[config.model.method+'_construction']={**model.kernel.preparation_cost([]),
                 'seconds':time.perf_counter()-construction_start,'boundary':'complete_model_construction_including_cpu_fp64_matrices'}
-        optimizer=torch.optim.AdamW(model.parameters(),lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
+        optimizer=make_optimizer(model,config)
         step,consumed=0,[]
         if resume is not None:
             context=load_checkpoint(resume,identity)
             model=_reconstruct(context['model']).to(config.resources.device)
-            optimizer=torch.optim.AdamW(model.parameters(),lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
+            optimizer=make_optimizer(model,config)
             optimizer.load_state_dict(context['optimizer'])
             step=context['completed_step']; consumed=list(context['consumed_episode_ids'])
             restore_rng(context['rng'],config.resources.device)
@@ -320,6 +339,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
                 'seconds':elapsed,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
                 'polynomial_allocation':asdict(config.model.polynomial) if config.model.polynomial is not None else None,
                 'multiscale_allocation':asdict(config.model.multiscale) if config.model.multiscale is not None else None,
+                'delta_allocation':asdict(config.model.delta) if config.model.delta is not None else None,
                 'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
                 'events':config.data.length*len(step_ids),'queries':config.data.queries_per_history*len(step_ids),
                 'memory':record['actual_budgets'],'pressure':None,'power':None,'status':'non_scientific_smoke'})

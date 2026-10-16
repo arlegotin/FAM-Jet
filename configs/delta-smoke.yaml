@@ -1,0 +1,81 @@
+# Task15 native deferred-query mixer; non-scientific two-step CPU smoke.
+schema_version: 1
+phase: smoke
+seed: 20261013
+data:
+  generator_version: initial_spec_v1
+  key_features: one_hot
+  key_dim: 16
+  value_dim: 8
+  length: 128
+  queries_per_history: 8
+model:
+  method: delta
+  heads: 1
+  J: null
+  K: 16
+  precision: float32
+  rates: null
+  writer: native_delta
+  encode: stream
+  reader:
+    kind: delta_mixer
+    width: 128
+    layers: 2
+    activation: silu
+  epsilon: 1.0e-08
+  numerical_support_floor: 1.0e-08
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+  polynomial: null
+  multiscale: null
+  delta:
+    dim: 16
+    head_key_dim: 4
+    head_value_dim: 4
+    variant: gdn2
+    conv_length: 4
+    decay_policy: raw_per_observed_event
+    erase_policy: pinned_guarded
+    allow_neg_eigval: false
+training:
+  microbatch: 1
+  effective_batch: 1
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0
+  optimizer_steps: 2
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 0
+  asset_disk_budget_bytes: 0
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-05
+  atol: 1.0e-06
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null

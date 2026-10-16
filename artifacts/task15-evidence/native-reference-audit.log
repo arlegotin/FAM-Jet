@@ -1,0 +1,74 @@
+[
+  {
+    "variant": "gdn2",
+    "device": "cpu",
+    "output": {
+      "max_abs": 1.7396350427897889e-09,
+      "pointwise_ratio": 0.0016920319227606828,
+      "gradient_norm": 0.06510091769697034,
+      "frobenius_ratio": 0.0081126027724868
+    },
+    "max_gradient_pointwise_ratio": 0.0059433271477935725,
+    "accepted_original_pointwise": true
+  },
+  {
+    "variant": "gdn2",
+    "device": "mps",
+    "output": {
+      "max_abs": 9.443631587661983e-09,
+      "pointwise_ratio": 0.008972047538913562,
+      "gradient_norm": 0.06510091769697034,
+      "frobenius_ratio": 0.01685891129616825
+    },
+    "max_gradient_pointwise_ratio": 0.007512535995882072,
+    "accepted_original_pointwise": true
+  },
+  {
+    "variant": "kda",
+    "device": "cpu",
+    "output": {
+      "max_abs": 3.569810406479912e-09,
+      "pointwise_ratio": 0.0035129380434100067,
+      "gradient_norm": 0.10158162069493543,
+      "frobenius_ratio": 0.010298088261593504
+    },
+    "max_gradient_pointwise_ratio": 0.004801038683676622,
+    "accepted_original_pointwise": true
+  },
+  {
+    "variant": "kda",
+    "device": "mps",
+    "output": {
+      "max_abs": 8.9472653786761e-09,
+      "pointwise_ratio": 0.008699546559035034,
+      "gradient_norm": 0.10158162069493543,
+      "frobenius_ratio": 0.02052988635723837
+    },
+    "max_gradient_pointwise_ratio": 0.014838448323069842,
+    "accepted_original_pointwise": true
+  },
+  {
+    "variant": "gdn",
+    "device": "cpu",
+    "output": {
+      "max_abs": 2.3137806635931124e-09,
+      "pointwise_ratio": 0.0022922638354682993,
+      "gradient_norm": 0.06986471362718671,
+      "frobenius_ratio": 0.009362578178623238
+    },
+    "max_gradient_pointwise_ratio": 0.004773470037126078,
+    "accepted_original_pointwise": true
+  },
+  {
+    "variant": "gdn",
+    "device": "mps",
+    "output": {
+      "max_abs": 2.5206283540447905e-09,
+      "pointwise_ratio": 0.0024443340419195705,
+      "gradient_norm": 0.06986471362718671,
+      "frobenius_ratio": 0.009751455319619323
+    },
+    "max_gradient_pointwise_ratio": 0.004773470037126078,
+    "accepted_original_pointwise": true
+  }
+]

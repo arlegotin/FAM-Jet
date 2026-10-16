@@ -1,0 +1,31 @@
+{
+  "reader": {
+    "parameters": 23049,
+    "macs_per_query": 22784,
+    "input_dim": 41,
+    "rank": null
+  },
+  "kernel_parameter_bytes": 5812,
+  "measured_cpu_seconds": {
+    "encode": 0.016458041965961456,
+    "read_all_8_queries": 0.0014375410391949117,
+    "scope": "one warm-process call including validation/hash/clones/host times/native operations; no throughput claim"
+  },
+  "smoke_resources": {
+    "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+    "mps_current_bytes": null,
+    "mps_driver_bytes": null,
+    "rss_highwater_additional_bytes": 112263168,
+    "rss_highwater_baseline_bytes": 223592448,
+    "rss_highwater_peak_bytes": 335855616
+  },
+  "end_to_end_logical_bytes": 98978,
+  "eligible": true
+}
+{
+  "state_bytes": 354,
+  "numeric_payload_bytes": 208,
+  "metadata_bytes": 146,
+  "static_parameter_bytes": 98008,
+  "static_buffer_bytes": 616
+}

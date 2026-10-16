@@ -9,7 +9,8 @@ import numpy as np
 import torch
 from famjet.eval.state_io import state_bytes, validate_snapshot, retained_tensor_chain
 
-_COMMON_METADATA = {'history_hash', 'time_unit_hash', 'last_event_id'}
+_COMMON_METADATA = {'history_hash', 'time_unit_hash', 'last_event_id',
+                    'first_observed_time', 'last_observed_time', 'has_observation'}
 
 
 def _inventory(tensors):

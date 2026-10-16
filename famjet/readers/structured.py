@@ -7,7 +7,7 @@ TASK_ORDER = tuple(sorted(TASKS))
 # Sign uses the contrast predictor; never allocate an always-zero sign input.
 QUERY_TASK_ORDER = tuple(sorted(TASKS - {'change_sign'}))
 KINDS = {'structured', 'generic_contracted', 'generic_full', 'fixed_scale',
-         'bank_raw', 'bank_normalized', 'query_only'}
+         'bank_raw', 'bank_normalized', 'query_only', 'delta_mixer'}
 
 
 def fixed_anchor(kind):
@@ -27,6 +27,16 @@ def input_width(kind, feature_spec, query_spec):
     kind = 'fixed_scale' if selected_anchor is not None else kind
     if kind not in KINDS:
         raise ValueError('unknown reader kind')
+    if feature_spec.get('family') == 'delta':
+        if (kind != 'delta_mixer' or set(feature_spec) != {'family','mixer_dim','key_dim','value_dim'}
+                or set(query_spec) != {'key_dim'} or type(query_spec['key_dim']) is not int
+                or query_spec['key_dim'] != feature_spec['key_dim']
+                or any(type(feature_spec[k]) is not int or not 0<feature_spec[k]<=2048
+                       for k in ('mixer_dim','key_dim','value_dim'))):
+            raise ValueError('invalid delta reader schema')
+        return feature_spec['mixer_dim']+feature_spec['key_dim']+len(QUERY_TASK_ORDER)+2
+    if kind == 'delta_mixer':
+        raise ValueError('delta mixer reader requires delta kernel')
     count_field = 'coefficients' if feature_spec.get('family') in {'polynomial','multiscale'} else 'anchors'
     if set(feature_spec) != {'family', count_field, 'key_dim', 'value_dim'} or set(query_spec) != {'key_dim'}:
         raise ValueError('invalid reader feature/query schema')
@@ -108,7 +118,7 @@ def memory_inputs(kind, features, full_state=None):
     d = features.diagnostics
     if kind == 'query_only':
         return features.values[..., :0]
-    if kind == 'structured':
+    if kind in {'structured','delta_mixer'}:
         return features.values
     if kind == 'generic_full':
         return full_state

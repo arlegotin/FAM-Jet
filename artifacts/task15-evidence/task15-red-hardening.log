@@ -1,0 +1,71 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_guard_quantized_output_is_exact_and_has_no_projection_gradient ______
+
+    def test_guard_quantized_output_is_exact_and_has_no_projection_gradient():
+        k=torch.tensor([[.8,.6]],dtype=torch.float32)
+        b=torch.tensor([[.01,1.99]],dtype=torch.float32,requires_grad=True)
+        g=torch.full_like(k,-1e-6)
+        n=k.square().sum(-1,keepdim=True); a=(b.detach()*k.square()).sum(-1,keepdim=True)
+        r2=(n*(b.detach().square()*k.square()).sum(-1,keepdim=True)-a.square()).clamp_min(0)
+        c2=(-2*g.amax(-1,keepdim=True)).exp()
+        R=((c2-1)*(1-(1-a).square()/c2)).clamp_min(0)
+        mu=a/n; eta=((31/32)*R/r2).sqrt()
+        want=(mu+eta*(b.detach()-mu)).to(b.dtype)
+>       torch.testing.assert_close(guard_erase(k,b,g),want,rtol=0,atol=0)
+E       AssertionError: Tensor-likes are not equal!
+E       
+E       Mismatched elements: 1 / 2 (50.0%)
+E       Greatest absolute difference: 5.960464477539063e-08 at index (0, 1)
+E       Greatest relative difference: 8.225925540727985e-08 at index (0, 1)
+
+tests/test_delta.py:280: AssertionError
+____ test_hostile_delta_allocation_and_weight_schema_fail_before_allocation ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108c5df30>
+
+    def test_hostile_delta_allocation_and_weight_schema_fail_before_allocation(monkeypatch):
+        from copy import deepcopy
+        from famjet.train import make_model
+        from famjet.eval.isolation import export_method,_reconstruct
+        from famjet.memory import delta
+        wire=export_method(make_model(delta_config()).kernel)
+        malformed=[]
+        for field,value in [('dim',True),('heads',100000),('erase_policy',[]),('decay_policy',False)]:
+            bad=deepcopy(wire); bad['schema'][field]=value; malformed.append(bad)
+        bad=deepcopy(wire); bad['weights']['q_proj.weight']['shape']=[True,8]; malformed.append(bad)
+        bad=deepcopy(wire); bad['weights']['q_proj.weight']['shape']=[1_000_000,8]; malformed.append(bad)
+        def forbidden(*args,**kwargs): raise AssertionError('allocated before validating hostile descriptor')
+        monkeypatch.setattr(delta.nn,'Linear',forbidden)
+        for bad in malformed:
+>           with pytest.raises(ValueError): _reconstruct(bad)
+                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_delta.py:297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/eval/isolation.py:124: in _reconstruct
+    method=DeltaMixer(**{**schema,'dtype':getattr(torch,schema['dtype'])})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/delta.py:84: in __init__
+    validate_delta(dim,heads,head_key_dim,head_value_dim,conv_length,variant,decay_policy,erase_policy,allow_neg_eigval)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dim = 8, heads = 1, head_key_dim = 3, head_value_dim = 4, conv_length = 4
+variant = 'gdn2', decay_policy = 'raw_per_observed_event', erase_policy = []
+allow_neg_eigval = False
+
+    def validate_delta(dim,heads,head_key_dim,head_value_dim,conv_length,variant,decay_policy,erase_policy,allow_neg_eigval):
+        for name,n,limit in [('dim',dim,2048),('heads',heads,32),('head_key_dim',head_key_dim,256),
+                             ('head_value_dim',head_value_dim,256),('conv_length',conv_length,16)]:
+            _require(type(n) is int and 1<=n<=limit,f'invalid delta {name}')
+        _require(type(variant) is str and variant in {'gdn2','kda','gdn'},'invalid delta variant')
+        _require(decay_policy=='raw_per_observed_event','unsupported delta decay policy')
+>       _require(erase_policy in {'raw_paper','pinned_guarded'},'unsupported delta erase policy')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unhashable type: 'list'
+
+famjet/memory/delta.py:64: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_delta.py::test_guard_quantized_output_is_exact_and_has_no_projection_gradient
+FAILED tests/test_delta.py::test_hostile_delta_allocation_and_weight_schema_fail_before_allocation
+2 failed, 27 deselected in 0.97s
