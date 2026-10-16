@@ -84,6 +84,17 @@ class DiscoveryTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("torch"), "torch not installed; discovery remains testable")
 class OperationTests(unittest.TestCase):
+    def test_cpu_probe_ignores_non_cpu_default_device(self):
+        import torch
+        from famjet.ops import probe_ops
+
+        with torch.device("meta"):
+            report = probe_ops("cpu", [{"name": "tiny", "batch": 1, "heads": 1, "J": 4, "K": 16, "V": 8, "length": 8}])
+
+        self.assertEqual(report["status"], "ok", report)
+        self.assertEqual(len(report["cells"]), 24)
+        self.assertTrue(all(cell["status"] == "ok" for cell in report["cells"]), report)
+
     def test_missing_core_dependency_is_explicit(self):
         import importlib.metadata
         from famjet.doctor import main

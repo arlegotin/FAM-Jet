@@ -34,7 +34,7 @@ def _fixture(torch, operation, shape, device, dtype):
         for dim in dims:
             count *= dim
         # Generate fixture values in FP64 then cast, identically on every device.
-        return torch.linspace(start, end, count, dtype=torch.float64).reshape(dims).to(device=device, dtype=dtype).requires_grad_(grad)
+        return torch.linspace(start, end, count, dtype=torch.float64, device="cpu").reshape(dims).to(device=device, dtype=dtype).requires_grad_(grad)
 
     x = bounded((b, h, j, k, v + 1))
     if operation == "exp_arithmetic_reduction":
