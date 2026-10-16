@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-16T17:30:00.576174+00:00",
+  "assets": [],
+  "status": "no_dataset_or_model_downloads",
+  "dependency_lock": {
+    "path": "requirements.lock",
+    "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+  },
+  "dependencies": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "torch": "2.14.1",
+    "pytest": "9.1.1",
+    "PyYAML": "6.0.3",
+    "pip": "25.1.1"
+  },
+  "documentation": {
+    "torch": "https://docs.pytorch.org/docs/2.14/",
+    "numpy": "https://numpy.org/doc/2.5/",
+    "scipy": "https://docs.scipy.org/doc/scipy-1.18.1/",
+    "pytest": "https://docs.pytest.org/en/9.1.x/",
+    "PyYAML": "https://pyyaml.org/wiki/PyYAMLDocumentation"
+  },
+  "provenance_records": [
+    {
+      "path": "docs/research/2026-10-16-native-wheels.json",
+      "sha256": "bd85d7ccf56fb784ca07585b2f765cd9edb3319166375582917af66e4ee021ae"
+    },
+    {
+      "path": "docs/research/2026-10-16-source-verification.md",
+      "sha256": "1c56510b9334f13eb7890ac6cbdbd3d38dd8fff7770420972b8c19f689681240"
+    }
+  ],
+  "note": "Dependency wheels are pinned by hashes in requirements.lock; scientific sources were inspected read-only in the provenance record, with no dataset/model download here. Documentation URLs name installed versions; access verification is recorded separately in the environment-gate report."
+}

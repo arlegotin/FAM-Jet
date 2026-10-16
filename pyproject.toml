@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "famjet"
+version = "0.1.0"
+description = "Reproducible local gates for exponential-moment memory research"
+requires-python = ">=3.12,<3.14"
+dependencies = ["numpy>=2.1", "scipy>=1.15", "torch>=2.6", "pytest>=8", "PyYAML>=6"]
+
+[tool.setuptools.packages.find]
+include = ["famjet*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

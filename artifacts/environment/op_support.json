@@ -1,0 +1,1524 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-16T17:30:00.575410+00:00",
+  "devices": {
+    "cpu": {
+      "schema_version": 1,
+      "device": "cpu",
+      "status": "ok",
+      "reason": null,
+      "elapsed_seconds": 0.4906177500379272,
+      "rtol": 1e-05,
+      "atol": 1e-06,
+      "cells": [
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.8791004549711943e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 216170496
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.4541979655623436e-05,
+          "max_abs_error": 1.591425222713383e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 261521408
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1374999303370714e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 261636096
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1374999303370714e-05,
+          "max_abs_error": 2.3656619961565095e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 261652480
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.9250030163675547e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 262012928
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.4917011614888906e-05,
+          "max_abs_error": 1.1091646956451484e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 262029312
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.5040975995361805e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 262422528
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.2208998668938875e-05,
+          "max_abs_error": 5.578312128884377e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 262455296
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 6.745796417817473e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 263077888
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.295901792123914e-05,
+          "max_abs_error": 5.2907622283271394e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 263094272
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.0042003598064184e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 263766016
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.0041014067828655e-05,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 263815168
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010404101340100169,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 264683520
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001033750013448298,
+          "max_abs_error": 1.0152523647081677e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 265175040
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.5540993344038725e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 265584640
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.6541990488767624e-05,
+          "max_abs_error": 4.543503551168726e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 265584640
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002697909949347377,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 298991616
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00024500000290572643,
+          "max_abs_error": 1.0152523647081677e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 299139072
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00031633302569389343,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 299761664
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002917909878306091,
+          "max_abs_error": 3.814244781130682e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 299761664
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001670419587753713,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300122112
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001562089892104268,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300138496
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011345802340656519,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300400640
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011162500595673919,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300433408
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.550000160932541e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300433408
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.637497916817665e-05,
+          "max_abs_error": 1.591425222713383e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.2165983207523823e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.0707997716963291e-05,
+          "max_abs_error": 2.3656619961565095e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.8040998838841915e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.875002635642886e-05,
+          "max_abs_error": 1.1091646956451484e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.3749988283962011e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.0958989150822163e-05,
+          "max_abs_error": 5.578312128884377e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.9708003643900156e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 8.158397395163774e-05,
+          "max_abs_error": 5.2907622283271394e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.7499958630651236e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.295801045373082e-05,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011150003410875797,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010499998461455107,
+          "max_abs_error": 1.0152523647081677e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300466176
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.6791992392390966e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300482560
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.641701864078641e-05,
+          "max_abs_error": 8.287524244643407e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300482560
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000264250033069402,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300498944
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002535419771447778,
+          "max_abs_error": 1.0152523647081677e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300498944
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00034383300226181746,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300531712
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003278339863754809,
+          "max_abs_error": 6.846909095248321e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300548096
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001610000035725534,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00015024997992441058,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011154200183227658,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011145800817757845,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 6.866699550300837e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 6.849999772384763e-05,
+          "max_abs_error": 2.598217005100878e-06,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300564480
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.724997466430068e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300580864
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.2083964217454195e-05,
+          "max_abs_error": 3.576516555622855e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300597248
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.0915987230837345e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300597248
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.541699308902025e-05,
+          "max_abs_error": 3.699435584536559e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 300597248
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00015916599659249187,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301056000
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010200001997873187,
+          "max_abs_error": 5.681003772961546e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 7.812504190951586e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 7.566699059680104e-05,
+          "max_abs_error": 6.971727661841953e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 3.9041973650455475e-05,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.5957993026822805e-05,
+          "max_abs_error": 7.449237254819607e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000144458026625216,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301400064
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001504579558968544,
+          "max_abs_error": 2.736404259434666e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301432832
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001484589884057641,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301449216
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00011633301619440317,
+          "max_abs_error": 5.909817102356385e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301465600
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003055419656448066,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301465600
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002632499672472477,
+          "max_abs_error": 2.736404259434666e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 301481984
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0030244169756770134,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 311689216
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0019790000515058637,
+          "max_abs_error": 9.713501974983885e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 312655872
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00022079201880842447,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 312655872
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00021320796804502606,
+          "max_abs_error": 7.449237254819607e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 312672256
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00015124998753890395,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 312672256
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00014970795018598437,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 312688640
+          }
+        }
+      ],
+      "shapes": [
+        {
+          "name": "tiny",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 8
+        },
+        {
+          "name": "smoke",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 128
+        },
+        {
+          "name": "initial_scientific",
+          "batch": 1,
+          "heads": 1,
+          "J": 8,
+          "K": 32,
+          "V": 64,
+          "length": 2048
+        }
+      ],
+      "precision_policy": "CPU float64 oracle; CPU float64 and float32; MPS float32 only",
+      "native_kernel_profiling": "not_performed; general fallback disabled does not rule out built-in CPU fallback registrations",
+      "memory_before": {
+        "process_lifetime_peak_rss_bytes": 214056960
+      },
+      "sampled_memory_maxima": {
+        "process_lifetime_peak_rss_bytes": 312688640
+      },
+      "memory_notes": "Process RSS is the process-lifetime high-water mark. Metal values are samples with fixture outputs live, not allocator peak tracking; never add RSS and driver bytes as independent unified pools.",
+      "memory_after_warm_probes": {
+        "process_lifetime_peak_rss_bytes": 312688640
+      }
+    },
+    "mps": {
+      "schema_version": 1,
+      "device": "mps",
+      "status": "ok",
+      "reason": null,
+      "elapsed_seconds": 0.30517445894656703,
+      "rtol": 1e-05,
+      "atol": 1e-06,
+      "cells": [
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0010244169970974326,
+          "max_abs_error": 1.662650048750436e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 433160192,
+            "current_allocated_memory_bytes": 512,
+            "driver_allocated_memory_bytes": 8880128,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0017481670365668833,
+          "max_abs_error": 1.4148985628958943e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 438091776,
+            "current_allocated_memory_bytes": 2048,
+            "driver_allocated_memory_bytes": 8880128,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0013597090146504343,
+          "max_abs_error": 5.964610882980281e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 439353344,
+            "current_allocated_memory_bytes": 256,
+            "driver_allocated_memory_bytes": 8880128,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0007204170105978847,
+          "max_abs_error": 6.167277155633144e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 439418880,
+            "current_allocated_memory_bytes": 9216,
+            "driver_allocated_memory_bytes": 8880128,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0011700419709086418,
+          "max_abs_error": 5.2907622283271394e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 439599104,
+            "current_allocated_memory_bytes": 4608,
+            "driver_allocated_memory_bytes": 8880128,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009629160049371421,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 441024512,
+            "current_allocated_memory_bytes": 3328,
+            "driver_allocated_memory_bytes": 9142272,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0018361249822191894,
+          "max_abs_error": 2.8851469537028926e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 447692800,
+            "current_allocated_memory_bytes": 149248,
+            "driver_allocated_memory_bytes": 9142272,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0020213749958202243,
+          "max_abs_error": 7.377425403909399e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 447725568,
+            "current_allocated_memory_bytes": 768,
+            "driver_allocated_memory_bytes": 9142272,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0019844589987769723,
+          "max_abs_error": 2.8851469537028926e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 447741952,
+            "current_allocated_memory_bytes": 149248,
+            "driver_allocated_memory_bytes": 9142272,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0012692500022239983,
+          "max_abs_error": 3.814244781130682e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451018752,
+            "current_allocated_memory_bytes": 1280,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0010741250007413328,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451149824,
+            "current_allocated_memory_bytes": 2304,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0007754160324111581,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 256,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00043091701809316874,
+          "max_abs_error": 1.662650048750436e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 512,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0006548749515786767,
+          "max_abs_error": 1.4148985628958943e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 2048,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0006282499525696039,
+          "max_abs_error": 5.964610882980281e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 256,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0008779580239206553,
+          "max_abs_error": 6.167277155633144e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 9216,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0006291670142672956,
+          "max_abs_error": 5.2907622283271394e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 4608,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009007499902509153,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451215360,
+            "current_allocated_memory_bytes": 3328,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0021395839867182076,
+          "max_abs_error": 2.8851469537028926e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451231744,
+            "current_allocated_memory_bytes": 149248,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009762920089997351,
+          "max_abs_error": 2.3270597671043447e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451231744,
+            "current_allocated_memory_bytes": 768,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.001799333025701344,
+          "max_abs_error": 2.8851469537028926e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 451248128,
+            "current_allocated_memory_bytes": 149248,
+            "driver_allocated_memory_bytes": 11321344,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.001302707998547703,
+          "max_abs_error": 6.846909095248321e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 453689344,
+            "current_allocated_memory_bytes": 12800,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009945000056177378,
+          "max_abs_error": 7.4376230729811255e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 453689344,
+            "current_allocated_memory_bytes": 2304,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0007077080081216991,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 453689344,
+            "current_allocated_memory_bytes": 256,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0004878750187344849,
+          "max_abs_error": 2.3084561888708777e-06,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 453689344,
+            "current_allocated_memory_bytes": 3328,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0006995419971644878,
+          "max_abs_error": 1.643181092580992e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 454410240,
+            "current_allocated_memory_bytes": 8192,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009739170200191438,
+          "max_abs_error": 2.794995372923381e-07,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 454672384,
+            "current_allocated_memory_bytes": 2304,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0004077909979969263,
+          "max_abs_error": 6.575083777438095e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 454672384,
+            "current_allocated_memory_bytes": 266240,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00065370905213058,
+          "max_abs_error": 6.971727661841953e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 454737920,
+            "current_allocated_memory_bytes": 133120,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0010608749580569565,
+          "max_abs_error": 7.449237254819607e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 455360512,
+            "current_allocated_memory_bytes": 70656,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0020537920063361526,
+          "max_abs_error": 1.6105776928050305e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 461717504,
+            "current_allocated_memory_bytes": 269824,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0010712090297602117,
+          "max_abs_error": 6.01111185272174e-08,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 461717504,
+            "current_allocated_memory_bytes": 768,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00223987502977252,
+          "max_abs_error": 1.6105776928050305e-10,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 461750272,
+            "current_allocated_memory_bytes": 269824,
+            "driver_allocated_memory_bytes": 11403264,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.002733082976192236,
+          "max_abs_error": 9.713501974983885e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 466272256,
+            "current_allocated_memory_bytes": 1574400,
+            "driver_allocated_memory_bytes": 11485184,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.001025750010740012,
+          "max_abs_error": 7.449237254819607e-09,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 466354176,
+            "current_allocated_memory_bytes": 66560,
+            "driver_allocated_memory_bytes": 11485184,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0008523750002495944,
+          "max_abs_error": 0.0,
+          "memory_after_fixture": {
+            "process_lifetime_peak_rss_bytes": 466354176,
+            "current_allocated_memory_bytes": 256,
+            "driver_allocated_memory_bytes": 11485184,
+            "recommended_max_memory_bytes": 30150672384
+          }
+        }
+      ],
+      "shapes": [
+        {
+          "name": "tiny",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 8
+        },
+        {
+          "name": "smoke",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 128
+        },
+        {
+          "name": "initial_scientific",
+          "batch": 1,
+          "heads": 1,
+          "J": 8,
+          "K": 32,
+          "V": 64,
+          "length": 2048
+        }
+      ],
+      "precision_policy": "CPU float64 oracle; CPU float64 and float32; MPS float32 only",
+      "native_kernel_profiling": "not_performed; general fallback disabled does not rule out built-in CPU fallback registrations",
+      "memory_before": {
+        "process_lifetime_peak_rss_bytes": 312688640,
+        "current_allocated_memory_bytes": 0,
+        "driver_allocated_memory_bytes": 475136,
+        "recommended_max_memory_bytes": 30150672384
+      },
+      "sampled_memory_maxima": {
+        "process_lifetime_peak_rss_bytes": 466354176,
+        "current_allocated_memory_bytes": 1574400,
+        "driver_allocated_memory_bytes": 11485184,
+        "recommended_max_memory_bytes": 30150672384
+      },
+      "memory_notes": "Process RSS is the process-lifetime high-water mark. Metal values are samples with fixture outputs live, not allocator peak tracking; never add RSS and driver bytes as independent unified pools.",
+      "memory_after_warm_probes": {
+        "process_lifetime_peak_rss_bytes": 466354176,
+        "current_allocated_memory_bytes": 256,
+        "driver_allocated_memory_bytes": 11485184,
+        "recommended_max_memory_bytes": 30150672384
+      }
+    }
+  },
+  "timing_scope": "One warmed operation/gradient fixture per cell; diagnostic wall times include input construction, device transfers, serialization or backward as applicable; numerical comparisons are outside the timer. No scientific benchmark or model throughput is measured."
+}

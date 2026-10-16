@@ -1,0 +1,1081 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-16T17:26:08.337360+00:00",
+  "devices": {
+    "cpu": {
+      "schema_version": 1,
+      "device": "cpu",
+      "status": "partial",
+      "reason": "One or more cells unsupported or outside fixed tolerance; accelerated claims require every relevant native cell.",
+      "elapsed_seconds": 0.5083180419751443,
+      "rtol": 1e-05,
+      "atol": 1e-06,
+      "cells": [
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.9291997887194157e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 2.2792024537920952e-05,
+          "max_abs_error": 1.591425222713383e-07
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1791998986154795e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1583033483475447e-05,
+          "max_abs_error": 2.3656619961565095e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.9084021914750338e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.9875005818903446e-05,
+          "max_abs_error": 1.1091646956451484e-07
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.4790974091738462e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.2125005014240742e-05,
+          "max_abs_error": 5.578312128884377e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.425004590302706e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 3 / 576 (0.5%)\nGreatest absolute difference: 3.8422190372046946e-06 at index (0, 0, 0, 13, 4) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 3, 4) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.858297036960721e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.937500201165676e-05,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010162504622712731,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010312499944120646,
+          "max_abs_error": 1.0152523647081677e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 6.275001214817166e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.3916999604552984e-05,
+          "max_abs_error": 4.543503551168726e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002867919974960387,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002721250057220459,
+          "max_abs_error": 1.0152523647081677e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00028195796767249703,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003196669858880341,
+          "max_abs_error": 3.814244781130682e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00017274997662752867,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00016387499636039138,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003345410223118961,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003274579648859799,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.5874975360929966e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.60830095410347e-05,
+          "max_abs_error": 1.591425222713383e-07
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.18750031106174e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1124997399747372e-05,
+          "max_abs_error": 2.3656619961565095e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.8416962120682e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.937500201165676e-05,
+          "max_abs_error": 1.1091646956451484e-07
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.4249992091208696e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.1416967026889324e-05,
+          "max_abs_error": 5.578312128884377e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 3.724999260157347e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 3 / 576 (0.5%)\nGreatest absolute difference: 3.8422190372046946e-06 at index (0, 0, 0, 13, 4) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 3, 4) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.8208986148238182e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 1.7874990589916706e-05,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00022391596576198936,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00010837498120963573,
+          "max_abs_error": 1.0152523647081677e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.6791992392390966e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.779101047664881e-05,
+          "max_abs_error": 8.287524244643407e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000259124964941293,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000237083004321903,
+          "max_abs_error": 1.0152523647081677e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00026891700690612197,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002791250008158386,
+          "max_abs_error": 6.846909095248321e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00015995802823454142,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00014695804566144943,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003207499976269901,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003174159792251885,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 8.170801447704434e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 6.408302579075098e-05,
+          "max_abs_error": 2.598217005100878e-06
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.4874963350594044e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.474999150261283e-05,
+          "max_abs_error": 3.576516555622855e-07
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.324999801814556e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.8375007938593626e-05,
+          "max_abs_error": 3.699435584536559e-07
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00015075004193931818,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 9.729102021083236e-05,
+          "max_abs_error": 5.681003772961546e-08
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.2541960030794144e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 9592 / 16640 (57.6%)\nGreatest absolute difference: 2.117210308724693e-05 at index (0, 0, 1, 22, 10) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 6, 32) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 4.549999721348286e-05,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 5.512504139915109e-05,
+          "max_abs_error": 7.449237254819607e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0001564159756526351,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00013412500265985727,
+          "max_abs_error": 2.736404259434666e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000145500001963228,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00012333301128819585,
+          "max_abs_error": 5.909817102356385e-08
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0002940419944934547,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0003005419857800007,
+          "max_abs_error": 2.736404259434666e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0026477500214241445,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0019515420426614583,
+          "max_abs_error": 9.713501974983885e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00020529201719909906,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00018674996681511402,
+          "max_abs_error": 7.449237254819607e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float64",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0004136249772273004,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00034775002859532833,
+          "max_abs_error": 0.0
+        }
+      ],
+      "shapes": [
+        {
+          "name": "tiny",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 8
+        },
+        {
+          "name": "smoke",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 128
+        },
+        {
+          "name": "initial_scientific",
+          "batch": 1,
+          "heads": 1,
+          "J": 8,
+          "K": 32,
+          "V": 64,
+          "length": 2048
+        }
+      ],
+      "precision_policy": "CPU float64 oracle; CPU float64 and float32; MPS float32 only",
+      "native_kernel_profiling": "not_performed; general fallback disabled does not rule out built-in CPU fallback registrations",
+      "memory_before": {
+        "process_lifetime_peak_rss_bytes": 213204992
+      },
+      "memory_after_warm_probes": {
+        "process_lifetime_peak_rss_bytes": 313966592
+      }
+    },
+    "mps": {
+      "schema_version": 1,
+      "device": "mps",
+      "status": "partial",
+      "reason": "One or more cells unsupported or outside fixed tolerance; accelerated claims require every relevant native cell.",
+      "elapsed_seconds": 1.622439208033029,
+      "rtol": 1e-05,
+      "atol": 1e-06,
+      "cells": [
+        {
+          "shape": "tiny",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0014590409700758755,
+          "max_abs_error": 1.662650048750436e-07
+        },
+        {
+          "shape": "tiny",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0012242499506101012,
+          "max_abs_error": 1.4148985628958943e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0017818749765865505,
+          "max_abs_error": 5.964610882980281e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0005792500451207161,
+          "max_abs_error": 6.167277155633144e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 19 / 576 (3.3%)\nGreatest absolute difference: 5.8603081485308905e-06 at index (0, 0, 0, 5, 3) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 4, 4) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "tiny",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009998750174418092,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0025723750004544854,
+          "max_abs_error": 2.8851469537028926e-10
+        },
+        {
+          "shape": "tiny",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0011289999820291996,
+          "max_abs_error": 7.377425403909399e-08
+        },
+        {
+          "shape": "tiny",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00228824996156618,
+          "max_abs_error": 2.8851469537028926e-10
+        },
+        {
+          "shape": "tiny",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.001697917003184557,
+          "max_abs_error": 3.814244781130682e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.002487416029907763,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "tiny",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009107500081881881,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "smoke",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0005478749517351389,
+          "max_abs_error": 1.662650048750436e-07
+        },
+        {
+          "shape": "smoke",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0005774580058641732,
+          "max_abs_error": 1.4148985628958943e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000979083008132875,
+          "max_abs_error": 5.964610882980281e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00041141698602586985,
+          "max_abs_error": 6.167277155633144e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 19 / 576 (3.3%)\nGreatest absolute difference: 5.8603081485308905e-06 at index (0, 0, 0, 5, 3) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 4, 4) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "smoke",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0012181659694761038,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0023783749784342945,
+          "max_abs_error": 2.8851469537028926e-10
+        },
+        {
+          "shape": "smoke",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009810839546844363,
+          "max_abs_error": 2.3270597671043447e-08
+        },
+        {
+          "shape": "smoke",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.002028041984885931,
+          "max_abs_error": 2.8851469537028926e-10
+        },
+        {
+          "shape": "smoke",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.001421749999281019,
+          "max_abs_error": 6.846909095248321e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.000984499987680465,
+          "max_abs_error": 7.4376230729811255e-09
+        },
+        {
+          "shape": "smoke",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009112089755944908,
+          "max_abs_error": 0.0
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "exp_arithmetic_reduction",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0007382920011878014,
+          "max_abs_error": 2.3084561888708777e-06
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "matmul",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0008474590140394866,
+          "max_abs_error": 1.643181092580992e-07
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "einsum",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0008585419855080545,
+          "max_abs_error": 2.794995372923381e-07
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "activations",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00044891698053106666,
+          "max_abs_error": 6.575083777438095e-08
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "normalization",
+          "dtype": "float32",
+          "status": "unsupported",
+          "reason": "AssertionError: Tensor-likes are not close!\n\nMismatched elements: 4011 / 16640 (24.1%)\nGreatest absolute difference: 8.754958415013725e-06 at index (0, 0, 7, 21, 9) (up to 1e-06 allowed)\nGreatest relative difference: inf at index (0, 0, 0, 23, 32) (up to 1e-05 allowed)",
+          "elapsed_seconds": null,
+          "max_abs_error": null
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "index_gather_mask",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0013441249611787498,
+          "max_abs_error": 7.449237254819607e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "mlp_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.002071790979243815,
+          "max_abs_error": 1.6105776928050305e-10
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rates_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0020348330144770443,
+          "max_abs_error": 6.01111185272174e-08
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "checkpoint_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.00258116697659716,
+          "max_abs_error": 1.6105776928050305e-10
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "short_convolution_backward",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0016601249808445573,
+          "max_abs_error": 9.713501974983885e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "serialization",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0009872079826891422,
+          "max_abs_error": 7.449237254819607e-09
+        },
+        {
+          "shape": "initial_scientific",
+          "operation": "rng_restore",
+          "dtype": "float32",
+          "status": "ok",
+          "reason": null,
+          "elapsed_seconds": 0.0012695000041276217,
+          "max_abs_error": 0.0
+        }
+      ],
+      "shapes": [
+        {
+          "name": "tiny",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 8
+        },
+        {
+          "name": "smoke",
+          "batch": 1,
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "V": 8,
+          "length": 128
+        },
+        {
+          "name": "initial_scientific",
+          "batch": 1,
+          "heads": 1,
+          "J": 8,
+          "K": 32,
+          "V": 64,
+          "length": 2048
+        }
+      ],
+      "precision_policy": "CPU float64 oracle; CPU float64 and float32; MPS float32 only",
+      "native_kernel_profiling": "not_performed; general fallback disabled does not rule out built-in CPU fallback registrations",
+      "memory_before": {
+        "process_lifetime_peak_rss_bytes": 313966592,
+        "current_allocated_memory_bytes": 0,
+        "driver_allocated_memory_bytes": 475136,
+        "recommended_max_memory_bytes": 30150672384
+      },
+      "memory_after_warm_probes": {
+        "process_lifetime_peak_rss_bytes": 480395264,
+        "current_allocated_memory_bytes": 256,
+        "driver_allocated_memory_bytes": 11468800,
+        "recommended_max_memory_bytes": 30150672384
+      }
+    }
+  },
+  "timing_scope": "One warmed operation/gradient fixture per cell; diagnostic wall times include backward and checks, not scientific benchmarks or model throughput."
+}

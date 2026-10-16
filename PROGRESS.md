@@ -1,21 +1,24 @@
 # Progress
 
-**Updated:** 16 October 2026. **Branch:** `main` (the original current branch). **Current scope:** specification and implementation planning only.
+**Updated:** 16 October 2026. **Branch:** `main`. **Current scope:** Task 1 local environment gate implemented and verified; controller acceptance pending.
 
-The [specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) are written. The spec received a fresh research-engineering builder check through the Superpowers brainstorming workflow; its consequential questions were resolved. The implementation plan received a requirement, interface, ordering, and failure-mode self-review through the writing-plans workflow.
+The [specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) remain the research contract. The executed WP00 subset now includes dependency-free hardware discovery, a real native wheel hash lock, a project-local environment, lightweight regression tests, CPU/MPS operation and gradient probes, full smoke configuration, and source/dependency provenance. This does not accept later work packages or establish model correctness/performance.
 
-Last accepted gate: **documentation design review**. No execution work package WP00–WP10 is accepted. Preliminary read-only discovery is evidence for planning, not a completed environment/operation compatibility gate. All 127 experimental/implementation steps remain unchecked.
+## Executed evidence
 
-## Evidence and artifacts
+- Native CPython 3.13.5 arm64; torch 2.14.1 / NumPy 2.5.4 / SciPy 1.18.1 / pytest 9.1.1 / PyYAML 6.0.3. Both `.venv` and a clean temporary environment installed the same hash lock; core imports/CPU FP64 arithmetic and `pip check` passed.
+- Final full test suite: **13 passed**. Final doctor: **72/72 CPU cells** (FP64/FP32) and **36/36 MPS FP32 cells** passed at rtol 1e-5 / atol 1e-6, across tiny, smoke and initial scientific fixtures. MPS is built and available; full native kernel residency is unprofiled.
+- [Hardware](artifacts/environment/hardware.json), [operation matrix](artifacts/environment/op_support.json), [initial failed matrix](artifacts/environment/op_support.initial.json), [asset manifest](artifacts/environment/assets.json), [native wheels](docs/research/2026-10-16-native-wheels.json), and [gate record](docs/research/2026-10-16-environment-gate.md) preserve executed evidence. [Source verification](docs/research/2026-10-16-source-verification.md) records metadata/licenses/pins, without downloaded scientific assets or reproduced source results.
+- Current machine: M3 Max, 30 GPU cores, 36 GiB unified RAM. Post-probe disk available 45,211,768 KiB (~43.1 GiB); swap used 17,434.69 MiB; pressure tool reports 73% free. AC power; no thermal/performance warning level recorded, not a temperature reading. See timestamped artifacts for transient values.
 
-- [Source evidence ledger](docs/research/2026-10-13-source-record.md): R01–R26 and supplied numerical claims, explicitly unverified here.
-- [Local environment snapshot](docs/research/2026-10-16-local-environment.md): M3 Max, arm64, 36 GiB RAM, macOS 26.7.1, Python 3.14.6, approximately 44.5 GiB free disk and 17.4 GiB swap used at observation time.
-- [Decisions](DECISIONS.md) and [audit](AUDIT.md): design choices, resolved review questions, verification scope and limitations.
+## Accepted subset and limits
 
-There are no dependency locks, installed project environments, downloaded datasets/model weights, implemented project CLIs, checkpoints, training runs, or measured model results in this checkout. Every `python -m famjet...` command in the plan is a future implementation target.
+The verified CPU environment and ordinary bounded operation support are ready for controller review. The smoke policy uses batch 1 / four CPU threads, caps a freshly derived envelope at 256 MiB and leaves 25% reserve, producing a 192 MiB additional-allocation ceiling. Full training allocation, sustained throughput/power/thermal behavior, model memory peaks and pilot timing remain uncalibrated. Existing swap use precludes treating installed RAM or Metal recommendation as free training memory.
 
-## Next action
+The initial normalization fixture had almost constant channel values and violated FP32 tolerances on both devices. That report is retained; the ordinary well-spread fixture passes with unchanged tolerances. Near-constant normalization remains an explicit numerical caveat. MPS success supports these API/gradient fixtures, not accelerated scientific claims or bitwise training resume.
 
-When implementation is requested, read both documents and start Task 1: repeat discovery, choose a compatible native Python/PyTorch pair, generate a real hash lock, and validate CPU/MPS operations and gradients. Preserve the current branch. The explicit same-branch instruction supersedes worktree defaults. Select the execution workflow at implementation time; no execution method has been chosen for future code work.
+No datasets, model weights, generator/model implementation, checkpoints, training runs, protected outputs or measured model results exist. Later task execution checkboxes remain untouched.
 
-There are no unanswered questions blocking the requested planning deliverables. Execution prerequisites remain untested: native package compatibility, MPS availability, safe capacity under fresh pressure measurements, asset access/license/revisions, and statistical sensitivity. Do not infer a safe training allocation from installed memory or the current swap snapshot.
+## Next gate
+
+Controller review of Task 1, then Task 2/WP01 configuration/artifact contracts. Before pilot/training or scientific asset ingestion, enforce the remaining numerical, full-training resource, disk-budget, asset/schema/license and baseline gates. Confirmation scientific fields remain null until the pilot freeze.

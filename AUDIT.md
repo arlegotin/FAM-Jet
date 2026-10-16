@@ -19,3 +19,11 @@ The final document check passed for eight Markdown files, 19 local links, 25 ord
 ## Remaining limits
 
 All experimental verification is pending, including original-source identity/revision/license checks, a generated dependency lock, numerical/gradient tests, CPU/MPS compatibility, real archive ingestion, baseline positive controls/convergence, pilot precision, protected outcomes and replication. The preliminary local snapshot does not complete WP00. The supplied Linux figures never enter a locally measured result table. No trained-model result or laptop performance claim is supported by these planning documents.
+
+## Task 1 execution addendum — 16 October 2026
+
+The earlier sections describe the historical planning audit. Task 1 now adds actual environment evidence: hash-checked native installs into `.venv` and a clean temporary environment, 13 passing tests, a successful full doctor, clean `pip check`, and 72 CPU / 36 MPS passing ordinary bounded operation/gradient cells. See the [executed gate record](docs/research/2026-10-16-environment-gate.md) and linked JSON artifacts for exact commands, failures, resources and scope.
+
+The initial normalization failure is retained; tolerances were not widened. Tests also caught thermal output that reports errors despite exit zero, battery identifier exposure, unsafe workspace shapes, missing dependency metadata, and CPU RNG seeding that otherwise changed the MPS stream; the corresponding fixes were verified. A first oversized-workspace guard test was interrupted after exposing the missing guard, then changed to block fixture allocation and rerun red/green safely.
+
+This is an implementer self-review, pending controller review. No full native GPU kernel profiling, full-training resource envelope, model throughput, data ingestion, model/baseline correctness, protected analysis or scientific outcome is certified. Source verification is read-only metadata/source inspection, with no source-result reproduction or general license clearance.

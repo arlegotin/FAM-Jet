@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-16T17:29:58.770251+00:00",
+  "python": {
+    "version": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+    "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "machine": "arm64",
+    "build": [
+      "main",
+      "Jun 11 2025 15:36:57"
+    ]
+  },
+  "commands": {
+    "architecture": {
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.770522+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "arm64"
+    },
+    "os": {
+      "command": [
+        "sw_vers"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.773476+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "ProductName:\t\tmacOS\nProductVersion:\t\t26.7.1\nBuildVersion:\t\t25G241"
+    },
+    "chip": {
+      "command": [
+        "sysctl",
+        "-n",
+        "machdep.cpu.brand_string"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.781181+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Apple M3 Max"
+    },
+    "memory_bytes": {
+      "command": [
+        "sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.784151+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "38654705664"
+    },
+    "physical_cpus": {
+      "command": [
+        "sysctl",
+        "-n",
+        "hw.physicalcpu"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.786679+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "14"
+    },
+    "gpu": {
+      "command": [
+        "system_profiler",
+        "SPDisplaysDataType",
+        "-json"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:58.789554+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": [
+        {
+          "sppci_model": "Apple M3 Max",
+          "sppci_cores": "30"
+        }
+      ]
+    },
+    "disk": {
+      "command": [
+        "df",
+        "-k",
+        "."
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.013715+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Filesystem   1024-blocks      Used Available Capacity iused     ifree %iused  Mounted on\n/dev/disk3s5   908850180 823410312  45206104    95% 8945188 452061040    2%   /System/Volumes/Data"
+    },
+    "swap": {
+      "command": [
+        "sysctl",
+        "-n",
+        "vm.swapusage"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.016899+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "total = 18432.00M  used = 17434.69M  free = 997.31M  (encrypted)"
+    },
+    "vm_stat": {
+      "command": [
+        "vm_stat"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.019523+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   220331.\nPages active:                                 742730.\nPages inactive:                               733352.\nPages speculative:                              9451.\nPages throttled:                                   0.\nPages wired down:                             313473.\nPages purgeable:                                1891.\n\"Translation faults\":                     5188475454.\nPages copy-on-write:                       415581526.\nPages zero filled:                        4918731503.\nPages reactivated:                         129713556.\nPages purged:                               41608970.\nFile-backed pages:                            288797.\nAnonymous pages:                             1196736.\nPages stored in compressor:                  1995377.\nPages occupied by compressor:                 280968.\nDecompressions:                            136034638.\nCompressions:                              176718855.\nPageins:                                   135767144.\nPageouts:                                     626744.\nSwapins:                                     2166472.\nSwapouts:                                    3781292."
+    },
+    "memory_pressure": {
+      "command": [
+        "memory_pressure",
+        "-Q"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.022144+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 74%"
+    },
+    "power_source": {
+      "command": [
+        "pmset",
+        "-g",
+        "batt"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.024601+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=redacted)\t100%; charged; 0:00 remaining present: true"
+    },
+    "power_configuration": {
+      "command": [
+        "pmset",
+        "-g",
+        "custom"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.032988+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Battery Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         30\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           0\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         60\n womp                 1\n networkoversleep     0\n sleep                1\n tcpkeepalive         1\n disksleep            10"
+    },
+    "thermal": {
+      "command": [
+        "pmset",
+        "-g",
+        "therm"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.041603+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+    },
+    "developer_tools": {
+      "command": [
+        "xcode-select",
+        "-p"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.049284+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "/Applications/Xcode.app/Contents/Developer"
+    },
+    "git": {
+      "command": [
+        "git",
+        "--version"
+      ],
+      "observed_at_utc": "2026-10-16T17:29:59.052972+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "git version 2.49.0"
+    }
+  },
+  "notes": [
+    "Read-only commands; no private hardware identifiers retained.",
+    "vm_stat counters and installed RAM are not allocation budgets; swap usage is not swap throughput."
+  ],
+  "dependencies": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "torch": "2.14.1",
+    "pytest": "9.1.1",
+    "PyYAML": "6.0.3",
+    "pip": "25.1.1"
+  },
+  "pip_freeze": {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pip",
+      "freeze"
+    ],
+    "observed_at_utc": "2026-10-16T17:29:59.543781+00:00",
+    "status": "ok",
+    "reason": null,
+    "value": "filelock==4.2.0\nfsspec==2026.9.0\niniconfig==2.3.1\nJinja2==3.1.6\nMarkupSafe==3.0.4\nmpmath==1.3.0\nnetworkx==3.7\nnumpy==2.5.4\npackaging==26.3\npluggy==1.7.0\nPygments==2.21.0\npytest==9.1.1\nPyYAML==6.0.3\nscipy==1.18.1\nsetuptools==84.0.0\nsympy==1.14.0\ntorch==2.14.1\ntyping_extensions==4.16.0"
+  },
+  "torch_build_config": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 202002\n  - clang 21.0.0\n  - OpenMP 202011\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: DEFAULT\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=5c4886908584029761b579af026dcfb627c84070, CUDA_FLAGS= -DLIBCUDACXX_ENABLE_SIMPLIFIED_COMPLEX_OPERATIONS -Xfatbin -compress-all  -Wno-deprecated-gpu-targets --expt-extended-lambda -DCUB_WRAPPED_NAMESPACE=at_cuda_detail -DDISABLE_CUSPARSE_DEPRECATED -DCUDA_HAS_FP16=1 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -DC10_NODEPRECATED, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -fclang-abi-compat=17 -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.14.1, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_HIPSPARSELT=OFF, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n",
+  "mps_flags": {
+    "PYTORCH_ENABLE_MPS_FALLBACK": "0",
+    "PYTORCH_MPS_FAST_MATH": "0",
+    "PYTORCH_MPS_HIGH_WATERMARK_RATIO": null,
+    "PYTORCH_MPS_LOW_WATERMARK_RATIO": null,
+    "PYTORCH_MPS_PREFER_METAL": null,
+    "PYTORCH_MPS_LOG_PROFILE_INFO": null,
+    "PYTORCH_MPS_TRACE_SIGNPOSTS": null,
+    "PYTORCH_DEBUG_MPS_ALLOCATOR": null
+  },
+  "mps": {
+    "built": true,
+    "available": true,
+    "apis": {
+      "synchronize": true,
+      "current_allocated_memory": true,
+      "driver_allocated_memory": true,
+      "recommended_max_memory": true,
+      "get_rng_state": true,
+      "set_rng_state": true,
+      "empty_cache": true
+    }
+  },
+  "post_probe_commands": {
+    "disk": {
+      "command": [
+        "df",
+        "-k",
+        "."
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.514413+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Filesystem   1024-blocks      Used Available Capacity iused     ifree %iused  Mounted on\n/dev/disk3s5   908850180 823404648  45211768    95% 8945218 452117680    2%   /System/Volumes/Data"
+    },
+    "swap": {
+      "command": [
+        "sysctl",
+        "-n",
+        "vm.swapusage"
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.525126+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "total = 18432.00M  used = 17434.69M  free = 997.31M  (encrypted)"
+    },
+    "vm_stat": {
+      "command": [
+        "vm_stat"
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.532647+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   187027.\nPages active:                                 754119.\nPages inactive:                               744628.\nPages speculative:                              8655.\nPages throttled:                                   0.\nPages wired down:                             325129.\nPages purgeable:                                1888.\n\"Translation faults\":                     5188544944.\nPages copy-on-write:                       415588621.\nPages zero filled:                        4918778453.\nPages reactivated:                         129713563.\nPages purged:                               41608970.\nFile-backed pages:                            288433.\nAnonymous pages:                             1218969.\nPages stored in compressor:                  1995374.\nPages occupied by compressor:                 280972.\nDecompressions:                            136034641.\nCompressions:                              176718855.\nPageins:                                   135767247.\nPageouts:                                     626744.\nSwapins:                                     2166476.\nSwapouts:                                    3781292."
+    },
+    "memory_pressure": {
+      "command": [
+        "memory_pressure",
+        "-Q"
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.540212+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 73%"
+    },
+    "power_source": {
+      "command": [
+        "pmset",
+        "-g",
+        "batt"
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.546702+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=redacted)\t100%; charged; 0:00 remaining present: true"
+    },
+    "thermal": {
+      "command": [
+        "pmset",
+        "-g",
+        "therm"
+      ],
+      "observed_at_utc": "2026-10-16T17:30:00.561013+00:00",
+      "status": "ok",
+      "reason": null,
+      "value": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+    }
+  },
+  "resource_policy": {
+    "status": "smoke_only",
+    "microbatch": 1,
+    "effective_batch": 1,
+    "reserved_fraction_of_derived_envelope": 0.25,
+    "derived_available_bytes": 3206053888,
+    "smoke_additional_allocation_limit_bytes": 201326592,
+    "training_envelope_bytes": null,
+    "disk_asset_budget_bytes": 0,
+    "reason": "Fresh free+speculative pages bounded by Metal headroom if available; cap 256 MiB and reserve 25%. Full training peaks/sustained pressure remain uncalibrated.",
+    "cpu_threads": 4
+  }
+}

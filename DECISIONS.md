@@ -19,3 +19,16 @@ All entries below are dated **16 October 2026**. They are implementation-plannin
 | Interpolation/probing/language remain gated extensions. | Supplied counterexample, finite-information control, and bridge requirements. | They do not block a complete informative core negative result. Broad/real/language claims require their specific accepted comparators and evidence. |
 
 Routine builder choices (e.g. versioned excursion probabilities, deterministic dense features, bucket eviction and development calibration subdivision) are marked in the spec. Changes during execution to scientific hypotheses, data/populations, splits, precision/capacity, metrics, baseline architecture or stopping require a dated amendment and fresh protected data when the claim changes.
+
+## Task 1 execution rulings — 16 October 2026
+
+These extend the earlier planning-only entries; they do not amend scientific hypotheses or accept later work packages.
+
+| Decision | Executed evidence | Consequence |
+|---|---|---|
+| Use existing native CPython 3.13.5 in `.venv`. | Native arm64 wheel resolution and actual CPU imports succeeded for torch 2.14.1 / NumPy 2.5.4 / SciPy 1.18.1. | No system Python change. PATH Python 3.14.6 was not wheel-tested and is not declared unsupported. |
+| Bound hash resolution to native wheels. | Default all-platform hash collection grew a task-owned temporary cache to 9.4 GiB and was stopped; only that cache was removed. Native wheelhouse is 165,537,733 bytes. | `requirements.lock` pins real hashes for CPython 3.13 macOS arm64/universal wheels; other platforms require separate resolution. Two clean hash-checked installs succeeded. |
+| Keep MPS fallback/fast math off and allocator protection on. | MPS built/available; 36 FP32 cells passed versus CPU FP64. CLI rejects conflicting reference flags and disabled allocator limits. | Passing APIs do not prove complete GPU kernel residency; no accelerated/model performance claim before profiling. CPU correctness remains sufficient when MPS is unavailable. |
+| Distinguish ordinary normalization from conditioning stress. | Initial global-linspace channels had tiny variance and failed fixed FP32 tolerances on CPU/MPS. Well-spread channels pass at unchanged 1e-5/1e-6 tolerances. | Preserve initial matrix and caveat; later model gates must test real conditioning rather than assume universal FP32 agreement. |
+| Use only a conservative smoke allocation ceiling. | Fresh free/speculative pages, OS pressure, warm RSS and sampled Metal allocations; substantial existing swap use persists. | Batch 1, four threads, cap derived envelope at 256 MiB then reserve 25% (192 MiB ceiling); full training envelope remains null. RSS and Metal allocations are not added as separate unified-memory pools. |
+| Preserve read-only source provenance. | Official source metadata, revision and license checks are archived separately from executable results. | UCI archive checks remain WP02; HiPPO reproduction and GDN2 fidelity remain future numerical gates; Time-Local vendoring permission remains unresolved. |
