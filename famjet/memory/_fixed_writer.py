@@ -87,6 +87,15 @@ def _digest_tensor(value):
     return torch.tensor(list(bytes.fromhex(canonical_hash(value))), dtype=torch.uint8)
 
 
+def _check_identity(state):
+    """Only a genuinely empty snapshot may have unbound identity metadata."""
+    active = state.valid | (state.event_offset > 0)
+    if bool(active.any()):
+        _require(bool(state.payload['time_unit_hash'].any())
+                 and bool(state.payload['history_hash'][active].any(dim=1).all()),
+                 'nonempty snapshot identity metadata is missing')
+
+
 def _pack_times(values):
     if all(type(v) is int for v in values):
         return torch.tensor(values, dtype=torch.int64)
@@ -134,6 +143,7 @@ class FixedWriterMemory(nn.Module):
             _require(tensor.shape == shape and tensor.dtype in dtypes and tensor.device.type == 'cpu'
                      and bool(torch.isfinite(tensor).all()), f'invalid snapshot {name}')
         _require(bool((state.event_offset >= 0).all()), 'invalid snapshot event_offset')
+        _check_identity(state)
 
     def encode(self, events: EventBatch, state: Snapshot | None = None, *, mode='stream') -> Snapshot:
         _require(mode in {'stream', 'terminal'}, 'mode must be stream or terminal')

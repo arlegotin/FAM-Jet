@@ -14,7 +14,7 @@ import torch
 
 from famjet.data.schema import validate_events, validate_queries
 from famjet.eval.oracle import exact_time_difference
-from famjet.memory._fixed_writer import _digest_tensor, _pack_times, _require
+from famjet.memory._fixed_writer import _digest_tensor, _pack_times, _require, _check_identity
 from famjet.provenance import canonical_hash
 from famjet.types import ReadResult, Snapshot
 
@@ -282,7 +282,9 @@ class PackedHistoryMemory:
         _require(type(batch_size) is int and batch_size > 0, 'batch_size must be positive integer')
         _require(device == 'cpu' and dtype == self.value_dtype, 'state device/dtype must match declared CPU value_dtype')
         arrays = self._new_store().arrays()
-        payload = {k:torch.from_numpy(np.stack([v]*batch_size)) for k,v in arrays.items()}
+        # Own Torch allocations: external NumPy deleters can hide oversized
+        # backing owners from the retained-storage ledger.
+        payload = {k:torch.from_numpy(np.stack([v]*batch_size)).clone() for k,v in arrays.items()}
         payload.update(history_hash=torch.zeros(batch_size,32,dtype=torch.uint8),
                        time_unit_hash=torch.zeros(32,dtype=torch.uint8))
         return Snapshot(payload,torch.zeros(batch_size,dtype=torch.int64),torch.zeros(batch_size,dtype=torch.bool),
@@ -304,6 +306,7 @@ class PackedHistoryMemory:
         _require(state.payload['history_hash'].shape == (b,32) and state.payload['history_hash'].dtype == torch.uint8
                  and state.payload['time_unit_hash'].shape == (32,) and state.payload['time_unit_hash'].dtype == torch.uint8,
                  'invalid snapshot identity layout')
+        _check_identity(state)
         c = state.payload['occupied'].shape[-1] if self.policy == 'exact' else self.capacity
         for k,v in expected.items():
             shape = (c,*v.shape[1:]) if self.policy == 'exact' and k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'} else v.shape
@@ -334,7 +337,7 @@ class PackedHistoryMemory:
                 if self.policy == 'exact' and k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'}:
                     x=np.pad(x,((0,capacity-x.shape[0]), *((0,0) for _ in x.shape[1:])))
                 rows.append(x)
-            payload[k]=torch.from_numpy(np.stack(rows))
+            payload[k]=torch.from_numpy(np.stack(rows)).clone()
         payload.update(history_hash=history_hash.clone(),time_unit_hash=unit_hash.clone())
         return Snapshot(payload,_pack_times([s._last_time() for s in stores]) if last_time is None else last_time.clone(),
                         payload['last_valid'][:,0].clone(),self._parameter_hash(),payload['seen'][:,0].clone())
