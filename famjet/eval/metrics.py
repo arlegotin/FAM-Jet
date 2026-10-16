@@ -1,5 +1,7 @@
 """Training-only frozen target summaries; scoring is implemented separately."""
 from collections import defaultdict
+from fractions import Fraction
+import math
 from collections.abc import Iterable
 import numpy as np
 from famjet.types import Episode, PredictionBatch
@@ -82,6 +84,64 @@ def _finite_json(value):
     if isinstance(value, list): return [_finite_json(x) for x in value]
     if isinstance(value, float) and not np.isfinite(value): return None
     return value
+
+
+def _rational_loss(value):
+    """Represent an exceptional exact nonnegative loss, retaining true overflow."""
+    try:
+        return float(value)
+    except OverflowError:
+        return float('inf')
+
+
+def _loss_mean(values, weights=None):
+    """Mean, or frozen weighted sum, without overflowing finite partial sums.
+
+    Exact rationals are only a fallback for exceptional finite reductions. These
+    are scoring scalars, not model/state arithmetic or a change of weights.
+    """
+    values=list(map(float,values))
+    if not values or any(math.isnan(v) for v in values): return float('nan')
+    if any(math.isinf(v) for v in values): return float('inf')
+    terms=values if weights is None else [v*w for v,w in zip(values,weights)]
+    try:
+        result=math.fsum(terms)
+        if math.isfinite(result): return result/len(values) if weights is None else result
+    except OverflowError:
+        pass
+    if weights is None:
+        exact=sum(map(Fraction,values))/len(values)
+    else:
+        exact=sum(Fraction(v)*Fraction(w) for v,w in zip(values,weights))
+    return _rational_loss(exact)
+
+
+def _numeric_errors(prediction, target, scale):
+    """Compute native and scaled errors independently of intermediate overflow.
+
+    On the ordinary path, divide residuals by scale before squaring. If a
+    difference or an individual square overflows, exact represented-value
+    arithmetic distinguishes a finite coordinate mean from true overflow.
+    """
+    with np.errstate(over='ignore',invalid='ignore'):
+        difference=prediction-target
+        absolute=np.abs(difference)
+        squares=np.square(difference)
+        scaled_squares=np.square(difference/scale) if scale is not None else None
+    exact=None
+    def exact_errors():
+        nonlocal exact
+        if exact is None: exact=[Fraction(float(x))-Fraction(float(y)) for x,y in zip(prediction,target)]
+        return exact
+    mse=(_loss_mean(squares) if np.isfinite(squares).all() else
+         _rational_loss(sum(x*x for x in exact_errors())/len(prediction)))
+    mae=(_loss_mean(absolute) if np.isfinite(absolute).all() else
+         _rational_loss(sum(abs(x) for x in exact_errors())/len(prediction)))
+    normalized=None
+    if scale is not None:
+        normalized=(_loss_mean(scaled_squares) if np.isfinite(scaled_squares).all() else
+                    _rational_loss(sum((x/Fraction(scale))**2 for x in exact_errors())/len(prediction)))
+    return absolute,mse,mae,normalized
 
 
 def score_predictions(predictions: PredictionBatch, statistics: dict, policy: dict) -> list[dict]:
@@ -190,14 +250,12 @@ def score_predictions(predictions: PredictionBatch, statistics: dict, policy: di
                 if final.shape!=target.shape or not np.isfinite(final).all(): raise ValueError('invalid numeric training prior/output dimension')
                 row['prediction']=final.tolist()
                 if valid:
-                    with np.errstate(over='ignore',invalid='ignore'):
-                        absolute=np.abs(final-target); mse=float(np.square(absolute).mean()); mae=float(absolute.mean())
+                    absolute,mse,mae,loss=_numeric_errors(final,target,st['scale'])
                     constants=np.asarray(st['constant_coordinates'],bool)
                     row.update(native_mse=mse if np.isfinite(mse) else None,native_mae=mae if np.isfinite(mae) else None,
                                native_mse_infinite=not np.isfinite(mse),native_mae_infinite=not np.isfinite(mae),
                                constant_absolute_error=_finite_json(absolute[constants]))
                     if task=='change_sign': row['sign_accuracy']=float(np.equal(np.sign(final),target).mean())
-                    loss=mse/st['scale']**2 if st['scale'] is not None else None
                     row['normalized_error']=loss if loss is not None and np.isfinite(loss) else None
             if valid:
                 row['loss_status']='undefined_loss' if loss is None else 'infinite_loss' if not np.isfinite(loss) else 'ok'
@@ -237,9 +295,10 @@ def _inventory(rows):
 
 
 def _cell_loss(rows,field='loss'):
-    if any(r.get('infinite_loss') for r in rows) and field=='loss': return float('inf')
+    flag='infinite_loss' if field=='loss' else field+'_infinite'
+    if any(r.get(flag) for r in rows): return float('inf')
     if any(not r['eligible'] or r.get(field) is None for r in rows): return float('nan')
-    return float(np.mean([r[field] for r in rows]))
+    return _loss_mean(r[field] for r in rows)
 
 
 def aggregate_scores(rows: list[dict]) -> dict:
@@ -248,13 +307,19 @@ def aggregate_scores(rows: list[dict]) -> dict:
     if len({r['method'] for r in rows})!=1: raise ValueError('aggregate one method at a time')
     p,hs,ss,weights=_inventory(rows)
     def task_value(task,field):
-        return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
-    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+        return _loss_mean([_loss_mean(_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss) for h in hs],weights)
+    loss=_loss_mean([task_value(t,'loss') for t in p['task_weights']],list(p['task_weights'].values()))
     native={}
     for t in p['task_weights']:
         if t in CATEGORICAL_TASKS|BINARY_TASKS: continue
         mse,mae=task_value(t,'native_mse'),task_value(t,'native_mae')
-        native[t]={'rmse':float(np.sqrt(mse)) if np.isfinite(mse) else None,'mae':float(mae) if np.isfinite(mae) else None}
+        def native_status(value,field):
+            if any(r['task']==t and r.get(field+'_infinite') for r in rows):
+                return 'unavailable_nonrepresentable_row_metric'
+            return 'undefined_loss' if np.isnan(value) else 'nonrepresentable_aggregate' if np.isinf(value) else 'ok'
+        native[t]={'rmse':float(np.sqrt(mse)) if np.isfinite(mse) else None,'mae':float(mae) if np.isfinite(mae) else None,
+                   'mse_status':native_status(mse,'native_mse'),
+                   'mae_status':native_status(mae,'native_mae')}
     categorical={}
     for task in p['task_weights']:
         if task not in CATEGORICAL_TASKS|BINARY_TASKS: continue
@@ -301,7 +366,7 @@ def history_effects_inventory(rows: list[dict], pair: tuple[str,str]) -> dict:
 def history_effects(rows: list[dict], pair: tuple[str,str]) -> np.ndarray:
     inventory=history_effects_inventory(rows,pair); p=inventory['policy']
     def value(method,h,s):
-        return sum(w*_cell_loss([r for r in rows if r['method']==method and r['history_id']==h and r['replicate']==s and r['task']==t]) for t,w in p['task_weights'].items())
+        return _loss_mean([_cell_loss([r for r in rows if r['method']==method and r['history_id']==h and r['replicate']==s and r['task']==t]) for t in p['task_weights']],list(p['task_weights'].values()))
     result=np.asarray([[value(pair[0],h,s)-value(pair[1],h,s) for s in inventory['replicate_order']] for h in inventory['history_order']])
     if not np.isfinite(result).all(): raise ValueError('undefined/infinite losses block comparable history effects')
     return result

@@ -1,0 +1,35 @@
+{
+  "fix_base": "e6f949c",
+  "prior_source_hash": "23bccaaefb2e5893cadbc569402dcfb895aec63e46252cceb7ed2bdaf7232871",
+  "current_package_source_hash": "a35bb4f7f5e78859fb41d4161574b77817e10465632a58afd1d302a0950582c0",
+  "changed_production_files": [
+    "famjet/eval/metrics.py"
+  ],
+  "prior_evidence_files_unchanged": 34,
+  "archived_artifacts_unchanged": 39,
+  "current_target_manifests_unchanged": 38,
+  "preserved_draw_identity_mappings": 444,
+  "no_preparation_training_native_source_control_or_protected_runs": true,
+  "commands": [
+    {
+      "command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_metrics.py -q",
+      "log": "red.txt",
+      "result": "9 failed, 13 passed in0.69s"
+    },
+    {
+      "command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_metrics.py -q",
+      "log": "green.txt",
+      "result": "22 passed in0.50s"
+    },
+    {
+      "command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_metrics.py::test_normalized_error_stays_finite_when_native_square_overflows tests/test_metrics.py::test_genuinely_unrepresentable_normalized_loss_remains_infinite -q",
+      "log": "red-native-status.txt",
+      "result": "2 failed in0.53s"
+    },
+    {
+      "command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_metrics.py tests/test_harness.py tests/test_kernel_limits.py tests/test_oracle.py -q -W error",
+      "log": "covering-final.txt",
+      "result": "42 passed in1.26s"
+    }
+  ]
+}

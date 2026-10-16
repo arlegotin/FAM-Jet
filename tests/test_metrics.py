@@ -177,3 +177,97 @@ def test_missing_numeric_prior_is_config_failure_even_for_usable_output():
     b,s,p=case(); s['tasks']['mean']['mean']=None
     b.metadata['scoring_v2']['statistics_hash']=canonical_hash(s)
     with pytest.raises(ValueError,match='prior'): score_predictions(b,s,p)
+
+
+def overflow_case(prediction, target, scale):
+    """Use explicit representable training scales and matching dimensions."""
+    from famjet.provenance import canonical_hash
+    b,s,p=case(prediction=prediction,target=target)
+    s['tasks']['mean'].update(mean=[0.]*len(target),scale=scale,pooled_variance=scale*scale,
+                            constant_coordinates=[False]*len(target))
+    b.metadata['scoring_v2']['statistics_hash']=canonical_hash(s)
+    return b,s,p
+
+
+def test_normalized_error_stays_finite_when_native_square_overflows():
+    from fractions import Fraction
+    from famjet.eval.metrics import score_predictions,aggregate_scores
+    b,s,p=overflow_case((1e155,),(0.,),1e150)
+    with np.errstate(all='raise'):
+        r=score_predictions(b,s,p)[0]
+        result=aggregate_scores([r])
+    truth=float((Fraction(1e155)/Fraction(1e150))**2)
+    assert r['loss']==pytest.approx(truth,rel=3e-16) and r['loss_status']=='ok'
+    assert r['native_mse'] is None and r['native_mse_infinite']
+    assert not r['infinite_loss'] and not r['fallback']
+    assert result['status']=='ok' and result['infinite_loss_count']==0
+    assert result['native_by_task']['mean']['mse_status']=='unavailable_nonrepresentable_row_metric'
+    json.dumps(result,allow_nan=False)
+
+
+@pytest.mark.parametrize('prediction,target,scale',[
+    ((1.5e154,0.),(0.,0.),1.),  # individual square overflows, coordinate mean does not
+    ((1e154,1e154),(0.,0.),1.),  # finite squares, their sum overflows
+    ((1e308,1e308),(0.,0.),1e154),  # native MAE sum overflows; normalized MSE is finite
+    ((1e308,0.),(-1e308,0.),1e154),  # individual absolute error overflows, MAE is finite
+])
+def test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates(prediction,target,scale):
+    from fractions import Fraction
+    from famjet.eval.metrics import score_predictions
+    b,s,p=overflow_case(prediction,target,scale)
+    errors=[Fraction(x)-Fraction(y) for x,y in zip(prediction,target)]
+    truths={'native_mse':sum(x*x for x in errors)/len(errors),
+            'native_mae':sum(abs(x) for x in errors)/len(errors),
+            'loss':sum((x/Fraction(scale))**2 for x in errors)/len(errors)}
+    with np.errstate(all='raise'): r=score_predictions(b,s,p)[0]
+    for field,truth in truths.items():
+        try: expected=float(truth)
+        except OverflowError: expected=float('inf')
+        flag='infinite_loss' if field=='loss' else field+'_infinite'
+        if math.isfinite(expected):
+            assert r[field]==pytest.approx(expected,rel=3e-16) and not r[flag]
+        else:
+            assert r[field] is None and r[flag]
+    json.dumps(r,allow_nan=False)
+
+
+@pytest.mark.parametrize('query_count,replicate_count',[(2,1),(1,2),(2,2)])
+def test_finite_query_replicate_and_native_means_cannot_overflow(query_count,replicate_count):
+    from fractions import Fraction
+    from famjet.eval.metrics import score_predictions,aggregate_scores,history_effects
+    b,s,p=overflow_case((1e154,),(0.,),1.)
+    p.update(task_weights={'mean':.5,'contrast':.5},regime_weights={'r':.5,'s':.5},
+             primary_tasks=['mean','contrast'],expected_inventory=[
+                 {'history_id':h,'replicate':rep,'regime':reg,'tasks':{'mean':list(range(query_count)),'contrast':list(range(query_count))}}
+                 for h,reg in [('a','r'),('b','r'),('c','s')] for rep in range(replicate_count)])
+    s['tasks']['contrast']=deepcopy(s['tasks']['mean'])
+    from famjet.provenance import canonical_hash
+    rows=[]
+    with np.errstate(all='raise'):
+        for cell in p['expected_inventory']:
+            for task in cell['tasks']:
+                for q in range(query_count):
+                    for method,value in [('baseline',1e154),('candidate',0.)]:
+                        bb=deepcopy(b)
+                        bb=replace(bb,history_ids=(cell['history_id'],),query_ids=torch.tensor([[q]]),prediction=torch.tensor([[[value]]],dtype=torch.float64))
+                        bb.metadata['scoring_v2'].update(method=method,replicate=cell['replicate'],regime=cell['regime'],tasks=[[task]],statistics_hash=canonical_hash(s))
+                        rows.extend(score_predictions(bb,s,p))
+        aggregate=aggregate_scores([r for r in rows if r['method']=='baseline'])
+        effect=history_effects(rows,('baseline','candidate'))
+    truth=float(Fraction(1e154)**2)
+    assert aggregate['status']=='ok' and aggregate['loss']==truth and aggregate['infinite_loss_count']==0
+    assert aggregate['selective_risk']==truth
+    for native in aggregate['native_by_task'].values():
+        assert native['rmse']==1e154 and native['mae']==1e154
+    np.testing.assert_array_equal(effect,np.full((3,replicate_count),truth))
+
+
+def test_genuinely_unrepresentable_normalized_loss_remains_infinite():
+    from famjet.eval.metrics import score_predictions,aggregate_scores
+    b,s,p=overflow_case((1e155,),(0.,),1.)
+    with np.errstate(all='raise'):
+        r=score_predictions(b,s,p)[0]; aggregate=aggregate_scores([r])
+    assert r['loss'] is None and r['infinite_loss'] and r['loss_status']=='infinite_loss'
+    assert aggregate['status']=='infinite_loss' and aggregate['infinite_loss_count']==1
+    assert aggregate['native_by_task']['mean']['mse_status']=='unavailable_nonrepresentable_row_metric'
+    json.dumps(aggregate,allow_nan=False)

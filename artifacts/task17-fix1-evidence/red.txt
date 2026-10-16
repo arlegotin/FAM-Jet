@@ -1,0 +1,392 @@
+.............FFFFFFFFF                                                   [100%]
+=================================== FAILURES ===================================
+_______ test_normalized_error_stays_finite_when_native_square_overflows ________
+
+    def test_normalized_error_stays_finite_when_native_square_overflows():
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions,aggregate_scores
+        b,s,p=overflow_case((1e155,),(0.,),1e150)
+        with np.errstate(all='raise'):
+            r=score_predictions(b,s,p)[0]
+            result=aggregate_scores([r])
+        truth=float((Fraction(1e155)/Fraction(1e150))**2)
+>       assert r['loss']==pytest.approx(truth,rel=3e-16) and r['loss_status']=='ok'
+E       assert (None == 10000000000.0 ± 3.0e-06
+E         
+E         comparison failed
+E         Obtained: None
+E         Expected: 10000000000.0 ± 3.0e-06)
+
+tests/test_metrics.py:200: AssertionError
+_ test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction0-target0-1.0] _
+
+prediction = (1.5e+154, 0.0), target = (0.0, 0.0), scale = 1.0
+
+    @pytest.mark.parametrize('prediction,target,scale',[
+        ((1.5e154,0.),(0.,0.),1.),  # individual square overflows, coordinate mean does not
+        ((1e154,1e154),(0.,0.),1.),  # finite squares, their sum overflows
+        ((1e308,1e308),(0.,0.),1e154),  # native MAE sum overflows; normalized MSE is finite
+        ((1e308,0.),(-1e308,0.),1e154),  # individual absolute error overflows, MAE is finite
+    ])
+    def test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates(prediction,target,scale):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions
+        b,s,p=overflow_case(prediction,target,scale)
+        errors=[Fraction(x)-Fraction(y) for x,y in zip(prediction,target)]
+        truths={'native_mse':sum(x*x for x in errors)/len(errors),
+                'native_mae':sum(abs(x) for x in errors)/len(errors),
+                'loss':sum((x/Fraction(scale))**2 for x in errors)/len(errors)}
+        with np.errstate(all='raise'): r=score_predictions(b,s,p)[0]
+        for field,truth in truths.items():
+            try: expected=float(truth)
+            except OverflowError: expected=float('inf')
+            flag='infinite_loss' if field=='loss' else field+'_infinite'
+            if math.isfinite(expected):
+>               assert r[field]==pytest.approx(expected,rel=3e-16) and not r[flag]
+E               assert (None == 1.12500000000...308 ± 3.4e+292
+E                 
+E                 comparison failed
+E                 Obtained: None
+E                 Expected: 1.1250000000000002e+308 ± 3.4e+292)
+
+tests/test_metrics.py:228: AssertionError
+_ test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction1-target1-1.0] _
+
+prediction = (1e+154, 1e+154), target = (0.0, 0.0), scale = 1.0
+
+    @pytest.mark.parametrize('prediction,target,scale',[
+        ((1.5e154,0.),(0.,0.),1.),  # individual square overflows, coordinate mean does not
+        ((1e154,1e154),(0.,0.),1.),  # finite squares, their sum overflows
+        ((1e308,1e308),(0.,0.),1e154),  # native MAE sum overflows; normalized MSE is finite
+        ((1e308,0.),(-1e308,0.),1e154),  # individual absolute error overflows, MAE is finite
+    ])
+    def test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates(prediction,target,scale):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions
+        b,s,p=overflow_case(prediction,target,scale)
+        errors=[Fraction(x)-Fraction(y) for x,y in zip(prediction,target)]
+        truths={'native_mse':sum(x*x for x in errors)/len(errors),
+                'native_mae':sum(abs(x) for x in errors)/len(errors),
+                'loss':sum((x/Fraction(scale))**2 for x in errors)/len(errors)}
+        with np.errstate(all='raise'): r=score_predictions(b,s,p)[0]
+        for field,truth in truths.items():
+            try: expected=float(truth)
+            except OverflowError: expected=float('inf')
+            flag='infinite_loss' if field=='loss' else field+'_infinite'
+            if math.isfinite(expected):
+>               assert r[field]==pytest.approx(expected,rel=3e-16) and not r[flag]
+E               assert (None == 1e+308 ± 3.0e+292
+E                 
+E                 comparison failed
+E                 Obtained: None
+E                 Expected: 1e+308 ± 3.0e+292)
+
+tests/test_metrics.py:228: AssertionError
+_ test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction2-target2-1e+154] _
+
+prediction = (1e+308, 1e+308), target = (0.0, 0.0), scale = 1e+154
+
+    @pytest.mark.parametrize('prediction,target,scale',[
+        ((1.5e154,0.),(0.,0.),1.),  # individual square overflows, coordinate mean does not
+        ((1e154,1e154),(0.,0.),1.),  # finite squares, their sum overflows
+        ((1e308,1e308),(0.,0.),1e154),  # native MAE sum overflows; normalized MSE is finite
+        ((1e308,0.),(-1e308,0.),1e154),  # individual absolute error overflows, MAE is finite
+    ])
+    def test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates(prediction,target,scale):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions
+        b,s,p=overflow_case(prediction,target,scale)
+        errors=[Fraction(x)-Fraction(y) for x,y in zip(prediction,target)]
+        truths={'native_mse':sum(x*x for x in errors)/len(errors),
+                'native_mae':sum(abs(x) for x in errors)/len(errors),
+                'loss':sum((x/Fraction(scale))**2 for x in errors)/len(errors)}
+        with np.errstate(all='raise'): r=score_predictions(b,s,p)[0]
+        for field,truth in truths.items():
+            try: expected=float(truth)
+            except OverflowError: expected=float('inf')
+            flag='infinite_loss' if field=='loss' else field+'_infinite'
+            if math.isfinite(expected):
+>               assert r[field]==pytest.approx(expected,rel=3e-16) and not r[flag]
+E               assert (None == 1e+308 ± 3.0e+292
+E                 
+E                 comparison failed
+E                 Obtained: None
+E                 Expected: 1e+308 ± 3.0e+292)
+
+tests/test_metrics.py:228: AssertionError
+_ test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction3-target3-1e+154] _
+
+prediction = (1e+308, 0.0), target = (-1e+308, 0.0), scale = 1e+154
+
+    @pytest.mark.parametrize('prediction,target,scale',[
+        ((1.5e154,0.),(0.,0.),1.),  # individual square overflows, coordinate mean does not
+        ((1e154,1e154),(0.,0.),1.),  # finite squares, their sum overflows
+        ((1e308,1e308),(0.,0.),1e154),  # native MAE sum overflows; normalized MSE is finite
+        ((1e308,0.),(-1e308,0.),1e154),  # individual absolute error overflows, MAE is finite
+    ])
+    def test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates(prediction,target,scale):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions
+        b,s,p=overflow_case(prediction,target,scale)
+        errors=[Fraction(x)-Fraction(y) for x,y in zip(prediction,target)]
+        truths={'native_mse':sum(x*x for x in errors)/len(errors),
+                'native_mae':sum(abs(x) for x in errors)/len(errors),
+                'loss':sum((x/Fraction(scale))**2 for x in errors)/len(errors)}
+        with np.errstate(all='raise'): r=score_predictions(b,s,p)[0]
+        for field,truth in truths.items():
+            try: expected=float(truth)
+            except OverflowError: expected=float('inf')
+            flag='infinite_loss' if field=='loss' else field+'_infinite'
+            if math.isfinite(expected):
+>               assert r[field]==pytest.approx(expected,rel=3e-16) and not r[flag]
+E               assert (None == 1e+308 ± 3.0e+292
+E                 
+E                 comparison failed
+E                 Obtained: None
+E                 Expected: 1e+308 ± 3.0e+292)
+
+tests/test_metrics.py:228: AssertionError
+______ test_finite_query_replicate_and_native_means_cannot_overflow[2-1] _______
+
+query_count = 2, replicate_count = 1
+
+    @pytest.mark.parametrize('query_count,replicate_count',[(2,1),(1,2),(2,2)])
+    def test_finite_query_replicate_and_native_means_cannot_overflow(query_count,replicate_count):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions,aggregate_scores,history_effects
+        b,s,p=overflow_case((1e154,),(0.,),1.)
+        p.update(task_weights={'mean':.5,'contrast':.5},regime_weights={'r':.5,'s':.5},
+                 primary_tasks=['mean','contrast'],expected_inventory=[
+                     {'history_id':h,'replicate':rep,'regime':reg,'tasks':{'mean':list(range(query_count)),'contrast':list(range(query_count))}}
+                     for h,reg in [('a','r'),('b','r'),('c','s')] for rep in range(replicate_count)])
+        s['tasks']['contrast']=deepcopy(s['tasks']['mean'])
+        from famjet.provenance import canonical_hash
+        rows=[]
+        with np.errstate(all='raise'):
+            for cell in p['expected_inventory']:
+                for task in cell['tasks']:
+                    for q in range(query_count):
+                        for method,value in [('baseline',1e154),('candidate',0.)]:
+                            bb=deepcopy(b)
+                            bb=replace(bb,history_ids=(cell['history_id'],),query_ids=torch.tensor([[q]]),prediction=torch.tensor([[[value]]],dtype=torch.float64))
+                            bb.metadata['scoring_v2'].update(method=method,replicate=cell['replicate'],regime=cell['regime'],tasks=[[task]],statistics_hash=canonical_hash(s))
+                            rows.extend(score_predictions(bb,s,p))
+>           aggregate=aggregate_scores([r for r in rows if r['method']=='baseline'])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_metrics.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/eval/metrics.py:252: in aggregate_scores
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:252: in <genexpr>
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+               ^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in task_value
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in <genexpr>
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:242: in _cell_loss
+    return float(np.mean([r[field] for r in rows]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3862: in mean
+    return _methods._mean(a, axis=axis, dtype=dtype,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = [1e+308, 1e+308], axis = None, dtype = None, out = None, keepdims = False
+where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FloatingPointError: overflow encountered in reduce
+
+.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:132: FloatingPointError
+______ test_finite_query_replicate_and_native_means_cannot_overflow[1-2] _______
+
+query_count = 1, replicate_count = 2
+
+    @pytest.mark.parametrize('query_count,replicate_count',[(2,1),(1,2),(2,2)])
+    def test_finite_query_replicate_and_native_means_cannot_overflow(query_count,replicate_count):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions,aggregate_scores,history_effects
+        b,s,p=overflow_case((1e154,),(0.,),1.)
+        p.update(task_weights={'mean':.5,'contrast':.5},regime_weights={'r':.5,'s':.5},
+                 primary_tasks=['mean','contrast'],expected_inventory=[
+                     {'history_id':h,'replicate':rep,'regime':reg,'tasks':{'mean':list(range(query_count)),'contrast':list(range(query_count))}}
+                     for h,reg in [('a','r'),('b','r'),('c','s')] for rep in range(replicate_count)])
+        s['tasks']['contrast']=deepcopy(s['tasks']['mean'])
+        from famjet.provenance import canonical_hash
+        rows=[]
+        with np.errstate(all='raise'):
+            for cell in p['expected_inventory']:
+                for task in cell['tasks']:
+                    for q in range(query_count):
+                        for method,value in [('baseline',1e154),('candidate',0.)]:
+                            bb=deepcopy(b)
+                            bb=replace(bb,history_ids=(cell['history_id'],),query_ids=torch.tensor([[q]]),prediction=torch.tensor([[[value]]],dtype=torch.float64))
+                            bb.metadata['scoring_v2'].update(method=method,replicate=cell['replicate'],regime=cell['regime'],tasks=[[task]],statistics_hash=canonical_hash(s))
+                            rows.extend(score_predictions(bb,s,p))
+>           aggregate=aggregate_scores([r for r in rows if r['method']=='baseline'])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_metrics.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/eval/metrics.py:252: in aggregate_scores
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:252: in <genexpr>
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+               ^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in task_value
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in <genexpr>
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3862: in mean
+    return _methods._mean(a, axis=axis, dtype=dtype,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = [1e+308, 1e+308], axis = None, dtype = None, out = None, keepdims = False
+where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FloatingPointError: overflow encountered in reduce
+
+.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:132: FloatingPointError
+______ test_finite_query_replicate_and_native_means_cannot_overflow[2-2] _______
+
+query_count = 2, replicate_count = 2
+
+    @pytest.mark.parametrize('query_count,replicate_count',[(2,1),(1,2),(2,2)])
+    def test_finite_query_replicate_and_native_means_cannot_overflow(query_count,replicate_count):
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions,aggregate_scores,history_effects
+        b,s,p=overflow_case((1e154,),(0.,),1.)
+        p.update(task_weights={'mean':.5,'contrast':.5},regime_weights={'r':.5,'s':.5},
+                 primary_tasks=['mean','contrast'],expected_inventory=[
+                     {'history_id':h,'replicate':rep,'regime':reg,'tasks':{'mean':list(range(query_count)),'contrast':list(range(query_count))}}
+                     for h,reg in [('a','r'),('b','r'),('c','s')] for rep in range(replicate_count)])
+        s['tasks']['contrast']=deepcopy(s['tasks']['mean'])
+        from famjet.provenance import canonical_hash
+        rows=[]
+        with np.errstate(all='raise'):
+            for cell in p['expected_inventory']:
+                for task in cell['tasks']:
+                    for q in range(query_count):
+                        for method,value in [('baseline',1e154),('candidate',0.)]:
+                            bb=deepcopy(b)
+                            bb=replace(bb,history_ids=(cell['history_id'],),query_ids=torch.tensor([[q]]),prediction=torch.tensor([[[value]]],dtype=torch.float64))
+                            bb.metadata['scoring_v2'].update(method=method,replicate=cell['replicate'],regime=cell['regime'],tasks=[[task]],statistics_hash=canonical_hash(s))
+                            rows.extend(score_predictions(bb,s,p))
+>           aggregate=aggregate_scores([r for r in rows if r['method']=='baseline'])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_metrics.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/eval/metrics.py:252: in aggregate_scores
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:252: in <genexpr>
+    loss=sum(w*task_value(t,'loss') for t,w in p['task_weights'].items())
+               ^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in task_value
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:251: in <genexpr>
+    return sum(w*np.mean([_cell_loss([r for r in rows if r['history_id']==h and r['replicate']==s and r['task']==task],field) for s in ss]) for h,w in zip(hs,weights))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:242: in _cell_loss
+    return float(np.mean([r[field] for r in rows]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3862: in mean
+    return _methods._mean(a, axis=axis, dtype=dtype,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = [1e+308, 1e+308], axis = None, dtype = None, out = None, keepdims = False
+where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FloatingPointError: overflow encountered in reduce
+
+.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:132: FloatingPointError
+_______ test_genuinely_unrepresentable_normalized_loss_remains_infinite ________
+
+    def test_genuinely_unrepresentable_normalized_loss_remains_infinite():
+        from famjet.eval.metrics import score_predictions,aggregate_scores
+        b,s,p=overflow_case((1e155,),(0.,),1.)
+        with np.errstate(all='raise'):
+            r=score_predictions(b,s,p)[0]; aggregate=aggregate_scores([r])
+        assert r['loss'] is None and r['infinite_loss'] and r['loss_status']=='infinite_loss'
+        assert aggregate['status']=='infinite_loss' and aggregate['infinite_loss_count']==1
+>       assert aggregate['native_by_task']['mean']['mse_status']=='infinite_loss'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'mse_status'
+
+tests/test_metrics.py:272: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_normalized_error_stays_finite_when_native_square_overflows
+FAILED tests/test_metrics.py::test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction0-target0-1.0]
+FAILED tests/test_metrics.py::test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction1-target1-1.0]
+FAILED tests/test_metrics.py::test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction2-target2-1e+154]
+FAILED tests/test_metrics.py::test_coordinate_means_follow_rational_truth_even_with_overflowing_intermediates[prediction3-target3-1e+154]
+FAILED tests/test_metrics.py::test_finite_query_replicate_and_native_means_cannot_overflow[2-1]
+FAILED tests/test_metrics.py::test_finite_query_replicate_and_native_means_cannot_overflow[1-2]
+FAILED tests/test_metrics.py::test_finite_query_replicate_and_native_means_cannot_overflow[2-2]
+FAILED tests/test_metrics.py::test_genuinely_unrepresentable_normalized_loss_remains_infinite
+9 failed, 13 passed in 0.69s

@@ -1,0 +1,43 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_normalized_error_stays_finite_when_native_square_overflows ________
+
+    def test_normalized_error_stays_finite_when_native_square_overflows():
+        from fractions import Fraction
+        from famjet.eval.metrics import score_predictions,aggregate_scores
+        b,s,p=overflow_case((1e155,),(0.,),1e150)
+        with np.errstate(all='raise'):
+            r=score_predictions(b,s,p)[0]
+            result=aggregate_scores([r])
+        truth=float((Fraction(1e155)/Fraction(1e150))**2)
+        assert r['loss']==pytest.approx(truth,rel=3e-16) and r['loss_status']=='ok'
+        assert r['native_mse'] is None and r['native_mse_infinite']
+        assert not r['infinite_loss'] and not r['fallback']
+        assert result['status']=='ok' and result['infinite_loss_count']==0
+>       assert result['native_by_task']['mean']['mse_status']=='unavailable_nonrepresentable_row_metric'
+E       AssertionError: assert 'infinite_loss' == 'unavailable_...le_row_metric'
+E         
+E         - unavailable_nonrepresentable_row_metric
+E         + infinite_loss
+
+tests/test_metrics.py:204: AssertionError
+_______ test_genuinely_unrepresentable_normalized_loss_remains_infinite ________
+
+    def test_genuinely_unrepresentable_normalized_loss_remains_infinite():
+        from famjet.eval.metrics import score_predictions,aggregate_scores
+        b,s,p=overflow_case((1e155,),(0.,),1.)
+        with np.errstate(all='raise'):
+            r=score_predictions(b,s,p)[0]; aggregate=aggregate_scores([r])
+        assert r['loss'] is None and r['infinite_loss'] and r['loss_status']=='infinite_loss'
+        assert aggregate['status']=='infinite_loss' and aggregate['infinite_loss_count']==1
+>       assert aggregate['native_by_task']['mean']['mse_status']=='unavailable_nonrepresentable_row_metric'
+E       AssertionError: assert 'infinite_loss' == 'unavailable_...le_row_metric'
+E         
+E         - unavailable_nonrepresentable_row_metric
+E         + infinite_loss
+
+tests/test_metrics.py:272: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_metrics.py::test_normalized_error_stays_finite_when_native_square_overflows
+FAILED tests/test_metrics.py::test_genuinely_unrepresentable_normalized_loss_remains_infinite
+2 failed in 0.53s
