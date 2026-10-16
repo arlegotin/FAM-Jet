@@ -28,12 +28,15 @@ from famjet.memory.jet import JetMemory
 from famjet.memory.expbank import ExpBankMemory, BoundedRates
 from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import QueryBatch, ReadResult, FeatureBatch
+from famjet.models.task_model import TaskModel
+from famjet.readers.structured import make_reader
+from famjet.config import _parse, RunConfig
 from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapshot_hash,
                                   tensor_record, tensor_from_record)
 
 REGISTRY_VERSION = 2
 _REGISTRY = {'packed': PackedHistoryMemory, 'reservoir': ReservoirMemory, 'hybrid': HybridMemory,
-             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory}
+             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel}
 _ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -89,6 +92,27 @@ def _reconstruct(spec, *, freeze_rates=False):
              'unregistered method/schema version')
     kind, schema = spec['kind'], spec['schema']
     _require(type(schema) is dict and type(spec['weights']) is dict, 'invalid method schema')
+    if kind == 'task':
+        _require(set(schema) == {'kernel', 'reader', 'config', 'fit_provenance', 'target_statistics', 'frozen_rates'},
+                 'invalid task schema')
+        kernel = _reconstruct(schema['kernel'], freeze_rates=freeze_rates)
+        # Static audit must not perturb the caller's future initialization/dropout RNG.
+        with torch.random.fork_rng(devices=[]):
+            reader = make_reader(**schema['reader']).to(dtype=kernel.rates.dtype)
+            config = _parse(schema['config'], RunConfig, 'config')
+            frozen = schema['frozen_rates'] or (freeze_rates and config.model.rates.mode == 'learned')
+            method = TaskModel(kernel, reader, config, _frozen_rates=frozen)
+        method.fit_provenance = schema['fit_provenance']
+        method.target_statistics = schema['target_statistics']
+        expected = {k: v for k, v in method.state_dict().items() if not k.startswith('kernel.')}
+        _require(set(expected) == set(spec['weights']), 'invalid task weights')
+        with torch.no_grad():
+            for name, destination in expected.items():
+                source = tensor_from_record(spec['weights'][name])
+                _require(source.shape == destination.shape and source.dtype == destination.dtype
+                         and bool(torch.isfinite(source).all()), 'invalid task weight shape/dtype/value')
+                destination.copy_(source)
+        return method
     if kind not in ('jet', 'bank'):
         _require(not spec['weights'], 'unexpected packed weights')
         return _REGISTRY[kind](**schema)
@@ -98,7 +122,7 @@ def _reconstruct(spec, *, freeze_rates=False):
         _require(set(spec['weights']) == {'rates'}, 'invalid rate weights')
         rates = tensor_from_record(spec['weights']['rates'])
     else:
-        _require(kind == 'bank' and set(spec['weights']) == {'logits', 'represented_rates'},
+        _require(kind in ('jet', 'bank') and set(spec['weights']) == {'logits', 'represented_rates'},
                  'invalid learned rate schema')
         logits = tensor_from_record(spec['weights']['logits'])
         represented = tensor_from_record(spec['weights']['represented_rates'])
@@ -119,7 +143,14 @@ def export_method(method):
     kinds = {cls: kind for kind, cls in _REGISTRY.items()}
     _require(type(method) in kinds, 'method type is not registered for isolated inference')
     kind = kinds[type(method)]; weights = {}
-    if kind == 'packed':
+    if kind == 'task':
+        from famjet.readers.mlp import NumericReader
+        _require(type(method.reader) is NumericReader, 'unregistered task reader')
+        schema = dict(kernel=export_method(method.kernel), reader=method.reader.schema, config=method.config,
+                      fit_provenance=method.fit_provenance, target_statistics=method.target_statistics,
+                      frozen_rates=method._frozen_rates)
+        weights = {k: tensor_record(v) for k, v in method.state_dict().items() if not k.startswith('kernel.')}
+    elif kind == 'packed':
         schema = {k: getattr(method, k) for k in ('capacity', 'value_dim', 'policy', 'key_dim', 'value_dtype')}
     elif kind in ('reservoir', 'hybrid', 'buckets'):
         schema = dict(method._store_kwargs, key_dim=method.key_dim)
@@ -128,7 +159,7 @@ def export_method(method):
         schema['rate_source'] = None
         if kind == 'bank':
             schema['no_decay'] = method.no_decay
-        if kind == 'bank' and hasattr(method, 'rate_source'):
+        if hasattr(method, 'rate_source'):
             source = method.rate_source
             _require(type(source) is BoundedRates, 'unregistered rate source')
             schema['rate_source'] = dict(count=source.logits.numel(), log_min=source.log_min, log_max=source.log_max)

@@ -17,6 +17,7 @@ from famjet.data.schema import validate_rates
 from famjet.eval.oracle import exact_time_difference
 from famjet.provenance import canonical_hash
 from famjet.types import EventBatch, FeatureBatch
+from famjet.memory.expbank import BoundedRates
 from famjet.memory._fixed_writer import (
     FixedWriterMemory, _require, _finite, _core_coefficients, _coefficients,
     _write, _raw,
@@ -185,19 +186,36 @@ class JetMemory(FixedWriterMemory):
     hashes and last event IDs. Parameters and configuration stay on the module;
     encoding/read calls never cache histories or query-dependent state there.
     """
-    def __init__(self, rates: Tensor, key_dim: int, value_dim: int, *, eps=1e-8,
+    def __init__(self, rates: Tensor | BoundedRates, key_dim: int, value_dim: int, *, eps=1e-8,
                  support_floor=1e-12, t_ref=1., chunk_size=128):
         super().__init__()
-        validate_rates(rates)
-        _require(rates.ndim == 2 and rates.shape[0] == 1, 'JetMemory raw writer requires rates [1,J]')
+        initial = rates() if isinstance(rates, BoundedRates) else rates
+        validate_rates(initial)
+        _require(initial.ndim == 2 and initial.shape[0] == 1, 'JetMemory raw writer requires rates [1,J]')
         _require(type(key_dim) is int and key_dim > 0 and type(value_dim) is int and value_dim > 0,
                  'key_dim and value_dim must be positive integers')
         _require(type(chunk_size) is int and chunk_size > 0, 'chunk_size must be positive integer')
         for name, x, allow_zero in [('eps', eps, False), ('support_floor', support_floor, True), ('t_ref', t_ref, False)]:
             _require(isinstance(x, (int, float)) and math.isfinite(x) and (x >= 0 if allow_zero else x > 0), f'invalid {name}')
-        self.register_buffer('rates', rates.clone())
+        if isinstance(rates, BoundedRates):
+            self.rate_source = rates
+        else:
+            self.register_buffer('_fixed_rates', rates.clone())
         self.key_dim, self.value_dim = key_dim, value_dim
         self.eps, self.support_floor, self.t_ref, self.chunk_size = eps, support_floor, t_ref, chunk_size
+
+    @property
+    def rates(self):
+        return self.rate_source() if hasattr(self, 'rate_source') else self._fixed_rates
+
+    @rates.setter
+    def rates(self, value):
+        # Preserve the existing fixed-rate buffer assignment API. Retain views
+        # exactly so the strict storage audit can detect attached base caches.
+        _require(not hasattr(self, 'rate_source'), 'update learned rate_source logits instead')
+        validate_rates(value)
+        _require(value.ndim == 2 and value.shape[0] == 1, 'rates must be [1,J]')
+        self._fixed_rates = value
 
     def _parameter_hash(self):
         return canonical_hash({'kernel': 'jet-v1-fixed-shared', 'rates': self.rates.detach().cpu().tolist(),
