@@ -1,0 +1,291 @@
+"""Strict version-1 resolved configuration. No pilot-dependent defaults."""
+from dataclasses import asdict, dataclass, fields, is_dataclass
+import math
+import json
+from pathlib import Path
+import types
+from typing import Any, Union, get_args, get_origin, get_type_hints
+
+import yaml
+
+from famjet.artifacts import atomic_json
+from famjet.provenance import canonical_json
+
+
+@dataclass(frozen=True)
+class DataConfig:
+    generator_version: str
+    key_features: str
+    key_dim: int
+    value_dim: int
+    length: int
+    queries_per_history: int
+
+
+@dataclass(frozen=True)
+class RateConfig:
+    mode: str
+    bounds: tuple[float, float]
+    spacing: str
+
+
+@dataclass(frozen=True)
+class ReaderConfig:
+    kind: str
+    width: int
+    layers: int
+    activation: str
+
+
+@dataclass(frozen=True)
+class ModelConfig:
+    method: str
+    heads: int
+    J: int
+    K: int
+    precision: str
+    rates: RateConfig
+    writer: str
+    encode: str
+    reader: ReaderConfig
+    epsilon: float
+    numerical_support_floor: float
+    learned_abstention_threshold: float | None
+    interpolation: bool
+    probes: int
+
+
+@dataclass(frozen=True)
+class TrainingConfig:
+    microbatch: int
+    effective_batch: int
+    optimizer: str
+    learning_rate: float
+    weight_decay: float
+    optimizer_steps: int
+
+
+@dataclass(frozen=True)
+class ResourceConfig:
+    device: str
+    cpu_threads: int
+    reserved_fraction_of_derived_envelope: float
+    training_envelope_bytes: int | None
+    smoke_additional_allocation_limit_bytes: int
+    resource_provenance: str
+    checkpoint_retention: int
+    cache_limit_bytes: int
+    asset_disk_budget_bytes: int
+    policy: str
+
+
+@dataclass(frozen=True)
+class NumericsConfig:
+    reference: str
+    rtol: float
+    atol: float
+
+
+@dataclass(frozen=True)
+class ConfirmationConfig:
+    status: str
+    populations: Any
+    splits: Any
+    lengths: Any
+    task_regime_weights: Any
+    primary_pair_budget: Any
+    comparator_configurations: Any
+    training_stopping_seeds: Any
+    metrics: Any
+    resampling: Any
+    failure_policy: Any
+    support_behavior: Any
+    timing_boundaries: Any
+    resource_envelopes: Any
+    independent_histories: int | None
+    training_replicates: int | None
+    multiple_testing: Any
+
+
+@dataclass(frozen=True)
+class RunConfig:
+    schema_version: int
+    phase: str
+    seed: int
+    data: DataConfig
+    model: ModelConfig
+    training: TrainingConfig
+    resources: ResourceConfig
+    numerics: NumericsConfig
+    confirmation: ConfirmationConfig
+
+    def __post_init__(self) -> None:
+        validate_config(self)
+
+
+class _UniqueLoader(yaml.SafeLoader):
+    pass
+
+
+def _unique_mapping(loader, node, deep=False):
+    result = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if not isinstance(key, str):
+            raise ValueError('config keys must be strings')
+        if key in result:
+            raise ValueError(f'duplicate config field: {key}')
+        result[key] = loader.construct_object(value_node, deep=deep)
+    return result
+
+
+_UniqueLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
+
+
+def _parse(value, expected, name):
+    if expected is Any:
+        canonical_json(value)
+        return value
+    origin, args = get_origin(expected), get_args(expected)
+    if origin in (types.UnionType, Union):
+        if value is None and type(None) in args:
+            return None
+        choices = [arg for arg in args if arg is not type(None)]
+        if len(choices) == 1:
+            return _parse(value, choices[0], name)
+    if is_dataclass(expected):
+        if type(value) is not dict:
+            raise ValueError(f'{name} must be an object')
+        allowed = {f.name for f in fields(expected)}
+        unknown, missing = set(value) - allowed, allowed - set(value)
+        if unknown or missing:
+            raise ValueError(f'{name}: unknown fields {sorted(unknown)}, missing fields {sorted(missing)}')
+        hints = get_type_hints(expected)
+        return expected(**{key: _parse(item, hints[key], f'{name}.{key}') for key, item in value.items()})
+    if origin is tuple:
+        if type(value) not in (list, tuple) or len(value) != len(args):
+            raise ValueError(f'{name} must have {len(args)} entries')
+        return tuple(_parse(item, kind, name) for item, kind in zip(value, args))
+    if expected is float:
+        if type(value) not in (float, int) or not math.isfinite(value):
+            raise ValueError(f'{name} must be a finite number')
+        return float(value)
+    if type(value) is not expected:
+        raise ValueError(f'{name} must be {expected.__name__}')
+    return value
+
+
+def _positive(value, name, *, zero=False):
+    if type(value) not in (int, float) or not math.isfinite(value) or (value < 0 if zero else value <= 0):
+        raise ValueError(f'{name} must be finite and {"nonnegative" if zero else "positive"}')
+
+
+def validate_config(config: RunConfig) -> None:
+    """Scientific confirmation completeness is stricter than smoke execution.
+
+    Detailed protected-manifest acceptance and pilot evidence remain separate
+    later gates; a non-null field alone does not establish scientific validity.
+    """
+    # Check direct construction too, rather than relying only on the file parser.
+    def check_types(obj, prefix):
+        for f in fields(obj):
+            val = getattr(obj, f.name)
+            expected = get_type_hints(type(obj))[f.name]
+            if is_dataclass(expected):
+                if type(val) is not expected:
+                    raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                check_types(val, f'{prefix}.{f.name}')
+            else:
+                _parse(val, expected, f'{prefix}.{f.name}')
+    check_types(config, 'config')
+    if config.schema_version != 1:
+        raise ValueError('unsupported config schema_version')
+    if config.phase not in {'smoke', 'development', 'pilot', 'confirmation', 'replication'}:
+        raise ValueError('unknown phase')
+    if not 0 <= config.seed < 2**63:
+        raise ValueError('seed must fit nonnegative signed int64')
+    d, m, t, r, n, c = config.data, config.model, config.training, config.resources, config.numerics, config.confirmation
+    for name in ('key_dim', 'value_dim', 'length', 'queries_per_history'):
+        _positive(getattr(d, name), f'data.{name}')
+    if not d.generator_version or d.key_features not in {'one_hot', 'dense'}:
+        raise ValueError('data requires generator version and known key_features')
+    for name in ('heads', 'J', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
+        _positive(getattr(m, name), f'model.{name}')
+    if m.K != d.key_dim:
+        raise ValueError('model.K must equal data.key_dim')
+    if m.precision not in {'float32', 'float64'}:
+        raise ValueError('precision requires float32 or float64; frontier needs registration')
+    if m.rates.mode not in {'fixed', 'learned'} or m.rates.spacing not in {'log', 'linear'}:
+        raise ValueError('unknown rates mode/spacing')
+    low, high = m.rates.bounds
+    if not 0 < low <= high:
+        raise ValueError('rate bounds must be positive and ordered')
+    if m.writer not in {'fixed', 'learned'} or m.encode not in {'terminal', 'stream'}:
+        raise ValueError('unknown writer/encode mode')
+    if not m.method or not m.reader.kind or m.reader.activation not in {'silu', 'relu', 'gelu', 'tanh'}:
+        raise ValueError('method/reader/activation required')
+    _positive(m.reader.width, 'reader.width')
+    _positive(m.reader.layers, 'reader.layers')
+    if m.learned_abstention_threshold is not None and not 0 <= m.learned_abstention_threshold <= 1:
+        raise ValueError('learned abstention threshold must be in [0,1]')
+    for name in ('microbatch', 'effective_batch', 'learning_rate', 'optimizer_steps'):
+        _positive(getattr(t, name), f'training.{name}')
+    _positive(t.weight_decay, 'weight_decay', zero=True)
+    if t.effective_batch % t.microbatch:
+        raise ValueError('effective_batch must be divisible by microbatch')
+    if t.optimizer != 'AdamW':
+        raise ValueError('unregistered optimizer')
+    if r.device not in {'cpu', 'mps'}:
+        raise ValueError('device must be cpu or mps')
+    for name in ('cpu_threads', 'smoke_additional_allocation_limit_bytes', 'checkpoint_retention'):
+        _positive(getattr(r, name), f'resources.{name}')
+    for name in ('cache_limit_bytes', 'asset_disk_budget_bytes'):
+        _positive(getattr(r, name), f'resources.{name}', zero=True)
+    if not 0 <= r.reserved_fraction_of_derived_envelope < 1:
+        raise ValueError('reserve fraction must be in [0,1)')
+    if r.training_envelope_bytes is not None:
+        _positive(r.training_envelope_bytes, 'training_envelope_bytes')
+    if not r.resource_provenance or not r.policy:
+        raise ValueError('resource provenance and policy required')
+    if n.reference != 'cpu_float64':
+        raise ValueError('reference must be cpu_float64')
+    _positive(n.rtol, 'rtol', zero=True)
+    _positive(n.atol, 'atol', zero=True)
+    for name in ('independent_histories', 'training_replicates'):
+        if getattr(c, name) is not None:
+            _positive(getattr(c, name), f'confirmation.{name}')
+    if config.phase in {'confirmation', 'replication'}:
+        def unresolved(value):
+            if value is None or value == '' or value == [] or value == {}:
+                return True
+            if isinstance(value, dict):
+                return any(unresolved(v) for v in value.values())
+            if isinstance(value, (tuple, list)):
+                return any(unresolved(v) for v in value)
+            return False
+        missing = [f.name for f in fields(c) if f.name != 'status' and unresolved(getattr(c, f.name))]
+        if c.status != 'frozen' or missing or r.training_envelope_bytes is None:
+            raise ValueError(f'confirmation requires pilot freeze and resource envelope; unresolved: {missing}')
+
+
+def load_config(path: Path) -> RunConfig:
+    path = Path(path)
+    def unique_pairs(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f'duplicate config field: {key}')
+            result[key] = value
+        return result
+    try:
+        text = path.read_text(encoding='utf-8')
+        value = (json.loads(text, object_pairs_hook=unique_pairs) if path.suffix == '.json'
+                 else yaml.load(text, Loader=_UniqueLoader))
+    except yaml.YAMLError as exc:
+        raise ValueError(f'invalid configuration: {exc}') from exc
+    return _parse(value, RunConfig, 'config')
+
+
+def save_resolved_config(path: Path, config: RunConfig) -> None:
+    validate_config(config)
+    atomic_json(path, asdict(config))

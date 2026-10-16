@@ -1,6 +1,6 @@
 # Progress
 
-**Updated:** 16 October 2026. **Branch:** `main`. **Current scope:** Task 1 local environment gate implemented and verified; controller acceptance pending.
+**Updated:** 16 October 2026. **Branch:** `main`. **Current scope:** Task 1 accepted; Task 2 versioned contracts implemented and verified, pending controller review.
 
 The [specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) remain the research contract. The executed WP00 subset now includes dependency-free hardware discovery, a real native wheel hash lock, a project-local environment, lightweight regression tests, CPU/MPS operation and gradient probes, full smoke configuration, and source/dependency provenance. This does not accept later work packages or establish model correctness/performance.
 
@@ -21,4 +21,12 @@ No datasets, model weights, generator/model implementation, checkpoints, trainin
 
 ## Next gate
 
-Controller review of Task 1, then Task 2/WP01 configuration/artifact contracts. Before pilot/training or scientific asset ingestion, enforce the remaining numerical, full-training resource, disk-budget, asset/schema/license and baseline gates. Confirmation scientific fields remain null until the pilot freeze.
+Controller review of Task 2, then Task 3 training statistics and target contracts. Before pilot/training or scientific asset ingestion, enforce the remaining numerical, full-training resource, disk-budget, asset/schema/license and baseline gates. Confirmation scientific fields remain null until the pilot freeze.
+
+## Task 2 contract gate — 16 October 2026
+
+Implemented schema-version-1 event/query/episode/snapshot/feature/read/prediction records and the MemoryMethod adapter protocol. Host-side event/query/rate validation rejects nonfinite masked values, malformed padding/observation masks, invalid rates, out-of-order time, integer subtraction overflow, and shared normalization of independently observed channels. Full uint64 public key IDs remain lossless. Validation results are separate from recurrence tensors; no numerical recurrence is implemented.
+
+Strict typed resolved configurations reject unknown/duplicate fields and invalid bounds. Smoke retains all existing fields and pilot-dependent nulls; confirmation/replication require explicit frozen scientific fields and a training envelope. Canonical finite UTF-8 JSON, namespaced SHA-256 seeds, atomic JSON writes, resolved-config saving and separate source/diff, data, parameter, lock and environment identities are implemented.
+
+Red: 53 contract tests failed on the missing named modules. Final full suite: **70 passed, 1 skipped, 2 subtests passed**, using `.venv/bin/python -m pytest -v`. A resolved-JSON numeric parsing failure and a provenance input-aliasing regression were reproduced and corrected. `requirements.lock` and `configs/smoke.yaml` are unchanged. Implementer self-review is complete; independent controller acceptance remains pending. Task 2 does not establish generator, model, serialization/resume, scientific artifact inventories, protected-manifest acceptance or any later numerical/scientific gate.
