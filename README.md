@@ -2,7 +2,7 @@
 
 Query-conditioned exponential-moment memory research: compress a stream once, then answer different temporal questions from the retained state. The primary question is whether exact first temporal moments improve retrieval under measured state and system costs; the recurrence itself is established repeated-pole memory.
 
-Tasks 1–6 are accepted: environment/contracts, independent CPU FP64 oracles, jet and exponential-bank memory kernels, and deterministic deferred-query synthetic populations. Task 7 now prepares the observed-event Beijing workload and is implemented and verified, pending review. Arithmetic and data preparation work; no trained-model accuracy comparison exists yet. The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [25-task implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) define the remaining reader, baseline, training and fair-comparison gates.
+Tasks 1–7 are accepted: environment/contracts, independent CPU FP64 oracles, jet and exponential-bank memory kernels, deterministic deferred-query synthetic populations, and observed-event Beijing preparation. Task 8 adds packed exact-history, recent-ring and latest/LRU storage references with Snapshot adapters and is pending review. Arithmetic, data preparation and these storage references work; no trained-model accuracy comparison exists yet. The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [25-task implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) define the remaining reader, baseline, training and fair-comparison gates.
 
 From the repository root, use an existing native CPython 3.13 interpreter:
 
