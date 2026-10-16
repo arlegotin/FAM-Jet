@@ -1,5 +1,5 @@
 """Strict version-1 resolved configuration. No pilot-dependent defaults."""
-from dataclasses import asdict, dataclass, fields, is_dataclass
+from dataclasses import MISSING, asdict, dataclass, field, fields, is_dataclass
 import math
 import json
 from pathlib import Path
@@ -13,6 +13,20 @@ from famjet.provenance import canonical_json
 
 
 @dataclass(frozen=True)
+class GeneratorConfig:
+    """Version-1 exploratory generation; protected roots are reservation-only."""
+    namespace: str = 'training'
+    population: str = 'primary'
+    regime: str = 'balanced'
+    key_load: int = 16
+    feature_seed: int = 20261013
+    query_seed: int = 0
+    max_query_attempts: int = 4096
+    delay_multiplier: float = 0.0
+    robustness: str = 'standard'
+
+
+@dataclass(frozen=True)
 class DataConfig:
     generator_version: str
     key_features: str
@@ -20,6 +34,7 @@ class DataConfig:
     value_dim: int
     length: int
     queries_per_history: int
+    generator: GeneratorConfig = field(default_factory=GeneratorConfig)
 
 
 @dataclass(frozen=True)
@@ -157,7 +172,8 @@ def _parse(value, expected, name):
         if type(value) is not dict:
             raise ValueError(f'{name} must be an object')
         allowed = {f.name for f in fields(expected)}
-        unknown, missing = set(value) - allowed, allowed - set(value)
+        required = {f.name for f in fields(expected) if f.default is MISSING and f.default_factory is MISSING}
+        unknown, missing = set(value) - allowed, required - set(value)
         if unknown or missing:
             raise ValueError(f'{name}: unknown fields {sorted(unknown)}, missing fields {sorted(missing)}')
         hints = get_type_hints(expected)
@@ -209,6 +225,25 @@ def validate_config(config: RunConfig) -> None:
         _positive(getattr(d, name), f'data.{name}')
     if not d.generator_version or d.key_features not in {'one_hot', 'dense'}:
         raise ValueError('data requires generator version and known key_features')
+    g = d.generator
+    if g.namespace not in {'training','development_fit','development_calibration','pilot','confirmation','replication'}:
+        raise ValueError('unknown generator namespace')
+    if g.population not in {'primary','delayed','latest','presence','interval_support','change_sign',
+                            'corrected_categorical','random_binding','boundary','constant','impulse',
+                            'random','full_history','empty','same_time'}:
+        raise ValueError('unknown generator population')
+    if g.regime not in {'balanced','piecewise_stationary','trend_reset','periodic_impulses','irregular_revisions'}:
+        raise ValueError('unknown generator regime')
+    if g.robustness not in {'standard','zipf','lognormal_gaps','heavy_gaps','heavy_noise','fast_resets','broad_periods','unseen_reversals'}:
+        raise ValueError('unknown generator robustness')
+    if g.key_load not in {8,16,64}:
+        raise ValueError('generator key_load must be 8, 16 or 64')
+    for name in ('feature_seed','query_seed'):
+        if not 0 <= getattr(g,name) < 2**63:
+            raise ValueError(f'generator {name} must fit nonnegative int64')
+    _positive(g.max_query_attempts,'generator.max_query_attempts')
+    if g.delay_multiplier not in {0,.125,1,10}:
+        raise ValueError('generator delay_multiplier must be 0, 1/8, 1 or 10')
     for name in ('heads', 'J', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
         _positive(getattr(m, name), f'model.{name}')
     if m.K != d.key_dim:
