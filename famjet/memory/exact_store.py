@@ -48,6 +48,30 @@ def _family(task):
     return 'categorical' if task in _CATEGORY else 'binary' if task in _BINARY else 'numeric'
 
 
+def _prepare_event(store, event):
+    """Validate a write transaction before any counted state can change."""
+    a = store._data
+    word,tick = _time(event['timestamp'])
+    t = _decode(word,tick)
+    key, eid = _id(event['key_id'], 'key_id'), _id(event['event_id'], 'event_id')
+    value = np.asarray(event['value'], dtype=np.float64)
+    observed = event.get('observed')
+    observed = np.ones(store.value_dim, np.bool_) if observed is None else np.asarray(observed)
+    _require(value.shape == (store.value_dim,) and np.isfinite(value).all(), 'value must be finite [V]')
+    _require(observed.shape == (store.value_dim,) and observed.dtype == np.bool_, 'observed must be bool [V]')
+    # Declared FP32 storage rounds once. Reject overflow before cursor,
+    # recency, occupancy, timestamps or any other saved field can change.
+    with np.errstate(over='ignore', invalid='ignore'):
+        value = value.astype(store.value_dtype)
+    _require(np.isfinite(value).all(), 'value is not finite representable in declared value_dtype')
+    if a['last_valid'][0]:
+        gap = exact_time_difference(t, store._last_time())
+        _require(gap >= 0, 'event is before saved stream time')
+        _require(gap != 0 or eid > int(a['last_event_id'][0]), 'timestamp ties require increasing event_id')
+    _require(a['seen'][0] < np.iinfo(np.int64).max, 'event counter exhausted int64')
+    return word,tick,key,eid,value,observed
+
+
 class PackedHistory:
     """Single-history container; all changing state is in ``arrays()``.
 
@@ -99,58 +123,76 @@ class PackedHistory:
 
     def update(self, event: dict) -> None:
         a = self._data
-        word,tick = _time(event['timestamp'])
-        t = _decode(word,tick)
-        key, eid = _id(event['key_id'], 'key_id'), _id(event['event_id'], 'event_id')
-        value = np.asarray(event['value'], dtype=np.float64)
-        observed = event.get('observed')
-        observed = np.ones(self.value_dim, np.bool_) if observed is None else np.asarray(observed)
-        _require(value.shape == (self.value_dim,) and np.isfinite(value).all(), 'value must be finite [V]')
-        _require(observed.shape == (self.value_dim,) and observed.dtype == np.bool_, 'observed must be bool [V]')
-        # Declared FP32 storage rounds once. Reject overflow before cursor,
-        # recency, occupancy, timestamps or any other saved field can change.
-        with np.errstate(over='ignore', invalid='ignore'):
-            value = value.astype(self.value_dtype)
-        _require(np.isfinite(value).all(), 'value is not finite representable in declared value_dtype')
-        if a['last_valid'][0]:
-            gap = exact_time_difference(t, self._last_time())
-            _require(gap >= 0, 'event is before saved stream time')
-            _require(gap != 0 or eid > int(a['last_event_id'][0]), 'timestamp ties require increasing event_id')
-        _require(a['seen'][0] < np.iinfo(np.int64).max, 'event counter exhausted int64')
+        word,tick,key,eid,value,observed = _prepare_event(self,event)
         if observed.any():
-            if self.policy == 'exact':
-                free = np.flatnonzero(~a['occupied'])
-                slot = int(free[0]) if free.size else a['occupied'].size
-                if not free.size:
-                    for name in ('key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'):
-                        x = a[name]
-                        a[name] = np.concatenate((x, np.zeros((1,*x.shape[1:]),dtype=x.dtype)))
-            elif self.policy == 'recent':
-                slot = int(a['cursor'][0])
-                a['cursor'][0] = (slot+1) % self.capacity
+            slot = self._select_slot(key)
+            if slot is not None:
+                self._write_slot(slot,word,tick,key,eid,value,observed)
             else:
-                matches = np.flatnonzero(a['occupied'] & (a['key_ids'] == key))
-                free = np.flatnonzero(~a['occupied'])
-                if matches.size:
-                    slot = int(matches[0])
-                elif free.size:
-                    slot = int(free[0])
-                else:
-                    slot = min(range(self.capacity), key=lambda j:(a['recency'][j],int(a['key_ids'][j])))
-                a['recency'][slot] = a['seen'][0]+1
-            if a['occupied'][slot]:
                 a['discarded'][0] += 1
+        self._finish_event(word,tick,eid)
+
+    def _select_slot(self, key):
+        a = self._data
+        if self.policy == 'exact':
+            free = np.flatnonzero(~a['occupied'])
+            slot = int(free[0]) if free.size else a['occupied'].size
+            if not free.size:
+                for name in ('key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'):
+                    x = a[name]
+                    a[name] = np.concatenate((x, np.zeros((1,*x.shape[1:]),dtype=x.dtype)))
+        elif self.policy == 'recent':
+            slot = int(a['cursor'][0])
+            a['cursor'][0] = (slot+1) % self.capacity
+        else:
+            matches = np.flatnonzero(a['occupied'] & (a['key_ids'] == key))
+            free = np.flatnonzero(~a['occupied'])
+            if matches.size:
+                slot = int(matches[0])
+            elif free.size:
+                slot = int(free[0])
             else:
-                a['size'][0] += 1
-            a['key_ids'][slot], a['event_ids'][slot] = key,eid
-            a['time_words'][slot], a['time_is_tick'][slot] = word,tick
-            a['values'][slot], a['observed'][slot] = value,observed
-            a['occupied'][slot] = True
+                slot = min(range(self.capacity), key=lambda j:(a['recency'][j],int(a['key_ids'][j])))
+            a['recency'][slot] = a['seen'][0]+1
+        return slot
+
+    def _write_slot(self,slot,word,tick,key,eid,value,observed):
+        a = self._data
+        if a['occupied'][slot]:
+            a['discarded'][0] += 1
+        else:
+            a['size'][0] += 1
+        a['key_ids'][slot], a['event_ids'][slot] = key,eid
+        a['time_words'][slot], a['time_is_tick'][slot] = word,tick
+        a['values'][slot], a['observed'][slot] = value,observed
+        a['occupied'][slot] = True
+
+    def _finish_event(self,word,tick,eid):
+        a = self._data
         a['seen'][0] += 1
         a['last_time_word'][0], a['last_time_is_tick'][0] = word,tick
         a['last_event_id'][0], a['last_valid'][0] = eid,True
 
-    def query(self, query: dict) -> ReadResult:
+    def _validate_state(self):
+        a=self._data; c=a['occupied'].size; size=int(a['size'][0]); seen=int(a['seen'][0]); dropped=int(a['discarded'][0])
+        _require(0 <= size <= c and size == int(a['occupied'].sum()) and seen >= size+dropped and dropped >= 0,
+                 'invalid occupancy/counters')
+        if self.policy == 'recent':
+            _require(0 <= int(a['cursor'][0]) < c, 'invalid packed cursor')
+        _require(not (a['observed'] & ~a['occupied'][:,None]).any()
+                 and a['observed'][a['occupied']].any(axis=1).all(), 'invalid packed observation mask')
+        if self.policy == 'exact':
+            _require(dropped == 0, 'exact snapshot discarded evidence')
+        if self.policy == 'latest_lru':
+            keys=a['key_ids'][a['occupied']]
+            _require(np.unique(keys).size == size and (a['recency'][a['occupied']] > 0).all()
+                     and (a['recency'] <= seen).all(), 'invalid LRU keys/recency')
+        for j in np.flatnonzero(a['occupied']):
+            _time(_decode(a['time_words'][j],a['time_is_tick'][j]))
+            _require(exact_time_difference(self._last_time(),_decode(a['time_words'][j],a['time_is_tick'][j])) >= 0,
+                     'retained event after saved stream time')
+
+    def query(self, query: dict, *, weights=None, accumulation_dtype='float64') -> ReadResult:
         a = self._data
         word,tick = _time(query['T'])
         T = _decode(word,tick)
@@ -167,7 +209,11 @@ class PackedHistory:
         ages = [exact_time_difference(T,t) for t in times]
         recent = [int(j) for j,age in zip(slots,ages) if lo <= age < hi]
         older = [int(j) for j,age in zip(slots,ages) if hi <= age < 2*hi-lo]
-        counts = np.stack([a['observed'][indices].sum(axis=0,dtype=np.int64) for indices in (recent,older)])
+        if weights is None:
+            counts = np.stack([a['observed'][indices].sum(axis=0,dtype=np.int64) for indices in (recent,older)])
+        else:
+            counts = np.stack([(a['observed'][indices]*weights[indices,None]).sum(axis=0,dtype=np.dtype(accumulation_dtype))
+                               for indices in (recent,older)])
         complete = not bool(a['discarded'][0])
         supported = False
         label = None
@@ -186,15 +232,17 @@ class PackedHistory:
         elif (counts[0] > 0).all() and (task == 'mean' or (counts[1] > 0).all()):
             supported = True
             with np.errstate(over='ignore', invalid='ignore'):
-                label = np.where(a['observed'][recent],a['values'][recent],0.).sum(axis=0,dtype=np.float64)/counts[0]
+                label = (np.where(a['observed'][recent],a['values'][recent],0.) *
+                         (1. if weights is None else weights[recent,None])).sum(axis=0,dtype=np.dtype(accumulation_dtype))/counts[0]
                 if task != 'mean':
-                    label -= np.where(a['observed'][older],a['values'][older],0.).sum(axis=0,dtype=np.float64)/counts[1]
+                    label -= (np.where(a['observed'][older],a['values'][older],0.) *
+                              (1. if weights is None else weights[older,None])).sum(axis=0,dtype=np.dtype(accumulation_dtype))/counts[1]
                     if task == 'change_sign' and np.isfinite(label).all():
                         label = np.sign(label)
         failure = label is not None and not np.isfinite(label).all()
         valid = label is not None and not failure
         dim = 1 if family == 'binary' else self.value_dim
-        output = torch.from_numpy((label if valid else np.full(dim,np.nan)).reshape(1,1,dim).copy())
+        output = torch.from_numpy((np.asarray(label,dtype=np.float64) if valid else np.full(dim,np.nan)).reshape(1,1,dim).copy())
         diagnostics = {
             'prediction_valid': torch.tensor([[valid]]), 'evidence_complete': torch.tensor([[complete]]),
             'observed_counts': torch.from_numpy(counts[None,None]),
@@ -223,6 +271,9 @@ class PackedHistoryMemory:
         self.capacity,self.value_dim,self.policy,self.key_dim = capacity,value_dim,policy,key_dim
         self.value_dtype = value_dtype
 
+    def _new_store(self):
+        return PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype)
+
     def _parameter_hash(self):
         return canonical_hash({'method':'packed-history-v1','capacity':self.capacity,'value_dim':self.value_dim,
                                'policy':self.policy,'key_dim':self.key_dim,'value_dtype':self.value_dtype})
@@ -230,7 +281,7 @@ class PackedHistoryMemory:
     def init_state(self, batch_size: int, *, device: str, dtype: str) -> Snapshot:
         _require(type(batch_size) is int and batch_size > 0, 'batch_size must be positive integer')
         _require(device == 'cpu' and dtype == self.value_dtype, 'state device/dtype must match declared CPU value_dtype')
-        arrays = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype).arrays()
+        arrays = self._new_store().arrays()
         payload = {k:torch.from_numpy(np.stack([v]*batch_size)) for k,v in arrays.items()}
         payload.update(history_hash=torch.zeros(batch_size,32,dtype=torch.uint8),
                        time_unit_hash=torch.zeros(32,dtype=torch.uint8))
@@ -241,7 +292,7 @@ class PackedHistoryMemory:
         _require(isinstance(state,Snapshot) and state.schema_version == 1
                  and state.parameter_hash == self._parameter_hash(), 'snapshot schema/parameter hash mismatch')
         b = state.last_time.numel()
-        template = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype)
+        template = self._new_store()
         expected = template.arrays()
         _require(set(state.payload) == {*expected,'history_hash','time_unit_hash'}, 'invalid packed snapshot payload')
         _require(state.last_time.shape == state.valid.shape == state.event_offset.shape == (b,) and b > 0
@@ -253,50 +304,34 @@ class PackedHistoryMemory:
         _require(state.payload['history_hash'].shape == (b,32) and state.payload['history_hash'].dtype == torch.uint8
                  and state.payload['time_unit_hash'].shape == (32,) and state.payload['time_unit_hash'].dtype == torch.uint8,
                  'invalid snapshot identity layout')
-        c = state.payload['occupied'].shape[-1]
-        _require(self.capacity is None or c == self.capacity, 'snapshot capacity mismatch')
+        c = state.payload['occupied'].shape[-1] if self.policy == 'exact' else self.capacity
         for k,v in expected.items():
-            shape = (c,*v.shape[1:]) if k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied','recency'} else v.shape
+            shape = (c,*v.shape[1:]) if self.policy == 'exact' and k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'} else v.shape
             tensor = state.payload[k]
             _require(tensor.shape == (b,*shape) and tensor.numpy().dtype == v.dtype, f'invalid packed layout: {k}')
         stores=[]
         for i in range(b):
-            store = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype)
+            store = self._new_store()
             store._data = {k:state.payload[k][i].detach().numpy().copy() for k in expected}
-            a=store._data; size=int(a['size'][0]); seen=int(a['seen'][0]); dropped=int(a['discarded'][0])
-            _require(0 <= size <= c and size == int(a['occupied'].sum()) and seen >= size+dropped and dropped >= 0,
-                     'invalid occupancy/counters')
-            if self.policy == 'recent':
-                _require(0 <= int(a['cursor'][0]) < c, 'invalid packed cursor')
-            _require(not (a['observed'] & ~a['occupied'][:,None]).any()
-                     and a['observed'][a['occupied']].any(axis=1).all(), 'invalid packed observation mask')
+            a=store._data; seen=int(a['seen'][0])
             _require(bool(a['last_valid'][0]) == bool(state.valid[i]) == (seen > 0)
                      and seen == int(state.event_offset[i]),
                      'snapshot stream metadata disagrees with packed state')
             _require(not state.valid[i] or store._last_time() == state.last_time[i].item(),
                      'snapshot last_time disagrees with packed state')
-            if self.policy == 'exact':
-                _require(dropped == 0, 'exact snapshot discarded evidence')
-            if self.policy == 'latest_lru':
-                keys=a['key_ids'][a['occupied']]
-                _require(np.unique(keys).size == size and (a['recency'][a['occupied']] > 0).all()
-                         and (a['recency'] <= seen).all(), 'invalid LRU keys/recency')
-            for j in np.flatnonzero(a['occupied']):
-                _time(_decode(a['time_words'][j],a['time_is_tick'][j]))
-                _require(exact_time_difference(store._last_time(),_decode(a['time_words'][j],a['time_is_tick'][j])) >= 0,
-                         'retained event after saved stream time')
+            store._validate_state()
             stores.append(store)
         return stores
 
     def _snapshot(self, stores, history_hash, unit_hash, last_time=None):
         # Exact batch rows share a physical padded capacity, counted in bytes.
-        capacity = max(s._data['occupied'].size for s in stores)
+        capacity = max(s._data['occupied'].size for s in stores) if self.policy == 'exact' else self.capacity
         payload={}
         for k in stores[0]._data:
             rows=[]
             for s in stores:
                 x=s._data[k]
-                if k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied','recency'}:
+                if self.policy == 'exact' and k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'}:
                     x=np.pad(x,((0,capacity-x.shape[0]), *((0,0) for _ in x.shape[1:])))
                 rows.append(x)
             payload[k]=torch.from_numpy(np.stack(rows))
@@ -356,6 +391,7 @@ class PackedHistoryMemory:
         diagnostics={k:torch.zeros(b,q,dtype=torch.bool) for k in ('prediction_valid','evidence_complete')}
         diagnostics.update(observed_counts=torch.zeros(b,q,2,self.value_dim,dtype=torch.int64),
                            retained_count=torch.zeros(b,q,dtype=torch.int64), scanned_slots=torch.zeros(b,q,dtype=torch.int64))
+        initialized=set()
         if family == 'categorical': diagnostics['category_index']=torch.full((b,q),-1,dtype=torch.int64)
         for i,s in enumerate(stores):
             for j in range(int(queries.lengths[i])):
@@ -363,7 +399,12 @@ class PackedHistoryMemory:
                                age_start=queries.age_start[i,j].item(),age_end=queries.age_end[i,j].item()))
                 output[i,j]=(r.logits if family == 'categorical' else r.prediction)[0,0]
                 support[i,j]=r.support[0,0]; failure[i,j]=r.failure[0,0]
-                for k in diagnostics: diagnostics[k][i,j]=r.diagnostics[k][0,0]
+                for k,v in r.diagnostics.items():
+                    if k not in initialized:
+                        diagnostics[k]=torch.zeros((b,q,*v.shape[2:]),dtype=v.dtype)
+                        if k == 'category_index': diagnostics[k].fill_(-1)
+                        initialized.add(k)
+                    diagnostics[k][i,j]=v[0,0]
         return ReadResult(output if family != 'categorical' else None,output if family == 'categorical' else None,
                           support,failure,diagnostics)
 
