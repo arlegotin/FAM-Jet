@@ -1,0 +1,232 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 93 items
+
+tests/test_baselines.py::test_stehfest_factorial_fixtures_and_invalid_orders PASSED [  1%]
+tests/test_baselines.py::test_impulse_high_precision_literal_and_fp32_cancellation PASSED [  2%]
+tests/test_baselines.py::test_gaver_no_rate_dedup_and_distinct_zero_gap_input_semantics PASSED [  3%]
+tests/test_baselines.py::test_scalar_legendre_basis_and_minimum_norm_hand_calculation PASSED [  4%]
+tests/test_baselines.py::test_original_native_control_is_causal_and_counts_both_arrays PASSED [  5%]
+tests/test_baselines.py::test_original_post_write_read_and_zoh_history_small_calculation PASSED [  6%]
+tests/test_baselines.py::test_source_fixture_revisions_targets_and_shared_token_table PASSED [  7%]
+tests/test_baselines.py::test_reproduction_config_is_explicit_and_separate_from_main_training PASSED [  8%]
+tests/test_baselines.py::test_reproduction_rejects_raising_both_configurable_limits PASSED [  9%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[None] PASSED [ 10%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered1] PASSED [ 11%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered2] PASSED [ 12%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered3] PASSED [ 13%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered4] PASSED [ 15%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered5] PASSED [ 16%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered6] PASSED [ 17%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered7] PASSED [ 18%]
+tests/test_baselines.py::test_reproduction_independently_binds_common_limit_and_preserves_net_reserve PASSED [ 19%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_both] PASSED [ 20%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[missing] PASSED [ 21%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[malformed] PASSED [ 22%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[common_above_discovery] PASSED [ 23%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_discovery] PASSED [ 24%]
+tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[raised_both] FAILED [ 25%]
+tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[missing] FAILED [ 26%]
+tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[malformed] FAILED [ 27%]
+tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[duplicate] FAILED [ 29%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions PASSED [ 30%]
+tests/test_baselines.py::test_source_resource_failure_is_retained_before_training PASSED [ 31%]
+tests/test_baselines.py::test_short_source_control_retains_failure_and_rejects_zero_target_success PASSED [ 32%]
+tests/test_contracts.py::test_seed_namespace_is_stable PASSED            [ 33%]
+tests/test_contracts.py::test_canonical_hash_is_utf8_ordered_and_process_stable PASSED [ 34%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[nan] PASSED [ 35%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[inf] PASSED [ 36%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[-inf] PASSED [ 37%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[bad3] PASSED [ 38%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[bad4] PASSED [ 39%]
+tests/test_contracts.py::test_canonical_hash_rejects_non_json_and_nonfinite[bad5] PASSED [ 40%]
+tests/test_contracts.py::test_event_validation PASSED                    [ 41%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change0] PASSED [ 43%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change1] PASSED [ 44%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change2] PASSED [ 45%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change3] PASSED [ 46%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change4] PASSED [ 47%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change5] PASSED [ 48%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change6] PASSED [ 49%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change7] PASSED [ 50%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change8] PASSED [ 51%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change9] PASSED [ 52%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change10] PASSED [ 53%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change11] PASSED [ 54%]
+tests/test_contracts.py::test_event_validation_rejects_malformed_inputs[change12] PASSED [ 55%]
+tests/test_contracts.py::test_integer_timestamp_subtraction_overflow_is_rejected PASSED [ 56%]
+tests/test_contracts.py::test_padding_has_zero_gap_and_no_write_but_missing_event_advances_time PASSED [ 58%]
+tests/test_contracts.py::test_partial_value_mask_requires_independent_norm PASSED [ 59%]
+tests/test_contracts.py::test_rates_require_finite_positive_values[rates0] PASSED [ 60%]
+tests/test_contracts.py::test_rates_require_finite_positive_values[rates1] PASSED [ 61%]
+tests/test_contracts.py::test_rates_require_finite_positive_values[rates2] PASSED [ 62%]
+tests/test_contracts.py::test_rates_require_finite_positive_values[rates3] PASSED [ 63%]
+tests/test_contracts.py::test_rates_require_finite_positive_values[rates4] PASSED [ 64%]
+tests/test_contracts.py::test_query_times_and_age_bounds_are_validated PASSED [ 65%]
+tests/test_contracts.py::test_resolved_config_round_trip_preserves_blocking_nulls PASSED [ 66%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[None] PASSED [ 67%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[model] PASSED [ 68%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[data] PASSED [ 69%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[training] PASSED [ 70%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[resources] PASSED [ 72%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[numerics] PASSED [ 73%]
+tests/test_contracts.py::test_resolved_config_rejects_unknown_field[confirmation] PASSED [ 74%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[model-epsilon-0] PASSED [ 75%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[model-K-True] PASSED [ 76%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[data-length--1] PASSED [ 77%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[training-optimizer_steps-None] PASSED [ 78%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[training-effective_batch-0] PASSED [ 79%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[numerics-rtol-nan] PASSED [ 80%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[resources-reserved_fraction_of_derived_envelope-1] PASSED [ 81%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[resources-device-bogus] PASSED [ 82%]
+tests/test_contracts.py::test_config_rejects_invalid_bounds[model-precision-float16] PASSED [ 83%]
+tests/test_contracts.py::test_confirmation_rejects_unfrozen_scientific_fields PASSED [ 84%]
+tests/test_contracts.py::test_config_rejects_duplicate_keys PASSED       [ 86%]
+tests/test_contracts.py::test_artifact_missing_is_not_zero PASSED        [ 87%]
+tests/test_contracts.py::test_provenance_keeps_code_data_and_parameters_distinct PASSED [ 88%]
+tests/test_contracts.py::test_unsupported_schema_is_rejected PASSED      [ 89%]
+tests/test_contracts.py::test_full_uint64_key_ids_round_trip_and_validate PASSED [ 90%]
+tests/test_contracts.py::test_validation_record_is_cleared_after_invalid_mutation PASSED [ 91%]
+tests/test_contracts.py::test_atomic_json_cleans_up_after_replace_failure PASSED [ 92%]
+tests/test_contracts.py::test_provenance_copies_identity_inputs PASSED   [ 93%]
+tests/test_cli.py::test_cli_help_has_no_run_side_effect[doctor] PASSED   [ 94%]
+tests/test_cli.py::test_cli_help_has_no_run_side_effect[prepare] PASSED  [ 95%]
+tests/test_cli.py::test_cli_help_has_no_run_side_effect[run] PASSED      [ 96%]
+tests/test_cli.py::test_cli_rejects_oversized_reader_before_allocation PASSED [ 97%]
+tests/test_training.py::test_smoke_limit_already_contains_the_discovery_reserve PASSED [ 98%]
+tests/test_training.py::test_config_cannot_raise_the_discovered_smoke_ceiling PASSED [100%]
+
+=================================== FAILURES ===================================
+_ test_reproduction_cli_rejects_unauthorized_config_before_outputs[raised_both] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4031/test_reproduction_cli_rejects_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ff62b50>
+fault = 'raised_both'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','duplicate'])
+    def test_reproduction_cli_rejects_unauthorized_config_before_outputs(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=asdict(reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml')))
+        def forbidden(*args,**kwargs): pytest.fail('CLI allocated unauthorized source fixture')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        if fault=='raised_both':
+            cfg['resources']['smoke_additional_allocation_limit_bytes']=402653184
+            cfg['reproduction']['additional_peak_limit_bytes']=402653184
+        else:
+            provenance=tmp_path/'discovery.json'
+            if fault=='malformed': provenance.write_text('{')
+            if fault=='duplicate':
+                provenance.write_text('{"resource_policy":{},"resource_policy":{"status":"smoke_only",'
+                                      '"smoke_additional_allocation_limit_bytes":201326592}}')
+            cfg['resources']['resource_provenance']=str(provenance)
+        path=tmp_path/'config.yaml'; path.write_text(json.dumps(cfg))
+>       with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'ceiling|provenance|registered'
+E         Actual message: 'config.model.epsilon must be a finite number'
+
+tests/test_baselines.py:197: AssertionError
+__ test_reproduction_cli_rejects_unauthorized_config_before_outputs[missing] ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4031/test_reproduction_cli_rejects_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ff62c50>
+fault = 'missing'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','duplicate'])
+    def test_reproduction_cli_rejects_unauthorized_config_before_outputs(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=asdict(reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml')))
+        def forbidden(*args,**kwargs): pytest.fail('CLI allocated unauthorized source fixture')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        if fault=='raised_both':
+            cfg['resources']['smoke_additional_allocation_limit_bytes']=402653184
+            cfg['reproduction']['additional_peak_limit_bytes']=402653184
+        else:
+            provenance=tmp_path/'discovery.json'
+            if fault=='malformed': provenance.write_text('{')
+            if fault=='duplicate':
+                provenance.write_text('{"resource_policy":{},"resource_policy":{"status":"smoke_only",'
+                                      '"smoke_additional_allocation_limit_bytes":201326592}}')
+            cfg['resources']['resource_provenance']=str(provenance)
+        path=tmp_path/'config.yaml'; path.write_text(json.dumps(cfg))
+>       with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'ceiling|provenance|registered'
+E         Actual message: 'config.model.epsilon must be a finite number'
+
+tests/test_baselines.py:197: AssertionError
+_ test_reproduction_cli_rejects_unauthorized_config_before_outputs[malformed] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4031/test_reproduction_cli_rejects_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ff825d0>
+fault = 'malformed'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','duplicate'])
+    def test_reproduction_cli_rejects_unauthorized_config_before_outputs(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=asdict(reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml')))
+        def forbidden(*args,**kwargs): pytest.fail('CLI allocated unauthorized source fixture')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        if fault=='raised_both':
+            cfg['resources']['smoke_additional_allocation_limit_bytes']=402653184
+            cfg['reproduction']['additional_peak_limit_bytes']=402653184
+        else:
+            provenance=tmp_path/'discovery.json'
+            if fault=='malformed': provenance.write_text('{')
+            if fault=='duplicate':
+                provenance.write_text('{"resource_policy":{},"resource_policy":{"status":"smoke_only",'
+                                      '"smoke_additional_allocation_limit_bytes":201326592}}')
+            cfg['resources']['resource_provenance']=str(provenance)
+        path=tmp_path/'config.yaml'; path.write_text(json.dumps(cfg))
+>       with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'ceiling|provenance|registered'
+E         Actual message: 'config.model.epsilon must be a finite number'
+
+tests/test_baselines.py:197: AssertionError
+_ test_reproduction_cli_rejects_unauthorized_config_before_outputs[duplicate] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4031/test_reproduction_cli_rejects_3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ff82d50>
+fault = 'duplicate'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','duplicate'])
+    def test_reproduction_cli_rejects_unauthorized_config_before_outputs(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=asdict(reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml')))
+        def forbidden(*args,**kwargs): pytest.fail('CLI allocated unauthorized source fixture')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        if fault=='raised_both':
+            cfg['resources']['smoke_additional_allocation_limit_bytes']=402653184
+            cfg['reproduction']['additional_peak_limit_bytes']=402653184
+        else:
+            provenance=tmp_path/'discovery.json'
+            if fault=='malformed': provenance.write_text('{')
+            if fault=='duplicate':
+                provenance.write_text('{"resource_policy":{},"resource_policy":{"status":"smoke_only",'
+                                      '"smoke_additional_allocation_limit_bytes":201326592}}')
+            cfg['resources']['resource_provenance']=str(provenance)
+        path=tmp_path/'config.yaml'; path.write_text(json.dumps(cfg))
+>       with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'ceiling|provenance|registered'
+E         Actual message: 'config.model.epsilon must be a finite number'
+
+tests/test_baselines.py:197: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[raised_both]
+FAILED tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[missing]
+FAILED tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[malformed]
+FAILED tests/test_baselines.py::test_reproduction_cli_rejects_unauthorized_config_before_outputs[duplicate]
+========================= 4 failed, 89 passed in 3.59s =========================

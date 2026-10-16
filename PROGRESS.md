@@ -2,6 +2,8 @@
 
 **Updated:** 17 October 2026. **Branch:** `main`. **Current scope:** Tasks 1–15 accepted; Task 16 supplementary source controls and explicit comparator exclusions implemented, pending controller review.
 
+Task16 review fix1 closes a configuration-only resource-cap bypass before allocation and clarifies numerical error reporting. Focused covering verification:93passed. Original source-control failures/exclusions and758-test native evidence remain unchanged; neither long control nor full suite was repeated for this guard/report correction. Scoped re-review pending.
+
 The goal remains to encode a stream once and answer later interval queries from retained state. Accepted components include independent oracles, deterministic synthetic and observed-event Beijing preparation, jets/exponential banks, packed references, polynomial/log-timescale memories, native delta mixers, trained-reader plumbing, strict isolated snapshots, byte accounting and smoke training/resume. Task16 adds standalone Gaver equations and an original scalar-location associative HiPPO control. Both supplementary deferred-query competitors remain excluded; standalone source controls are not integrated competitors. No trained generalization comparison, protected result or evidence that one memory family wins exists.
 
 Numerical limits remain: the recorded long-stream log-timescale FP32 frontier failure is unaccepted; common-MLP gradient norm checks retain original pointwise diagnostics; Gaver FP32 cancellation is reported separately from CPU FP64. The cold-MPS Task12 resource envelope failed and CPU fallback remains. The main trainer is smoke-only. Source-control CPU resource observations do not establish scientific training capacity.

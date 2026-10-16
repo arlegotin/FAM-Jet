@@ -1,0 +1,460 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 26 items / 10 deselected / 16 selected
+
+tests/test_baselines.py::test_reproduction_rejects_raising_both_configurable_limits FAILED [  6%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[None] FAILED [ 12%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered1] FAILED [ 18%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered2] FAILED [ 25%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered3] FAILED [ 31%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered4] FAILED [ 37%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered5] FAILED [ 43%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered6] FAILED [ 50%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered7] FAILED [ 56%]
+tests/test_baselines.py::test_reproduction_independently_binds_common_limit_and_preserves_net_reserve FAILED [ 62%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_both] FAILED [ 68%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[missing] FAILED [ 75%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[malformed] FAILED [ 81%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[common_above_discovery] FAILED [ 87%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_discovery] FAILED [ 93%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions FAILED [100%]
+
+=================================== FAILURES ===================================
+__________ test_reproduction_rejects_raising_both_configurable_limits __________
+
+    def test_reproduction_rejects_raising_both_configurable_limits():
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+>       with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:121: Failed
+_____ test_reproduction_rejects_invalid_discovery_before_allocation[None] ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva0')
+discovered = None
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered1] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva1')
+discovered = []
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered2] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva2')
+discovered = {}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered3] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva3')
+discovered = {'resource_policy': None}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered4] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva4')
+discovered = {'resource_policy': {'status': 'smoke_only', 'smoke_additional_allocation_limit_bytes': True}}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered5] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva5')
+discovered = {'resource_policy': {'status': 'smoke_only', 'smoke_additional_allocation_limit_bytes': 201326592.0}}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered6] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva6')
+discovered = {'resource_policy': {'status': 'uncalibrated', 'smoke_additional_allocation_limit_bytes': 201326592}}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+__ test_reproduction_rejects_invalid_discovery_before_allocation[discovered7] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_rejects_inva7')
+discovered = {'resource_policy': {'status': 'smoke_only', 'smoke_additional_allocation_limit_bytes': -1}}
+
+    @pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+        {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+        {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+    def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+>       with pytest.raises(ValueError,match='provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:135: Failed
+_ test_reproduction_independently_binds_common_limit_and_preserves_net_reserve _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_independentl0')
+
+    def test_reproduction_independently_binds_common_limit_and_preserves_net_reserve(tmp_path):
+        from famjet.reproduce import load_reproduction_config
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        # A smaller actual discovery must restrict the common limit even when the
+        # reproduction-specific request is already below both limits.
+        path=tmp_path/'hardware.json'
+        path.write_text(json.dumps({'resource_policy':{'status':'smoke_only',
+            'smoke_additional_allocation_limit_bytes':180000000}}))
+>       with pytest.raises(ValueError,match='discovered|provenance'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_baselines.py:147: Failed
+_ test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_both] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_entrypoint_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f0450f0>
+fault = 'raised_both'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+    def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        path=tmp_path/'hardware.json'
+        if fault in {'raised_both','raised_discovery'}:
+            object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+            object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+        if fault=='raised_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+        if fault=='malformed': path.write_text('{invalid JSON')
+        if fault=='common_above_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+        if fault!='raised_both':
+            object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+        with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+>           reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+
+tests/test_baselines.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:326: in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/reproduce.py:225: in _associative_control
+    tokens=token_table(a.token_seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (42,), kwargs = {}
+
+>   def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: unauthorized fixture/model allocation
+
+tests/test_baselines.py:160: Failed
+_ test_reproduction_entrypoint_revalidates_authorization_before_allocation[missing] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_entrypoint_r1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f045350>
+fault = 'missing'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+    def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        path=tmp_path/'hardware.json'
+        if fault in {'raised_both','raised_discovery'}:
+            object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+            object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+        if fault=='raised_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+        if fault=='malformed': path.write_text('{invalid JSON')
+        if fault=='common_above_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+        if fault!='raised_both':
+            object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+        with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+>           reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+
+tests/test_baselines.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:326: in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/reproduce.py:225: in _associative_control
+    tokens=token_table(a.token_seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (42,), kwargs = {}
+
+>   def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: unauthorized fixture/model allocation
+
+tests/test_baselines.py:160: Failed
+_ test_reproduction_entrypoint_revalidates_authorization_before_allocation[malformed] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_entrypoint_r2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ee27d10>
+fault = 'malformed'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+    def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        path=tmp_path/'hardware.json'
+        if fault in {'raised_both','raised_discovery'}:
+            object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+            object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+        if fault=='raised_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+        if fault=='malformed': path.write_text('{invalid JSON')
+        if fault=='common_above_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+        if fault!='raised_both':
+            object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+        with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+>           reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+
+tests/test_baselines.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:326: in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/reproduce.py:225: in _associative_control
+    tokens=token_table(a.token_seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (42,), kwargs = {}
+
+>   def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: unauthorized fixture/model allocation
+
+tests/test_baselines.py:160: Failed
+_ test_reproduction_entrypoint_revalidates_authorization_before_allocation[common_above_discovery] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_entrypoint_r3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ea83ce0>
+fault = 'common_above_discovery'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+    def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        path=tmp_path/'hardware.json'
+        if fault in {'raised_both','raised_discovery'}:
+            object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+            object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+        if fault=='raised_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+        if fault=='malformed': path.write_text('{invalid JSON')
+        if fault=='common_above_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+        if fault!='raised_both':
+            object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+        with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+>           reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+
+tests/test_baselines.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:326: in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/reproduce.py:225: in _associative_control
+    tokens=token_table(a.token_seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (42,), kwargs = {}
+
+>   def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: unauthorized fixture/model allocation
+
+tests/test_baselines.py:160: Failed
+_ test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_discovery] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_reproduction_entrypoint_r4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ea839b0>
+fault = 'raised_discovery'
+
+    @pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+    def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+        import famjet.reproduce as reproduction
+        cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+        monkeypatch.setattr(reproduction,'token_table',forbidden)
+        monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+        path=tmp_path/'hardware.json'
+        if fault in {'raised_both','raised_discovery'}:
+            object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+            object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+        if fault=='raised_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+        if fault=='malformed': path.write_text('{invalid JSON')
+        if fault=='common_above_discovery':
+            path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+        if fault!='raised_both':
+            object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+        with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+>           reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+
+tests/test_baselines.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet/reproduce.py:326: in reproduce_baseline
+    else: record.update(_associative_control(config.reproduction,folder))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/reproduce.py:225: in _associative_control
+    tokens=token_table(a.token_seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (42,), kwargs = {}
+
+>   def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: unauthorized fixture/model allocation
+
+tests/test_baselines.py:160: Failed
+__________ test_dispatcher_records_equations_and_explicit_exclusions ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4029/test_dispatcher_records_equati0')
+
+    def test_dispatcher_records_equations_and_explicit_exclusions(tmp_path):
+        from famjet.reproduce import load_reproduction_config, reproduce_baseline
+        cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+        report=reproduce_baseline('gaver_equations',cfg,tmp_path)
+        assert report['status']=='component_passed'
+        assert report['integrated_competitor'] is False
+        assert report['precision_frontier'][1]['state_bytes']==2*report['precision_frontier'][0]['state_bytes']
+        assert report['cancellation']['float32_absolute_error']>report['cancellation']['float64_absolute_error']
+        fp64=report['precision_frontier'][1]
+>       assert fp64['exponential_arithmetic_absolute_error']<1e-8
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'exponential_arithmetic_absolute_error'
+
+tests/test_baselines.py:188: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_baselines.py::test_reproduction_rejects_raising_both_configurable_limits
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[None]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered1]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered2]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered3]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered4]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered5]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered6]
+FAILED tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered7]
+FAILED tests/test_baselines.py::test_reproduction_independently_binds_common_limit_and_preserves_net_reserve
+FAILED tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_both]
+FAILED tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[missing]
+FAILED tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[malformed]
+FAILED tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[common_above_discovery]
+FAILED tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_discovery]
+FAILED tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions
+====================== 16 failed, 10 deselected in 5.39s =======================

@@ -1,10 +1,12 @@
 """Independent numerical and gate tests for supplementary source controls."""
-from dataclasses import replace
+from dataclasses import asdict, replace
 from pathlib import Path
 import math
+import json
 import numpy as np
 import pytest
 import torch
+import yaml
 
 
 def test_stehfest_factorial_fixtures_and_invalid_orders():
@@ -114,14 +116,107 @@ def test_reproduction_config_is_explicit_and_separate_from_main_training():
     with pytest.raises(ValueError): replace(cfg,phase='development')
 
 
+def test_reproduction_rejects_raising_both_configurable_limits():
+    from famjet.reproduce import load_reproduction_config
+    cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+    with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+        replace(cfg,resources=replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184),
+                reproduction=replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+
+
+@pytest.mark.parametrize('discovered', [None, [], {}, {'resource_policy':None},
+    {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':True}},
+    {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':201326592.0}},
+    {'resource_policy':{'status':'uncalibrated','smoke_additional_allocation_limit_bytes':201326592}},
+    {'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':-1}}])
+def test_reproduction_rejects_invalid_discovery_before_allocation(tmp_path,discovered):
+    from famjet.reproduce import load_reproduction_config
+    cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+    path=tmp_path/'hardware.json'; path.write_text(json.dumps(discovered))
+    with pytest.raises(ValueError,match='provenance'):
+        replace(cfg,resources=replace(cfg.resources,resource_provenance=str(path)))
+
+
+def test_reproduction_independently_binds_common_limit_and_preserves_net_reserve(tmp_path):
+    from famjet.reproduce import load_reproduction_config
+    cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+    # A smaller actual discovery must restrict the common limit even when the
+    # reproduction-specific request is already below both limits.
+    path=tmp_path/'hardware.json'
+    path.write_text(json.dumps({'resource_policy':{'status':'smoke_only',
+        'smoke_additional_allocation_limit_bytes':180000000}}))
+    with pytest.raises(ValueError,match='discovered|provenance'):
+        replace(cfg,resources=replace(cfg.resources,resource_provenance=str(path)),
+                reproduction=replace(cfg.reproduction,additional_peak_limit_bytes=170000000))
+    accepted=replace(cfg,resources=replace(cfg.resources,resource_provenance=str(path),
+                     smoke_additional_allocation_limit_bytes=180000000),
+                     reproduction=replace(cfg.reproduction,additional_peak_limit_bytes=177471488))
+    assert accepted.reproduction.additional_peak_limit_bytes==177471488
+
+
+@pytest.mark.parametrize('fault',['raised_both','missing','malformed','common_above_discovery','raised_discovery'])
+def test_reproduction_entrypoint_revalidates_authorization_before_allocation(tmp_path,monkeypatch,fault):
+    import famjet.reproduce as reproduction
+    cfg=reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
+    def forbidden(*args,**kwargs): pytest.fail('unauthorized fixture/model allocation')
+    monkeypatch.setattr(reproduction,'token_table',forbidden)
+    monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+    path=tmp_path/'hardware.json'
+    if fault in {'raised_both','raised_discovery'}:
+        object.__setattr__(cfg,'resources',replace(cfg.resources,smoke_additional_allocation_limit_bytes=402653184))
+        object.__setattr__(cfg,'reproduction',replace(cfg.reproduction,additional_peak_limit_bytes=402653184))
+    if fault=='raised_discovery':
+        path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':402653184}}))
+    if fault=='malformed': path.write_text('{invalid JSON')
+    if fault=='common_above_discovery':
+        path.write_text(json.dumps({'resource_policy':{'status':'smoke_only','smoke_additional_allocation_limit_bytes':100000000}}))
+    if fault!='raised_both':
+        object.__setattr__(cfg,'resources',replace(cfg.resources,resource_provenance=str(path)))
+    with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+        reproduction.reproduce_baseline('associative_original',cfg,tmp_path/'out')
+    assert not (tmp_path/'out').exists()
+
+
+@pytest.mark.parametrize('fault',['raised_both','missing','malformed','duplicate'])
+def test_reproduction_cli_rejects_unauthorized_config_before_outputs(tmp_path,monkeypatch,fault):
+    import famjet.reproduce as reproduction
+    cfg=asdict(reproduction.load_reproduction_config(Path('configs/baseline_reproduction.yaml')))
+    def forbidden(*args,**kwargs): pytest.fail('CLI allocated unauthorized source fixture')
+    monkeypatch.setattr(reproduction,'token_table',forbidden)
+    monkeypatch.setattr(reproduction,'OriginalAssociativeHiPPO',forbidden)
+    if fault=='raised_both':
+        cfg['resources']['smoke_additional_allocation_limit_bytes']=402653184
+        cfg['reproduction']['additional_peak_limit_bytes']=402653184
+    else:
+        provenance=tmp_path/'discovery.json'
+        if fault=='malformed': provenance.write_text('{')
+        if fault=='duplicate':
+            provenance.write_text('{"resource_policy":{},"resource_policy":{"status":"smoke_only",'
+                                  '"smoke_additional_allocation_limit_bytes":201326592}}')
+        cfg['resources']['resource_provenance']=str(provenance)
+    path=tmp_path/'config.yaml'; path.write_text(yaml.safe_dump(cfg))
+    with pytest.raises(ValueError,match='ceiling|provenance|registered'):
+        reproduction.main(['--config',str(path),'--out',str(tmp_path/'out')])
+    assert not (tmp_path/'out').exists()
+
+
 def test_dispatcher_records_equations_and_explicit_exclusions(tmp_path):
     from famjet.reproduce import load_reproduction_config, reproduce_baseline
     cfg=load_reproduction_config(Path('configs/baseline_reproduction.yaml'))
     report=reproduce_baseline('gaver_equations',cfg,tmp_path)
     assert report['status']=='component_passed'
     assert report['integrated_competitor'] is False
+    authorization=report['resource_authorization']
+    assert authorization['authorized_additional_peak_limit_bytes']==201326592
+    assert authorization['discovered_net_ceiling_bytes']==201326592
+    import hashlib
+    assert authorization['provenance_sha256']==hashlib.sha256(Path('artifacts/environment/hardware.json').read_bytes()).hexdigest()
     assert report['precision_frontier'][1]['state_bytes']==2*report['precision_frontier'][0]['state_bytes']
     assert report['cancellation']['float32_absolute_error']>report['cancellation']['float64_absolute_error']
+    fp64=report['precision_frontier'][1]
+    assert fp64['exponential_arithmetic_absolute_error']<1e-8
+    assert fp64['exponential_finite_N_approximation_absolute_error']>1e-6
+    assert fp64['exponential_exact_finite_N_reference']==pytest.approx(.3678693892124888829,abs=1e-16)
     for name in ('gaver_deferred','associative_deferred','compact_gru_routing','gaver_source_reuse'):
         excluded=reproduce_baseline(name,cfg,tmp_path)
         assert excluded['status']=='excluded_preconfirmation' and excluded['reason']

@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 26 items / 10 deselected / 16 selected
+
+tests/test_baselines.py::test_reproduction_rejects_raising_both_configurable_limits PASSED [  6%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[None] PASSED [ 12%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered1] PASSED [ 18%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered2] PASSED [ 25%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered3] PASSED [ 31%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered4] PASSED [ 37%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered5] PASSED [ 43%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered6] PASSED [ 50%]
+tests/test_baselines.py::test_reproduction_rejects_invalid_discovery_before_allocation[discovered7] PASSED [ 56%]
+tests/test_baselines.py::test_reproduction_independently_binds_common_limit_and_preserves_net_reserve PASSED [ 62%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_both] PASSED [ 68%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[missing] PASSED [ 75%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[malformed] PASSED [ 81%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[common_above_discovery] PASSED [ 87%]
+tests/test_baselines.py::test_reproduction_entrypoint_revalidates_authorization_before_allocation[raised_discovery] PASSED [ 93%]
+tests/test_baselines.py::test_dispatcher_records_equations_and_explicit_exclusions PASSED [100%]
+
+====================== 16 passed, 10 deselected in 2.07s =======================

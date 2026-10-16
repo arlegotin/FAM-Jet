@@ -9,6 +9,7 @@ from decimal import Decimal, localcontext
 from fractions import Fraction
 import hashlib
 import io
+import json
 import math
 from pathlib import Path
 import platform
@@ -25,6 +26,10 @@ from famjet.memory.gaver import stehfest_weights, gaver_rates, gaver_step, recon
 from famjet.memory.associative_hippo import OriginalAssociativeHiPPO, token_table, associative_episodes
 
 ROOT=Path(__file__).resolve().parents[1]
+# Existing Task16 authorization from the recorded discovery and dated scope
+# amendment: 256 MiB gross smoke envelope less its already-applied 25% reserve.
+# New discovery/config values cannot expand this registered source-control gate.
+REGISTERED_REPRODUCTION_MAX_ADDITIONAL_BYTES=201326592
 SOURCES={
     'gaver':dict(record='R04/R22',repository='cogneuroai/time-local-transformer',
         commit='99a1a04eb67771a4b1c4b05f7909e1697b8b94ae',
@@ -102,6 +107,41 @@ class ReproductionRunConfig(RunConfig):
         if (a.min_retrieval_accuracy!=.5 or a.min_cosine!=.5 or a.max_prior_mse_fraction!=.75
                 or not a.require_latest_b_improvement):
             raise ValueError('predeclared final-Write acceptance thresholds may not be weakened')
+        _authorize_reproduction_resources(self)
+
+
+def _authorize_reproduction_resources(config):
+    """Bind both editable limits before any fixture/model allocation.
+
+    Discovery reports a NET limit: do not subtract the reserve again. The
+    registered maximum is independent of the editable discovery/config pair.
+    """
+    if config.reproduction.additional_peak_limit_bytes>REGISTERED_REPRODUCTION_MAX_ADDITIONAL_BYTES:
+        raise ValueError('reproduction ceiling exceeds registered source-control authorization')
+    path=ROOT/config.resources.resource_provenance
+    def unique_pairs(pairs):
+        result={}
+        for key,value in pairs:
+            if key in result: raise ValueError('duplicate resource provenance field')
+            result[key]=value
+        return result
+    try:
+        raw=path.read_bytes()
+        record=json.loads(raw,object_pairs_hook=unique_pairs)
+    except (OSError,UnicodeError,ValueError) as exc:
+        raise ValueError('missing or invalid resource provenance') from exc
+    discovered=record.get('resource_policy') if type(record) is dict else None
+    ceiling=discovered.get('smoke_additional_allocation_limit_bytes') if type(discovered) is dict else None
+    if (type(ceiling) is not int or ceiling<=0 or discovered.get('status')!='smoke_only'):
+        raise ValueError('resource provenance requires a discovered positive integer net smoke ceiling')
+    if config.resources.smoke_additional_allocation_limit_bytes>ceiling:
+        raise ValueError('configured smoke ceiling exceeds discovered resource provenance')
+    return dict(provenance_path=str(path.resolve()),provenance_sha256=hashlib.sha256(raw).hexdigest(),
+                discovered_net_ceiling_bytes=ceiling,
+                configured_net_ceiling_bytes=config.resources.smoke_additional_allocation_limit_bytes,
+                registered_reproduction_max_additional_bytes=REGISTERED_REPRODUCTION_MAX_ADDITIONAL_BYTES,
+                authorized_additional_peak_limit_bytes=config.reproduction.additional_peak_limit_bytes,
+                reserve_handling='already applied by discovery; no second subtraction')
 
 
 def load_reproduction_config(path: Path) -> ReproductionRunConfig:
@@ -173,14 +213,18 @@ def _gaver_control(p):
             preparation_seconds=preparation,mean_ingest_seconds=ingest_seconds,mean_reconstruct_seconds=read_seconds,
             timing_repetitions=200,impulse_prediction=prediction,zoh_prediction=zoh_value,
             zoh_absolute_error=abs(zoh_value-zoh_reference),
-            exponential_inverse_prediction=exprecon,exponential_finite_N_error=abs(exprecon-math.exp(-1))))
+            exponential_inverse_prediction=exprecon,
+            exponential_exact_finite_N_reference=exponential_reference,
+            exponential_arithmetic_absolute_error=abs(exprecon-exponential_reference),
+            exponential_finite_N_approximation_absolute_error=abs(exponential_reference-math.exp(-1)),
+            exponential_total_absolute_error=abs(exprecon-math.exp(-1))))
     return dict(status='component_passed' if passed else 'component_unaccepted',
         modes=['impulse','zoh_current_interval'],precision_frontier=rows,
         cancellation=dict(reference=reference,float32_absolute_error=errors['float32'],float64_absolute_error=errors['float64']),
         coefficient_max_absolute_error=float(np.max(np.abs(stehfest_weights(n)-weights))),
         reference='exact factorial Fraction + Decimal80; finite-N kernel, not Dirac pointwise label',
         input_units=dict(impulse='event measure; dimensionless reader uses t_ref*fhat',zoh_current_interval='current sample covers preceding interval; fhat already signal units'),
-        acceptance='CPU FP64 impulse, ZOH and exponential-transform finite-N errors <1e-8; FP32 cancellation reported, not accepted as equivalent')
+        acceptance='CPU FP64 impulse, ZOH and exponential-transform arithmetic error versus exact finite-N references <1e-8; FP32 cancellation reported, not accepted as equivalent')
 
 
 def _source_fixture_policy(a):
@@ -308,6 +352,7 @@ def reproduce_baseline(name: str, config: RunConfig, out: Path) -> dict:
     if type(config) is not ReproductionRunConfig:
         raise ValueError('explicit dedicated reproduction config required')
     config.__post_init__()
+    authorization=_authorize_reproduction_resources(config)
     if name not in {*EXCLUSIONS,'gaver_equations','associative_original'}: raise ValueError('unknown reproduction method')
     folder=Path(out)/name
     if folder.exists(): raise FileExistsError(f'refusing to replace prior evidence: {folder}')
@@ -316,6 +361,7 @@ def reproduce_baseline(name: str, config: RunConfig, out: Path) -> dict:
     atomic_json(folder/'resolved.json',resolved)
     torch.set_num_threads(config.resources.cpu_threads)
     record=dict(schema_version=1,name=name,integrated_competitor=False,config_hash=canonical_hash(resolved),
+        resource_authorization=authorization,
         source=SOURCES['associative' if name.startswith('associative') else 'gaver'] if name!='compact_gru_routing' else None,
         implementation_hashes={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in
             ['famjet/reproduce.py','famjet/memory/gaver.py','famjet/memory/associative_hippo.py']},

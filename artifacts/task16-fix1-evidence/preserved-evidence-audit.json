@@ -1,0 +1,170 @@
+{
+  "fix_base": "190ae322cc32c02f2d138d77f929998742d69093",
+  "original_manifest_entries": 27,
+  "original_tracked_files": 28,
+  "all_original_bytes_unchanged": true,
+  "rows": [
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_deferred/report.json",
+      "bytes": 1153,
+      "sha256": "a5e4e997079f01332ef5cb4588bc5758925603b29ec386e83e3ff85029a79cf9",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_deferred/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_original/final_predictions.npz",
+      "bytes": 266181,
+      "sha256": "4e54e1866dab31127f926bb0417e303262da1543dd9dda9b7d75868ca455dfd5",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_original/report.json",
+      "bytes": 4213,
+      "sha256": "8545dc2297966c67fc75a2adf0fc0c488b5b435406ff62194bbccfcf4709554e",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_original/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/associative_original/trials.jsonl",
+      "bytes": 726493,
+      "sha256": "a570aa20d4bad3652d90c3a0de370d4a412aca80700c97f9c34ad2d58e89cb9c",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/compact_gru_routing/report.json",
+      "bytes": 731,
+      "sha256": "7b1fb904236c712d7262b3a230aec2da38742578939aa8cd524e81faec734ca7",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/compact_gru_routing/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_deferred/report.json",
+      "bytes": 1009,
+      "sha256": "3d108e5134438f5e02c186a78aba3ba48392e665293b61e41d040cdc34b29fee",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_deferred/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_equations/report.json",
+      "bytes": 2649,
+      "sha256": "3685bd3d7a41abda3e31f9f10d0a5ee5cf29196c50a40eb719ebfb801a5fe0fa",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_equations/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_source_reuse/report.json",
+      "bytes": 1009,
+      "sha256": "93888da58fe6e02d6eab3a87e85a7a6359914c14a588c002c37ec50650cff9db",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/gaver_source_reuse/resolved.json",
+      "bytes": 2510,
+      "sha256": "885e8906ba0340a2b49b76e84ae4c944ee234b28227a6add6dbcae82ff9ee14b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/final-controls/inventory.json",
+      "bytes": 689,
+      "sha256": "5e415864fd841945c231ca52c9a0c9760fabc16fc355ebba86a4d04378f2aa79",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/first-green-failure.txt",
+      "bytes": 3840,
+      "sha256": "e96f2ecfc04fbb92216c7677bf82ac33342af7a7b105265baafe07dea75cd00b",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/focused-final.txt",
+      "bytes": 1543,
+      "sha256": "146a95a797d710bc8dbe957074407bf7eaa3f5f96651f9a0adcc0ae67503f1f1",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/full-native.txt",
+      "bytes": 197289,
+      "sha256": "76fc66d113209758441f4aad1ffd6d77adf8f48f8b3599edc8f72ed2a3edaba0",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/interrupted-controls/associative_original/interruption.json",
+      "bytes": 313,
+      "sha256": "efb6c65425a78ca87f19ed7eb517722843392c969ed983fa703d42fee205282a",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/interrupted-controls/associative_original/resolved.json",
+      "bytes": 2474,
+      "sha256": "4de6d087459ba5fba21ae123226e39b153abab775b38315e968cc00e2d3e851f",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/interrupted-controls/associative_original/trials.jsonl",
+      "bytes": 271982,
+      "sha256": "3d09c599e9c996beea06b4c635c314c2d1e74941aa413ffc248858f4fd0a55bc",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/interrupted-controls/gaver_equations/report.json",
+      "bytes": 2650,
+      "sha256": "8e9de6c7cedf7993729378609a63e0d9f2bed641575fe619d65e41e0df7de1c7",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/interrupted-controls/gaver_equations/resolved.json",
+      "bytes": 2474,
+      "sha256": "4de6d087459ba5fba21ae123226e39b153abab775b38315e968cc00e2d3e851f",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/manifest-audit.json",
+      "bytes": 11732,
+      "sha256": "26b44f9daf44445cff5ef158569882d41593f86cadcc018a9cc06ba4b82f2d45",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/red.txt",
+      "bytes": 5866,
+      "sha256": "96264ef1fa9345eb702818d7fa718d28297b9a59b06e72280d6c452ece3066e4",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/reproduce-final.txt",
+      "bytes": 256,
+      "sha256": "887af6bca572171a787a265af919d95372f4ee0197532b76c0c96f03eac52b89",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/task16-evidence/reproduce-interrupted.txt",
+      "bytes": 2133,
+      "sha256": "7bb0a44c3bf6a6ae6b1d34faa70cd56ad2d05f81690e6327f182b50c6740bd1b",
+      "unchanged": true
+    }
+  ]
+}
