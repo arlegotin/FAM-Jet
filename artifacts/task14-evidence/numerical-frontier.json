@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-16",
+  "scope": "bounded fixtures only; failed rows remain excluded from accuracy acceptance",
+  "seed": 20261016,
+  "fp32_rtol": 1e-05,
+  "fp32_atol": 1e-06,
+  "cpu64_rtol": 1e-12,
+  "cpu64_atol": 1e-12,
+  "rows": [
+    {
+      "order": 2,
+      "scale_order": 2,
+      "epsilon": 0.01,
+      "tau0": 3.0,
+      "length": 256,
+      "precision": "float32",
+      "devices": [
+        "cpu",
+        "mps"
+      ],
+      "status": "passed_original_tolerance",
+      "max_tolerance_ratio_cpu": 0.0048099414392700724,
+      "max_tolerance_ratio_mps": 0.005506148838225521
+    },
+    {
+      "order": 2,
+      "scale_order": 4,
+      "epsilon": 0.01,
+      "tau0": 16.0,
+      "length": 2048,
+      "precision": "float32",
+      "devices": [
+        "cpu",
+        "mps"
+      ],
+      "status": "passed_original_tolerance",
+      "max_tolerance_ratio_cpu": 0.27215663574844534,
+      "max_tolerance_ratio_mps": 0.2668587022003331
+    },
+    {
+      "order": 4,
+      "scale_order": 2,
+      "epsilon": 0.0001,
+      "tau0": 16.0,
+      "length": 2048,
+      "precision": "float32",
+      "devices": [
+        "cpu",
+        "mps"
+      ],
+      "status": "failed_original_tolerance",
+      "max_tolerance_ratio": 4.63436488680473,
+      "max_absolute_error": 0.00020244772564304014
+    },
+    {
+      "order": 4,
+      "scale_order": 2,
+      "epsilon": 0.0001,
+      "tau0": 16.0,
+      "length": 2048,
+      "precision": "float64",
+      "devices": [
+        "cpu"
+      ],
+      "status": "passed_original_tolerance",
+      "max_tolerance_ratio": 0.06266993488692107
+    }
+  ],
+  "required_before_task18": "Matched evidence for selected config/precision/length, or explicitly registered CPU64 precision policy with actual costs; no broad competitiveness until credible family frontier covered",
+  "amendment": "docs/amendments/2026-10-16-multiscale-numerics.md"
+}

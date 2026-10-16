@@ -68,6 +68,15 @@ class PolynomialConfig:
 
 
 @dataclass(frozen=True)
+class MultiscaleConfig:
+    order: int
+    scale_order: int
+    epsilon: float
+    tau0: float
+    declared_gaps: tuple[float, ...] = (0., 1., 2., 4., 16.)
+
+
+@dataclass(frozen=True)
 class ModelConfig:
     method: str
     heads: int
@@ -84,6 +93,7 @@ class ModelConfig:
     interpolation: bool
     probes: int
     polynomial: PolynomialConfig | None = None
+    multiscale: MultiscaleConfig | None = None
 
 
 @dataclass(frozen=True)
@@ -279,7 +289,20 @@ def validate_config(config: RunConfig) -> None:
         raise ValueError('model.K must equal data.key_dim')
     if m.precision not in {'float32', 'float64'}:
         raise ValueError('precision requires float32 or float64; frontier needs registration')
-    if m.method == 'polynomial':
+    if m.method == 'multiscale':
+        if m.J is not None or m.rates is not None or m.polynomial is not None or m.multiscale is None:
+            raise ValueError('multiscale requires typed allocation and explicit null J/rates/polynomial')
+        from famjet.memory.multiscale import validate_system
+        from famjet.memory.hippo import validate_allocation
+        p=m.multiscale
+        validate_system(p.order,p.scale_order,p.epsilon,p.tau0)
+        validate_allocation((p.order,)*p.scale_order,(p.tau0,)*p.scale_order,p.declared_gaps,r.cache_limit_bytes,
+                            8 if m.precision == 'float64' else 4)
+        if m.reader.kind not in {'generic_contracted','generic_full','query_only'}:
+            raise ValueError('multiscale requires full coefficient generic reader')
+    elif m.method == 'polynomial':
+        if m.multiscale is not None:
+            raise ValueError('polynomial requires null multiscale allocation')
         if m.J is not None or m.rates is not None or m.polynomial is None:
             raise ValueError('polynomial requires typed allocation and explicit null J/rates')
         p = m.polynomial
@@ -290,7 +313,7 @@ def validate_config(config: RunConfig) -> None:
         if m.reader.kind not in {'generic_contracted','generic_full','query_only'}:
             raise ValueError('polynomial requires full coefficient generic reader')
     else:
-        if m.polynomial is not None or m.J is None or m.rates is None:
+        if m.polynomial is not None or m.multiscale is not None or m.J is None or m.rates is None:
             raise ValueError('non-polynomial methods require J/rates and null polynomial allocation')
         _positive(m.J, 'model.J')
         if m.rates.mode not in {'fixed', 'learned'} or m.rates.spacing not in {'log', 'linear'}:
@@ -370,7 +393,7 @@ def save_resolved_config(path: Path, config: RunConfig) -> None:
 
 
 def config_documents_equal(left, right):
-    """After seal checks, permit ONLY absent/default-null polynomial addition.
+    """After seal checks, permit ONLY known absent/default-null polynomial/multiscale additions.
 
     Parsing validates both complete schemas. No generic missing/null stripping,
     unknown fields, scientific changes or original seal/hash rewrite is allowed.
@@ -381,4 +404,5 @@ def config_documents_equal(left, right):
     left, right = deepcopy(left), deepcopy(right)
     for document in (left, right):
         document['model'].setdefault('polynomial', None)
+        document['model'].setdefault('multiscale', None)
     return canonical_json(left) == canonical_json(right)

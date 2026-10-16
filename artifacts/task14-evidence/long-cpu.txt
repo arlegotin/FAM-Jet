@@ -1,0 +1,54 @@
+..{"n": 2, "m": 2, "epsilon": 0.01, "tau0": 3.0, "length": 256, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 1.269123695024632e-14, "max_tolerance_ratio": 0.012228553609179803}
+.{"n": 4, "m": 2, "epsilon": 0.0001, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 17.57007495242918, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 1.9895196601282805e-13, "max_tolerance_ratio": 0.06266993488692107}
+.{"n": 2, "m": 4, "epsilon": 0.01, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000004, "max_absolute_error": 1.4432899320127035e-14, "max_tolerance_ratio": 0.012330936864323624}
+.{"n": 2, "m": 2, "epsilon": 0.01, "tau0": 3.0, "length": 256, "device": "cpu", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 2.7940866620390636e-08, "max_tolerance_ratio": 0.0048099414392700724}
+.F{"n": 2, "m": 4, "epsilon": 0.01, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000004, "max_absolute_error": 5.447835336735984e-07, "max_tolerance_ratio": 0.27215663574844534}
+.sss
+=================================== FAILURES ===================================
+_____ test_long_finite_impulse_error_envelope[cpu32-4-2-0.0001-16.0-2048] ______
+
+n = 4, m = 2, eps = 0.0001, tau = 16.0, length = 2048
+kernel_case = (torch.float32, 'cpu', (1e-05, 1e-06))
+
+    @pytest.mark.parametrize('n,m,eps,tau,length',[(2,2,.01,3.,256),(4,2,1e-4,16.,2048),(2,4,.01,16.,2048)])
+    def test_long_finite_impulse_error_envelope(n,m,eps,tau,length,kernel_case):
+        from famjet.types import EventBatch
+        dtype,device,tol=kernel_case
+        rng=np.random.default_rng(20261016);gaps=rng.choice([0,1,2,4,16],length);gaps[0]=0
+        times=np.cumsum(gaps,dtype=np.int64);values=rng.normal(size=(1,length,1))
+        e=EventBatch(('long',),torch.arange(length)[None],torch.tensor(times)[None],
+            torch.full((1,length),2**64-1,dtype=torch.uint64),torch.ones(1,length,1,device=device,dtype=dtype),
+            torch.tensor(values,device=device,dtype=dtype),torch.tensor([length]),
+            torch.ones(1,length,device=device,dtype=torch.bool),torch.ones(1,length,1,device=device,dtype=torch.bool),'ticks')
+        mem=MultiscaleMemory(n,m,eps,tau,1,1,dtype=dtype,device=device)
+        state=mem.encode(e)
+        A,G,B,K=independent_system(n,m,eps,tau)
+        expected=np.zeros((n*m,2));represented=e.values.cpu().double().numpy()
+        for j in range(length):
+            expected+=(expm(K*float(times[-1]-times[j])) @ B.flatten(order='F')/tau)[:,None]*np.r_[represented[0,j],1.]
+        U=log_scale_system(n,m,eps,tau)['U']
+        expected=np.einsum('mnv,mj->jnv',expected.reshape(m,n,2),U).reshape(n*m,2)
+        actual=state.payload['p'][0,0,:,0].cpu().double().numpy()
+>       np.testing.assert_allclose(actual,expected,rtol=tol[0],atol=tol[1])
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-05, atol=1e-06
+E       
+E       Mismatched elements: 4 / 16 (25%)
+E       Mismatch at indices:
+E        [0, 1]: -10.275029182434082 (ACTUAL), -10.274826734708439 (DESIRED)
+E        [2, 0]: -0.17183123528957367 (ACTUAL), -0.17182804219681858 (DESIRED)
+E        [2, 1]: -1.1612271070480347 (ACTUAL), -1.1612789170543132 (DESIRED)
+E        [3, 1]: 2.164416790008545 (ACTUAL), 2.164311853535077 (DESIRED)
+E       Max absolute difference among violations: 0.00020245
+E       Max relative difference among violations: 4.84849137e-05
+E        ACTUAL: array([[  0.574792, -10.275029],
+E              [  0.606407, -11.489046],
+E              [ -0.171831,  -1.161227],...
+E        DESIRED: array([[  0.574786, -10.274827],
+E              [  0.606403, -11.488948],
+E              [ -0.171828,  -1.161279],...
+
+tests/test_multiscale.py:307: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu32-4-2-0.0001-16.0-2048]
+1 failed, 7 passed, 3 skipped, 38 deselected in 1.27s

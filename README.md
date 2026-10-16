@@ -25,7 +25,9 @@ Preparation and the tiny training pipeline are executable now:
 .venv/bin/python -m famjet.run --config configs/smoke.yaml
 ```
 
-The [polynomial comparator](docs/baseline_adaptations.md) also has an explicit two-step CPU smoke configuration: `.venv/bin/python -m famjet.run --config configs/polynomial-smoke.yaml`. Its single/multiscale Legendre banks use event impulses, expose all signed coefficients to generic readers, and count their declared transition cache. Timescales are fixed; scientific tuning and the stronger log-rate construction remain ahead.
+The [polynomial comparator](docs/baseline_adaptations.md) also has an explicit two-step CPU smoke configuration: `.venv/bin/python -m famjet.run --config configs/polynomial-smoke.yaml`. Its single/multiscale Legendre banks use event impulses, expose all signed coefficients to generic readers, and count their declared transition cache. Timescales are fixed; scientific tuning remains ahead.
+
+The finite log-rate HiPPO Zoo comparator has its own [CPU smoke configuration](configs/multiscale-smoke.yaml): `.venv/bin/python -m famjet.run --config configs/multiscale-smoke.yaml`. It retains all eight signed temporal/scale coefficients and supports scale-basis queries. Its [numerical scope](docs/amendments/2026-10-16-multiscale-numerics.md) explicitly excludes a measured slow-scale FP32 long-stream frontier; CPU64 verifies that same finite system. Scientific comparator selection must respect that inventory.
 
 The run command explicitly uses CPU and two optimizer steps. It prints a new run directory containing resolved configuration, run status, predictions, timing, draw records and full checkpoints. To resume, pass `--resume PATH/TO/checkpoint.pt` with the same config; use a new `--run-dir` if you specify one. `doctor`, `prepare` and `run` all support `--help` without starting work.
 

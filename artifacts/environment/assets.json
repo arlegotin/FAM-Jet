@@ -56,5 +56,20 @@
       "sha256": "df9fe266a7118d428b120e7afbdae7244a1729b16aaf73026f4c663f8be50f2e"
     }
   ],
-  "note": "Dependency wheels are pinned by hashes in requirements.lock. Sources were initially inspected read-only; the Task7 asset entry records later verified dataset acquisition and observed-event preparation. No model weights were downloaded. Documentation URLs name installed versions; access verification is recorded separately in the environment-gate report."
+  "note": "Dependency wheels are pinned by hashes in requirements.lock. Sources were initially inspected read-only; the Task7 asset entry records later verified dataset acquisition and observed-event preparation. No model weights were downloaded. Documentation URLs name installed versions; access verification is recorded separately in the environment-gate report.",
+  "baseline_sources": [
+    {
+      "source_record": "R07",
+      "repository": "jackgoffinet/hippo-zoo",
+      "commit": "04e38b3cf246f4c50cb6c6a7e10597e2e37eebc7",
+      "path": "scripts/multiscale_hippo.py",
+      "git_blob": "38f3efb7f5a3f2538cc4ce284b931770086e655e",
+      "sha256": "cc02d969de08db54f7bbfe3c0607963c4410bc413e27737258d80be9ce2ede3a",
+      "license": "MIT",
+      "copyright": "2026 Jack Goffinet",
+      "license_path": "LICENSE.md",
+      "scope": "source equations independently implemented; no vendored source or model weights",
+      "adaptation_ledger": "docs/baseline_adaptations.md"
+    }
+  ]
 }

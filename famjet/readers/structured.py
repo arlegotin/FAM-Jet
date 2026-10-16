@@ -27,13 +27,13 @@ def input_width(kind, feature_spec, query_spec):
     kind = 'fixed_scale' if selected_anchor is not None else kind
     if kind not in KINDS:
         raise ValueError('unknown reader kind')
-    count_field = 'coefficients' if feature_spec.get('family') == 'polynomial' else 'anchors'
+    count_field = 'coefficients' if feature_spec.get('family') in {'polynomial','multiscale'} else 'anchors'
     if set(feature_spec) != {'family', count_field, 'key_dim', 'value_dim'} or set(query_spec) != {'key_dim'}:
         raise ValueError('invalid reader feature/query schema')
     family, j, k, v = (feature_spec[n] for n in ('family', count_field, 'key_dim', 'value_dim'))
-    if type(family) is not str or family not in {'jet', 'bank', 'polynomial'} or any(type(x) is not int or not 0 < x <= 2**63-1 for x in (j, k, v)) or type(query_spec['key_dim']) is not int or query_spec['key_dim'] != k:
+    if type(family) is not str or family not in {'jet', 'bank', 'polynomial', 'multiscale'} or any(type(x) is not int or not 0 < x <= 2**63-1 for x in (j, k, v)) or type(query_spec['key_dim']) is not int or query_spec['key_dim'] != k:
         raise ValueError('invalid reader dimensions/family')
-    if family == 'polynomial' and kind not in {'generic_contracted','generic_full','query_only'}:
+    if family in {'polynomial','multiscale'} and kind not in {'generic_contracted','generic_full','query_only'}:
         raise ValueError('polynomial requires full coefficient generic reader')
     if selected_anchor is not None and selected_anchor >= j:
         raise ValueError('fixed-scale anchor outside retained rates')

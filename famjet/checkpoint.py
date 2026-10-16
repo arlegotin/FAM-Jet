@@ -48,18 +48,35 @@ def _preflight_model(context, config):
     try:
         wire=context['model']; schema=wire['schema']; kernel=schema['kernel']
         reader=schema['reader']; validate_reader_schema(reader)
-        count_name='coefficients' if m.method=='polynomial' else 'anchors'
-        count=sum(m.polynomial.orders) if m.method=='polynomial' else m.J
+        count_name='coefficients' if m.method in {'polynomial','multiscale'} else 'anchors'
+        count=m.multiscale.order*m.multiscale.scale_order if m.method=='multiscale' else sum(m.polynomial.orders) if m.method=='polynomial' else m.J
         expected_reader={'kind':m.reader.kind,
             'feature_spec':{'family':m.method,count_name:count,'key_dim':m.K,'value_dim':d.value_dim},
             'query_spec':{'key_dim':m.K},'budget':{'width':m.reader.width,'hidden_layers':m.reader.layers}}
-        if wire['kind'] != 'task' or m.method not in {'jet','bank','polynomial'} or kernel['kind'] != m.method or reader != expected_reader:
+        if wire['kind'] != 'task' or m.method not in {'jet','bank','polynomial','multiscale'} or kernel['kind'] != m.method or reader != expected_reader:
             raise ValueError('checkpoint reader/model configuration mismatch')
         if schema['inference_config'] != {'schema_version':1,'writer':m.writer,'rate_mode':'fixed' if m.rates is None else m.rates.mode} or schema['frozen_rates'] is not False:
             raise ValueError('checkpoint training model configuration mismatch')
         ks=kernel['schema']
         if any(type(ks[k]) is not int or ks[k] != value for k,value in [('key_dim',m.K),('value_dim',d.value_dim)]):
             raise ValueError('checkpoint kernel dimensions mismatch')
+        if m.method == 'multiscale':
+            from famjet.memory.multiscale import validate_system
+            from famjet.memory.hippo import validate_allocation
+            if set(ks) != {'order','scale_order','epsilon','tau0','declared_gaps','key_dim','value_dim','cache_limit_bytes','t_ref','chunk_size','dtype'}:
+                raise ValueError('checkpoint multiscale schema mismatch')
+            if (any(ks[k] != getattr(m.multiscale,k) for k in ('order','scale_order','epsilon','tau0'))
+                    or type(ks['declared_gaps']) not in (tuple,list)
+                    or list(ks['declared_gaps']) != list(m.multiscale.declared_gaps)):
+                raise ValueError('checkpoint multiscale allocation mismatch')
+            if (ks['dtype'] != m.precision or type(ks['cache_limit_bytes']) is not int
+                    or ks['cache_limit_bytes'] != config.resources.cache_limit_bytes
+                    or type(ks['chunk_size']) is not int or ks['chunk_size'] != 32 or kernel['weights'] != {}):
+                raise ValueError('checkpoint multiscale construction mismatch')
+            validate_system(ks['order'],ks['scale_order'],ks['epsilon'],ks['tau0'])
+            validate_allocation((ks['order'],)*ks['scale_order'],(ks['tau0'],)*ks['scale_order'],
+                                ks['declared_gaps'],ks['cache_limit_bytes'],4)
+            return
         if m.method == 'polynomial':
             from famjet.memory.hippo import validate_allocation
             expected = {'orders':list(m.polynomial.orders),'taus':list(m.polynomial.taus),

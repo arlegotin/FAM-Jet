@@ -1,0 +1,157 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 49 items
+
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[1-0.01] PASSED
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[2-0.2] PASSED
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[8-0.0001] PASSED
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[16-1e-08] PASSED
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[4-0.999999] PASSED
+tests/test_multiscale.py::test_bessel_beta_independent_converged_quadrature_and_finite_jacobi[4-1e-300] PASSED
+tests/test_multiscale.py::test_m1_correct_normalization_and_impulse_zoh_distinction PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[cpu64-stream] PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[cpu64-terminal] PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[cpu32-stream] PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[cpu32-terminal] PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[mps32-stream] PASSED
+tests/test_multiscale.py::test_dense_column_vector_reference_resume_queries_and_full_gradients[mps32-terminal] PASSED
+tests/test_multiscale.py::test_model_readers_isolation_budget_and_units[generic_contracted] PASSED
+tests/test_multiscale.py::test_model_readers_isolation_budget_and_units[generic_full] PASSED
+tests/test_multiscale.py::test_model_readers_isolation_budget_and_units[query_only] PASSED
+tests/test_multiscale.py::test_static_cache_preparation_budget_and_strict_config PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args0] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args1] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args2] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args3] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args4] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args5] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args6] PASSED
+tests/test_multiscale.py::test_invalid_finite_system_rejected_before_allocation[args7] PASSED
+tests/test_multiscale.py::test_training_learned_writer_and_checkpoint_resume[cpu] PASSED
+tests/test_multiscale.py::test_training_learned_writer_and_checkpoint_resume[mps] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[order] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[scale_order] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[epsilon] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[tau0] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[gaps] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[chunk] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[cache] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[dimension] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[dtype] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[weights] PASSED
+tests/test_multiscale.py::test_raw_checkpoint_allocation_guards[reader] PASSED
+tests/test_multiscale.py::test_scale_query_empty_batch_and_invalid_domain PASSED
+tests/test_multiscale.py::test_zoh_independent_integral_and_finite_projection_caveat PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu64-2-2-0.01-3.0-256] {"n": 2, "m": 2, "epsilon": 0.01, "tau0": 3.0, "length": 256, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 1.269123695024632e-14, "max_tolerance_ratio": 0.012228553609179803}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu64-4-2-0.0001-16.0-2048] {"n": 4, "m": 2, "epsilon": 0.0001, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 17.57007495242918, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 1.9895196601282805e-13, "max_tolerance_ratio": 0.06266993488692107}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu64-2-4-0.01-16.0-2048] {"n": 2, "m": 4, "epsilon": 0.01, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000004, "max_absolute_error": 1.4432899320127035e-14, "max_tolerance_ratio": 0.012330936864323624}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu32-2-2-0.01-3.0-256] {"n": 2, "m": 2, "epsilon": 0.01, "tau0": 3.0, "length": 256, "device": "cpu", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 2.7940866620390636e-08, "max_tolerance_ratio": 0.0048099414392700724}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu32-4-2-0.0001-16.0-2048] FAILED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu32-2-4-0.01-16.0-2048] {"n": 2, "m": 4, "epsilon": 0.01, "tau0": 16.0, "length": 2048, "device": "cpu", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000004, "max_absolute_error": 5.447835336735984e-07, "max_tolerance_ratio": 0.27215663574844534}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[mps32-2-2-0.01-3.0-256] {"n": 2, "m": 2, "epsilon": 0.01, "tau0": 3.0, "length": 256, "device": "mps", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000002, "max_absolute_error": 2.7940866620390636e-08, "max_tolerance_ratio": 0.005506148838225521}
+PASSED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[mps32-4-2-0.0001-16.0-2048] FAILED
+tests/test_multiscale.py::test_long_finite_impulse_error_envelope[mps32-2-4-0.01-16.0-2048] {"n": 2, "m": 4, "epsilon": 0.01, "tau0": 16.0, "length": 2048, "device": "mps", "dtype": "torch.float32", "temporal_eigenvector_condition": 1.9318516525781355, "scale_eigenbasis_condition": 1.0000000000000004, "max_absolute_error": 5.298823724797508e-07, "max_tolerance_ratio": 0.2668587022003331}
+PASSED
+
+=================================== FAILURES ===================================
+_____ test_long_finite_impulse_error_envelope[cpu32-4-2-0.0001-16.0-2048] ______
+
+n = 4, m = 2, eps = 0.0001, tau = 16.0, length = 2048
+kernel_case = (torch.float32, 'cpu', (1e-05, 1e-06))
+
+    @pytest.mark.parametrize('n,m,eps,tau,length',[(2,2,.01,3.,256),(4,2,1e-4,16.,2048),(2,4,.01,16.,2048)])
+    def test_long_finite_impulse_error_envelope(n,m,eps,tau,length,kernel_case):
+        from famjet.types import EventBatch
+        dtype,device,tol=kernel_case
+        rng=np.random.default_rng(20261016);gaps=rng.choice([0,1,2,4,16],length);gaps[0]=0
+        times=np.cumsum(gaps,dtype=np.int64);values=rng.normal(size=(1,length,1))
+        e=EventBatch(('long',),torch.arange(length)[None],torch.tensor(times)[None],
+            torch.full((1,length),2**64-1,dtype=torch.uint64),torch.ones(1,length,1,device=device,dtype=dtype),
+            torch.tensor(values,device=device,dtype=dtype),torch.tensor([length]),
+            torch.ones(1,length,device=device,dtype=torch.bool),torch.ones(1,length,1,device=device,dtype=torch.bool),'ticks')
+        mem=MultiscaleMemory(n,m,eps,tau,1,1,dtype=dtype,device=device)
+        state=mem.encode(e)
+        A,G,B,K=independent_system(n,m,eps,tau)
+        expected=np.zeros((n*m,2));represented=e.values.cpu().double().numpy()
+        for j in range(length):
+            expected+=(expm(K*float(times[-1]-times[j])) @ B.flatten(order='F')/tau)[:,None]*np.r_[represented[0,j],1.]
+        U=log_scale_system(n,m,eps,tau)['U']
+        expected=np.einsum('mnv,mj->jnv',expected.reshape(m,n,2),U).reshape(n*m,2)
+        actual=state.payload['p'][0,0,:,0].cpu().double().numpy()
+>       np.testing.assert_allclose(actual,expected,rtol=tol[0],atol=tol[1])
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-05, atol=1e-06
+E       
+E       Mismatched elements: 4 / 16 (25%)
+E       Mismatch at indices:
+E        [0, 1]: -10.275029182434082 (ACTUAL), -10.274826734708439 (DESIRED)
+E        [2, 0]: -0.17183123528957367 (ACTUAL), -0.17182804219681858 (DESIRED)
+E        [2, 1]: -1.1612271070480347 (ACTUAL), -1.1612789170543132 (DESIRED)
+E        [3, 1]: 2.164416790008545 (ACTUAL), 2.164311853535077 (DESIRED)
+E       Max absolute difference among violations: 0.00020245
+E       Max relative difference among violations: 4.84849137e-05
+E        ACTUAL: array([[  0.574792, -10.275029],
+E              [  0.606407, -11.489046],
+E              [ -0.171831,  -1.161227],...
+E        DESIRED: array([[  0.574786, -10.274827],
+E              [  0.606403, -11.488948],
+E              [ -0.171828,  -1.161279],...
+
+tests/test_multiscale.py:307: AssertionError
+_____ test_long_finite_impulse_error_envelope[mps32-4-2-0.0001-16.0-2048] ______
+
+n = 4, m = 2, eps = 0.0001, tau = 16.0, length = 2048
+kernel_case = (torch.float32, 'mps', (1e-05, 1e-06))
+
+    @pytest.mark.parametrize('n,m,eps,tau,length',[(2,2,.01,3.,256),(4,2,1e-4,16.,2048),(2,4,.01,16.,2048)])
+    def test_long_finite_impulse_error_envelope(n,m,eps,tau,length,kernel_case):
+        from famjet.types import EventBatch
+        dtype,device,tol=kernel_case
+        rng=np.random.default_rng(20261016);gaps=rng.choice([0,1,2,4,16],length);gaps[0]=0
+        times=np.cumsum(gaps,dtype=np.int64);values=rng.normal(size=(1,length,1))
+        e=EventBatch(('long',),torch.arange(length)[None],torch.tensor(times)[None],
+            torch.full((1,length),2**64-1,dtype=torch.uint64),torch.ones(1,length,1,device=device,dtype=dtype),
+            torch.tensor(values,device=device,dtype=dtype),torch.tensor([length]),
+            torch.ones(1,length,device=device,dtype=torch.bool),torch.ones(1,length,1,device=device,dtype=torch.bool),'ticks')
+        mem=MultiscaleMemory(n,m,eps,tau,1,1,dtype=dtype,device=device)
+        state=mem.encode(e)
+        A,G,B,K=independent_system(n,m,eps,tau)
+        expected=np.zeros((n*m,2));represented=e.values.cpu().double().numpy()
+        for j in range(length):
+            expected+=(expm(K*float(times[-1]-times[j])) @ B.flatten(order='F')/tau)[:,None]*np.r_[represented[0,j],1.]
+        U=log_scale_system(n,m,eps,tau)['U']
+        expected=np.einsum('mnv,mj->jnv',expected.reshape(m,n,2),U).reshape(n*m,2)
+        actual=state.payload['p'][0,0,:,0].cpu().double().numpy()
+>       np.testing.assert_allclose(actual,expected,rtol=tol[0],atol=tol[1])
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-05, atol=1e-06
+E       
+E       Mismatched elements: 4 / 16 (25%)
+E       Mismatch at indices:
+E        [0, 1]: -10.275029182434082 (ACTUAL), -10.274826734708439 (DESIRED)
+E        [2, 0]: -0.17183123528957367 (ACTUAL), -0.17182804219681858 (DESIRED)
+E        [2, 1]: -1.1612271070480347 (ACTUAL), -1.1612789170543132 (DESIRED)
+E        [3, 1]: 2.164416790008545 (ACTUAL), 2.164311853535077 (DESIRED)
+E       Max absolute difference among violations: 0.00020245
+E       Max relative difference among violations: 4.84849137e-05
+E        ACTUAL: array([[  0.574792, -10.275029],
+E              [  0.606407, -11.489046],
+E              [ -0.171831,  -1.161227],...
+E        DESIRED: array([[  0.574786, -10.274827],
+E              [  0.606403, -11.488948],
+E              [ -0.171828,  -1.161279],...
+
+tests/test_multiscale.py:307: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_multiscale.py::test_long_finite_impulse_error_envelope[cpu32-4-2-0.0001-16.0-2048]
+FAILED tests/test_multiscale.py::test_long_finite_impulse_error_envelope[mps32-4-2-0.0001-16.0-2048]
+========================= 2 failed, 47 passed in 8.37s =========================

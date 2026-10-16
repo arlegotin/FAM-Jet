@@ -1,0 +1,80 @@
+# Explicit Task14 plumbing settings; no scientific tuning or convergence claim.
+schema_version: 1
+phase: smoke
+seed: 20261013
+data:
+  generator_version: initial_spec_v1
+  key_features: one_hot
+  key_dim: 16
+  value_dim: 8
+  length: 128
+  queries_per_history: 8
+model:
+  method: multiscale
+  heads: 1
+  J: null
+  K: 16
+  precision: float32
+  rates: null
+  polynomial: null
+  multiscale:
+    order: 2
+    scale_order: 4
+    epsilon: 0.01
+    tau0: 16.0
+    declared_gaps: [0.0, 1.0, 2.0, 4.0, 16.0]
+  writer: fixed
+  encode: terminal
+  reader:
+    kind: generic_contracted
+    width: 128
+    layers: 2
+    activation: silu
+  epsilon: 1.0e-8
+  numerical_support_floor: 1.0e-8
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+# Task12 resolves the versioned non-scientific execution policy externally:
+# constant LR, no clipping, chunk32, one independent training fit history.
+# resolved_config.json/checkpoints bind the policy hash beside this strict config.
+training:
+  microbatch: 1
+  effective_batch: 1
+  optimizer: AdamW
+  learning_rate: 1.0e-3
+  weight_decay: 0.0
+  optimizer_steps: 2
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 1024
+  asset_disk_budget_bytes: 0
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-5
+  atol: 1.0e-6
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null

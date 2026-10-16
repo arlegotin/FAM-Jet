@@ -1,0 +1,1151 @@
+{
+  "state": {
+    "fields": {
+      "payload.p": {
+        "dtype": "float32",
+        "shape": [
+          1,
+          1,
+          8,
+          16,
+          9
+        ],
+        "logical_bytes": 4608,
+        "storage_id": 0,
+        "storage_bytes": 4608,
+        "storage_offset": 0,
+        "stride": [
+          1152,
+          1152,
+          144,
+          9,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          0
+        ]
+      },
+      "payload.history_hash": {
+        "dtype": "uint8",
+        "shape": [
+          1,
+          32
+        ],
+        "logical_bytes": 32,
+        "storage_id": 1,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          32,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          1
+        ]
+      },
+      "payload.time_unit_hash": {
+        "dtype": "uint8",
+        "shape": [
+          32
+        ],
+        "logical_bytes": 32,
+        "storage_id": 2,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          2
+        ]
+      },
+      "payload.last_event_id": {
+        "dtype": "int64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 3,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          3
+        ]
+      },
+      "last_time": {
+        "dtype": "float64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 4,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          4
+        ]
+      },
+      "valid": {
+        "dtype": "bool",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 1,
+        "storage_id": 5,
+        "storage_bytes": 1,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          5
+        ]
+      },
+      "event_offset": {
+        "dtype": "int64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 6,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          6
+        ]
+      }
+    },
+    "logical_bytes": 4737,
+    "retained_storage_bytes": 4697,
+    "graph_retention": false,
+    "graph_storage_bytes": 0,
+    "backing_storage_complete": true,
+    "retained_tensors": [
+      {
+        "dtype": "float32",
+        "shape": [
+          1,
+          1,
+          8,
+          16,
+          9
+        ],
+        "logical_bytes": 4608,
+        "storage_id": 0,
+        "storage_bytes": 4608,
+        "storage_offset": 0,
+        "stride": [
+          1152,
+          1152,
+          144,
+          9,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "uint8",
+        "shape": [
+          1,
+          32
+        ],
+        "logical_bytes": 32,
+        "storage_id": 1,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          32,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "uint8",
+        "shape": [
+          32
+        ],
+        "logical_bytes": 32,
+        "storage_id": 2,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "int64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 3,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 4,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "bool",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 1,
+        "storage_id": 5,
+        "storage_bytes": 1,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "int64",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 8,
+        "storage_id": 6,
+        "storage_bytes": 8,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      }
+    ],
+    "metadata": {
+      "payload.history_hash": 32,
+      "payload.time_unit_hash": 32,
+      "payload.last_event_id": 8,
+      "last_time": 8,
+      "valid": 1,
+      "event_offset": 8,
+      "parameter_hash": 32,
+      "schema_version": 8
+    },
+    "metadata_bytes": 129,
+    "payload_bytes": 4608,
+    "serialized_bytes": 6904,
+    "alias_policy": "logical fields counted individually; distinct full backing allocations counted once",
+    "graph_policy": "training graph retention is unbounded/unmeasured; inference requires detach"
+  },
+  "static": {
+    "fields": {
+      "parameter.reader.hidden.0.weight": {
+        "dtype": "float32",
+        "shape": [
+          128,
+          97
+        ],
+        "logical_bytes": 49664,
+        "storage_id": 0,
+        "storage_bytes": 49664,
+        "storage_offset": 0,
+        "stride": [
+          97,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          0
+        ]
+      },
+      "parameter.reader.hidden.0.bias": {
+        "dtype": "float32",
+        "shape": [
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 1,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          1
+        ]
+      },
+      "parameter.reader.hidden.2.weight": {
+        "dtype": "float32",
+        "shape": [
+          128,
+          128
+        ],
+        "logical_bytes": 65536,
+        "storage_id": 2,
+        "storage_bytes": 65536,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          2
+        ]
+      },
+      "parameter.reader.hidden.2.bias": {
+        "dtype": "float32",
+        "shape": [
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 3,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          3
+        ]
+      },
+      "parameter.reader.output.weight": {
+        "dtype": "float32",
+        "shape": [
+          8,
+          128
+        ],
+        "logical_bytes": 4096,
+        "storage_id": 4,
+        "storage_bytes": 4096,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          4
+        ]
+      },
+      "parameter.reader.output.bias": {
+        "dtype": "float32",
+        "shape": [
+          8
+        ],
+        "logical_bytes": 32,
+        "storage_id": 5,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          5
+        ]
+      },
+      "parameter.reader.support.weight": {
+        "dtype": "float32",
+        "shape": [
+          1,
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 6,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          6
+        ]
+      },
+      "parameter.reader.support.bias": {
+        "dtype": "float32",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 4,
+        "storage_id": 7,
+        "storage_bytes": 4,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          7
+        ]
+      },
+      "buffer.target_mean": {
+        "dtype": "float32",
+        "shape": [
+          8,
+          8
+        ],
+        "logical_bytes": 256,
+        "storage_id": 8,
+        "storage_bytes": 256,
+        "storage_offset": 0,
+        "stride": [
+          8,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          8
+        ]
+      },
+      "buffer.target_scale": {
+        "dtype": "float32",
+        "shape": [
+          8,
+          1
+        ],
+        "logical_bytes": 32,
+        "storage_id": 9,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          9
+        ]
+      },
+      "buffer.kernel.gap_bank_0": {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 10,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          10
+        ]
+      },
+      "buffer.kernel.gap_bank_1": {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 11,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          11
+        ]
+      },
+      "buffer.kernel.gap_bank_2": {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 12,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          12
+        ]
+      },
+      "buffer.kernel.gap_bank_3": {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 13,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          13
+        ]
+      },
+      "buffer.kernel.injection": {
+        "dtype": "float32",
+        "shape": [
+          8
+        ],
+        "logical_bytes": 32,
+        "storage_id": 14,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          14
+        ]
+      },
+      "buffer.kernel.U": {
+        "dtype": "float32",
+        "shape": [
+          4,
+          4
+        ],
+        "logical_bytes": 64,
+        "storage_id": 15,
+        "storage_bytes": 64,
+        "storage_offset": 0,
+        "stride": [
+          1,
+          4
+        ],
+        "contiguous": false,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          15
+        ]
+      },
+      "buffer.reader.feature_mean": {
+        "dtype": "float32",
+        "shape": [
+          97
+        ],
+        "logical_bytes": 388,
+        "storage_id": 16,
+        "storage_bytes": 388,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          16
+        ]
+      },
+      "buffer.reader.feature_scale": {
+        "dtype": "float32",
+        "shape": [
+          97
+        ],
+        "logical_bytes": 388,
+        "storage_id": 17,
+        "storage_bytes": 388,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true,
+        "retained_tensor_ids": [
+          17
+        ]
+      }
+    },
+    "logical_bytes": 122348,
+    "retained_storage_bytes": 122348,
+    "graph_retention": false,
+    "graph_storage_bytes": 0,
+    "backing_storage_complete": true,
+    "retained_tensors": [
+      {
+        "dtype": "float32",
+        "shape": [
+          128,
+          97
+        ],
+        "logical_bytes": 49664,
+        "storage_id": 0,
+        "storage_bytes": 49664,
+        "storage_offset": 0,
+        "stride": [
+          97,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 1,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          128,
+          128
+        ],
+        "logical_bytes": 65536,
+        "storage_id": 2,
+        "storage_bytes": 65536,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 3,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          8,
+          128
+        ],
+        "logical_bytes": 4096,
+        "storage_id": 4,
+        "storage_bytes": 4096,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          8
+        ],
+        "logical_bytes": 32,
+        "storage_id": 5,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          1,
+          128
+        ],
+        "logical_bytes": 512,
+        "storage_id": 6,
+        "storage_bytes": 512,
+        "storage_offset": 0,
+        "stride": [
+          128,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          1
+        ],
+        "logical_bytes": 4,
+        "storage_id": 7,
+        "storage_bytes": 4,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": true,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          8,
+          8
+        ],
+        "logical_bytes": 256,
+        "storage_id": 8,
+        "storage_bytes": 256,
+        "storage_offset": 0,
+        "stride": [
+          8,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          8,
+          1
+        ],
+        "logical_bytes": 32,
+        "storage_id": 9,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 10,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 11,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 12,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          5,
+          2,
+          2
+        ],
+        "logical_bytes": 80,
+        "storage_id": 13,
+        "storage_bytes": 80,
+        "storage_offset": 0,
+        "stride": [
+          4,
+          2,
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          8
+        ],
+        "logical_bytes": 32,
+        "storage_id": 14,
+        "storage_bytes": 32,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          4,
+          4
+        ],
+        "logical_bytes": 64,
+        "storage_id": 15,
+        "storage_bytes": 64,
+        "storage_offset": 0,
+        "stride": [
+          1,
+          4
+        ],
+        "contiguous": false,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          97
+        ],
+        "logical_bytes": 388,
+        "storage_id": 16,
+        "storage_bytes": 388,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      },
+      {
+        "dtype": "float32",
+        "shape": [
+          97
+        ],
+        "logical_bytes": 388,
+        "storage_id": 17,
+        "storage_bytes": 388,
+        "storage_offset": 0,
+        "stride": [
+          1
+        ],
+        "contiguous": true,
+        "device": "cpu",
+        "grad_fn": false,
+        "attached_gradient": false,
+        "requires_grad": false,
+        "backing_storage_complete": true
+      }
+    ],
+    "parameter_bytes": 120868,
+    "buffer_bytes": 1480
+  },
+  "bounded": true,
+  "within_limit": true,
+  "eligible": true,
+  "limit_bytes": 1000000,
+  "end_to_end_logical_bytes": 127085
+}

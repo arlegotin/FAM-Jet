@@ -26,6 +26,7 @@ from famjet.memory.reservoir import ReservoirMemory, HybridMemory
 from famjet.memory.buckets import TemporalBucketsMemory
 from famjet.memory.jet import JetMemory
 from famjet.memory.hippo import PolynomialMemory
+from famjet.memory.multiscale import MultiscaleMemory
 from famjet.memory.expbank import ExpBankMemory, BoundedRates
 from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import QueryBatch, ReadResult, FeatureBatch
@@ -37,7 +38,7 @@ from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapsho
 
 REGISTRY_VERSION = 2
 _REGISTRY = {'packed': PackedHistoryMemory, 'reservoir': ReservoirMemory, 'hybrid': HybridMemory,
-             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory}
+             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory, 'multiscale': MultiscaleMemory}
 _ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -115,6 +116,12 @@ def _reconstruct(spec, *, freeze_rates=False):
                          and bool(torch.isfinite(source).all()), 'invalid task weight shape/dtype/value')
                 destination.copy_(source)
         return method
+    if kind == 'multiscale':
+        _require(set(schema) == {'order','scale_order','epsilon','tau0','key_dim','value_dim',
+                                'declared_gaps','cache_limit_bytes','t_ref','chunk_size','dtype'}, 'invalid multiscale schema')
+        _require(schema['dtype'] in {'float32','float64'}, 'invalid multiscale dtype')
+        _require(not spec['weights'], 'unexpected multiscale weights')
+        return MultiscaleMemory(**{**schema,'dtype':getattr(torch,schema['dtype'])})
     if kind == 'polynomial':
         _require(set(schema) == {'orders','taus','key_dim','value_dim','declared_gaps',
                                 'cache_limit_bytes','t_ref','chunk_size','dtype'}, 'invalid polynomial schema')
@@ -160,6 +167,10 @@ def export_method(method):
                       fit_provenance=provenance, target_statistics=statistics,
                       frozen_rates=method._frozen_rates)
         weights = {k: tensor_record(v) for k, v in method.state_dict().items() if not k.startswith('kernel.')}
+    elif kind == 'multiscale':
+        schema = {k:getattr(method,k) for k in ('order','scale_order','epsilon','tau0','key_dim','value_dim',
+                                             'declared_gaps','cache_limit_bytes','t_ref','chunk_size')}
+        schema['dtype'] = str(method.reference_tensor.dtype).removeprefix('torch.')
     elif kind == 'polynomial':
         schema = {k:getattr(method,k) for k in ('orders','taus','key_dim','value_dim','declared_gaps',
                                              'cache_limit_bytes','t_ref','chunk_size')}

@@ -1,0 +1,34 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_scale_query_empty_batch_and_invalid_domain ________________
+
+    def test_scale_query_empty_batch_and_invalid_domain():
+        e=events();mem=MultiscaleMemory(2,3,.01,3.,3,2,dtype=torch.float64)
+        q=queries(e,[[],[]]);state=mem.encode(e)
+>       assert mem.scale_features(state,q,.1).shape == (2,0,2,3)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_multiscale.py:250: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = MultiscaleMemory()
+state = Snapshot(payload={'p': tensor([[[[[ 1.3323e-02,  7.7011e-03, -2.1851e-02],
+           [ 9.0406e-03,  8.7394e-03, -1.81...hash='5d8c75022985eb3fdc8e10ffd650a12a60ccbb3ab1bf10181b0b70d27bbff8d1', event_offset=tensor([6, 4]), schema_version=1)
+queries = QueryBatch(history_ids=('a', 'b'), query_ids=tensor([], size=(2, 0), dtype=torch.int64), T=tensor([], size=(2, 0), dty... 0), dtype=torch.float64), present=tensor([], size=(2, 0), dtype=torch.bool), lengths=tensor([0, 0]), schema_version=1)
+rate = 0.1
+
+    def scale_features(self,state,queries,rate):
+        """Return dimensionless temporal coefficients Q (U^T psi) per query.
+    
+        Generic readers additionally retain every scale/temporal coefficient.
+        Query propagation and numerical support follow the same snapshot path.
+        """
+        psi=torch.tensor(scale_basis(self.scale_order,self.epsilon,rate),dtype=self.U.dtype,device=self.U.device)
+>       coefficients=self.features(state,queries).diagnostics['coefficients'][:,:,0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'coefficients'
+
+famjet/memory/multiscale.py:159: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_multiscale.py::test_scale_query_empty_batch_and_invalid_domain
+1 failed, 48 deselected in 0.69s

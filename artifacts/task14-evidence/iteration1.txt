@@ -1,0 +1,37 @@
+...........ss............F
+=================================== FAILURES ===================================
+___________ test_training_learned_writer_and_checkpoint_resume[cpu] ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3957/test_training_learned_writer_a0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x113333ce0>
+device = 'cpu'
+
+    @pytest.mark.parametrize('device',['cpu','mps'])
+    def test_training_learned_writer_and_checkpoint_resume(tmp_path,monkeypatch,device):
+        if device=='mps' and not torch.backends.mps.is_available(): pytest.skip('native MPS required')
+        from famjet import train
+        from famjet.checkpoint import load_checkpoint
+        from test_resume import equal_tree
+        c=multiscale_config(writer='learned',device=device)
+        model=train.make_model(c)
+        from famjet.data.synthetic import generate_episode
+        ep=train.move_episode(generate_episode(c,19,'gradient'),device)
+        gradients=[]
+        for mode in ('stream','terminal'):
+            model.zero_grad(set_to_none=True)
+            model.read(model.encode(ep.events,mode=mode),ep.queries).prediction.square().sum().backward()
+            gradients.append({n:p.grad.clone() for n,p in model.named_parameters() if p.grad is not None})
+        for part in ('value','key','gate'): assert gradients[0][f'writer.{part}.weight'].abs().sum()>0
+>       for name,g in gradients[0].items(): torch.testing.assert_close(g,gradients[1][name],rtol=1e-5,atol=1e-6)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Tensor-likes are not close!
+E       
+E       Mismatched elements: 2 / 976 (0.2%)
+E       Greatest absolute difference: 2.2202730178833008e-06 at index (13, 60) (up to 1e-06 allowed)
+E       Greatest relative difference: 3.145857044728473e-05 at index (13, 59) (up to 1e-05 allowed)
+
+tests/test_multiscale.py:198: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_multiscale.py::test_training_learned_writer_and_checkpoint_resume[cpu]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 23 passed, 2 skipped in 5.89s

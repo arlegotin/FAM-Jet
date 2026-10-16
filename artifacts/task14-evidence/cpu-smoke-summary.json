@@ -1,0 +1,166 @@
+{
+  "status": "completed",
+  "completed_step": 2,
+  "consumed_episode_ids": [
+    "train-000000000000",
+    "train-000000000001"
+  ],
+  "actual_budgets": {
+    "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+    "mps_current_bytes": null,
+    "mps_driver_bytes": null,
+    "rss_highwater_additional_bytes": 90308608,
+    "rss_highwater_baseline_bytes": 224002048,
+    "rss_highwater_peak_bytes": 314310656
+  },
+  "multiscale_construction": {
+    "boundary": "complete_model_construction_including_cpu_fp64_matrices",
+    "cache_bytes": 320,
+    "construction_eigendecompositions": 1,
+    "construction_exponentials": 17,
+    "construction_scale_order": 4,
+    "construction_scope": "CPU_FP64_finite_Jacobi_expm_eigenbasis_scaled_Bessel_and_gap_matrices",
+    "cpu_fp64_exponentials": 0,
+    "matrix_cubic_work": 0,
+    "seconds": 0.001767417008522898,
+    "static_basis_bytes": 64
+  },
+  "source_hash": "42fe6f9c78a40adef06b2e814541818977269a68314c282b544bebfe639fad99",
+  "total_seconds": 0.6215185829787515,
+  "state": {
+    "payload_bytes": 4608,
+    "metadata_bytes": 129,
+    "logical_bytes": 4737,
+    "retained_storage_bytes": 4697
+  },
+  "static": {
+    "parameter_bytes": 120868,
+    "buffer_bytes": 1480
+  },
+  "end_to_end_logical_bytes": 127085,
+  "eligible": true,
+  "timing": [
+    {
+      "block": 0,
+      "boundary": "training_generate_forward_backward_optimizer",
+      "cold_warm": "cold",
+      "device": "cpu",
+      "events": 128,
+      "memory": {
+        "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+        "mps_current_bytes": null,
+        "mps_driver_bytes": null,
+        "rss_highwater_additional_bytes": 89423872,
+        "rss_highwater_baseline_bytes": 224002048,
+        "rss_highwater_peak_bytes": 313425920
+      },
+      "multiscale_allocation": {
+        "declared_gaps": [
+          0.0,
+          1.0,
+          2.0,
+          4.0,
+          16.0
+        ],
+        "epsilon": 0.01,
+        "order": 2,
+        "scale_order": 4,
+        "tau0": 16.0
+      },
+      "multiscale_preparation": [
+        {
+          "cache_bytes": 320,
+          "construction_eigendecompositions": 1,
+          "construction_exponentials": 17,
+          "construction_scale_order": 4,
+          "construction_scope": "CPU_FP64_finite_Jacobi_expm_eigenbasis_scaled_Bessel_and_gap_matrices",
+          "cpu_fp64_exponentials": 496,
+          "encode_advances": 129,
+          "matrix_cubic_work": 3968,
+          "query_advances": 8,
+          "scope": "fresh_encode_and_features_forward_only",
+          "static_basis_bytes": 64
+        }
+      ],
+      "order": 0,
+      "polynomial_allocation": null,
+      "power": null,
+      "precision": "float32",
+      "pressure": null,
+      "queries": 8,
+      "repetitions": 1,
+      "seconds": 0.03667245799442753,
+      "shape": {
+        "J": null,
+        "K": 16,
+        "V": 8,
+        "length": 128,
+        "microbatch": 1
+      },
+      "status": "non_scientific_smoke",
+      "step": 1,
+      "sync_policy": "synchronous_cpu"
+    },
+    {
+      "block": 1,
+      "boundary": "training_generate_forward_backward_optimizer",
+      "cold_warm": "warm",
+      "device": "cpu",
+      "events": 128,
+      "memory": {
+        "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+        "mps_current_bytes": null,
+        "mps_driver_bytes": null,
+        "rss_highwater_additional_bytes": 90308608,
+        "rss_highwater_baseline_bytes": 224002048,
+        "rss_highwater_peak_bytes": 314310656
+      },
+      "multiscale_allocation": {
+        "declared_gaps": [
+          0.0,
+          1.0,
+          2.0,
+          4.0,
+          16.0
+        ],
+        "epsilon": 0.01,
+        "order": 2,
+        "scale_order": 4,
+        "tau0": 16.0
+      },
+      "multiscale_preparation": [
+        {
+          "cache_bytes": 320,
+          "construction_eigendecompositions": 1,
+          "construction_exponentials": 17,
+          "construction_scale_order": 4,
+          "construction_scope": "CPU_FP64_finite_Jacobi_expm_eigenbasis_scaled_Bessel_and_gap_matrices",
+          "cpu_fp64_exponentials": 492,
+          "encode_advances": 129,
+          "matrix_cubic_work": 3936,
+          "query_advances": 8,
+          "scope": "fresh_encode_and_features_forward_only",
+          "static_basis_bytes": 64
+        }
+      ],
+      "order": 0,
+      "polynomial_allocation": null,
+      "power": null,
+      "precision": "float32",
+      "pressure": null,
+      "queries": 8,
+      "repetitions": 1,
+      "seconds": 0.02753762499196455,
+      "shape": {
+        "J": null,
+        "K": 16,
+        "V": 8,
+        "length": 128,
+        "microbatch": 1
+      },
+      "status": "non_scientific_smoke",
+      "step": 2,
+      "sync_policy": "synchronous_cpu"
+    }
+  ]
+}
