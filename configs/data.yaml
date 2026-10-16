@@ -9,6 +9,7 @@ data:
   value_dim: 8
   length: 128
   queries_per_history: 8
+  beijing: null
   generator:
     namespace: training
     population: primary

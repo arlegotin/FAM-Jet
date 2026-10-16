@@ -1,0 +1,89 @@
+# Preparation only; no protected evaluation or transfer checkpoint authorized.
+schema_version: 1
+phase: development
+seed: 20261013
+data:
+  generator_version: beijing_observed_v1
+  key_features: one_hot
+  key_dim: 12
+  value_dim: 1
+  length: 336
+  queries_per_history: 120
+  generator:
+    namespace: training
+    population: primary
+    regime: balanced
+    key_load: 16
+    feature_seed: 20261013
+    query_seed: 0
+    max_query_attempts: 4096
+    delay_multiplier: 0.0
+    robustness: standard
+  beijing:
+    archive_path: data/raw/beijing-uci501.zip
+    derived_path: data/derived/beijing_v1
+    query_grid_version: station_mean_contrast_widths_1_6_24_72_168_v1
+model:
+  method: jet
+  heads: 1
+  J: 4
+  K: 12
+  precision: float32
+  rates:
+    mode: fixed
+    bounds:
+    - 0.001
+    - 1.0
+    spacing: log
+  writer: fixed
+  encode: terminal
+  reader:
+    kind: structured
+    width: 128
+    layers: 2
+    activation: silu
+  epsilon: 1.0e-08
+  numerical_support_floor: 1.0e-08
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+training:
+  microbatch: 1
+  effective_batch: 1
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0
+  optimizer_steps: 2
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 0
+  asset_disk_budget_bytes: 134217728
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-05
+  atol: 1.0e-06
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null

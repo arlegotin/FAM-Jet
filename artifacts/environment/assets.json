@@ -1,8 +1,24 @@
 {
   "schema_version": 1,
   "observed_at_utc": "2026-10-16T17:30:00.576174+00:00",
-  "assets": [],
-  "status": "no_dataset_or_model_downloads",
+  "assets": [
+    {
+      "dataset": "UCI Beijing Multi-Site Air Quality",
+      "source_record": "R16",
+      "doi": "10.24432/C5RK5G",
+      "path": "data/raw/beijing-uci501.zip",
+      "bytes": 8192212,
+      "sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+      "downloaded_at_utc": "2026-10-16T18:24:36.795032+00:00",
+      "download_url": "https://archive.ics.uci.edu/static/public/501/beijing%2Bmulti%2Bsite%2Bair%2Bquality%2Bdata.zip",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Chen, S. (2017). Beijing Multi-Site Air Quality [Dataset]. UCI Machine Learning Repository.",
+      "preparation_manifest": "configs/manifests/beijing_v1.json",
+      "scope": "administrative preparation only; protected labels sealed; no model or evaluation outputs"
+    }
+  ],
+  "status": "beijing_prepared_locally_no_model_downloads",
   "dependency_lock": {
     "path": "requirements.lock",
     "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
@@ -30,7 +46,15 @@
     {
       "path": "docs/research/2026-10-16-source-verification.md",
       "sha256": "1c56510b9334f13eb7890ac6cbdbd3d38dd8fff7770420972b8c19f689681240"
+    },
+    {
+      "path": "docs/research/2026-10-16-beijing-asset-inspection.md",
+      "sha256": "c1adf69295ee02128924e183dbbe949f2bfddf147d25ef97a3dbb37827047f39"
+    },
+    {
+      "path": "docs/research/2026-10-16-beijing-preparation-audit.json",
+      "sha256": "df9fe266a7118d428b120e7afbdae7244a1729b16aaf73026f4c663f8be50f2e"
     }
   ],
-  "note": "Dependency wheels are pinned by hashes in requirements.lock; scientific sources were inspected read-only in the provenance record, with no dataset/model download here. Documentation URLs name installed versions; access verification is recorded separately in the environment-gate report."
+  "note": "Dependency wheels are pinned by hashes in requirements.lock. Sources were initially inspected read-only; the Task7 asset entry records later verified dataset acquisition and observed-event preparation. No model weights were downloaded. Documentation URLs name installed versions; access verification is recorded separately in the environment-gate report."
 }

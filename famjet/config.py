@@ -27,6 +27,13 @@ class GeneratorConfig:
 
 
 @dataclass(frozen=True)
+class BeijingConfig:
+    archive_path: str = 'data/raw/beijing-uci501.zip'
+    derived_path: str = 'data/derived/beijing_v1'
+    query_grid_version: str = 'station_mean_contrast_widths_1_6_24_72_168_v1'
+
+
+@dataclass(frozen=True)
 class DataConfig:
     generator_version: str
     key_features: str
@@ -35,6 +42,7 @@ class DataConfig:
     length: int
     queries_per_history: int
     generator: GeneratorConfig = field(default_factory=GeneratorConfig)
+    beijing: BeijingConfig | None = None
 
 
 @dataclass(frozen=True)
@@ -212,7 +220,7 @@ def validate_config(config: RunConfig) -> None:
                     raise ValueError(f'{prefix}.{f.name} has wrong config type')
                 check_types(val, f'{prefix}.{f.name}')
             else:
-                _parse(val, expected, f'{prefix}.{f.name}')
+                _parse(asdict(val) if is_dataclass(val) else val, expected, f'{prefix}.{f.name}')
     check_types(config, 'config')
     if config.schema_version != 1:
         raise ValueError('unsupported config schema_version')
@@ -225,6 +233,10 @@ def validate_config(config: RunConfig) -> None:
         _positive(getattr(d, name), f'data.{name}')
     if not d.generator_version or d.key_features not in {'one_hot', 'dense'}:
         raise ValueError('data requires generator version and known key_features')
+    if d.beijing is not None and (not d.beijing.archive_path or not d.beijing.derived_path):
+        raise ValueError('Beijing archive/derived paths must be nonempty')
+    if d.beijing is not None and d.beijing.query_grid_version != 'station_mean_contrast_widths_1_6_24_72_168_v1':
+        raise ValueError('unknown Beijing query_grid_version')
     g = d.generator
     if g.namespace not in {'training','development_fit','development_calibration','pilot','confirmation','replication'}:
         raise ValueError('unknown generator namespace')

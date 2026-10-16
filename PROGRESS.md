@@ -1,5 +1,15 @@
 # Progress
 
+**Updated:** 16 October 2026. **Branch:** `main`. **Current scope:** Tasks 1–6 accepted; Task 7 observed-event Beijing preparation implemented and verified, pending controller review.
+
+The goal is to compress a stream once, then answer different later questions about time intervals from its retained state. Independent oracles, tested jet/exponential-bank kernels, deterministic synthetic data and observed-event Beijing preparation now exist. The native suite passes 262 tests and two subtests. No trained-model accuracy comparison, protected result or evidence that one memory family wins exists yet. Readers, baselines, training and frozen fair comparisons remain later gates.
+
+Current commands: `.venv/bin/python -m famjet.doctor --out artifacts/environment`; `.venv/bin/python -m famjet.prepare --config configs/data.yaml`; `.venv/bin/python -m famjet.prepare --config configs/beijing.yaml` (requires the pinned local archive). See the Task7 entry below and the durable Beijing preparation record for counts and limits.
+
+The following records are historical snapshots preserved as written. Their earlier “pending”, “no dataset” and “no generator/model” statements describe the gate at that time, rather than current repository status. Current acceptance is stated above; the Task7 entry records the latest implementation evidence.
+
+## Historical Task 1 overview
+
 **Updated:** 16 October 2026. **Branch:** `main`. **Current scope:** Task 1 accepted; Task 2 versioned contracts implemented and verified, pending controller review.
 
 The [specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) remain the research contract. The executed WP00 subset now includes dependency-free hardware discovery, a real native wheel hash lock, a project-local environment, lightweight regression tests, CPU/MPS operation and gradient probes, full smoke configuration, and source/dependency provenance. This does not accept later work packages or establish model correctness/performance.
@@ -64,3 +74,13 @@ Implemented `initial_spec_v1` histories followed by value-blind query sampling a
 Typed additive generator settings preserve unchanged smoke validity. Write-once sealed inventories at `configs/manifests/synthetic_v1.json` and its 37 population files retain event/query/oracle hashes and diagnostics for 444 exploratory histories, all recorded `ok`; no tensors/corpus are saved. Pilot/confirmation/replication roots are reserved with empty inventories. Span, active-key shortfall and finite query-rejection failures are explicit; future training/scoring must retain failed generation records. These small inventories are preparation smoke evidence, not scientific sample sizes or model comparisons.
 
 TDD initial red: 38 missing-interface failures. Focused final generator/leakage/oracle suite: **67 passed in 37.73s**. Full native suite with MPS fallback 0/fast_math 0: **244 passed, 2 subtests passed**, zero skips, 43.16s (`/private/tmp/famjet-task6-full-native-final.log`). Subsequent artifact replay, compile and whitespace verification are recorded in AUDIT. No old tests, tolerances, lock, smoke YAML, kernels or oracle equations changed. Implementer self-review is complete; controller acceptance and protected frozen-manifest authorization remain later gates.
+
+## Task 7 observed sensor preparation gate — 16 October 2026
+
+Implemented safe bounded nested-ZIP ingestion, civil-hour observed PM2.5 events, training-only normalization, anchored noncrossing histories and the explicit 120-query grid. `configs/beijing.yaml` prepares the verified UCI501 asset; `configs/data.yaml` remains synthetic. Raw archives and derived arrays are ignored. The durable asset registry retains DOI/license/attribution/hash evidence; `configs/manifests/beijing_v1.json` seals structural counts, source/config/grid identities, split/block/cluster inventory, local artifact checksums and training-only statistics. Protected arrays are prepared locally but the ordinary iterator refuses test access before opening a manifest; no protected scores or target-distribution summaries were inspected.
+
+Independent structure/missing-flag audit confirms all 12 stations, 420,768 rows, 412,029 observed events, zero duplicate station-hours and hourly chronology. Retained histories: 39 training, four development fit, three calibration, 56 protected test. Trailing observed exclusions: 840 training, 2,575 development, 1,681 test; calibration-crossing October 27–November 10 excludes another 3,937 development observations. Test has 28 primary and 14 sensitivity clusters. See `docs/research/2026-10-16-beijing-preparation.md` and its independent JSON audit.
+
+Initial Beijing tests: 12 expected missing-module failures. Final focused Beijing/oracle command: 33 passed. Self-review regressions caught history-length validation and working-directory-dependent bulk paths, then passed after correction. Both actual preparation CLIs exit zero; the synthetic replay preserves all 444 exploratory histories after the explicitly approved schema-only migration. Final native full suite with fallback0/fast_math0: **262 passed, 2 subtests passed**, zero skips, 43.92s; log `/private/tmp/famjet-task7-full-native.log`. Compileall and whitespace checks pass. No old test/tolerance, lock, smoke, branch, system, allocator or protected evaluation change.
+
+Later work must implement trained readers/baselines, frozen scientific access and explicitly versioned 12-key/scalar synthetic generation before shape-matched transfer. Three calibration histories and few temporal clusters do not establish adequate power. Controller review remains pending.

@@ -2,7 +2,7 @@
 
 Query-conditioned exponential-moment memory research: compress a stream once, then answer different temporal questions from the retained state. The primary question is whether exact first temporal moments improve retrieval under measured state and system costs; the recurrence itself is established repeated-pole memory.
 
-Task 1 implements the local environment gate. The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [25-task implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) define the remaining work. No data generator, memory model, training run or scientific result exists yet.
+Tasks 1–6 are accepted: environment/contracts, independent CPU FP64 oracles, jet and exponential-bank memory kernels, and deterministic deferred-query synthetic populations. Task 7 now prepares the observed-event Beijing workload and is implemented and verified, pending review. Arithmetic and data preparation work; no trained-model accuracy comparison exists yet. The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) and [25-task implementation plan](docs/superpowers/plans/2026-10-16-famjet.md) define the remaining reader, baseline, training and fair-comparison gates.
 
 From the repository root, use an existing native CPython 3.13 interpreter:
 
@@ -14,6 +14,15 @@ python3.13 -m venv .venv
 ```
 
 The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The current project environment uses torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
+
+Preparation commands are executable now:
+
+```sh
+.venv/bin/python -m famjet.prepare --config configs/data.yaml
+.venv/bin/python -m famjet.prepare --config configs/beijing.yaml
+```
+
+The synthetic command verifies the saved exploratory inventories (or creates them if absent). Beijing preparation requires the pinned official archive at `data/raw/beijing-uci501.zip`; a missing archive produces an explicit unavailable manifest and exit 2. It builds all-station chronological histories, fits normalization only on training, and seals raw/normalized labels locally. Raw archives and bulk arrays are ignored. Ordinary iteration refuses protected test access; preparation does not train or evaluate a model. See the [Beijing preparation record](docs/research/2026-10-16-beijing-preparation.md) for source attribution, counts and access limits.
 
 Discovery also works without installing dependencies:
 

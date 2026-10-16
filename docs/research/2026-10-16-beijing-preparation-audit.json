@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "scope": "independent ZIP/CSV chronology/missing-flag/count audit only; no numeric PM targets or scores",
+  "archive_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+  "inner_sha256": "d1b9261c54132f04c374f762f1e5e512af19f95c95fd6bfa1e8ac7e927e3b0b8",
+  "stations": {
+    "Aotizhongxin": {
+      "rows": 35064,
+      "missing_pm25": 925,
+      "observed": 34139
+    },
+    "Changping": {
+      "rows": 35064,
+      "missing_pm25": 774,
+      "observed": 34290
+    },
+    "Dingling": {
+      "rows": 35064,
+      "missing_pm25": 779,
+      "observed": 34285
+    },
+    "Dongsi": {
+      "rows": 35064,
+      "missing_pm25": 750,
+      "observed": 34314
+    },
+    "Guanyuan": {
+      "rows": 35064,
+      "missing_pm25": 616,
+      "observed": 34448
+    },
+    "Gucheng": {
+      "rows": 35064,
+      "missing_pm25": 646,
+      "observed": 34418
+    },
+    "Huairou": {
+      "rows": 35064,
+      "missing_pm25": 953,
+      "observed": 34111
+    },
+    "Nongzhanguan": {
+      "rows": 35064,
+      "missing_pm25": 628,
+      "observed": 34436
+    },
+    "Shunyi": {
+      "rows": 35064,
+      "missing_pm25": 913,
+      "observed": 34151
+    },
+    "Tiantan": {
+      "rows": 35064,
+      "missing_pm25": 677,
+      "observed": 34387
+    },
+    "Wanliu": {
+      "rows": 35064,
+      "missing_pm25": 382,
+      "observed": 34682
+    },
+    "Wanshouxigong": {
+      "rows": 35064,
+      "missing_pm25": 696,
+      "observed": 34368
+    }
+  },
+  "splits": {
+    "training": {
+      "calendar_hours": 13176,
+      "complete_blocks": 39,
+      "retained_blocks": 39,
+      "trailing_hours": 72,
+      "trailing_observed_events": 840,
+      "crossing_blocks": [],
+      "boundary_excluded_observed_events": 0,
+      "observed_events": 155190,
+      "included_observed_events": 154350
+    },
+    "development": {
+      "calendar_hours": 2928,
+      "complete_blocks": 8,
+      "retained_blocks": 7,
+      "trailing_hours": 240,
+      "trailing_observed_events": 2575,
+      "crossing_blocks": [
+        {
+          "start": "2014-10-27",
+          "end": "2014-11-10"
+        }
+      ],
+      "boundary_excluded_observed_events": 3937,
+      "observed_events": 33967,
+      "included_observed_events": 27455
+    },
+    "test": {
+      "calendar_hours": 18960,
+      "complete_blocks": 56,
+      "retained_blocks": 56,
+      "trailing_hours": 144,
+      "trailing_observed_events": 1681,
+      "crossing_blocks": [],
+      "boundary_excluded_observed_events": 0,
+      "observed_events": 222872,
+      "included_observed_events": 221191
+    }
+  },
+  "rows": 420768,
+  "observed_events": 412029
+}

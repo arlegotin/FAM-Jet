@@ -16,3 +16,6 @@ artifacts/environment/*
 !artifacts/numerical_checks.json
 !artifacts/jet_checks.json
 !artifacts/expbank_checks.json
+# Raw licensed sensor archives and derived bulk arrays stay local.
+data/raw/
+data/derived/
