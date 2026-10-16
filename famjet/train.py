@@ -22,6 +22,7 @@ from famjet.data.synthetic import generate_episode
 from famjet.eval.isolation import export_method, source_identity, _reconstruct
 from famjet.eval.oracle import BINARY_TASKS, CATEGORICAL_TASKS
 from famjet.memory.jet import JetMemory
+from famjet.memory.hippo import PolynomialMemory
 from famjet.memory.expbank import ExpBankMemory, BoundedRates
 from famjet.models.task_model import TaskModel
 from famjet.provenance import canonical_hash
@@ -40,16 +41,21 @@ def make_model(config, policy=None):
     m,d=config.model,config.data
     device=config.resources.device
     if m.precision != 'float32': raise ValueError('training requires FP32')
-    if m.method not in {'jet','bank'}: raise ValueError('training comparator not yet registered')
-    lo,hi=m.rates.bounds
-    if m.rates.mode == 'learned':
-        rates=BoundedRates(m.J,math.log(lo),math.log(hi)).to(device)
+    if m.method == 'polynomial':
+        p=m.polynomial
+        kernel=PolynomialMemory(p.orders,p.taus,m.K,d.value_dim,declared_gaps=p.declared_gaps,
+            cache_limit_bytes=config.resources.cache_limit_bytes,chunk_size=policy['terminal_chunk'],device=device)
     else:
-        rates=(torch.logspace(math.log10(lo),math.log10(hi),m.J) if m.rates.spacing=='log'
-               else torch.linspace(lo,hi,m.J)).reshape(1,-1).to(device)
-    kernel=(JetMemory if m.method=='jet' else ExpBankMemory)(rates,m.K,d.value_dim,
-        eps=m.epsilon,support_floor=m.numerical_support_floor,chunk_size=policy['terminal_chunk'])
-    reader=make_reader(m.reader.kind,dict(family=m.method,anchors=m.J,key_dim=m.K,value_dim=d.value_dim),
+        if m.method not in {'jet','bank'}: raise ValueError('training comparator not yet registered')
+        lo,hi=m.rates.bounds
+        if m.rates.mode == 'learned':
+            rates=BoundedRates(m.J,math.log(lo),math.log(hi)).to(device)
+        else:
+            rates=(torch.logspace(math.log10(lo),math.log10(hi),m.J) if m.rates.spacing=='log'
+                   else torch.linspace(lo,hi,m.J)).reshape(1,-1).to(device)
+        kernel=(JetMemory if m.method=='jet' else ExpBankMemory)(rates,m.K,d.value_dim,
+            eps=m.epsilon,support_floor=m.numerical_support_floor,chunk_size=policy['terminal_chunk'])
+    reader=make_reader(m.reader.kind,kernel.reader_feature_spec,
         dict(key_dim=m.K),dict(width=m.reader.width,hidden_layers=m.reader.layers)).to(device)
     return TaskModel(kernel,reader,config).to(device)
 
@@ -158,7 +164,7 @@ def check_smoke_memory(config, additional_bytes):
 
 def _check_smoke_dimensions(config):
     """Pure preallocation bound shared with raw checkpoint descriptor checks."""
-    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or config.model.J>4 or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128 or config.model.reader.layers>2:
+    if config.training.optimizer_steps>4 or config.training.effective_batch>4 or config.training.microbatch>2 or config.data.length>128 or config.data.queries_per_history>8 or config.model.heads!=1 or (sum(config.model.polynomial.orders)>8 if config.model.method=='polynomial' else config.model.J>4) or config.model.K>16 or config.data.value_dim>32 or config.model.reader.width>128 or config.model.reader.layers>2:
         raise ValueError('outside tiny smoke envelope; sustained calibration required')
 
 
@@ -237,7 +243,11 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
         atomic_json(run_dir/'resolved_config.json',{'config':asdict(config),'execution_policy':policy,**identity})
         random.seed(config.seed); np.random.seed(config.seed % 2**32); torch.manual_seed(config.seed)
         if config.resources.device=='mps': torch.mps.manual_seed(config.seed)
+        construction_start=time.perf_counter()
         model=make_model(config,policy)
+        if config.model.method == 'polynomial':
+            record['polynomial_construction']={**model.kernel.preparation_cost([]),
+                'seconds':time.perf_counter()-construction_start,'boundary':'complete_model_construction_including_cpu_fp64_matrices'}
         optimizer=torch.optim.AdamW(model.parameters(),lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
         step,consumed=0,[]
         if resume is not None:
@@ -259,6 +269,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
         atomic_json(run_dir/'run.json',record)
         for step_index in range(step,config.training.optimizer_steps):
             optimizer.zero_grad(set_to_none=True)
+            preparation=[]
             step_ids=[]; loss_sum=0.; before=model._parameter_hash()
             _sync(config.resources.device); tick=time.perf_counter()
             for offset in range(0,config.training.effective_batch,config.training.microbatch):
@@ -270,6 +281,9 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
                     append_jsonl(run_dir/'draws.jsonl',{'step':step_index+1,'episode_id':ep.events.history_ids[0],
                         'regime':ep.metadata['regime'],'hashes':ep.metadata['hashes'],'status':ep.metadata['status']})
                 ep=move_episode(_batch(episodes),config.resources.device)
+                if config.model.method == 'polynomial':
+                    preparation.append(model.kernel.call_preparation_cost(ep.events,ep.queries,
+                        mode=config.model.encode,reader_kind=config.model.reader.kind))
                 result=forward_training(model,ep,config.model.encode,recompute=policy['stream_recompute'])
                 loss=history_loss(model,result,ep)*config.training.microbatch/config.training.effective_batch
                 loss.backward(); loss_sum+=float(loss.detach())
@@ -297,7 +311,9 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None)
             append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'length':config.data.length,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
                 'device':config.resources.device,'precision':'float32','boundary':'training_generate_forward_backward_optimizer',
                 'cold_warm':'cold' if step_index==0 else 'warm','block':step_index,'order':0,'repetitions':1,
-                'seconds':elapsed,'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
+                'seconds':elapsed,'polynomial_preparation':preparation,
+                'polynomial_allocation':asdict(config.model.polynomial) if config.model.polynomial is not None else None,
+                'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
                 'events':config.data.length*len(step_ids),'queries':config.data.queries_per_history*len(step_ids),
                 'memory':record['actual_budgets'],'pressure':None,'power':None,'status':'non_scientific_smoke'})
             check_smoke_memory(config,additional)

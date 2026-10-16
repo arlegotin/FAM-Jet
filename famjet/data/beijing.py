@@ -21,7 +21,7 @@ import numpy as np
 import torch
 
 from famjet.artifacts import atomic_json
-from famjet.config import RunConfig, validate_config
+from famjet.config import config_documents_equal, RunConfig, validate_config
 from famjet.eval.metrics import fit_target_statistics
 from famjet.eval.oracle import exact_targets
 from famjet.provenance import canonical_hash, canonical_json
@@ -281,7 +281,7 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
     existing = None
     if previous is not None and not _is_unavailable(json.loads(previous)):
         existing = _verify_manifest(out)
-        if existing['config'] != json.loads(json.dumps(asdict(config))) or existing['archive']['sha256'] != _sha(archive):
+        if not config_documents_equal(existing['config'], asdict(config)) or existing['archive']['sha256'] != _sha(archive):
             raise ValueError('existing Beijing manifest differs; choose a new output path')
         missing = False
         for info in existing['splits'].values():

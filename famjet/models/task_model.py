@@ -1,4 +1,4 @@
-"""Causal trainable writer/readers around bounded jet and bank snapshots.
+"""Causal trainable writer/readers around bounded temporal snapshots.
 
 Fixed writers preserve raw public keys, values and auxiliary gates (default1).
 Learned maps are event-local, rate-independent and preserve state dimensions.
@@ -14,6 +14,7 @@ from famjet.data.schema import validate_events, validate_queries
 from famjet.eval.metrics import fit_target_statistics
 from famjet.eval.oracle import BINARY_TASKS, CATEGORICAL_TASKS, exact_time_difference
 from famjet.memory.jet import JetMemory
+from famjet.memory.hippo import PolynomialMemory
 from famjet.memory.expbank import ExpBankMemory
 from famjet.provenance import canonical_hash
 from famjet.readers.structured import TASK_ORDER, memory_inputs, query_inputs, input_width, validate_reader_schema
@@ -46,27 +47,34 @@ class CausalWriter(nn.Module):
 
 class TaskModel(nn.Module):
     def __init__(self, kernel: nn.Module, reader: nn.Module, config: RunConfig, *, _frozen_rates=False):
-        if type(kernel) not in (JetMemory, ExpBankMemory):
-            raise ValueError('TaskModel requires registered jet or bank kernel')
-        family = 'jet' if type(kernel) is JetMemory else 'bank'
+        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory):
+            raise ValueError('TaskModel requires registered memory kernel')
+        family = kernel.reader_feature_spec['family']
         m, d = config.model, config.data
-        if m.method != family or m.heads != 1 or m.K != kernel.key_dim or d.value_dim != kernel.value_dim or m.J != kernel.rates.numel():
+        if m.method != family or m.heads != 1 or m.K != kernel.key_dim or d.value_dim != kernel.value_dim:
             raise ValueError('kernel/config dimensions or family mismatch')
-        if str(kernel.rates.dtype).split('.')[-1] != m.precision:
+        if str(kernel.reference_tensor.dtype).split('.')[-1] != m.precision:
             raise ValueError('kernel/config precision mismatch')
         if m.interpolation or m.probes != 1 or m.reader.activation != 'silu':
             raise ValueError('unsupported TaskModel interpolation/probes/activation')
-        expected = dict(family=family, anchors=m.J, key_dim=m.K, value_dim=d.value_dim)
+        if family == 'polynomial':
+            if kernel.cache_limit_bytes != config.resources.cache_limit_bytes:
+                raise ValueError('polynomial cache allowance/config mismatch')
+            if kernel.orders != m.polynomial.orders or kernel.taus != m.polynomial.taus or kernel.declared_gaps != m.polynomial.declared_gaps:
+                raise ValueError('polynomial allocation/config mismatch')
+        elif m.J != kernel.coefficient_count:
+            raise ValueError('kernel/config anchor mismatch')
+        expected = kernel.reader_feature_spec
         if reader.schema is None or reader.schema['feature_spec'] != expected or reader.schema['kind'] != m.reader.kind:
             raise ValueError('reader/config schema mismatch')
         if reader.width != m.reader.width or reader.hidden_layers != m.reader.layers:
             raise ValueError('reader/config architecture mismatch')
         if input_width(m.reader.kind, expected, dict(key_dim=m.K)) != reader.input_dim:
             raise ValueError('reader input width mismatch')
-        if kernel.eps != m.epsilon or kernel.support_floor != m.numerical_support_floor:
+        if family != 'polynomial' and (kernel.eps != m.epsilon or kernel.support_floor != m.numerical_support_floor):
             raise ValueError('kernel/config support policy mismatch')
         self._initialize(kernel, reader, {'schema_version': 1, 'writer': m.writer,
-                         'rate_mode': m.rates.mode}, _frozen_rates)
+                         'rate_mode': 'fixed' if m.rates is None else m.rates.mode}, _frozen_rates)
 
     @classmethod
     def _from_inference(cls, kernel, reader, schema, *, _frozen_rates=False):
@@ -78,14 +86,13 @@ class TaskModel(nn.Module):
     def _initialize(self, kernel, reader, schema, frozen_rates):
         nn.Module.__init__(self)
         self.inference_config = inference_config(schema)
-        if type(kernel) not in (JetMemory, ExpBankMemory):
-            raise ValueError('TaskModel requires registered jet or bank kernel')
+        if type(kernel) not in (JetMemory, ExpBankMemory, PolynomialMemory):
+            raise ValueError('TaskModel requires registered memory kernel')
         from famjet.readers.mlp import NumericReader
         if type(reader) is not NumericReader or reader.schema is None:
             raise ValueError('TaskModel requires registered reader schema')
         validate_reader_schema(reader.schema)
-        expected = dict(family='jet' if type(kernel) is JetMemory else 'bank',
-                        anchors=kernel.rates.numel(), key_dim=kernel.key_dim, value_dim=kernel.value_dim)
+        expected = kernel.reader_feature_spec
         if reader.schema['feature_spec'] != expected or input_width(reader.schema['kind'], expected,
                 reader.schema['query_spec']) != reader.input_dim:
             raise ValueError('reader/kernel schema mismatch')
@@ -98,12 +105,12 @@ class TaskModel(nn.Module):
         self._frozen_rates = frozen_rates
         self.kernel, self.reader = kernel, reader
         learned_writer = self.inference_config['writer'] == 'learned'
-        self.writer = CausalWriter(kernel.key_dim, kernel.value_dim).to(kernel.rates) if learned_writer else None
-        self.query_map = nn.Linear(kernel.key_dim, kernel.key_dim).to(kernel.rates) if learned_writer else None
+        self.writer = CausalWriter(kernel.key_dim, kernel.value_dim).to(kernel.reference_tensor) if learned_writer else None
+        self.query_map = nn.Linear(kernel.key_dim, kernel.key_dim).to(kernel.reference_tensor) if learned_writer else None
         self.fit_provenance = None
         self.target_statistics = None
-        self.register_buffer('target_mean', kernel.rates.new_zeros((len(TASK_ORDER), kernel.value_dim)))
-        self.register_buffer('target_scale', kernel.rates.new_ones((len(TASK_ORDER), 1)))
+        self.register_buffer('target_mean', kernel.reference_tensor.new_zeros((len(TASK_ORDER), kernel.value_dim)))
+        self.register_buffer('target_scale', kernel.reference_tensor.new_ones((len(TASK_ORDER), 1)))
 
     def validate_metadata(self):
         """Called by static export and direct ledger inspection, before copying."""
@@ -153,8 +160,10 @@ class TaskModel(nn.Module):
             for j in range(queries.T.shape[1]):
                 payload = self.kernel._advance_payload(state, queries.T[:, j].tolist(), queries.present[:, j].cpu().tolist())
                 rows.append(torch.cat([payload[k].flatten(1) for k in self.kernel._state_keys], -1))
-            width = len(self.kernel._state_keys)*self.kernel.rates.numel()*self.kernel.key_dim*(self.kernel.value_dim+1)
+            width = len(self.kernel._state_keys)*self.kernel.coefficient_count*self.kernel.key_dim*(self.kernel.value_dim+1)
             full = torch.stack(rows, 1) if rows else f.values.new_empty((state.last_time.numel(), 0, width))
+        if full is not None and type(self.kernel) is PolynomialMemory:
+            full = full*self.kernel.t_ref
         memory = memory_inputs(kind, f, full)
         # Zero derived normalized values only where undefined; raw controls retain amplitude.
         if kind in {'structured', 'bank_normalized', 'fixed_scale'} or kind.startswith('fixed_scale:'):

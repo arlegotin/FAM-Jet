@@ -1,0 +1,87 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collecting ... collected 60 items
+
+tests/test_hippo.py::test_order_two_sign_and_normalization PASSED
+tests/test_hippo.py::test_impulse_composition_and_separate_zoh_integral PASSED
+tests/test_hippo.py::test_polynomial_stream_terminal_resume_against_dense[cpu64] PASSED
+tests/test_hippo.py::test_polynomial_stream_terminal_resume_against_dense[cpu32] PASSED
+tests/test_hippo.py::test_polynomial_stream_terminal_resume_against_dense[mps32] PASSED
+tests/test_hippo.py::test_zero_gap_is_exact_impulse_and_signed_coefficients_visible PASSED
+tests/test_hippo.py::test_model_polynomial_full_pipeline_and_isolation[generic_contracted] PASSED
+tests/test_hippo.py::test_model_polynomial_full_pipeline_and_isolation[generic_full] PASSED
+tests/test_hippo.py::test_model_polynomial_full_pipeline_and_isolation[query_only] PASSED
+tests/test_hippo.py::test_config_explicit_polynomial_allocation_and_legacy_semantic_match PASSED
+tests/test_hippo.py::test_complete_predictor_time_unit_and_large_timestamp_shift[generic_contracted] PASSED
+tests/test_hippo.py::test_complete_predictor_time_unit_and_large_timestamp_shift[generic_full] PASSED
+tests/test_hippo.py::test_scalar_allocation_and_zero_cache_policy PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[cpu64-stream] PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[cpu64-terminal] PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[cpu32-stream] PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[cpu32-terminal] PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[mps32-stream] PASSED
+tests/test_hippo.py::test_terminal_full_gradients_match_stream_and_dense_values[mps32-terminal] PASSED
+tests/test_hippo.py::test_learned_writer_all_parameters_receive_matching_terminal_gradients PASSED
+tests/test_hippo.py::test_constant_sampled_reconstruction_positive_control PASSED
+tests/test_hippo.py::test_empty_unobserved_identity_and_failed_coefficients PASSED
+tests/test_hippo.py::test_invalid_orders_reject[True] PASSED
+tests/test_hippo.py::test_invalid_orders_reject[0] PASSED
+tests/test_hippo.py::test_invalid_orders_reject[-1] PASSED
+tests/test_hippo.py::test_invalid_orders_reject[257] PASSED
+tests/test_hippo.py::test_call_work_accounting_includes_uncached_terminal_and_query_gaps PASSED
+tests/test_hippo.py::test_polynomial_training_checkpoint_resume[cpu] PASSED
+tests/test_hippo.py::test_polynomial_training_checkpoint_resume[mps] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[orders] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[taus] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[gaps] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[chunk] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[cache] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[dimension] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[dtype] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[weights] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[reader] PASSED
+tests/test_hippo.py::test_raw_polynomial_checkpoint_guard_before_reconstruction[config_orders] PASSED
+tests/test_hippo.py::test_legacy_manifest_compatibility_preserves_seals_and_draw_hashes PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-4-32.0-128] {"order": 4, "tau": 32.0, "length": 128, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 1.1102230246251565e-16, "max_tolerance_ratio": 9.837397614747141e-05, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-4-32.0-512] {"order": 4, "tau": 32.0, "length": 512, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 1.3183898417423734e-16, "max_tolerance_ratio": 0.0001271313154322251, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-4-32.0-2048] {"order": 4, "tau": 32.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 1.5265566588595902e-16, "max_tolerance_ratio": 0.00014322802396224483, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-8-256.0-128] {"order": 8, "tau": 256.0, "length": 128, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 8.326672684688674e-17, "max_tolerance_ratio": 8.098823513977488e-05, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-8-256.0-512] {"order": 8, "tau": 256.0, "length": 512, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 9.020562075079397e-17, "max_tolerance_ratio": 8.86415317965803e-05, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu64-8-256.0-2048] {"order": 8, "tau": 256.0, "length": 2048, "device": "cpu", "dtype": "torch.float64", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 6.938893903907228e-17, "max_tolerance_ratio": 6.674643607957681e-05, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-4-32.0-128] {"order": 4, "tau": 32.0, "length": 128, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 1.4898340283675537e-08, "max_tolerance_ratio": 0.006945488944219493, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-4-32.0-512] {"order": 4, "tau": 32.0, "length": 512, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 2.416758515533246e-08, "max_tolerance_ratio": 0.010242397358308947, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-4-32.0-2048] {"order": 4, "tau": 32.0, "length": 2048, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 3.6971230174542846e-08, "max_tolerance_ratio": 0.02081222609172234, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-8-256.0-128] {"order": 8, "tau": 256.0, "length": 128, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 8.167565659911169e-08, "max_tolerance_ratio": 0.027112647316099747, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-8-256.0-512] {"order": 8, "tau": 256.0, "length": 512, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 1.7862303083870934e-07, "max_tolerance_ratio": 0.07479576657039569, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[cpu32-8-256.0-2048] {"order": 8, "tau": 256.0, "length": 2048, "device": "cpu", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 7.835665399857916e-08, "max_tolerance_ratio": 0.04556789422774831, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-4-32.0-128] {"order": 4, "tau": 32.0, "length": 128, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 1.4898340283675537e-08, "max_tolerance_ratio": 0.006945488944219493, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-4-32.0-512] {"order": 4, "tau": 32.0, "length": 512, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 2.416758515533246e-08, "max_tolerance_ratio": 0.010242397358308947, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-4-32.0-2048] {"order": 4, "tau": 32.0, "length": 2048, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 17.57007495242918, "max_absolute_error": 3.6971230174542846e-08, "max_tolerance_ratio": 0.02081222609172234, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-8-256.0-128] {"order": 8, "tau": 256.0, "length": 128, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 9.657681779295935e-08, "max_tolerance_ratio": 0.03205916314311224, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-8-256.0-512] {"order": 8, "tau": 256.0, "length": 512, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 1.3391954725716637e-07, "max_tolerance_ratio": 0.07479576657039569, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_length_conditioning_and_long_gap_envelope[mps32-8-256.0-2048] {"order": 8, "tau": 256.0, "length": 2048, "device": "mps", "dtype": "torch.float32", "eigenvector_condition": 2805.292081073187, "max_absolute_error": 1.5286245996781744e-07, "max_tolerance_ratio": 0.06305569767698462, "long_gap_multiple": 10000}
+PASSED
+tests/test_hippo.py::test_nonfinite_preparation_rejects_without_hidden_fallback PASSED
+tests/test_hippo.py::test_direct_config_requires_actual_typed_optional_dataclasses PASSED
+
+============================= 60 passed in 22.86s ==============================

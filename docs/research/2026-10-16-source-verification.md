@@ -98,3 +98,8 @@ PY
 ```
 
 Executed checks were source/metadata reads only. Required follow-up: validate UCI assets under declared disk bounds; implement numerical comparator gates; match official PyTorch docs/source to the resolved local wheel. No inaccessible source here requires replacing the core synthetic population.
+
+
+## Task13 implementation linkage — 16 October 2026
+
+The R07 Leg-T matrix/sign and temporal reconstruction conventions now back the independently written `famjet/memory/hippo.py`, with scalar/multiscale static tau banks and a separately tested augmented-exponential ZOH helper. The [adaptation ledger](../baseline_adaptations.md) retains the commit/blob/license identities from this source verification and distinguishes event-measure input from sampled-signal reproduction. No source code was vendored. This establishes a verified finite-system implementation, not source experiment reproduction, log-rate Task14 completion, training convergence or comparative scientific quality. Task13 executed numerical evidence is recorded in PROGRESS/AUDIT and artifacts/task13-evidence.

@@ -61,13 +61,20 @@ class ReaderConfig:
 
 
 @dataclass(frozen=True)
+class PolynomialConfig:
+    orders: tuple[int, ...]
+    taus: tuple[float, ...]
+    declared_gaps: tuple[float, ...] = (0., 1., 2., 4., 16.)
+
+
+@dataclass(frozen=True)
 class ModelConfig:
     method: str
     heads: int
-    J: int
+    J: int | None
     K: int
     precision: str
-    rates: RateConfig
+    rates: RateConfig | None
     writer: str
     encode: str
     reader: ReaderConfig
@@ -76,6 +83,7 @@ class ModelConfig:
     learned_abstention_threshold: float | None
     interpolation: bool
     probes: int
+    polynomial: PolynomialConfig | None = None
 
 
 @dataclass(frozen=True)
@@ -186,6 +194,10 @@ def _parse(value, expected, name):
             raise ValueError(f'{name}: unknown fields {sorted(unknown)}, missing fields {sorted(missing)}')
         hints = get_type_hints(expected)
         return expected(**{key: _parse(item, hints[key], f'{name}.{key}') for key, item in value.items()})
+    if origin is tuple and len(args) == 2 and args[1] is Ellipsis:
+        if type(value) not in (list, tuple) or len(value) > 64:
+            raise ValueError(f'{name} must be a bounded sequence')
+        return tuple(_parse(item, args[0], name) for item in value)
     if origin is tuple:
         if type(value) not in (list, tuple) or len(value) != len(args):
             raise ValueError(f'{name} must have {len(args)} entries')
@@ -215,6 +227,11 @@ def validate_config(config: RunConfig) -> None:
         for f in fields(obj):
             val = getattr(obj, f.name)
             expected = get_type_hints(type(obj))[f.name]
+            optional = [kind for kind in get_args(expected) if kind is not type(None)]
+            if len(optional) == 1 and is_dataclass(optional[0]) and val is not None:
+                if type(val) is not optional[0]:
+                    raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                check_types(val, f'{prefix}.{f.name}')
             if is_dataclass(expected):
                 if type(val) is not expected:
                     raise ValueError(f'{prefix}.{f.name} has wrong config type')
@@ -256,17 +273,31 @@ def validate_config(config: RunConfig) -> None:
     _positive(g.max_query_attempts,'generator.max_query_attempts')
     if g.delay_multiplier not in {0,.125,1,10}:
         raise ValueError('generator delay_multiplier must be 0, 1/8, 1 or 10')
-    for name in ('heads', 'J', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
+    for name in ('heads', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
         _positive(getattr(m, name), f'model.{name}')
     if m.K != d.key_dim:
         raise ValueError('model.K must equal data.key_dim')
     if m.precision not in {'float32', 'float64'}:
         raise ValueError('precision requires float32 or float64; frontier needs registration')
-    if m.rates.mode not in {'fixed', 'learned'} or m.rates.spacing not in {'log', 'linear'}:
-        raise ValueError('unknown rates mode/spacing')
-    low, high = m.rates.bounds
-    if not 0 < low <= high:
-        raise ValueError('rate bounds must be positive and ordered')
+    if m.method == 'polynomial':
+        if m.J is not None or m.rates is not None or m.polynomial is None:
+            raise ValueError('polynomial requires typed allocation and explicit null J/rates')
+        p = m.polynomial
+        if (not p.orders or len(p.orders) != len(p.taus) or any(n <= 0 or n > 256 for n in p.orders)
+                or sum(p.orders) > 1024 or any(t <= 0 for t in p.taus)
+                or any(g < 0 for g in p.declared_gaps) or len(set(p.declared_gaps)) != len(p.declared_gaps)):
+            raise ValueError('invalid polynomial allocation/gap alphabet')
+        if m.reader.kind not in {'generic_contracted','generic_full','query_only'}:
+            raise ValueError('polynomial requires full coefficient generic reader')
+    else:
+        if m.polynomial is not None or m.J is None or m.rates is None:
+            raise ValueError('non-polynomial methods require J/rates and null polynomial allocation')
+        _positive(m.J, 'model.J')
+        if m.rates.mode not in {'fixed', 'learned'} or m.rates.spacing not in {'log', 'linear'}:
+            raise ValueError('unknown rates mode/spacing')
+        low, high = m.rates.bounds
+        if not 0 < low <= high:
+            raise ValueError('rate bounds must be positive and ordered')
     if m.writer not in {'fixed', 'learned'} or m.encode not in {'terminal', 'stream'}:
         raise ValueError('unknown writer/encode mode')
     if not m.method or not m.reader.kind or m.reader.activation not in {'silu', 'relu', 'gelu', 'tanh'}:
@@ -336,3 +367,18 @@ def load_config(path: Path) -> RunConfig:
 def save_resolved_config(path: Path, config: RunConfig) -> None:
     validate_config(config)
     atomic_json(path, asdict(config))
+
+
+def config_documents_equal(left, right):
+    """After seal checks, permit ONLY absent/default-null polynomial addition.
+
+    Parsing validates both complete schemas. No generic missing/null stripping,
+    unknown fields, scientific changes or original seal/hash rewrite is allowed.
+    """
+    from copy import deepcopy
+    for document in (left, right):
+        _parse(document, RunConfig, 'config')
+    left, right = deepcopy(left), deepcopy(right)
+    for document in (left, right):
+        document['model'].setdefault('polynomial', None)
+    return canonical_json(left) == canonical_json(right)

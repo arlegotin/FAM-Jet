@@ -1,0 +1,165 @@
+{
+  "completed_step": 2,
+  "consumed_episode_ids": [
+    "train-000000000000",
+    "train-000000000001"
+  ],
+  "model_cost": {
+    "parameters": 30217,
+    "macs_per_query": 29952,
+    "input_dim": 97,
+    "rank": null
+  },
+  "state": {
+    "logical_bytes": 4737,
+    "payload_bytes": 4608,
+    "metadata_bytes": 129,
+    "retained_storage_bytes": 4697
+  },
+  "static": {
+    "logical_bytes": 122604,
+    "parameter_bytes": 120868,
+    "buffer_bytes": 1736
+  },
+  "end_to_end_logical_bytes": 127341,
+  "eligible": true,
+  "actual_budgets": {
+    "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+    "mps_current_bytes": null,
+    "mps_driver_bytes": null,
+    "rss_highwater_additional_bytes": 89489408,
+    "rss_highwater_baseline_bytes": 220446720,
+    "rss_highwater_peak_bytes": 309936128
+  },
+  "polynomial_construction": {
+    "boundary": "complete_model_construction_including_cpu_fp64_matrices",
+    "cache_bytes": 640,
+    "construction_exponentials": 8,
+    "cpu_fp64_exponentials": 0,
+    "matrix_cubic_work": 0,
+    "seconds": 0.0019924590014852583
+  },
+  "timing": [
+    {
+      "block": 0,
+      "boundary": "training_generate_forward_backward_optimizer",
+      "cold_warm": "cold",
+      "device": "cpu",
+      "events": 128,
+      "memory": {
+        "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+        "mps_current_bytes": null,
+        "mps_driver_bytes": null,
+        "rss_highwater_additional_bytes": 89112576,
+        "rss_highwater_baseline_bytes": 220446720,
+        "rss_highwater_peak_bytes": 309559296
+      },
+      "order": 0,
+      "polynomial_allocation": {
+        "declared_gaps": [
+          0.0,
+          1.0,
+          2.0,
+          4.0,
+          16.0
+        ],
+        "orders": [
+          4,
+          4
+        ],
+        "taus": [
+          16.0,
+          128.0
+        ]
+      },
+      "polynomial_preparation": [
+        {
+          "cache_bytes": 640,
+          "construction_exponentials": 8,
+          "cpu_fp64_exponentials": 248,
+          "encode_advances": 129,
+          "matrix_cubic_work": 15872,
+          "query_advances": 8,
+          "scope": "fresh_encode_and_features_forward_only"
+        }
+      ],
+      "power": null,
+      "precision": "float32",
+      "pressure": null,
+      "queries": 8,
+      "repetitions": 1,
+      "seconds": 0.038729374995455146,
+      "shape": {
+        "J": null,
+        "K": 16,
+        "V": 8,
+        "length": 128,
+        "microbatch": 1
+      },
+      "status": "non_scientific_smoke",
+      "step": 1,
+      "sync_policy": "synchronous_cpu"
+    },
+    {
+      "block": 1,
+      "boundary": "training_generate_forward_backward_optimizer",
+      "cold_warm": "warm",
+      "device": "cpu",
+      "events": 128,
+      "memory": {
+        "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+        "mps_current_bytes": null,
+        "mps_driver_bytes": null,
+        "rss_highwater_additional_bytes": 89489408,
+        "rss_highwater_baseline_bytes": 220446720,
+        "rss_highwater_peak_bytes": 309936128
+      },
+      "order": 0,
+      "polynomial_allocation": {
+        "declared_gaps": [
+          0.0,
+          1.0,
+          2.0,
+          4.0,
+          16.0
+        ],
+        "orders": [
+          4,
+          4
+        ],
+        "taus": [
+          16.0,
+          128.0
+        ]
+      },
+      "polynomial_preparation": [
+        {
+          "cache_bytes": 640,
+          "construction_exponentials": 8,
+          "cpu_fp64_exponentials": 246,
+          "encode_advances": 129,
+          "matrix_cubic_work": 15744,
+          "query_advances": 8,
+          "scope": "fresh_encode_and_features_forward_only"
+        }
+      ],
+      "power": null,
+      "precision": "float32",
+      "pressure": null,
+      "queries": 8,
+      "repetitions": 1,
+      "seconds": 0.023566042014863342,
+      "shape": {
+        "J": null,
+        "K": 16,
+        "V": 8,
+        "length": 128,
+        "microbatch": 1
+      },
+      "status": "non_scientific_smoke",
+      "step": 2,
+      "sync_policy": "synchronous_cpu"
+    }
+  ],
+  "scientific_status": "non_scientific_smoke"
+}

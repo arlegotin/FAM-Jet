@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from famjet.artifacts import atomic_json
-from famjet.config import load_config
+from famjet.config import load_config, config_documents_equal
 from famjet.data.beijing import prepare_beijing, _is_unavailable, _verify_manifest
 from famjet.eval.splits import build_split_manifest, verify_split_manifest
 
@@ -24,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
         if out.exists():
             manifest = verify_split_manifest(out)
             # Checking an existing sealed inventory must also honor the supplied config.
-            if manifest['config'] != json.loads(json.dumps(asdict(config))):
+            if not config_documents_equal(manifest['config'], asdict(config)):
                 raise ValueError('existing synthetic inventory config differs')
         else:
             build_split_manifest(config,out)
@@ -41,7 +41,7 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 prepared = _verify_manifest(out)
                 if (prepared.get('status') != 'prepared' or prepared.get('dataset') != 'beijing'
-                        or prepared.get('config') != json.loads(json.dumps(asdict(config)))):
+                        or not config_documents_equal(prepared.get('config'), asdict(config))):
                     raise ValueError('existing Beijing manifest differs; cannot report its availability')
                 print(f'Beijing unavailable: local archive missing; preserved prepared manifest {out}; preparation not run')
                 return 2

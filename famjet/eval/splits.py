@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from famjet.artifacts import atomic_json
-from famjet.config import RunConfig,_parse
+from famjet.config import RunConfig,_parse,config_documents_equal
 from famjet.data._processes import REGIMES,ROBUSTNESS
 from famjet.data.synthetic import (FEATURE_VERSION,GENERATOR_VERSION,NAMESPACES,POPULATIONS,
                                    PROTECTED,SEED_VERSION,generate_episode)
@@ -149,9 +149,9 @@ def verify_split_manifest(path: Path) -> dict:
     manifest=json.loads(path.read_text())
     _check_seal(manifest)
     _verify_splits(manifest['splits'])
-    config=_parse(manifest['config'],RunConfig,'config')
-    if manifest['config_hash']!=canonical_hash(asdict(config)):
+    if manifest['config_hash']!=canonical_hash(manifest['config']):
         raise ValueError('root config checksum mismatch')
+    config=_parse(manifest['config'],RunConfig,'config')
     if manifest['splits']!=_split_roots(config):
         raise ValueError('root split reservations do not match config')
     suites=dict(_suite_configs(config))
@@ -172,6 +172,13 @@ def verify_split_manifest(path: Path) -> dict:
         expected_roots=_split_roots(config)
         if {n:s['root'] for n,s in payload['splits'].items()}!={n:s['root'] for n,s in manifest['splits'].items()}:
             raise ValueError('population split roots mismatch')
-        if payload!=_population_manifest(config,expected_roots):
+        regenerated=_population_manifest(config,expected_roots)
+        if not config_documents_equal(payload['config'], regenerated['config']):
+            raise ValueError('population config differs')
+        # Restore only the verified original config representation, then reseal
+        # the regenerated comparison in memory. Original artifacts stay intact.
+        regenerated=_seal({**{k:v for k,v in regenerated.items() if k != 'manifest_hash'},
+                           'config':payload['config']})
+        if payload!=regenerated:
             raise ValueError('regenerated exploratory population does not match manifest')
     return manifest

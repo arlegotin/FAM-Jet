@@ -104,18 +104,18 @@ def _pack_times(values):
     return torch.tensor(values, dtype=torch.float64)
 
 
-class FixedWriterMemory(nn.Module):
+class SnapshotMemory(nn.Module):
     """Common H=1 shared-normalization snapshot/stream ownership contract."""
     def init_state(self, batch_size: int, *, device: str, dtype: str) -> Snapshot:
         _require(type(batch_size) is int and batch_size > 0, 'batch_size must be positive integer')
         _require(dtype in {'float32', 'float64'}, 'dtype must be float32 or float64')
         dt = getattr(torch, dtype)
         requested = torch.device(device)
-        _require(requested.type == self.rates.device.type
-                 and (requested.index is None or requested.index == self.rates.device.index)
-                 and dt == self.rates.dtype,
-                 'state device/dtype must match module rates')
-        z = torch.zeros(batch_size, 1, self.rates.shape[1], self.key_dim, self.value_dim+1, device=device, dtype=dt)
+        _require(requested.type == self.reference_tensor.device.type
+                 and (requested.index is None or requested.index == self.reference_tensor.device.index)
+                 and dt == self.reference_tensor.dtype,
+                 'state device/dtype must match module reference tensor')
+        z = torch.zeros(batch_size, 1, self.coefficient_count, self.key_dim, self.value_dim+1, device=device, dtype=dt)
         return Snapshot({**self._zero_payload(z), 'history_hash': torch.zeros(batch_size, 32, dtype=torch.uint8),
                          'time_unit_hash': torch.zeros(32, dtype=torch.uint8),
                          'last_event_id': torch.full((batch_size,), -1, dtype=torch.int64)},
@@ -130,8 +130,8 @@ class FixedWriterMemory(nn.Module):
         b = state.last_time.numel()
         for name in self._state_keys:
             tensor = state.payload[name]
-            _require(tensor.shape == (b, 1, self.rates.shape[1], self.key_dim, self.value_dim+1)
-                     and tensor.dtype == self.rates.dtype and tensor.device == self.rates.device,
+            _require(tensor.shape == (b, 1, self.coefficient_count, self.key_dim, self.value_dim+1)
+                     and tensor.dtype == self.reference_tensor.dtype and tensor.device == self.reference_tensor.device,
                      'snapshot state layout mismatch')
         for name, tensor, shape, dtypes in [
             ('last_time', state.last_time, (b,), (torch.int64, torch.float64)),
@@ -152,7 +152,7 @@ class FixedWriterMemory(nn.Module):
                  'raw feature dimensions differ from module')
         b, n, _ = events.values.shape
         if state is None:
-            state = self.init_state(b, device=str(self.rates.device), dtype=str(self.rates.dtype).removeprefix('torch.'))
+            state = self.init_state(b, device=str(self.reference_tensor.device), dtype=str(self.reference_tensor.dtype).removeprefix('torch.'))
         self._check_snapshot(state)
         _require(state.last_time.shape == (b,), 'snapshot batch size mismatch')
         identity = torch.stack([_digest_tensor(h) for h in events.history_ids])
@@ -173,33 +173,7 @@ class FixedWriterMemory(nn.Module):
         core = {name: state.payload[name] for name in self._state_keys}
         for name, tensor in core.items():
             _finite(tensor, f'snapshot.{name}')
-        if mode == 'stream':
-            # Prepare/validate all host timestamps before entering the tensor
-            # recurrence. Padding has zero elapsed time; actual write presence
-            # is independent of elapsed time at present unobserved slots.
-            gap_rows = [[first_gaps[i] if j == 0 else float(exact_time_difference(times[i][j], times[i][j-1]))
-                         if j < lengths[i] else 0. for j in range(n)] for i in range(b)]
-            cpu_gaps = torch.tensor(gap_rows, dtype=torch.float64).reshape(b, n)
-            exceptional = any(gap > torch.finfo(self.rates.dtype).max for row in gap_rows for gap in row)
-            if exceptional:
-                # Explicit rare host-time preparation keeps an unrepresentable
-                # duration out of the device core and retains rate gradients.
-                a, ad = _coefficients(self.rates, cpu_gaps)
-            else:
-                device_gaps = cpu_gaps.to(self.rates)
-            for j in range(n):
-                args = (core, events.key_features[:, j, None], events.values[:, j, None], gates[:, j, None])
-                if exceptional:
-                    core = self._weighted_step(*args, events.validation.write_mask[:, j], a[..., j], ad[..., j])
-                else:
-                    core = self._step(*args, device_gaps[:, j], self.rates, events.validation.write_mask[:, j])
-        else:
-            gaps = [float(exact_time_difference(times[i][length-1], last[i])) if length and valid[i] else 0.
-                    for i, length in enumerate(lengths)]
-            a, ad = _coefficients(self.rates, torch.tensor(gaps, dtype=torch.float64))
-            decayed = self._decay_payload(core, a, ad)
-            terminal = self._terminal(events)
-            core = {name: decayed[name] + terminal[name] for name in self._state_keys}
+        core = self._encode_core(events, core, gates, times, lengths, last, valid, first_gaps, mode)
         for i, length in enumerate(lengths):
             if length:
                 last[i] = times[i][length-1]; valid[i] = True; last_ids[i] = ids[i][length-1]
@@ -229,9 +203,8 @@ class FixedWriterMemory(nn.Module):
             gap = exact_time_difference(t, old) if valid and present else 0
             _require(gap >= 0, 'query time is before snapshot.last_time')
             gaps.append(float(gap))
-        a, ad = _coefficients(self.rates, torch.tensor(gaps, dtype=torch.float64))
         payload = {k: v.clone() for k, v in state.payload.items()}
-        payload.update(self._decay_payload(state.payload, a, ad))
+        payload.update(self._propagate(state.payload, gaps))
         return payload
 
     def features(self, state: Snapshot, queries: QueryBatch) -> FeatureBatch:
@@ -253,8 +226,8 @@ class FixedWriterMemory(nn.Module):
             results.append(FeatureBatch(f.values, f.supported & mask, f.diagnostics))
         if not results:
             fdim = self.feature_dim
-            return FeatureBatch(self.rates.new_empty((state.last_time.numel(), 0, fdim)),
-                                torch.empty(state.last_time.numel(), 0, dtype=torch.bool, device=self.rates.device))
+            return FeatureBatch(self.reference_tensor.new_empty((state.last_time.numel(), 0, fdim)),
+                                torch.empty(state.last_time.numel(), 0, dtype=torch.bool, device=self.reference_tensor.device))
         return FeatureBatch(torch.cat([f.values for f in results], 1), torch.cat([f.supported for f in results], 1),
                             {k: torch.cat([f.diagnostics[k] for f in results], 1) for k in results[0].diagnostics})
 
@@ -266,3 +239,54 @@ class FixedWriterMemory(nn.Module):
 
     def parameter_nbytes(self) -> int:
         return sum(t.numel()*t.element_size() for t in (*self.parameters(), *self.buffers()))
+
+
+class FixedWriterMemory(SnapshotMemory):
+    """Diagonal exponential specialization; the original device fast path."""
+    @property
+    def reference_tensor(self):
+        return self.rates
+
+    @property
+    def coefficient_count(self):
+        return self.rates.numel()
+
+    @property
+    def reader_feature_spec(self):
+        return dict(family='jet' if len(self._state_keys) == 2 else 'bank',
+                    anchors=self.coefficient_count, key_dim=self.key_dim, value_dim=self.value_dim)
+
+    def _propagate(self, core, gaps):
+        a, ad = _coefficients(self.rates, torch.tensor(gaps, dtype=torch.float64))
+        return self._decay_payload(core, a, ad)
+
+    def _encode_core(self, events, core, gates, times, lengths, last, valid, first_gaps, mode):
+        b, n, _ = events.values.shape
+        if mode == 'stream':
+            # Prepare/validate all host timestamps before entering the tensor
+            # recurrence. Padding has zero elapsed time; actual write presence
+            # is independent of elapsed time at present unobserved slots.
+            gap_rows = [[first_gaps[i] if j == 0 else float(exact_time_difference(times[i][j], times[i][j-1]))
+                         if j < lengths[i] else 0. for j in range(n)] for i in range(b)]
+            cpu_gaps = torch.tensor(gap_rows, dtype=torch.float64).reshape(b, n)
+            exceptional = any(gap > torch.finfo(self.reference_tensor.dtype).max for row in gap_rows for gap in row)
+            if exceptional:
+                # Explicit rare host-time preparation keeps an unrepresentable
+                # duration out of the device core and retains rate gradients.
+                a, ad = _coefficients(self.rates, cpu_gaps)
+            else:
+                device_gaps = cpu_gaps.to(self.rates)
+            for j in range(n):
+                args = (core, events.key_features[:, j, None], events.values[:, j, None], gates[:, j, None])
+                if exceptional:
+                    core = self._weighted_step(*args, events.validation.write_mask[:, j], a[..., j], ad[..., j])
+                else:
+                    core = self._step(*args, device_gaps[:, j], self.rates, events.validation.write_mask[:, j])
+        else:
+            gaps = [float(exact_time_difference(times[i][length-1], last[i])) if length and valid[i] else 0.
+                    for i, length in enumerate(lengths)]
+            a, ad = _coefficients(self.rates, torch.tensor(gaps, dtype=torch.float64))
+            decayed = self._decay_payload(core, a, ad)
+            terminal = self._terminal(events)
+            core = {name: decayed[name] + terminal[name] for name in self._state_keys}
+        return core

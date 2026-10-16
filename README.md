@@ -2,7 +2,7 @@
 
 FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
 
-The repository now generates deterministic synthetic histories, prepares the observed-event Beijing workload, runs exact reference calculations, and implements jet/bank memories, bounded summaries, trainable writers and readers, and isolated snapshot reads. A tiny CPU training run now saves complete records and can resume from an optimizer checkpoint. Tasks1–11 are accepted; Task12 training/recovery is implemented and awaiting independent review. There is **no comparative generalization gain established yet**. Fair baseline training, scientific failure handling, resource calibration and protected evaluation remain ahead.
+The repository now generates deterministic synthetic histories, prepares the observed-event Beijing workload, runs exact reference calculations, and implements jet/bank and translated-Legendre memories, bounded summaries, trainable writers and readers, and isolated snapshot reads. A tiny CPU training run now saves complete records and can resume from an optimizer checkpoint. Tasks1–12 are accepted; Task13 polynomial memories are implemented and awaiting independent review. There is **no comparative generalization gain established yet**. Fair baseline training, scientific failure handling, resource calibration and protected evaluation remain ahead.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
 
@@ -24,6 +24,8 @@ Preparation and the tiny training pipeline are executable now:
 .venv/bin/python -m famjet.prepare --config configs/beijing.yaml
 .venv/bin/python -m famjet.run --config configs/smoke.yaml
 ```
+
+The [polynomial comparator](docs/baseline_adaptations.md) also has an explicit two-step CPU smoke configuration: `.venv/bin/python -m famjet.run --config configs/polynomial-smoke.yaml`. Its single/multiscale Legendre banks use event impulses, expose all signed coefficients to generic readers, and count their declared transition cache. Timescales are fixed; scientific tuning and the stronger log-rate construction remain ahead.
 
 The run command explicitly uses CPU and two optimizer steps. It prints a new run directory containing resolved configuration, run status, predictions, timing, draw records and full checkpoints. To resume, pass `--resume PATH/TO/checkpoint.pt` with the same config; use a new `--run-dir` if you specify one. `doctor`, `prepare` and `run` all support `--help` without starting work.
 
