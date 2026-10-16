@@ -1,4 +1,4 @@
-"""CPU FP64 packed retained-event references, independent of raw label builders.
+"""Packed retained-event references with CPU FP64 query arithmetic.
 
 Exact is explicitly unbounded. Recent is an observed-write ring; latest_lru
 keeps one whole observed event per key and evicts the least recently observed
@@ -55,24 +55,29 @@ class PackedHistory:
     (None means all observed). Query dict: T, key_id, task(default mean),
     age_start(default0), age_end(default0); intervals are half-open ages.
     Result shapes are [1,1,V], [1,1,1] binary, or [1,1,32] scores.
+    value_dtype explicitly selects float32 or float64 storage (default float64).
+    Query operands accumulate in FP64 after the one declared storage rounding.
 
-    Slot words: key/event uint64, time uint64 + bool tick tag, FP64 values,
+    Slot words: key/event uint64, time uint64 + bool tick tag, declared values,
     bool observations and occupancy. Indices/counts are int64. Only latest_lru
     allocates int64 recency. Exact grows by one slot per observed write, so
     appending reallocates O(N) bytes and querying scans O(N*V); bounded policies
     allocate once, scan O(capacity), and never persist query-specific caches.
     """
-    def __init__(self, capacity: int | None, value_dim: int, policy: str):
+    def __init__(self, capacity: int | None, value_dim: int, policy: str, *, value_dtype='float64'):
         _require(policy in {'exact', 'recent', 'latest_lru'}, 'unknown storage policy')
         _require(type(value_dim) is int and value_dim > 0, 'value_dim must be positive integer')
         _require(capacity is None if policy == 'exact' else type(capacity) is int and capacity > 0,
                  'exact requires capacity=None; bounded policy requires positive capacity')
+        _require(type(value_dtype) is str and value_dtype in ('float32', 'float64'),
+                 'value_dtype must be float32 or float64')
         self.capacity, self.value_dim, self.policy = capacity, value_dim, policy
+        self.value_dtype = value_dtype
         c = capacity or 0
         self._data = {
             'key_ids': np.zeros(c, np.uint64), 'event_ids': np.zeros(c, np.uint64),
             'time_words': np.zeros(c, np.uint64), 'time_is_tick': np.ones(c, np.bool_),
-            'values': np.zeros((c, value_dim), np.float64),
+            'values': np.zeros((c, value_dim), np.dtype(value_dtype)),
             'observed': np.zeros((c, value_dim), np.bool_), 'occupied': np.zeros(c, np.bool_),
             'size': np.zeros(1, np.int64),
             'seen': np.zeros(1, np.int64), 'discarded': np.zeros(1, np.int64),
@@ -102,6 +107,11 @@ class PackedHistory:
         observed = np.ones(self.value_dim, np.bool_) if observed is None else np.asarray(observed)
         _require(value.shape == (self.value_dim,) and np.isfinite(value).all(), 'value must be finite [V]')
         _require(observed.shape == (self.value_dim,) and observed.dtype == np.bool_, 'observed must be bool [V]')
+        # Declared FP32 storage rounds once. Reject overflow before cursor,
+        # recency, occupancy, timestamps or any other saved field can change.
+        with np.errstate(over='ignore', invalid='ignore'):
+            value = value.astype(self.value_dtype)
+        _require(np.isfinite(value).all(), 'value is not finite representable in declared value_dtype')
         if a['last_valid'][0]:
             gap = exact_time_difference(t, self._last_time())
             _require(gap >= 0, 'event is before saved stream time')
@@ -165,7 +175,7 @@ class PackedHistory:
             if slots.size:
                 j = max(slots,key=lambda j:(_decode(a['time_words'][j],a['time_is_tick'][j]),int(a['event_ids'][j])))
                 if a['observed'][j].all():
-                    label = a['values'][j].copy(); supported = True
+                    label = a['values'][j].astype(np.float64); supported = True
                     if family == 'categorical':
                         _require(self.value_dim == 32 and np.isin(label,[0.,1.]).all() and label.sum()==1,
                                  'categorical tasks require observed V32 one-hot values')
@@ -176,9 +186,9 @@ class PackedHistory:
         elif (counts[0] > 0).all() and (task == 'mean' or (counts[1] > 0).all()):
             supported = True
             with np.errstate(over='ignore', invalid='ignore'):
-                label = np.where(a['observed'][recent],a['values'][recent],0.).sum(axis=0)/counts[0]
+                label = np.where(a['observed'][recent],a['values'][recent],0.).sum(axis=0,dtype=np.float64)/counts[0]
                 if task != 'mean':
-                    label -= np.where(a['observed'][older],a['values'][older],0.).sum(axis=0)/counts[1]
+                    label -= np.where(a['observed'][older],a['values'][older],0.).sum(axis=0,dtype=np.float64)/counts[1]
                     if task == 'change_sign' and np.isfinite(label).all():
                         label = np.sign(label)
         failure = label is not None and not np.isfinite(label).all()
@@ -198,7 +208,7 @@ class PackedHistory:
 
 
 class PackedHistoryMemory:
-    """Snapshot protocol adapter; CPU/float64 reference with no model parameters.
+    """CPU Snapshot adapter with declared FP32/FP64 values and FP64 queries.
 
     Only schema/policy lives on this object. Payload arrays stack B rows; all
     history identity, stream time, counters and retained events belong to the
@@ -207,19 +217,20 @@ class PackedHistoryMemory:
     of mixed final times unrepresentable in one int64/float64 tensor rejects.
     Individual retained events may freely mix integer ticks and float times.
     """
-    def __init__(self, capacity: int | None, value_dim: int, policy: str, *, key_dim: int):
-        PackedHistory(capacity,value_dim,policy)
+    def __init__(self, capacity: int | None, value_dim: int, policy: str, *, key_dim: int, value_dtype='float64'):
+        PackedHistory(capacity,value_dim,policy,value_dtype=value_dtype)
         _require(type(key_dim) is int and key_dim > 0, 'key_dim must be positive integer')
         self.capacity,self.value_dim,self.policy,self.key_dim = capacity,value_dim,policy,key_dim
+        self.value_dtype = value_dtype
 
     def _parameter_hash(self):
         return canonical_hash({'method':'packed-history-v1','capacity':self.capacity,'value_dim':self.value_dim,
-                               'policy':self.policy,'key_dim':self.key_dim})
+                               'policy':self.policy,'key_dim':self.key_dim,'value_dtype':self.value_dtype})
 
     def init_state(self, batch_size: int, *, device: str, dtype: str) -> Snapshot:
         _require(type(batch_size) is int and batch_size > 0, 'batch_size must be positive integer')
-        _require(device == 'cpu' and dtype == 'float64', 'packed reference requires CPU float64')
-        arrays = PackedHistory(self.capacity,self.value_dim,self.policy).arrays()
+        _require(device == 'cpu' and dtype == self.value_dtype, 'state device/dtype must match declared CPU value_dtype')
+        arrays = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype).arrays()
         payload = {k:torch.from_numpy(np.stack([v]*batch_size)) for k,v in arrays.items()}
         payload.update(history_hash=torch.zeros(batch_size,32,dtype=torch.uint8),
                        time_unit_hash=torch.zeros(32,dtype=torch.uint8))
@@ -230,7 +241,7 @@ class PackedHistoryMemory:
         _require(isinstance(state,Snapshot) and state.schema_version == 1
                  and state.parameter_hash == self._parameter_hash(), 'snapshot schema/parameter hash mismatch')
         b = state.last_time.numel()
-        template = PackedHistory(self.capacity,self.value_dim,self.policy)
+        template = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype)
         expected = template.arrays()
         _require(set(state.payload) == {*expected,'history_hash','time_unit_hash'}, 'invalid packed snapshot payload')
         _require(state.last_time.shape == state.valid.shape == state.event_offset.shape == (b,) and b > 0
@@ -250,7 +261,7 @@ class PackedHistoryMemory:
             _require(tensor.shape == (b,*shape) and tensor.numpy().dtype == v.dtype, f'invalid packed layout: {k}')
         stores=[]
         for i in range(b):
-            store = PackedHistory(self.capacity,self.value_dim,self.policy)
+            store = PackedHistory(self.capacity,self.value_dim,self.policy,value_dtype=self.value_dtype)
             store._data = {k:state.payload[k][i].detach().numpy().copy() for k in expected}
             a=store._data; size=int(a['size'][0]); seen=int(a['seen'][0]); dropped=int(a['discarded'][0])
             _require(0 <= size <= c and size == int(a['occupied'].sum()) and seen >= size+dropped and dropped >= 0,
@@ -299,7 +310,7 @@ class PackedHistoryMemory:
         _require(events.values.shape[-1] == self.value_dim and events.key_features.shape[-1] == self.key_dim,
                  'event feature dimensions mismatch')
         b=events.values.shape[0]
-        if state is None: state=self.init_state(b,device='cpu',dtype='float64')
+        if state is None: state=self.init_state(b,device='cpu',dtype=self.value_dtype)
         stores=self._stores(state)
         _require(len(stores) == b, 'snapshot batch size mismatch')
         identity=torch.stack([_digest_tensor(h) for h in events.history_ids]); unit=_digest_tensor(events.time_unit)

@@ -263,3 +263,83 @@ def test_corrupt_snapshot_stream_status_rejects():
     payload['last_valid'].zero_()
     with pytest.raises(ValueError,match='stream'):
         m.read(replace(state,payload=payload,valid=torch.zeros_like(state.valid)),q)
+
+
+@pytest.mark.parametrize('policy,cap', [('recent',4),('latest_lru',4)])
+def test_declared_fp32_values_round_once_and_save_actual_bytes(policy,cap):
+    from famjet.memory.exact_store import PackedHistory, PackedHistoryMemory
+    s=PackedHistory(cap,1,policy,value_dtype='float32')
+    s.update(event(0,0.1))
+    assert s.arrays()['values'].dtype==np.float32
+    r=s.query(query(T=0,task='latest'))
+    assert r.prediction.dtype==torch.float64
+    assert r.prediction.item()==0.10000000149011612
+    # Timestamp bits/uint64 IDs keep their original precision irrespective of values.
+    s.update(event(2**60+1,0.3,eid=2))
+    assert s.query(query(T=2**60+1,start=0,end=1)).support.item()
+    e,q=batches()
+    small=PackedHistoryMemory(cap,2,policy,key_dim=1,value_dtype='float32')
+    large=PackedHistoryMemory(cap,2,policy,key_dim=1,value_dtype='float64')
+    initial=small.init_state(1,device='cpu',dtype='float32')
+    assert initial.payload['values'].dtype==torch.float32
+    a,b=small.encode(e),large.encode(e)
+    assert small.persistent_nbytes(a)==large.persistent_nbytes(b)-4*cap*2
+    assert a.parameter_hash!=b.parameter_hash
+    fresh=PackedHistoryMemory(cap,2,policy,key_dim=1,value_dtype='float32')
+    torch.testing.assert_close(fresh.read(a,q).prediction,small.read(a,q).prediction,equal_nan=True)
+
+
+@pytest.mark.parametrize('task', ['mean','contrast','latest'])
+def test_fp32_storage_matches_raw_fp64_oracle_at_ordinary_tolerances(task):
+    from famjet.memory.exact_store import PackedHistoryMemory
+    from famjet.eval.oracle import exact_targets
+    e,q=batches(values=((0.1,0.7),(0.3,0.7),(0.9,0.7),(1.3,0.7)),tasks=(task,))
+    m=PackedHistoryMemory(4,2,'recent',key_dim=1,value_dtype='float32')
+    r=m.read(m.encode(e),q)
+    # Label computation consumes the original FP64 values, independent of policy rounding.
+    torch.testing.assert_close(r.prediction,exact_targets(e,q).target,rtol=1e-5,atol=1e-6)
+    assert r.prediction.dtype==torch.float64 and not r.failure.any()
+
+
+def test_fp32_query_accumulates_in_fp64_before_normalizing():
+    from famjet.memory.exact_store import PackedHistory
+    s=PackedHistory(3,1,'recent',value_dtype='float32')
+    for i,v in enumerate([2**24,1.,-2**24]): s.update(event(i,v))
+    r=s.query(query(start=0,end=3))
+    assert r.prediction.item()==1/3 and not r.failure.item()
+    # FP32 operands can overflow FP32 addition although their FP64 mean is finite.
+    large=PackedHistory(2,1,'recent',value_dtype='float32')
+    large.update(event(0,3e38)); large.update(event(1,3e38))
+    r=large.query(query(start=0,end=3))
+    assert r.diagnostics['prediction_valid'].item() and not r.failure.item()
+    assert r.prediction.item()==3.0000000054977558e38
+
+
+@pytest.mark.parametrize('policy,cap', [('recent',1),('latest_lru',1)])
+def test_unsafe_fp32_cast_rejects_before_packed_state_mutation(policy,cap):
+    from famjet.memory.exact_store import PackedHistory, PackedHistoryMemory
+    s=PackedHistory(cap,1,policy,value_dtype='float32'); s.update(event(0,2.))
+    before=s.arrays()
+    with pytest.raises(ValueError,match='representable'):
+        s.update(event(1,1e100))
+    for k,v in before.items(): np.testing.assert_array_equal(v,s.arrays()[k])
+    e,q=batches(); m=PackedHistoryMemory(cap,2,policy,key_dim=1,value_dtype='float32')
+    state=m.encode(e); before={k:v.clone() for k,v in state.payload.items()}
+    bad=replace(e,timestamps=e.timestamps+3,event_ids=e.event_ids+4,values=e.values.clone())
+    bad.values[0,-1,0]=1e100
+    with pytest.raises(ValueError,match='representable'): m.encode(bad,state)
+    for k,v in before.items(): assert torch.equal(v,state.payload[k])
+
+
+def test_precision_schema_hash_and_payload_dtype_mismatches_reject():
+    from famjet.memory.exact_store import PackedHistory, PackedHistoryMemory
+    e,q=batches()
+    m32=PackedHistoryMemory(4,2,'recent',key_dim=1,value_dtype='float32')
+    m64=PackedHistoryMemory(4,2,'recent',key_dim=1,value_dtype='float64')
+    state=m32.encode(e)
+    with pytest.raises(ValueError,match='hash'): m64.read(state,q)
+    with pytest.raises(ValueError,match='dtype'): m32.init_state(1,device='cpu',dtype='float64')
+    payload={**state.payload,'values':state.payload['values'].double()}
+    with pytest.raises(ValueError,match='values'): m32.read(replace(state,payload=payload),q)
+    for bad_dtype in ['float16','bfloat16',np.float32,np.dtype('float32')]:
+        with pytest.raises(ValueError,match='value_dtype'): PackedHistory(1,1,'recent',value_dtype=bad_dtype)
