@@ -1,0 +1,21 @@
+# Decisions
+
+All entries below are dated **16 October 2026**. They are implementation-planning decisions, not experimental findings. The governing research cutoff remains 13 October 2026.
+
+| Decision | Evidence / alternatives | Consequence |
+|---|---|---|
+| Keep the existing `main` branch and make staged documentation commits. | Explicit user instruction; repo began empty with no commits or local AGENTS.md. | No branch, worktree, merge or push is part of this task. |
+| Produce a spec and a full staged plan without executing experiments. | User requested specification and planning; brief already supplies extensive design requirements. | No product scaffold, dependency install, dataset/model download or training; proposed commands remain labeled future. |
+| Use root-level `famjet/` rather than nested `famjet-poc/`. | Empty repository is already named FAM-Jet. | Avoid a redundant directory; exact future file ownership is in the plan. |
+| Treat external evidence and Linux numerical results as supplied provenance. | No new source inspection/reproduction was requested or performed. | R01–R26 remain verification leads. Only read-only local observations count as executed evidence here. No archival verbatim copy is claimed. |
+| Investigate exact moments as a basis/numerical/systems question. | Supplied gamma/Laplace/HiPPO overlap and analytical coordinate equivalence. | No first-invention or greater-than-vector-capacity claim. Equal-byte bank, equivalent-coordinate and generic-reader controls remain central. |
+| Make snapshot time explicit. | A compressed snapshot cannot remove already encoded future events by negative decay. | Reject T before snapshot time; evaluate earlier queries from causal prefix snapshots. Later reads use temporary copies and never age persisted state. |
+| Primary synthetic T is the last event; real T is the block endpoint. | Builder review identified undefined query timing. | Versioned delayed synthetic reads use delays `{0,A0/8,A0,10*A0}`; real events are in `[start,end)` and queries use T=end. |
+| Define secondary suites without changing primary tests. | Builder review found unspecified secondary labels/completion scope. | Latest, presence, change-sign and V32 corrected/random categorical suites have explicit labels. Missing suites limit completion/claims; incompatible checkpoints are rejected. |
+| Absent one-hot keys remain ordinary valid coordinates. | Reviewer identified query-only absence leakage through OOV/zero features. | Presence histories randomly write 12 of 16 valid keys; omitted valid coordinates are queried without revealing active set. Dense absent IDs share the same feature distribution. |
+| Train and test inference code before protected outputs open. | Plan self-review found an analysis-after-unblinding dependency. | Task 19 implements approximate crossed-bootstrap/Holm inference; Task 20 calibrates pilot; Task 21 freezes, executes and unblinds with unchanged analysis. |
+| Use explicit bootstrap algorithm/Monte Carlo guard. | Brief required crossed resampling but left the exact interval/test implementation to planning. | 95% percentile primary interval, centered empirical-null secondary p-values, Holm; four-batch endpoint precision control. Pilot coverage checks and finite-seed/cluster caveats are mandatory. |
+| Preserve actual resource uncertainty. | Read-only discovery found 36 GiB installed memory, substantial existing swap use and finite free disk; no tensor probes run. | WP00 rediscovery/op tests determine compatibility and allocation. No invented dependency lock, training duration or MPS performance. |
+| Interpolation/probing/language remain gated extensions. | Supplied counterexample, finite-information control, and bridge requirements. | They do not block a complete informative core negative result. Broad/real/language claims require their specific accepted comparators and evidence. |
+
+Routine builder choices (e.g. versioned excursion probabilities, deterministic dense features, bucket eviction and development calibration subdivision) are marked in the spec. Changes during execution to scientific hypotheses, data/populations, splits, precision/capacity, metrics, baseline architecture or stopping require a dated amendment and fresh protected data when the claim changes.
