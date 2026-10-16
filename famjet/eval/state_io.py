@@ -34,14 +34,32 @@ def _digest(value):
              'parameter hash must be a SHA-256 hex digest')
 
 
+def retained_tensor_chain(tensor):
+    """Audit a tensor and strongly retained view bases, deduplicated by identity.
+
+    Storage aliasing alone does not describe retention: a view's base can carry
+    a separate Python cache or gradient even when the view has neither.
+    """
+    seen = set()
+    while tensor is not None and id(tensor) not in seen:
+        seen.add(id(tensor))
+        _require(type(tensor) in (torch.Tensor, torch.nn.Parameter) and tensor.layout == torch.strided,
+                 'only dense numeric tensors are supported')
+        _require(not vars(tensor), 'unregistered/hidden tensor attribute (including retained base)')
+        yield tensor
+        tensor = tensor._base
+
+
 def tensor_record(tensor):
     """Lossless, owned CPU bytes; NaN is a bit pattern, never a JSON number."""
-    _require(type(tensor) in (torch.Tensor, torch.nn.Parameter) and tensor.layout == torch.strided,
-             'only dense numeric tensors are supported')
-    _require(not vars(tensor), 'unregistered/hidden tensor attribute')
+    # Audit before detach/clone loses the references we need to inspect.
+    for _ in retained_tensor_chain(tensor):
+        pass
     name = str(tensor.dtype).removeprefix('torch.')
     _require(name in _DTYPES, 'unsupported tensor dtype')
-    array = tensor.detach().cpu().contiguous().numpy().astype(_DTYPES[name].newbyteorder('<'), copy=False)
+    # numpy() marks the exposed Torch storage non-resizable. Always expose a
+    # private allocation so hashing/export cannot change caller ownership.
+    array = tensor.detach().cpu().contiguous().clone().numpy().astype(_DTYPES[name].newbyteorder('<'), copy=False)
     return dict(dtype=name, shape=list(tensor.shape), data=base64.b64encode(array.tobytes()).decode('ascii'))
 
 

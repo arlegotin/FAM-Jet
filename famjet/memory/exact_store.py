@@ -311,11 +311,12 @@ class PackedHistoryMemory:
         for k,v in expected.items():
             shape = (c,*v.shape[1:]) if self.policy == 'exact' and k in {'key_ids','event_ids','time_words','time_is_tick','values','observed','occupied'} else v.shape
             tensor = state.payload[k]
-            _require(tensor.shape == (b,*shape) and tensor.numpy().dtype == v.dtype, f'invalid packed layout: {k}')
+            _require(tensor.shape == (b,*shape) and str(tensor.dtype).removeprefix('torch.') == v.dtype.name,
+                     f'invalid packed layout: {k}')
         stores=[]
         for i in range(b):
             store = self._new_store()
-            store._data = {k:state.payload[k][i].detach().numpy().copy() for k in expected}
+            store._data = {k:state.payload[k][i].detach().clone().numpy() for k in expected}
             a=store._data; seen=int(a['seen'][0])
             _require(bool(a['last_valid'][0]) == bool(state.valid[i]) == (seen > 0)
                      and seen == int(state.event_offset[i]),
@@ -355,7 +356,8 @@ class PackedHistoryMemory:
         if state.payload['time_unit_hash'].any():
             _require(torch.equal(identity,state.payload['history_hash']), 'snapshot history identity mismatch')
             _require(torch.equal(unit,state.payload['time_unit_hash']), 'snapshot time_unit mismatch')
-        values=events.values.detach().cpu().to(torch.float64).numpy(); obs=events.observed.cpu().numpy()
+        values=events.values.detach().cpu().to(torch.float64).clone().numpy()
+        obs=events.observed.cpu().clone().numpy()
         for i,s in enumerate(stores):
             for j in range(int(events.lengths[i])):
                 s.update(dict(timestamp=events.timestamps[i,j].item(),event_id=events.event_ids[i,j].item(),

@@ -31,7 +31,7 @@ from famjet.types import QueryBatch, ReadResult, FeatureBatch
 from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapshot_hash,
                                   tensor_record, tensor_from_record)
 
-REGISTRY_VERSION = 1
+REGISTRY_VERSION = 2
 _REGISTRY = {'packed': PackedHistoryMemory, 'reservoir': ReservoirMemory, 'hybrid': HybridMemory,
              'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory}
 _ROOT = Path(__file__).resolve().parents[2]
@@ -48,17 +48,20 @@ def source_identity():
                            for p in sorted((_ROOT/'famjet').rglob('*.py'))})
 
 
-def _tree(value):
+def _tree(value, ancestors=frozenset()):
     """Compare every instance field against reconstruction, including hooks/caches."""
+    _require(id(value) not in ancestors, 'unregistered/hidden cyclic method attribute')
+    ancestors = ancestors | {id(value)}
     if isinstance(value, torch.Tensor):
         return tensor_record(value)
     if isinstance(value, torch.nn.Module):
         return {'class': type(value).__qualname__, 'fields':
-                {k: _tree(v) for k, v in vars(value).items() if k != 'training'}}
+                {k: _tree(v, ancestors) for k, v in vars(value).items() if k != 'training'}}
     if isinstance(value, dict):
-        return {k: _tree(v) for k, v in value.items()}
+        _require(all(type(k) is str for k in value), 'unregistered/hidden method dictionary key')
+        return {k: _tree(v, ancestors) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
-        return [_tree(v) for v in value]
+        return [_tree(v, ancestors) for v in value]
     if isinstance(value, set) and not value:
         return []
     if value is None or type(value) in (str, int, float, bool):
@@ -73,7 +76,13 @@ def _tree(value):
     raise ValueError('unregistered/hidden method attribute')
 
 
-def _reconstruct(spec):
+def _reconstruct(spec, *, freeze_rates=False):
+    """Rebuild source structure for audit or exact represented rates for inference.
+
+    Learned sigmoid/exp can differ across devices. The frozen worker uses the
+    exported rate bits, never a CPU recomputation, for writer-state identity.
+    Source logits/bounds remain validated and covered by the full wire hash.
+    """
     _require(type(spec) is dict and set(spec) == {'registry_version', 'kind', 'schema', 'weights'},
              'invalid method schema')
     _require(spec['registry_version'] == REGISTRY_VERSION and spec['kind'] in _REGISTRY,
@@ -89,12 +98,19 @@ def _reconstruct(spec):
         _require(set(spec['weights']) == {'rates'}, 'invalid rate weights')
         rates = tensor_from_record(spec['weights']['rates'])
     else:
-        _require(kind == 'bank' and set(spec['weights']) == {'logits'}, 'invalid learned rate schema')
+        _require(kind == 'bank' and set(spec['weights']) == {'logits', 'represented_rates'},
+                 'invalid learned rate schema')
         logits = tensor_from_record(spec['weights']['logits'])
+        represented = tensor_from_record(spec['weights']['represented_rates'])
         rates = BoundedRates(**rate_spec).to(dtype=logits.dtype)
         _require(rates.logits.shape == logits.shape, 'rate weight shape mismatch')
+        _require(represented.shape == logits.shape and represented.dtype == logits.dtype,
+                 'represented rate layout mismatch')
+        _require(bool(torch.isfinite(logits).all()), 'nonfinite source logits')
         with torch.no_grad():
             rates.logits.copy_(logits)
+        if freeze_rates:
+            rates = represented
     return _REGISTRY[kind](rates, **schema)
 
 
@@ -117,6 +133,7 @@ def export_method(method):
             _require(type(source) is BoundedRates, 'unregistered rate source')
             schema['rate_source'] = dict(count=source.logits.numel(), log_min=source.log_min, log_max=source.log_max)
             weights['logits'] = tensor_record(source.logits)
+            weights['represented_rates'] = tensor_record(method.rates)
         else:
             weights['rates'] = tensor_record(method.rates)
     spec = dict(registry_version=REGISTRY_VERSION, kind=kind, schema=schema, weights=weights)
@@ -126,6 +143,10 @@ def export_method(method):
     original = _tree(method) if isinstance(method, torch.nn.Module) else _tree(vars(method))
     restored = _tree(reconstructed) if isinstance(reconstructed, torch.nn.Module) else _tree(vars(reconstructed))
     _require(original == restored, 'unregistered/hidden method state differs from static constructor schema')
+    # Verify exact writer compatibility here, before any process transfer. The
+    # source audit above verifies learned configuration/weights independently.
+    frozen = _reconstruct(spec, freeze_rates=True)
+    _require(frozen._parameter_hash() == method._parameter_hash(), 'frozen writer parameter hash mismatch')
     return spec
 
 
@@ -200,7 +221,7 @@ def _install_io_guard():
 def _worker(request):
     _require(request['source_hash'] == source_identity(), 'worker source identity mismatch')
     _require(request['model_hash'] == canonical_hash(request['method']), 'worker model identity mismatch')
-    method = _reconstruct(request['method'])
+    method = _reconstruct(request['method'], freeze_rates=True)
     if isinstance(method, torch.nn.Module): method.eval()
     state = snapshot_from_record(request['state'], method._parameter_hash())
     query = _query_from_record(request['queries'])

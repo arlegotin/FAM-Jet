@@ -341,3 +341,33 @@ def test_isolated_read_batches_independent_histories():
     m=PackedHistoryMemory(4,2,'recent',key_dim=1)
     result=isolated_read(m,m.encode(e),q)
     assert result.prediction.tolist()==[[[14.,7.]],[[114.,107.]]]
+
+
+def test_native_learned_bank_preserves_represented_rates_in_cpu_worker():
+    from famjet.eval.isolation import isolated_features,export_method,_reconstruct,model_identity
+    from famjet.eval.state_io import inference_snapshot
+    from famjet.memory.expbank import ExpBankMemory,BoundedRates
+    from test_exact_store import batches
+    if not torch.backends.mps.is_available(): pytest.skip('native MPS unavailable')
+    method=ExpBankMemory(BoundedRates(8,-8.,4.).to('mps'),1,2)
+    events,queries=batches()
+    events=replace(events,values=events.values.to('mps',dtype=torch.float32),
+                   key_features=events.key_features.to('mps'),present=events.present.to('mps'),
+                   observed=events.observed.to('mps'))
+    state=method.encode(events)
+    # This path fails today despite successful native encode: reconstructing
+    # sigmoid/exp on CPU changes rate bits and therefore the writer hash.
+    actual=isolated_features(method,state,queries)
+    spec=export_method(method)
+    frozen=_reconstruct(spec,freeze_rates=True)
+    assert torch.equal(frozen.rates,method.rates.detach().cpu())
+    assert frozen._parameter_hash()==state.parameter_hash
+    expected=frozen.features(inference_snapshot(state),queries)
+    torch.testing.assert_close(actual.values,expected.values,rtol=0,atol=0)
+    assert spec['schema']['rate_source']==dict(count=8,log_min=-8.,log_max=4.)
+    assert set(spec['weights'])=={'logits','represented_rates'}
+    original_identity=model_identity(method)
+    with torch.no_grad(): method.rate_source.logits.add_(.25)
+    assert model_identity(method)!=original_identity
+    with pytest.raises(ValueError,match='parameter hash'):
+        isolated_features(method,state,queries)

@@ -7,19 +7,22 @@ that separately and refuse a bounded inference claim until explicitly detached.
 """
 import numpy as np
 import torch
-from famjet.eval.state_io import state_bytes, validate_snapshot
+from famjet.eval.state_io import state_bytes, validate_snapshot, retained_tensor_chain
 
 _COMMON_METADATA = {'history_hash', 'time_unit_hash', 'last_event_id'}
 
 
 def _inventory(tensors):
     fields = {}; storages = {}; graph = False; complete = True
-    for name, tensor in tensors.items():
-        if tensor.layout != torch.strided:
-            raise ValueError('only dense tensor storage can be budgeted')
+    retained = []; tensor_ids = {}
+
+    def inspect(tensor):
+        nonlocal graph, complete
+        if id(tensor) in tensor_ids:
+            return tensor_ids[id(tensor)]
+        tid = len(tensor_ids)
+        tensor_ids[id(tensor)] = tid
         storage = tensor.untyped_storage()
-        if vars(tensor):
-            raise ValueError('unregistered/hidden tensor attribute')
         # External NumPy/mmap owners can exceed the exposed tensor storage.
         # Torch cannot enumerate their opaque deleters; fail closed for budgets.
         owned = storage.resizable()
@@ -32,16 +35,22 @@ def _inventory(tensors):
         has_gradient = (tensor.is_leaf or tensor.retains_grad) and tensor.grad is not None
         retained_graph = tensor.grad_fn is not None or has_gradient
         graph |= retained_graph
-        fields[name] = dict(dtype=str(tensor.dtype).removeprefix('torch.'), shape=list(tensor.shape),
+        retained.append(dict(dtype=str(tensor.dtype).removeprefix('torch.'), shape=list(tensor.shape),
                             logical_bytes=tensor.numel()*tensor.element_size(), storage_id=sid,
                             storage_bytes=allocated, storage_offset=tensor.storage_offset(),
                             stride=list(tensor.stride()), contiguous=tensor.is_contiguous(),
                             device=str(tensor.device), grad_fn=tensor.grad_fn is not None,
                             attached_gradient=has_gradient, requires_grad=tensor.requires_grad,
-                            backing_storage_complete=owned)
+                            backing_storage_complete=owned))
+        return tid
+
+    for name, tensor in tensors.items():
+        ids = [inspect(t) for t in retained_tensor_chain(tensor)]
+        fields[name] = dict(retained[ids[0]], retained_tensor_ids=ids)
     return dict(fields=fields, logical_bytes=sum(v['logical_bytes'] for v in fields.values()),
                 retained_storage_bytes=sum(n for _, n in storages.values()), graph_retention=graph,
-                graph_storage_bytes=None if graph else 0, backing_storage_complete=complete)
+                graph_storage_bytes=None if graph else 0, backing_storage_complete=complete,
+                retained_tensors=retained)
 
 
 def state_ledger(snapshot) -> dict:
@@ -64,13 +73,18 @@ def require_inference_state(snapshot):
         raise ValueError('snapshot retains an autograd graph; detach at explicit inference boundary')
 
 
-def _contains_dynamic(value):
+def _contains_dynamic(value, seen=None):
+    if seen is None:
+        seen = set()
     if isinstance(value, (torch.Tensor, np.ndarray)):
         return True
+    if id(value) in seen:
+        return False
+    seen.add(id(value))
     if isinstance(value, dict):
-        return any(_contains_dynamic(v) for v in value.values())
+        return any(_contains_dynamic(k, seen) or _contains_dynamic(v, seen) for k, v in value.items())
     if isinstance(value, (list, tuple, set)):
-        return any(_contains_dynamic(v) for v in value)
+        return any(_contains_dynamic(v, seen) for v in value)
     # Unknown objects (loaders, open files, closures) are not static schema.
     return value is not None and type(value) not in (str, int, float, bool)
 

@@ -146,3 +146,92 @@ def test_leaf_static_parameters_are_eligible_for_inference():
     model=torch.nn.Linear(2,3)
     assert all(p.requires_grad and p.grad_fn is None for p in model.parameters())
     assert model_ledger(model)['graph_retention'] is False
+
+
+@pytest.mark.parametrize('kind',['packed','jet','bank'])
+def test_budget_and_export_are_observational_and_repeatable(kind,tmp_path):
+    from famjet.eval.budgets import budget_report,state_ledger
+    from famjet.eval.state_io import snapshot_hash,save_state
+    from famjet.eval.isolation import export_method,isolated_read,isolated_features
+    method={'packed':lambda:PackedHistoryMemory(4,2,'recent',key_dim=1),
+            'jet':lambda:JetMemory(torch.ones(1,2,dtype=torch.float64),1,2),
+            'bank':lambda:ExpBankMemory(torch.ones(1,2,dtype=torch.float64),1,2)}[kind]()
+    events,queries=batches()
+    events=replace(events,key_features=events.key_features.double())
+    queries=replace(queries,key_features=queries.key_features.double())
+    state=method.encode(events)
+    all_tensors=[*state.payload.values(),state.last_time,state.valid,state.event_offset]
+    if kind!='packed': all_tensors.append(method.rates)
+    assert all(t.untyped_storage().resizable() for t in all_tensors)
+    original=snapshot_hash(state)
+    for operation in (lambda:state_ledger(state),lambda:budget_report(method,state,limit_bytes=10000),
+                      lambda:save_state(tmp_path/'state.json',state),lambda:export_method(method),
+                      lambda:(isolated_read if kind=='packed' else isolated_features)(method,state,queries)):
+        operation()
+        assert snapshot_hash(state)==original
+        assert all(t.untyped_storage().resizable() for t in all_tensors)
+        assert budget_report(method,state,limit_bytes=10000)['eligible'] is True
+    assert budget_report(method,state,limit_bytes=10000)==budget_report(method,state,limit_bytes=10000)
+
+
+def test_retained_base_hidden_history_is_rejected_by_ledger_and_export():
+    from famjet.eval.budgets import state_ledger,budget_report
+    from famjet.eval.state_io import snapshot_hash
+    from famjet.eval.isolation import export_method
+    method=PackedHistoryMemory(4,2,'recent',key_dim=1)
+    state=method.init_state(1,device='cpu',dtype='float64')
+    base=torch.zeros(8,dtype=torch.float64)
+    base.hidden_history=torch.ones(10000)
+    state=replace(state,payload={**state.payload,'values':base.reshape(1,4,2)})
+    for operation in (lambda:state_ledger(state),lambda:budget_report(method,state,limit_bytes=10000),lambda:snapshot_hash(state)):
+        with pytest.raises(ValueError,match='hidden|attribute'): operation()
+    rates=torch.ones(2)
+    rates.hidden_history=torch.ones(10000)
+    kernel=JetMemory(torch.ones(1,2),1,1)
+    kernel.rates=rates.reshape(1,2)
+    with pytest.raises(ValueError,match='hidden|attribute'): export_method(kernel)
+
+
+def test_retained_base_gradient_is_reported_and_owned_aliases_deduplicate():
+    from famjet.eval.budgets import state_ledger,budget_report
+    from famjet.eval.state_io import inference_snapshot
+    method=JetMemory(torch.ones(1,1),1,1)
+    state=method.init_state(1,device='cpu',dtype='float32')
+    base=torch.ones(2,requires_grad=True); base.sum().backward()
+    with torch.no_grad(): view=base.reshape(1,1,1,1,2)
+    assert view.grad_fn is None and view._base is base
+    state=replace(state,payload={**state.payload,'z':view,'h':view})
+    ledger=state_ledger(state)
+    assert ledger['graph_retention'] is True
+    assert budget_report(method,state,limit_bytes=10000)['eligible'] is False
+    clean=inference_snapshot(state)
+    assert state_ledger(clean)['graph_retention'] is False
+    base.grad=None
+    assert budget_report(method,state,limit_bytes=10000)['eligible'] is True
+    assert state_ledger(state)['retained_storage_bytes']==97  # one 8-byte shared allocation +89 metadata
+
+
+def test_model_dynamic_dict_keys_and_cycles_are_audited():
+    from famjet.eval.budgets import model_ledger
+    model=torch.nn.Linear(1,1)
+    model.cache={torch.ones(10000):None}
+    with pytest.raises(ValueError,match='hidden|unregistered'): model_ledger(model)
+    model.cache={}; model.cache['cycle']=model.cache
+    assert model_ledger(model)['logical_bytes']==8
+    model.cache['cycle']['payload']=torch.ones(10000)
+    with pytest.raises(ValueError,match='hidden|unregistered'): model_ledger(model)
+
+
+def test_packed_encode_does_not_change_event_storage_ownership():
+    method=PackedHistoryMemory(4,2,'recent',key_dim=1)
+    events,_=batches()
+    method.encode(events)
+    assert events.values.untyped_storage().resizable()
+    assert events.observed.untyped_storage().resizable()
+
+
+def test_registry_rejects_cyclic_extra_state_without_recursion_error():
+    from famjet.eval.isolation import export_method
+    method=JetMemory(torch.ones(1,1),1,1)
+    method.cache={}; method.cache['self']=method.cache
+    with pytest.raises(ValueError,match='hidden|unregistered'): export_method(method)
