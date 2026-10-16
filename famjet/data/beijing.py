@@ -24,7 +24,7 @@ from famjet.artifacts import atomic_json
 from famjet.config import RunConfig, validate_config
 from famjet.eval.metrics import fit_target_statistics
 from famjet.eval.oracle import exact_targets
-from famjet.provenance import canonical_hash
+from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import Episode, EventBatch, QueryBatch
 
 VERSION = 'beijing_observed_v1'
@@ -230,7 +230,7 @@ def make_episode(data, block, normalization, *, normalized):
 
 
 def _seal(payload):
-    return {**payload,'manifest_hash':canonical_hash(payload)}
+    return {**json.loads(canonical_json(payload)),'manifest_hash':canonical_hash(payload)}
 
 
 def _verify_manifest(path):
@@ -240,6 +240,18 @@ def _verify_manifest(path):
     if manifest.get('preparation_version') != VERSION or manifest.get('query_grid_version') != QUERY_GRID:
         raise ValueError('unknown Beijing preparation/query version')
     return manifest
+
+
+def _is_unavailable(payload):
+    """Recognize only our explicit non-scientific availability record."""
+    if not isinstance(payload,dict) or payload.get('status') != 'unavailable':
+        return False
+    required = {'schema_version','dataset','status','reason','archive','real_transfer','substitution'}
+    if (set(payload) != required or payload['schema_version'] != 1 or payload['dataset'] != 'beijing'
+            or payload['reason'] != 'local_archive_missing' or payload['real_transfer'] != 'untested'
+            or payload['substitution'] is not False or not isinstance(payload['archive'],str)):
+        raise ValueError('invalid Beijing unavailable record')
+    return True
 
 
 def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
@@ -256,6 +268,7 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
     if config.data.beijing is None or config.data.beijing.query_grid_version != QUERY_GRID or config.data.queries_per_history != 120:
         raise ValueError('Beijing requires registered 120-query grid')
     archive,out = Path(archive),Path(out)
+    bulk = Path(config.data.beijing.derived_path)
     budget = config.resources.asset_disk_budget_bytes
     if budget < MAX_DECODED_BYTES:
         raise ValueError('declare at least 128MiB asset disk budget')
@@ -264,15 +277,25 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
         raise ValueError('insufficient free capacity for declared asset disk budget')
     if archive.stat().st_size != 8192212 or _sha(archive) != ARCHIVE_SHA256:
         raise ValueError('official Beijing archive identity mismatch')
-    if out.exists():
+    previous = out.read_bytes() if out.exists() else None
+    existing = None
+    if previous is not None and not _is_unavailable(json.loads(previous)):
         existing = _verify_manifest(out)
         if existing['config'] != json.loads(json.dumps(asdict(config))) or existing['archive']['sha256'] != _sha(archive):
             raise ValueError('existing Beijing manifest differs; choose a new output path')
+        missing = False
         for info in existing['splits'].values():
             for block in info['blocks']:
-                if _sha(out.parent/block['artifact']) != block['sha256']:
-                    raise ValueError('existing Beijing bulk artifact checksum mismatch')
-        return existing
+                path = (out.parent/block['artifact']).resolve()
+                if path.parent != bulk.resolve() or path.suffix != '.npz':
+                    raise ValueError('unsafe Beijing artifact path')
+                if path.exists():
+                    if _sha(path) != block['sha256']:
+                        raise ValueError('existing Beijing bulk artifact checksum mismatch')
+                else:
+                    missing = True
+        if not missing:
+            return existing
     data,audit = load_observations(archive,MAX_DECODED_BYTES)
     if (audit['inner_sha256'] != INNER_SHA256 or set(audit['stations']) != set(STATIONS)
             or audit['rows'] != 420768 or audit['missing_pm25'] != 8739 or audit['observed'] != 412029
@@ -281,20 +304,21 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
         raise ValueError('official Beijing structure/count audit mismatch')
     normalization = fit_normalization(data)
     inventory = block_inventory()
-    bulk = Path(config.data.beijing.derived_path)
     bulk.mkdir(parents=True,exist_ok=True)
-    # Avoid publishing a partial final manifest: artifacts are sealed only at end.
-    for split,info in inventory.items():
-        used = np.zeros(len(data['times']),dtype=bool)
-        for block in info['blocks']:
-            mask = (data['times'] >= block['start_tick']) & (data['times'] < block['end_tick'])
-            used |= mask
-            raw = make_episode(data,block,normalization,normalized=False)
-            normalized = make_episode(data,block,normalization,normalized=True)
-            path = bulk / f"{block['history_id'].replace(':','-')}.npz"
-            with tempfile.NamedTemporaryFile(dir=bulk,suffix='.npz',delete=False) as temporary:
-                temp_path = Path(temporary.name)
-            try:
+    # Stage the complete candidate before publishing arrays or availability state.
+    # A sealed inventory is immutable; missing local bytes are reconstructible.
+    with tempfile.TemporaryDirectory(prefix='.prepare-',dir=bulk) as directory:
+        staging = Path(directory)
+        staged = []
+        for split,info in inventory.items():
+            used = np.zeros(len(data['times']),dtype=bool)
+            for block in info['blocks']:
+                mask = (data['times'] >= block['start_tick']) & (data['times'] < block['end_tick'])
+                used |= mask
+                raw = make_episode(data,block,normalization,normalized=False)
+                normalized = make_episode(data,block,normalization,normalized=True)
+                path = bulk / f"{block['history_id'].replace(':','-')}.npz"
+                temp_path = staging/path.name
                 with temp_path.open('wb') as temporary:
                     np.savez_compressed(temporary,times=data['times'][mask],keys=data['keys'][mask],
                         raw_values=data['values'][mask],labels_raw=raw.labels.numpy(),
@@ -302,37 +326,56 @@ def prepare_beijing(archive: Path, out: Path, config: RunConfig) -> dict:
                         observed_counts=np.asarray(raw.metadata['observed_counts'],dtype=np.int64))
                     temporary.flush()
                     os.fsync(temporary.fileno())
-                os.replace(temp_path,path)
-            finally:
-                temp_path.unlink(missing_ok=True)
-            block['artifact'] = os.path.relpath(path,out.parent)
-            block['sha256'] = _sha(path)
-            block['observed_events'] = int(mask.sum())
-            # Structural count only: do not summarize protected labels/support.
-        lo,hi = _tick(info['start']),_tick(info['end'])
-        in_split = (data['times'] >= lo)&(data['times'] < hi)
-        info['observed_events_in_calendar_range'] = int(in_split.sum())
-        info['included_observed_events'] = int(used.sum())
-        info['excluded_observed_events_in_calendar_range'] = int((in_split & ~used).sum())
-    training = [make_episode(data,b,normalization,normalized=True) for b in inventory['training']['blocks']]
-    statistics = fit_target_statistics(training)
-    result = _seal({'schema_version':1,'status':'prepared','dataset':'beijing',
-        'preparation_version':VERSION,'query_grid_version':QUERY_GRID,
-        'query_convention':{'width_hours':[1,6,24,72,168],'tasks':['mean','contrast'],
-            'recent_age_start_hours':'1 except width168 uses0','age_end':'start+width; exclusive',
-            'contrast_older':'[start+width,start+2*width)','query_time':'block_end',
-            'decay':'temporary_no_write_from_last_event'},
-        'time_convention':{'unit':TIME_UNIT,'timezone':'unspecified dataset-local civil hours; no timezone/DST conversion'},
-        'attribution':ATTRIBUTION,'archive':{'path':str(archive),'bytes':archive.stat().st_size,'sha256':_sha(archive)},
-        'audit':audit,'normalization':normalization,'training_target_statistics':statistics,
-        'config':asdict(config),'bulk_root':os.path.relpath(bulk,out.parent),'splits':inventory,
-        'protected_access':{'status':'sealed_preparation_only','split':'test',
-            'outputs_inspected':False,'iterator':'refuses_test',
-            'future_gate':'authorized_frozen_manifest_runner_required; preparation seals do not establish scientific preregistration'}})
-    if out.exists() and json.loads(out.read_text()) != result:
-        raise ValueError('existing Beijing manifest differs; choose a new output path')
-    atomic_json(out,result)
-    return result
+                staged.append((temp_path,path))
+                block['artifact'] = os.path.relpath(path,out.parent)
+                block['sha256'] = _sha(temp_path)
+                block['observed_events'] = int(mask.sum())
+                # Structural count only: do not summarize protected labels/support.
+            lo,hi = _tick(info['start']),_tick(info['end'])
+            in_split = (data['times'] >= lo)&(data['times'] < hi)
+            info['observed_events_in_calendar_range'] = int(in_split.sum())
+            info['included_observed_events'] = int(used.sum())
+            info['excluded_observed_events_in_calendar_range'] = int((in_split & ~used).sum())
+        training = [make_episode(data,b,normalization,normalized=True) for b in inventory['training']['blocks']]
+        statistics = fit_target_statistics(training)
+        result = _seal({'schema_version':1,'status':'prepared','dataset':'beijing',
+            'preparation_version':VERSION,'query_grid_version':QUERY_GRID,
+            'query_convention':{'width_hours':[1,6,24,72,168],'tasks':['mean','contrast'],
+                'recent_age_start_hours':'1 except width168 uses0','age_end':'start+width; exclusive',
+                'contrast_older':'[start+width,start+2*width)','query_time':'block_end',
+                'decay':'temporary_no_write_from_last_event'},
+            'time_convention':{'unit':TIME_UNIT,'timezone':'unspecified dataset-local civil hours; no timezone/DST conversion'},
+            'attribution':ATTRIBUTION,'archive':{'path':str(archive),'bytes':archive.stat().st_size,'sha256':_sha(archive)},
+            'audit':audit,'normalization':normalization,'training_target_statistics':statistics,
+            'config':asdict(config),'bulk_root':os.path.relpath(bulk,out.parent),'splits':inventory,
+            'protected_access':{'status':'sealed_preparation_only','split':'test',
+                'outputs_inspected':False,'iterator':'refuses_test',
+                'future_gate':'authorized_frozen_manifest_runner_required; preparation seals do not establish scientific preregistration'}})
+        if existing is not None and existing != result:
+            raise ValueError('regenerated Beijing inventory differs from sealed manifest')
+        # Validate every staged byte and collision before publishing any new file.
+        for temporary,path in staged:
+            if path.exists() and _sha(path) != _sha(temporary):
+                raise ValueError('existing Beijing bulk artifact checksum mismatch')
+        current = out.read_bytes() if out.exists() else None
+        if current != previous:
+            raise ValueError('Beijing manifest changed during preparation')
+        published = []
+        try:
+            for temporary,path in staged:
+                try:
+                    os.link(temporary,path)  # same filesystem; never replace a good file
+                    published.append(path)
+                except FileExistsError:
+                    if _sha(path) != _sha(temporary):
+                        raise ValueError('existing Beijing bulk artifact checksum mismatch')
+            if existing is None:
+                atomic_json(out,result)  # old unavailable record survives until success
+        except BaseException:
+            for path in published:
+                path.unlink(missing_ok=True)
+            raise
+        return existing if existing is not None else result
 
 
 def iter_beijing_episodes(manifest: Path, split: str):

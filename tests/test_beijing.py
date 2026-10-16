@@ -217,3 +217,173 @@ def test_iterator_manifest_relative_paths_survive_working_directory_change(tmp_p
     manifest=manifest_dir/'test.json';manifest.write_text(json.dumps(payload))
     monkeypatch.chdir(tmp_path)
     assert len(list(iter_beijing_episodes(manifest,'training'))) == 1
+
+
+@pytest.fixture
+def preparation_fixture(tmp_path, monkeypatch):
+    """Stub only official-source verification; exercise real preparation/publishing.
+
+    The tiny CSV cannot satisfy official full-grid counts or pinned bytes. Source
+    identity/audit are isolated here; arrays, oracle, seals and filesystem I/O are real.
+    """
+    import copy
+    import famjet.data.beijing as beijing
+    from famjet.config import load_config
+    archive = archive_fixture(tmp_path)
+    data,audit = beijing.load_observations(archive,1 << 20)
+    with archive.open('ab') as stream:
+        stream.truncate(8192212)
+    original_sha = beijing._sha
+    monkeypatch.setattr(beijing,'_sha',lambda path: beijing.ARCHIVE_SHA256 if Path(path)==archive else original_sha(path))
+    audit.update(inner_sha256=beijing.INNER_SHA256,rows=420768,missing_pm25=8739,observed=412029)
+    audit['stations']={s:{'rows':35064,'first_tick':0,'last_tick':35063,'backward_steps':0,'nonhourly_steps':0} for s in beijing.STATIONS}
+    monkeypatch.setattr(beijing,'load_observations',lambda *args:(data,copy.deepcopy(audit)))
+    inventory=beijing.block_inventory()
+    inventory['training']['blocks']=inventory['training']['blocks'][:2]
+    for name in ['development_fit','development_calibration','test']:
+        inventory[name]['blocks']=[]
+    monkeypatch.setattr(beijing,'block_inventory',lambda:copy.deepcopy(inventory))
+    c=load_config(Path('configs/beijing.yaml'))
+    c=replace(c,data=replace(c.data,beijing=replace(c.data.beijing,archive_path=str(archive),derived_path=str(tmp_path/'bulk'))))
+    out=tmp_path/'manifest.json'
+    return beijing,archive,out,c
+
+
+def test_preparation_recovers_missing_derived_without_replacing_good_files(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    expected=beijing.prepare_beijing(archive,out,c)
+    blocks=expected['splits']['training']['blocks']
+    paths=[out.parent/b['artifact'] for b in blocks]
+    manifest_bytes=out.read_bytes();good_bytes=paths[1].read_bytes();good_inode=paths[1].stat().st_ino
+    missing_bytes=paths[0].read_bytes();paths[0].unlink()
+    assert beijing.prepare_beijing(archive,out,c)==expected
+    assert paths[0].read_bytes()==missing_bytes
+    assert paths[1].read_bytes()==good_bytes and paths[1].stat().st_ino==good_inode
+    assert out.read_bytes()==manifest_bytes
+
+
+def test_preparation_unavailable_to_available_transition(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    from famjet.prepare import main
+    from famjet.config import save_resolved_config
+    config_path=out.parent/'config.json';save_resolved_config(config_path,c)
+    saved=archive.read_bytes();archive.unlink()
+    assert main(['--config',str(config_path),'--out',str(out)])==2
+    assert json.loads(out.read_text())['status']=='unavailable'
+    archive.write_bytes(saved)
+    assert main(['--config',str(config_path),'--out',str(out)])==0
+    manifest=json.loads(out.read_text())
+    assert manifest['status']=='prepared'
+    assert all((out.parent/b['artifact']).is_file() for b in manifest['splits']['training']['blocks'])
+
+
+def test_recovery_rejects_corrupt_existing_array_before_publication(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    expected=beijing.prepare_beijing(archive,out,c)
+    paths=[out.parent/b['artifact'] for b in expected['splits']['training']['blocks']]
+    paths[0].unlink();paths[1].write_bytes(b'corrupted')
+    original=out.read_bytes()
+    with pytest.raises(ValueError,match='checksum'):
+        beijing.prepare_beijing(archive,out,c)
+    assert not paths[0].exists() and paths[1].read_bytes()==b'corrupted' and out.read_bytes()==original
+
+
+def test_recovery_validates_complete_inventory_before_any_publication(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    from famjet.provenance import canonical_hash
+    expected=beijing.prepare_beijing(archive,out,c)
+    for b in expected['splits']['training']['blocks']:
+        (out.parent/b['artifact']).unlink()
+    # A valid seal alone cannot authorize a different regenerated inventory.
+    expected['splits']['training']['blocks'][1]['sha256']='0'*64
+    expected['manifest_hash']=canonical_hash({k:v for k,v in expected.items() if k!='manifest_hash'})
+    out.write_text(json.dumps(expected));original=out.read_bytes()
+    with pytest.raises(ValueError,match='(differs|checksum|inventory)'):
+        beijing.prepare_beijing(archive,out,c)
+    assert out.read_bytes()==original
+    assert not list(Path(c.data.beijing.derived_path).iterdir())
+
+
+def test_unavailable_output_preserved_if_final_publication_fails(preparation_fixture,monkeypatch):
+    beijing,archive,out,c=preparation_fixture
+    previous={'schema_version':1,'dataset':'beijing','status':'unavailable','reason':'local_archive_missing',
+              'archive':str(archive),'real_transfer':'untested','substitution':False}
+    out.write_text(json.dumps(previous));original=out.read_bytes()
+    def fail(*args):
+        raise OSError('publication failed')
+    monkeypatch.setattr(beijing,'atomic_json',fail)
+    with pytest.raises(OSError,match='publication failed'):
+        beijing.prepare_beijing(archive,out,c)
+    assert out.read_bytes()==original
+    assert not list(Path(c.data.beijing.derived_path).iterdir())
+
+
+def test_recovery_rejects_different_config_before_publication(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    expected=beijing.prepare_beijing(archive,out,c)
+    path=out.parent/expected['splits']['training']['blocks'][0]['artifact'];path.unlink()
+    original=out.read_bytes()
+    with pytest.raises(ValueError,match='differs'):
+        beijing.prepare_beijing(archive,out,replace(c,seed=c.seed+1))
+    assert not path.exists() and out.read_bytes()==original
+
+
+def test_partial_array_publication_failure_rolls_back_new_files(preparation_fixture,monkeypatch):
+    beijing,archive,out,c=preparation_fixture
+    previous={'schema_version':1,'dataset':'beijing','status':'unavailable','reason':'local_archive_missing',
+              'archive':str(archive),'real_transfer':'untested','substitution':False}
+    out.write_text(json.dumps(previous));original=out.read_bytes()
+    real_link=beijing.os.link
+    def fail_second(source,destination):
+        if destination.name=='training-0001.npz':
+            raise OSError('array publication failed')
+        real_link(source,destination)
+    monkeypatch.setattr(beijing.os,'link',fail_second)
+    with pytest.raises(OSError,match='array publication failed'):
+        beijing.prepare_beijing(archive,out,c)
+    assert out.read_bytes()==original
+    assert not list(Path(c.data.beijing.derived_path).iterdir())
+
+
+def test_unavailable_state_must_be_an_explicit_known_record(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    out.write_text(json.dumps({'status':'unavailable','other':'conflicting output'}));original=out.read_bytes()
+    with pytest.raises(ValueError,match='unavailable'):
+        beijing.prepare_beijing(archive,out,c)
+    assert out.read_bytes()==original
+    assert not Path(c.data.beijing.derived_path).exists()
+
+
+def test_preparation_rejects_conflicting_unsealed_array(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    bulk=Path(c.data.beijing.derived_path);bulk.mkdir()
+    old=bulk/'training-0000.npz';old.write_bytes(b'previous data')
+    with pytest.raises(ValueError,match='checksum'):
+        beijing.prepare_beijing(archive,out,c)
+    assert old.read_bytes()==b'previous data' and not out.exists()
+    assert list(bulk.iterdir())==[old]
+
+
+def test_repeated_missing_archive_preserves_unavailable_status(tmp_path):
+    from famjet.prepare import main
+    out=tmp_path/'unavailable.json'
+    args=['--config','configs/beijing.yaml','--archive',str(tmp_path/'missing.zip'),'--out',str(out)]
+    assert main(args)==2
+    original=out.read_bytes()
+    assert main(args)==2 and out.read_bytes()==original
+
+
+def test_missing_archive_preserves_matching_prepared_manifest(preparation_fixture):
+    beijing,archive,out,c=preparation_fixture
+    from famjet.prepare import main
+    from famjet.config import save_resolved_config
+    beijing.prepare_beijing(archive,out,c)
+    previous=out.read_bytes();archive.unlink()
+    config_path=out.parent/'config.json';save_resolved_config(config_path,c)
+    assert main(['--config',str(config_path),'--out',str(out)])==2
+    assert out.read_bytes()==previous
+    # A different config cannot claim this existing preparation status.
+    save_resolved_config(config_path,replace(c,seed=c.seed+1))
+    with pytest.raises(ValueError,match='(differs|replace)'):
+        main(['--config',str(config_path),'--out',str(out)])
+    assert out.read_bytes()==previous
