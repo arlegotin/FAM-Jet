@@ -1,6 +1,6 @@
 """Invertible Laguerre coordinates, stepped independently of jet_step."""
 from torch import Tensor
-from famjet.memory.jet import JetState, _validate_step, _coefficients, _write, _state_shape, _require
+from famjet.memory.jet import JetState, _core_coefficients, _write, _state_shape, _require
 
 
 def to_laguerre(state: JetState) -> tuple[Tensor, Tensor]:
@@ -20,13 +20,12 @@ def laguerre_step(l0: Tensor, l1: Tensor, key: Tensor, value: Tensor, gate: Tens
                   delta: Tensor, rates: Tensor, event_present: Tensor) -> tuple[Tensor, Tensor]:
     """L0'=a L0+X, L1'=a L1-2ad L0+X using OLD L0.
 
-    Input validation and exponential weights are shared, but this recurrence
-    never calls jet_step or converts to Z/H for stepping.
+    Tensor-only core with the same preconditions as jet_step: validate inputs
+    before stepping, and prepare delta on the state dtype/device. A false write
+    mask suppresses only the impulse; padding separately requires delta=0.
+    This recurrence never calls jet_step or converts to Z/H for stepping.
     """
-    import torch
-    _validate_step(JetState(l0, l1), key, value, gate, delta, rates, event_present)
-    gaps = torch.where(event_present.to(delta.device), delta, torch.zeros_like(delta))
-    a, ad = _coefficients(rates, gaps)
+    a, ad = _core_coefficients(rates, delta)
     a, ad = a[..., None, None], ad[..., None, None]
     impulse = _write(key, value, gate, event_present)
     return a*l0 + impulse, a*l1 - 2*ad*l0 + impulse

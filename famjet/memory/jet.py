@@ -45,7 +45,15 @@ def _state_shape(state):
     return state.z.shape
 
 
-def _validate_step(state, key, value, gate, delta, rates, event_present):
+def validate_jet_step(state: JetState, key: Tensor, value: Tensor, gate: Tensor,
+                      delta: Tensor, rates: Tensor, event_present: Tensor) -> None:
+    """Explicit untimed validation for direct jet/Laguerre core callers.
+
+    Call before stepping untrusted inputs. The cores themselves are tensor-only
+    and assume validated finite inputs with delta on the state dtype/device.
+    JetMemory validates entire event batches and the incoming state once before
+    its recurrence loop instead of calling this per-event boundary.
+    """
     b, heads, anchors, k, v1 = _state_shape(state)
     for name, tensor, shape in [('key', key, (b, heads, k)), ('value', value, (b, heads, v1-1)),
                                 ('gate', gate, (b, heads)), ('rates', rates, (heads, anchors))]:
@@ -56,6 +64,8 @@ def _validate_step(state, key, value, gate, delta, rates, event_present):
     _finite(state.z, 'state.z'); _finite(state.h, 'state.h')
     _finite(delta, 'delta')
     _require(tuple(delta.shape) == (b,) and bool((delta >= 0).all()), 'delta must be nonnegative [B]')
+    _require(delta.device == state.z.device and delta.dtype == state.z.dtype,
+             'core delta must share state device and dtype')
     _require(bool((key >= 0).all()) and bool((gate >= 0).all()), 'keys and gates must be nonnegative')
     validate_rates(rates)
     _require(event_present.shape == (b,) and event_present.dtype == torch.bool
@@ -68,6 +78,15 @@ def _decay(d):
     safe = torch.where(finite, d, torch.zeros_like(d))
     a = torch.where(finite, torch.exp(-safe), torch.zeros_like(safe))
     return a, a*safe
+
+
+def _core_coefficients(rates, gaps):
+    """Tensor-only device arithmetic for already prepared elapsed durations."""
+    if gaps.ndim == 1:
+        d = gaps[:, None, None]*rates[None]
+    else:
+        d = gaps[:, None, None, :]*rates[None, :, :, None]
+    return _decay(d)
 
 
 def _coefficients(rates, gaps):
@@ -85,11 +104,7 @@ def _coefficients(rates, gaps):
     # has silently zeroed tiny FP32 rates on the installed torch version.
     r = rates.cpu().to(dtype=torch.float64) if host_product else rates
     g = gaps.to(device=r.device, dtype=r.dtype)
-    if gaps.ndim == 1:
-        d = g[:, None, None]*r[None]
-    else:
-        d = g[:, None, None, :]*r[None, :, :, None]
-    a, ad = _decay(d)
+    a, ad = _core_coefficients(r, g)
     return a.to(rates), ad.to(rates)
 
 
@@ -101,14 +116,20 @@ def _write(key, value, gate, event_present):
 
 def jet_step(state: JetState, key: Tensor, value: Tensor, gate: Tensor,
              delta: Tensor, rates: Tensor, event_present: Tensor) -> JetState:
-    """Decay old state, then add an age-zero impulse; padding does neither.
+    """Decay independently of write presence, then add an age-zero impulse.
 
-    A present no-write slot is represented by gate=0, event_present=True.
-    Validation is untimed host work; no tensors are mutated or detached.
+    event_present is the write mask: real no-write gaps use delta>0, False;
+    padding uses delta=0, False. Inputs must be validated before this tensor-only
+    core (see validate_jet_step); delta shares state dtype/device. Public raw
+    adapters prepare CPU timestamps and exceptional huge gaps before stepping.
+    No tensors are mutated or detached; no host scalars are extracted.
     """
-    _validate_step(state, key, value, gate, delta, rates, event_present)
-    gaps = torch.where(event_present.to(delta.device), delta, torch.zeros_like(delta))
-    a, ad = _coefficients(rates, gaps)
+    a, ad = _core_coefficients(rates, delta)
+    return _jet_update(state, key, value, gate, event_present, a, ad)
+
+
+def _jet_update(state, key, value, gate, event_present, a, ad):
+    """Common tensor-only update for device or precomputed host-time weights."""
     a, ad = a[..., None, None], ad[..., None, None]
     return JetState(a*state.z + _write(key, value, gate, event_present),
                     a*state.h + ad*state.z)
@@ -129,7 +150,9 @@ def _raw(events, rates):
         gate = gate[..., 0]
     _require(gate.shape == events.values.shape[:2] and gate.device == rates.device,
              'raw gate must be [B,N] or [B,N,1] on core device')
-    return gate.to(rates) * events.validation.write_mask.to(rates.dtype)
+    gate = gate.to(rates)
+    _finite(gate, 'converted raw gate')
+    return gate * events.validation.write_mask.to(rates.dtype)
 
 
 def _zero(events, rates):
@@ -323,12 +346,27 @@ class JetMemory(nn.Module):
                 _require(gap != 0 or ids[i][0] > last_ids[i], 'continued simultaneous events out of order')
                 first_gaps[i] = float(gap)
         core = JetState(state.payload['z'], state.payload['h'])
+        _finite(core.z, 'snapshot.z'); _finite(core.h, 'snapshot.h')
         if mode == 'stream':
+            # Prepare/validate all host timestamps before entering the tensor
+            # recurrence. Padding has zero elapsed time; actual write presence
+            # is independent of elapsed time at present unobserved slots.
+            gap_rows = [[first_gaps[i] if j == 0 else float(exact_time_difference(times[i][j], times[i][j-1]))
+                         if j < lengths[i] else 0. for j in range(n)] for i in range(b)]
+            cpu_gaps = torch.tensor(gap_rows, dtype=torch.float64).reshape(b, n)
+            exceptional = any(gap > torch.finfo(self.rates.dtype).max for row in gap_rows for gap in row)
+            if exceptional:
+                # Explicit rare host-time preparation keeps an unrepresentable
+                # duration out of the device core and retains rate gradients.
+                a, ad = _coefficients(self.rates, cpu_gaps)
+            else:
+                device_gaps = cpu_gaps.to(self.rates)
             for j in range(n):
-                gaps = [first_gaps[i] if j == 0 else float(exact_time_difference(times[i][j], times[i][j-1]))
-                        if j < lengths[i] else 0. for i in range(b)]
-                core = jet_step(core, events.key_features[:, j, None], events.values[:, j, None], gates[:, j, None],
-                                torch.tensor(gaps, dtype=torch.float64), self.rates, events.present[:, j])
+                args = (core, events.key_features[:, j, None], events.values[:, j, None], gates[:, j, None])
+                if exceptional:
+                    core = _jet_update(*args, events.validation.write_mask[:, j], a[..., j], ad[..., j])
+                else:
+                    core = jet_step(*args, device_gaps[:, j], self.rates, events.validation.write_mask[:, j])
         else:
             gaps = [float(exact_time_difference(times[i][length-1], last[i])) if length and valid[i] else 0.
                     for i, length in enumerate(lengths)]

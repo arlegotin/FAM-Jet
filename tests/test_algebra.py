@@ -60,8 +60,73 @@ def test_zero_gap_is_additive_and_gap_without_write(kernel_case):
     gap = jet_step(state, key, value, gate*0, gate[:, 0]*2, rates, active)
     torch.testing.assert_close(gap.z, z*np.exp(-2), rtol=tol[0], atol=tol[1])
     torch.testing.assert_close(gap.h, z*4*np.exp(-2), rtol=tol[0], atol=tol[1])
-    padding = jet_step(state, key, value, gate, gate[:, 0]*2, rates, ~active)
+    padding = jet_step(state, key, value, gate, gate[:, 0]*0, rates, ~active)
     assert torch.equal(padding.z, state.z) and torch.equal(padding.h, state.h)
+
+
+@pytest.mark.parametrize('coordinates', ['jet', 'laguerre'])
+def test_false_write_mask_preserves_real_gap_and_zero_gap_is_padding(kernel_case, coordinates):
+    from famjet.memory.jet import JetState, jet_step
+    from famjet.memory.coordinates import to_laguerre, from_laguerre, laguerre_step
+    dtype, device, tol = kernel_case
+    z = torch.ones(1, 1, 1, 1, 2, dtype=dtype, device=device)
+    initial = JetState(z, z*2)
+    key = torch.ones(1, 1, 1, dtype=dtype, device=device)
+    gate = torch.ones(1, 1, dtype=dtype, device=device)
+    no_write = torch.zeros(1, dtype=torch.bool, device=device)
+    for gap in (0., 2.):
+        args = (key, key*3, gate, torch.full((1,), gap, dtype=dtype, device=device), gate, no_write)
+        if coordinates == 'jet':
+            result = jet_step(initial, *args)
+        else:
+            result = from_laguerre(*laguerre_step(*to_laguerre(initial), *args))
+        torch.testing.assert_close(result.z, z*np.exp(-gap), rtol=tol[0], atol=tol[1])
+        torch.testing.assert_close(result.h, z*(2+gap)*np.exp(-gap), rtol=tol[0], atol=tol[1])
+
+
+@pytest.mark.parametrize('coordinates', ['jet', 'laguerre'])
+def test_ordinary_core_has_no_host_scalar_extraction(coordinates):
+    from famjet.memory.jet import JetState, jet_step
+    from famjet.memory.coordinates import to_laguerre, laguerre_step
+    z = torch.ones(1, 1, 1, 1, 2)
+    state = JetState(z, z*2)
+    key = torch.ones(1, 1, 1)
+    args = (key, key, torch.ones(1, 1), torch.ones(1), torch.ones(1, 1), torch.zeros(1, dtype=torch.bool))
+    l0, l1 = to_laguerre(state)
+    with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU]) as profile:
+        if coordinates == 'jet':
+            jet_step(state, *args)
+        else:
+            laguerre_step(l0, l1, *args)
+    forbidden = {e.key: e.count for e in profile.key_averages()
+                 if e.key in {'aten::item', 'aten::_local_scalar_dense', 'aten::is_nonzero'}}
+    assert not forbidden, forbidden
+
+
+def test_stream_recurrence_has_no_host_scalar_extraction(monkeypatch):
+    import famjet.memory.jet as jet
+    original = jet.jet_step
+    def profiled_step(*args, **kwargs):
+        with torch.profiler.record_function('famjet-core-step'):
+            return original(*args, **kwargs)
+    monkeypatch.setattr(jet, 'jet_step', profiled_step)
+    m = jet.JetMemory(torch.tensor([[.05, .5]], dtype=torch.float64), 3, 2)
+    e = events()
+    with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU]) as profile:
+        m.encode(e)
+    steps = [e for e in profile.events() if e.name == 'famjet-core-step']
+    assert len(steps) == 6
+    forbidden = []
+    for event in profile.events():
+        if event.name not in {'aten::item', 'aten::_local_scalar_dense', 'aten::is_nonzero'}:
+            continue
+        parent = event.cpu_parent
+        while parent is not None:
+            if parent.name == 'famjet-core-step':
+                forbidden.append(event.name)
+                break
+            parent = parent.cpu_parent
+    assert not forbidden, forbidden
 
 
 def test_extreme_positive_product_decays_finitely(kernel_case):
@@ -85,7 +150,8 @@ def test_laguerre_independent_recurrence(kernel_case):
     state = JetState(zero, zero.clone()); l0, l1 = to_laguerre(state)
     for t in range(6):
         delta = torch.zeros(2, dtype=dtype, device=device) if not t else (e.timestamps[:, t] - e.timestamps[:, t-1]).clamp_min(0).to(device, dtype)
-        args = (e.key_features[:, t, None], e.values[:, t, None], (e.auxiliary['gate'][:, t]*e.observed[:, t].all(-1))[:, None], delta, rates, e.present[:, t])
+        delta = torch.where(e.present[:, t], delta, torch.zeros_like(delta))
+        args = (e.key_features[:, t, None], e.values[:, t, None], e.auxiliary['gate'][:, t, None], delta, rates, e.present[:, t] & e.observed[:, t].any(-1))
         state = jet_step(state, *args)
         l0, l1 = laguerre_step(l0, l1, *args)
     recovered = from_laguerre(l0, l1)
@@ -135,15 +201,15 @@ def test_signed_cancellation_and_supported_exact_ages(kernel_case):
 
 
 @pytest.mark.parametrize('name,bad', [('rate', 0.), ('rate', -1.), ('rate', float('nan')), ('rate', float('inf')), ('gap', -1.), ('gap', float('nan')), ('gap', float('inf')), ('key', -1.), ('gate', -1.), ('value', float('nan'))])
-def test_core_rejects_invalid_inputs_before_multiplication(name, bad):
-    from famjet.memory.jet import JetState, jet_step
+def test_validated_step_boundary_rejects_invalid_inputs_before_multiplication(name, bad):
+    from famjet.memory.jet import JetState, validate_jet_step
     z = torch.zeros(1, 1, 1, 1, 2, dtype=torch.float64)
     args = {'rate': torch.ones(1, 1, dtype=torch.float64), 'gap': torch.zeros(1, dtype=torch.float64),
             'key': torch.ones(1, 1, 1, dtype=torch.float64), 'value': torch.ones(1, 1, 1, dtype=torch.float64),
             'gate': torch.zeros(1, 1, dtype=torch.float64)}
     args[name].fill_(bad)
     with pytest.raises(ValueError):
-        jet_step(JetState(z, z), args['key'], args['value'], args['gate'], args['gap'], args['rate'], torch.zeros(1, dtype=torch.bool))
+        validate_jet_step(JetState(z, z), args['key'], args['value'], args['gate'], args['gap'], args['rate'], torch.zeros(1, dtype=torch.bool))
 
 
 def test_jet_device_evidence_checker():

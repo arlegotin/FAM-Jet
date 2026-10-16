@@ -75,9 +75,9 @@ def run_checks(*, include_mps=True):
         l0, l1 = to_laguerre(JetState(zero, zero.clone()))
         for i, time in enumerate(fixture['times']):
             gap = time-fixture['times'][i-1] if i else 0
-            gate = gates[:, i, None]*obs[:, i].all(-1)[:, None]
+            gate = gates[:, i, None]
             l0, l1 = laguerre_step(l0, l1, keys[:, i, None], values[:, i, None], gate,
-                                   torch.tensor([gap], dtype=torch.float64), rates, events.present[:, i])
+                                   torch.tensor([gap], dtype=dtype, device=device), rates, events.present[:, i] & obs[:, i].any(-1))
         recovered = from_laguerre(l0, l1)
         measure(recovered.z[0, 0], z, 'laguerre_z', device, dtype, tol)
         measure(recovered.h[0, 0], h, 'laguerre_h', device, dtype, tol)
