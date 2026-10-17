@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-17T21:23:15.884351+00:00",
+  "phase": "Jet learning end / Bank learning start",
+  "no_power_override": true,
+  "observations": {
+    "battery": {
+      "returncode": 0,
+      "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=36634723)\t48%; discharging; 1:07 remaining present: true\n",
+      "stderr": ""
+    },
+    "thermal": {
+      "returncode": 0,
+      "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+      "stderr": ""
+    }
+  },
+  "seconds": 0.016969999996945262
+}

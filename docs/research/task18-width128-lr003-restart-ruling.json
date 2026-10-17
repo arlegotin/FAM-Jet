@@ -1,0 +1,20 @@
+{
+  "date_utc": "2026-10-17T21:17:01.609896+00:00",
+  "authorization": "user explicitly CONTINUE; root releases same prior one matched LR003 stop2048+endpoint+frozenrisk scope",
+  "source_commit": "7a3a0eacfb769993f301d8e75226ebbdbcb43cd9",
+  "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "restart_reason": "user-paused prior Jet preprocessing, no checkpoint,0updates; new fresh directory, no resume",
+  "prior_pause_sha256": "ae5631f33f5827a04c373f0747a6658187934865a47b4a1168d22ab31594b278",
+  "new_run_dirs": {
+    "jet": "artifacts/task18/learning-jet-cpu64-width128-lr003-2048-r2",
+    "bank": "artifacts/task18/learning-bank-cpu64-width128-lr003-2048-r2"
+  },
+  "helper_sha256": {
+    "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_learn.py": "4f84fda724ada6b8d6f1329768f414250303237d10da2b573471095d23327573",
+    "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_endpoint2048.py": "7f1f6c9cb48581bb444db3e8e48be37ec1e79c02b226192c5f778022b90fa37c",
+    "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_frozen_risk2048.py": "a58118dcb80394ff67656757ce56f03b8a4ea84f14e1d81410a19d9983a7af6a",
+    "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_summary2048.py": "503e507fd8ebce381e0618a3ed1e1ce2db4e68d9bfee0db3cd82ffb243978fda"
+  },
+  "changed_scientific_settings": [],
+  "no_power_override": true
+}

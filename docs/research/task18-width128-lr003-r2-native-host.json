@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-17T21:18:19.513715+00:00",
+  "purpose": "read-only host observation after user-resumed run; no power override or stability inference",
+  "observations": {
+    "battery": {
+      "returncode": 0,
+      "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=36634723)\t52%; discharging; 1:55 remaining present: true\n",
+      "stderr": ""
+    },
+    "thermal": {
+      "returncode": 0,
+      "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+      "stderr": ""
+    },
+    "swap": {
+      "returncode": 0,
+      "stdout": "vm.swapusage: total = 4096.00M  used = 2856.94M  free = 1239.06M  (encrypted)\n",
+      "stderr": ""
+    }
+  },
+  "seconds": 0.018792250019032508
+}

@@ -1,0 +1,7 @@
+{
+  "recorded_utc": "2026-10-17T21:38:24.186621+00:00",
+  "phase": "after both endpoint and frozen-risk completion",
+  "observation": "pmset -g batt: AC Power,56%,charging,1:22 remaining. pmset -g therm: no thermal warning level, performance warning level, or CPU power status recorded.",
+  "scope": "native read-only observation; not temperature or stability proof; no power override",
+  "source_commit": "7a3a0eacfb769993f301d8e75226ebbdbcb43cd9"
+}

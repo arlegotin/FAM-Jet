@@ -1,0 +1,127 @@
+{
+  "origin_commit": "7a3a0eacfb769993f301d8e75226ebbdbcb43cd9",
+  "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "status": "closed2048_unconverged; fixed-basis source and bounded probes only approved",
+  "promoted_files": {
+    "docs/research/task18-width128-lr003-learning2048-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-rate-cpu64-2048-summary.json",
+      "sha256": "37cdd9627d53e2f0488f2f88f7b0506d848b86a8639ab8f1ae47c203ef7726ca"
+    },
+    "docs/research/task18-width128-lr003-endpoint2048-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-rate-cpu64-decimal-step2048/summary.json",
+      "sha256": "9d9bbda77a2002a1337c421485d13c45cf6babbe0b02307dad0006d957489af2"
+    },
+    "docs/research/task18-width128-lr003-jet-risk2048-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-cpu64-frozen-risk2048-jet/summary.json",
+      "sha256": "671f0881f2e76cd564d043bfbb06a8e0a24da638dfc2affc9d8a5599db829d7c"
+    },
+    "docs/research/task18-width128-lr003-jet-endpoint-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-rate-cpu64-fitted-jet-step2048/summary.json",
+      "sha256": "641e3bfa228385f85a29b3fd2cb4d481cfd832606a1fa103f93c50caaaad9491"
+    },
+    "docs/research/task18-width128-lr003-bank-risk2048-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-cpu64-frozen-risk2048-bank/summary.json",
+      "sha256": "403dfe5a697da1b7e7ba857cd6767921d62dbd1ad44dbc4f51adaa2ceb8c150d"
+    },
+    "docs/research/task18-width128-lr003-bank-endpoint-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-lr003-learned-rate-cpu64-fitted-bank-step2048/summary.json",
+      "sha256": "24ef3240e4d193428f04583d1ea8ab0b8cd469bba80a6782e8333630d1b95de7"
+    },
+    "docs/research/task18-width128-lr003-restart-ruling.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-restart-ruling.json",
+      "sha256": "bbace2c089be5a9b2359d3aed9f9a02a96e3dafc27866f6702ba32a6afe40d46"
+    },
+    "docs/research/task18-width128-lr003-learning-jet-allocation-r2.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-jet-allocation-r2.json",
+      "sha256": "1d1868b4491063f688a3bfeabf7cf8ef1e7c59f0fd7d0b90cce23113a358af3e"
+    },
+    "docs/research/task18-width128-lr003-frozen-risk-bank2048-r2-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-frozen-risk-bank2048-r2-time-boundary.json",
+      "sha256": "39efb6cd7f9eaf9e5102b41136f1e7e45d6e206d9d134e63cf79c7d69635ae18"
+    },
+    "docs/research/task18-width128-lr003-frozen-risk-jet2048-r2-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-frozen-risk-jet2048-r2-time-boundary.json",
+      "sha256": "ba35c81c6621347feaae9ec28010d4a526affb65c08095df254b8cb0469a8c59"
+    },
+    "docs/research/task18-width128-lr003-learning-jet-2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-jet-2048-time-boundary.json",
+      "sha256": "84423c633b6cce2e96f43bcca112b521bd53193bb7ddf560b632c7992d66c587"
+    },
+    "docs/research/task18-width128-lr003-r2-final-host.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-r2-final-host.json",
+      "sha256": "8b8751d5dcd8dc9c47c484a834d89b28156099c5dd09f2400cad5aba196b0198"
+    },
+    "docs/research/task18-width128-lr003-r2-jetend-bankstart-host.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-r2-jetend-bankstart-host.json",
+      "sha256": "dced24ffeb9d9f6de1d2a177a4bc35ed2368d8bd26e2c6432727b915881bc733"
+    },
+    "docs/research/task18-width128-lr003-user-pause.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-user-pause.json",
+      "sha256": "ae5631f33f5827a04c373f0747a6658187934865a47b4a1168d22ab31594b278"
+    },
+    "docs/research/task18-width128-lr003-learning-jet-allocation.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-jet-allocation.json",
+      "sha256": "6518530cda4e45cb3f0f6456d0426bd21ddc38b828d648f25f01c123daaba297"
+    },
+    "docs/research/task18-width128-lr003-learning-bank-allocation-r2.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-bank-allocation-r2.json",
+      "sha256": "766407ea725ef12fc71664b040f6945713c593708a3d3bf7f1e0099378c0a85a"
+    },
+    "docs/research/task18-width128-lr003-r2-bankend-endpointstart-host.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-r2-bankend-endpointstart-host.json",
+      "sha256": "69ad1d7fc3c47929870726a32d4de16842c1c84a00bdd109103e39d45d0de8d1"
+    },
+    "docs/research/task18-width128-lr003-learning-jet-2048-r2-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-jet-2048-r2-time-boundary.json",
+      "sha256": "9b1ea7ff1c071fdd15d93db495a46d99c91e359c9a1ef3271c08f1240e159da8"
+    },
+    "docs/research/task18-width128-lr003-endpoint2048-r2-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-endpoint2048-r2-time-boundary.json",
+      "sha256": "42b0ff5a28a3515c1a9bea8c2750658ea38c9e8222741092fbfb5a88d64d7513"
+    },
+    "docs/research/task18-width128-lr003-learning-bank-2048-r2-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-learning-bank-2048-r2-time-boundary.json",
+      "sha256": "83ca5f8ea03b12695069b379055e163d91f517cc18a454b1abf6cc475d6e9795"
+    },
+    "docs/research/task18-width128-lr003-r2-native-host.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-r2-native-host.json",
+      "sha256": "a639ad30154f5fe01b00b9791c493597fbefd57ffebca0f667675cf59921826b"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_learn.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_learn.py",
+      "sha256": "27ce3b1f0d9a6d6add87659659aeaab1c00638bd0865ab2361f5b2848d7a09a7"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_r2_learn.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_learn.py",
+      "sha256": "4f84fda724ada6b8d6f1329768f414250303237d10da2b573471095d23327573"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_summary2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_summary2048.py",
+      "sha256": "3a1e5470c719f15c31d138739c804207e7b584209208f2c057a9e2fb066c4fa4"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_endpoint2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_endpoint2048.py",
+      "sha256": "05605e0d84a83165ac7f7a1c6a406f17a28a4284aa76d48bde84fb386e226501"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_r2_endpoint2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_endpoint2048.py",
+      "sha256": "7f1f6c9cb48581bb444db3e8e48be37ec1e79c02b226192c5f778022b90fa37c"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_frozen_risk2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_frozen_risk2048.py",
+      "sha256": "4d0d71c3372138e5527c3f55ae1cbe5505cf42b198a18a167e221552aee643ae"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_r2_frozen_risk2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_frozen_risk2048.py",
+      "sha256": "a58118dcb80394ff67656757ce56f03b8a4ea84f14e1d81410a19d9983a7af6a"
+    },
+    "docs/research/task18-procedures/task18_width128_lr003_r2_summary2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_lr003_r2_summary2048.py",
+      "sha256": "503e507fd8ebce381e0618a3ed1e1ce2db4e68d9bfee0db3cd82ffb243978fda"
+    },
+    "docs/research/task18-fixed-basis-procedure.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-fixed-basis-next-proposal.md",
+      "sha256": "39c2aec9d88a8c04cccb6b807795cf51617b1c3f01ddbc454458bb76b24a02e1"
+    }
+  }
+}

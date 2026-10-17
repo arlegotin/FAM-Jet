@@ -1,0 +1,22 @@
+{
+  "status": "paused_by_explicit_user_request",
+  "signal": "SIGINT to exact active exec session38587",
+  "session_exit_code": 130,
+  "native_exact_process_lookup": "no active matching LR003 Jet command after interrupt",
+  "phase_at_interrupt": "training-only preprocessing target statistics generation",
+  "completed_updates": 0,
+  "consumed_training_draws": 0,
+  "checkpoint_available": false,
+  "resume_status": "no exact checkpoint to resume; future user-authorized restart requires fresh fit/new run directory preserving interrupted artifacts",
+  "bank_endpoint_risk_launched": false,
+  "source_commit": "7a3a0eacfb769993f301d8e75226ebbdbcb43cd9",
+  "outer_perf_seconds": 31.248243375041056,
+  "outer_utc_seconds": 31.248336,
+  "files": {
+    "artifacts/task18/learning-jet-cpu64-width128-lr003-2048/development.json": "1f0d408d8560a66e642eecba06bbe1716e2f6c184463b99a978de02f68c54fc9",
+    "artifacts/task18/learning-jet-cpu64-width128-lr003-2048/training/run.json": "91bd08fb2441d88dc72da7fcdb7f5a21b1944c17e057826a8ad4046df0b1f93b",
+    "artifacts/task18/learning-jet-cpu64-width128-lr003-2048/training/progress.json": "fa99ec0a9b8be130581826f7267e712c98e85dc101306e5adc7a556e587c8041",
+    "artifacts/task18-evidence/width128-lr003-learning-jet-2048-time-boundary.json": "84423c633b6cce2e96f43bcca112b521bd53193bb7ddf560b632c7992d66c587"
+  },
+  "raw_failure_status_preserved": "KeyboardInterrupt/interrupted is user-requested cancellation, not an accuracy or convergence failure"
+}

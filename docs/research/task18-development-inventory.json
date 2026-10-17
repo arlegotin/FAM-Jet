@@ -6923,5 +6923,12 @@
     "report_next_procedure": "docs/research/task18-width128-learning2048-report-and-lr003-procedure.md",
     "next_allocation": "one_fresh_constantLR003_matched2048_pair_plusendpoint_andrisk_held_for_root_config_launch_read",
     "source_package_unchanged": true
+  },
+  "width128_lr003_learning2048": {
+    "summary": "docs/research/task18-width128-lr003-learning2048-summary.json",
+    "closure": "docs/research/task18-width128-lr003-closure.json",
+    "status": "unconverged; worse than matched .001 for both models on development and frozen TRAIN",
+    "next": "first-stage fixed-basis CPU64 lifecycle/numerics/probe; no new scientific learning approved",
+    "cost_seconds": 971.4219043740886
   }
 }
