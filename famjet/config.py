@@ -175,6 +175,8 @@ class DevelopmentConfig:
     calibration_path: str | None = None
     calibration_hash: str | None = None
     gradient_clip_norm: float | None = None
+    cache_manifest_path: str | None = None
+    cache_manifest_hash: str | None = None
 
 
 @dataclass(frozen=True)
@@ -409,6 +411,8 @@ def validate_config(config: RunConfig) -> None:
         if not dev.milestones or tuple(sorted(set(dev.milestones)))!=dev.milestones or dev.milestones[0]!=0 or dev.milestones[-1]!=t.optimizer_steps:
             raise ValueError('development milestones must span immutable training horizon')
         if dev.gradient_clip_norm is not None: _positive(dev.gradient_clip_norm,'gradient_clip_norm')
+        if (dev.cache_manifest_path is None)!=(dev.cache_manifest_hash is None):
+            raise ValueError('cache manifest path and hash must be paired')
         if (dev.calibration_path is None)!=(dev.calibration_hash is None):
             raise ValueError('calibration path and hash must be paired')
     if config.phase in {'confirmation', 'replication'}:
@@ -463,6 +467,9 @@ def config_documents_equal(left, right):
         document['model'].setdefault('multiscale', None)
         document['model'].setdefault('delta', None)
         document.setdefault('development', None)
+        if document['development'] is not None:
+            for key in ('cache_manifest_path','cache_manifest_hash'):
+                document['development'].setdefault(key,None)
         for key in ('rank','max_parameters','max_macs'):
             document['model']['reader'].setdefault(key,None)
     return canonical_json(left) == canonical_json(right)

@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "purpose": "task18_local_cpu_execution_not_task20_statistical_pilot",
+  "source_hash": "6ff306ee77cf897cabc3ce92ad62fc4f52bfa0f74d12025ce50578e3a628bc74",
+  "shapes": [
+    {
+      "method": "jet",
+      "model": {
+        "method": "jet",
+        "heads": 1,
+        "J": 4,
+        "K": 16,
+        "precision": "float32",
+        "rates": {
+          "mode": "fixed",
+          "bounds": [
+            0.001,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 64,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 4,
+      "eval_histories_per_cell": 1
+    },
+    {
+      "method": "bank",
+      "model": {
+        "method": "bank",
+        "heads": 1,
+        "J": 8,
+        "K": 16,
+        "precision": "float32",
+        "rates": {
+          "mode": "fixed",
+          "bounds": [
+            0.001,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 64,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 4,
+      "eval_histories_per_cell": 1
+    }
+  ],
+  "net_allocation_limit_bytes": 201326592,
+  "reserve_already_applied": true,
+  "records": [
+    {
+      "path": "artifacts/task18/calibration-jet-pooled-r2/development.json",
+      "hash": "75e5e9fbddeaec6ffef3c97fd84504eb02e3868cf52d796cd7dd2a0a3e616fd3",
+      "seconds": 9.84175108402269,
+      "rss_additional_bytes": 102006784,
+      "statistics_stability": {
+        "contrast": {
+          "full_scale": 2.542157951126016,
+          "nested_scale": 2.4161999167640276,
+          "relative_scale_change": 0.05213063434365228
+        },
+        "mean": {
+          "full_scale": 6.227416315249029,
+          "nested_scale": 6.797117701583294,
+          "relative_scale_change": 0.08381514214496544
+        }
+      },
+      "host_before": {
+        "disk_free_bytes": 77943205888,
+        "memory_pressure": {
+          "error": "",
+          "output": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 80%\n",
+          "returncode": 0
+        },
+        "swap": {
+          "error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n",
+          "output": "",
+          "returncode": 1
+        },
+        "thermal": {
+          "error": "",
+          "output": "Error:Failed to get thermal warning level with error code 0xe00002bc\nError: Failed to get performance warning level with error code 0xe00002bc\nError: No CPU power status with error code 0xe00002bc\n",
+          "returncode": 0
+        },
+        "vm_stat": {
+          "error": "",
+          "output": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   744525.\nPages active:                                 554764.\nPages inactive:                               454323.\nPages speculative:                             99828.\nPages throttled:                                   0.\nPages wired down:                             203922.\nPages purgeable:                               19108.\n\"Translation faults\":                     5592143348.\nPages copy-on-write:                       453698654.\nPages zero filled:                        5157813861.\nPages reactivated:                         143736046.\nPages purged:                               42795788.\nFile-backed pages:                            576845.\nAnonymous pages:                              532070.\nPages stored in compressor:                   803444.\nPages occupied by compressor:                 242964.\nDecompressions:                            156548152.\nCompressions:                              203600927.\nPageins:                                   142755547.\nPageouts:                                     647904.\nSwapins:                                     2848129.\nSwapouts:                                    4786609.\n",
+          "returncode": 0
+        }
+      },
+      "host_after": {
+        "disk_free_bytes": 77941932032,
+        "memory_pressure": {
+          "error": "",
+          "output": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 80%\n",
+          "returncode": 0
+        },
+        "swap": {
+          "error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n",
+          "output": "",
+          "returncode": 1
+        },
+        "thermal": {
+          "error": "",
+          "output": "Error:Failed to get thermal warning level with error code 0xe00002bc\nError: Failed to get performance warning level with error code 0xe00002bc\nError: No CPU power status with error code 0xe00002bc\n",
+          "returncode": 0
+        },
+        "vm_stat": {
+          "error": "",
+          "output": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   743268.\nPages active:                                 546548.\nPages inactive:                               456983.\nPages speculative:                            107980.\nPages throttled:                                   0.\nPages wired down:                             202795.\nPages purgeable:                               16018.\n\"Translation faults\":                     5592322726.\nPages copy-on-write:                       453705609.\nPages zero filled:                        5157870923.\nPages reactivated:                         143736046.\nPages purged:                               42796172.\nFile-backed pages:                            600897.\nAnonymous pages:                              510614.\nPages stored in compressor:                   803432.\nPages occupied by compressor:                 242960.\nDecompressions:                            156548164.\nCompressions:                              203600927.\nPageins:                                   142779202.\nPageouts:                                     647904.\nSwapins:                                     2848129.\nSwapouts:                                    4786609.\n",
+          "returncode": 0
+        }
+      }
+    },
+    {
+      "path": "artifacts/task18/calibration-bank-pooled-r2/development.json",
+      "hash": "9a74df2a816d9434ad0c56550948e329cd6c8baaeba0b6969862575fc10c2e0d",
+      "seconds": 9.774003624974284,
+      "rss_additional_bytes": 102793216,
+      "statistics_stability": {
+        "contrast": {
+          "full_scale": 2.542157951126016,
+          "nested_scale": 2.4161999167640276,
+          "relative_scale_change": 0.05213063434365228
+        },
+        "mean": {
+          "full_scale": 6.227416315249029,
+          "nested_scale": 6.797117701583294,
+          "relative_scale_change": 0.08381514214496544
+        }
+      },
+      "host_before": {
+        "disk_free_bytes": 77941358592,
+        "memory_pressure": {
+          "error": "",
+          "output": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 80%\n",
+          "returncode": 0
+        },
+        "swap": {
+          "error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n",
+          "output": "",
+          "returncode": 1
+        },
+        "thermal": {
+          "error": "",
+          "output": "Error:Failed to get thermal warning level with error code 0xe00002bc\nError: Failed to get performance warning level with error code 0xe00002bc\nError: No CPU power status with error code 0xe00002bc\n",
+          "returncode": 0
+        },
+        "vm_stat": {
+          "error": "",
+          "output": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   782412.\nPages active:                                 517135.\nPages inactive:                               456692.\nPages speculative:                             98580.\nPages throttled:                                   0.\nPages wired down:                             202586.\nPages purgeable:                               16026.\n\"Translation faults\":                     5592389639.\nPages copy-on-write:                       453707956.\nPages zero filled:                        5157889867.\nPages reactivated:                         143736046.\nPages purged:                               42796172.\nFile-backed pages:                            570878.\nAnonymous pages:                              501529.\nPages stored in compressor:                   803426.\nPages occupied by compressor:                 242958.\nDecompressions:                            156548170.\nCompressions:                              203600927.\nPageins:                                   142807057.\nPageouts:                                     647904.\nSwapins:                                     2848129.\nSwapouts:                                    4786609.\n",
+          "returncode": 0
+        }
+      },
+      "host_after": {
+        "disk_free_bytes": 77911724032,
+        "memory_pressure": {
+          "error": "",
+          "output": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 80%\n",
+          "returncode": 0
+        },
+        "swap": {
+          "error": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n",
+          "output": "",
+          "returncode": 1
+        },
+        "thermal": {
+          "error": "",
+          "output": "Error:Failed to get thermal warning level with error code 0xe00002bc\nError: Failed to get performance warning level with error code 0xe00002bc\nError: No CPU power status with error code 0xe00002bc\n",
+          "returncode": 0
+        },
+        "vm_stat": {
+          "error": "",
+          "output": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   767016.\nPages active:                                 544142.\nPages inactive:                               464879.\nPages speculative:                             78851.\nPages throttled:                                   0.\nPages wired down:                             202724.\nPages purgeable:                               16027.\n\"Translation faults\":                     5592729218.\nPages copy-on-write:                       453742386.\nPages zero filled:                        5157970049.\nPages reactivated:                         143736191.\nPages purged:                               42796172.\nFile-backed pages:                            560246.\nAnonymous pages:                              527626.\nPages stored in compressor:                   803387.\nPages occupied by compressor:                 242940.\nDecompressions:                            156548209.\nCompressions:                              203600927.\nPageins:                                   142852346.\nPageouts:                                     647904.\nSwapins:                                     2848137.\nSwapouts:                                    4786609.\n",
+          "returncode": 0
+        }
+      }
+    }
+  ]
+}

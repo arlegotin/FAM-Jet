@@ -169,3 +169,15 @@ def test_calibration_shape_survives_json_without_losing_exact_binding(tmp_path):
     assert d.resolve_policy(learning)['scientific_status']=='exploratory_development'
     altered=replace(learning,model=replace(learning.model,rates=replace(learning.model.rates,bounds=(.002,1.))))
     with pytest.raises(ValueError,match='applicable'): d.resolve_policy(altered)
+
+
+def test_pooled_timing_counts_actual_consumed_events(tmp_path):
+    import json
+    from dataclasses import replace
+    from famjet.train import train_model
+    c=dev_config();c=replace(c,training=replace(c.training,effective_batch=3),development=replace(c.development,lengths=(128,512,2048)))
+    train_model(c,tmp_path/'pooled',stop_at=1)
+    row=json.loads((tmp_path/'pooled/timing.jsonl').read_text().splitlines()[0])
+    assert row['events']==2688
+    assert row['queries']==24
+    assert row['shape']['lengths']==[128,512,2048]

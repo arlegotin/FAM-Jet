@@ -107,8 +107,8 @@ def resolve_policy(config):
             or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
             or config.data.value_dim!=8 or config.model.reader.width!=64 or config.model.reader.layers!=2
             or config.model.writer!='fixed' or config.model.rates.mode!='fixed'
-            or config.training.optimizer_steps>4 or d.fit_histories_per_cell>4
-            or config.data.queries_per_history>8 or d.eval_histories_per_cell>1):
+            or config.training.optimizer_steps>4 or d.fit_histories_per_cell>32
+            or config.data.queries_per_history>8 or d.eval_histories_per_cell>4):
             raise ValueError('outside authorized initial CPU calibration shape')
     else:
         if d.calibration_path is None: raise ValueError('measured calibration required')

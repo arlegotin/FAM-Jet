@@ -321,11 +321,16 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             record['preprocessing_seconds']={'generation':generation_seconds,'total':time.perf_counter()-fit_start}
             if config.development is not None and config.development.fit_histories_per_cell>=4:
                 from famjet.eval.metrics import fit_target_statistics
-                nested=fit_target_statistics([ep for i,ep in enumerate(fits) if i%config.development.fit_histories_per_cell<2])
+                nested=fit_target_statistics([ep for i,ep in enumerate(fits) if i%config.development.fit_histories_per_cell<config.development.fit_histories_per_cell//2])
                 record['statistics_stability']={t:{'nested_scale':nested['tasks'][t]['scale'],'full_scale':v['scale'],
                     'relative_scale_change':abs(v['scale']/nested['tasks'][t]['scale']-1)} for t,v in model.target_statistics['tasks'].items()}
             record['preprocessing']={'target_statistics':model.target_statistics,'fit_provenance':model.fit_provenance}
             del fits,fit
+        draw_cache=None
+        if config.development is not None and config.development.cache_manifest_path is not None:
+            from famjet.data.development_cache import TrainingDrawCache
+            draw_cache=TrainingDrawCache(config,start_ordinal=len(consumed))
+            record['cache_verification']=draw_cache.verification
         record.update(status='running',completed_step=step,consumed_episode_ids=consumed)
         save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
         record['checkpoints']=[str(checkpoint_path),str(checkpoint_path.with_suffix('.pt.previous'))]
@@ -333,8 +338,8 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
         if observer is not None: observer(model,step,run_dir)
         for step_index in range(step,config.training.optimizer_steps if stop_at is None else stop_at):
             optimizer.zero_grad(set_to_none=True)
-            preparation=[]
-            step_ids=[]; loss_sum=0.; generation_seconds=0.; before=model._parameter_hash()
+            preparation=[]; consumed_lengths=[]; query_count=0
+            step_ids=[]; loss_sum=0.; generation_seconds=0.; forward_seconds=0.; backward_seconds=0.; before=model._parameter_hash()
             _sync(config.resources.device); tick=time.perf_counter()
             for offset in range(0,config.training.effective_batch,config.training.microbatch):
                 ids=[f'train-{len(consumed)+offset+i:012d}' for i in range(config.training.microbatch)]
@@ -345,20 +350,25 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                     episodes=[]
                     for ordinal in range(len(consumed)+offset,len(consumed)+offset+config.training.microbatch):
                         dc,draw_id=draw_config(config,ordinal)
-                        episodes.append(generate_episode(dc,config.development.data_seed,draw_id))
+                        episodes.append(draw_cache.read(ordinal) if draw_cache is not None else generate_episode(dc,config.development.data_seed,draw_id))
                 else:
                     episodes=[generate_episode(config,config.seed,i) for i in ids]
                 generation_seconds+=time.perf_counter()-generation_start
                 for ep in episodes:
+                    consumed_lengths.extend(int(n) for n in ep.events.lengths)
+                    query_count+=int(ep.queries.present.sum())
                     append_jsonl(run_dir/'draws.jsonl',{'step':step_index+1,'episode_id':ep.events.history_ids[0],
                         'regime':ep.metadata['regime'],'hashes':ep.metadata['hashes'],'status':ep.metadata['status']})
                 ep=move_episode(_batch(episodes),config.resources.device)
                 if config.model.method in {'polynomial','multiscale'}:
                     preparation.append(model.kernel.call_preparation_cost(ep.events,ep.queries,
                         mode=config.model.encode,reader_kind=config.model.reader.kind))
+                forward_start=time.perf_counter()
                 result=forward_training(model,ep,config.model.encode,recompute=policy['stream_recompute'])
                 loss=history_loss(model,result,ep)*config.training.microbatch/config.training.effective_batch
-                loss.backward(); loss_sum+=float(loss.detach())
+                forward_seconds+=time.perf_counter()-forward_start
+                backward_start=time.perf_counter(); loss.backward(); backward_seconds+=time.perf_counter()-backward_start
+                loss_sum+=float(loss.detach())
                 del result,loss,ep,episodes
             norm=torch.linalg.vector_norm(torch.stack([torch.linalg.vector_norm(p.grad) for p in model.parameters() if p.grad is not None]))
             if not bool(torch.isfinite(norm)): raise FloatingPointError('nonfinite gradients')
@@ -385,15 +395,15 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                 'measurement_limit':'lifetime highwater delta; fresh process required for cold allocation',
                 'mps_current_bytes':torch.mps.current_allocated_memory() if config.resources.device=='mps' else None,
                 'mps_driver_bytes':torch.mps.driver_allocated_memory() if config.resources.device=='mps' else None}
-            append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'length':config.data.length,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
+            append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'lengths':consumed_lengths,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
                 'device':config.resources.device,'precision':'float32','boundary':'training_generate_forward_backward_optimizer',
                 'cold_warm':'cold' if step_index==0 else 'warm','block':step_index,'order':0,'repetitions':1,
-                'seconds':elapsed,'generation_seconds':generation_seconds,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
+                'seconds':elapsed,'generation_seconds':generation_seconds,'forward_loss_seconds':forward_seconds,'backward_seconds':backward_seconds,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
                 'polynomial_allocation':asdict(config.model.polynomial) if config.model.polynomial is not None else None,
                 'multiscale_allocation':asdict(config.model.multiscale) if config.model.multiscale is not None else None,
                 'delta_allocation':asdict(config.model.delta) if config.model.delta is not None else None,
                 'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
-                'events':config.data.length*len(step_ids),'queries':config.data.queries_per_history*len(step_ids),
+                'events':sum(consumed_lengths),'queries':query_count,
                 'memory':record['actual_budgets'],'pressure':None,'power':None,'status':policy['scientific_status']})
             check_smoke_memory(config,additional)
             atomic_json(run_dir/'run.json',record)
