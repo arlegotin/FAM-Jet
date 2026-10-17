@@ -285,6 +285,9 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
     try:
         policy=dict(SMOKE_POLICY) if config.phase=='smoke' else resolve_policy(config)
         record.update(execution_policy=policy,scientific_status=policy['scientific_status'])
+        if (config.development is not None and config.development.mode=='calibration'
+                and config.development.cache_manifest_path is not None and stop_at!=2):
+            raise ValueError('cached calibration requires explicit execution stop_at=2')
         if config.data.generator_version!='initial_spec_v2_targets':
             raise ValueError('legacy target semantics forbidden for new training')
         _resource_check(config,policy)
@@ -385,7 +388,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                 'gradient_clip_norm':policy['gradient_clip_norm'],'writer_hash_before':before,'writer_hash_after':model._parameter_hash()})
             if config.phase=='smoke' or step in config.development.milestones or step==stop_at:
                 save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
-            if observer is not None and step in config.development.milestones:
+            if observer is not None and (step in config.development.milestones or step==stop_at):
                 observer(model,step,run_dir)
             peak=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             additional=max(0,peak-baseline)*(1 if platform.system()=='Darwin' else 1024)

@@ -85,7 +85,8 @@ def execution_shape(config):
             'device':config.resources.device,'microbatch':config.training.microbatch,
             'lengths':list(config.development.lengths),
             'fit_histories_per_cell':config.development.fit_histories_per_cell,
-            'eval_histories_per_cell':config.development.eval_histories_per_cell}
+            'eval_histories_per_cell':config.development.eval_histories_per_cell,
+            'cache_manifest_hash':config.development.cache_manifest_hash}
 
 
 def resolve_policy(config):
@@ -103,11 +104,16 @@ def resolve_policy(config):
     if config.training.microbatch!=1: raise ValueError('ragged development uses microbatch1')
     if d.mode=='calibration':
         # Prospective staged permission, not general removal of smoke bounds.
+        cached=d.cache_manifest_path is not None
+        if cached and (d.cache_manifest_hash is None or d.lengths!=(128,512,2048)
+                or config.training.optimizer_steps!=2048 or config.training.effective_batch!=3
+                or config.model.reader.kind not in {'generic_contracted','structured'}):
+            raise ValueError('outside authorized cached calibration shape')
         if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
             or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
             or config.data.value_dim!=8 or config.model.reader.width!=64 or config.model.reader.layers!=2
             or config.model.writer!='fixed' or config.model.rates.mode!='fixed'
-            or config.training.optimizer_steps>4 or d.fit_histories_per_cell>32
+            or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>32
             or config.data.queries_per_history>8 or d.eval_histories_per_cell>4):
             raise ValueError('outside authorized initial CPU calibration shape')
     else:
@@ -296,7 +302,10 @@ def run_development(config,out):
                 record['last_evaluation']=entry
                 check_smoke_memory(config,max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*rss_factor-baseline))
                 atomic_json(out/'development.json',record)
-            checkpoint=train_model(config,out/'training',observer=observe)
+            calibration_stop=2 if config.development.mode=='calibration' and config.development.cache_manifest_path is not None else None
+            record['calibration_execution_limit']=calibration_stop
+            record['configured_training_horizon']=config.training.optimizer_steps
+            checkpoint=train_model(config,out/'training',observer=observe,stop_at=calibration_stop)
             record['checkpoint']=str(checkpoint)
             record['training_run']=json.loads((out/'training/run.json').read_text())
         record['status']='completed'
