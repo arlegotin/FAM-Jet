@@ -170,12 +170,17 @@ def identities(config,policy):
             task_weights={'mean':.5,'contrast':.5},
             cell_identity_namespace='task18-{fit|train}-N{length}-{regime}-{ordinal:012d}',
             fit_histories_per_cell=config.development.fit_histories_per_cell)
+        if config.development.corpus_histories is not None:
+            data.update(training_sampling='finite_ordered_passes',corpus_histories=config.development.corpus_histories,
+                corpus_manifest_hash=config.development.cache_manifest_hash,
+                repeated_id_rule='physical_sample_ordinal=logical_draw_position_mod_corpus_histories')
     return {'config_hash':canonical_hash(asdict(config)),'policy_hash':canonical_hash(policy),
         'source_hash':source_identity(),'lock_hash':hashlib.sha256((ROOT/'requirements.lock').read_bytes()).hexdigest(),
         'data_hash':canonical_hash(data)},data
 
 
 def _context(config,policy,identity,data,source,model,optimizer,step,ids):
+    from famjet.analysis.development import corpus_progress
     wire=export_method(model)
     return {'schema_version':1,'config':asdict(config),'execution_policy':dict(policy),**identity,
         'source':source,'data_identity':data,'model':wire,'model_hash':canonical_hash(wire),
@@ -183,7 +188,7 @@ def _context(config,policy,identity,data,source,model,optimizer,step,ids):
         'optimizer':optimizer.state_dict(),
         'optimizer_active_parameters':[n for n,p in model.named_parameters() if p in optimizer.state],
         'scheduler':{'kind':'constant','last_step':step},'scaler':None,
-        'rng':capture_rng(config.resources.device),'sampler':{'namespace':policy['draw_namespace'],'seed':data['seed'],'position':len(ids)},
+        'rng':capture_rng(config.resources.device),'sampler':{'namespace':policy['draw_namespace'],'seed':data['seed'],'position':len(ids),**corpus_progress(config,len(ids))},
         'completed_step':step,'accumulation_position':0,'consumed_episode_ids':list(ids),'restarted_accumulation':False}
 
 
@@ -268,7 +273,7 @@ def _prediction_records(model,ep,run_id,split,*,policy=None,manifest_hash=None,s
 def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None, observer=None, stop_at=None) -> Path:
     run_dir=Path(run_dir)
     run_dir.mkdir(parents=True,exist_ok=False)
-    from famjet.analysis.development import resolve_policy,fit_panel,iter_fit_panel,draw_config
+    from famjet.analysis.development import resolve_policy,fit_panel,iter_fit_panel,draw_config,corpus_progress
     policy=dict(SMOKE_POLICY)
     if stop_at is not None and not 0<=stop_at<=config.training.optimizer_steps: raise ValueError('invalid stop boundary')
     start=time.perf_counter(); baseline=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
@@ -280,6 +285,13 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             'deterministic_algorithms':torch.are_deterministic_algorithms_enabled(),
             'mps_environment':{k:os.environ.get(k) for k in ['PYTORCH_ENABLE_MPS_FALLBACK','PYTORCH_MPS_FAST_MATH','PYTORCH_MPS_HIGH_WATERMARK_RATIO','PYTORCH_MPS_LOW_WATERMARK_RATIO']}},
         'expected_budgets':asdict(config.resources),'actual_budgets':{}}
+    finite=config.development is not None and config.development.corpus_histories is not None
+    def write_progress():
+        atomic_json(run_dir/'progress.json',{'status':record['status'],'completed_step':record['completed_step'],
+            'consumed_count':len(record['consumed_episode_ids']),'attempted_count':len(record['attempted_episode_ids']),
+            'last_consumed_id':next(iter(record['consumed_episode_ids'][-1:]),None),
+            'last_attempted_id':next(iter(record['attempted_episode_ids'][-1:]),None),
+            'corpus_progress':corpus_progress(config,len(record['consumed_episode_ids']))})
     atomic_json(run_dir/'run.json',record)
     checkpoint_path=run_dir/'checkpoint.pt'
     try:
@@ -341,11 +353,17 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             record['preprocessing_seconds']={'generation':generation_seconds,'total':time.perf_counter()-fit_start,
                 'passes':fit_pass,'raw_history_retention':'one_episode_at_a_time' if config.phase=='development' else 'legacy_smoke_panel'}
             record['preprocessing']={'target_statistics':model.target_statistics,'fit_provenance':model.fit_provenance}
-        draw_cache=None
-        if config.development is not None and config.development.cache_manifest_path is not None:
+        draw_cache=None;feature_cache=None
+        if config.development is not None and config.development.feature_cache_manifest_path is not None:
+            from famjet.data.feature_cache import TrainingFeatureCache
+            feature_cache=TrainingFeatureCache(config,model,start_ordinal=len(consumed))
+            record['feature_cache_verification']=feature_cache.verification
+            record['cache_verification']=feature_cache.verification['raw_verification']
+        elif config.development is not None and config.development.cache_manifest_path is not None:
             from famjet.data.development_cache import TrainingDrawCache
             draw_cache=TrainingDrawCache(config,start_ordinal=len(consumed))
             record['cache_verification']=draw_cache.verification
+        record['corpus_progress']=corpus_progress(config,len(consumed))
         record.update(status='running',completed_step=step,consumed_episode_ids=consumed)
         save_checkpoint(checkpoint_path,_context(config,policy,identity,data,source,model,optimizer,step,consumed))
         record['checkpoints']=[str(checkpoint_path),str(checkpoint_path.with_suffix('.pt.previous'))]
@@ -354,32 +372,46 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
         for step_index in range(step,config.training.optimizer_steps if stop_at is None else stop_at):
             optimizer.zero_grad(set_to_none=True)
             preparation=[]; consumed_lengths=[]; query_count=0
-            step_ids=[]; loss_sum=0.; generation_seconds=0.; forward_seconds=0.; backward_seconds=0.; before=model._parameter_hash()
+            step_ids=[]; loss_sum=0.; generation_seconds=0.; delivery_seconds=0.; forward_seconds=0.; backward_seconds=0.; before=model._parameter_hash()
             _sync(config.resources.device); tick=time.perf_counter()
             for offset in range(0,config.training.effective_batch,config.training.microbatch):
                 ids=[f'train-{len(consumed)+offset+i:012d}' for i in range(config.training.microbatch)]
                 record['attempted_episode_ids'].extend(ids); step_ids.extend(ids)
-                atomic_json(run_dir/'run.json',record)
+                if finite:
+                    positions=list(range(len(consumed)+offset,len(consumed)+offset+config.training.microbatch))
+                    append_jsonl(run_dir/'attempts.jsonl',{'step':step_index+1,'episode_ids':ids,
+                        'draw_positions':positions,'source_episode_ids':[draw_config(config,i)[1] for i in positions]})
+                else:atomic_json(run_dir/'run.json',record)
                 generation_start=time.perf_counter()
                 if config.phase=='development':
                     episodes=[]
                     for ordinal in range(len(consumed)+offset,len(consumed)+offset+config.training.microbatch):
                         dc,draw_id=draw_config(config,ordinal)
-                        episodes.append(draw_cache.read(ordinal) if draw_cache is not None else generate_episode(dc,config.development.data_seed,draw_id))
+                        episodes.append(feature_cache.read(ordinal) if feature_cache is not None else
+                            draw_cache.read(ordinal) if draw_cache is not None else generate_episode(dc,config.development.data_seed,draw_id))
                 else:
                     episodes=[generate_episode(config,config.seed,i) for i in ids]
-                generation_seconds+=time.perf_counter()-generation_start
-                for ep in episodes:
-                    consumed_lengths.extend(int(n) for n in ep.events.lengths)
+                delivery_elapsed=time.perf_counter()-generation_start
+                if draw_cache is not None or feature_cache is not None:delivery_seconds+=delivery_elapsed
+                else:generation_seconds+=delivery_elapsed
+                for i,ep in enumerate(episodes):
+                    ordinal=len(consumed)+offset+i
+                    consumed_lengths.extend([ep.event_count] if feature_cache is not None else (int(n) for n in ep.events.lengths))
                     query_count+=int(ep.queries.present.sum())
-                    append_jsonl(run_dir/'draws.jsonl',{'step':step_index+1,'episode_id':ep.events.history_ids[0],
-                        'regime':ep.metadata['regime'],'hashes':ep.metadata['hashes'],'status':ep.metadata['status']})
-                ep=move_episode(_batch(episodes),config.resources.device)
+                    row={'step':step_index+1,'draw_position':ordinal,
+                        'episode_id':ep.history_id if feature_cache is not None else ep.events.history_ids[0],
+                        'regime':ep.metadata['regime'],'hashes':ep.metadata['hashes'],'status':ep.metadata['status']}
+                    if config.development is not None and config.development.corpus_histories is not None:
+                        n=config.development.corpus_histories
+                        row.update(corpus_pass=ordinal//n,corpus_offset=ordinal%n,unique_corpus_histories=n)
+                    append_jsonl(run_dir/'draws.jsonl',row)
+                ep=episodes[0] if feature_cache is not None else move_episode(_batch(episodes),config.resources.device)
                 if config.model.method in {'polynomial','multiscale'}:
                     preparation.append(model.kernel.call_preparation_cost(ep.events,ep.queries,
                         mode=config.model.encode,reader_kind=config.model.reader.kind))
                 forward_start=time.perf_counter()
-                result=forward_training(model,ep,config.model.encode,recompute=policy['stream_recompute'])
+                result=(model.read_features(ep.features,ep.queries) if feature_cache is not None else
+                        forward_training(model,ep,config.model.encode,recompute=policy['stream_recompute']))
                 loss=history_loss(model,result,ep)*config.training.microbatch/config.training.effective_batch
                 forward_seconds+=time.perf_counter()-forward_start
                 backward_start=time.perf_counter(); loss.backward(); backward_seconds+=time.perf_counter()-backward_start
@@ -394,7 +426,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             consumed.extend(step_ids); step=step_index+1
             _sync(config.resources.device)
             elapsed=time.perf_counter()-tick
-            record.update(completed_step=step,consumed_episode_ids=list(consumed))
+            record.update(completed_step=step,consumed_episode_ids=list(consumed),corpus_progress=corpus_progress(config,len(consumed)))
             append_jsonl(run_dir/'training.jsonl',{'step':step,'episode_ids':step_ids,'loss':loss_sum,
                 'learning_rate':optimizer.param_groups[0]['lr'],'gradient_norm':float(norm),
                 'gradient_clip_norm':policy['gradient_clip_norm'],'writer_hash_before':before,'writer_hash_after':model._parameter_hash()})
@@ -411,17 +443,22 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                 'mps_current_bytes':torch.mps.current_allocated_memory() if config.resources.device=='mps' else None,
                 'mps_driver_bytes':torch.mps.driver_allocated_memory() if config.resources.device=='mps' else None}
             append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'lengths':consumed_lengths,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
-                'device':config.resources.device,'precision':'float32','boundary':'training_generate_forward_backward_optimizer',
+                'device':config.resources.device,'precision':'float32',
+                'boundary':'training_feature_delivery_reader_backward_optimizer' if feature_cache is not None else 'training_delivery_forward_backward_optimizer',
                 'cold_warm':'cold' if step_index==0 else 'warm','block':step_index,'order':0,'repetitions':1,
-                'seconds':elapsed,'generation_seconds':generation_seconds,'forward_loss_seconds':forward_seconds,'backward_seconds':backward_seconds,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
+                'seconds':elapsed,'generation_seconds':generation_seconds,'delivery_seconds':delivery_seconds,
+                'delivery_boundary':'fixed_feature_read_sha_decode' if feature_cache is not None else 'raw_event_read_sha_decode' if draw_cache is not None else 'fresh_generation',
+                'corpus_progress':corpus_progress(config,len(consumed)),'forward_loss_seconds':forward_seconds,'backward_seconds':backward_seconds,('multiscale_preparation' if config.model.method=='multiscale' else 'polynomial_preparation'):preparation,
                 'polynomial_allocation':asdict(config.model.polynomial) if config.model.polynomial is not None else None,
                 'multiscale_allocation':asdict(config.model.multiscale) if config.model.multiscale is not None else None,
                 'delta_allocation':asdict(config.model.delta) if config.model.delta is not None else None,
                 'sync_policy':'before_after' if config.resources.device=='mps' else 'synchronous_cpu',
-                'events':sum(consumed_lengths),'queries':query_count,
+                'events':0 if feature_cache is not None else sum(consumed_lengths),'source_events':sum(consumed_lengths),'queries':query_count,
                 'memory':record['actual_budgets'],'pressure':None,'power':None,'status':policy['scientific_status']})
             check_smoke_memory(config,additional)
-            atomic_json(run_dir/'run.json',record)
+            if finite:write_progress()
+            if not finite or step in config.development.milestones or step==stop_at:
+                atomic_json(run_dir/'run.json',record)
         model.eval()
         probe=move_episode(generate_episode(config,config.seed if config.development is None else config.development.data_seed,'train-000000000000'),config.resources.device)
         for prediction in _prediction_records(model,probe,record['id'],'training',scientific=False):
@@ -437,6 +474,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
         raise
     finally:
         record.update(end_utc=_now(),total_seconds=time.perf_counter()-start)
+        if finite:write_progress()
         atomic_json(run_dir/'run.json',record)
 
 

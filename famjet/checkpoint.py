@@ -150,7 +150,10 @@ def _validate(context):
     if ids != [f'train-{i:012d}' for i in range(step*config.training.effective_batch)]:
         raise ValueError('checkpoint consumed sampler sequence mismatch')
     sampler=context['sampler']
-    if set(sampler) != {'namespace','seed','position'} or sampler['namespace'] != context['execution_policy']['draw_namespace'] or sampler['seed'] != (config.seed if config.development is None else config.development.data_seed) or sampler['position'] != len(ids)+acc:
+    from famjet.analysis.development import corpus_progress
+    corpus=corpus_progress(config,len(ids)+acc)
+    if any(sampler.get(k)!=v for k,v in corpus.items()):raise ValueError('checkpoint finite corpus position mismatch')
+    if set(sampler) != {'namespace','seed','position'}|set(corpus) or sampler['namespace'] != context['execution_policy']['draw_namespace'] or sampler['seed'] != (config.seed if config.development is None else config.development.data_seed) or sampler['position'] != len(ids)+acc:
         raise ValueError('checkpoint sampler mismatch')
     if context['scheduler'] != {'kind':'constant','last_step':step} or context['scaler'] is not None:
         raise ValueError('checkpoint scheduler/scaler mismatch')

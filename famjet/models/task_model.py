@@ -186,7 +186,10 @@ class TaskModel(nn.Module):
                             {**f.diagnostics, 'failure': failed})
 
     def read(self, state, queries):
-        f = self.features(state, queries)
+        return self.read_features(self.features(state, queries), queries)
+
+    def read_features(self, f, queries):
+        """Shared decoder; external training transport owns any cached inputs."""
         numeric, support_logit = self.reader(f.values)
         active = {t for row, mask in zip(queries.tasks, queries.present.cpu().tolist()) for t, yes in zip(row, mask) if yes}
         families = {'binary' if t in BINARY_TASKS else 'categorical' if t in CATEGORICAL_TASKS else 'numeric' for t in active}

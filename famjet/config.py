@@ -177,6 +177,9 @@ class DevelopmentConfig:
     gradient_clip_norm: float | None = None
     cache_manifest_path: str | None = None
     cache_manifest_hash: str | None = None
+    corpus_histories: int | None = None
+    feature_cache_manifest_path: str | None = None
+    feature_cache_manifest_hash: str | None = None
 
 
 @dataclass(frozen=True)
@@ -413,6 +416,14 @@ def validate_config(config: RunConfig) -> None:
         if dev.gradient_clip_norm is not None: _positive(dev.gradient_clip_norm,'gradient_clip_norm')
         if (dev.cache_manifest_path is None)!=(dev.cache_manifest_hash is None):
             raise ValueError('cache manifest path and hash must be paired')
+        if dev.corpus_histories is not None:
+            _positive(dev.corpus_histories,'corpus_histories')
+            if dev.corpus_histories % (4*len(dev.lengths)) or dev.corpus_histories % t.effective_batch:
+                raise ValueError('finite corpus must balance length/regime cells and complete updates')
+        if (dev.feature_cache_manifest_path is None)!=(dev.feature_cache_manifest_hash is None):
+            raise ValueError('feature cache path and hash must be paired')
+        if dev.feature_cache_manifest_path is not None and (dev.corpus_histories is None or dev.cache_manifest_path is None):
+            raise ValueError('feature cache requires explicit finite raw corpus')
         if (dev.calibration_path is None)!=(dev.calibration_hash is None):
             raise ValueError('calibration path and hash must be paired')
     if config.phase in {'confirmation', 'replication'}:
@@ -468,7 +479,7 @@ def config_documents_equal(left, right):
         document['model'].setdefault('delta', None)
         document.setdefault('development', None)
         if document['development'] is not None:
-            for key in ('cache_manifest_path','cache_manifest_hash'):
+            for key in ('cache_manifest_path','cache_manifest_hash','corpus_histories','feature_cache_manifest_path','feature_cache_manifest_hash'):
                 document['development'].setdefault(key,None)
         for key in ('rank','max_parameters','max_macs'):
             document['model']['reader'].setdefault(key,None)

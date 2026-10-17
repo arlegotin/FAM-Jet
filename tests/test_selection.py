@@ -81,7 +81,7 @@ def test_clean_generic_reader_has_real_equal_cost_and_support_is_inactive():
     assert hasattr(d,'parameter_accounting'), 'objective-active accounting absent'
     j,b=d.parameter_accounting(jet),d.parameter_accounting(bank)
     assert j==b
-    assert j['allocated_parameters']-j['objective_active_parameters']==65
+    assert j['allocated_parameters']-j['objective_active_parameters']==385
     assert j['padding_parameters']==0
 
 
@@ -181,3 +181,22 @@ def test_pooled_timing_counts_actual_consumed_events(tmp_path):
     assert row['events']==2688
     assert row['queries']==24
     assert row['shape']['lengths']==[128,512,2048]
+
+
+def test_primary_activity_excludes_only_guaranteed_task_and_exact_fixed_rate_zeros():
+    import torch
+    from dataclasses import replace
+    from famjet.train import make_model
+    c=dev_config();raw=api().parameter_accounting(make_model(c))
+    assert raw['objective_active_parameters']==10632
+    assert raw['objective_activity_status']=='upper_bound'
+    full=make_model(replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='generic_full',rank=5))))
+    count=api().parameter_accounting(full)
+    assert count['allocated_parameters']==11014 and count['objective_active_parameters']==10924
+    structured=make_model(replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured'))))
+    columns=[18,38,58,78]
+    structured.reader.feature_mean[columns]=torch.log(structured.kernel.rates.flatten())
+    exact=api().parameter_accounting(structured)
+    assert exact['objective_active_parameters']==10888
+    structured.reader.feature_mean[18]+=1e-6  # Tiny nonzero constant is active.
+    assert api().parameter_accounting(structured)['objective_active_parameters']==10952

@@ -1,6 +1,7 @@
-"""External one-pass transport of exact fresh development training draws.
+"""External transport of exact development training observations.
 
-No states/features or repeated epochs; this object never enters TaskModel.
+Default is one pass; explicitly declared finite corpora repeat in fixed order.
+This object never enters TaskModel.
 """
 from dataclasses import asdict,fields
 from pathlib import Path
@@ -29,7 +30,7 @@ def cache_identity(config):
             'data_seed':d.data_seed,'lengths':list(d.lengths),
             'namespace':'task18_shared_training_draws_v2',
             'order':'ordinal_length_cycle_then_regime_cycle',
-            'count':config.training.optimizer_steps*config.training.effective_batch}
+            'count':d.corpus_histories or config.training.optimizer_steps*config.training.effective_batch}
 
 
 def prepare_cache(config,directory,*,projected_data_bytes,output_reserve_bytes):
@@ -85,7 +86,9 @@ class TrainingDrawCache:
         if manifest.get('status')!='complete' or canonical_hash(manifest['identity'])!=canonical_hash(cache_identity(config)):
             raise ValueError('cache identity mismatch')
         self.entries=manifest['entries'];count=manifest['identity']['count']
-        if len(self.entries)!=count or not 0<=start_ordinal<=count: raise ValueError('cache count/order mismatch')
+        self.draw_limit=config.training.optimizer_steps*config.training.effective_batch
+        self.finite=config.development.corpus_histories is not None
+        if len(self.entries)!=count or not 0<=start_ordinal<=self.draw_limit: raise ValueError('cache count/order mismatch')
         for i,entry in enumerate(self.entries):
             cc,identity=draw_config(config,i)
             if (entry['ordinal']!=i or entry['episode_id']!=identity or entry['length']!=cc.data.length
@@ -105,8 +108,9 @@ class TrainingDrawCache:
         return payload
 
     def read(self,ordinal):
-        if ordinal!=self.next_ordinal or ordinal>=len(self.entries): raise ValueError('cache order/replay forbidden')
-        entry=self.entries[ordinal]
+        if ordinal!=self.next_ordinal or ordinal>=self.draw_limit: raise ValueError('cache order/replay forbidden')
+        index=ordinal%len(self.entries) if self.finite else ordinal
+        entry=self.entries[index]
         raw=torch.load(io.BytesIO(self._bytes(entry)),weights_only=True,map_location='cpu')
         ep=Episode(EventBatch(**raw.pop('events')),QueryBatch(**raw.pop('queries')),**raw)
         if ep.events.history_ids!=(entry['episode_id'],) or ep.metadata['hashes']!=entry['hashes']:

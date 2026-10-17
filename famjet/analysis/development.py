@@ -64,12 +64,31 @@ def validation_loss(rows,regime_weights,task_weights):
 
 
 def parameter_accounting(model):
+    """Primary mean/contrast activity upper bound, never empirical-gradient pruning."""
+    import torch
+    from famjet.readers.structured import QUERY_TASK_ORDER
     allocated=sum(p.numel() for p in model.parameters())
-    inactive=sum(p.numel() for p in model.reader.support.parameters())
-    return {'allocated_parameters':allocated,'objective_active_parameters':allocated-inactive,
-            'reader_input_width':model.reader.input_dim,'padding_parameters':0,
-            'macs_per_query':model.reader.cost()['macs_per_query'],
-            'support_calibration':'untrained_unavailable'}
+    support=sum(p.numel() for p in model.reader.support.parameters())
+    reader=model.reader; memory=reader.input_dim-model.kernel.key_dim-len(QUERY_TASK_ORDER)-2
+    columns=[memory+model.kernel.key_dim+i for i,t in enumerate(QUERY_TASK_ORDER) if t not in {'mean','contrast'}]
+    # Absent task inputs are structurally zero only if frozen normalization keeps
+    # their value exactly zero. Tiny nonzero constants still affect the objective.
+    columns=[i for i in columns if reader.feature_mean[i]==0]
+    if (reader.schema['kind']=='structured' and model.inference_config['rate_mode']=='fixed'
+            and model.kernel.reader_feature_spec['family'] in {'jet','bank'}):
+        jet=model.kernel.reader_feature_spec['family']=='jet';v=model.kernel.value_dim
+        stride,offset=(2*v+4,2*v+2) if jet else (v+3,v+1)
+        rates=model.kernel.rates.flatten()
+        log=torch.where(rates==0,torch.zeros_like(rates),torch.log(rates)+math.log(model.kernel.t_ref))
+        columns += [j*stride+offset for j,x in enumerate(log) if x==reader.feature_mean[j*stride+offset]]
+    first=next(m for m in reader.modules() if isinstance(m,torch.nn.Linear))
+    # A factorized first layer has rank rows, not hidden-width rows.
+    inactive_inputs=len(columns)*first.out_features
+    return {'allocated_parameters':allocated,'objective_active_parameters':allocated-support-inactive_inputs,
+            'objective_activity_status':'upper_bound','guaranteed_inactive_support_parameters':support,
+            'guaranteed_inactive_input_parameters':inactive_inputs,'structural_zero_input_columns':columns,
+            'reader_input_width':reader.input_dim,'padding_parameters':0,
+            'macs_per_query':reader.cost()['macs_per_query'],'support_calibration':'untrained_unavailable'}
 
 
 def reader_budget(reader):
@@ -86,7 +105,9 @@ def execution_shape(config):
             'lengths':list(config.development.lengths),
             'fit_histories_per_cell':config.development.fit_histories_per_cell,
             'eval_histories_per_cell':config.development.eval_histories_per_cell,
-            'cache_manifest_hash':config.development.cache_manifest_hash}
+            'cache_manifest_hash':config.development.cache_manifest_hash,
+            'corpus_histories':config.development.corpus_histories,
+            'feature_cache_manifest_hash':config.development.feature_cache_manifest_hash}
 
 
 def resolve_policy(config):
@@ -105,8 +126,15 @@ def resolve_policy(config):
     if d.mode=='calibration':
         # Prospective staged permission, not general removal of smoke bounds.
         cached=d.cache_manifest_path is not None
+        finite=d.corpus_histories is not None
+        if finite and (d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
+                or config.model.J!=(4 if config.model.method=='jet' else 8)
+                or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
+                or config.model.rates.bounds!=(.001,1.) or d.fit_histories_per_cell!=32
+                or d.eval_histories_per_cell!=4 or d.feature_cache_manifest_path is None):
+            raise ValueError('outside authorized finite-corpus calibration shape')
         if cached and (d.cache_manifest_hash is None or d.lengths!=(128,512,2048)
-                or config.training.optimizer_steps!=2048 or config.training.effective_batch!=3
+                or config.training.optimizer_steps!=(32768 if finite else 2048) or config.training.effective_batch!=3
                 or config.model.reader.kind not in {'generic_contracted','structured'}):
             raise ValueError('outside authorized cached calibration shape')
         if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
@@ -136,10 +164,18 @@ def resolve_policy(config):
 from famjet.data._processes import REGIMES
 
 
+def corpus_progress(config, position):
+    n=None if config.development is None else config.development.corpus_histories
+    if n is None:return {}
+    return {'corpus_histories':n,'unique_histories':min(position,n),
+            'completed_passes':position//n,'pass_offset':position%n}
+
+
 def draw_config(config,index,*,fit=False,length=None,regime=None):
     """Independent across length/regime cells and paired across methods."""
     from dataclasses import replace
     d=config.development
+    if not fit and d.corpus_histories is not None: index%=d.corpus_histories
     n=length or d.lengths[index%len(d.lengths)]
     r=regime or REGIMES[(index//len(d.lengths))%len(REGIMES)]
     g=replace(config.data.generator,namespace='training',regime=r)
@@ -245,7 +281,7 @@ def host_observation():
     return result
 
 
-def run_development(config,out):
+def run_development(config,out, *, resume=None, stop_at=None):
     from pathlib import Path
     from dataclasses import asdict
     import time,json,hashlib,resource,platform
@@ -304,10 +340,12 @@ def run_development(config,out):
                 record['last_evaluation']=entry
                 check_smoke_memory(config,max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*rss_factor-baseline))
                 atomic_json(out/'development.json',record)
-            calibration_stop=2 if config.development.mode=='calibration' and config.development.cache_manifest_path is not None else None
+            calibration_stop=2 if config.development.mode=='calibration' and config.development.cache_manifest_path is not None else stop_at
             record['calibration_execution_limit']=calibration_stop
             record['configured_training_horizon']=config.training.optimizer_steps
-            checkpoint=train_model(config,out/'training',observer=observe,stop_at=calibration_stop)
+            record['execution_stop_at']=calibration_stop
+            record['resume']=None if resume is None else str(resume)
+            checkpoint=train_model(config,out/'training',observer=observe,stop_at=calibration_stop,resume=resume)
             record['checkpoint']=str(checkpoint)
             record['training_run']=json.loads((out/'training/run.json').read_text())
         record['status']='completed'
