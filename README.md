@@ -2,7 +2,9 @@
 
 FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
 
-The repository now generates deterministic synthetic histories, prepares the observed-event Beijing workload, runs exact reference calculations, and implements jet/bank and translated-Legendre memories, bounded summaries, trainable writers and readers, and isolated snapshot reads. A tiny CPU training run now saves complete records and can resume from an optimizer checkpoint. Tasks1–14 are accepted, with explicit numerical limits for the log-rate comparator. Task15 native delta mixers and their deferred-query adaptation are implemented and awaiting independent review. There is **no comparative generalization gain established yet**. Fair baseline training, scientific failure handling, resource calibration and protected evaluation remain ahead.
+The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks1–17 are accepted; Task18 is running actual CPU development comparisons. Fixed-writer jet and exponential-bank models have now trained for2048 updates on6144 distinct histories, with common training statistics and paired evaluation at128/512/2048 events.
+
+The early results depend on the reader and rate range: neither family has a convincing advantage, a simple reservoir remains competitive, and the neural learning curves are still improving. **No practical or generalization gain is established yet.** The [development inventory](docs/research/task18-development-inventory.json) records actual losses, headroom, costs, failed attempts and initialization-only A/A checks. Convergence and credible broader baseline tuning remain active work; protected evaluation is closed.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
 
@@ -17,7 +19,7 @@ python3.13 -m venv .venv
 
 The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The current project environment uses torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
 
-Preparation and the tiny training pipeline are executable now:
+Preparation and a short pipeline check are executable now:
 
 ```sh
 .venv/bin/python -m famjet.prepare --config configs/data.yaml
@@ -31,7 +33,7 @@ The finite log-rate HiPPO Zoo comparator has its own [CPU smoke configuration](c
 
 The native GDN2/KDA/gated-delta family has an explicit [CPU smoke configuration](configs/delta-smoke.yaml): `.venv/bin/python -m famjet.run --config configs/delta-smoke.yaml`. It counts the complete q/k/v convolution cache, distinguishes raw and guarded erase policies, and preserves read-only deferred queries. The [adaptation and source-license boundary](docs/baseline_adaptations.md#task15-native-delta-family--17-october-2026) are explicit; small learning controls do not establish scientific convergence.
 
-The run command explicitly uses CPU and two optimizer steps. It prints a new run directory containing resolved configuration, run status, predictions, timing, draw records and full checkpoints. To resume, pass `--resume PATH/TO/checkpoint.pt` with the same config; use a new `--run-dir` if you specify one. `doctor`, `prepare` and `run` all support `--help` without starting work.
+The smoke command above explicitly uses CPU and two optimizer steps. It prints a new run directory containing resolved configuration, run status, predictions, timing, draw records and full checkpoints. To resume, pass `--resume PATH/TO/checkpoint.pt` with the same config; use a new `--run-dir` if you specify one. `doctor`, `prepare` and `run` all support `--help` without starting work.
 
 The synthetic command verifies the saved exploratory inventories (or creates them if absent). Beijing preparation requires the pinned official archive at `data/raw/beijing-uci501.zip`; a missing archive produces an explicit unavailable status and exit 2, preserving any matching sealed manifest. Once the archive arrives, preparation can replace an availability record or reconstruct missing local arrays against the sealed inventory. It builds all-station chronological histories, fits normalization only on training, and seals raw/normalized labels locally. Raw archives and bulk arrays are ignored. Ordinary iteration refuses protected test access; preparation does not train or evaluate a model. See the [Beijing preparation record](docs/research/2026-10-16-beijing-preparation.md) for source attribution, counts and access limits.
 
