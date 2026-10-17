@@ -146,15 +146,17 @@ def draw_config(config,index,*,fit=False,length=None,regime=None):
     return replace(config,data=replace(config.data,length=n,generator=g)), f'task18-{"fit" if fit else "train"}-N{n}-{r}-{index:012d}'
 
 
-def fit_panel(config):
+def iter_fit_panel(config, *, histories_per_cell=None):
     from famjet.data.synthetic import generate_episode
-    panel=[]
     for n in config.development.lengths:
         for r in REGIMES:
-            for i in range(config.development.fit_histories_per_cell):
+            for i in range(config.development.fit_histories_per_cell if histories_per_cell is None else histories_per_cell):
                 c,identity=draw_config(config,i,fit=True,length=n,regime=r)
-                panel.append(generate_episode(c,config.development.data_seed,identity))
-    return panel
+                yield generate_episode(c,config.development.data_seed,identity)
+
+
+def fit_panel(config):
+    return list(iter_fit_panel(config))
 
 
 def development_inventory(config,out):

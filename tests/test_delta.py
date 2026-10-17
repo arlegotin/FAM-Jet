@@ -120,18 +120,19 @@ def test_task_registration_static_export_and_real_tied_parameters(variant):
     for name,p in m.kernel.named_parameters(): assert p.grad is not None and bool(p.grad.abs().sum()>0),name
 
 
-def test_fit_reference_hash_and_atomic_rollback():
+@pytest.mark.parametrize('streaming',[False,True])
+def test_fit_reference_hash_and_atomic_rollback(streaming):
     from famjet.train import make_model
     from famjet.types import Episode
     from famjet.eval.isolation import model_identity
     m=make_model(delta_config())
     e=delta_events(torch.float32); q=queries(e,[[8,10],[7,10]])
     ep=Episode(e,q,torch.ones(2,2,2),torch.ones(2,2,dtype=torch.bool),metadata={'split':'training'})
-    m.fit_statistics([ep])
+    m.fit_statistics((lambda:iter([ep])) if streaming else [ep])
     assert m.kernel.t_ref==1.5 and m.fit_provenance['writer_hash']==m._parameter_hash()
     before=model_identity(m)
     bad=replace(ep,queries=replace(q,key_features=q.key_features*float('nan')))
-    with pytest.raises(ValueError): m.fit_statistics([bad])
+    with pytest.raises(ValueError): m.fit_statistics((lambda:iter([bad])) if streaming else [bad])
     assert model_identity(m)==before
 
 

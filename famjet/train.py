@@ -268,7 +268,7 @@ def _prediction_records(model,ep,run_id,split,*,policy=None,manifest_hash=None,s
 def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None, observer=None, stop_at=None) -> Path:
     run_dir=Path(run_dir)
     run_dir.mkdir(parents=True,exist_ok=False)
-    from famjet.analysis.development import resolve_policy,fit_panel,draw_config
+    from famjet.analysis.development import resolve_policy,fit_panel,iter_fit_panel,draw_config
     policy=dict(SMOKE_POLICY)
     if stop_at is not None and not 0<=stop_at<=config.training.optimizer_steps: raise ValueError('invalid stop boundary')
     start=time.perf_counter(); baseline=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
@@ -315,20 +315,32 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             restore_rng(context['rng'],config.resources.device)
         else:
             fit_start=time.perf_counter()
-            fits=fit_panel(config) if config.phase=='development' else [generate_episode(config,config.seed,'training_preprocessing_v1-000000000000')]
-            for fit in fits:
-                append_jsonl(run_dir/'preprocessing.jsonl',{'episode_ids':list(fit.events.history_ids),
-                    'hashes':fit.metadata['hashes'],'split':'training','purpose':'frozen_statistics'})
-            generation_seconds=time.perf_counter()-fit_start
-            model.fit_statistics([move_episode(fit,config.resources.device) for fit in fits])
-            record['preprocessing_seconds']={'generation':generation_seconds,'total':time.perf_counter()-fit_start}
+            generation_seconds=0.; fit_pass=0
+            def fit_factory(*,nested=False):
+                nonlocal generation_seconds,fit_pass
+                pass_index=fit_pass;fit_pass+=1
+                iterator=iter_fit_panel(config,histories_per_cell=config.development.fit_histories_per_cell//2 if nested else None) if config.phase=='development' else (generate_episode(config,config.seed,'training_preprocessing_v1-000000000000') for _ in (0,))
+                while True:
+                    tick=time.perf_counter()
+                    try: fit=next(iterator)
+                    except StopIteration: break
+                    generation_seconds+=time.perf_counter()-tick
+                    if pass_index==0:
+                        append_jsonl(run_dir/'preprocessing.jsonl',{'episode_ids':list(fit.events.history_ids),
+                            'hashes':fit.metadata['hashes'],'split':'training','purpose':'frozen_statistics'})
+                    yield move_episode(fit,config.resources.device)
+            if config.phase=='development':
+                model.fit_statistics(fit_factory)
+            else:
+                model.fit_statistics(list(fit_factory()))
             if config.development is not None and config.development.fit_histories_per_cell>=4:
                 from famjet.eval.metrics import fit_target_statistics
-                nested=fit_target_statistics([ep for i,ep in enumerate(fits) if i%config.development.fit_histories_per_cell<config.development.fit_histories_per_cell//2])
+                nested=fit_target_statistics(fit_factory(nested=True))
                 record['statistics_stability']={t:{'nested_scale':nested['tasks'][t]['scale'],'full_scale':v['scale'],
                     'relative_scale_change':abs(v['scale']/nested['tasks'][t]['scale']-1)} for t,v in model.target_statistics['tasks'].items()}
+            record['preprocessing_seconds']={'generation':generation_seconds,'total':time.perf_counter()-fit_start,
+                'passes':fit_pass,'raw_history_retention':'one_episode_at_a_time' if config.phase=='development' else 'legacy_smoke_panel'}
             record['preprocessing']={'target_statistics':model.target_statistics,'fit_provenance':model.fit_provenance}
-            del fits,fit
         draw_cache=None
         if config.development is not None and config.development.cache_manifest_path is not None:
             from famjet.data.development_cache import TrainingDrawCache

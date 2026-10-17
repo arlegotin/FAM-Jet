@@ -256,16 +256,33 @@ class TaskModel(nn.Module):
         """
         if self._frozen_rates:
             raise ValueError('frozen represented rates are inference-read-only')
-        episodes = tuple(episodes)
-        if not episodes or any(ep.metadata.get('split') != 'training' for ep in episodes):
-            raise ValueError('statistics require explicit nonempty training split')
-        targets = fit_target_statistics(episodes)
-        gaps = []
-        for ep in episodes:
-            validate_events(ep.events)
-            for row, length in zip(ep.events.timestamps.tolist(), ep.events.lengths.tolist()):
-                gaps.extend(float(exact_time_difference(row[i], row[i-1])) for i in range(1, length)
-                            if exact_time_difference(row[i], row[i-1]) > 0)
+        # A repeatable external factory bounds raw-history memory. List callers
+        # retain their original API; both paths use the same ordered reductions.
+        streaming = callable(episodes)
+        if streaming:
+            factory = episodes
+        else:
+            episodes = tuple(episodes)
+            factory = lambda: iter(episodes)
+        from famjet.data.synthetic import batch_hash, batch_hash_tensor
+        def identity(ep):
+            return canonical_hash({'events': batch_hash(ep.events), 'queries': batch_hash(ep.queries),
+                'labels': batch_hash_tensor(ep.labels), 'supported': batch_hash_tensor(ep.supported),
+                'metadata': ep.metadata})
+        gaps, histories, identities = [], [], []
+        def target_pass():
+            for ep in factory():
+                if ep.metadata.get('split') != 'training':
+                    raise ValueError('statistics require explicit nonempty training split')
+                validate_events(ep.events)
+                histories.extend(ep.events.history_ids)
+                if streaming: identities.append(identity(ep))
+                for row, length in zip(ep.events.timestamps.tolist(), ep.events.lengths.tolist()):
+                    gaps.extend(float(exact_time_difference(row[i], row[i-1])) for i in range(1, length)
+                                if exact_time_difference(row[i], row[i-1]) > 0)
+                yield ep
+            if not histories: raise ValueError('statistics require explicit nonempty training split')
+        targets = fit_target_statistics(target_pass())
         if not gaps and (type(reference_duration) not in (int, float) or not math.isfinite(reference_duration) or reference_duration <= 0):
             raise ValueError('no positive training gap: explicit positive reference duration required')
         reference = statistics.median(gaps) if gaps else float(reference_duration)
@@ -276,11 +293,16 @@ class TaskModel(nn.Module):
             self.kernel.t_ref = reference
             with torch.no_grad():
                 rows = []
-                for ep in episodes:
+                count = 0
+                for count, ep in enumerate(factory(), 1):
+                    if streaming and (count > len(identities) or identity(ep) != identities[count-1]):
+                        raise ValueError('repeatable statistics stream changed between passes')
                     features = self.features(self.encode(ep.events, mode='terminal'), ep.queries)
                     if bool(features.diagnostics['failure'][ep.queries.present].any()):
                         raise ValueError('cannot fit failed training features')
                     rows.append(features.values[ep.queries.present])
+                if streaming and count != len(identities):
+                    raise ValueError('repeatable statistics stream changed length between passes')
                 x = torch.cat(rows, 0)
                 if x.shape[0] == 0:
                     raise ValueError('feature statistics require training queries')
@@ -300,8 +322,8 @@ class TaskModel(nn.Module):
                     target_mean[index].copy_(target_mean.new_tensor(record['mean']))
                     target_scale[index].fill_(record['scale'] or 1.)
             provenance = {'split': 'training',
-                'history_identity_hash': canonical_hash([h for ep in episodes for h in ep.events.history_ids]),
-                'history_count': sum(len(ep.events.history_ids) for ep in episodes),
+                'history_identity_hash': canonical_hash(histories),
+                'history_count': len(histories),
                 't_ref': reference, 'reference_source': 'median_positive_training_gap' if gaps else 'explicit_duration',
                 'feature_rows': x.shape[0], 'writer_hash': self._parameter_hash(), 'target_hash': canonical_hash(targets)}
             provenance, targets = training_metadata(provenance, targets, self.kernel.value_dim)
