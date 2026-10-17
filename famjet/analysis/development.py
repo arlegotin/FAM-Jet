@@ -111,6 +111,27 @@ def execution_shape(config):
             'feature_cache_manifest_hash':config.development.feature_cache_manifest_hash}
 
 
+def fixed_basis_cpu64(config):
+    """Only the declared fixed-basis arm; does not grant execution allocation."""
+    m,d=config.model,config.data
+    if (config.phase!='development' or config.development is None
+            or config.resources.device!='cpu' or m.precision!='float64'
+            or m.heads!=1 or m.K!=16 or d.key_dim!=16 or d.value_dim!=8 or d.key_features!='one_hot'
+            or m.writer!='fixed' or m.encode!='terminal' or m.epsilon!=1e-8
+            or m.numerical_support_floor!=1e-8 or m.learned_abstention_threshold is not None
+            or m.reader.kind!='generic_contracted' or m.reader.width!=128 or m.reader.layers!=2
+            or m.reader.rank is not None or m.reader.max_parameters is not None or m.reader.max_macs is not None):
+        return False
+    if m.method in {'jet','bank'}:
+        return (m.J==(4 if m.method=='jet' else 8) and m.rates is not None
+                and m.rates.mode=='fixed' and m.rates.spacing=='log' and m.rates.bounds==(1/5224,1.))
+    if m.method=='multiscale':
+        p=m.multiscale
+        return (p is not None and p.order==4 and p.scale_order==2 and p.epsilon==1e-4
+                and p.tau0==16. and p.declared_gaps==() and config.resources.cache_limit_bytes==0)
+    return False
+
+
 def resolve_policy(config):
     from dataclasses import asdict
     from famjet.train import SMOKE_POLICY,ROOT
@@ -121,7 +142,8 @@ def resolve_policy(config):
     if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
     if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
         raise ValueError('development precision requires CPU calibration')
-    if config.model.precision=='float64' and (config.model.method not in {'jet','bank'}
+    fixed_profile=fixed_basis_cpu64(config)
+    if config.model.precision=='float64' and not fixed_profile and (config.model.method not in {'jet','bank'}
             or config.model.writer!='fixed' or config.model.rates.mode!='learned'
             or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
         raise ValueError('FP64 requires learned-rate raw calibration')
@@ -133,38 +155,49 @@ def resolve_policy(config):
         cached=d.cache_manifest_path is not None
         finite=d.corpus_histories is not None
         learned_profile=finite and config.model.rates is not None and config.model.rates.mode=='learned'
-        if learned_profile and (not cached or d.feature_cache_manifest_path is not None
-                or d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
-                or config.model.J!=(4 if config.model.method=='jet' else 8)
-                or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
-                or config.model.reader.max_parameters is not None or config.model.reader.max_macs is not None
-                or config.model.rates.bounds!=(1/5224,1.) or config.model.rates.spacing!='log'
-                or config.model.encode!='terminal' or config.model.epsilon!=1e-8
-                or config.training.learning_rate!=.001 or config.training.weight_decay!=0
-                or d.fit_histories_per_cell!=64 or d.eval_histories_per_cell!=8
-                or config.data.queries_per_history!=8 or config.resources.cpu_threads!=4
-                or d.gradient_clip_norm is not None
-                or d.milestones!=(0,128,512,1024,2048,4096,8192,16384,32768)):
-            raise ValueError('outside authorized learned-rate raw calibration shape')
-        if finite and not learned_profile and (d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
-                or config.model.J!=(4 if config.model.method=='jet' else 8)
-                or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
-                or config.model.rates.bounds!=(.001,1.) or d.fit_histories_per_cell!=32
-                or d.eval_histories_per_cell!=4 or d.feature_cache_manifest_path is None):
-            raise ValueError('outside authorized finite-corpus calibration shape')
-        if cached and (d.cache_manifest_hash is None or d.lengths!=(128,512,2048)
-                or config.training.optimizer_steps!=(32768 if finite else 2048) or config.training.effective_batch!=3
-                or config.model.reader.kind not in {'generic_contracted','structured'}):
-            raise ValueError('outside authorized cached calibration shape')
-        if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
-            or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
-            or config.data.value_dim!=8
-            or config.model.reader.width not in ((64,128) if learned_profile and config.model.precision=='float64' else (64,))
-            or config.model.reader.layers!=2
-            or config.model.writer!='fixed' or config.model.rates.mode!=('learned' if learned_profile else 'fixed')
-            or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>(64 if learned_profile else 32)
-            or config.data.queries_per_history>8 or d.eval_histories_per_cell>(8 if learned_profile else 4)):
-            raise ValueError('outside authorized initial CPU calibration shape')
+        if fixed_profile:
+            if (not cached or d.cache_manifest_hash is None or d.feature_cache_manifest_path is None
+                    or d.feature_cache_manifest_hash is None or d.corpus_histories!=6144
+                    or config.training.optimizer_steps!=32768 or config.training.effective_batch!=3
+                    or d.lengths!=(128,512,2048) or d.fit_histories_per_cell!=64 or d.eval_histories_per_cell!=8
+                    or config.data.queries_per_history!=8 or config.resources.cpu_threads!=4
+                    or config.training.learning_rate!=.001 or config.training.weight_decay!=0
+                    or d.gradient_clip_norm is not None
+                    or d.milestones!=(0,128,512,1024,2048,4096,8192,16384,32768)):
+                raise ValueError('outside authorized fixed-basis CPU64 calibration shape')
+        else:
+            if learned_profile and (not cached or d.feature_cache_manifest_path is not None
+                    or d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
+                    or config.model.J!=(4 if config.model.method=='jet' else 8)
+                    or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
+                    or config.model.reader.max_parameters is not None or config.model.reader.max_macs is not None
+                    or config.model.rates.bounds!=(1/5224,1.) or config.model.rates.spacing!='log'
+                    or config.model.encode!='terminal' or config.model.epsilon!=1e-8
+                    or config.training.learning_rate!=.001 or config.training.weight_decay!=0
+                    or d.fit_histories_per_cell!=64 or d.eval_histories_per_cell!=8
+                    or config.data.queries_per_history!=8 or config.resources.cpu_threads!=4
+                    or d.gradient_clip_norm is not None
+                    or d.milestones!=(0,128,512,1024,2048,4096,8192,16384,32768)):
+                raise ValueError('outside authorized learned-rate raw calibration shape')
+            if finite and not learned_profile and (d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
+                    or config.model.J!=(4 if config.model.method=='jet' else 8)
+                    or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
+                    or config.model.rates.bounds!=(.001,1.) or d.fit_histories_per_cell!=32
+                    or d.eval_histories_per_cell!=4 or d.feature_cache_manifest_path is None):
+                raise ValueError('outside authorized finite-corpus calibration shape')
+            if cached and (d.cache_manifest_hash is None or d.lengths!=(128,512,2048)
+                    or config.training.optimizer_steps!=(32768 if finite else 2048) or config.training.effective_batch!=3
+                    or config.model.reader.kind not in {'generic_contracted','structured'}):
+                raise ValueError('outside authorized cached calibration shape')
+            if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
+                or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
+                or config.data.value_dim!=8
+                or config.model.reader.width not in ((64,128) if learned_profile and config.model.precision=='float64' else (64,))
+                or config.model.reader.layers!=2
+                or config.model.writer!='fixed' or config.model.rates.mode!=('learned' if learned_profile else 'fixed')
+                or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>(64 if learned_profile else 32)
+                or config.data.queries_per_history>8 or d.eval_histories_per_cell>(8 if learned_profile else 4)):
+                raise ValueError('outside authorized initial CPU calibration shape')
     else:
         if d.calibration_path is None: raise ValueError('measured calibration required')
         evidence=json.loads((ROOT/d.calibration_path).read_text())

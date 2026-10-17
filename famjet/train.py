@@ -43,7 +43,8 @@ def make_model(config, policy=None):
     m,d=config.model,config.data
     device=config.resources.device
     dtype=getattr(torch,m.precision)
-    if m.precision != 'float32' and not (m.precision=='float64' and device=='cpu'
+    from famjet.analysis.development import fixed_basis_cpu64
+    if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
             and config.phase=='development' and config.development is not None
             and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
             and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
@@ -54,7 +55,7 @@ def make_model(config, policy=None):
         p=m.multiscale
         kernel=MultiscaleMemory(p.order,p.scale_order,p.epsilon,p.tau0,m.K,d.value_dim,
             declared_gaps=p.declared_gaps,cache_limit_bytes=config.resources.cache_limit_bytes,
-            chunk_size=policy['terminal_chunk'],device=device)
+            chunk_size=policy['terminal_chunk'],device=device,dtype=dtype)
     elif m.method == 'polynomial':
         p=m.polynomial
         kernel=PolynomialMemory(p.orders,p.taus,m.K,d.value_dim,declared_gaps=p.declared_gaps,
@@ -67,8 +68,8 @@ def make_model(config, policy=None):
             # the declared precision's represented rates from promoted logits.
             rates=BoundedRates(m.J,math.log(lo),math.log(hi)).to(device=device,dtype=dtype)
         else:
-            rates=(torch.logspace(math.log10(lo),math.log10(hi),m.J) if m.rates.spacing=='log'
-                   else torch.linspace(lo,hi,m.J)).reshape(1,-1).to(device)
+            rates=(torch.logspace(math.log10(lo),math.log10(hi),m.J,dtype=dtype) if m.rates.spacing=='log'
+                   else torch.linspace(lo,hi,m.J,dtype=dtype)).reshape(1,-1).to(device)
         kernel=(JetMemory if m.method=='jet' else ExpBankMemory)(rates,m.K,d.value_dim,
             eps=m.epsilon,support_floor=m.numerical_support_floor,chunk_size=policy['terminal_chunk'])
     from famjet.analysis.development import reader_budget
@@ -422,7 +423,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                         row.update(corpus_pass=ordinal//n,corpus_offset=ordinal%n,unique_corpus_histories=n)
                     append_jsonl(run_dir/'draws.jsonl',row)
                 ep=episodes[0] if feature_cache is not None else move_episode(_batch(episodes),config.resources.device,dtype=getattr(torch,config.model.precision))
-                if config.model.method in {'polynomial','multiscale'}:
+                if feature_cache is None and config.model.method in {'polynomial','multiscale'}:
                     preparation.append(model.kernel.call_preparation_cost(ep.events,ep.queries,
                         mode=config.model.encode,reader_kind=config.model.reader.kind))
                 forward_start=time.perf_counter()

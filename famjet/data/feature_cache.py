@@ -16,7 +16,9 @@ from famjet.data.development_cache import TrainingDrawCache
 
 
 def _require_fixed_upstream(model):
-    if (model.kernel.reader_feature_spec['family'] not in {'jet','bank'}
+    family=model.kernel.reader_feature_spec['family']
+    if (family not in {'jet','bank','multiscale'}
+            or (family=='multiscale' and model.kernel.reference_tensor.dtype!=torch.float64)
             or model.inference_config['writer']!='fixed' or model.inference_config['rate_mode']!='fixed'
             or model.writer is not None or model.query_map is not None
             or any(p.requires_grad for n,p in model.named_parameters() if not n.startswith('reader.'))):
@@ -28,13 +30,18 @@ def feature_identity(config,model):
     from famjet.eval.state_io import tensor_record
     from famjet.eval.isolation import source_identity
     from famjet.train import ROOT
+    from famjet.analysis.development import fixed_basis_cpu64
     d=config.development
+    if (model.kernel.reference_tensor.dtype!=getattr(torch,config.model.precision)
+            or model.kernel.reference_tensor.device.type!=config.resources.device
+            or model.kernel.reader_feature_spec['family']!=config.model.method):
+        raise ValueError('feature cache model/config precision or family identity mismatch')
     if (d is None or d.corpus_histories is None or d.cache_manifest_path is None
-            or config.resources.device!='cpu' or config.model.precision!='float32'
-            or config.model.method not in {'jet','bank'} or config.model.writer!='fixed'
-            or config.model.rates.mode!='fixed' or model.writer is not None or model.query_map is not None
+            or config.resources.device!='cpu'
+            or not (fixed_basis_cpu64(config) or (config.model.precision=='float32' and config.model.method in {'jet','bank'})) or config.model.writer!='fixed'
+            or (config.model.rates is not None and config.model.rates.mode!='fixed') or model.writer is not None or model.query_map is not None
             or any(p.requires_grad for n,p in model.named_parameters() if not n.startswith('reader.'))):
-        raise ValueError('fixed features require CPU FP32 finite corpus with no learned upstream parameters')
+        raise ValueError('fixed features require authorized CPU finite corpus with no learned upstream parameters')
     if model.fit_provenance is None:raise ValueError('fixed features require frozen training preprocessing')
     return {'version':1,'source_hash':source_identity(),
             'lock_hash':hashlib.sha256((ROOT/'requirements.lock').read_bytes()).hexdigest(),
@@ -42,7 +49,7 @@ def feature_identity(config,model):
             'writer_rates_hash':model._parameter_hash(),'reader_schema':model.reader.schema,
             'feature_mean':tensor_record(model.reader.feature_mean),'feature_scale':tensor_record(model.reader.feature_scale),
             'target_statistics_hash':canonical_hash(model.target_statistics),'fit_provenance':model.fit_provenance,
-            't_ref':model.kernel.t_ref,'device':'cpu','precision':'float32','encode':config.model.encode,
+            't_ref':model.kernel.t_ref,'device':'cpu','precision':config.model.precision,'encode':config.model.encode,
             'queries':config.data.queries_per_history,'input_dim':model.reader.input_dim,'value_dim':config.data.value_dim}
 
 
@@ -63,7 +70,7 @@ def feature_record(model,episode,encode_mode):
     """Only fixed upstream parameters may be detached; no history is retained."""
     _require_fixed_upstream(model)
     from famjet.train import move_episode
-    episode=move_episode(episode,'cpu')
+    episode=move_episode(episode,'cpu',dtype=model.kernel.reference_tensor.dtype)
     with torch.no_grad():f=model.features(model.encode(episode.events,mode=encode_mode),episode.queries)
     return {'values':f.values.detach().clone(),'feature_supported':f.supported.clone(),
             'failure':f.diagnostics['failure'].clone(),'queries':asdict(episode.queries),
@@ -85,10 +92,17 @@ def prepare_feature_cache(config,model,directory,*,projected_data_bytes,output_r
     factor=1 if platform.system()=='Darwin' else 1024
     baseline=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor
     started=time.perf_counter();total=0;delivery=0.;encoding=0.;writing=0.
+    preparation={'scope':'unique_corpus_encode_and_feature_reads_forward_only',
+        'cpu_fp64_exponentials':0,'matrix_cubic_work':0,'encode_advances':0,'query_advances':0}
+    record['upstream_preparation_totals']=preparation
     try:
         raw=TrainingDrawCache(config);record['raw_verification']=raw.verification
         for i in range(count):
             tick=time.perf_counter();ep=raw.read(i);delivery+=time.perf_counter()-tick
+            if config.model.method=='multiscale':
+                cost=model.kernel.call_preparation_cost(ep.events,ep.queries,mode=config.model.encode,reader_kind=config.model.reader.kind)
+                for key in preparation:
+                    if key!='scope':preparation[key]+=cost[key]
             tick=time.perf_counter();wire=feature_record(model,ep,config.model.encode);encoding+=time.perf_counter()-tick
             tick=time.perf_counter();buffer=io.BytesIO();torch.save(wire,buffer);payload=buffer.getvalue()
             filename=f'{i:012d}.pt';atomic_bytes(directory/filename,payload);writing+=time.perf_counter()-tick
@@ -130,6 +144,7 @@ class TrainingFeatureCache:
         self.verification={'seconds':time.perf_counter()-tick,'bytes_read':total,
             'boundary':'actual_disk_read_sha256_all_feature_files','raw_verification':raw.verification}
         self.next_ordinal=start_ordinal;self.input_dim=model.reader.input_dim
+        self.dtype=model.kernel.reference_tensor.dtype
 
     def _bytes(self,entry):
         payload=(self.path.parent/entry['file']).read_bytes()
@@ -144,7 +159,7 @@ class TrainingFeatureCache:
         q=QueryBatch(**raw['queries']);values=raw['values']
         if (q.history_ids!=(entry['episode_id'],) or raw['metadata']['hashes']!=entry['hashes']
                 or raw['event_count']!=entry['length'] or tuple(values.shape)!=(*q.T.shape,self.input_dim)
-                or values.dtype!=torch.float32):raise ValueError('feature cache record identity/shape mismatch')
+                or values.dtype!=self.dtype):raise ValueError('feature cache record identity/shape mismatch')
         f=FeatureBatch(values,raw['feature_supported'],{'failure':raw['failure']})
         self.next_ordinal+=1
         return FeatureTrainingExample(f,q,raw['labels'],raw['supported'],raw['metadata'],raw['event_count'])

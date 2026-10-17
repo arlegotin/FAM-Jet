@@ -1,0 +1,23 @@
+{
+  "base": "34dee65",
+  "package_hash": "ad542defda704e06dc9c88819b95afd6f483a882c792e82bf8c85dc27a6f6641",
+  "status": "source tests pass; independent review pending; no numerical or preparation execution",
+  "files": {
+    "famjet/analysis/development.py": "7b94ff998c97500679a133c9369b60f599f9b64aa25ad2f6d06dca64f2868f80",
+    "famjet/train.py": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+    "famjet/data/feature_cache.py": "1d4f406bc78c1ceea2291625b69cba9cddb44824d3ccfe25524d4366db59f031",
+    "tests/test_fixed_basis_development.py": "0d7608ec1e19ec7cf5c5a3bc7d4bb79e619ce95cc26a9c2c7f092ec13e83b460",
+    "docs/research/task18-fixed-basis-source-report.md": "de2ebe83513a6bda6b444886aaf0184d82cabdd661a1c6e1f8c901386e25dfd7"
+  },
+  "logs": {
+    "artifacts/task18-evidence/fixed-basis-final-guards-green.txt": "1179b3c44a1516ec86a11b347189ff1b6daf2a1b3d6cd9a08b459fd59c865501",
+    "artifacts/task18-evidence/fixed-basis-focused-green.txt": "53b2be89759c8c8c0938109372084589877b637375c12319ee1f88d99a9a333b",
+    "artifacts/task18-evidence/fixed-basis-identity-accounting-red.txt": "3808514ec0a67d3349084d2dcc9483b02a9c78e7c63b8b9c2b38999c85ed30dd",
+    "artifacts/task18-evidence/fixed-basis-native-cover.txt": "cb8e58e16ae8c28a3f18c377ab7d518dedb5d75261991f59b50bd1100637a467",
+    "artifacts/task18-evidence/fixed-basis-shape-red.txt": "a4f1f75a305603f685b97b5ff3a3c83b637c9d9d80aa1ae244b7f13a24327362",
+    "artifacts/task18-evidence/fixed-basis-source-green1.txt": "ce117acd890daf8a90cd76fe72382ac87aa4c0173049d2872b7cdfb37ebe1655",
+    "artifacts/task18-evidence/fixed-basis-source-green2.txt": "14289a25795ea7d56daa9be9ccae18450096005ac0e4ae6ba28b4ddea33d9aac",
+    "artifacts/task18-evidence/fixed-basis-source-green3.txt": "8a76d1b8a2d96337a35586142cdf3639d75bd9972b28b5998dd9a990f1e7c03f",
+    "artifacts/task18-evidence/fixed-basis-source-red.txt": "2ff2ac9220e0663e691e8b1a87e5028866b2e4fcb1857f2c244f5d15ab821d63"
+  }
+}
