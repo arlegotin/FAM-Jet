@@ -62,6 +62,9 @@ def _preflight_model(context, config):
             raise ValueError('checkpoint reader/model configuration mismatch')
         if schema['inference_config'] != {'schema_version':1,'writer':m.writer,'rate_mode':'fixed' if m.rates is None else m.rates.mode} or schema['frozen_rates'] is not False:
             raise ValueError('checkpoint training model configuration mismatch')
+        if type(wire['weights']) is not dict or any(type(value) is not dict
+                or value.get('dtype')!=m.precision for value in wire['weights'].values()):
+            raise ValueError('checkpoint task weight precision mismatch')
         ks=kernel['schema']
         if any(type(ks[k]) is not int or ks[k] != value for k,value in [('key_dim',m.K),('value_dim',d.value_dim)]):
             raise ValueError('checkpoint kernel dimensions mismatch')

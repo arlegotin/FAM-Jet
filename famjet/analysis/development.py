@@ -119,8 +119,12 @@ def resolve_policy(config):
     import json
     d=config.development
     if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
-    if config.resources.device!='cpu' or config.model.precision!='float32':
-        raise ValueError('development initially calibrated only for CPU FP32')
+    if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
+        raise ValueError('development precision requires CPU calibration')
+    if config.model.precision=='float64' and (config.model.method not in {'jet','bank'}
+            or config.model.writer!='fixed' or config.model.rates.mode!='learned'
+            or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
+        raise ValueError('FP64 requires learned-rate raw calibration')
     if config.data.generator.namespace!='training' or config.data.generator_version!='initial_spec_v2_targets':
         raise ValueError('development requires current training-only target generation')
     if config.training.microbatch!=1: raise ValueError('ragged development uses microbatch1')
@@ -328,7 +332,7 @@ def run_development(config,out, *, resume=None, stop_at=None):
             fits=fit_panel(config); stats=fit_target_statistics(fits)
             atomic_json(out/'statistics.json',stats)
             model=make_model(config,policy)
-            state=model.encode(move_episode(episodes[0],'cpu').events,mode='terminal')
+            state=model.encode(move_episode(episodes[0],'cpu',dtype=getattr(torch,config.model.precision)).events,mode='terminal')
             budget=model.persistent_nbytes(state); result={}
             for name,memory in simple_memories(config,budget).items():
                 tick=time.perf_counter()
@@ -346,7 +350,7 @@ def run_development(config,out, *, resume=None, stop_at=None):
         else:
             def observe(model,step,run_dir):
                 tick=time.perf_counter()
-                rows,summary=evaluate_development(model,[move_episode(ep,'cpu') for ep in episodes],manifest['manifest_hash'],config.model.method)
+                rows,summary=evaluate_development(model,[move_episode(ep,'cpu',dtype=getattr(torch,config.model.precision)) for ep in episodes],manifest['manifest_hash'],config.model.method)
                 for row in rows: append_jsonl(out/f'predictions-step{step}.jsonl',row)
                 entry={'step':step,**summary,'evaluation_seconds':time.perf_counter()-tick,
                        'parameters':parameter_accounting(model),'target_statistics_hash':canonical_hash(model.target_statistics),

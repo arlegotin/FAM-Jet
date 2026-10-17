@@ -42,7 +42,12 @@ def make_model(config, policy=None):
     policy=SMOKE_POLICY if policy is None else policy
     m,d=config.model,config.data
     device=config.resources.device
-    if m.precision != 'float32': raise ValueError('training requires FP32')
+    dtype=getattr(torch,m.precision)
+    if m.precision != 'float32' and not (m.precision=='float64' and device=='cpu'
+            and config.phase=='development' and config.development is not None
+            and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+            and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+        raise ValueError('FP64 training requires the CPU learned-rate development profile')
     if m.method == 'delta':
         kernel=DeltaMixer(m.K,d.value_dim,heads=m.heads,**asdict(m.delta),device=device)
     elif m.method == 'multiscale':
@@ -58,7 +63,9 @@ def make_model(config, policy=None):
         if m.method not in {'jet','bank'}: raise ValueError('training comparator not yet registered')
         lo,hi=m.rates.bounds
         if m.rates.mode == 'learned':
-            rates=BoundedRates(m.J,math.log(lo),math.log(hi)).to(device)
+            # Preserve seeded FP32 initialization coordinates, then evaluate
+            # the declared precision's represented rates from promoted logits.
+            rates=BoundedRates(m.J,math.log(lo),math.log(hi)).to(device=device,dtype=dtype)
         else:
             rates=(torch.logspace(math.log10(lo),math.log10(hi),m.J) if m.rates.spacing=='log'
                    else torch.linspace(lo,hi,m.J)).reshape(1,-1).to(device)
@@ -66,7 +73,7 @@ def make_model(config, policy=None):
             eps=m.epsilon,support_floor=m.numerical_support_floor,chunk_size=policy['terminal_chunk'])
     from famjet.analysis.development import reader_budget
     reader=make_reader(m.reader.kind,kernel.reader_feature_spec,
-        dict(key_dim=m.K),reader_budget(m.reader)).to(device)
+        dict(key_dim=m.K),reader_budget(m.reader)).to(device=device,dtype=dtype)
     return TaskModel(kernel,reader,config).to(device)
 
 
@@ -86,12 +93,15 @@ def make_optimizer(model,config):
     return torch.optim.AdamW(parameters,lr=config.training.learning_rate,weight_decay=config.training.weight_decay)
 
 
-def move_episode(ep, device):
+def move_episode(ep, device, *, dtype=torch.float32):
+    # Precision changes computation, not the existing FP32 event presentation.
+    # Keep labels untouched for the common training-only statistics fit.
+    def numeric(value): return value.to(device=device,dtype=torch.float32).to(dtype=dtype)
     e,q=ep.events,ep.queries
-    e=replace(e,key_features=e.key_features.to(device=device,dtype=torch.float32),
-        values=e.values.to(device=device,dtype=torch.float32),present=e.present.to(device),observed=e.observed.to(device),
-        auxiliary={k:v.to(device=device,dtype=torch.float32) for k,v in e.auxiliary.items()})
-    q=replace(q,key_features=q.key_features.to(device=device,dtype=torch.float32),present=q.present.to(device))
+    e=replace(e,key_features=numeric(e.key_features),
+        values=numeric(e.values),present=e.present.to(device),observed=e.observed.to(device),
+        auxiliary={k:numeric(v) for k,v in e.auxiliary.items()})
+    q=replace(q,key_features=numeric(q.key_features),present=q.present.to(device))
     return replace(ep,events=e,queries=q)
 
 
@@ -129,7 +139,7 @@ def history_loss(model, result, episode):
                     loss=torch.nn.functional.cross_entropy(result.logits[b,mask],labels.long())
                 else:
                     scale=model.target_scale[TASK_ORDER.index(task)]
-                    loss=((result.prediction[b,mask]-labels.float())/scale).square().mean()
+                    loss=((result.prediction[b,mask]-labels.to(result.prediction))/scale).square().mean()
             terms.append(loss)
         rows.append(torch.stack(terms).mean())
     loss=torch.stack(rows).mean()
@@ -346,7 +356,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                     if pass_index==0:
                         append_jsonl(run_dir/'preprocessing.jsonl',{'episode_ids':list(fit.events.history_ids),
                             'hashes':fit.metadata['hashes'],'split':'training','purpose':'frozen_statistics'})
-                    yield move_episode(fit,config.resources.device)
+                    yield move_episode(fit,config.resources.device,dtype=getattr(torch,config.model.precision))
             if config.phase=='development':
                 model.fit_statistics(fit_factory)
             else:
@@ -411,7 +421,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                         n=config.development.corpus_histories
                         row.update(corpus_pass=ordinal//n,corpus_offset=ordinal%n,unique_corpus_histories=n)
                     append_jsonl(run_dir/'draws.jsonl',row)
-                ep=episodes[0] if feature_cache is not None else move_episode(_batch(episodes),config.resources.device)
+                ep=episodes[0] if feature_cache is not None else move_episode(_batch(episodes),config.resources.device,dtype=getattr(torch,config.model.precision))
                 if config.model.method in {'polynomial','multiscale'}:
                     preparation.append(model.kernel.call_preparation_cost(ep.events,ep.queries,
                         mode=config.model.encode,reader_kind=config.model.reader.kind))
@@ -449,7 +459,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
                 'mps_current_bytes':torch.mps.current_allocated_memory() if config.resources.device=='mps' else None,
                 'mps_driver_bytes':torch.mps.driver_allocated_memory() if config.resources.device=='mps' else None}
             append_jsonl(run_dir/'timing.jsonl',{'step':step,'shape':{'microbatch':config.training.microbatch,'lengths':consumed_lengths,'J':config.model.J,'K':config.model.K,'V':config.data.value_dim},
-                'device':config.resources.device,'precision':'float32',
+                'device':config.resources.device,'precision':config.model.precision,
                 'boundary':'training_feature_delivery_reader_backward_optimizer' if feature_cache is not None else 'training_delivery_forward_backward_optimizer',
                 'cold_warm':'cold' if step_index==0 else 'warm','block':step_index,'order':0,'repetitions':1,
                 'seconds':elapsed,'generation_seconds':generation_seconds,'delivery_seconds':delivery_seconds,
@@ -466,7 +476,7 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
             if not finite or step in config.development.milestones or step==stop_at:
                 atomic_json(run_dir/'run.json',record)
         model.eval()
-        probe=move_episode(generate_episode(config,config.seed if config.development is None else config.development.data_seed,'train-000000000000'),config.resources.device)
+        probe=move_episode(generate_episode(config,config.seed if config.development is None else config.development.data_seed,'train-000000000000'),config.resources.device,dtype=getattr(torch,config.model.precision))
         for prediction in _prediction_records(model,probe,record['id'],'training',scientific=False):
             append_jsonl(run_dir/'predictions.jsonl',prediction)
         record.update(status='completed',parameter_hash=canonical_hash(export_method(model)))
@@ -552,7 +562,7 @@ def evaluate_model(checkpoint: Path, manifest: Path, out: Path) -> Path:
             c=replace(eval_config,data=replace(eval_config.data,generator=g))
             episode=generate_episode(c,split['root'],entry['episode_id'])
             if episode.metadata['hashes']!=entry['hashes']: raise ValueError('regenerated manifest episode hash mismatch')
-            ep=move_episode(episode,config.resources.device)
+            ep=move_episode(episode,config.resources.device,dtype=getattr(torch,config.model.precision))
             for row in _prediction_records(model,ep,out.name,'development_fit',policy=scoring_policy,manifest_hash=root_hash):
                 append_jsonl(path,row)
             if not bool(ep.queries.present.any()):
