@@ -1,0 +1,236 @@
+{
+  "scope": "fixed_writer_fixed_rates_primary_mean_contrast_FP32_current_frozen_preprocessing",
+  "claim": "primary_active_upper_bound_not_exhaustive_exact_activity_claim",
+  "trials": [
+    {
+      "trial": "jet_raw_2048",
+      "allocated_exact": 11017,
+      "primary_active_upper_bound": 10632,
+      "guaranteed_inactive_support_scalars": 65,
+      "guaranteed_inactive_input_scalars": 320,
+      "task_zero_columns": [
+        89,
+        90,
+        91,
+        93,
+        94
+      ],
+      "task_zero_names": [
+        "corrected_categorical",
+        "interval_support",
+        "latest",
+        "presence",
+        "random_binding"
+      ],
+      "fixed_lograte_constants": [],
+      "all_excluded_weights_unchanged_with_weight_decay0": true,
+      "first_layer_output_rank_or_width": 64,
+      "macs_exact": 10880
+    },
+    {
+      "trial": "bank_raw_2048",
+      "allocated_exact": 11017,
+      "primary_active_upper_bound": 10632,
+      "guaranteed_inactive_support_scalars": 65,
+      "guaranteed_inactive_input_scalars": 320,
+      "task_zero_columns": [
+        89,
+        90,
+        91,
+        93,
+        94
+      ],
+      "task_zero_names": [
+        "corrected_categorical",
+        "interval_support",
+        "latest",
+        "presence",
+        "random_binding"
+      ],
+      "fixed_lograte_constants": [],
+      "all_excluded_weights_unchanged_with_weight_decay0": true,
+      "first_layer_output_rank_or_width": 64,
+      "macs_exact": 10880
+    },
+    {
+      "trial": "jet_structured_2048",
+      "allocated_exact": 11529,
+      "primary_active_upper_bound": 11080,
+      "guaranteed_inactive_support_scalars": 65,
+      "guaranteed_inactive_input_scalars": 384,
+      "task_zero_columns": [
+        97,
+        98,
+        99,
+        101,
+        102
+      ],
+      "task_zero_names": [
+        "corrected_categorical",
+        "interval_support",
+        "latest",
+        "presence",
+        "random_binding"
+      ],
+      "fixed_lograte_constants": [
+        {
+          "name": "anchor0.log_rate_t_ref",
+          "column": 18,
+          "raw_float32": -6.907755374908447,
+          "fitted_mean": -6.9077534675598145,
+          "scale": 1.0,
+          "normalized_constant": -1.9073486328125e-06,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor1.log_rate_t_ref",
+          "column": 38,
+          "raw_float32": -4.605170249938965,
+          "fitted_mean": -4.605170726776123,
+          "scale": 1.0,
+          "normalized_constant": 4.76837158203125e-07,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor2.log_rate_t_ref",
+          "column": 58,
+          "raw_float32": -2.3025851249694824,
+          "fitted_mean": -2.3025853633880615,
+          "scale": 1.0,
+          "normalized_constant": 2.384185791015625e-07,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor3.log_rate_t_ref",
+          "column": 78,
+          "raw_float32": 0.0,
+          "fitted_mean": 0.0,
+          "scale": 1.0,
+          "normalized_constant": 0.0,
+          "exact_zero": true,
+          "unchanged_from_init": true
+        }
+      ],
+      "all_excluded_weights_unchanged_with_weight_decay0": true,
+      "first_layer_output_rank_or_width": 64,
+      "macs_exact": 11392
+    },
+    {
+      "trial": "bank_structured_2048",
+      "allocated_exact": 12041,
+      "primary_active_upper_bound": 11400,
+      "guaranteed_inactive_support_scalars": 65,
+      "guaranteed_inactive_input_scalars": 576,
+      "task_zero_columns": [
+        105,
+        106,
+        107,
+        109,
+        110
+      ],
+      "task_zero_names": [
+        "corrected_categorical",
+        "interval_support",
+        "latest",
+        "presence",
+        "random_binding"
+      ],
+      "fixed_lograte_constants": [
+        {
+          "name": "anchor0.log_rate_t_ref",
+          "column": 9,
+          "raw_float32": -6.907755374908447,
+          "fitted_mean": -6.9077534675598145,
+          "scale": 1.0,
+          "normalized_constant": -1.9073486328125e-06,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor1.log_rate_t_ref",
+          "column": 20,
+          "raw_float32": -5.920933246612549,
+          "fitted_mean": -5.920935153961182,
+          "scale": 1.0,
+          "normalized_constant": 1.9073486328125e-06,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor2.log_rate_t_ref",
+          "column": 31,
+          "raw_float32": -4.93411111831665,
+          "fitted_mean": -4.934112071990967,
+          "scale": 1.0,
+          "normalized_constant": 9.5367431640625e-07,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor3.log_rate_t_ref",
+          "column": 42,
+          "raw_float32": -3.947288751602173,
+          "fitted_mean": -3.947288751602173,
+          "scale": 1.0,
+          "normalized_constant": 0.0,
+          "exact_zero": true,
+          "unchanged_from_init": true
+        },
+        {
+          "name": "anchor4.log_rate_t_ref",
+          "column": 53,
+          "raw_float32": -2.9604666233062744,
+          "fitted_mean": -2.960467576980591,
+          "scale": 1.0,
+          "normalized_constant": 9.5367431640625e-07,
+          "exact_zero": false,
+          "unchanged_from_init": false
+        },
+        {
+          "name": "anchor5.log_rate_t_ref",
+          "column": 64,
+          "raw_float32": -1.9736443758010864,
+          "fitted_mean": -1.9736443758010864,
+          "scale": 1.0,
+          "normalized_constant": 0.0,
+          "exact_zero": true,
+          "unchanged_from_init": true
+        },
+        {
+          "name": "anchor6.log_rate_t_ref",
+          "column": 75,
+          "raw_float32": -0.9868221879005432,
+          "fitted_mean": -0.9868221879005432,
+          "scale": 1.0,
+          "normalized_constant": 0.0,
+          "exact_zero": true,
+          "unchanged_from_init": true
+        },
+        {
+          "name": "anchor7.log_rate_t_ref",
+          "column": 86,
+          "raw_float32": 0.0,
+          "fitted_mean": 0.0,
+          "scale": 1.0,
+          "normalized_constant": 0.0,
+          "exact_zero": true,
+          "unchanged_from_init": true
+        }
+      ],
+      "all_excluded_weights_unchanged_with_weight_decay0": true,
+      "first_layer_output_rank_or_width": 64,
+      "macs_exact": 11904
+    }
+  ],
+  "rules": [
+    "Subtract only structurally absent tasks and exactly-zero normalized globally fixed log rates.",
+    "Do not subtract tiny nonzero constants, bias redundancies, one-hot linear dependencies, or finite-panel constant support.",
+    "Raw u/h/z/b, key identity and age endpoints vary under the declared population; no empirical zero-gradient deduction.",
+    "Factorized first-layer input exclusions multiply rank, not final hidden width. Current trials use unfactorized width64.",
+    "Allocated and MAC counts remain exact; retained multitask schema is not newly added padding."
+  ],
+  "source_unchanged": true
+}

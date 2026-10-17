@@ -1,0 +1,91 @@
+schema_version: 1
+phase: development
+seed: 20261013
+data:
+  generator_version: initial_spec_v2_targets
+  key_features: one_hot
+  key_dim: 16
+  value_dim: 8
+  length: 128
+  queries_per_history: 8
+model:
+  method: jet
+  heads: 1
+  J: 4
+  K: 16
+  precision: float32
+  rates:
+    mode: fixed
+    bounds:
+    - 0.001
+    - 1.0
+    spacing: log
+  writer: fixed
+  encode: terminal
+  reader:
+    kind: structured
+    width: 64
+    layers: 2
+    activation: silu
+  epsilon: 1.0e-08
+  numerical_support_floor: 1.0e-08
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+training:
+  microbatch: 1
+  effective_batch: 3
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0
+  optimizer_steps: 2048
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 0
+  asset_disk_budget_bytes: 0
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-05
+  atol: 1.0e-06
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null
+development:
+  mode: calibration
+  lengths:
+  - 128
+  - 512
+  - 2048
+  data_seed: 20261017018
+  fit_histories_per_cell: 32
+  eval_histories_per_cell: 4
+  milestones:
+  - 0
+  - 128
+  - 512
+  - 1024
+  - 2048
+  cache_manifest_path: artifacts/task18/cache-fresh6144-streamfit/manifest.json
+  cache_manifest_hash: 16669b4bd0aabaac5d987e42b06b16effea457777cb1aa3eb7f51dd048dacd39

@@ -1,0 +1,18 @@
+{
+  "history_count": 6144,
+  "same_ordered_fields": {
+    "ordinal": true,
+    "episode_id": true,
+    "length": true,
+    "regime": true,
+    "hashes": true,
+    "bytes": true,
+    "sha256": true
+  },
+  "old_source": "722964c8fe25d12e201532c90799050a964127d31ea5233090d66f421d93ad2f",
+  "new_source": "97ab788e765009f249f50df1c0a5af158207715cc4bf38e32f74d58bce99cd7e",
+  "old_manifest_hash": "3293bf306522394cdb26ea04eca9c2467c907f8534244254f9916117c8a89ebb",
+  "new_manifest_hash": "16669b4bd0aabaac5d987e42b06b16effea457777cb1aa3eb7f51dd048dacd39",
+  "source_distinct": true,
+  "basis": "all ordered manifest entries and exact previously computed serialized-file SHA256; each new cache was fully file-read/hash verified"
+}

@@ -1,0 +1,27 @@
+{
+  "scope": "training_only_6144_unique_histories_no_development_targets",
+  "seconds": 9.19985833397368,
+  "by_length": {
+    "128": {
+      "count": 2048,
+      "min": 186.0,
+      "median": 283.0,
+      "q95": 347.0,
+      "max": 431.0
+    },
+    "512": {
+      "count": 2048,
+      "min": 930.0,
+      "median": 1149.0,
+      "q95": 1279.0,
+      "max": 1414.0
+    },
+    "2048": {
+      "count": 2048,
+      "min": 4140.0,
+      "median": 4599.0,
+      "q95": 4850.65,
+      "max": 5224.0
+    }
+  }
+}
