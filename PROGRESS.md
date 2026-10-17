@@ -253,3 +253,7 @@ Root closes e756515 operational lineage and allocates one fresh matched three-fa
 ## Task18 fixed-basis8192 allocation closed —18 October2026
 
 The [full report](docs/research/task18-fixed-basis-learning8192-report.md) and [aggregate](docs/research/task18-fixed-basis-learning8192-summary.json) preserve all7×3 curves/cells, exact four-pass6144 draw and96-query identities, full budget and131-file hash inventory. Measured allocated cost1467.843070s, overall UTC span1610.284095s; earlier setup1975.089738s remains separate. Numerical/resource gates pass, but all neural arms remain worse than shared buckets. No additional updates or protected phase opened. Root authorized results promotion then source-only exact structured shapes, with independent review before any new execution.
+
+## Task18 structured fixed-basis source gate —18 October2026
+
+Full structured fixedCPU64 Jet125/Bank122 source stage now passes focused8 and native covering205 tests. Only the existing fixed-basis reader predicate changed; full numerical/resource/scientific followups remain held for independent source review and staged ruling. [Source report](docs/research/task18-structured-fixed-source-report.md).

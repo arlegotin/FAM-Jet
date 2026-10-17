@@ -1,0 +1,300 @@
+FFFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+____ test_only_declared_full_structured_shape_enters_before_allocation[jet] ____
+
+family = 'jet'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_only_declared_full_struct0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10fd75480>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family)
+>       assert resolve_policy(c)['fit_histories']==768
+               ^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def resolve_policy(config):
+        from dataclasses import asdict
+        from famjet.train import SMOKE_POLICY,ROOT
+        from famjet.provenance import canonical_hash
+        from famjet.eval.isolation import source_identity
+        import json
+        d=config.development
+        if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
+        if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
+            raise ValueError('development precision requires CPU calibration')
+        fixed_profile=fixed_basis_cpu64(config)
+        if config.model.precision=='float64' and not fixed_profile and (config.model.method not in {'jet','bank'}
+                or config.model.writer!='fixed' or config.model.rates.mode!='learned'
+                or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
+>           raise ValueError('FP64 requires learned-rate raw calibration')
+E           ValueError: FP64 requires learned-rate raw calibration
+
+famjet/analysis/development.py:149: ValueError
+___ test_only_declared_full_structured_shape_enters_before_allocation[bank] ____
+
+family = 'bank'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_only_declared_full_struct1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a2fa3f0>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family)
+>       assert resolve_policy(c)['fit_histories']==768
+               ^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def resolve_policy(config):
+        from dataclasses import asdict
+        from famjet.train import SMOKE_POLICY,ROOT
+        from famjet.provenance import canonical_hash
+        from famjet.eval.isolation import source_identity
+        import json
+        d=config.development
+        if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
+        if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
+            raise ValueError('development precision requires CPU calibration')
+        fixed_profile=fixed_basis_cpu64(config)
+        if config.model.precision=='float64' and not fixed_profile and (config.model.method not in {'jet','bank'}
+                or config.model.writer!='fixed' or config.model.rates.mode!='learned'
+                or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
+>           raise ValueError('FP64 requires learned-rate raw calibration')
+E           ValueError: FP64 requires learned-rate raw calibration
+
+famjet/analysis/development.py:149: ValueError
+_ test_structured_fp64_real_export_budget_and_constant_input_accounting[jet-125-105-30134-29875-2288-78-29258] _
+
+family = 'jet', width = 125, dim = 105, params = 30134, macs = 29875
+buffers = 2288, zero_log = 78, active_bound = 29258
+
+    @pytest.mark.parametrize('family,width,dim,params,macs,buffers,zero_log,active_bound',[
+        ('jet',125,105,30134,29875,2288,78,29258),
+        ('bank',122,113,30021,29768,2448,86,29166)])
+    def test_structured_fp64_real_export_budget_and_constant_input_accounting(
+            family,width,dim,params,macs,buffers,zero_log,active_bound):
+        from famjet.train import make_model,move_episode,history_loss
+        from famjet.analysis.development import draw_config,parameter_accounting
+        from famjet.data.synthetic import generate_episode
+        from famjet.eval.isolation import export_method,_reconstruct
+        from famjet.eval.budgets import model_ledger
+        from test_resume import equal_tree
+>       c=structured_config(family);m=make_model(c)
+                                      ^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+_ test_structured_fp64_real_export_budget_and_constant_input_accounting[bank-122-113-30021-29768-2448-86-29166] _
+
+family = 'bank', width = 122, dim = 113, params = 30021, macs = 29768
+buffers = 2448, zero_log = 86, active_bound = 29166
+
+    @pytest.mark.parametrize('family,width,dim,params,macs,buffers,zero_log,active_bound',[
+        ('jet',125,105,30134,29875,2288,78,29258),
+        ('bank',122,113,30021,29768,2448,86,29166)])
+    def test_structured_fp64_real_export_budget_and_constant_input_accounting(
+            family,width,dim,params,macs,buffers,zero_log,active_bound):
+        from famjet.train import make_model,move_episode,history_loss
+        from famjet.analysis.development import draw_config,parameter_accounting
+        from famjet.data.synthetic import generate_episode
+        from famjet.eval.isolation import export_method,_reconstruct
+        from famjet.eval.budgets import model_ledger
+        from test_resume import equal_tree
+>       c=structured_config(family);m=make_model(c)
+                                      ^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+_ test_raw_calibration_cannot_authorize_structured_reader_before_allocation[jet] _
+
+family = 'jet'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_raw_calibration_cannot_au0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x111126f90>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_raw_calibration_cannot_authorize_structured_reader_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import execution_shape,resolve_policy,run_development
+        from famjet.eval.isolation import source_identity
+        from famjet.provenance import canonical_hash
+        raw=fixed_config(family);c=structured_config(family)
+        evidence={'status':'passed','source_hash':source_identity(),'shapes':[execution_shape(raw)],'net_allocation_limit_bytes':201326592}
+        path=tmp_path/'raw.json';path.write_text(json.dumps(evidence))
+        c=replace(c,development=replace(c.development,mode='learning',calibration_path=str(path),calibration_hash=canonical_hash(evidence)))
+        def forbidden(*a,**k):raise AssertionError('allocation preceded structured applicability rejection')
+        monkeypatch.setattr('famjet.train.make_model',forbidden)
+>       with pytest.raises(ValueError,match='applicable'):resolve_policy(c)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'applicable'
+E         Actual message: 'FP64 requires learned-rate raw calibration'
+
+tests/test_fixed_structured_development.py:89: AssertionError
+_ test_raw_calibration_cannot_authorize_structured_reader_before_allocation[bank] _
+
+family = 'bank'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_raw_calibration_cannot_au1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1111a2030>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_raw_calibration_cannot_authorize_structured_reader_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import execution_shape,resolve_policy,run_development
+        from famjet.eval.isolation import source_identity
+        from famjet.provenance import canonical_hash
+        raw=fixed_config(family);c=structured_config(family)
+        evidence={'status':'passed','source_hash':source_identity(),'shapes':[execution_shape(raw)],'net_allocation_limit_bytes':201326592}
+        path=tmp_path/'raw.json';path.write_text(json.dumps(evidence))
+        c=replace(c,development=replace(c.development,mode='learning',calibration_path=str(path),calibration_hash=canonical_hash(evidence)))
+        def forbidden(*a,**k):raise AssertionError('allocation preceded structured applicability rejection')
+        monkeypatch.setattr('famjet.train.make_model',forbidden)
+>       with pytest.raises(ValueError,match='applicable'):resolve_policy(c)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'applicable'
+E         Actual message: 'FP64 requires learned-rate raw calibration'
+
+tests/test_fixed_structured_development.py:89: AssertionError
+_ test_fp64_fixed_feature_multpass_optimizer_resume_and_identity[jet-structured] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_fp64_fixed_feature_multpa0')
+family = 'jet', reader_kind = 'structured'
+
+    @pytest.mark.parametrize('family,reader_kind',[(f,'generic_contracted') for f in ('jet','bank','multiscale')]+[(f,'structured') for f in ('jet','bank')])
+    def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family,reader_kind):
+        from famjet.train import make_model,move_episode,train_model
+        from famjet.analysis.development import iter_fit_panel
+        from famjet.data.development_cache import prepare_cache
+        from famjet.data.feature_cache import prepare_feature_cache,TrainingFeatureCache,feature_record
+        from famjet.checkpoint import load_checkpoint
+        from tests.test_development_cache import cached_config
+        from tests.test_finite_feature_cache import attach_features
+        from test_resume import equal_tree
+        c=fixed_config(family)
+        if reader_kind=='structured':
+            c=replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured',width=125 if family=='jet' else 122)))
+        c=replace(c,training=replace(c.training,optimizer_steps=8,effective_batch=1),development=replace(c.development,
+            lengths=(128,),fit_histories_per_cell=1,eval_histories_per_cell=1,corpus_histories=4,milestones=(0,4,8),
+            cache_manifest_path=None,cache_manifest_hash=None,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))
+        p=prepare_cache(c,tmp_path/'raw',projected_data_bytes=2000000,output_reserve_bytes=100000)
+>       c=cached_config(c,p);torch.manual_seed(c.seed);model=make_model(c)
+                                                             ^^^^^^^^^^^^^
+
+tests/test_fixed_basis_development.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...7a4e29b0dd2e21b1878a3d872b7e', corpus_histories=4, feature_cache_manifest_path=None, feature_cache_manifest_hash=None))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+_ test_fp64_fixed_feature_multpass_optimizer_resume_and_identity[bank-structured] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4260/test_fp64_fixed_feature_multpa1')
+family = 'bank', reader_kind = 'structured'
+
+    @pytest.mark.parametrize('family,reader_kind',[(f,'generic_contracted') for f in ('jet','bank','multiscale')]+[(f,'structured') for f in ('jet','bank')])
+    def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family,reader_kind):
+        from famjet.train import make_model,move_episode,train_model
+        from famjet.analysis.development import iter_fit_panel
+        from famjet.data.development_cache import prepare_cache
+        from famjet.data.feature_cache import prepare_feature_cache,TrainingFeatureCache,feature_record
+        from famjet.checkpoint import load_checkpoint
+        from tests.test_development_cache import cached_config
+        from tests.test_finite_feature_cache import attach_features
+        from test_resume import equal_tree
+        c=fixed_config(family)
+        if reader_kind=='structured':
+            c=replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured',width=125 if family=='jet' else 122)))
+        c=replace(c,training=replace(c.training,optimizer_steps=8,effective_batch=1),development=replace(c.development,
+            lengths=(128,),fit_histories_per_cell=1,eval_histories_per_cell=1,corpus_histories=4,milestones=(0,4,8),
+            cache_manifest_path=None,cache_manifest_hash=None,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))
+        p=prepare_cache(c,tmp_path/'raw',projected_data_bytes=2000000,output_reserve_bytes=100000)
+>       c=cached_config(c,p);torch.manual_seed(c.seed);model=make_model(c)
+                                                             ^^^^^^^^^^^^^
+
+tests/test_fixed_basis_development.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...120a971a5382f446174f5e233c6b', corpus_histories=4, feature_cache_manifest_path=None, feature_cache_manifest_hash=None))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[jet]
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[bank]
+FAILED tests/test_fixed_structured_development.py::test_structured_fp64_real_export_budget_and_constant_input_accounting[jet-125-105-30134-29875-2288-78-29258]
+FAILED tests/test_fixed_structured_development.py::test_structured_fp64_real_export_budget_and_constant_input_accounting[bank-122-113-30021-29768-2448-86-29166]
+FAILED tests/test_fixed_structured_development.py::test_raw_calibration_cannot_authorize_structured_reader_before_allocation[jet]
+FAILED tests/test_fixed_structured_development.py::test_raw_calibration_cannot_authorize_structured_reader_before_allocation[bank]
+FAILED tests/test_fixed_basis_development.py::test_fp64_fixed_feature_multpass_optimizer_resume_and_identity[jet-structured]
+FAILED tests/test_fixed_basis_development.py::test_fp64_fixed_feature_multpass_optimizer_resume_and_identity[bank-structured]
+8 failed, 9 deselected in 1.10s

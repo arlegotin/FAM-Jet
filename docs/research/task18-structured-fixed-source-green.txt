@@ -1,0 +1,272 @@
+FF......                                                                 [100%]
+=================================== FAILURES ===================================
+____ test_only_declared_full_structured_shape_enters_before_allocation[jet] ____
+
+family = 'jet'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4261/test_only_declared_full_struct0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106cc2ea0>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family)
+        assert resolve_policy(c)['fit_histories']==768
+        bad=[replace(c,resources=replace(c.resources,device='mps')),
+             replace(c,model=replace(c.model,precision='float32')),
+             replace(c,model=replace(c.model,writer='learned')),
+             replace(c,model=replace(c.model,rates=replace(c.model.rates,mode='learned'))),
+             replace(c,model=replace(c.model,rates=replace(c.model.rates,bounds=(.001,1.)))),
+             replace(c,data=replace(c.data,key_features='dense')),
+             replace(c,model=replace(c.model,learned_abstention_threshold=.5)),
+             replace(c,model=replace(c.model,numerical_support_floor=1e-6)),
+             replace(c,model=replace(c.model,J=2)),
+             replace(c,training=replace(c.training,learning_rate=.003))]
+        for kind in ('generic_contracted','generic_full','bank_normalized','fixed_scale'):
+            bad.append(replace(c,model=replace(c.model,reader=replace(c.model.reader,kind=kind))))
+        for width in (64,121,123,124,126,128,256):
+            bad.append(replace(c,model=replace(c.model,reader=replace(c.model.reader,width=width))))
+        bad += [replace(c,model=replace(c.model,reader=replace(c.model.reader,rank=9))),
+                replace(c,model=replace(c.model,reader=replace(c.model.reader,max_parameters=30217))),
+                replace(c,development=replace(c.development,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))]
+>       m=fixed_config('multiscale');bad.append(replace(m,model=replace(m.model,reader=replace(m.model.reader,kind='structured',width=c.model.reader.width))))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/dataclasses.py:1596: in replace
+    return _replace(obj, **changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/dataclasses.py:1630: in _replace
+    return self.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:13: in __init__
+    ???
+famjet/config.py:199: in __post_init__
+    validate_config(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def validate_config(config: RunConfig) -> None:
+        """Scientific confirmation completeness is stricter than smoke execution.
+    
+        Detailed protected-manifest acceptance and pilot evidence remain separate
+        later gates; a non-null field alone does not establish scientific validity.
+        """
+        # Check direct construction too, rather than relying only on the file parser.
+        def check_types(obj, prefix):
+            for f in fields(obj):
+                val = getattr(obj, f.name)
+                expected = get_type_hints(type(obj))[f.name]
+                optional = [kind for kind in get_args(expected) if kind is not type(None)]
+                if len(optional) == 1 and is_dataclass(optional[0]) and val is not None:
+                    if type(val) is not optional[0]:
+                        raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                    check_types(val, f'{prefix}.{f.name}')
+                if is_dataclass(expected):
+                    if type(val) is not expected:
+                        raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                    check_types(val, f'{prefix}.{f.name}')
+                else:
+                    _parse(asdict(val) if is_dataclass(val) else val, expected, f'{prefix}.{f.name}')
+        check_types(config, 'config')
+        if config.schema_version != 1:
+            raise ValueError('unsupported config schema_version')
+        if config.phase not in {'smoke', 'development', 'pilot', 'confirmation', 'replication'}:
+            raise ValueError('unknown phase')
+        if not 0 <= config.seed < 2**63:
+            raise ValueError('seed must fit nonnegative signed int64')
+        d, m, t, r, n, c = config.data, config.model, config.training, config.resources, config.numerics, config.confirmation
+        for name in ('key_dim', 'value_dim', 'length', 'queries_per_history'):
+            _positive(getattr(d, name), f'data.{name}')
+        if not d.generator_version or d.key_features not in {'one_hot', 'dense'}:
+            raise ValueError('data requires generator version and known key_features')
+        if d.beijing is not None and (not d.beijing.archive_path or not d.beijing.derived_path):
+            raise ValueError('Beijing archive/derived paths must be nonempty')
+        if d.beijing is not None and d.beijing.query_grid_version != 'station_mean_contrast_widths_1_6_24_72_168_v1':
+            raise ValueError('unknown Beijing query_grid_version')
+        g = d.generator
+        if g.namespace not in {'training','development_fit','development_calibration','pilot','confirmation','replication'}:
+            raise ValueError('unknown generator namespace')
+        if g.population not in {'primary','delayed','latest','presence','interval_support','change_sign',
+                                'corrected_categorical','random_binding','boundary','constant','impulse',
+                                'random','full_history','empty','same_time'}:
+            raise ValueError('unknown generator population')
+        if g.regime not in {'balanced','piecewise_stationary','trend_reset','periodic_impulses','irregular_revisions'}:
+            raise ValueError('unknown generator regime')
+        if g.robustness not in {'standard','zipf','lognormal_gaps','heavy_gaps','heavy_noise','fast_resets','broad_periods','unseen_reversals'}:
+            raise ValueError('unknown generator robustness')
+        if g.key_load not in {8,16,64}:
+            raise ValueError('generator key_load must be 8, 16 or 64')
+        for name in ('feature_seed','query_seed'):
+            if not 0 <= getattr(g,name) < 2**63:
+                raise ValueError(f'generator {name} must fit nonnegative int64')
+        _positive(g.max_query_attempts,'generator.max_query_attempts')
+        if g.delay_multiplier not in {0,.125,1,10}:
+            raise ValueError('generator delay_multiplier must be 0, 1/8, 1 or 10')
+        for name in ('heads', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
+            _positive(getattr(m, name), f'model.{name}')
+        if m.K != d.key_dim:
+            raise ValueError('model.K must equal data.key_dim')
+        if m.precision not in {'float32', 'float64'}:
+            raise ValueError('precision requires float32 or float64; frontier needs registration')
+        if m.method != 'delta' and (m.delta is not None or m.writer == 'native_delta'):
+            raise ValueError('native delta allocation/writer requires delta family')
+        if m.method == 'delta':
+            if any(x is not None for x in (m.J,m.rates,m.polynomial,m.multiscale)) or m.delta is None:
+                raise ValueError('delta requires typed allocation and null J/rates/polynomial/multiscale')
+            from famjet.memory.delta import validate_delta
+            validate_delta(heads=m.heads,**asdict(m.delta))
+            if m.writer != 'native_delta' or m.reader.kind != 'delta_mixer' or m.encode != 'stream':
+                raise ValueError('delta requires native_delta writer, delta_mixer reader and stream recompute')
+        elif m.method == 'multiscale':
+            if m.J is not None or m.rates is not None or m.polynomial is not None or m.multiscale is None:
+                raise ValueError('multiscale requires typed allocation and explicit null J/rates/polynomial')
+            from famjet.memory.multiscale import validate_system
+            from famjet.memory.hippo import validate_allocation
+            p=m.multiscale
+            validate_system(p.order,p.scale_order,p.epsilon,p.tau0)
+            validate_allocation((p.order,)*p.scale_order,(p.tau0,)*p.scale_order,p.declared_gaps,r.cache_limit_bytes,
+                                8 if m.precision == 'float64' else 4)
+            if m.reader.kind not in {'generic_contracted','generic_full','query_only'}:
+>               raise ValueError('multiscale requires full coefficient generic reader')
+E               ValueError: multiscale requires full coefficient generic reader
+
+famjet/config.py:346: ValueError
+___ test_only_declared_full_structured_shape_enters_before_allocation[bank] ____
+
+family = 'bank'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4261/test_only_declared_full_struct1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107ca1ba0>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family)
+        assert resolve_policy(c)['fit_histories']==768
+        bad=[replace(c,resources=replace(c.resources,device='mps')),
+             replace(c,model=replace(c.model,precision='float32')),
+             replace(c,model=replace(c.model,writer='learned')),
+             replace(c,model=replace(c.model,rates=replace(c.model.rates,mode='learned'))),
+             replace(c,model=replace(c.model,rates=replace(c.model.rates,bounds=(.001,1.)))),
+             replace(c,data=replace(c.data,key_features='dense')),
+             replace(c,model=replace(c.model,learned_abstention_threshold=.5)),
+             replace(c,model=replace(c.model,numerical_support_floor=1e-6)),
+             replace(c,model=replace(c.model,J=2)),
+             replace(c,training=replace(c.training,learning_rate=.003))]
+        for kind in ('generic_contracted','generic_full','bank_normalized','fixed_scale'):
+            bad.append(replace(c,model=replace(c.model,reader=replace(c.model.reader,kind=kind))))
+        for width in (64,121,123,124,126,128,256):
+            bad.append(replace(c,model=replace(c.model,reader=replace(c.model.reader,width=width))))
+        bad += [replace(c,model=replace(c.model,reader=replace(c.model.reader,rank=9))),
+                replace(c,model=replace(c.model,reader=replace(c.model.reader,max_parameters=30217))),
+                replace(c,development=replace(c.development,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))]
+>       m=fixed_config('multiscale');bad.append(replace(m,model=replace(m.model,reader=replace(m.model.reader,kind='structured',width=c.model.reader.width))))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/dataclasses.py:1596: in replace
+    return _replace(obj, **changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/dataclasses.py:1630: in _replace
+    return self.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:13: in __init__
+    ???
+famjet/config.py:199: in __post_init__
+    validate_config(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def validate_config(config: RunConfig) -> None:
+        """Scientific confirmation completeness is stricter than smoke execution.
+    
+        Detailed protected-manifest acceptance and pilot evidence remain separate
+        later gates; a non-null field alone does not establish scientific validity.
+        """
+        # Check direct construction too, rather than relying only on the file parser.
+        def check_types(obj, prefix):
+            for f in fields(obj):
+                val = getattr(obj, f.name)
+                expected = get_type_hints(type(obj))[f.name]
+                optional = [kind for kind in get_args(expected) if kind is not type(None)]
+                if len(optional) == 1 and is_dataclass(optional[0]) and val is not None:
+                    if type(val) is not optional[0]:
+                        raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                    check_types(val, f'{prefix}.{f.name}')
+                if is_dataclass(expected):
+                    if type(val) is not expected:
+                        raise ValueError(f'{prefix}.{f.name} has wrong config type')
+                    check_types(val, f'{prefix}.{f.name}')
+                else:
+                    _parse(asdict(val) if is_dataclass(val) else val, expected, f'{prefix}.{f.name}')
+        check_types(config, 'config')
+        if config.schema_version != 1:
+            raise ValueError('unsupported config schema_version')
+        if config.phase not in {'smoke', 'development', 'pilot', 'confirmation', 'replication'}:
+            raise ValueError('unknown phase')
+        if not 0 <= config.seed < 2**63:
+            raise ValueError('seed must fit nonnegative signed int64')
+        d, m, t, r, n, c = config.data, config.model, config.training, config.resources, config.numerics, config.confirmation
+        for name in ('key_dim', 'value_dim', 'length', 'queries_per_history'):
+            _positive(getattr(d, name), f'data.{name}')
+        if not d.generator_version or d.key_features not in {'one_hot', 'dense'}:
+            raise ValueError('data requires generator version and known key_features')
+        if d.beijing is not None and (not d.beijing.archive_path or not d.beijing.derived_path):
+            raise ValueError('Beijing archive/derived paths must be nonempty')
+        if d.beijing is not None and d.beijing.query_grid_version != 'station_mean_contrast_widths_1_6_24_72_168_v1':
+            raise ValueError('unknown Beijing query_grid_version')
+        g = d.generator
+        if g.namespace not in {'training','development_fit','development_calibration','pilot','confirmation','replication'}:
+            raise ValueError('unknown generator namespace')
+        if g.population not in {'primary','delayed','latest','presence','interval_support','change_sign',
+                                'corrected_categorical','random_binding','boundary','constant','impulse',
+                                'random','full_history','empty','same_time'}:
+            raise ValueError('unknown generator population')
+        if g.regime not in {'balanced','piecewise_stationary','trend_reset','periodic_impulses','irregular_revisions'}:
+            raise ValueError('unknown generator regime')
+        if g.robustness not in {'standard','zipf','lognormal_gaps','heavy_gaps','heavy_noise','fast_resets','broad_periods','unseen_reversals'}:
+            raise ValueError('unknown generator robustness')
+        if g.key_load not in {8,16,64}:
+            raise ValueError('generator key_load must be 8, 16 or 64')
+        for name in ('feature_seed','query_seed'):
+            if not 0 <= getattr(g,name) < 2**63:
+                raise ValueError(f'generator {name} must fit nonnegative int64')
+        _positive(g.max_query_attempts,'generator.max_query_attempts')
+        if g.delay_multiplier not in {0,.125,1,10}:
+            raise ValueError('generator delay_multiplier must be 0, 1/8, 1 or 10')
+        for name in ('heads', 'K', 'probes', 'epsilon', 'numerical_support_floor'):
+            _positive(getattr(m, name), f'model.{name}')
+        if m.K != d.key_dim:
+            raise ValueError('model.K must equal data.key_dim')
+        if m.precision not in {'float32', 'float64'}:
+            raise ValueError('precision requires float32 or float64; frontier needs registration')
+        if m.method != 'delta' and (m.delta is not None or m.writer == 'native_delta'):
+            raise ValueError('native delta allocation/writer requires delta family')
+        if m.method == 'delta':
+            if any(x is not None for x in (m.J,m.rates,m.polynomial,m.multiscale)) or m.delta is None:
+                raise ValueError('delta requires typed allocation and null J/rates/polynomial/multiscale')
+            from famjet.memory.delta import validate_delta
+            validate_delta(heads=m.heads,**asdict(m.delta))
+            if m.writer != 'native_delta' or m.reader.kind != 'delta_mixer' or m.encode != 'stream':
+                raise ValueError('delta requires native_delta writer, delta_mixer reader and stream recompute')
+        elif m.method == 'multiscale':
+            if m.J is not None or m.rates is not None or m.polynomial is not None or m.multiscale is None:
+                raise ValueError('multiscale requires typed allocation and explicit null J/rates/polynomial')
+            from famjet.memory.multiscale import validate_system
+            from famjet.memory.hippo import validate_allocation
+            p=m.multiscale
+            validate_system(p.order,p.scale_order,p.epsilon,p.tau0)
+            validate_allocation((p.order,)*p.scale_order,(p.tau0,)*p.scale_order,p.declared_gaps,r.cache_limit_bytes,
+                                8 if m.precision == 'float64' else 4)
+            if m.reader.kind not in {'generic_contracted','generic_full','query_only'}:
+>               raise ValueError('multiscale requires full coefficient generic reader')
+E               ValueError: multiscale requires full coefficient generic reader
+
+famjet/config.py:346: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[jet]
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[bank]
+2 failed, 6 passed, 9 deselected in 5.22s

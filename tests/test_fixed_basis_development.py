@@ -84,8 +84,8 @@ def test_fixed_basis_true_fp64_fit_export_and_budget(family,kernel_bytes):
     assert account['reader_input_width']==97 and account['macs_per_query']==29952
 
 
-@pytest.mark.parametrize('family',['jet','bank','multiscale'])
-def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family):
+@pytest.mark.parametrize('family,reader_kind',[(f,'generic_contracted') for f in ('jet','bank','multiscale')]+[(f,'structured') for f in ('jet','bank')])
+def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family,reader_kind):
     from famjet.train import make_model,move_episode,train_model
     from famjet.analysis.development import iter_fit_panel
     from famjet.data.development_cache import prepare_cache
@@ -95,6 +95,8 @@ def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,fami
     from tests.test_finite_feature_cache import attach_features
     from test_resume import equal_tree
     c=fixed_config(family)
+    if reader_kind=='structured':
+        c=replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured',width=125 if family=='jet' else 122)))
     c=replace(c,training=replace(c.training,optimizer_steps=8,effective_batch=1),development=replace(c.development,
         lengths=(128,),fit_histories_per_cell=1,eval_histories_per_cell=1,corpus_histories=4,milestones=(0,4,8),
         cache_manifest_path=None,cache_manifest_hash=None,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))

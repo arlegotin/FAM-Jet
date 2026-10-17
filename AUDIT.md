@@ -339,3 +339,7 @@ Promotion verification: real policy and exact three config-field deltas pass; ac
 ## Task18 fixed-basis8192 closure and structured source ruling —18 October2026
 
 Verified all131 aggregate source-file SHAs and zero dev/risk failure flags; all24576 source draws are four exact6144 passes and all21 evaluated query/target inventories match. Promoted126 complete endpoint/risk/procedure/clock records plus accepted operational review, exact used helpers, and external launcher clock RED/GREEN stub evidence (zero model execution). No binary checkpoints, gradients, raw/feature corpus or bulk rows promoted. Current packagead54 unchanged; no source/tests/corpus/numerics/cold/simple repetitions for this metadata-only promotion. Current campaign1467.843070 execution seconds and1610.284095 UTC launch-to-last-risk span, prior1975.089738 setup separately retained. AC100%, no power override; per-runUTC/perf close, no new unexplained gap.
+
+## Task18 structured fixed-basis source gate —18 October2026
+
+Structured source RED8 failed as expected; firstGREEN6 passed/2fixture failures because multiscale structured already rejects at typed construction, corrected only the exception boundary. Finalfocused8 passed and native covering205 passed55.04s with MPS fallback0/fastmath0. Exact raw/cached two-pass optimizer+prediction+resume equivalence and dtype/tamper/budget/preallocation gates pass. All logs retained; no371/full-suite or scientific/numerical/corpus/profile repeat. Source report records one production predicate, tests and strict future package-cache invalidation.

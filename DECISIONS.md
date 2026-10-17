@@ -299,3 +299,7 @@ Root closes e756515 operational lineage and allocates one fresh matched three-fa
 ## Task18 fixed-basis8192 closure and structured source ruling —18 October2026
 
 Root accepted/closed fullGit2def fixed-basis8192 allocation exploratory and unconverged. Endpoint-only Jetlead is not a result against best-observed Bank4096; retained learnedBank.387097 is another relevant exposed-development view. Approve result promotion, then source-stage only full structured Jet125/Bank122 under30217parameter/29952MAC ceilings; no padding/equal-width assertion. Preserve exact constant-log input accounting/primary-active upper bounds. Existing whole-package cache provenance requires future strict raw refresh; no compatibility framework. All numerical/probe/preparation/cold/scientific followups remain held until source review and staged ruling.
+
+## Task18 structured fixed-basis source gate —18 October2026
+
+Implement only the exact full structured fixedCPU64 reader predicate approved by root: Jet125/Bank122, unchanged raw128 and family/data/precision/upstream guards. Actual allocation30134/30021params and29875/29768MAC fits current ceilings without padding; primary-active accounting remains upper bounds. Existing factory/cache/trainer/serialization paths need no additional production change. No new scientific or resource allocation follows from unit tests.
