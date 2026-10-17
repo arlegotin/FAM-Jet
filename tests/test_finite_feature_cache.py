@@ -128,6 +128,33 @@ def test_runner_stop_is_execution_boundary_not_changed_policy(tmp_path):
     assert first['execution_policy']==final['execution_policy']
 
 
+@pytest.mark.parametrize('completed_step',[1,2])
+def test_partial_accumulation_loader_normalizes_all_finite_sampler_fields(tmp_path,completed_step):
+    # Restart must roll back unique-count and pass offset with consumed position,
+    # both before the first corpus boundary and after one complete pass.
+    from famjet.train import train_model
+    from famjet.checkpoint import load_checkpoint,save_checkpoint,_validate
+    c,fc,model,path=fixtures(tmp_path)
+    c=replace(c,training=replace(c.training,effective_batch=2))
+    context=load_checkpoint(train_model(c,tmp_path/'run',stop_at=completed_step),{})
+    context['accumulation_position']=1
+    context['sampler'].update(position=2*completed_step+1,
+        unique_histories=3 if completed_step==1 else 4,
+        completed_passes=0 if completed_step==1 else 1,
+        pass_offset=3 if completed_step==1 else 1)
+    save_checkpoint(tmp_path/'partial.pt',context)
+    result=load_checkpoint(tmp_path/'partial.pt',{})
+    assert result['restarted_accumulation'] and result['accumulation_position']==0
+    assert result['sampler']['position']==2*completed_step
+    assert result['sampler']['unique_histories']==2*completed_step
+    assert result['sampler']['completed_passes']==completed_step-1
+    assert result['sampler']['pass_offset']==(2 if completed_step==1 else 0)
+    _validate(result)
+    save_checkpoint(tmp_path/'normalized.pt',result)
+    again=load_checkpoint(tmp_path/'normalized.pt',{})
+    assert again['sampler']==result['sampler'] and not again['restarted_accumulation']
+
+
 def test_finite_calibration_is_closed_and_requires_exact_feature_transport(tmp_path):
     from famjet.analysis.development import resolve_policy,execution_shape
     from famjet.provenance import canonical_hash

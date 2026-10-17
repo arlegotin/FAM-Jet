@@ -69,6 +69,45 @@ def test_missing_accumulation_restarts_full_step(tmp_path):
     assert result['restarted_accumulation'] is True
 
 
+@pytest.mark.parametrize('changed_field',['commit','diff'])
+def test_development_source_change_rejects_before_model_allocation(tmp_path,monkeypatch,changed_field):
+    # Package hashes alone miss commit-only and tracked-document changes.
+    # Exercise the real trainer/checkpoint boundary; substitute only Git discovery.
+    from tests.test_selection import dev_config
+    import famjet.eval.isolation as isolation
+    from famjet.checkpoint import load_checkpoint,capture_rng
+    t=api();c=dev_config();path=t.train_model(c,tmp_path/'first',stop_at=1)
+    stored=load_checkpoint(path,{})
+    changed=copy.deepcopy(stored['source'])
+    changed[changed_field]=('f'*40 if changed_field=='commit' else changed['diff']+'\ntracked README amendment\n')
+    monkeypatch.setattr(t,'_source',lambda:changed)
+    # Archival loading is explicit and keeps the recorded source; continuation
+    # is the operation that must enforce the new full-source expectation.
+    assert load_checkpoint(path,{})['source']==stored['source']
+    def forbidden(*args,**kwargs):
+        raise AssertionError('model allocation reached before development source rejection')
+    monkeypatch.setattr(t,'make_model',forbidden)
+    monkeypatch.setattr(t,'_reconstruct',forbidden)
+    monkeypatch.setattr(isolation,'_reconstruct',forbidden)
+    before=capture_rng('cpu')
+    with pytest.raises(ValueError,match='checkpoint source mismatch'):
+        t.train_model(c,tmp_path/'rejected',resume=path)
+    equal_tree(before,capture_rng('cpu'))
+    record=json.loads((tmp_path/'rejected/run.json').read_text())
+    assert record['status']=='failed' and record['completed_step']==0
+    assert record['attempted_episode_ids']==[] and not (tmp_path/'rejected/checkpoint.pt').exists()
+
+
+def test_legacy_smoke_resume_keeps_package_identity_compatibility(tmp_path,monkeypatch):
+    from famjet.checkpoint import load_checkpoint
+    t=api();c=tiny();path=t.train_model(c,tmp_path/'first',stop_at=1)
+    old=load_checkpoint(path,{})
+    changed={**old['source'],'commit':'f'*40,'diff':'tracked docs changed'}
+    monkeypatch.setattr(t,'_source',lambda:changed)
+    result=load_checkpoint(t.train_model(c,tmp_path/'resume',resume=path),{})
+    assert result['completed_step']==2 and result['source']==changed
+
+
 def test_old_cached_writer_state_rejected(tmp_path):
     t=api()
     from famjet.checkpoint import save_checkpoint,load_checkpoint

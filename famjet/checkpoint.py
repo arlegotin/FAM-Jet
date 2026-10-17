@@ -236,6 +236,12 @@ def save_checkpoint(path: Path, context: dict) -> None:
 
 
 def load_checkpoint(path: Path, expected: dict) -> dict:
+    """Validate serialized state against the caller's declared identity scope.
+
+    Empty expectations omit caller identity checks, not structural/calibration
+    validation. Development training passes full source identity before this
+    loader's model-validation allocation; archival callers do not rebase it.
+    """
     raw=Path(path).read_bytes()
     try:
         magic,digest,payload=raw.split(b'\n',2)
@@ -250,5 +256,10 @@ def load_checkpoint(path: Path, expected: dict) -> dict:
     _validate(context)
     context['restarted_accumulation']=context['accumulation_position'] > 0
     context['sampler']['position']=len(context['consumed_episode_ids'])
+    if 'corpus_histories' in context['sampler']:
+        from famjet.config import RunConfig, _parse
+        from famjet.analysis.development import corpus_progress
+        config=_parse(context['config'],RunConfig,'checkpoint.config')
+        context['sampler'].update(corpus_progress(config,len(context['consumed_episode_ids'])))
     context['accumulation_position']=0
     return context

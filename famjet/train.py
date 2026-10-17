@@ -308,6 +308,13 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
         record.update(identity,source=source,data_identity=data,plan_hash=hashlib.sha256((ROOT/'docs/superpowers/specs/2026-10-16-famjet-design.md').read_bytes()).hexdigest(),
             amendments={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'docs/amendments').glob('*.md'))})
         atomic_json(run_dir/'resolved_config.json',{'config':asdict(config),'execution_policy':policy,**identity})
+        # Development continuation binds the full declared Git/package source,
+        # before checkpoint validation can reconstruct or allocate a model.
+        # Historical inspection and legacy smoke retain their existing scopes.
+        context=None
+        if resume is not None:
+            expected={**identity,**({'source':source} if config.phase=='development' else {})}
+            context=load_checkpoint(resume,expected)
         random.seed(config.seed); np.random.seed(config.seed % 2**32); torch.manual_seed(config.seed)
         if config.resources.device=='mps': torch.mps.manual_seed(config.seed)
         construction_start=time.perf_counter()
@@ -319,7 +326,6 @@ def train_model(config: RunConfig, run_dir: Path, *, resume: Path | None = None,
         optimizer=make_optimizer(model,config)
         step,consumed=0,[]
         if resume is not None:
-            context=load_checkpoint(resume,identity)
             model=_reconstruct(context['model']).to(config.resources.device)
             optimizer=make_optimizer(model,config)
             optimizer.load_state_dict(context['optimizer'])
@@ -483,6 +489,9 @@ def evaluate_model(checkpoint: Path, manifest: Path, out: Path) -> Path:
 
     Protected splits remain reservation-only. Smoke checkpoints cannot claim
     scientific primary selection; undefined normalized scales remain explicit.
+    Evaluation checks package/lock identity, not continuation's exact Git identity.
+    Historical Git metadata stays in the checkpoint; evaluation does not rebase
+    that source or resume training.
     """
     import json
     from famjet.config import _parse
