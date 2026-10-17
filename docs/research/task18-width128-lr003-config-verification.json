@@ -1,0 +1,40 @@
+{
+  "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "exact_promoted_files": 20,
+  "checks": {
+    "jet": {
+      "only_config_delta": {
+        "training.learning_rate": [
+          0.001,
+          0.003
+        ]
+      },
+      "actual_policy_guard": "passed",
+      "full6144cache_order_identity_file_hash_scan": "passed",
+      "cache_verification": {
+        "seconds": 1.9864582500304095,
+        "bytes_read": 953874048,
+        "boundary": "actual_disk_read_and_sha256_all_files"
+      },
+      "execution_shape_hash": "814f2247b5e58aeada384d31ae83e6b554fef77c16b87b3f199a303b1438bffb"
+    },
+    "bank": {
+      "only_config_delta": {
+        "training.learning_rate": [
+          0.001,
+          0.003
+        ]
+      },
+      "actual_policy_guard": "passed",
+      "full6144cache_order_identity_file_hash_scan": "passed",
+      "cache_verification": {
+        "seconds": 0.5633137499680743,
+        "bytes_read": 953874048,
+        "boundary": "actual_disk_read_and_sha256_all_files"
+      },
+      "execution_shape_hash": "dea1d8c70160988bddc5ba1240d862d26dd4d792f716d763b2653ad6b0649daf"
+    }
+  },
+  "seconds": 23.140657374984585,
+  "no_model_fit_or_training": true
+}

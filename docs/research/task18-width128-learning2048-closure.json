@@ -1,0 +1,91 @@
+{
+  "origin_commit": "ddb55b7748e1a55dcfb1535bada6175156ae7fc7",
+  "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "status": "closed2048_unconverged; LR003 freshpair allocation held for root config/launch read",
+  "promoted_files": {
+    "docs/research/task18-width128-learning2048-summary.json": {
+      "origin": "artifacts/task18/width128-learned-rate-cpu64-2048-summary.json",
+      "sha256": "58c9354529ad791bd8154d2f8f8710e83a5d85051117928c86dae814b38b460c"
+    },
+    "docs/research/task18-width128-endpoint2048-summary.json": {
+      "origin": "artifacts/task18/width128-learned-rate-cpu64-decimal-step2048/summary.json",
+      "sha256": "3b6ef792a4c4979ed45c2d0cf1bc828565565699f42c6015b21b947e6b2abb9b"
+    },
+    "docs/research/task18-width128-update-distributions.json": {
+      "origin": "artifacts/task18/width128-update-distributions.json",
+      "sha256": "bd4dee8861a9384e8bcafcae9a85dba516f23907e856a3afc135dc62ac32b196"
+    },
+    "docs/research/task18-width128-operational-review.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-width128-operational-review.md",
+      "sha256": "c8059b5368d5be4778ace3a686ab6dcf8ee67458a432d488b3957c26345d44f9"
+    },
+    "docs/research/task18-width128-jet-risk2048-summary.json": {
+      "origin": "artifacts/task18/width128-learned-cpu64-frozen-risk2048-jet/summary.json",
+      "sha256": "bf936b60cc1e6d582eb1eb9ebf8ee94f4035e37f5c4ac155da6a73bbddc52e17"
+    },
+    "docs/research/task18-width128-jet-endpoint-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-learned-rate-cpu64-fitted-jet-step2048/summary.json",
+      "sha256": "87727321b02c8d70991461a6c726275a445dac1e0dc0d0312b589f4f48af7bab"
+    },
+    "docs/research/task18-width128-jet-learning-allocation.json": {
+      "origin": "artifacts/task18-evidence/width128-learning-jet-allocation.json",
+      "sha256": "f0e6a71a0ad1ef57b7b2846c9552f77e510524e18e6e799b1f2830ac71b3b6d2"
+    },
+    "docs/research/task18-width128-learning-jet-2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-learning-jet-2048-time-boundary.json",
+      "sha256": "075669d62d1dacba1e3eb23c3072431e7f2442921d5e8bc1249c8371571462f3"
+    },
+    "docs/research/task18-width128-frozen-risk-jet2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-frozen-risk-jet2048-time-boundary.json",
+      "sha256": "bc22817a9171f1bf7c438a368ca843181cc12a9a4b802fef659e6cac273092c0"
+    },
+    "docs/research/task18-width128-bank-risk2048-summary.json": {
+      "origin": "artifacts/task18/width128-learned-cpu64-frozen-risk2048-bank/summary.json",
+      "sha256": "55eec4bd2531cdf1a7d55fdbdf0b01e027f072b5d2f2912f6185fcdd206575a1"
+    },
+    "docs/research/task18-width128-bank-endpoint-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-learned-rate-cpu64-fitted-bank-step2048/summary.json",
+      "sha256": "f30767150b02456cdd800761ad3c84f5bdd9ef4260bcdba39d50d8f05f892d23"
+    },
+    "docs/research/task18-width128-bank-learning-allocation.json": {
+      "origin": "artifacts/task18-evidence/width128-learning-bank-allocation.json",
+      "sha256": "9642f992abf860d5554525acfcf3fd444f208fd4889a54f1999b6deb63808f71"
+    },
+    "docs/research/task18-width128-learning-bank-2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-learning-bank-2048-time-boundary.json",
+      "sha256": "c345d1fc6ac5a93c10ca314a4bc12a1ec386f954e5fa70544df328ac62fe83b2"
+    },
+    "docs/research/task18-width128-frozen-risk-bank2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-frozen-risk-bank2048-time-boundary.json",
+      "sha256": "41305c95db053c7598c4996ab98c3ef2000d75ffb799a4a066abb235b6977869"
+    },
+    "docs/research/task18-width128-endpoint2048-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-endpoint2048-time-boundary.json",
+      "sha256": "8f46081975de68472347b2f07970408cc4b6dc72c44aeaa926aec11668edcc0b"
+    },
+    "docs/research/task18-procedures/task18_width128_learn.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_learn.py",
+      "sha256": "8f6ad48f6190f6238d82b1bbe8d8f225e6bb81582b628b6b602ca97e1eff43dc"
+    },
+    "docs/research/task18-procedures/task18_width128_endpoint2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_endpoint2048.py",
+      "sha256": "f5d74db5542a7b4d74bfcc9184b93f100b97a50fbce72153273d0f98970e61a7"
+    },
+    "docs/research/task18-procedures/task18_width128_frozen_risk2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_frozen_risk2048.py",
+      "sha256": "96856ec31ecce1c256b807ab665c7ddae29212948363c92dcf39816761d33264"
+    },
+    "docs/research/task18-procedures/task18_width128_summary2048.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_summary2048.py",
+      "sha256": "afcf2972c61c8e4e30c79996abb42826f437c7a0fa37af293c18926c47c06349"
+    },
+    "docs/research/task18-width128-learning2048-report-and-lr003-procedure.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-width128-2048-next-recommendation.md",
+      "sha256": "8b1a7d5c2a2f3e4096b00ea5f503ae900227da4c42d2974ef827af44ce3c519d"
+    },
+    "docs/research/task18-width128-lr003-config-verification.json": {
+      "origin": "artifacts/task18-evidence/width128-lr003-config-verification.json",
+      "sha256": "abd192683e5a0c06f4378fb26669c5e2edde1573538da06d81307ac21227e6a7"
+    }
+  }
+}

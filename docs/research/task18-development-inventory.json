@@ -6914,5 +6914,14 @@
     "configured_horizon": 32768,
     "existing_simple_scores_reused": true,
     "old_preparation_and_failures_retained": true
+  },
+  "width128_learning2048": {
+    "status": "complete_exploratory_unconverged",
+    "origin_commit": "ddb55b7748e1a55dcfb1535bada6175156ae7fc7",
+    "summary": "docs/research/task18-width128-learning2048-summary.json",
+    "closure": "docs/research/task18-width128-learning2048-closure.json",
+    "report_next_procedure": "docs/research/task18-width128-learning2048-report-and-lr003-procedure.md",
+    "next_allocation": "one_fresh_constantLR003_matched2048_pair_plusendpoint_andrisk_held_for_root_config_launch_read",
+    "source_package_unchanged": true
   }
 }

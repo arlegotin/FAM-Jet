@@ -1,0 +1,118 @@
+schema_version: 1
+phase: development
+seed: 20261013
+data:
+  generator_version: initial_spec_v2_targets
+  key_features: one_hot
+  key_dim: 16
+  value_dim: 8
+  length: 128
+  queries_per_history: 8
+  generator:
+    namespace: training
+    population: primary
+    regime: balanced
+    key_load: 16
+    feature_seed: 20261013
+    query_seed: 0
+    max_query_attempts: 4096
+    delay_multiplier: 0.0
+    robustness: standard
+  beijing: null
+model:
+  method: bank
+  heads: 1
+  J: 8
+  K: 16
+  precision: float64
+  rates:
+    mode: learned
+    bounds:
+    - 0.00019142419601837673
+    - 1.0
+    spacing: log
+  writer: fixed
+  encode: terminal
+  reader:
+    kind: generic_contracted
+    width: 128
+    layers: 2
+    activation: silu
+    rank: null
+    max_parameters: null
+    max_macs: null
+  epsilon: 1.0e-08
+  numerical_support_floor: 1.0e-08
+  learned_abstention_threshold: null
+  interpolation: false
+  probes: 1
+  polynomial: null
+  multiscale: null
+  delta: null
+training:
+  microbatch: 1
+  effective_batch: 3
+  optimizer: AdamW
+  learning_rate: 0.003
+  weight_decay: 0.0
+  optimizer_steps: 32768
+resources:
+  device: cpu
+  cpu_threads: 4
+  reserved_fraction_of_derived_envelope: 0.25
+  training_envelope_bytes: null
+  smoke_additional_allocation_limit_bytes: 201326592
+  resource_provenance: artifacts/environment/hardware.json
+  checkpoint_retention: 2
+  cache_limit_bytes: 0
+  asset_disk_budget_bytes: 0
+  policy: smoke_only_until_full_training_peak_and_pressure_calibration
+numerics:
+  reference: cpu_float64
+  rtol: 1.0e-12
+  atol: 1.0e-12
+confirmation:
+  status: blocking_until_pilot_freeze
+  populations: null
+  splits: null
+  lengths: null
+  task_regime_weights: null
+  primary_pair_budget: null
+  comparator_configurations: null
+  training_stopping_seeds: null
+  metrics: null
+  resampling: null
+  failure_policy: null
+  support_behavior: null
+  timing_boundaries: null
+  resource_envelopes: null
+  independent_histories: null
+  training_replicates: null
+  multiple_testing: null
+development:
+  mode: learning
+  lengths:
+  - 128
+  - 512
+  - 2048
+  data_seed: 20261017018
+  fit_histories_per_cell: 64
+  eval_histories_per_cell: 8
+  milestones:
+  - 0
+  - 128
+  - 512
+  - 1024
+  - 2048
+  - 4096
+  - 8192
+  - 16384
+  - 32768
+  calibration_path: docs/research/task18-cpu-calibration-width128.json
+  calibration_hash: 442e7eaca4c62ce98ae82ec3235124ad8da460f2ca7fc624f6a5a292259771a9
+  gradient_clip_norm: null
+  cache_manifest_path: artifacts/task18/cache-width128-6144/manifest.json
+  cache_manifest_hash: 43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c
+  corpus_histories: 6144
+  feature_cache_manifest_path: null
+  feature_cache_manifest_hash: null

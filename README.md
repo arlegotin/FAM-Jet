@@ -4,7 +4,7 @@ FAM-Jet explores a simple idea: compress a stream once, then answer different ti
 
 The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks1–17 are accepted; Task18 is running actual CPU development comparisons at128/512/2048 events.
 
-The latest comparison learned the decay rates while keeping the writers fixed. After8192 updates, both neural models still had much larger error than a simple bucket summary on the same96 development histories:
+The longest comparison learned the decay rates while keeping the writers fixed. After8192 updates, both neural models still had much larger error than a simple bucket summary on the same96 development histories:
 
 | Method | Normalized loss | Persistent state |
 | --- | ---: | ---: |
@@ -14,6 +14,8 @@ The latest comparison learned the decay rates while keeping the writers fixed. A
 | Jet |0.3926|9345B|
 
 **There is no demonstrated practical Jet advantage.** Both models still improve with training, and both pass a separate reader test where the saved information is known to be sufficient. That leaves optimization, reader capacity and temporal compression as unresolved explanations for the benchmark gap. These are exploratory CPU64 results with one initialization and a reused training corpus; protected evaluation remains closed.
+
+A wider reader was also tested for2048 updates. Loss improved modestly relative to width64 at that same update count: Jet0.4216 versus0.4255, Bank0.4081 versus0.4238. Both still fit poorly and improved in the last training interval. The next matched test changes only the learning rate. [Wider-reader results and limits](docs/research/task18-width128-learning2048-report-and-lr003-procedure.md).
 
 The [current results](docs/research/task18-cpu64-learning8192-summary.json), [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [development inventory](docs/research/task18-development-inventory.json) preserve curves, failures, costs and earlier comparisons. Earlier FP32 results used different scales and state budgets and remain separate. Recorded execution timers can exclude host sleep; the [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes them from elapsed clock time.
 
