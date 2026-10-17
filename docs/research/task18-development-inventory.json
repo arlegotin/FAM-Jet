@@ -1,7 +1,7 @@
 {
-  "schema_version": 4,
-  "status": "historical_learning_and_CPU64_operational_profile_complete_scientific_gate_open",
-  "generated_utc": "2026-10-17T02:39:18.691019+00:00",
+  "schema_version": 5,
+  "status": "CPU64_learned8192_and_simple_frontier_and_reader_controls_complete_scientific_gate_open",
+  "generated_utc": "2026-10-17T08:39:30.294707+00:00",
   "target_semantics": "observed_event_targets_v2",
   "historical_initial_stage": {
     "schema_version": 1,
@@ -6881,5 +6881,25 @@
       "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
       "untracked_package_files": {}
     }
+  },
+  "cpu64_learning": {
+    "closure": "docs/research/task18-cpu64-learning-closure.json",
+    "summary": "docs/research/task18-cpu64-learning8192-summary.json",
+    "learned_rates": true,
+    "fixed_writer": true,
+    "state_bytes_each": 9345,
+    "fit_histories": 768,
+    "development_histories": 96,
+    "unique_training_histories": 6144,
+    "updates_each": 8192,
+    "jet_loss": 0.3926415916562571,
+    "bank_loss": 0.3870969229259469,
+    "shared_bucket_loss": 0.13649477549964575,
+    "shared_bucket_bytes": 9247,
+    "reservoir_loss": 0.28147675935564836,
+    "reservoir_bytes": 9297,
+    "accepted": false,
+    "reader_competence": "both pass known-sufficient heldout fixture only; metadata omission audited, schema1 normalization not scientific scorer certification",
+    "timing": "performance counters are not guaranteed civil wall; exact Jet sleep interruption evidence retained"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "observed_utc": "2026-10-17T07:11:20.293051+00:00",
+  "boundary": "during source6bf learnedCPU64 continuation, read-only native host observation",
+  "seconds": 0.018647000018972903,
+  "records": {
+    "swap": {
+      "returncode": 0,
+      "stdout": "total = 4096.00M  used = 3016.94M  free = 1079.06M  (encrypted)\n",
+      "stderr": ""
+    },
+    "power": {
+      "returncode": 0,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+      "stderr": ""
+    },
+    "thermal": {
+      "returncode": 0,
+      "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+      "stderr": ""
+    }
+  },
+  "interpretation": "Observed host state only; rc0 with API errors is unavailable, no zero-swap or sustained thermal stability inference."
+}

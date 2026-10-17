@@ -4,9 +4,18 @@ FAM-Jet explores a simple idea: compress a stream once, then answer different ti
 
 The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks1–17 are accepted; Task18 is running actual CPU development comparisons at128/512/2048 events.
 
-The latest fixed-writer comparison trained both models for32,768 updates over16 passes through the same6144 training histories. On96 development histories, normalized loss was0.3284 for Jet,0.3413 for the ordinary exponential bank and0.4407 for a reservoir with a similar state budget. Both neural models still improved substantially in the final doubling, and their ordering changed during training. **This is an exploratory result, not an established generalization advantage or converged baseline comparison.**
+The latest comparison learned the decay rates while keeping the writers fixed. After8192 updates, both neural models still had much larger error than a simple bucket summary on the same96 development histories:
 
-The [finite-corpus results](docs/research/task18-finite-corpus-summary.json) preserve the full curves, old/new development subsets and measured costs. The [development inventory](docs/research/task18-development-inventory.json) also includes earlier reader/rate choices, simple controls, failures and initialization-only A/A checks. Learned-rate tuning, reader/state frontiers and broader credible comparators remain active work; protected evaluation is closed.
+| Method | Normalized loss | Persistent state |
+| --- | ---: | ---: |
+| Shared-count temporal buckets |0.1365|9247B|
+| Reservoir sample |0.2815|9297B|
+| Ordinary exponential bank |0.3871|9345B|
+| Jet |0.3926|9345B|
+
+**There is no demonstrated practical Jet advantage.** Both models still improve with training, and both pass a separate reader test where the saved information is known to be sufficient. That leaves optimization, reader capacity and temporal compression as unresolved explanations for the benchmark gap. These are exploratory CPU64 results with one initialization and a reused training corpus; protected evaluation remains closed.
+
+The [current results](docs/research/task18-cpu64-learning8192-summary.json), [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [development inventory](docs/research/task18-development-inventory.json) preserve curves, failures, costs and earlier comparisons. Earlier FP32 results used different scales and state budgets and remain separate. Recorded execution timers can exclude host sleep; the [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes them from elapsed clock time.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
 
