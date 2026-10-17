@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
-  "status": "three_exploratory_stages_complete_no_accepted_learned_baseline",
-  "generated_utc": "2026-10-17T01:12:40.010383+00:00",
+  "schema_version": 3,
+  "status": "four_exploratory_stages_complete_no_accepted_learned_baseline",
+  "generated_utc": "2026-10-17T02:39:18.691019+00:00",
   "target_semantics": "observed_event_targets_v2",
   "historical_initial_stage": {
     "schema_version": 1,
@@ -6837,5 +6837,38 @@
     "training_procedure": "6144 unique fresh draws reused across configurations, never repeated within these runs",
     "source_git": "07f533a",
     "package_source_unchanged_from_expanded_stage": true
+  },
+  "finite_corpus_stage": {
+    "summary": {
+      "path": "docs/research/task18-finite-corpus-summary.json",
+      "sha256": "c28b93543a2e7d24a9e5221ba0b9f17db8017156da529ec44e8dd4150afb1be3"
+    },
+    "claim": "finite empirical-corpus optimization diagnostic; no accepted learned baseline, inferential winner, or population-convergence claim",
+    "costs": {
+      "scope": "finite stage only; earlier campaign costs remain in development inventory; preprocessing counted once aggregate, shared raw cost allocated equally only for descriptive per-family amortization",
+      "raw_preparation_seconds": 354.70182808401296,
+      "feature_preparation_fit_probe_seconds": 234.2677609604434,
+      "calibration_seconds": 187.3277254999848,
+      "learning_wall_seconds": 1455.2581875829492,
+      "nested_evaluation_seconds": 235.0383725829888,
+      "frozen_train_evaluation_seconds": 169.93682345794514,
+      "raw_data_bytes": 953874048,
+      "feature_data_bytes": 152106112,
+      "storage_scope": "serialized data only; manifests/checkpoints/outputs additional; all prior caches retained",
+      "aggregate_seconds": 2636.5306981683243,
+      "aggregate_seconds_status": "measured component subtotal; excludes unmeasured process startup and summary-writing overhead; historical unknown elapsed values never zeroed",
+      "per_family_preparation_amortization": {
+        "jet": {
+          "shared_raw_half_seconds": 177.35091404200648,
+          "family_feature_fit_build_probe_seconds": 117.87130137620261,
+          "rule": "raw generation shared equally across two actual model families; family feature work charged fully; calibration/learning/evaluation remain separately charged"
+        },
+        "bank": {
+          "shared_raw_half_seconds": 177.35091404200648,
+          "family_feature_fit_build_probe_seconds": 116.3964595842408,
+          "rule": "raw generation shared equally across two actual model families; family feature work charged fully; calibration/learning/evaluation remain separately charged"
+        }
+      }
+    }
   }
 }
