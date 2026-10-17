@@ -158,7 +158,9 @@ def resolve_policy(config):
             raise ValueError('outside authorized cached calibration shape')
         if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
             or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
-            or config.data.value_dim!=8 or config.model.reader.width!=64 or config.model.reader.layers!=2
+            or config.data.value_dim!=8
+            or config.model.reader.width not in ((64,128) if learned_profile and config.model.precision=='float64' else (64,))
+            or config.model.reader.layers!=2
             or config.model.writer!='fixed' or config.model.rates.mode!=('learned' if learned_profile else 'fixed')
             or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>(64 if learned_profile else 32)
             or config.data.queries_per_history>8 or d.eval_histories_per_cell>(8 if learned_profile else 4)):

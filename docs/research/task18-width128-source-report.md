@@ -1,0 +1,17 @@
+# Task18 width128 CPU64 profile infrastructure (17 October2026)
+
+Scope: profile only, no new scientific training allocation. Base861da502228d5cf0e2e587643e84af8262062b6a closes the learned-width64 campaign. Root independently accepted its scoped evidence review, promoted as docs/research/task18-learned-evidence-review.md; scientific convergence remains open.
+
+The only production change is the closed calibration-width predicate in famjet/analysis/development.py: allow64 or128 only when the existing exact learned-profile branch applies and precision isfloat64. All other calibrations still require64. Existing CPU/device, raw/fixed-writer, J4/Bank8, shape/data/cache/precision/source/horizon/LR/fit/evaluation guards remain. Width256 and arbitrary widths, FP32 width128, fixed rates, structured/factorized readers and different state sizes remain rejected. Existing measured width64 evidence cannot authorize128 before allocation because fullmodel shape identity binds width.
+
+Expected actual width128 budgets are input97, reader30217 parameters, model30221/30225 (241768/241800B), MAC29952/query, objective-active upper29452/29456. Numeric state remains9216B+129metadata=9345B. No padding, new reader architecture or trainer.
+
+TDD RED: `.venv/bin/python -m pytest tests/test_learned_rate_development.py -k 'width128_profile or width_calibration' -q` →2 expected acceptance failures at old width64 guard,1 pass,16 deselected,2.40s; artifacts/task18-evidence/width128-policy-red.txt. Tests were written first.
+
+GREEN: `.venv/bin/python -m pytest tests/test_learned_rate_development.py -q` →19 passed11.05s; artifacts/task18-evidence/width128-policy-green.txt. Covers exact permission/rejections, preallocation width applicability, actual parameter/MAC/byte accounting and upper-bound semantics; real128 raw-versus-fresh and interrupted/resumed parameter+AdamW trajectories; FP64 initialization/input presentation/fit/export/reconstruction/gradient and wrong-dtype checkpoint rejection. Existing64/FP32 cases retained.
+
+Native covering command: `PYTORCH_ENABLE_MPS_FALLBACK=0 PYTORCH_MPS_FAST_MATH=0 .venv/bin/python -m pytest tests/test_learned_rate_development.py tests/test_selection.py tests/test_resume.py tests/test_training.py tests/test_readers.py tests/test_task_model.py tests/test_budgets.py -q`; result appended after completion. No fullsuite/campaign repeat.
+
+After stable source freeze, the same reviewer checks only the new policy/test delta. Before expensive preparation, execute actual represented initial rates on the12 training-cell memory/stream/input/logit frontier with original1e-12 and uniformly reviewed Decimal policy; verify a small fresh-width128 reader numerical/gradient path. Full768-fit reader/task checks occur once per actual cold profile using its verified step0/2 checkpoints, not a duplicate fit. Strict source-specific6144 raw regeneration retains all old caches/costs and verifies all raw contents/hashes. Fresh cold768fit/96dev/stop2/configured32768 profiles run sequentially under unchanged201326592B, recording UTC and perf_counter separately without power override. Numerical/resource failures are retained and reported before correction. No fresh2048 pair, width256, optimizer grid or protected phase follows automatically.
+
+Native covering result:230 passed37.80s, zero skips/failures; artifacts/task18-evidence/width128-native-cover.txt. Package hash at verified source freeze: 3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8. No other production file changed.

@@ -24,7 +24,7 @@ def test_only_approved_learned_rate_raw_profile_shape_enters_calibration(family,
     forbidden=[replace(c,model=replace(c.model,writer='learned')),
         replace(c,model=replace(c.model,encode='stream')),
         replace(c,model=replace(c.model,J=c.model.J*2)),
-        replace(c,model=replace(c.model,reader=replace(c.model.reader,width=128))),
+        replace(c,model=replace(c.model,reader=replace(c.model.reader,width=256 if precision=='float64' else 128))),
         replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured'))),
         replace(c,model=replace(c.model,rates=replace(c.model.rates,bounds=(.001,1.)))),
         replace(c,training=replace(c.training,learning_rate=.003)),
@@ -38,6 +38,46 @@ def test_only_approved_learned_rate_raw_profile_shape_enters_calibration(family,
         replace(c,development=replace(c.development,feature_cache_manifest_path='forbidden.json',feature_cache_manifest_hash='a'*64))]
     for config in forbidden:
         with pytest.raises(ValueError,match='calibration'):resolve_policy(config)
+
+
+@pytest.mark.parametrize('family',['jet','bank'])
+def test_width128_profile_is_only_exact_cpu64_learned_raw_shape(family):
+    from famjet.analysis.development import resolve_policy,parameter_accounting
+    from famjet.train import make_model
+    from famjet.eval.budgets import model_ledger
+    c=profile_config(family)
+    c=replace(c,model=replace(c.model,precision='float64',reader=replace(c.model.reader,width=128)))
+    resolve_policy(c)
+    model=make_model(c);account=parameter_accounting(model)
+    assert account['reader_input_width']==97 and account['macs_per_query']==29952
+    assert account['allocated_parameters']==(30221 if family=='jet' else 30225)
+    assert account['objective_active_parameters']==(29452 if family=='jet' else 29456)
+    assert account['objective_activity_status']=='upper_bound' and account['padding_parameters']==0
+    assert model_ledger(model)['parameter_bytes']==(241768 if family=='jet' else 241800)
+    forbidden=[replace(c,model=replace(c.model,precision='float32')),
+        replace(c,resources=replace(c.resources,device='mps')),
+        replace(c,model=replace(c.model,rates=replace(c.model.rates,mode='fixed'))),
+        replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured'))),
+        replace(c,model=replace(c.model,reader=replace(c.model.reader,rank=5))),
+        replace(c,model=replace(c.model,J=c.model.J*2))]
+    forbidden += [replace(c,model=replace(c.model,reader=replace(c.model.reader,width=w)))
+                  for w in (32,96,129,256)]
+    for changed in forbidden:
+        with pytest.raises(ValueError):resolve_policy(changed)
+
+
+def test_width_calibration_does_not_authorize_other_width_before_allocation(tmp_path,monkeypatch):
+    from famjet.analysis.development import execution_shape,run_development
+    from famjet.eval.isolation import source_identity
+    from famjet.provenance import canonical_hash
+    c=profile_config();c=replace(c,model=replace(c.model,precision='float64'))
+    evidence={'status':'passed','source_hash':source_identity(),'shapes':[execution_shape(c)],'net_allocation_limit_bytes':201326592}
+    p=tmp_path/'width64.json';p.write_text(json.dumps(evidence))
+    changed=replace(c,model=replace(c.model,reader=replace(c.model.reader,width=128)),
+        development=replace(c.development,mode='learning',calibration_path=str(p),calibration_hash=canonical_hash(evidence)))
+    def forbidden(*args,**kwargs):raise AssertionError('allocated before width applicability rejection')
+    monkeypatch.setattr('famjet.train.make_model',forbidden)
+    with pytest.raises(ValueError,match='applicable'):run_development(changed,tmp_path/'rejected')
 
 
 @pytest.mark.parametrize('change',['data_seed','query_seed'])
@@ -58,9 +98,9 @@ def test_profile_calibration_cannot_authorize_different_training_population(tmp_
     with pytest.raises(ValueError,match='applicable'):run_development(changed,tmp_path/'rejected')
 
 
-@pytest.mark.parametrize('precision',['float32','float64'])
+@pytest.mark.parametrize('precision,width',[('float32',64),('float64',64),('float64',128)])
 @pytest.mark.parametrize('family',['jet','bank'])
-def test_learned_rates_raw_transport_and_resume_preserve_optimizer_trajectory(tmp_path,monkeypatch,family,precision):
+def test_learned_rates_raw_transport_and_resume_preserve_optimizer_trajectory(tmp_path,monkeypatch,family,precision,width):
     # A raw cache must not detach learned rates or substitute stale fixed states.
     from tests.test_selection import dev_config
     from tests.test_development_cache import cached_config
@@ -72,6 +112,7 @@ def test_learned_rates_raw_transport_and_resume_preserve_optimizer_trajectory(tm
     from famjet.checkpoint import load_checkpoint
     from test_resume import equal_tree
     c=dev_config();c=replace(c,model=replace(c.model,precision=precision,method=family,J=4 if family=='jet' else 8,
+        reader=replace(c.model.reader,width=width),
         rates=replace(c.model.rates,mode='learned',bounds=(1/5224,1.))))
     path=prepare_cache(c,tmp_path/'raw',projected_data_bytes=1000000,output_reserve_bytes=100000)
     cached=cached_config(c,path)
@@ -120,13 +161,15 @@ def test_learned_rates_raw_transport_and_resume_preserve_optimizer_trajectory(tm
         with pytest.raises(ValueError,match='moment shape/dtype'):load_checkpoint(path,{})
 
 
-def test_fp64_profile_initialization_presentation_fit_and_inference_roundtrip():
+@pytest.mark.parametrize('width',[64,128])
+def test_fp64_profile_initialization_presentation_fit_and_inference_roundtrip(width):
     from famjet.train import make_model,move_episode,history_loss
     from famjet.analysis.development import draw_config
     from famjet.data.synthetic import generate_episode
     from famjet.eval.isolation import export_method,_reconstruct
     from test_resume import equal_tree
-    c=profile_config();c64=replace(c,model=replace(c.model,precision='float64'))
+    c=profile_config();c=replace(c,model=replace(c.model,reader=replace(c.model.reader,width=width)))
+    c64=replace(c,model=replace(c.model,precision='float64'))
     torch.manual_seed(c.seed);m32=make_model(c)
     torch.manual_seed(c.seed);m64=make_model(c64)
     for (name,a),(other,b) in zip(m32.named_parameters(),m64.named_parameters()):
@@ -145,7 +188,7 @@ def test_fp64_profile_initialization_presentation_fit_and_inference_roundtrip():
     snapshot=m64.encode(ep.events,mode='terminal');assert m64.persistent_nbytes(snapshot)==9345
     from famjet.eval.budgets import model_ledger
     ledger=model_ledger(m64)
-    assert ledger['parameter_bytes']==sum(p.numel()*8 for p in m64.parameters())==88168
+    assert ledger['parameter_bytes']==sum(p.numel()*8 for p in m64.parameters())==(88168 if width==64 else 241768)
     assert ledger['buffer_bytes']==sum(p.numel()*8 for p in m64.buffers())
     assert ledger['logical_bytes']==ledger['parameter_bytes']+ledger['buffer_bytes']
 
