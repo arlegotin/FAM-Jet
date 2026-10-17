@@ -115,7 +115,7 @@ def resolve_policy(config):
         evidence=json.loads((ROOT/d.calibration_path).read_text())
         if canonical_hash(evidence)!=d.calibration_hash: raise ValueError('calibration hash mismatch')
         if (evidence.get('status')!='passed' or evidence.get('source_hash')!=source_identity()
-                or execution_shape(config) not in evidence.get('shapes',[])):
+                or canonical_hash(execution_shape(config)) not in [canonical_hash(shape) for shape in evidence.get('shapes',[])]):
             raise ValueError('calibration is not applicable to source/device/shape/policy')
         if config.resources.smoke_additional_allocation_limit_bytes>evidence['net_allocation_limit_bytes']:
             raise ValueError('development exceeds calibrated net allocation limit')

@@ -153,3 +153,19 @@ def test_data_identity_closes_over_pooled_population():
     assert data['length_weights']=={'128':1/3,'512':1/3,'2048':1/3}
     assert len(data['regime_weights'])==4
     assert data['cell_identity_namespace']=='task18-{fit|train}-N{length}-{regime}-{ordinal:012d}'
+
+
+def test_calibration_shape_survives_json_without_losing_exact_binding(tmp_path):
+    import json
+    from dataclasses import replace
+    from famjet.eval.isolation import source_identity
+    from famjet.provenance import canonical_hash
+    d=api(); c=dev_config(); path=tmp_path/'calibration.json'
+    evidence={'status':'passed','source_hash':source_identity(),'shapes':[d.execution_shape(c)],'net_allocation_limit_bytes':201326592}
+    path.write_text(json.dumps(evidence))
+    # Real evidence uses JSON arrays; typed RunConfig uses tuples.
+    evidence=json.loads(path.read_text())
+    learning=replace(c,development=replace(c.development,mode='learning',calibration_path=str(path),calibration_hash=canonical_hash(evidence)))
+    assert d.resolve_policy(learning)['scientific_status']=='exploratory_development'
+    altered=replace(learning,model=replace(learning.model,rates=replace(learning.model.rates,bounds=(.002,1.))))
+    with pytest.raises(ValueError,match='applicable'): d.resolve_policy(altered)
