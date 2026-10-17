@@ -1,0 +1,850 @@
+{
+  "schema_version": 1,
+  "status": "accepted_operational_profile_only_lineage_closed",
+  "scope": "CPU64 operational and bounded numerical applicability only; no sustained learning or quality comparison",
+  "source": {
+    "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+    "diff": "",
+    "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+    "untracked_package_files": {}
+  },
+  "net_limit_bytes": 201326592,
+  "state_bytes": 9345,
+  "common_target_statistics_hash": "0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21",
+  "training_fit_histories": 768,
+  "development_histories": 96,
+  "population": {
+    "lengths": [
+      128,
+      512,
+      2048
+    ],
+    "length_weights": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "regime_weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "task_weights": {
+      "mean": 0.5,
+      "contrast": 0.5
+    }
+  },
+  "preparation": {
+    "cache_manifest": "artifacts/task18/cache-learned-cpu64-6144/manifest.json",
+    "cache_manifest_hash": "cc358a8ae0aaecd97ca06136e24fa0c6af1694fe885850bb38a178fe4af99502",
+    "cache_total_bytes": 953874048,
+    "cache_total_seconds": 352.79520720796427,
+    "compared_fields": [
+      "ordinal",
+      "episode_id",
+      "length",
+      "regime",
+      "sha256",
+      "hashes",
+      "bytes"
+    ],
+    "configs": {
+      "bank": {
+        "path": "artifacts/task18/learned-rate-cpu64-preparation/calibration-bank.yaml",
+        "sha256": "31f809c9592640c10c651067485d27bd2ce78362dc9281fcf3be0230448a7f2f"
+      },
+      "jet": {
+        "path": "artifacts/task18/learned-rate-cpu64-preparation/calibration-jet.yaml",
+        "sha256": "19f1ee42f8881c2e2f667aa42b730ccc8384b0ce584c51822322ae397314f4bd"
+      }
+    },
+    "helper_total_seconds": 352.9573134580278,
+    "same6144_ordered_content_and_file_hashes": true,
+    "source": {
+      "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+      "diff": "",
+      "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+      "untracked_package_files": {}
+    },
+    "status": "complete"
+  },
+  "families": {
+    "jet": {
+      "status": "completed_2_updates_of_configured_32768",
+      "profile_seconds": 188.57702737499494,
+      "profile_net_peak_bytes": 163725312,
+      "external_cost": {
+        "additional_since_external_start": 163741696,
+        "full_external_seconds": 188.66762691695476,
+        "rss_highwater_bytes": 388022272,
+        "source": {
+          "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+          "diff": "",
+          "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+          "untracked_package_files": {}
+        }
+      },
+      "fit_seconds": 99.53186375001678,
+      "checkpoint_verification": {
+        "checkpoints": [
+          {
+            "completed_step": 0,
+            "dtypes": [
+              "torch.float64"
+            ],
+            "fit": {
+              "feature_rows": 6144,
+              "history_count": 768,
+              "history_identity_hash": "5f1fe6cb6250b2d98067009d94eee7a8222a4c4911d014caec8c647d32dfabfb",
+              "reference_source": "median_positive_training_gap",
+              "split": "training",
+              "t_ref": 1.0,
+              "target_hash": "0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21",
+              "writer_hash": "4baa6677818766e464431c997b9c7119db5300c6040e662391518717ac575af4"
+            },
+            "path": "artifacts/task18/calibration-jet-learned-cpu64/training/checkpoint.pt.previous",
+            "sha256": "e0be36edbd07d0acf90a7f749a3cabc95e88d6c65785c3d7fb7825bb726459fa",
+            "source": {
+              "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+              "diff": "",
+              "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+              "untracked_package_files": {}
+            }
+          },
+          {
+            "completed_step": 2,
+            "dtypes": [
+              "torch.float64"
+            ],
+            "fit": {
+              "feature_rows": 6144,
+              "history_count": 768,
+              "history_identity_hash": "5f1fe6cb6250b2d98067009d94eee7a8222a4c4911d014caec8c647d32dfabfb",
+              "reference_source": "median_positive_training_gap",
+              "split": "training",
+              "t_ref": 1.0,
+              "target_hash": "0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21",
+              "writer_hash": "4baa6677818766e464431c997b9c7119db5300c6040e662391518717ac575af4"
+            },
+            "path": "artifacts/task18/calibration-jet-learned-cpu64/training/checkpoint.pt",
+            "sha256": "e5143e5ed4d8c757675ba5e140697c5c30d4d361ff3d78e378deb9ca272b2389",
+            "source": {
+              "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+              "diff": "",
+              "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+              "untracked_package_files": {}
+            }
+          }
+        ],
+        "seconds": 0.4382321670418605
+      },
+      "initial_rates": [
+        0.00045060617125325527,
+        0.004418396137748662,
+        0.043324357383812954,
+        0.4248147785491732
+      ],
+      "final_rates": [
+        0.0004507172337763713,
+        0.004412432471844412,
+        0.04317132251737969,
+        0.42539372566625294
+      ],
+      "initial_logits": [
+        -2.1972246170043945,
+        -0.5465437173843384,
+        0.5465436577796936,
+        2.1972243785858154
+      ],
+      "final_logits": [
+        -2.196904806011212,
+        -0.5472231588535414,
+        0.5447641730971992,
+        2.198993195043577
+      ],
+      "max_absolute_logit_change": 0.0017794846824944477,
+      "max_relative_rate_change": 0.0035323055129823366,
+      "gradients": [
+        {
+          "step": 1,
+          "logit_gradient": [
+            -0.00047598359918694385,
+            0.0010941806685930246,
+            0.00042598034786410597,
+            -0.00023920503827880115
+          ],
+          "logit_gradient_l2": 0.0012893680736399606,
+          "all_finite": true,
+          "sha256": "86fcb9b2c5ca57b44ced0891aa77479573e129ad7a962b0da66a88897faba5bc"
+        },
+        {
+          "step": 2,
+          "logit_gradient": [
+            0.005213782181879935,
+            -0.0019465584196295565,
+            0.007809646214276436,
+            -0.00633965085703379
+          ],
+          "logit_gradient_l2": 0.011495841043715373,
+          "all_finite": true,
+          "sha256": "d7362e360e9d0fb0e483e7f359fa7447467c2e15ff98c660bfa406e0470636d8"
+        }
+      ],
+      "updates": [
+        {
+          "backward_seconds": 0.021388958033639938,
+          "block": 0,
+          "boundary": "training_delivery_forward_backward_optimizer",
+          "cold_warm": "cold",
+          "corpus_progress": {
+            "completed_passes": 0,
+            "corpus_histories": 6144,
+            "pass_offset": 3,
+            "unique_histories": 3
+          },
+          "delivery_boundary": "raw_event_read_sha_decode",
+          "delivery_seconds": 0.009873625996988267,
+          "delta_allocation": null,
+          "device": "cpu",
+          "events": 2688,
+          "forward_loss_seconds": 0.027783666970208287,
+          "generation_seconds": 0.0,
+          "memory": {
+            "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+            "mps_current_bytes": null,
+            "mps_driver_bytes": null,
+            "rss_highwater_additional_bytes": 141590528,
+            "rss_highwater_baseline_bytes": 246087680,
+            "rss_highwater_peak_bytes": 387678208
+          },
+          "multiscale_allocation": null,
+          "order": 0,
+          "polynomial_allocation": null,
+          "polynomial_preparation": [],
+          "power": null,
+          "precision": "float64",
+          "pressure": null,
+          "queries": 24,
+          "repetitions": 1,
+          "seconds": 0.0693302089930512,
+          "shape": {
+            "J": 4,
+            "K": 16,
+            "V": 8,
+            "lengths": [
+              128,
+              512,
+              2048
+            ],
+            "microbatch": 1
+          },
+          "source_events": 2688,
+          "status": "exploratory_development",
+          "step": 1,
+          "sync_policy": "synchronous_cpu"
+        },
+        {
+          "backward_seconds": 0.008672417025081813,
+          "block": 1,
+          "boundary": "training_delivery_forward_backward_optimizer",
+          "cold_warm": "warm",
+          "corpus_progress": {
+            "completed_passes": 0,
+            "corpus_histories": 6144,
+            "pass_offset": 6,
+            "unique_histories": 6
+          },
+          "delivery_boundary": "raw_event_read_sha_decode",
+          "delivery_seconds": 0.008822667005006224,
+          "delta_allocation": null,
+          "device": "cpu",
+          "events": 2688,
+          "forward_loss_seconds": 0.02465637493878603,
+          "generation_seconds": 0.0,
+          "memory": {
+            "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+            "mps_current_bytes": null,
+            "mps_driver_bytes": null,
+            "rss_highwater_additional_bytes": 141918208,
+            "rss_highwater_baseline_bytes": 246087680,
+            "rss_highwater_peak_bytes": 388005888
+          },
+          "multiscale_allocation": null,
+          "order": 0,
+          "polynomial_allocation": null,
+          "polynomial_preparation": [],
+          "power": null,
+          "precision": "float64",
+          "pressure": null,
+          "queries": 24,
+          "repetitions": 1,
+          "seconds": 0.0491992500028573,
+          "shape": {
+            "J": 4,
+            "K": 16,
+            "V": 8,
+            "lengths": [
+              128,
+              512,
+              2048
+            ],
+            "microbatch": 1
+          },
+          "source_events": 2688,
+          "status": "exploratory_development",
+          "step": 2,
+          "sync_policy": "synchronous_cpu"
+        }
+      ],
+      "observer_seconds": [
+        25.016847541031893,
+        25.046244208991993
+      ],
+      "optimizer_tensor_bytes": 175324,
+      "optimizer_moment_dtype": "float64",
+      "optimizer_step_scalar_dtype": "float32",
+      "allocated_parameters": 11021,
+      "objective_active_parameter_upper_bound": 10636,
+      "parameter_bytes": 88168,
+      "reader_input_width": 97,
+      "reader_macs_per_query": 10880,
+      "fitted_binary64_checks": {
+        "0": {
+          "cases": 12,
+          "checkpoint_sha256": "e0be36edbd07d0acf90a7f749a3cabc95e88d6c65785c3d7fb7825bb726459fa",
+          "claim": "bounded_numerical_applicability_only_not_accuracy_or_convergence",
+          "failures": [
+            {
+              "history_id": "task18-train-N2048-trend_reset-000000000005",
+              "metrics": [
+                {
+                  "accepted": false,
+                  "atol": 1e-12,
+                  "criterion": "pointwise",
+                  "error_norm": 2.0094161767534792e-10,
+                  "finite": true,
+                  "max_absolute_error": 2.1827872842550278e-11,
+                  "max_pointwise_ratio": 1.5588826628173085,
+                  "name": "memory_gradient_key",
+                  "reference_norm": 898272.1759442779,
+                  "rtol": 1e-12,
+                  "shape": [
+                    1,
+                    2048,
+                    16
+                  ],
+                  "violating_elements": 1,
+                  "worst_candidate": -0.17597064999802114,
+                  "worst_flat_index": 23210,
+                  "worst_reference": -0.17597064999618794
+                }
+              ]
+            }
+          ],
+          "family": "jet",
+          "logits": [
+            [
+              -2.1972246170043945,
+              -0.5465437173843384,
+              0.5465436577796936,
+              2.1972243785858154
+            ]
+          ],
+          "max_pointwise_ratio": 1.5588826628173085,
+          "procedure_hash": "d14ff60f3aef974d6b9739a414c0e9e0a0c62556439c7243cf777a786a9793e9",
+          "rates": [
+            [
+              0.00045060617125325527,
+              0.004418396137748662,
+              0.043324357383812954,
+              0.4248147785491732
+            ]
+          ],
+          "reader_validation": true,
+          "rss_additional_bytes": 109969408,
+          "source": {
+            "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+            "diff": "",
+            "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+            "untracked_package_files": {}
+          },
+          "status": "failed_original_tolerance",
+          "total_seconds": 2.287330874998588
+        },
+        "2": {
+          "cases": 12,
+          "checkpoint_sha256": "e5143e5ed4d8c757675ba5e140697c5c30d4d361ff3d78e378deb9ca272b2389",
+          "claim": "bounded_numerical_applicability_only_not_accuracy_or_convergence",
+          "failures": [],
+          "family": "jet",
+          "logits": [
+            [
+              -2.196904806011212,
+              -0.5472231588535414,
+              0.5447641730971992,
+              2.198993195043577
+            ]
+          ],
+          "max_pointwise_ratio": 0.415716548347862,
+          "procedure_hash": "dc02fa39dc4f73fbd1219da045b63ec1fb9a4f80693c69447a6571e9705e122c",
+          "rates": [
+            [
+              0.0004507172337763713,
+              0.004412432471844412,
+              0.04317132251737969,
+              0.42539372566625294
+            ]
+          ],
+          "reader_validation": true,
+          "rss_additional_bytes": 110493696,
+          "source": {
+            "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+            "diff": "",
+            "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+            "untracked_package_files": {}
+          },
+          "status": "passed",
+          "total_seconds": 2.281962917011697
+        }
+      }
+    },
+    "bank": {
+      "status": "completed_2_updates_of_configured_32768",
+      "profile_seconds": 185.27111175004393,
+      "profile_net_peak_bytes": 167559168,
+      "external_cost": {
+        "additional_since_external_start": 167559168,
+        "full_external_seconds": 185.382815207995,
+        "rss_highwater_bytes": 391643136,
+        "source": {
+          "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+          "diff": "",
+          "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+          "untracked_package_files": {}
+        }
+      },
+      "fit_seconds": 96.6346596670337,
+      "checkpoint_verification": {
+        "checkpoints": [
+          {
+            "completed_step": 0,
+            "dtypes": [
+              "torch.float64"
+            ],
+            "fit": {
+              "feature_rows": 6144,
+              "history_count": 768,
+              "history_identity_hash": "5f1fe6cb6250b2d98067009d94eee7a8222a4c4911d014caec8c647d32dfabfb",
+              "reference_source": "median_positive_training_gap",
+              "split": "training",
+              "t_ref": 1.0,
+              "target_hash": "0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21",
+              "writer_hash": "44f49081812932acac9ed9f993aa84c060363db3bc0d79d9ce2e4cf59b0dd787"
+            },
+            "path": "artifacts/task18/calibration-bank-learned-cpu64/training/checkpoint.pt.previous",
+            "sha256": "b5a6fcec14ec81de5323051932d717ea3eb5ba67caa639cc8906503e1b349890",
+            "source": {
+              "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+              "diff": "",
+              "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+              "untracked_package_files": {}
+            }
+          },
+          {
+            "completed_step": 2,
+            "dtypes": [
+              "torch.float64"
+            ],
+            "fit": {
+              "feature_rows": 6144,
+              "history_count": 768,
+              "history_identity_hash": "5f1fe6cb6250b2d98067009d94eee7a8222a4c4911d014caec8c647d32dfabfb",
+              "reference_source": "median_positive_training_gap",
+              "split": "training",
+              "t_ref": 1.0,
+              "target_hash": "0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21",
+              "writer_hash": "44f49081812932acac9ed9f993aa84c060363db3bc0d79d9ce2e4cf59b0dd787"
+            },
+            "path": "artifacts/task18/calibration-bank-learned-cpu64/training/checkpoint.pt",
+            "sha256": "43423aa5b811b7444590a883a698671b9f49776af06ba7f31299f485a780a5d7",
+            "source": {
+              "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+              "diff": "",
+              "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+              "untracked_package_files": {}
+            }
+          }
+        ],
+        "seconds": 0.5971079589799047
+      },
+      "initial_rates": [
+        0.00045060617125325527,
+        0.0011987034882059216,
+        0.0031887935723502597,
+        0.008482835340658284,
+        0.022566060076637057,
+        0.060030281084657855,
+        0.1596926721326915,
+        0.4248147785491732
+      ],
+      "final_rates": [
+        0.0004499920092081483,
+        0.0012017576140762327,
+        0.0031905470031636175,
+        0.008477893311547588,
+        0.02248168221795147,
+        0.059832679161109396,
+        0.15962524491302074,
+        0.42423359467411287
+      ],
+      "initial_logits": [
+        -2.1972246170043945,
+        -1.2992830276489258,
+        -0.7146534323692322,
+        -0.22957450151443481,
+        0.22957444190979004,
+        0.7146533727645874,
+        1.2992829084396362,
+        2.1972243785858154
+      ],
+      "final_logits": [
+        -2.198996037900972,
+        -1.2975185331909775,
+        -0.7143623833535585,
+        -0.22985039534467244,
+        0.22780112476905034,
+        0.7129081468400749,
+        1.2989899390246824,
+        2.195448821165846
+      ],
+      "max_absolute_logit_change": 0.0017755574199695978,
+      "max_relative_rate_change": 0.0037391488987901234,
+      "gradients": [
+        {
+          "step": 1,
+          "logit_gradient": [
+            0.00019898210245791598,
+            -0.0003654100937892277,
+            -0.00031907126438951536,
+            0.0008239699238807584,
+            0.0012378047016785483,
+            2.0350106700409528e-05,
+            0.0003589392397938184,
+            4.360536902621071e-05
+          ],
+          "logit_gradient_l2": 0.0016177653517654301,
+          "all_finite": true,
+          "sha256": "cb1801e928e3b13a340863b6780c6c9a9c7e82466815edd9ae36b8ea37cf3637"
+        },
+        {
+          "step": 2,
+          "logit_gradient": [
+            0.004757624286500431,
+            -0.011792487993651716,
+            0.0062321904704449645,
+            -0.02797110731815163,
+            0.02766838724243238,
+            0.008606490206418916,
+            -0.00665773312672795,
+            0.0008964040671948135
+          ],
+          "logit_gradient_l2": 0.04321644457268752,
+          "all_finite": true,
+          "sha256": "0a504f4a8e4eef8f1fbeb66caf3c6493bfd8e1df74e7d27b8b890d0dde04acfa"
+        }
+      ],
+      "updates": [
+        {
+          "backward_seconds": 0.030758875014726073,
+          "block": 0,
+          "boundary": "training_delivery_forward_backward_optimizer",
+          "cold_warm": "cold",
+          "corpus_progress": {
+            "completed_passes": 0,
+            "corpus_histories": 6144,
+            "pass_offset": 3,
+            "unique_histories": 3
+          },
+          "delivery_boundary": "raw_event_read_sha_decode",
+          "delivery_seconds": 0.010993959032930434,
+          "delta_allocation": null,
+          "device": "cpu",
+          "events": 2688,
+          "forward_loss_seconds": 0.025535250082612038,
+          "generation_seconds": 0.0,
+          "memory": {
+            "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+            "mps_current_bytes": null,
+            "mps_driver_bytes": null,
+            "rss_highwater_additional_bytes": 136839168,
+            "rss_highwater_baseline_bytes": 245907456,
+            "rss_highwater_peak_bytes": 382746624
+          },
+          "multiscale_allocation": null,
+          "order": 0,
+          "polynomial_allocation": null,
+          "polynomial_preparation": [],
+          "power": null,
+          "precision": "float64",
+          "pressure": null,
+          "queries": 24,
+          "repetitions": 1,
+          "seconds": 0.09198337502311915,
+          "shape": {
+            "J": 8,
+            "K": 16,
+            "V": 8,
+            "lengths": [
+              128,
+              512,
+              2048
+            ],
+            "microbatch": 1
+          },
+          "source_events": 2688,
+          "status": "exploratory_development",
+          "step": 1,
+          "sync_policy": "synchronous_cpu"
+        },
+        {
+          "backward_seconds": 0.020224625011906028,
+          "block": 1,
+          "boundary": "training_delivery_forward_backward_optimizer",
+          "cold_warm": "warm",
+          "corpus_progress": {
+            "completed_passes": 0,
+            "corpus_histories": 6144,
+            "pass_offset": 6,
+            "unique_histories": 6
+          },
+          "delivery_boundary": "raw_event_read_sha_decode",
+          "delivery_seconds": 0.024195916019380093,
+          "delta_allocation": null,
+          "device": "cpu",
+          "events": 2688,
+          "forward_loss_seconds": 0.02346158295404166,
+          "generation_seconds": 0.0,
+          "memory": {
+            "measurement_limit": "lifetime highwater delta; fresh process required for cold allocation",
+            "mps_current_bytes": null,
+            "mps_driver_bytes": null,
+            "rss_highwater_additional_bytes": 145719296,
+            "rss_highwater_baseline_bytes": 245907456,
+            "rss_highwater_peak_bytes": 391626752
+          },
+          "multiscale_allocation": null,
+          "order": 0,
+          "polynomial_allocation": null,
+          "polynomial_preparation": [],
+          "power": null,
+          "precision": "float64",
+          "pressure": null,
+          "queries": 24,
+          "repetitions": 1,
+          "seconds": 0.07535429199924693,
+          "shape": {
+            "J": 8,
+            "K": 16,
+            "V": 8,
+            "lengths": [
+              128,
+              512,
+              2048
+            ],
+            "microbatch": 1
+          },
+          "source_events": 2688,
+          "status": "exploratory_development",
+          "step": 2,
+          "sync_policy": "synchronous_cpu"
+        }
+      ],
+      "observer_seconds": [
+        25.202898584015202,
+        23.09754270798294
+      ],
+      "optimizer_tensor_bytes": 175388,
+      "optimizer_moment_dtype": "float64",
+      "optimizer_step_scalar_dtype": "float32",
+      "allocated_parameters": 11025,
+      "objective_active_parameter_upper_bound": 10640,
+      "parameter_bytes": 88200,
+      "reader_input_width": 97,
+      "reader_macs_per_query": 10880,
+      "fitted_binary64_checks": {
+        "0": {
+          "cases": 12,
+          "checkpoint_sha256": "b5a6fcec14ec81de5323051932d717ea3eb5ba67caa639cc8906503e1b349890",
+          "claim": "bounded_numerical_applicability_only_not_accuracy_or_convergence",
+          "failures": [],
+          "family": "bank",
+          "logits": [
+            [
+              -2.1972246170043945,
+              -1.2992830276489258,
+              -0.7146534323692322,
+              -0.22957450151443481,
+              0.22957444190979004,
+              0.7146533727645874,
+              1.2992829084396362,
+              2.1972243785858154
+            ]
+          ],
+          "max_pointwise_ratio": 0.26463171813845826,
+          "procedure_hash": "bebf127731e75fc9c3d900710e63202d0df48befc6263815a1351a3c1e9b4776",
+          "rates": [
+            [
+              0.00045060617125325527,
+              0.0011987034882059216,
+              0.0031887935723502597,
+              0.008482835340658284,
+              0.022566060076637057,
+              0.060030281084657855,
+              0.1596926721326915,
+              0.4248147785491732
+            ]
+          ],
+          "reader_validation": true,
+          "rss_additional_bytes": 108396544,
+          "source": {
+            "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+            "diff": "",
+            "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+            "untracked_package_files": {}
+          },
+          "status": "passed",
+          "total_seconds": 2.3975593749783
+        },
+        "2": {
+          "cases": 12,
+          "checkpoint_sha256": "43423aa5b811b7444590a883a698671b9f49776af06ba7f31299f485a780a5d7",
+          "claim": "bounded_numerical_applicability_only_not_accuracy_or_convergence",
+          "failures": [],
+          "family": "bank",
+          "logits": [
+            [
+              -2.198996037900972,
+              -1.2975185331909775,
+              -0.7143623833535585,
+              -0.22985039534467244,
+              0.22780112476905034,
+              0.7129081468400749,
+              1.2989899390246824,
+              2.195448821165846
+            ]
+          ],
+          "max_pointwise_ratio": 0.5382200615044727,
+          "procedure_hash": "d6b68d7381bafa6dc9ad66145b17fe4885abe3b8873a204706c6d69b4536d5e6",
+          "rates": [
+            [
+              0.0004499920092081483,
+              0.0012017576140762327,
+              0.0031905470031636175,
+              0.008477893311547588,
+              0.02248168221795147,
+              0.059832679161109396,
+              0.15962524491302074,
+              0.42423359467411287
+            ]
+          ],
+          "reader_validation": true,
+          "rss_additional_bytes": 113180672,
+          "source": {
+            "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+            "diff": "",
+            "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+            "untracked_package_files": {}
+          },
+          "status": "passed",
+          "total_seconds": 2.4650383329717442
+        }
+      }
+    }
+  },
+  "artifact_sha256": {
+    "artifacts/task18/learned-rate-cpu64-preparation/procedure.json": "40e66e959e0a9655edc19ecd18745d66d6d4bd65ba9cac53769f0f531e0ebf6c",
+    "artifacts/task18/learned-rate-cpu64-preparation/summary.json": "11a9bf0597662f5cedff9d23a5a24eadd049180f416e934fc0185c0a04eff918",
+    "artifacts/task18/cache-learned-cpu64-6144/preparation.json": "8786216f13a2d1cc4d64faee282805e3ed3a90f558b699391cc3ed61a655fbe5",
+    "artifacts/task18/cache-learned-cpu64-6144/manifest.json": "aad032004b2c4e616ac810ad5e915c39846ea9adce5630a89b477a1c257ab54a",
+    "artifacts/task18/learned-rate-cpu64-decimal-full/summary.json": "6e57c4fad6c4ced0fdb1ade8b614a500593de8b64c3386d6d6a6f455a59ddb7c",
+    "artifacts/task18/learned-rate-cpu64-decimal-full/accepted-gate.json": "1ff974c0d4c2389c95317fd595e61a39eaa75ba9158d04cf96dfd922406d11e4",
+    "artifacts/task18/learned-rate-cpu64-step0-composition.json": "d03ab0897d88892d4bd4cc502eb0f5951f3333d97f35f5a455714f9d6c81f8ab",
+    "artifacts/task18/learned-rate-cpu64-decimal-step2/summary.json": "d721ffefa0ef057a620a2c6d56d20eb75ba647a75e1cb90743ca7c097d9e8b54",
+    "artifacts/task18-evidence/decimal-checkpoint-helper-mapping.json": "b9e7516dd6f4931002b8eca8398f8598f8790e8206d9f182a1035a918494d2d1",
+    "artifacts/task18/calibration-jet-learned-cpu64/development.json": "6a04203609e3d492458b58223f9e9c0c0c9a94e331000d8e9dd03683cc496b0e",
+    "artifacts/task18/calibration-jet-learned-cpu64/manifest.json": "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013",
+    "artifacts/task18/calibration-jet-learned-cpu64/checkpoint-verification.json": "b34f09866a6f3fde10e54e0280eea2bbd2edf74e2459ba409d0bf4b28e4f3748",
+    "artifacts/task18/calibration-jet-learned-cpu64/learning_curve.jsonl": "e9b23f3dec3b0861b5c3a30a6aa3d5000f020ce32bd24893aa244ff0a5555414",
+    "artifacts/task18/calibration-jet-learned-cpu64/training/resolved_config.json": "f1bbcf9710dc4f4ac6e275cb3cc0a5fd51c946183b5f4e2c966e8e16a6ccddd3",
+    "artifacts/task18/calibration-jet-learned-cpu64/training/run.json": "ebfda66c1ec5a6f0f7f97c003c63f994eb8c172ef5e2bc834cf52142700ce7d0",
+    "artifacts/task18/calibration-jet-learned-cpu64/training/timing.jsonl": "7873b33f755a11454b6e52cfa60e5063c50c40261f398eda47f7845ed33474c7",
+    "artifacts/task18/telemetry-jet-learned-cpu64/procedure.json": "cb794244e3a8634c5d8a01ff782c8f5fa56ca6faba5306c2f3b24d87e289730d",
+    "artifacts/task18/telemetry-jet-learned-cpu64/stages.jsonl": "f3a91b83c5853145cd0eb7f4277e92c8bac43017d25cf86f66ac332a28c6ebc0",
+    "artifacts/task18/telemetry-jet-learned-cpu64/cost.json": "ca864bf38c44b67c575f9408cc5a2a286fe21023820869c434daeff4c14942e9",
+    "artifacts/task18/learned-rate-cpu64-preparation/calibration-jet.yaml": "19f1ee42f8881c2e2f667aa42b730ccc8384b0ce584c51822322ae397314f4bd",
+    "artifacts/task18/learned-rate-cpu64-fitted-jet-step0/summary.json": "6389ea14dd06bc7f8d45e67d1a9646ac311788806a3042b3125ef1af15a30021",
+    "artifacts/task18/learned-rate-cpu64-fitted-jet-step0/procedure.json": "9dc246649b3f7f8173b1f36d32438d88a952d3dbad5a8e9ebd8a82c854f6599e",
+    "artifacts/task18/learned-rate-cpu64-fitted-jet-step2/summary.json": "d05f5497363f9cb2a9f0ef5aadee8e72321b5247af4882954c68c85b9680ea7d",
+    "artifacts/task18/learned-rate-cpu64-fitted-jet-step2/procedure.json": "65079e5c886aff4fbbe4f3ed606e4795398cfaa7d1fc37be4c41f5d61149b6c3",
+    "artifacts/task18/calibration-bank-learned-cpu64/development.json": "21d16f93987ce9234731a004aba594357784052746cb5a605e89e0d5a3a74013",
+    "artifacts/task18/calibration-bank-learned-cpu64/manifest.json": "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013",
+    "artifacts/task18/calibration-bank-learned-cpu64/checkpoint-verification.json": "e1790bd4349a3c394d5c4dcc7e4f35fcfdc984c5b57d63ed690da70bc76ac6b7",
+    "artifacts/task18/calibration-bank-learned-cpu64/learning_curve.jsonl": "6881f4626220316011d7a1fd63b6ec3469b1eab9fe6f4746808ed059662b8b5c",
+    "artifacts/task18/calibration-bank-learned-cpu64/training/resolved_config.json": "92145a8d6cff543bd688e8f4d1305afab84a7a8ae6f25300f889cc662931e09f",
+    "artifacts/task18/calibration-bank-learned-cpu64/training/run.json": "0a08779a152379a61c82466c58777dcabaf8b8397ebafdc8ab8bd49ecb7c1ae6",
+    "artifacts/task18/calibration-bank-learned-cpu64/training/timing.jsonl": "35a87cf5f0afcc017e361c10d41c18a19ce51071612023aa0cec5a1f891af3f3",
+    "artifacts/task18/telemetry-bank-learned-cpu64/procedure.json": "ee30ad439f4d480cc87b57fa5446b3c5632ce26ce8303d10e56713be6a00ebaa",
+    "artifacts/task18/telemetry-bank-learned-cpu64/stages.jsonl": "a204758e1e1a5ab8a6730637b6927ac0fbbc4b12b88d88102f33a77d9d71e88b",
+    "artifacts/task18/telemetry-bank-learned-cpu64/cost.json": "f76fa1b23ea0b638e4f445d26fa94885be0a9d142e299cf764a1de8a7a2b3931",
+    "artifacts/task18/learned-rate-cpu64-preparation/calibration-bank.yaml": "31f809c9592640c10c651067485d27bd2ce78362dc9281fcf3be0230448a7f2f",
+    "artifacts/task18/learned-rate-cpu64-fitted-bank-step0/summary.json": "e9985f7fdba96d1d6b9dad8d1064a18ae3595428c2d9eb10ab8d351f08fdde03",
+    "artifacts/task18/learned-rate-cpu64-fitted-bank-step0/procedure.json": "4d8221589cd2b06c1ab7eaafc5b7ed93c842412c75fb8c4cf66d2d87c4bd36ca",
+    "artifacts/task18/learned-rate-cpu64-fitted-bank-step2/summary.json": "7d31be8834673dd9f37e7fcf3ad40d01afc3048b7bd74fc29267771730838f60",
+    "artifacts/task18/learned-rate-cpu64-fitted-bank-step2/procedure.json": "e3bd675d92c915d0449a49274e08c199991cef839f84c1ec7da246aef50d05bb",
+    "artifacts/task18-evidence/procedure-scripts/task18_decimal_full.py": "caef7281f39d5c7811110d01ba26412d41703c63fef11a0370afb23dc001f6cf",
+    "artifacts/task18-evidence/procedure-scripts/task18_decimal_checkpoint.py": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717",
+    "artifacts/task18-evidence/procedure-scripts/task18_decimal_step2_run.py": "3f54b7b23113a708a02569e5669f95bf8beb511e232a6900a8ff078a8e1251d8",
+    "artifacts/task18-evidence/procedure-scripts/task18_cpu64_cold.py": "52836298016b39c9204bcafa575dcb0d6b97673f173b28f5327aa4b7e11394c2",
+    "artifacts/task18-evidence/procedure-scripts/task18_cpu64_prepare.py": "5aecd03c246a9768c2237ed0c3289fc1e3567a5cb8d5588f210e1e6bca0614f8",
+    "artifacts/task18-evidence/procedure-scripts/task18_learned_numeric64.py": "ad64ca5007d331d6986f4dfd849c4912f92b8e58bf93c6a61001817376c13bd6"
+  },
+  "limitations": [
+    "All 96 histories exposed development; no inferential claim.",
+    "Residual 384-to-768 contrast-scale change 4.132366%; stability unresolved.",
+    "New 9345B CPU64 arm is distinct from historical 4737B CPU32 arm.",
+    "No independent shared query_inputs or captured raw dL/dr certification.",
+    "Two updates do not establish optimization or sustained runtime.",
+    "Full configuration inherited numerical defaults 1e-5/1e-6; authoritative executed reference bounds 1e-12/1e-12. Later learning config must explicitly set these without rewriting profile identity."
+  ],
+  "retained_failure_paths": [
+    "artifacts/task18/learned-rate-numerics-initial-jet",
+    "artifacts/task18/learned-rate-numerics-initial-bank",
+    "artifacts/task18/learned-rate-expm1-diagnostic",
+    "artifacts/task18/learned-rate-cpu64-numerics-initial-jet",
+    "artifacts/task18/calibration-jet-learned-cpu64/checkpoint-verification-output-failure.json"
+  ],
+  "cost": {
+    "raw_preparation_plus_two_profile_seconds": 726.6433463330031,
+    "fitted_four_checks_seconds": 9.43189149996033,
+    "uniform_step2_decimal_full_driver_seconds": 63.90037837502314,
+    "uniform_initial_decimal_case_compute_seconds": 33.11105683504138,
+    "warning": "Components have distinct boundaries; internal stage times are nested and must not be added to enclosing profile wall time. Old preparation/failure/test work retained in earlier inventories. This is not a complete wall-clock session cost."
+  },
+  "storage_boundaries": {
+    "decimal_step2_pre_summary_bytes": 54058712,
+    "decimal_step2_after_summary_bytes": 54062912,
+    "jet_profile_boundary_bytes": 11946355,
+    "bank_profile_boundary_bytes": 11948883,
+    "jet_after_verification_bytes": 11958417,
+    "bank_after_verification_bytes": 11960755
+  },
+  "results_review": {
+    "path": "docs/research/task18-cpu64-results-review.md",
+    "original_sha256": "99cc6c73e0c63558b4167c8e1988d316d24211aefb57f24955f4866278596172"
+  },
+  "record_disclosures": {
+    "step2_oracle_scope_string": "Immutable helper retains phrase initial numerical reference; all24 candidate/procedure/checkpoint hashes establish actual step2 scope.",
+    "config_numerics": "Inherited1e-5/1e-6 fields retained; executed authoritative1e-12; fresh later learning config explicitly1e-12."
+  }
+}

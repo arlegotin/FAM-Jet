@@ -1,6 +1,6 @@
 {
-  "schema_version": 3,
-  "status": "four_exploratory_stages_complete_no_accepted_learned_baseline",
+  "schema_version": 4,
+  "status": "historical_learning_and_CPU64_operational_profile_complete_scientific_gate_open",
   "generated_utc": "2026-10-17T02:39:18.691019+00:00",
   "target_semantics": "observed_event_targets_v2",
   "historical_initial_stage": {
@@ -6869,6 +6869,17 @@
           "rule": "raw generation shared equally across two actual model families; family feature work charged fully; calibration/learning/evaluation remain separately charged"
         }
       }
+    }
+  },
+  "cpu64_profile": {
+    "path": "docs/research/task18-cpu64-profile-closure.json",
+    "sha256": "dae9f7f23de13a08a9a1f44d806786e3bf03e4747d8f9868fbe4e585b5c8e9c2",
+    "status": "accepted_operational_profile_only_lineage_closed",
+    "candidate_source": {
+      "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+      "diff": "",
+      "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+      "untracked_package_files": {}
     }
   }
 }

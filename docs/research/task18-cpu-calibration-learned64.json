@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "purpose": "task18_local_cpu_execution_not_task20_statistical_pilot",
+  "source_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+  "origin_source": {
+    "commit": "adb8a74980610c8570dc52aaceb727913afe1e6d",
+    "diff": "",
+    "package_hash": "b898bef145c0edbd2298240a022f6458fa6724f0b8ba0b1144488fe1a1b51bbc",
+    "untracked_package_files": {}
+  },
+  "net_allocation_limit_bytes": 201326592,
+  "shapes": [
+    {
+      "method": "jet",
+      "model": {
+        "method": "jet",
+        "heads": 1,
+        "J": 4,
+        "K": 16,
+        "precision": "float64",
+        "rates": {
+          "mode": "learned",
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 64,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "data": {
+        "generator_version": "initial_spec_v2_targets",
+        "key_features": "one_hot",
+        "key_dim": 16,
+        "value_dim": 8,
+        "length": 128,
+        "queries_per_history": 8,
+        "generator": {
+          "namespace": "training",
+          "population": "primary",
+          "regime": "balanced",
+          "key_load": 16,
+          "feature_seed": 20261013,
+          "query_seed": 0,
+          "max_query_attempts": 4096,
+          "delay_multiplier": 0.0,
+          "robustness": "standard"
+        },
+        "beijing": null
+      },
+      "data_seed": 20261017018,
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 64,
+      "eval_histories_per_cell": 8,
+      "cache_manifest_hash": "cc358a8ae0aaecd97ca06136e24fa0c6af1694fe885850bb38a178fe4af99502",
+      "corpus_histories": 6144,
+      "feature_cache_manifest_hash": null
+    },
+    {
+      "method": "bank",
+      "model": {
+        "method": "bank",
+        "heads": 1,
+        "J": 8,
+        "K": 16,
+        "precision": "float64",
+        "rates": {
+          "mode": "learned",
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 64,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "data": {
+        "generator_version": "initial_spec_v2_targets",
+        "key_features": "one_hot",
+        "key_dim": 16,
+        "value_dim": 8,
+        "length": 128,
+        "queries_per_history": 8,
+        "generator": {
+          "namespace": "training",
+          "population": "primary",
+          "regime": "balanced",
+          "key_load": 16,
+          "feature_seed": 20261013,
+          "query_seed": 0,
+          "max_query_attempts": 4096,
+          "delay_multiplier": 0.0,
+          "robustness": "standard"
+        },
+        "beijing": null
+      },
+      "data_seed": 20261017018,
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 64,
+      "eval_histories_per_cell": 8,
+      "cache_manifest_hash": "cc358a8ae0aaecd97ca06136e24fa0c6af1694fe885850bb38a178fe4af99502",
+      "corpus_histories": 6144,
+      "feature_cache_manifest_hash": null
+    }
+  ],
+  "profiles": [
+    {
+      "family": "jet",
+      "path": "artifacts/task18/calibration-jet-learned-cpu64/development.json",
+      "sha256": "6a04203609e3d492458b58223f9e9c0c0c9a94e331000d8e9dd03683cc496b0e",
+      "external_net_peak_bytes": 163741696,
+      "external_seconds": 188.66762691695476,
+      "configured_steps": 32768,
+      "executed_steps": 2,
+      "fit_histories": 768,
+      "eval_histories": 96,
+      "cache_manifest_hash": "cc358a8ae0aaecd97ca06136e24fa0c6af1694fe885850bb38a178fe4af99502"
+    },
+    {
+      "family": "bank",
+      "path": "artifacts/task18/calibration-bank-learned-cpu64/development.json",
+      "sha256": "21d16f93987ce9234731a004aba594357784052746cb5a605e89e0d5a3a74013",
+      "external_net_peak_bytes": 167559168,
+      "external_seconds": 185.382815207995,
+      "configured_steps": 32768,
+      "executed_steps": 2,
+      "fit_histories": 768,
+      "eval_histories": 96,
+      "cache_manifest_hash": "cc358a8ae0aaecd97ca06136e24fa0c6af1694fe885850bb38a178fe4af99502"
+    }
+  ],
+  "scope": "Full cold768fit96dev raw6144 stop2/configured32768; sustained execution guarded per update. Config numerics1e-5/1e-6 historical descriptive; actual accepted reference1e-12. No shape change from new learning numerics fields."
+}
