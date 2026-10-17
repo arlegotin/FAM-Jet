@@ -1,0 +1,5 @@
+# Fixed-basis reader followup —18 October2026
+
+Root accepted the exact2def8192 three-family allocation as exploratory/unconverged after full report and131-source-hash review. Best observed Bank4096.391406724 beats Jet8192.391915604; no practical gain over shared buckets. Full curves, all36 original1e-12 endpoint checks, frozen6144 risks and all cost/failure records are preserved in [the executed report](../research/task18-fixed-basis-learning8192-report.md).
+
+Only the next source stage is authorized: the existing full structured reader, Jet125/Bank122, same fixedCPU64bases/writer/currentdata, under actual30217parameter/29952MAC ceilings. No new trainer/cache framework, padding, generic-full/rank9 or grid. Count allocated parameters and primary-active upper bounds separately, including provably zero task/log-rate inputs and unused support head. TDD/covering lifecycle checks and independent source review precede any numerical or scientific work. Existing whole-package cache identity remains strict; future raw refresh cost is accepted but not yet allocated. No protected namespace opens.

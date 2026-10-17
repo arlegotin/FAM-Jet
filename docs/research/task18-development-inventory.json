@@ -6939,5 +6939,28 @@
     "setup_execution_seconds": 1975.0897380409297,
     "allocated_next_stop": 8192,
     "potential_horizon": 32768
+  },
+  "fixed_basis_cpu64_learning8192": {
+    "status": "complete_exploratory_unconverged_root_accepted",
+    "source": "2def54622c5d9a49c84145739792a084494fbbe9",
+    "report": "docs/research/task18-fixed-basis-learning8192-report.md",
+    "summary": "docs/research/task18-fixed-basis-learning8192-summary.json",
+    "endpoint_losses": {
+      "jet": 0.39191560381907903,
+      "bank": 0.3949242290123776,
+      "multiscale": 0.4397806121695842
+    },
+    "best_observed_losses": {
+      "jet": 0.39191560381907903,
+      "bank": 0.39140672404028454,
+      "multiscale": 0.43609365121412375
+    },
+    "frozen_train": {
+      "jet": 0.42609396597037347,
+      "bank": 0.44645944623437717,
+      "multiscale": 0.4320685521828058
+    },
+    "current_stage_seconds": 1467.8430695819552,
+    "next": "structured Jet125/Bank122 source stage only; all execution held"
   }
 }
