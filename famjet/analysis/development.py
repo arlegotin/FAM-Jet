@@ -99,6 +99,7 @@ def reader_budget(reader):
 def execution_shape(config):
     from dataclasses import asdict
     return {'method':config.model.method,'model':asdict(config.model),
+            'data':asdict(config.data),'data_seed':config.development.data_seed,
             'key_dim':config.data.key_dim,'value_dim':config.data.value_dim,
             'queries':config.data.queries_per_history,'threads':config.resources.cpu_threads,
             'device':config.resources.device,'microbatch':config.training.microbatch,
@@ -127,7 +128,21 @@ def resolve_policy(config):
         # Prospective staged permission, not general removal of smoke bounds.
         cached=d.cache_manifest_path is not None
         finite=d.corpus_histories is not None
-        if finite and (d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
+        learned_profile=finite and config.model.rates is not None and config.model.rates.mode=='learned'
+        if learned_profile and (not cached or d.feature_cache_manifest_path is not None
+                or d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
+                or config.model.J!=(4 if config.model.method=='jet' else 8)
+                or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
+                or config.model.reader.max_parameters is not None or config.model.reader.max_macs is not None
+                or config.model.rates.bounds!=(1/5224,1.) or config.model.rates.spacing!='log'
+                or config.model.encode!='terminal' or config.model.epsilon!=1e-8
+                or config.training.learning_rate!=.001 or config.training.weight_decay!=0
+                or d.fit_histories_per_cell!=64 or d.eval_histories_per_cell!=8
+                or config.data.queries_per_history!=8 or config.resources.cpu_threads!=4
+                or d.gradient_clip_norm is not None
+                or d.milestones!=(0,128,512,1024,2048,4096,8192,16384,32768)):
+            raise ValueError('outside authorized learned-rate raw calibration shape')
+        if finite and not learned_profile and (d.corpus_histories!=6144 or config.training.optimizer_steps!=32768
                 or config.model.J!=(4 if config.model.method=='jet' else 8)
                 or config.model.reader.kind!='generic_contracted' or config.model.reader.rank is not None
                 or config.model.rates.bounds!=(.001,1.) or d.fit_histories_per_cell!=32
@@ -140,9 +155,9 @@ def resolve_policy(config):
         if (any(n not in (128,512,2048) for n in d.lengths) or config.model.method not in {'jet','bank'}
             or config.model.J>(4 if config.model.method=='jet' else 8) or config.model.K!=16
             or config.data.value_dim!=8 or config.model.reader.width!=64 or config.model.reader.layers!=2
-            or config.model.writer!='fixed' or config.model.rates.mode!='fixed'
-            or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>32
-            or config.data.queries_per_history>8 or d.eval_histories_per_cell>4):
+            or config.model.writer!='fixed' or config.model.rates.mode!=('learned' if learned_profile else 'fixed')
+            or (not cached and config.training.optimizer_steps>4) or d.fit_histories_per_cell>(64 if learned_profile else 32)
+            or config.data.queries_per_history>8 or d.eval_histories_per_cell>(8 if learned_profile else 4)):
             raise ValueError('outside authorized initial CPU calibration shape')
     else:
         if d.calibration_path is None: raise ValueError('measured calibration required')
