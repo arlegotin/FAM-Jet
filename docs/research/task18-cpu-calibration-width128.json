@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "purpose": "task18_local_cpu_execution_not_task20_statistical_pilot",
+  "source_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "origin_source": {
+    "commit": "321b01b4059469375c11f63b021800465b85defa",
+    "diff": "",
+    "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+    "untracked_package_files": {}
+  },
+  "net_allocation_limit_bytes": 201326592,
+  "shapes": [
+    {
+      "method": "jet",
+      "model": {
+        "method": "jet",
+        "heads": 1,
+        "J": 4,
+        "K": 16,
+        "precision": "float64",
+        "rates": {
+          "mode": "learned",
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 128,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "data": {
+        "generator_version": "initial_spec_v2_targets",
+        "key_features": "one_hot",
+        "key_dim": 16,
+        "value_dim": 8,
+        "length": 128,
+        "queries_per_history": 8,
+        "generator": {
+          "namespace": "training",
+          "population": "primary",
+          "regime": "balanced",
+          "key_load": 16,
+          "feature_seed": 20261013,
+          "query_seed": 0,
+          "max_query_attempts": 4096,
+          "delay_multiplier": 0.0,
+          "robustness": "standard"
+        },
+        "beijing": null
+      },
+      "data_seed": 20261017018,
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 64,
+      "eval_histories_per_cell": 8,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c",
+      "corpus_histories": 6144,
+      "feature_cache_manifest_hash": null
+    },
+    {
+      "method": "bank",
+      "model": {
+        "method": "bank",
+        "heads": 1,
+        "J": 8,
+        "K": 16,
+        "precision": "float64",
+        "rates": {
+          "mode": "learned",
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "spacing": "log"
+        },
+        "writer": "fixed",
+        "encode": "terminal",
+        "reader": {
+          "kind": "generic_contracted",
+          "width": 128,
+          "layers": 2,
+          "activation": "silu",
+          "rank": null,
+          "max_parameters": null,
+          "max_macs": null
+        },
+        "epsilon": 1e-08,
+        "numerical_support_floor": 1e-08,
+        "learned_abstention_threshold": null,
+        "interpolation": false,
+        "probes": 1,
+        "polynomial": null,
+        "multiscale": null,
+        "delta": null
+      },
+      "data": {
+        "generator_version": "initial_spec_v2_targets",
+        "key_features": "one_hot",
+        "key_dim": 16,
+        "value_dim": 8,
+        "length": 128,
+        "queries_per_history": 8,
+        "generator": {
+          "namespace": "training",
+          "population": "primary",
+          "regime": "balanced",
+          "key_load": 16,
+          "feature_seed": 20261013,
+          "query_seed": 0,
+          "max_query_attempts": 4096,
+          "delay_multiplier": 0.0,
+          "robustness": "standard"
+        },
+        "beijing": null
+      },
+      "data_seed": 20261017018,
+      "key_dim": 16,
+      "value_dim": 8,
+      "queries": 8,
+      "threads": 4,
+      "device": "cpu",
+      "microbatch": 1,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "fit_histories_per_cell": 64,
+      "eval_histories_per_cell": 8,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c",
+      "corpus_histories": 6144,
+      "feature_cache_manifest_hash": null
+    }
+  ],
+  "profiles": [
+    {
+      "family": "jet",
+      "path": "artifacts/task18/calibration-jet-width128/development.json",
+      "sha256": "c0f78cf6f95465bbe7db1b7e396ea7c362c357b9a9c6d4714bbf90fa043badad",
+      "net_peak_bytes": 162643968,
+      "profile_perf_seconds": 189.56577966699842,
+      "configured_steps": 32768,
+      "executed_steps": 2,
+      "fit_histories": 768,
+      "eval_histories": 96,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c"
+    },
+    {
+      "family": "bank",
+      "path": "artifacts/task18/calibration-bank-width128/development.json",
+      "sha256": "cc14f1839f2e8b4736ca560389eab7224779d12433eb8fd66a9ebc770f35654f",
+      "net_peak_bytes": 166363136,
+      "profile_perf_seconds": 186.82223333301954,
+      "configured_steps": 32768,
+      "executed_steps": 2,
+      "fit_histories": 768,
+      "eval_histories": 96,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c"
+    }
+  ],
+  "scope": "Full cold768fit96dev raw6144 stop2/configured32768; original1e-12 applicable numerical gates passed. Two-step resource calibration only; sustained execution guarded per update. UTC/perf separate, no power override."
+}

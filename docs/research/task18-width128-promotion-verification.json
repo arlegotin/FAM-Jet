@@ -1,0 +1,22 @@
+{
+  "source_package": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+  "promoted_exact_files": 34,
+  "checks": {
+    "jet": {
+      "policy": "actual resolve_policy passed",
+      "cache": "actual TrainingDrawCache full ordered identity and file SHA verification passed",
+      "cache_entries": 6144,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c",
+      "calibration_hash": "442e7eaca4c62ce98ae82ec3235124ad8da460f2ca7fc624f6a5a292259771a9"
+    },
+    "bank": {
+      "policy": "actual resolve_policy passed",
+      "cache": "actual TrainingDrawCache full ordered identity and file SHA verification passed",
+      "cache_entries": 6144,
+      "cache_manifest_hash": "43204a0c78d5f079e7b0ef67c0f4ea0d52c540b05a50d4114e912e8eec95aa4c",
+      "calibration_hash": "442e7eaca4c62ce98ae82ec3235124ad8da460f2ca7fc624f6a5a292259771a9"
+    }
+  },
+  "seconds": 20.96742733399151,
+  "no_model_allocation_or_fit_or_training": true
+}

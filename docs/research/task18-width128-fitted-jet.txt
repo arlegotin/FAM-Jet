@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/tmp/task18_width128_fitted.py", line 17, in <module>
+    assert m.persistent_nbytes(m.init_state(1,device='cpu',dtype=torch.float64))==9345;ledger=model_ledger(m);assert ledger['parameter_bytes']==(241768 if family=='jet' else 241800)
+                               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/models/task_model.py", line 147, in init_state
+    return replace(self.kernel.init_state(batch_size, device=device, dtype=dtype), parameter_hash=self._parameter_hash())
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/memory/_fixed_writer.py", line 121, in init_state
+    _require(dtype in {'float32', 'float64'}, 'dtype must be float32 or float64')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/memory/_fixed_writer.py", line 16, in _require
+    raise ValueError(message)
+ValueError: dtype must be float32 or float64

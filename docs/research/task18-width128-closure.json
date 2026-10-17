@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "origin_source": {
+    "commit": "321b01b4059469375c11f63b021800465b85defa",
+    "diff": "",
+    "package_hash": "3a54cb7201bd8a0a888dcfa4ee09c9de581fcbab720882815a243f4c389f7bf8",
+    "untracked_package_files": {}
+  },
+  "scope": "operational profile accepted; scientific2048 allocation held for scoped evidence/config review",
+  "promoted_files": {
+    "docs/research/task18-width128-profile-report.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-width128-profile-report.md",
+      "sha256": "2c19fed921289f608493a923f2ec8f833ef79e33b368a1955d734c36c2cfa73d"
+    },
+    "docs/research/task18-width128-source-review.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-width128-source-review.md",
+      "sha256": "33993832c83f5d62cc3595ec50d9caa00c3934fb4fdab3086f6cc81dde61e935"
+    },
+    "docs/research/task18-width128-profile-summary.json": {
+      "origin": "artifacts/task18/width128-profile-closure/summary.json",
+      "sha256": "e2551866bfc1d88504ab1ef5fa918a470bfb67a29815394a4f85db4687754b1a"
+    },
+    "docs/research/task18-width128-profile-inventory.json": {
+      "origin": "artifacts/task18/width128-profile-closure/inventory.json",
+      "sha256": "5c7567a6ee6e76a07c820cd6f589b62279945cb2d4206e5dd8829006dd120172"
+    },
+    "docs/research/task18-width128-initial-summary.json": {
+      "origin": "artifacts/task18/width128-initial-gate/summary.json",
+      "sha256": "4b321d7b9181795375bfb8c55a26eb411a3defbde84c3a242d35ac82ceb55ab1"
+    },
+    "docs/research/task18-width128-initial-reader-summary.json": {
+      "origin": "artifacts/task18/width128-initial-reader/summary.json",
+      "sha256": "b299b36de4a3ba326a99d85e74fedefcf371af79110eec20e5d5b5f6f64c3695"
+    },
+    "docs/research/task18-width128-decimal-step2-summary.json": {
+      "origin": "artifacts/task18/width128-decimal-step2/summary.json",
+      "sha256": "f31310916a6ffbc1cd0f3e6d25530a4afb765a907b89cf1771598ec2c960ba1b"
+    },
+    "docs/research/task18-width128-helper-recovery.json": {
+      "origin": "artifacts/task18-evidence/width128-fitted-helper-recovery.json",
+      "sha256": "03af8ef4a710ef9a277366b9dcc583f81ad4e717559fc644aa386eee39056feb"
+    },
+    "docs/research/task18-width128-preparation-summary.json": {
+      "origin": "artifacts/task18/width128-preparation/summary.json",
+      "sha256": "2008c6d21e7df2933f1635130fd472a042a9656e6f1a73147712a95eefd6cc8d"
+    },
+    "docs/research/task18-width128-jet-verification.json": {
+      "origin": "artifacts/task18/width128-verification-jet-r2/summary.json",
+      "sha256": "483eb4ec51a5ee259978a1d317de75cf5889482177b0238c6c7ae79b4d1bd804"
+    },
+    "docs/research/task18-width128-jet-composition.json": {
+      "origin": "artifacts/task18/width128-verification-jet-r2/step0-reference-composition.json",
+      "sha256": "7926efec7cd17f68dc6898e7930f17910d69cfd932d1a28e6e486da308ff83f5"
+    },
+    "docs/research/task18-width128-jet-telemetry.jsonl": {
+      "origin": "artifacts/task18/telemetry-jet-width128/stages.jsonl",
+      "sha256": "8a4a1cf46a65f6ef94a893b00e08ab0c975a32f63c43ab1085ed774482130504"
+    },
+    "docs/research/task18-width128-jet-clock.json": {
+      "origin": "artifacts/task18-evidence/width128-cold-jet-time-boundary.json",
+      "sha256": "db168f111ebae09ab4dcd61518e5f22c374b51bf444b7efa941d8cbfd6086530"
+    },
+    "docs/research/task18-width128-jet-step0-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-fitted-jet-step0/summary.json",
+      "sha256": "1a2eafeab67dee3b41740f0db9281aa4adbe1be003bcfeec9cc24e572e85232c"
+    },
+    "docs/research/task18-width128-jet-step2-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-fitted-jet-step2/summary.json",
+      "sha256": "7e66107e953369e02d89dc337899f3ab4166207332ae1db25f108bb232f090ed"
+    },
+    "docs/research/task18-width128-bank-verification.json": {
+      "origin": "artifacts/task18/width128-verification-bank-r2/summary.json",
+      "sha256": "722f06874144a73c41badc54deb523ed74a3236c54facd8da7dba7172aeb9758"
+    },
+    "docs/research/task18-width128-bank-composition.json": {
+      "origin": "artifacts/task18/width128-verification-bank-r2/step0-reference-composition.json",
+      "sha256": "61ae74e7fa5eb4ab4b09317429ebf2d91e9b97cf79d2edca405eab0c7cbd5a6d"
+    },
+    "docs/research/task18-width128-bank-telemetry.jsonl": {
+      "origin": "artifacts/task18/telemetry-bank-width128/stages.jsonl",
+      "sha256": "b57e9a69a4ab45c347e2d8b62dbcb92602b6cad994154089a1eece170f65a3a3"
+    },
+    "docs/research/task18-width128-bank-clock.json": {
+      "origin": "artifacts/task18-evidence/width128-cold-bank-time-boundary.json",
+      "sha256": "11795afce7cd118e8054cf8d1141927a8d118d9f74b67f9e3886837f796263ae"
+    },
+    "docs/research/task18-width128-bank-step0-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-fitted-bank-step0/summary.json",
+      "sha256": "c383b177b240981d83671a6ade7a1ce8a8eb3c1fc5f6db0ced40878fca968c69"
+    },
+    "docs/research/task18-width128-bank-step2-binary64-summary.json": {
+      "origin": "artifacts/task18/width128-fitted-bank-step2/summary.json",
+      "sha256": "8b04311ac0af5f857ef387b2fb66fa213a596fe2e48991ec931c2f79438f7d54"
+    },
+    "docs/research/task18-procedures/task18_width128_fitted_r2.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_fitted_r2.py",
+      "sha256": "32505d06cc0271fe3f21a70ff3ee50298d5c3c631adb78ddcd6f79e02d4721d6"
+    },
+    "docs/research/task18-procedures/task18_width128_fitted.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_fitted.py",
+      "sha256": "64ad0d9de90f306ee289a490399d372f23c3a0c6602132469b1e2ae969fe742a"
+    },
+    "docs/research/task18-procedures/task18_width128_close.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_close.py",
+      "sha256": "f5a486c56e6bd9cf1cb255b3a15e76c9f866cf4e210f1580392d8fe96f44719c"
+    },
+    "docs/research/task18-procedures/task18_width128_prepare.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_prepare.py",
+      "sha256": "0b4827410677281f3e4d8c3427562a2e208cb7ea118f37bf25e4ff0fb1849193"
+    },
+    "docs/research/task18-procedures/task18_width128_initial_r2.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_initial_r2.py",
+      "sha256": "99e81f20a1059f4bfa61a7a430087278f4882f90ee5fb413ecaa19e69a6bb4a3"
+    },
+    "docs/research/task18-procedures/task18_width128_initial.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_initial.py",
+      "sha256": "751d30a1e35335c6aee328fba0734f064cf04c922a94cfa75a7fff49c0f26fe1"
+    },
+    "docs/research/task18-procedures/task18_width128_decimal2.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_decimal2.py",
+      "sha256": "1cf1752c785793920bddf4656fd13c8af7739458f6ce28eccfabd82bc498ef3e"
+    },
+    "docs/research/task18-procedures/task18_width128_small_reader.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_small_reader.py",
+      "sha256": "f774e54af61a9ada4740efef5fafcb111c36899b1a57f731b1db9068075dacbd"
+    },
+    "docs/research/task18-procedures/task18_width128_cold.py": {
+      "origin": "artifacts/task18-evidence/procedure-scripts/task18_width128_cold.py",
+      "sha256": "52cba90be2afe893b150b231354c158d8d98b33d455a8e912c38a2b4267035b4"
+    },
+    "docs/research/task18-width128-fitted-jet.txt": {
+      "origin": "artifacts/task18-evidence/width128-fitted-jet.txt",
+      "sha256": "9952070ec7c9bad28cbf4e16000fcb94e0741452bef969fb1888525c42783843"
+    },
+    "docs/research/task18-width128-fitted-jet-time-boundary.json": {
+      "origin": "artifacts/task18-evidence/width128-fitted-jet-time-boundary.json",
+      "sha256": "ffe89a89c16ceb946d14ba58fe5ccbb37305e914d7bf2f4150b18c1797f61a31"
+    },
+    "docs/research/task18-width128-fitted-api-preflight.txt": {
+      "origin": "artifacts/task18-evidence/width128-fitted-api-preflight.txt",
+      "sha256": "29235fcdf7d6e9d9aa1f434ebeb248a19da62b5268554cc934575ee0a838c050"
+    },
+    "docs/research/task18-width128-learning-procedure.md": {
+      "origin": ".superpowers/sdd/2026-10-16-famjet/task-18-width128-learning-proposal.md",
+      "sha256": "10f4a6e59420b8c253fe9f4eb03796b85b20598b618b48835e3d417cf38bac73"
+    },
+    "docs/research/task18-width128-promotion-verification.json": {
+      "origin": "artifacts/task18-evidence/width128-promotion-verification.json",
+      "sha256": "e94ed4a671599fc57ff9ec34caf95564e9213d99da36218765f6177e058d5529"
+    }
+  }
+}

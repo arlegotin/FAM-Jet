@@ -1,0 +1,16 @@
+{
+  "candidate_source_changed": false,
+  "files": {
+    "/tmp/task18_width128_fitted.py": "64ad0d9de90f306ee289a490399d372f23c3a0c6602132469b1e2ae969fe742a",
+    "/tmp/task18_width128_fitted_r2.py": "32505d06cc0271fe3f21a70ff3ee50298d5c3c631adb78ddcd6f79e02d4721d6",
+    "artifacts/task18-evidence/width128-fitted-api-preflight.txt": "29235fcdf7d6e9d9aa1f434ebeb248a19da62b5268554cc934575ee0a838c050",
+    "artifacts/task18-evidence/width128-fitted-jet-time-boundary.json": "ffe89a89c16ceb946d14ba58fe5ccbb37305e914d7bf2f4150b18c1797f61a31",
+    "artifacts/task18-evidence/width128-fitted-jet.txt": "9952070ec7c9bad28cbf4e16000fcb94e0741452bef969fb1888525c42783843"
+  },
+  "fit_or_profile_repeated": false,
+  "numeric_limits_changed": false,
+  "original_failure_before_numeric_capture": true,
+  "preflight_no_run_error": "First ad hoc inspection attempted torch.load on versioned FAMJET checkpoint envelope and failed before reconstruction; corrected preflight uses existing load_checkpoint exact identities and source. No model execution in failed inspection.",
+  "reason": "original external helper passed torch.float64 to init_state; existing API accepts literal float64",
+  "status": "helper_only_recovered"
+}
