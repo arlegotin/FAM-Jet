@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "status": "CPU64_learned8192_and_simple_frontier_and_reader_controls_complete_scientific_gate_open",
+  "status": "Task18_active_fixed_basis_operational_passed_next_learning_review_pending_no_convergence",
   "generated_utc": "2026-10-17T08:39:30.294707+00:00",
   "target_semantics": "observed_event_targets_v2",
   "historical_initial_stage": {
@@ -6930,5 +6930,14 @@
     "status": "unconverged; worse than matched .001 for both models on development and frozen TRAIN",
     "next": "first-stage fixed-basis CPU64 lifecycle/numerics/probe; no new scientific learning approved",
     "cost_seconds": 971.4219043740886
+  },
+  "fixed_basis_cpu64_operational": {
+    "status": "three_profiles_and_all_numerical_gates_passed_scientific_learning_held_for_review",
+    "source_commit": "e7565155c07638ff0367e9a12062c5c69be95ad5",
+    "summary": "docs/research/task18-fixed-basis-operational-summary.json",
+    "closure": "docs/research/task18-fixed-basis-closure.json",
+    "setup_execution_seconds": 1975.0897380409297,
+    "allocated_next_stop": 8192,
+    "potential_horizon": 32768
   }
 }

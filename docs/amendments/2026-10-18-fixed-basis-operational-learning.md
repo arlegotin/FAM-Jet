@@ -1,0 +1,7 @@
+# Fixed-basis operational closure and bounded learning allocation
+
+18 October 2026. This promotes the prospective source-frozen procedures and controller rulings that were sealed in ignored artifacts before execution. It does not rewrite original records or grant broader scientific acceptance.
+
+The [operative procedure](../research/task18-fixed-basis-procedure.md#18-october-2026--executed-gates-and-bounded-learning-ruling) records the accepted CPU64 fixed Jet4/Bank8/full log-grid and logHiPPO4×2 numerical, transport and cold resource gates, the preserved metadata-size projection failure and audited r2 recovery, complete static/accounting limits, and the subsequent conditional three-family 8,192-update allocation. All original tolerances, source/cache identities, statistics, state budgets and the 192 MiB net cap remain intact. Actual two-update profiles do not establish sustained convergence.
+
+The next learning configs bind exact current raw/family-feature manifests and measured calibration hash `98ef5c99fee4034d02e6fb5fb98b37aedb4d8e1b2ac10bc90649ecbe198ddf41`. Their 32,768 configured horizon remains potential policy, with explicit operational stop 8,192. Results/config-only promotion and independent review precede launch. No package changes or repeated source/numerical/corpus/profile/simple/test campaigns are authorized for this promotion. Prior failures/costs and separate UTC/execution counters remain evidence.

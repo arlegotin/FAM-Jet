@@ -1,0 +1,52 @@
+"""All-cell fresh-reader composition supplement; no streaming/Decimal/fit replay."""
+from pathlib import Path
+from datetime import datetime,timezone
+from dataclasses import replace
+import argparse,copy,hashlib,json,platform,resource,time
+import numpy as np
+from numpy.polynomial.legendre import leggauss,legvander
+from scipy.linalg import expm
+import torch
+from task18_fixed_basis_numeric import config,metric,load_functions,EXPECTED,PACKAGE
+from famjet.train import make_model,move_episode,_source,history_loss,check_smoke_memory
+from famjet.analysis.development import draw_config
+from famjet.data.synthetic import generate_episode,batch_hash
+from famjet.eval.isolation import export_method
+from famjet.eval.splits import _write_immutable
+from famjet.artifacts import atomic_json
+from famjet.types import FeatureBatch
+from famjet.readers.structured import query_inputs
+p=argparse.ArgumentParser();p.add_argument('family',choices=['jet','bank','multiscale']);p.add_argument('ordinal',type=int);p.add_argument('out');args=p.parse_args();assert 1<=args.ordinal<12
+source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files'];torch.set_num_threads(4)
+root=Path(f'artifacts/task18/fixed-basis-initial/{args.family}-{args.ordinal:02d}');old=json.loads((root/'summary.json').read_text());assert old['source']==source
+out=Path(args.out);out.mkdir(parents=True,exist_ok=False);start=time.perf_counter();utc=datetime.now(timezone.utc);factor=1 if platform.system()=='Darwin' else 1024;base=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor
+c=config(args.family);torch.manual_seed(c.seed);m=make_model(c).eval();static=json.loads((root/'static-inventory.json').read_text());exporthash=hashlib.sha256(json.dumps(export_method(m),sort_keys=True,separators=(',',':')).encode()).hexdigest();assert exporthash==static['inference_export_sha256']
+prior=torch.load(root/'candidate.pt',weights_only=True);assert hashlib.sha256((root/'candidate.pt').read_bytes()).hexdigest()==old['candidate_sha256']
+procedure={'source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'common_helper_sha256':hashlib.sha256(Path('/tmp/task18_fixed_basis_numeric.py').read_bytes()).hexdigest(),'original_summary_sha256':hashlib.sha256((root/'summary.json').read_bytes()).hexdigest(),'original_candidate_sha256':old['candidate_sha256'],'initial_model_export_sha256':exporthash,'scope':'supplement fresh unfitted shared-reader task/prediction/key/value/gate/reader gradients for ordinals1–11; no stream/Decimal/768fit replay; original1e-12; shared query inputs not independently certified','ordinal':args.ordinal,'family':args.family,'net_limit':201326592,'utc_start':utc.isoformat(),'power_override':False};_write_immutable(out/'procedure.json',procedure)
+try:
+ dc,hid=draw_config(c,args.ordinal);ep0=generate_episode(dc,c.development.data_seed,hid);assert ep0.metadata['hashes']==old['raw_hashes'];ep=move_episode(ep0,'cpu',dtype=torch.float64);e=ep.events;n=int(e.lengths[0]);ages=(e.timestamps[0,n-1]-e.timestamps[0,:n]).double();mask=e.present[0,:n]&e.observed[0,:n].all(-1)
+ key=e.key_features.clone().requires_grad_();value=e.values.clone().requires_grad_();gate=torch.ones(e.present.shape,dtype=torch.float64,requires_grad=True);e=replace(e,key_features=key,values=value,auxiliary={**e.auxiliary,'gate':gate});ep=replace(ep,events=e);assert batch_hash(e)==old['events_hash']
+ rk=key.detach().clone().requires_grad_();rv=value.detach().clone().requires_grad_();rg=gate.detach().clone().requires_grad_();aug=torch.cat((rv[0,:n],torch.ones(n,1,dtype=torch.float64)),-1);writes=rk[0,:n,:,None]*aug[:,None,:]*(rg[0,:n]*mask)[:,None,None]
+ if args.family=='multiscale':
+  ns=dict(globals());reference=load_functions('tests/test_multiscale.py',('independent_system',),ns);A,G,B,K=ns['independent_system'](4,2,1e-4,16.)
+  weights=torch.tensor(np.stack([expm(K*float(age))@B.flatten(order='F')/16. for age in ages]));P=torch.einsum('nc,nkv->ckv',weights,writes).reshape(2,4,16,9);ref={'p':torch.einsum('mnkv,mj->jnkv',P,m.kernel.U.detach()).reshape(1,1,8,16,9)}
+ else:
+  d=m.kernel.rates.detach()[0,:,None]*ages[None];weight=torch.exp(-d);ref={'z':torch.einsum('jn,nkv->jkv',weight,writes)[None,None]}
+  if args.family=='jet':ref['h']=torch.einsum('jn,nkv->jkv',d*weight,writes)[None,None]
+ state=m.encode(e,mode='terminal')
+ for name in ref:assert torch.equal(state.payload[name].detach(),prior['terminal'][name]) and torch.equal(ref[name].detach(),prior['binary64_reference'][name])
+ qkey=ep.queries.key_features[0];qinputs=query_inputs(ep.queries,1.)
+ if args.family=='multiscale':raw=torch.einsum('qk,ckv->qcv',qkey,ref['p'][0,0]).flatten(1)
+ else:
+  z=torch.einsum('qk,jkv->qjv',qkey,ref['z'][0,0]);h=torch.einsum('qk,jkv->qjv',qkey,ref['h'][0,0]) if 'h' in ref else None
+  raw=torch.cat([z[...,:-1]]+([h[...,:-1]] if h is not None else [])+[z[...,-1:]]+([h[...,-1:]] if h is not None else []),-1).flatten(1)
+ f=m.features(state,ep.queries);assert torch.equal(f.values.detach(),prior['features']);rf=FeatureBatch(torch.cat((raw[None],qinputs),-1),f.supported,{'failure':torch.zeros_like(f.supported)})
+ rm=copy.deepcopy(m);pred=m.read_features(f,ep.queries);rpred=rm.read_features(rf,ep.queries);loss=history_loss(m,pred,ep);rloss=history_loss(rm,rpred,ep)
+ names,params=zip(*m.reader.named_parameters());rnames,rparams=zip(*rm.reader.named_parameters());assert names==rnames
+ ga=torch.autograd.grad(loss,(key,value,gate,*params),allow_unused=True);gr=torch.autograd.grad(rloss,(rk,rv,rg,*rparams),allow_unused=True)
+ metrics=[metric('fresh_task_prediction',pred.prediction,rpred.prediction),metric('fresh_task_loss',loss,rloss)]+[metric('fresh_task_gradient_'+name,a,b) for name,a,b in zip(('key','value','gate',*names),ga,gr)]
+ torch.save({'candidate':{name:a.detach() if a is not None else None for name,a in zip(('key','value','gate',*names),ga)},'reference':{name:a.detach() if a is not None else None for name,a in zip(('key','value','gate',*names),gr)}},out/'task-gradients.pt')
+ peak=max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor-base);check_smoke_memory(c,peak);end=datetime.now(timezone.utc)
+ summary={'status':'passed' if all(m['accepted'] for m in metrics) else 'failed_original_tolerance','source':source,'family':args.family,'ordinal':args.ordinal,'history_id':hid,'raw_hashes':ep0.metadata['hashes'],'metrics':metrics,'original_summary_sha256':procedure['original_summary_sha256'],'task_gradients_sha256':hashlib.sha256((out/'task-gradients.pt').read_bytes()).hexdigest(),'candidate_reference_terminal_bitwise_replay':True,'initial_model_export_sha256':exporthash,'perf_seconds':time.perf_counter()-start,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'net_peak_bytes':peak};atomic_json(out/'summary.json',summary);print(json.dumps({k:v for k,v in summary.items() if k!='metrics'}),flush=True)
+except BaseException as exc:
+ atomic_json(out/'failure.json',{'source':source,'type':type(exc).__name__,'error':str(exc),'perf_seconds':time.perf_counter()-start});raise
