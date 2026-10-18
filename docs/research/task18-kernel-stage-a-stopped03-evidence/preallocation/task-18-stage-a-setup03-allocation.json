@@ -1,0 +1,30 @@
+{
+  "time_utc": "2026-10-18T11:54:35.220675+00:00",
+  "source_full_git": "0873bea2729d9d3d43464081165ec6710d510ae1",
+  "ruling": "ONE fresh setup03 under adopted unchanged-input restart; root inspects actual successful setup/native/resources before separate StageA seal on same original600s",
+  "amendment": "docs/amendments/2026-10-18-kernel-stage-a-setup03-restart.md",
+  "parent": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup03-launch.py",
+    "sha256": "d8f6563bd1a8ad7bdb8bc9f9b6e956bf3552a9948f1869014c22b4021809f328"
+  },
+  "worker_sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0",
+  "preparation": "/private/tmp/famjet-task18-kernel-stage-a-source0873bea-03",
+  "driver_output": "/private/tmp/famjet-task18-kernel-stage-a-source0873bea-03-driver",
+  "native_acceptance": "docs/research/task18-native-guarded-cancellation-native-acceptance.json",
+  "free_disk_bytes": 18978500608,
+  "power_observation": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+  "limits": {
+    "outer_seconds": 600,
+    "candidate_seconds": 90,
+    "incremental_bytes": 201326592,
+    "output_bytes": 67108864,
+    "free_disk_bytes": 4294967296,
+    "threads": 1,
+    "factors": 6,
+    "reads_during_setup": 0
+  },
+  "cumulative_factor_attempts_before": 12,
+  "clock_started": false,
+  "stage_A_scientific_release": false,
+  "protected_access": "CLOSED"
+}
