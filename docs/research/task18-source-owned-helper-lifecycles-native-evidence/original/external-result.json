@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-source-owned-helper-native-control.py",
+    "/private/tmp/t18s-xqsxzfxl/native"
+  ],
+  "exit": 0,
+  "monotonic_before": 564279.8668195,
+  "monotonic_after": 564284.5991135,
+  "utc_before": 1792328589.402244,
+  "utc_after": 1792328594.134502,
+  "elapsed_seconds": 4.732293999986723,
+  "parent_invocations": 1,
+  "timer_boundary": "immediately before subprocess.run through parent exit including all parent artifact writes/stdout; wrapper final JSON/postcondition/copy/commit excluded"
+}

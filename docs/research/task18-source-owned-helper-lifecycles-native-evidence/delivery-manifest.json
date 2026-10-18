@@ -1,0 +1,190 @@
+{
+  "schema": "repository-relative path to kind/bytes/sha256; manifest excludes itself",
+  "files": {
+    "docs/research/task18-source-owned-helper-lifecycles-native-report.md": {
+      "kind": "regular",
+      "bytes": 5007,
+      "sha256": "483894051b607e9a5c71843c310cbe4c8e19f8dceec8d725d20c5fd0e2c064c1"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/delivery-verification.json": {
+      "kind": "regular",
+      "bytes": 2773,
+      "sha256": "76c96a97de0ae93108c1d53ea714c19d5e37b9d94d8829b1cd4a5ece62da3a3a"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/aggregate-postcondition.json": {
+      "kind": "regular",
+      "bytes": 2048,
+      "sha256": "d78ed72c8ba8460554f48fe09d4481dd5ecd861e557af21194e9e41b4d470b99"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/execute-once.py": {
+      "kind": "regular",
+      "bytes": 5154,
+      "sha256": "def0b3ce73b120afbba8f851d0743527e6d22f616a329c9acc92213ab1784768"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/external-result.json": {
+      "kind": "regular",
+      "bytes": 669,
+      "sha256": "4b9b5981fe514fd1a21aebca342f446700f17036afff13552f912937a0f06069"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/invocation-started.json": {
+      "kind": "regular",
+      "bytes": 336,
+      "sha256": "8b06a1cf561ddf320d5ee1c1b4d85d477cc49249ad2f9879e191d853aced8102"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/monitor-events.jsonl": {
+      "kind": "regular",
+      "bytes": 7979,
+      "sha256": "a4589ecb35d48a0aec2608b033848aec14c4f3dd377cc48fa11115fb5a820645"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/monitor-evidence.jsonl": {
+      "kind": "regular",
+      "bytes": 238265,
+      "sha256": "86330208b0631ba9c4ba285e88b47a50e63d9dd53ac702b7a772215253693e0c"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/monitor.json": {
+      "kind": "regular",
+      "bytes": 8192,
+      "sha256": "fff8e978e457bc6efc99f077f81c31d8773795b890655a755352d0da2716e4ce"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/reader-result.jsonl": {
+      "kind": "regular",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/reader-stderr.log": {
+      "kind": "regular",
+      "bytes": 612,
+      "sha256": "492dd53f155a230a0b80bdfee176fbc1c2ec27c125512ea15ca1d241cf3ec50c"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/stderr.log": {
+      "kind": "regular",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/stdout.log": {
+      "kind": "regular",
+      "bytes": 705,
+      "sha256": "fe8bbac9dc5ece0983c364110e23cbc6079ae9b3d0cb42dd2717bfebd655166d"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-commit-timing.json": {
+      "kind": "regular",
+      "bytes": 2048,
+      "sha256": "ef75268f7b7ccc6f590bba535ffd68ac1ab10d717ebcdf75d261ade6449dc01e"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-result.json": {
+      "kind": "regular",
+      "bytes": 1048576,
+      "sha256": "4248724ad46d3c1ce5db1702dad947452879ed505312f6733a784c0d7102d979"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/monitor-events.jsonl": {
+      "kind": "regular",
+      "bytes": 2211,
+      "sha256": "8298f42ed0d7c0f0102969a772f01f47da9cae29c8424e20cdf865c59b9d5b27"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/monitor-evidence.jsonl": {
+      "kind": "regular",
+      "bytes": 67651,
+      "sha256": "a2304e8fa332ffe4b595ae3bebc07a6295fbc98c08d01825a6409bf5ee3b4a31"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/monitor.json": {
+      "kind": "regular",
+      "bytes": 8192,
+      "sha256": "94123be87f6fdde639a7910de86711aa2c035399614bbd80bee0bac7f85dda5d"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/stderr.log": {
+      "kind": "regular",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/stdout.log": {
+      "kind": "regular",
+      "bytes": 286,
+      "sha256": "ef1d76e195e468893f0e7499e5f2e5a3640f7b63e2656332b92b68710abc5bdf"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/parent-stderr.log": {
+      "kind": "regular",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/parent-stdout.log": {
+      "kind": "regular",
+      "bytes": 204,
+      "sha256": "41d08bf2e06f2c5f0fddc5d6c8968d658facd813b9d4cb6f44cfae2a45a817f9"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/precheck.json": {
+      "kind": "regular",
+      "bytes": 7029,
+      "sha256": "d0a04d5f2f784a4d33652da7678d2dd5ac9755c64ff489156068e5f7ee701c84"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original-mappings.json": {
+      "kind": "regular",
+      "bytes": 7076,
+      "sha256": "7bd32147640a8df309ae62d04cd124308fec1874c011440979a2d7e8fa58394f"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/authority.py": {
+      "kind": "regular",
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/commands.py": {
+      "kind": "regular",
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/monitor.py": {
+      "kind": "regular",
+      "bytes": 94488,
+      "sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/production.py": {
+      "kind": "regular",
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/reader_worker.py": {
+      "kind": "regular",
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/source_lifecycles.py": {
+      "kind": "regular",
+      "bytes": 6743,
+      "sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task-18-source-owned-helper-lifecycles-native-allocation.json": {
+      "kind": "regular",
+      "bytes": 2749,
+      "sha256": "9edba489ac920b4ce5be96dea9b65fb8c66162b3141d6d157f7b2848cd000d7b"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task-18-source-owned-helper-lifecycles-native-brief.md": {
+      "kind": "regular",
+      "bytes": 3420,
+      "sha256": "3aea19c9c66a54607790d39fa6cefc86bc938282353830efb624fc63cff0d9a6"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-lifecycles-fix2-root-verification.json": {
+      "kind": "regular",
+      "bytes": 2280,
+      "sha256": "9fa1b4142690ccbebedd8a2eb34e1fd8194c2eb9ce2d551fa8aab3807cfecef8"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-lifecycles-source-acceptance.json": {
+      "kind": "regular",
+      "bytes": 3452,
+      "sha256": "7bd1ff93bc0160a85843d589602bfa5b5db808679765ee99cc55b4762ee3b8aa"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-native-control.py": {
+      "kind": "regular",
+      "bytes": 13620,
+      "sha256": "3275a093357ca2618973690e03c55f407d2219e60eb68572343b08dc20d42198"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-native-worker.py": {
+      "kind": "regular",
+      "bytes": 3987,
+      "sha256": "14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254"
+    },
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/verification.json": {
+      "kind": "regular",
+      "bytes": 2356,
+      "sha256": "bab03aee4d40dfdc33dcd1ce8d67a5bba6d45d67d238485f105c4fe93064ac5e"
+    }
+  }
+}

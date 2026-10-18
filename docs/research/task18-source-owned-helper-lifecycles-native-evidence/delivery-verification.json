@@ -1,0 +1,31 @@
+{
+  "source_and_report_whitespace_returncode": 0,
+  "source_and_report_paths": [
+    "docs/research/task18-source-owned-helper-lifecycles-native-report.md",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/execute-once.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/monitor.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-native-worker.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/source_lifecycles.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/task18-source-owned-helper-native-control.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/authority.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/reader_worker.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/commands.py",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/provenance/production.py"
+  ],
+  "raw_whitespace_returncode": 2,
+  "raw_diagnostics": [
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/aggregate-postcondition.json:12: trailing whitespace.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/aggregate-postcondition.json:12: new blank line at EOF.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/monitor.json:2: trailing whitespace.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/families-output/monitor.json:2: new blank line at EOF.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-commit-timing.json:2: trailing whitespace.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-commit-timing.json:2: new blank line at EOF.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-result.json:2: trailing whitespace.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/native-result.json:2: new blank line at EOF.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/monitor.json:2: trailing whitespace.",
+    "docs/research/task18-source-owned-helper-lifecycles-native-evidence/original/native/unknown-output/monitor.json:2: new blank line at EOF."
+  ],
+  "raw_diagnostics_stdout_bytes": 1006977,
+  "raw_diagnostics_stdout_sha256": "7a978cd9b6d8a2c75100181bbd49b0ea87b247d93dfe8e9e2a5f5ba89eef8e1e",
+  "padding_preserved": true
+}
