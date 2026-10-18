@@ -1,0 +1,65 @@
+{
+  "time_utc": "2026-10-18T13:48:32.176640+00:00",
+  "scope": "fresh prospective free+speculative admission before any numerical allocation",
+  "commands": [
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit": 0,
+      "stdout": "38654705664\n",
+      "stderr": "",
+      "elapsed": 0.0034626249689608812
+    },
+    {
+      "command": [
+        "/usr/bin/vm_stat"
+      ],
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    16986.\nPages active:                                 617973.\nPages inactive:                               615790.\nPages speculative:                               914.\nPages throttled:                                   0.\nPages wired down:                             294751.\nPages purgeable:                               12269.\n\"Translation faults\":                     6369590021.\nPages copy-on-write:                       514283357.\nPages zero filled:                        5832841138.\nPages reactivated:                         154976125.\nPages purged:                               50749007.\nFile-backed pages:                            361155.\nAnonymous pages:                              873522.\nPages stored in compressor:                  1792521.\nPages occupied by compressor:                 754157.\nDecompressions:                            164806903.\nCompressions:                              216390312.\nPageins:                                   162761469.\nPageouts:                                     722128.\nSwapins:                                     2920280.\nSwapouts:                                    5000617.\n",
+      "stderr": "",
+      "elapsed": 0.0029762500198557973
+    },
+    {
+      "command": [
+        "/usr/bin/memory_pressure",
+        "-Q"
+      ],
+      "exit": 0,
+      "stdout": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 54%\n",
+      "stderr": "",
+      "elapsed": 0.0029523749835789204
+    },
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "vm.swapusage"
+      ],
+      "exit": 0,
+      "stdout": "vm.swapusage: total = 6144.00M  used = 5094.81M  free = 1049.19M  (encrypted)\n",
+      "stderr": "",
+      "elapsed": 0.0018755000783130527
+    },
+    {
+      "command": [
+        "/usr/bin/pmset",
+        "-g",
+        "batt"
+      ],
+      "exit": 0,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+      "stderr": "",
+      "elapsed": 0.008821250055916607
+    }
+  ],
+  "printed_free_bytes": 278298624,
+  "printed_speculative_bytes": 14974976,
+  "available_before_reserve_bytes": 293273600,
+  "reserve_bytes": 73318400,
+  "planning_after_reserve_bytes": 219955200,
+  "free_disk_bytes": 19981361152,
+  "admission": false,
+  "policy": "docs/amendments/2026-10-18-kernel-stage-a-capacity-admission.md"
+}

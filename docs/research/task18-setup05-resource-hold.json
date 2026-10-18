@@ -1,0 +1,19 @@
+{
+  "time_utc": "2026-10-18T13:51:14.310688+00:00",
+  "status": "NUMERICAL_WORK_HELD_FOR_OTHER_JOBS",
+  "user_instruction": "Wait for other jobs to finish",
+  "current_executable_source": "23210ffcac01a7d4c35cabb9acc08a0834d3a9e4",
+  "latest_admission_observation": "docs/research/task18-setup05-admission-refused-free-plus-speculative.json",
+  "latest_available_before_reserve_bytes": 293273600,
+  "latest_planning_after_reserve_bytes": 219955200,
+  "required_available_before_reserve_bytes": 1073741824,
+  "execution_charge_ceiling_bytes": 402653184,
+  "next_setup_created": false,
+  "next_setup_clock_started": false,
+  "actual_setup_factor_attempts_cumulative": 24,
+  "template": "docs/research/task18-stage-a-setup-parent-384mib.py",
+  "next_action": "After other jobs finish, take a fresh complete capacity/admission snapshot; if qualified freeze actual clean Git/path and execute one setup05. Inspect genuine success before any Stage A seal on the same new600s clock.",
+  "automatic_retry": false,
+  "processes_stopped_for_capacity": 0,
+  "protected_access": "CLOSED"
+}

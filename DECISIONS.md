@@ -402,3 +402,8 @@ Ruling: adopt a common384MiB conservative execution-charge allowance after stopp
 ## 18 October 2026 — capacity-admission accounting
 
 Ruling: prospectively replace raw-free-only admission with same-snapshot printed free+speculative pages,1GiB before25% reserve, with complete pressure/disk/power records. Reason: independent inspection of Apple source confirms these printed counters are disjoint, and this matches the established doctor accounting convention. Cost if wrong: the availability estimate overstates headroom; retain sampled-resource limits and stop honestly. The original refused admission remains refused; no allocation or clock existed. Current source and all scientific requirements are unchanged.
+
+
+## 18 October 2026 — hold numerical work for other jobs
+
+The fresh free-plus-speculative admission failed with293273600 bytes available before reserve; no setup05 allocation or clock was created. The user selected “Wait for other jobs to finish.” Leave all other processes alone and hold numerical execution. Preserve the qualifying template, source reviews, both refused admission records and all earlier results. Resume only with a fresh complete admission after external capacity changes; no threshold change, favorable polling or hidden retry.
