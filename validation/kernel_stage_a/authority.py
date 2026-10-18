@@ -1,5 +1,6 @@
 """Read-only identities and closed, null-blocking launch authority."""
 from copy import deepcopy
+import ctypes
 import decimal
 import _decimal
 import hashlib
@@ -11,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import time
+import uuid
 
 BASE='62456be3e6e6cbe3b2a058bd38ade744edc3c628'
 PACKAGE='15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050'
@@ -33,6 +35,59 @@ def digest(value): return hashlib.sha256(canonical(value)).hexdigest()
 def file_hash(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def process_image(pid):
+    """Retain when this particular native lookup and path-file hash were attempted."""
+    started=time.monotonic()
+    result=_process_image(pid)
+    return dict(result,lookup_start=started,lookup_end=time.monotonic())
+
+
+def _process_image(pid):
+    """Sample a macOS kernel image path, then hash the file at that path.
+
+    This is not a certificate of every mapped byte, nor continuous exec proof.
+    libproc.h:102, proc_info.h:749: int(int, void *, uint32_t), max 4096.
+    """
+    method='macos.proc_pidpath'
+    try:
+        library=ctypes.CDLL('/usr/lib/libproc.dylib',use_errno=True)
+        lookup=library.proc_pidpath
+        lookup.argtypes=[ctypes.c_int,ctypes.c_void_p,ctypes.c_uint32]
+        lookup.restype=ctypes.c_int
+    except (OSError,AttributeError) as exc:
+        return dict(status='error',method=method,reason='native_binding_failed',message=str(exc))
+    buffer=ctypes.create_string_buffer(4096); ctypes.set_errno(0)
+    try: length=lookup(pid,buffer,4096)
+    except (OSError,ValueError,ctypes.ArgumentError) as exc:
+        return dict(status='error',method=method,reason='native_call_failed',message=str(exc))
+    if length<=0:
+        return dict(status='error',method=method,reason='native_lookup_failed',errno=ctypes.get_errno())
+    raw=buffer.raw
+    if length>=4096 or b'\0' not in raw or not raw.startswith(b'/'):
+        return dict(status='error',method=method,reason='invalid_native_path',returned_length=length)
+    try:
+        path=raw.split(b'\0',1)[0].decode('utf-8',errors='strict')
+        if len(os.fsencode(path))!=length:
+            return dict(status='error',method=method,reason='invalid_native_path',returned_length=length)
+        sha256=file_hash(path)
+    except (OSError,UnicodeError) as exc:
+        return dict(status='error',method=method,reason='native_path_hash_failed',message=str(exc))
+    return dict(status='ok',method=method,path=path,sha256=sha256)
+
+
+def helper_artifact(path):
+    return dict(path=str(Path(path).resolve()),sha256=file_hash(Path(path).resolve()))
+
+
+def helper_launch(command,artifact):
+    """Bounded direct source launch declaration, verified immediately pre-launch."""
+    if helper_artifact(command[0])!=artifact: raise AuthorityError('helper artifact changed before launch')
+    from .commands import vector_hash
+    return dict(parent=os.getpid(),executable=command[0],argv=list(command),
+                provenance='source_owned_launch',launch_id=uuid.uuid4().hex,
+                vector_sha256=vector_hash(command),artifact=artifact,launch_start=time.monotonic(),reaped=False)
+
+
 def event(path,kind,**fields):
     if path is not None:
         with Path(path).open('a') as stream:
@@ -50,11 +105,12 @@ def git(root,*args,deadline=None,event_path=None):
     deadline=deadline if deadline is not None else time.monotonic()+5
     remaining=deadline-time.monotonic()
     if remaining<=0: raise AuthorityError('authority deadline expired')
-    started=time.monotonic()
+    started=time.monotonic(); witness=helper_launch(command,helper_artifact(GIT))
     process=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,close_fds=True)
     try:
-        event(event_path,'authority_helper',pid=process.pid,parent=os.getpid(),executable=GIT,argv=command)
+        witness['pid']=process.pid
         try:
+            event(event_path,'authority_helper',**witness)
             stdout,stderr=process.communicate(timeout=max(0,deadline-time.monotonic()))
             if process.returncode: raise AuthorityError('authority Git operation failed: '+stderr[-1000:])
             return stdout.strip()
@@ -64,6 +120,7 @@ def git(root,*args,deadline=None,event_path=None):
             raise
         finally:
             event(event_path,'authority_helper_end',pid=process.pid,parent=os.getpid(),
+                  launch_id=witness['launch_id'],reaped=process.poll() is not None,completion_end=time.monotonic(),
                   returncode=process.returncode,seconds=time.monotonic()-started)
     finally:
         if process.stdout is not None: process.stdout.close()
@@ -71,8 +128,12 @@ def git(root,*args,deadline=None,event_path=None):
 
 
 def runtime():
+    image=process_image(os.getpid())
+    if image['status']!='ok': raise AuthorityError('own runtime image unavailable: '+str(image))
     return dict(python=sys.version,executable=str(Path(sys.executable).resolve()),
                 executable_sha256=file_hash(Path(sys.executable).resolve()),implementation=platform.python_implementation(),
+                process_image={k:image[k] for k in ('method','path','sha256')},
+                helpers=dict(ps=helper_artifact('/bin/ps'),git=helper_artifact(GIT)),
                 decimal_version=decimal.__version__,libmpdec_version=decimal.__libmpdec_version__,
                 decimal_extension=_decimal.__file__,decimal_extension_sha256=file_hash(_decimal.__file__),
                 byteorder=sys.byteorder,machine=platform.machine(),context='80/160 ROUND_HALF_EVEN Emin=-999999999 Emax=999999999 traps=InvalidOperation,DivisionByZero,Overflow')

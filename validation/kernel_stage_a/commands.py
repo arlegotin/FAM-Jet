@@ -21,6 +21,11 @@ def display(vector):
     return ' '.join(vector)
 
 
+def native_display(vector,runtime_identity):
+    """Expected known Python launch display using the observed interpreter image."""
+    return display([runtime_identity['process_image']['path'],*vector[1:]])
+
+
 def vector_hash(vector):
     return hashlib.sha256(json.dumps(vector,separators=(',',':')).encode()).hexdigest()
 
@@ -29,16 +34,17 @@ def matches(observed,expected):
     return expected is not None and (observed==expected or observed==[display(expected)])
 
 
-def reader_from_display(value,*,root,event_path,deadline):
+def reader_from_display(value,*,root,event_path,deadline,runtime_identity=None):
     fixed=reader_command(root,event_path,0.)[:-1]
-    prefix=display(fixed)+' '
+    expected_display=display if runtime_identity is None else lambda vector:native_display(vector,runtime_identity)
+    prefix=expected_display(fixed)+' '
     if type(value) is not str or not value.startswith(prefix): return None
     tail=value[len(prefix):]
     try: represented=float(tail)
     except ValueError: return None
     if not math.isfinite(represented) or not 0<represented<=deadline or repr(represented)!=tail: return None
     expected=reader_command(root,event_path,represented)
-    return expected if display(expected)==value else None
+    return expected if expected_display(expected)==value else None
 
 
 def reader_vector(observed,context):

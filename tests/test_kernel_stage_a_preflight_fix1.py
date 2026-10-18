@@ -195,6 +195,9 @@ def test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker(tmp_path,monk
         process=real_popen(*args,**kwargs); processes.append(process); return process
     monkeypatch.setattr(m.subprocess,'Popen',capture)
     monkeypatch.setattr(m,'PS_ARGV',[sys.executable,'-c','import time; time.sleep(10)'])
+    # This controlled sleeper substitutes both the observer vector and its artifact.
+    runtime=m.authority.runtime(); runtime['helpers']['ps']=m.authority.helper_artifact(sys.executable)
+    monkeypatch.setattr(m.authority,'runtime',lambda:runtime)
     started=time.monotonic()
     result=m.supervise([sys.executable,'-c','import time; time.sleep(10)'],tmp_path/'hung',
                        outer_seconds=.15,free_disk_bytes=0)

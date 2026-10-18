@@ -57,6 +57,34 @@ the check uses the exact expected source-generated display, without shlex guesse
 or a claim to certify arbitrary argv byte boundaries. The monitor records the
 actual stage launch-vector hash and reader launches retain their vector hashes.
 
+On macOS, executable identity comes from the fixed `/usr/lib/libproc.dylib`
+`proc_pidpath` adapter (4096-byte buffer), never the truncated `comm` label.
+The stable runtime mapping binds the resolved launcher and its hash separately
+from this interpreter's observed own-process image and hash, plus exact ps/Git
+artifacts. Runtime mapping contains no transient PID or time. Expected Python
+display replaces only the launch vector's first element with that observed image;
+the original launch vector/hash stays unchanged. Every native sample keeps raw
+`comm`/`args`, numeric RSS/parent, sampling interval and timed lookup outcome.
+A hash identifies the path file when hashed, not every mapped byte.
+
+Every helper requires an exact source launch witness, artifact hash, parent,
+phase and compatible lifetime. Successful contradictory images always fail.
+Only already-exited exact ps/Git helpers may use `source_owned_launch` with
+`image_evidence=unavailable_exited` on ESRCH; that attribution does not invent
+kernel-image proof. Other lookup errors and ambiguous PID generations fail.
+Python requires successful applicable image proof for each sample. Earlier
+successful samples remain historical evidence; a later unresolved sample is
+retained separately and stops the run without borrowing proof by PID.
+
+The baseline observer emits one `observer_sample` containing its actual selected
+sample, separately from launch/completion witnesses. Late ingestion retains an
+inner observer missed by the outer sample. Numeric RSS is retained before
+identity/event reconciliation; unresolved native identities and final missing
+baselines receive full RSS with baseline zero. Per-PID peaks avoid charging the
+same retained sample twice; observer peaks remain added conservatively. Evidence
+JSON and event bytes are ordinary charged output. Native compatibility controls
+are nonnumerical and do not establish a complete Stage A pass or release.
+
 `driver.py` visits the fixed candidate/group/row order. Source-only failures remain
 FAILED and permit remaining original slots; reader failures stop a candidate;
 reference/common/engine/resource failures stop everything. It retains unexecuted
