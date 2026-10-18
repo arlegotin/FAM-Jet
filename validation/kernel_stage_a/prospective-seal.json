@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "scope": "Task18 kernel Stage A only",
+  "observed": {},
+  "pending": {
+    "implementation_review": null,
+    "represented_rate_records": null,
+    "static_exports": null,
+    "resource_measurement_boundary_seal": null,
+    "fresh_launch_snapshot": null,
+    "output_directory": null
+  },
+  "limits": {
+    "outer_seconds": 600,
+    "candidate_seconds": 90,
+    "incremental_worker_bytes": 201326592,
+    "output_bytes": 67108864,
+    "free_disk_bytes": 4294967296,
+    "numerical_threads": 4,
+    "factors": 6,
+    "reads": 768
+  },
+  "root_stage_A_release": null
+}
