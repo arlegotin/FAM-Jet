@@ -269,8 +269,11 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             item.update(baseline_bytes=baselines[pid],incremental_peak_bytes=max(0,absolute-baselines[pid]))
             worker_peak=max(worker_peak,item['incremental_peak_bytes'])
         elif resource_role in ('authority_worker','authority_helper','observer_helper'):
-            item.update(baseline_bytes=0,incremental_peak_bytes=absolute)
-            if resource_role=='authority_worker': authority_worker=max(authority_worker,absolute)
+            # Root authority RSS comes only from intervals attributed below, never
+            # from its whole-lifetime maximum (which includes later imports).
+            attributed=item.get('authority_phase_peak_bytes',0) if resource_role=='authority_worker' else absolute
+            item.update(baseline_bytes=0,incremental_peak_bytes=attributed)
+            if resource_role=='authority_worker': authority_worker=max(authority_worker,attributed)
             elif resource_role=='authority_helper': git_peak=max(git_peak,absolute)
             elif item.get('parent')==os.getpid(): outer_observer=max(outer_observer,absolute)
             else: inner_observer=max(inner_observer,absolute)
@@ -283,17 +286,18 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         overhead_peak=max(overhead_peak,outer_observer+inner_observer)
         incremental_peak=max(incremental_peak,max(worker_peak,authority_peak,unresolved_root)+overhead_peak+unresolved_sum)
     def numeric(readings,entries):
-        nonlocal peak,rss_peak_sum,authority_worker
+        nonlocal peak,rss_peak_sum
         peak=max(peak,sum(readings.values()))
         for pid,rss in readings.items():
             item=per_worker.setdefault(str(pid),dict(absolute_peak_bytes=0,baseline_bytes=None,incremental_peak_bytes=0))
+            if 'role' not in item:
+                item['role']='pending_baseline'; unresolved_pids.add(pid)
             previous=item['absolute_peak_bytes']; item['absolute_peak_bytes']=max(previous,rss); rss_peak_sum+=item['absolute_peak_bytes']-previous
             if pid in entries:
                 item['parent']=entries[pid].get('parent')
                 if 'raw_args' in entries[pid]: native_pids.add(pid)
-            if phase['active'] and process is not None and pid==process.pid:
-                authority_worker=max(authority_worker,rss); item['authority_phase_peak_bytes']=authority_worker
-            charge(pid)
+            # Raw recovery can run ahead of semantic boundaries. Attribution and
+            # ordinary charging wait for reconciliation; failure retains full RSS.
     def refused(readings,exc):
         nonlocal incremental_peak
         evidence['rejected_observations']+=1; evidence['rejected_rss_bytes']+=sum(readings.values()); evidence['rejected_raw_complete']=False
@@ -338,7 +342,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         except BaseException as exc:
             refused(readings,exc); raise
         evidence['accepted_samples']+=1
-        pending[sequence]=dict(entries=entries,before=before,after=after,roles={},context=None)
+        pending[sequence]=dict(entries=entries,before=before,after=after,root_rss=readings.get(process.pid,0),roles={},context=None)
         dirty.add(sequence)
         check(final=final)
     def numeric_events(*,final=False):
@@ -432,7 +436,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             raise
     def stopped_status(): return 'STOPPED' if source_accounting['complete'] else 'FAILED'
     def reconcile(*,final=False):
-        nonlocal classified
+        nonlocal classified,authority_worker
         while dirty:
             check(final=final); identifier=dirty.pop(); batch=pending.get(identifier)
             if batch is None: continue
@@ -447,6 +451,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             classified+=len(entries)
             # Identity history is immutable evidence, never a per-PID proof cache.
             for pid,role in resolved.items():
+                if role=='authority_worker':
+                    item=per_worker[str(pid)]
+                    item['authority_phase_peak_bytes']=max(item.get('authority_phase_peak_bytes',0),batch['root_rss'])
+                    authority_worker=max(authority_worker,item['authority_phase_peak_bytes'])
                 if role=='unaccounted': failed.add(pid)
                 if role=='authority_helper': per_worker.get(str(pid),{})['sampled_authority_helper']=True
                 if role in ('authority_helper','observer_helper') and 'raw_args' in entries[pid]:
@@ -473,6 +481,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             if incremental_peak>incremental_bytes: raise _MonitorStop('incremental worker memory cap')
     def failure(exc):
         nonlocal reason,monitor_failure,conservative,incremental_peak
+        if not source_accounting['identity_complete']:
+            # Raw source recovery survives a refused boundary/witness copy, but
+            # cannot supply phase attribution or proof. Charge the full known cost.
+            conservative=True; incremental_peak=max(incremental_peak,rss_peak_sum)
         if isinstance(exc,_MonitorStop):
             if reason is None or str(exc)=='outer timeout': reason=str(exc)
         elif isinstance(exc,ObserverFailure): reason=str(exc); monitor_failure=exc.evidence

@@ -152,6 +152,17 @@ incomplete accounting; reported known readings are not a certified complete RSS
 bound. The independent512-byte emergency verdict also retains raw completeness,
 refusal count and refused RSS instead of dropping those labels.
 
+The numeric pass retains raw maxima without assigning a phase or charging from
+the semantic cursor's current authority flag. Reconciliation attributes root
+authority RSS using each sample's interval and the ordered authority start/end
+boundaries. Its full authority charge uses that attributed peak, rather than the
+root's lifetime maximum, which may include post-authority imports/baseline RSS.
+Samples overlapping authority still contribute their full RSS. If copying a
+boundary or proof fails, numerical recovery remains separate: the known per-PID
+peak sum is charged conservatively without inventing attribution or identity.
+The pending batch retains one extra root RSS integer; no new file, raw duplicate,
+history scan or identity cache is introduced.
+
 Before launch the supervisor creates a fixed-size `monitor.json` reservation
 (512..8192 bytes, inside the original output cap), initially `STOPPED` with
 `reason:"monitor incomplete"`. Authority permits exactly these two new monitor
