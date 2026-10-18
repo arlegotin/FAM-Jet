@@ -1,0 +1,322 @@
+...................................................FFFFFFFF...F.FFF...FF [100%]
+=================================== FAILURES ===================================
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_first-False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o0')
+sampled = False, order = 'parent_first'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_first-True] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o1')
+sampled = True, order = 'parent_first'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_end_late-False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o2')
+sampled = False, order = 'parent_end_late'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_end_late-True] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o3')
+sampled = True, order = 'parent_end_late'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_declaration_late-False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o4')
+sampled = False, order = 'parent_declaration_late'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_ test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_declaration_late-True] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_child_completion_cannot_o5')
+sampled = True, order = 'parent_declaration_late'
+
+    @pytest.mark.parametrize('sampled',[False,True])
+    @pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+    def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+        parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+        child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+        registry=m.SourceLifecycles()
+        if order=='parent_first': registry.declare(parent,'owned_root')
+        elif order=='parent_end_late':
+            launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+            registry.declare(launch,'owned_root')
+>       with pytest.raises(ValueError,match='parent'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_source_lifecycles.py:226: Failed
+_________ test_sampled_helper_rejects_completion_after_retained_parent _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_sampled_helper_rejects_co0')
+
+    def test_sampled_helper_rejects_completion_after_retained_parent(tmp_path):
+        state,decl,row,resolve=helper_case(tmp_path); decl['completion_end']=16.
+>       assert resolve()=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_source_lifecycles.py:240: AssertionError
+___ test_unsampled_git_still_requires_exact_phase_and_qualified_parent[None] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_unsampled_git_still_requi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1065ef890>
+fault = None
+
+    @pytest.mark.parametrize('fault',[None,'early_launch','late_completion','unqualified_parent'])
+    def test_unsampled_git_still_requires_exact_phase_and_qualified_parent(tmp_path,monkeypatch,fault):
+        import json,time
+        runtime=identity(); monkeypatch.setattr(a,'runtime',lambda:runtime)
+        pid=570001; vector=['/fixture/python','-c','pass']; out=tmp_path/'monitor'; state={}
+        class Owner:
+            returncode=None
+            def poll(self): self.returncode=0; return 0
+            def wait(self,timeout): self.returncode=0; return 0
+        owner=Owner(); owner.pid=pid
+        monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+        monkeypatch.setattr(m.os,'killpg',lambda *args:None)
+        original=m.PythonLifetimes.launch
+        def launch(self,entry,context): original(self,entry,context); state['owner']=self
+        monkeypatch.setattr(m.PythonLifetimes,'launch',launch)
+        def sampler(root,**kw):
+            t0=time.monotonic(); t1=time.monotonic(); t2=time.monotonic(); t3=time.monotonic(); t4=time.monotonic()
+            if fault!='unqualified_parent':
+                row=dict(pid=pid,parent=os.getpid(),rss_bytes=1,raw_args=c.native_display(vector,runtime),
+                    sample_start=t0,sample_end=t1,image=dict(status='ok',**runtime['process_image'],lookup_start=t1,lookup_end=t2))
+                context=dict(sample_id=1,entries={pid:row},proofs={},origin='owned_supervisor')
+                state['owner'].root_sample(row,owner_unreaped=True,sample_context=context)
+            events=[dict(event='authority_start',pid=pid,monotonic=t1)]
+            for number,argv in enumerate(a.git_commands(tmp_path)):
+                entry=witness(700010+number,pid,argv,'git')
+                entry.update(launch_id='git'+str(number),launch_start=t0 if fault=='early_launch' else t2,reaped=False)
+                entry.pop('completion_end'); entry.pop('returncode',None)
+                events.extend([dict(entry,event='authority_helper',monotonic=t2),dict(event='authority_helper_end',pid=entry['pid'],
+                    parent=pid,launch_id=entry['launch_id'],completion_end=t3,monotonic=t3,reaped=True,returncode=0)])
+            events.append(dict(event='authority_end',pid=pid,success=True,monotonic=t2 if fault=='late_completion' else t4))
+            with (out/'monitor-events.jsonl').open('a') as stream:
+                for event in events: stream.write(json.dumps(event)+'\n')
+            return m.ResidentTree({}, {})
+        monkeypatch.setattr(m,'process_tree',sampler)
+        monkeypatch.setattr(m,'_cleanup_observation',lambda *args,**kw:dict(start=time.monotonic(),end=time.monotonic(),rows=[],helper=None,complete=True,error=None))
+        result=m.supervise(vector,out,sampler=sampler,authority_root=tmp_path,outer_seconds=.5,free_disk_bytes=0)
+        records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+>       assert (result['status']=='COMPLETED') is (fault is None),result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'FileNotFoundError', 'message': "[Errno 2] No such file or directory: '/fixture/python'"}, 'cleanup_diagnostics': [], ...}
+E       assert ('STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED) is (None is None)
+
+tests/test_kernel_stage_a_source_lifecycles.py:281: AssertionError
+______________ test_poll_sleep_preserves_original_cleanup_reserve ______________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_poll_sleep_preserves_orig0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1066fe750>
+
+    def test_poll_sleep_preserves_original_cleanup_reserve(tmp_path,monkeypatch):
+        now=[100.]; sleeps=[]; waits=[]
+        class Owner:
+            pid=570001; returncode=None
+            def poll(self): return self.returncode
+            def wait(self,timeout):
+                waits.append(timeout)
+                if timeout<=0: raise m.subprocess.TimeoutExpired('controlled owner',timeout)
+                self.returncode=-9; return -9
+        owner=Owner()
+        monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+        monkeypatch.setattr(m.os,'killpg',lambda *args:None)
+        monkeypatch.setattr(m.time,'monotonic',lambda:now[0])
+        def sleep(seconds): sleeps.append(seconds); now[0]+=seconds
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        def sampler(pid): now[0]=100.071; return {}
+        result=m.supervise(['/fixture/python'],tmp_path/'monitor',sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+>       assert sleeps and max(sleeps)<=.001000001
+E       assert ([0.02] and 0.02 <= 0.001000001)
+E        +  where 0.02 = max([0.02])
+
+tests/test_kernel_stage_a_source_lifecycles.py:304: AssertionError
+____ test_static_unknown_control_requires_nonabsent_owned_sigkill[change1] _____
+
+change = {'absent': True}
+
+    @pytest.mark.parametrize('change',[{}, {'absent':True},{'signal':15},{'pid':99},{'success':False},{'owner_unreaped':False},{'after_end':True}])
+    def test_static_unknown_control_requires_nonabsent_owned_sigkill(change):
+        import signal
+        helpers=static_control_helpers()
+        event=dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True)
+        event.update({k:v for k,v in change.items() if k!='after_end'})
+        raw=[event,dict(kind='python_root_end',value=dict(pid=10))]
+        if change.get('after_end'): raw.reverse()
+        if change:
+>           with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE AssertionError
+
+tests/test_kernel_stage_a_source_lifecycles.py:346: Failed
+____ test_static_unknown_control_requires_nonabsent_owned_sigkill[change2] _____
+
+change = {'signal': 15}
+
+    @pytest.mark.parametrize('change',[{}, {'absent':True},{'signal':15},{'pid':99},{'success':False},{'owner_unreaped':False},{'after_end':True}])
+    def test_static_unknown_control_requires_nonabsent_owned_sigkill(change):
+        import signal
+        helpers=static_control_helpers()
+        event=dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True)
+        event.update({k:v for k,v in change.items() if k!='after_end'})
+        raw=[event,dict(kind='python_root_end',value=dict(pid=10))]
+        if change.get('after_end'): raw.reverse()
+        if change:
+>           with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE AssertionError
+
+tests/test_kernel_stage_a_source_lifecycles.py:346: Failed
+____ test_static_unknown_control_requires_nonabsent_owned_sigkill[change3] _____
+
+change = {'pid': 99}
+
+    @pytest.mark.parametrize('change',[{}, {'absent':True},{'signal':15},{'pid':99},{'success':False},{'owner_unreaped':False},{'after_end':True}])
+    def test_static_unknown_control_requires_nonabsent_owned_sigkill(change):
+        import signal
+        helpers=static_control_helpers()
+        event=dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True)
+        event.update({k:v for k,v in change.items() if k!='after_end'})
+        raw=[event,dict(kind='python_root_end',value=dict(pid=10))]
+        if change.get('after_end'): raw.reverse()
+        if change:
+>           with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE AssertionError
+
+tests/test_kernel_stage_a_source_lifecycles.py:346: Failed
+__________ test_static_parent_final_artifact_cannot_overrun_aggregate __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_static_parent_final_artif0')
+
+    def test_static_parent_final_artifact_cannot_overrun_aggregate(tmp_path):
+        import json,time
+        helpers=static_control_helpers(); cap=8192
+        (tmp_path/'retained.log').write_bytes(b'L'*4096)
+        if 'reserve_parent_artifacts' in helpers: helpers['reserve_parent_artifacts'](tmp_path,cap,report_bytes=3072,timing_bytes=1024)
+        result=dict(cases=[dict(compatibility='PASS')]*2,payload='x'*10000)
+        start=time.monotonic()
+        status=helpers['commit_result'](result,tmp_path,start,start+1,cap)
+        saved=json.loads((tmp_path/'native-result.json').read_text())
+>       assert status==1 and saved['compatibility']=='NEEDS_CONTEXT'
+E       assert (0 == 1)
+
+tests/test_kernel_stage_a_source_lifecycles.py:359: AssertionError
+____________ test_static_parent_retains_honest_post_report_boundary ____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_static_parent_retains_hon0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1065da390>
+
+    def test_static_parent_retains_honest_post_report_boundary(tmp_path,monkeypatch):
+        import json
+        helpers=static_control_helpers(); clock=[1.]
+        monkeypatch.setattr(helpers['time'],'monotonic',lambda:clock[0])
+        if 'reserve_parent_artifacts' in helpers: helpers['reserve_parent_artifacts'](tmp_path,8192,report_bytes=6144,timing_bytes=2048)
+        original=m._commit_monitor
+        def commit(*args): original(*args); clock[0]+=.01
+        monkeypatch.setattr(m,'_commit_monitor',commit)
+        status=helpers['commit_result'](dict(cases=[dict(compatibility='PASS')]*2),tmp_path,0.,2.,8192)
+        saved=json.loads((tmp_path/'native-result.json').read_text())
+        receipt=tmp_path/'native-commit-timing.json'
+>       assert receipt.exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/private/tmp/task18-source-lifecycle-fix1-red01-mc36vqz3/test_static_parent_retains_hon0/native-commit-timing.json').exists
+
+tests/test_kernel_stage_a_source_lifecycles.py:375: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_first-False]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_first-True]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_end_late-False]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_end_late-True]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_declaration_late-False]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_child_completion_cannot_outlive_owner_even_with_reordered_evidence[parent_declaration_late-True]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_sampled_helper_rejects_completion_after_retained_parent
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_unsampled_git_still_requires_exact_phase_and_qualified_parent[None]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_poll_sleep_preserves_original_cleanup_reserve
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_static_unknown_control_requires_nonabsent_owned_sigkill[change1]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_static_unknown_control_requires_nonabsent_owned_sigkill[change2]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_static_unknown_control_requires_nonabsent_owned_sigkill[change3]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_static_parent_final_artifact_cannot_overrun_aggregate
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_static_parent_retains_honest_post_report_boundary
+14 failed, 58 passed in 0.23s

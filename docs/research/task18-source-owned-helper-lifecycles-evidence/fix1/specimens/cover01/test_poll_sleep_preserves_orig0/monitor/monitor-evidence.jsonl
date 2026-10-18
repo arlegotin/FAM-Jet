@@ -1,0 +1,4 @@
+{"kind":"sample","sample_id":1,"rss":{},"processes":[],"before":100.0,"after":100.071,"origin":"owned_supervisor","event_reference":null}
+{"kind":"resolution","sample_id":1,"roles":{},"identities":{}}
+{"kind":"cleanup_signal","pid":570001,"signal":9,"success":true,"owner_unreaped":true}
+{"kind":"cleanup_owner_wait","start":100.072,"end":100.072,"returncode":-9,"reaped":true}

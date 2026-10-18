@@ -61,3 +61,33 @@ The NEW parent and worker were only read, AST-parsed and hashed, never imported/
 The proposed one-parent 10 s allocation contains two at-most-4.5 s cases and the existing .25 s parent reserve, 192 MiB incremental RSS, aggregate 64 MiB output, 4 GiB disk and thread1. It uses real authority Git, imported runtime baseline ps, numeric cleanup ps and the actual clean reader dispatch with deliberately invalid `{}`. Expected reader schema rejection is a failed operation with no read/factor; empty result/counter output alone is not treated as proof without the actual rejection path. The unknown-child case retains genuine socket line, numeric membership, owned signal-before-end0/−9 and EOF-before-fallback. No favorable sampling loop or retry is designed. A future PASS means only observed compatibility/joins/cleanup, never inference or science. Destination/source/clock await separate allocation.
 
 `static-audit.json` records AST success, `git diff --check` success, unchanged root-receipt method ASTs and protected-file diff. Package hash remains `15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050`; lock remains `2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1`. No math, rates, frozen metadata, fixture/reference, command/seal/limit or old evidence/input was changed. README documents source-only/native-unobserved status. Independent SPEC/QUALITY review and any native/science allocations remain separate. HOLD.
+
+
+## Fix round 1 — current disposition
+
+**HOLD for scoped independent rereview. Affected cover PASSED: 361 passed, 6 deselected.** Source fix commit `4cd3a1a0205509801899a272ae7a8bf2daf4ad95` follows clean `919c2c93c7b355cb41c239dff034a82645389970`. Original failed invocations and historical status remain unchanged.
+
+I1: the registry checks child launch/completion against its parent on either declaration/end arrival, including later parent completion and never-sampled children; contradictions stay sticky. Sampled parent validation also bounds child completion. I2: one Git phase predicate now runs at declaration, completion, phase end, sampled classification and finalization. The final sweep uses the same retained parent proof/reader-baseline qualification as sampled helpers. Controlled unsampled positives and early-launch, late-completion and unqualified-parent negatives exercise actual supervisor ingestion.
+
+I3: normal polling sleeps at most the remaining work/candidate interval, preserving the existing cleanup reserve instead of always sleeping 20 ms. The 80 ms allocation, reserve formula and assertions are unchanged. A deterministic clock control demonstrates the near-work-deadline wait allowance. The unchanged partial-journal assertion now passes with actual owning returncode −9. Its deliberately malformed-source operation remains **FAILED/outer timeout**, with incomplete timed accounting: outer_seconds **0.08068754198029637**, and cleanup `wait` diagnostics contain `_MonitorStop('outer timeout')` while appending wait evidence. This is not a successful 80 ms operation or complete cleanup evidence. Earlier null statuses are not recovered; root's separate current absence query cannot establish historical reap. No rerun/grace/budget extension follows.
+
+I4: the static unknown control requires successful nonabsent SIGKILL targeting the exact unreaped root before its matching actual end. Existing membership/socket payload/EOF-before-fallback conditions remain. I5/M1: report (1 MiB) and timing receipt (2048 B) are preallocated inside the original aggregate 64 MiB before monitor allowances. Bounded serialization and in-place overwrites add no temporary duplicate. Oversized serialization, aggregate excess or expired deadline produces NEEDS_CONTEXT without discarding logs. The receipt records the actual post-report-write boundary; stdout records after all artifact writes, explicitly before stdout itself. Bounded failure writes do not grant extra time or a successful overrun claim.
+
+Only isolated validation/commit functions were AST-extracted for controlled tests; native module imports, main and worker were never executed. The pre-fix AST guard/commit slices provided behavioral RED, without running native input setup. No native probe, model, factor, read or scientific invocation occurred.
+
+### Fix verification and retained evidence
+
+Every attempt used `.venv/bin/python docs/research/task18-source-owned-helper-lifecycles-evidence/fix1/capture.py LABEL ...`, an absolute repository-venv pytest child and fresh task-owned basetemp. Exact commands/environment, UTC/monotonic start/end, exit and full output are in `fix1/attempt-index.json` and each LABEL.json/LABEL.log.
+
+| Attempt | Actual output | Exit | External seconds |
+|---|---|---:|---:|
+| red01 | 14 failed, 58 passed in 0.23s | 1 | 0.382583 |
+| red02 | 2 failed, 2 passed, 68 deselected in 0.08s | 1 | 0.185154 |
+| green01 | 76 passed in 0.18s | 0 | 0.286674 |
+| cover01 | 361 passed, 6 deselected in 2.27s | 0 | 2.375580 |
+
+red01/green01 selected `tests/test_kernel_stage_a_source_lifecycles.py -q -ra`; red02 added `-k unsampled_git`. cover01 used the exact ten-file cover and unchanged six-operation selector listed above. RED01 included thirteen intended behavioral failures and one fixture error: a nonexistent fake interpreter failed before Git validation. Replacing only that fixture's interpreter/hash with the repository interpreter exposed the two intended RED02 failures (early Git launch and unqualified parent), with valid/late-end controls passing. No failed attempt is omitted. Final cover includes all 76 focused controls.
+
+`fix1/pre-fix-manifest.json` timestamps/hashes five actual pre-fix files. `fix1/specimen-manifest.json` preserves 40 selected files/117374 bytes: RED02 accepted bad Git lifetimes, final Git controls, deterministic reserve control and the actual partial-journal specimen. No shared historical tree was copied. Intermediate edits were not separately snapshotted. The static audit confirms protected files and root receipt AST unchanged; package/lock retain the full hashes above. No previous input/evidence, math, command, assertion or budget changed.
+
+Current static parent SHA256: `3275a093357ca2618973690e03c55f407d2219e60eb68572343b08dc20d42198`. Worker remains `14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254`. Current monitor/registry/test hashes are retained in `fix1/static-audit.json`. The new native control remains unobserved; scoped I1–I5/M1 rereview and any native/science allocation remain separate. HOLD.

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_source_lifecycles.py",
+    "-q",
+    "-ra",
+    "--basetemp=/private/tmp/task18-source-lifecycle-fix1-green01-7hgblfch"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "environment": {
+    "PATH": "/Users/artemlegotin/.codex-s/packages/app-server-daemon/releases/0.163.0-aarch64-apple-darwin/codex-path:/Users/artemlegotin/.bun/bin:/Users/artemlegotin/Downloads/google-cloud-sdk/bin:/Users/artemlegotin/.nvm/versions/node/v22.14.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/Applications/VMware Fusion.app/Contents/Public:/Users/artemlegotin/.codex-s/tmp/arg0-macos/codex-arg0NSwnKH:/Users/artemlegotin/.codex-s/packages/app-server-daemon/releases/0.163.0-aarch64-apple-darwin/codex-path:/Users/artemlegotin/.codex-s/tmp/arg0/codex-arg0qv0kBZ:/Users/artemlegotin/.codex-s/packages/app-server-daemon/releases/0.162.1-aarch64-apple-darwin/codex-path:/Users/artemlegotin/.codex-s/tmp/arg0/codex-arg0qrYnZF:/Users/artemlegotin/.nvm/versions/node/v22.14.0/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Volumes/git/legotin/golden-board/.venv/bin:/Users/artemlegotin/.bun/bin:/Users/artemlegotin/Downloads/google-cloud-sdk/bin:/Users/artemlegotin/.nvm/versions/node/v22.14.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/artemlegotin/.local/bin:/Users/artemlegotin/anaconda3/bin:/Users/artemlegotin/anaconda3/condabin:/Users/artemlegotin/.cargo/bin:/Users/artemlegotin/.yarn/bin:/Users/artemlegotin/Library/Python/3.9/bin/gdown:/Users/artemlegotin/.yarn/bin:/Users/artemlegotin/Library/Python/3.9/bin/gdown",
+    "PYTHONPATH": null,
+    "VIRTUAL_ENV": "/Volumes/git/legotin/golden-board/.venv",
+    "PYTEST_ADDOPTS": null
+  },
+  "utc_start": "2026-10-18T12:36:25.580395+00:00",
+  "monotonic_start": 562675.963438208,
+  "basetemp": "/private/tmp/task18-source-lifecycle-fix1-green01-7hgblfch",
+  "exit": 0,
+  "utc_end": "2026-10-18T12:36:25.867136+00:00",
+  "monotonic_end": 562676.25011225,
+  "duration": 0.28667404199950397
+}

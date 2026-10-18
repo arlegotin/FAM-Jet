@@ -1,0 +1,79 @@
+{
+  "base": "919c2c93c7b355cb41c239dff034a82645389970",
+  "utc_start": "2026-10-18T12:38:15.979763+00:00",
+  "monotonic_start": 562786.361925791,
+  "files": {
+    "validation/kernel_stage_a/monitor.py": {
+      "sha256": "07982110132efad210167bdbb73250acf12273659f180bc50b56e6e2db259c8f",
+      "bytes": 93338,
+      "AST": true
+    },
+    "validation/kernel_stage_a/source_lifecycles.py": {
+      "sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004",
+      "bytes": 6743,
+      "AST": true
+    },
+    "tests/test_kernel_stage_a_source_lifecycles.py": {
+      "sha256": "f61cef8453e30256370fe6c9710e2c63a0b75b14a73fb975eb8b332e14468242",
+      "bytes": 24544,
+      "AST": true
+    },
+    "docs/research/task18-source-owned-helper-native-control.py": {
+      "sha256": "3275a093357ca2618973690e03c55f407d2219e60eb68572343b08dc20d42198",
+      "bytes": 13620,
+      "AST": true
+    },
+    "docs/research/task18-source-owned-helper-native-worker.py": {
+      "sha256": "14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254",
+      "bytes": 3987,
+      "AST": true
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "checks": {
+    "diff_check": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "protected_diff": {
+      "command": [
+        "git",
+        "diff",
+        "--name-only",
+        "919c2c93c7b355cb41c239dff034a82645389970",
+        "--",
+        "famjet",
+        "requirements.lock",
+        "validation/kernel_stage_a/authority.py",
+        "validation/kernel_stage_a/production.py",
+        "validation/kernel_stage_a/commands.py",
+        "validation/kernel_stage_a/reader_worker.py",
+        "validation/kernel_stage_a/fixture-descriptors.json",
+        "validation/kernel_stage_a/frozen-training-metadata.json",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "root_receipt_methods_AST_unchanged": {
+    "owned_baseline_event": true,
+    "owned_candidate": true,
+    "qualify_owned_root": true,
+    "owned_terminal": true,
+    "root_sample": true
+  },
+  "native_input_execution": false,
+  "isolated_AST_helpers_tested": true,
+  "utc_end": "2026-10-18T12:38:16.095630+00:00",
+  "monotonic_end": 562786.477809625
+}
