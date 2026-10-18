@@ -1,0 +1,50 @@
+{
+  "time_utc": "2026-10-18T11:47:59.244031+00:00",
+  "base": "a22354c394b1633d4c0c7e660ce4bfd12df4f8ec",
+  "head": "ab69e315f0c397ee22d3565baaecffb5e91baace",
+  "source_checks": {
+    "docs/research/task18-native-guarded-cancellation-control.py": {
+      "bytes": 14548,
+      "sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3"
+    },
+    "docs/research/task18-owned-root-asynchronous-rss-native-control.py": {
+      "bytes": 13077,
+      "sha256": "e09582ddd07a3d667b5ab7bfc3b080e717503c43396b82aabd3d81e054a3f71c"
+    },
+    "docs/research/task18-owned-root-lifecycle-native-worker.py": {
+      "bytes": 2372,
+      "sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 91026,
+      "sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d"
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4"
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0"
+    },
+    "requirements.lock": {
+      "bytes": 2658,
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "package_files": 53,
+  "changed_paths": [
+    "docs/research/task18-native-guarded-cancellation-control.py",
+    "docs/research/task18-native-guarded-cancellation-input-evidence/static-provenance.json",
+    "docs/research/task18-native-guarded-cancellation-input-report.md"
+  ],
+  "protected_diff_empty": true,
+  "report_sha256": "c6335fb7c29c0526709a1b947eccd3a1dfd771967beeae0fa1d954b3c360ad6d",
+  "static_only": true,
+  "native_or_tests_or_project_import": false,
+  "independent_review": "SPEC PASS; QUALITY PASS with allocation-time Git label verification caveat",
+  "scientific_restart_authorized": false,
+  "protected_access": "CLOSED",
+  "review_sha256": "74e4e7a757cca6fb68aeafe1bac27c384d5d0baf438a920da6cbc42138a985f6"
+}

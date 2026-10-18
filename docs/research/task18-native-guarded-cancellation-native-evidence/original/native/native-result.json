@@ -1,0 +1,578 @@
+{
+  "allocation_start": 559928.406774,
+  "absolute_deadline": 559938.406774,
+  "scope": "ONE imported-runtime native guarded-cancellation diagnostic; zero factors/reads",
+  "source_git": "22dbc9a07f11b778bf3c061bf521c9ff14a93677",
+  "control_sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3",
+  "inputs": {
+    "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-native-guarded-cancellation-control.py",
+    "parent_sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3",
+    "parent_bytes": 14548,
+    "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+    "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+    "worker_bytes": 2372,
+    "parent_ast_parse": true,
+    "worker_ast_parse": true,
+    "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+    "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d"
+  },
+  "cases": [
+    {
+      "case": "survivor",
+      "start": 559928.433020375,
+      "deadline": 559932.933020375,
+      "syscalls": [
+        {
+          "operation": "image",
+          "start": 559929.428367791,
+          "end": 559929.428415291,
+          "ok": true,
+          "value": {
+            "status": "error",
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "errno": 3,
+            "lookup_start": 559929.428368541,
+            "lookup_end": 559929.428414333
+          }
+        },
+        {
+          "operation": "getpgid",
+          "start": 559929.428416416,
+          "end": 559929.428426583,
+          "ok": false,
+          "type": "ProcessLookupError",
+          "errno": 3,
+          "message": "[Errno 3] No such process"
+        },
+        {
+          "operation": "nonowner_waitpid",
+          "start": 559929.428427416,
+          "end": 559929.428430291,
+          "ok": false,
+          "type": "ChildProcessError",
+          "errno": 10,
+          "message": "[Errno 10] No child processes"
+        }
+      ],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+        "survivor",
+        "/private/tmp/t18c-0e9vq89g/native/survivor.socket",
+        "559932.933020375"
+      ],
+      "vector_sha256": "e33ad689f76a746576364f4971a59afafc3ffa4f336d00e39dfde12ca43406ed",
+      "inputs": {
+        "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-native-guarded-cancellation-control.py",
+        "parent_sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3",
+        "parent_bytes": 14548,
+        "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+        "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+        "worker_bytes": 2372,
+        "parent_ast_parse": true,
+        "worker_ast_parse": true,
+        "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+        "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d"
+      },
+      "execution_status": "STOPPED",
+      "verdict": {
+        "status": "STOPPED",
+        "reason": "foreign process identity",
+        "monitor_failure": null,
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "e33ad689f76a746576364f4971a59afafc3ffa4f336d00e39dfde12ca43406ed",
+        "returncode": -9,
+        "outer_seconds": 0.9943073329050094,
+        "utc_start_epoch": 1792324238.030349,
+        "utc_end_epoch": 1792324239.024519,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.993977207923308,
+        "absolute_process_tree_peak_bytes": 223051776,
+        "incremental_worker_peak_bytes": 15761408,
+        "observed_pid_peak_sum_bytes": 253739008,
+        "workers": {
+          "93192": {
+            "absolute_peak_bytes": 210026496,
+            "baseline_bytes": 209141760,
+            "incremental_peak_bytes": 884736,
+            "role": "worker",
+            "parent": 93191
+          },
+          "93193": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93194": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93195": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93196": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93197": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93198": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93199": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93200": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93201": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93202": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93203": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93204": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93205": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93206": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 93191
+          },
+          "93208": {
+            "absolute_peak_bytes": 1851392,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1851392,
+            "role": "observer_helper",
+            "parent": 93191
+          }
+        },
+        "workers_complete_inline": false,
+        "worker_count": 20,
+        "observer_helper_peak_bytes": 3653632,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [
+          "93209"
+        ],
+        "unresolved_worker_count": 1,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 60,
+          "accepted_samples": 17,
+          "bytes": 64990,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 2212,
+          "samples": 1
+        },
+        "classified_process_observations": 36,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 75664
+      },
+      "artifacts": {
+        "monitor.json": {
+          "bytes": 8192,
+          "sha256": "0820ece5a02aaa07ee9f8d2ddddb3647524eb3d4dc321bf34c4c8f77b91212c4"
+        },
+        "monitor-evidence.jsonl": {
+          "bytes": 64990,
+          "sha256": "8460f4e52211a38bdc56566162741a747d0533958952b495cc1782a4ca0a250f"
+        },
+        "monitor-events.jsonl": {
+          "bytes": 2212,
+          "sha256": "44810f19c68f52d67aedd7526ed9773db3988675c9feb158c8481fc2f263eb4a"
+        },
+        "stdout.log": {
+          "bytes": 270,
+          "sha256": "4af9d4ad45966fecd4c0cb9e37a6fafe136c84e514737c0ff8c7f90fcf8692a4"
+        },
+        "stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "runtime": {
+        "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+        "executable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "executable_sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+        "implementation": "CPython",
+        "process_image": {
+          "method": "macos.proc_pidpath",
+          "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+          "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+        },
+        "helpers": {
+          "ps": {
+            "path": "/bin/ps",
+            "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+          },
+          "git": {
+            "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+          }
+        },
+        "decimal_version": "1.70",
+        "libmpdec_version": "4.0.1",
+        "decimal_extension": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload/_decimal.cpython-313-darwin.so",
+        "decimal_extension_sha256": "012ccc5fc549ca1da531e00957e6f1807e364971fcd55209f51d5545d788e585",
+        "byteorder": "little",
+        "machine": "arm64",
+        "context": "80/160 ROUND_HALF_EVEN Emin=-999999999 Emax=999999999 traps=InvalidOperation,DivisionByZero,Overflow"
+      },
+      "launch": {
+        "parent": 93191,
+        "role": "owned_root",
+        "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "argv": [
+          "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+          "-I",
+          "-B",
+          "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+          "survivor",
+          "/private/tmp/t18c-0e9vq89g/native/survivor.socket",
+          "559932.933020375"
+        ],
+        "provenance": "source_owned_python_launch",
+        "launch_id": "8767a6a92fe14a6e8ee1e6002b797531",
+        "vector_sha256": "e33ad689f76a746576364f4971a59afafc3ffa4f336d00e39dfde12ca43406ed",
+        "launcher": {
+          "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+          "sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+        },
+        "expected_image": {
+          "method": "macos.proc_pidpath",
+          "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+          "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+        },
+        "launch_start": 559928.437361166,
+        "reaped": false,
+        "pid": 93192
+      },
+      "owning_end": {
+        "pid": 93192,
+        "parent": 93191,
+        "launch_id": "8767a6a92fe14a6e8ee1e6002b797531",
+        "reaped": true,
+        "returncode": -9,
+        "completion_end": 559929.426883416
+      },
+      "signal": {
+        "kind": "cleanup_signal",
+        "pid": 93192,
+        "signal": 9,
+        "success": true,
+        "owner_unreaped": true
+      },
+      "owner_wait": {
+        "kind": "cleanup_owner_wait",
+        "start": 559929.417946458,
+        "end": 559929.426436083,
+        "returncode": -9,
+        "reaped": true
+      },
+      "membership": {
+        "kind": "cleanup_membership",
+        "owner_pid": 93192,
+        "owner_unreaped": true,
+        "value": {
+          "start": 559929.401172708,
+          "end": 559929.416442291,
+          "stdout": "    1     0     1  22880\n  545     1   545  44336\n  547     1   547  10848\n  549     1   549   9184\n  550     1   550  15344\n  553     1   553  10512\n  557     1   557   8416\n  559     1   559  10048\n  560     1   560   2800\n  564     1   564   2992\n  568     1   568   1040\n  570     1   570   2400\n  574     1   574  35088\n  576     1   576   4016\n  577     1   577   5504\n  581     1   581   2400\n  583     1   583   3360\n  584     1   584  11792\n  585     1   585  17520\n  586     1   586  13152\n  587     1   587  16608\n  588     1   588  13392\n  589     1   589   5936\n  590     1   590   2112\n  591     1   591   7568\n  593     1   593  25056\n  596     1   596   1968\n  597     1   597  32032\n  598     1   598   2816\n  600     1   600   3424\n  604     1   604   4320\n  605     1   605   6624\n  606     1   606   1488\n  610     1   610  25984\n  611     1   611   4752\n  613     1   613   6576\n  614     1   614   3664\n  615     1   615   6256\n  618     1   618 120528\n  619     1   619  16240\n  620     1   620  46336\n  621     1   621   6112\n  622     1   622  21312\n  625     1   625  10896\n  627     1   627   9920\n  628     1   628  15184\n  629     1   629  12960\n  630     1   630  27440\n  643     1   643  13120\n  646     1   646   3504\n  648     1   648   9312\n  650     1   650   5376\n  653     1   653  26096\n  657     1   657   5072\n  660     1   660  12624\n  661     1   661   2736\n  662     1   662   1632\n  664     1   664   1648\n  665     1   665  12896\n  666     1   666  25088\n  668     1   668   1792\n  682     1   682   1744\n  684     1   684  20064\n  687     1   687   8064\n  688     1   688   6832\n  690     1   690   1680\n  691     1   691   7216\n  697     1   697   8272\n  701     1   701   1648\n  705     1   705   2384\n  706     1   706   8944\n  708     1   708   2784\n  710     1   710   5952\n  715     1   715   3472\n  717     1   717  16672\n  726     1   726   1664\n  731     1   731   1728\n  745     1   745   1648\n  747     1   747  43904\n  748     1   748  28704\n  749     1   749   1200\n  750     1   750   3104\n  775     1   775   1632\n  778   553   553   3504\n  793     1   793   1200\n  794     1   794   1216\n  803     1   803   1792\n  804     1   804   2768\n  805     1   805   4096\n  845     1   845   6192\n  919     1   919 183328\n  927     1   927   1552\n  954     1   954   5264\n  971     1   971   1632\n 1055     1  1055   6320\n 1067     1  1067  12192\n 1076     1  1076  13392\n 1107     1  1107   1632\n 1112     1  1112   7776\n 1119     1  1119  17936\n 1120     1  1120  10128\n 1124     1  1124  22320\n 1126     1  1126  45216\n 1128     1  1128   8768\n 1130     1  1130   8832\n 1132     1  1132   6656\n 1133     1  1133  14416\n 1134     1  1134  15216\n 1139     1  1139  16352\n 1140     1  1140  17824\n 1142     1  1142  21568\n 1144     1  1144   4096\n 1146     1  1146  11904\n 1148     1  1148  11232\n 1160     1  1160  29392\n 1161     1  1161  37904\n 1162     1  1162   1104\n 1173     1  1173  12672\n 1176     1  1176   9024\n 1177     1  1177  17344\n 1188     1  1188  20032\n 1193     1  1193   8272\n 1198     1  1198   4096\n 1200     1  1200  37968\n 1207     1  1207  22560\n 1210     1  1210  20336\n 1213     1  1213   9952\n 1215     1  1215   8224\n 1229     1  1229   9408\n 1238     1  1238   2496\n 1241     1  1241   1648\n 1244     1  1244   1632\n 1248     1  1248   9312\n 1249     1  1249  67408\n 1250     1  1250   1728\n 1258     1  1258  22656\n 1259     1  1259  11536\n 1274     1  1274 118944\n 1278     1  1278   1648\n 1297     1  1297   2832\n 1307     1  1307   1616\n 1308     1  1308  51088\n 1309     1  1309  28560\n 1311     1  1311   6528\n 1326     1  1326   1632\n 1336     1  1336  11744\n 1338     1  1338  12544\n 1339     1  1339   2176\n 1359     1  1359   2976\n 1360     1  1360   7616\n 1361     1  1361   7040\n 1370     1  1370  14400\n 1383     1  1383   2848\n 1384     1  1384   2448\n 1385     1  1385   1984\n 1386     1  1386   3952\n 1387     1  1387   3840\n 1388     1  1388   2416\n 1399     1  1399  41680\n 1400     1  1400   2400\n 1401     1  1401   3792\n 1402     1  1402   4048\n 1404     1  1404   3920\n 1411     1  1411   2400\n 1413     1  1413   3808\n 1417     1  1417 327600\n 1418     1  1418  28672\n 1419     1  1419  21248\n 1420     1  1420 186352\n 1423     1  1423   3840\n 1425     1  1425  17664\n 1426     1  1426   2336\n 1428     1  1428   1072\n 1429     1  1429   3536\n 1431     1  1431   8608\n 1433     1  1433   7808\n 1439     1  1439   1792\n 1441     1  1441   5632\n 1442     1  1442   7376\n 1446     1  1446   4784\n 1449     1  1449  21888\n 1454     1  1454   8384\n 1455     1  1455   2384\n 1465     1  1465   1536\n 1487  1417  1417   1888\n 1499     1  1499   5200\n 1841     1  1841   8976\n 1845     1  1845   5152\n 1852     1  1852   6912\n 1857     1  1857  16592\n 1864     1  1864  66160\n 1870     1  1870  45616\n 1925     1  1925   3984\n 1926     1  1926  76432\n 1935     1  1935   3808\n 1958     1  1958   4000\n 1988     1  1988   8336\n 1993     1  1993   4016\n 2020     1  2020   3984\n 2023     1  2023   2416\n 2145     1  2145    896\n 2150     1  2150   1648\n 2163     1  2163   2256\n 2247     1  2247   8624\n 2258     1  2258   1632\n 2305     1  2305   1936\n 2306     1  2306   1936\n 2307     1  2307   1936\n 2308     1  2308   2064\n 2309     1  2309   1936\n 2310     1  2310   2384\n 2311     1  2311   1936\n 2342     1  2342   1968\n 2344     1  2344   3056\n 2345     1  2345   3136\n 2432     1  2432   7728\n 2883 57818  2883   4176\n 3171     1  3171   3280\n 3211     1  3211  19248\n 4714     1  4714  19504\n 5141     1  5141   5904\n 5190     1  5190  72240\n 5192     1  5192   7824\n 5193     1  5193   7920\n 5194     1  5194   8160\n 6334     1  6334  19280\n 8218     1  8218   1072\n 9290     1  9290   7456\n10712     1 10712  66176\n14913     1 14913   2304\n15624     1 15624 630080\n15627     1 15626   9024\n15631 15624 15624 227200\n15632 15624 15624 155456\n15633 15624 15624  61664\n15653 15624 15624  99536\n15659 15624 15624   5072\n15687 15624 15624 153776\n15691 15624 15624  93440\n15692     1 15692  29296\n15711 15624 15624 117328\n15712 15624 15624  85472\n15713 15624 15624  97152\n15714 15624 15624  85040\n15715 15624 15624  84912\n15716 15624 15624  85312\n15717 15624 15624  86256\n15718 15624 15624  97232\n15719 15624 15624 105040\n15720 15624 15624  92992\n15721 15624 15624  83488\n15722 15624 15624  98112\n15723 15624 15624 117664\n15725 15624 15624  83296\n15727 15624 15624  89136\n15728 15624 15624 265472\n15729 15624 15624  86192\n15731 15624 15624 128176\n15733 15624 15624  79344\n15735 15624 15624  47184\n15736 15624 15624 112208\n15741 15624 15624 138208\n15742 15624 15624  50256\n15743 15624 15624  89968\n15746 15624 15624 153008\n15752 15624 15624 323648\n15779 15624 15624 119184\n15780 15624 15624 119120\n15781 15624 15624 118240\n15782 15624 15624 117952\n15783 15624 15624 356672\n15784 15624 15624 503936\n15785 15624 15624 119152\n15786 15624 15624 419024\n15787 15624 15624 388048\n15788 15624 15624  98576\n15789 15624 15624 149792\n15829 15624 15624  92080\n16042     1 16042 219008\n16047     1 16047 186800\n16062     1 16061   8656\n16064 16047 16047  73968\n16065 16047 16047  53248\n16067     1 16067  13712\n16068 16047 16047 373104\n16070 16047 16047  30320\n16071 16047 16047  43888\n16086 15624 15624  86928\n16087 15624 15624 224496\n16088 15624 15624  93680\n16133     1 16133  28992\n16170 15624 15624 103392\n16318     1 16318  30496\n17328     1 17328   5184\n17329     1 17329   1664\n17334     1 17334   5136\n17756 53534 17756  46480\n17766 53534 17766  46480\n17776 53534 17776  46560\n17786 53534 17786  46480\n17787     1 17787   7616\n17798 53534 17798  37872\n17799 53534 17799  46576\n17809 53534 17809  46576\n17821 17798 17798  39568\n18175 17786 17786  48320\n18201 17766 17766  48320\n18233 17756 17756  48320\n18299 17809 17809  48320\n18322 17776 17776  48320\n18345 17799 17799  48320\n18407 53534 18407  26704\n18788 18407 18407  28384\n19011     1 19011  17408\n19765     1 19765 166928\n19771 19765 19765  70736\n19772 19765 19765  53408\n19816 19765 19765 149232\n19926     1 19926  15392\n20561     1 20561   4976\n20776     1 20776  28992\n20814     1 20814  88016\n20815     1 20815  17680\n20816     1 20816  26960\n20817     1 20817  27328\n20818     1 20818  28224\n22559     1 22559   3984\n22560     1 22560   3440\n22561     1 22561   6608\n23520 53534 23520  46480\n23676 23520 23520  48320\n24269     1 24269   1904\n25446     1 25446 179456\n25457     1 25457  37408\n25458     1 25458  12304\n25460     1 25460  28656\n25468     1 25468  12320\n25476     1 25476  42496\n26287     1 26287  86160\n26297 26287 26287  16096\n26298 26287 26287  20080\n26299 26287 26287  55776\n26300 26287 26287   4944\n26306 26287 26287  90032\n26323 26306 26287  26048\n26324 26306 26287  18064\n26331 26306 26287 118528\n27498     1 27498  13728\n32750     1 32750   7104\n32752     1 32752  11232\n34362 15624 15624 536800\n35162     1 35162  29824\n35522 53534 35522  37872\n35670 15624 15624 521760\n35865 35522 35522  39552\n37306 15624 15624 550192\n40121     1 40121   9728\n42064     1 42064  22464\n42402     1 42402  29840\n44420 53534 44420  25440\n44567 44420 44420  26800\n49340     1 49340   2240\n49363     1 49363   8528\n49805     1 49805  10160\n49854     1 49854  10192\n53534  3211 53534 670928\n53794     1 53794  22080\n54402  4714 54402 268368\n54901     1 54901  18928\n54902     1 54902  26464\n54926     1 54926  12640\n57395 54402 57395  21248\n57818  6334 57818 151120\n58399     1 58399   6048\n58605 57818 58605   4848\n58837     1 58837  79376\n58839     1 58839   6272\n59193 58605 58605  13232\n59633 42064 59633  52112\n59775 53534 59775 217104\n60246     1 60246  11120\n61545     1 61545  14880\n62774     1 62774  21024\n63807     1 63807   4944\n65840     1 65840  20272\n65945 53534 65945   7584\n66424 65945 65945   7168\n66812     1 66812   1632\n67156     1 67156   5264\n68273     1 68273  44272\n68541 53534 68541  37872\n68572 68541 68541  39568\n70429     1 70429  40384\n71302     1 71302  12672\n71797     1 71797  17104\n72080 15624 15624 556464\n73859     1 73859  25024\n75653     1 75653  11184\n77277     1 77277   4176\n77284     1 77284   3184\n77793     1 77793  29568\n78400     1 78400  11056\n78404     1 78404  22896\n78442     1 78442  24544\n78448     1 78448  24576\n78450     1 78450   4096\n78470     1 78470  15872\n78473     1 78473  23168\n78477     1 78477   8416\n78674     1 78674   4208\n78858     1 78858  34736\n79293     1 79293  10304\n79300     1 79300  61456\n79318     1 79318  20688\n79326     1 79326  30256\n79327     1 79327  60496\n81557     1 81557  10336\n81639     1 81639  12112\n82755     1 82755  25536\n83312     1 83312   5888\n84129 15624 15624 517984\n87154 54402 87154   2784\n87357 53534 87357  52048\n87513 87357 87357  48688\n87867     1 87867  21488\n87979     1 87979  15120\n87986     1 87986  16304\n87990     1 87990  11872\n88057     1 88057  15024\n88071     1 88071  13680\n88252     1 88252  16656\n88814     1 88814  13056\n89315     1 89315  39520\n89371     1 89371   8336\n89392     1 89392   8896\n90166     1 90166  24656\n90172     1 90172  12592\n90188     1 90188   8576\n90189     1 90189  14480\n90446     1 90446   5424\n91032     1 91032   2064\n91090     1 91090   8464\n91101     1 91101  12944\n91108     1 91108  10896\n91109     1 91109  10864\n91120     1 91120   4464\n91123  1417  1417 445360\n91171 91123  1417  28624\n91172 91123  1417  24592\n91251     1 91251  25376\n91252     1 91252   9248\n91269     1 91269  47216\n91270     1 91270  63472\n91271     1 91271  13584\n91273     1 91273  21824\n91296     1 91296  21152\n91301     1 91301  24672\n91307     1 91307  12864\n91309     1 91309   8160\n91311     1 91311   3760\n91323     1 91323   3840\n91324     1 91324  19024\n91326     1 91326  20000\n91327     1 91327  10336\n91328     1 91328  16608\n91331     1 91331  21552\n91332     1 91332  12320\n91333     1 91333  23904\n91334     1 91334  11056\n91335     1 91335   8352\n91339     1 91339  14864\n91340     1 91340  16128\n91341     1 91341  13696\n91342     1 91342   6096\n91498     1 91498  53840\n91499     1 91499  20544\n91725     1 91725  12304\n91726     1 91726   6112\n91761     1 91761   3184\n91822     1 91822  13744\n91823     1 91823  33376\n91824     1 91824  14064\n91825     1 91825  19056\n92248     1 92248  15712\n92294     1 92294  10992\n92296 15624 15624 122304\n92312     1 92312  35712\n92313     1 92313  11584\n92314     1 92314  31200\n92315     1 92315  26096\n92323     1 92323  15008\n92324     1 92324  21664\n92325     1 92325  18160\n92326     1 92326  43776\n92327     1 92327   5968\n92328     1 92328  23280\n92329     1 92329  11184\n92332     1 92332  67280\n92333     1 92333  30672\n92334     1 92334  18752\n92335     1 92335  28720\n92336     1 92336  14416\n92343 15624 15624 275792\n92351     1 92351  13232\n92357     1 92357  29840\n92358     1 92358  20064\n92359     1 92359  40352\n92360     1 92360  24528\n92438     1 92438  49696\n92448     1 92448   9248\n92544     1 92544   3280\n92620     1 92620  18672\n92621     1 92621  12080\n92622     1 92622   9120\n92623     1 92623   9232\n92624     1 92624  16864\n92625     1 92625  12080\n92626     1 92626   6800\n92627     1 92627  13872\n92628     1 92628   8336\n92629     1 92629   9136\n92630     1 92630  12336\n92632     1 92632   7312\n92715     1 92715   4880\n92965     1 92965  11104\n92967     1 92967   3536\n92968     1 92968   6192\n92971     1 92971  27728\n92973     1 92973  14400\n93096     1 93096  25584\n93097     1 93097  29072\n93099     1 93099  23456\n93117     1 93117  43008\n93166 15624 15624 104384\n93167 15624 15624 155600\n93183 15624 15624  87744\n93184     1 93184  12944\n93185     1 93185  23328\n93186     1 93186  23344\n93187     1 93187  34992\n93188 53534 93188  33328\n93191 93188 93188  30480\n93192 93191 93192 205104\n93209 93192 93192  10912\n93211 93191 93188   1760\n93481     1 93481   2912\n93695     1 93695  17744\n94066 53534 94066  37872\n94089 94066 94066  39568\n94214 53534 94214  46464\n94370 94214 94214  48304\n98231     1 98231  16688\n98648     1 98648   5328\n17418  1417 17418   7712\n17419 17418 17419   1248\n18346 17419 18346  34576\n18347 18346 18346  92368\n75112  1417 75112   1376\n75113 75112 75113    496\n75438 75113 75438   1168\n75441 75438 75438  39424\n61004  1417 61004   1376\n61006 61004 61006    512\n68590  1417 68590   1504\n68591 68590 68591    496\n68826 68591 68826   1216\n68827 68826 68826  33328\n29225  1417 29225   7728\n29226 29225 29226   1248\n29505 29226 29505  34576\n29506 29505 29505  70288\n35411 93606 35411  26448\n35412 35411 35411 131008\n93600  1417 93600   1376\n93606 93600 93606    576\n17898  1417 17898   6224\n17899 17898 17899    736\n18251 17899 18251  15760\n18252 18251 18251 116272\n 5099  1417  5099   5664\n 5101  5099  5101    720\n70698  1417 70698   1504\n70699 70698 70699    512\n96519  1417 96519   1376\n96521 96519 96521    512\n64079  1417 64079   5680\n64090 64079 64090    720\n65791 64090 65791   4304\n65793 65791 65791  80576\n",
+          "stderr": "",
+          "rows": [
+            {
+              "pid": 93192,
+              "parent": 93191,
+              "pgid": 93192,
+              "rss_bytes": 210026496
+            },
+            {
+              "pid": 93209,
+              "parent": 93192,
+              "pgid": 93192,
+              "rss_bytes": 11173888
+            },
+            {
+              "pid": 93211,
+              "parent": 93191,
+              "pgid": 93188,
+              "rss_bytes": 1802240
+            }
+          ],
+          "helper": {
+            "launch": {
+              "parent": 93191,
+              "executable": "/bin/ps",
+              "argv": [
+                "/bin/ps",
+                "-axo",
+                "pid=,ppid=,pgid=,rss="
+              ],
+              "provenance": "source_owned_launch",
+              "launch_id": "a16c2f3f12134939b36b5ac9f22687d1",
+              "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+              "artifact": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              },
+              "launch_start": 559929.401382708,
+              "reaped": false,
+              "pid": 93211
+            },
+            "witness": {
+              "parent": 93191,
+              "executable": "/bin/ps",
+              "argv": [
+                "/bin/ps",
+                "-axo",
+                "pid=,ppid=,pgid=,rss="
+              ],
+              "provenance": "source_owned_launch",
+              "launch_id": "a16c2f3f12134939b36b5ac9f22687d1",
+              "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+              "artifact": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              },
+              "launch_start": 559929.401382708,
+              "reaped": true,
+              "pid": 93211,
+              "completion_end": 559929.416422458,
+              "returncode": 0
+            },
+            "completion": {
+              "pid": 93211,
+              "parent": 93191,
+              "launch_id": "a16c2f3f12134939b36b5ac9f22687d1",
+              "completion_end": 559929.416422458,
+              "reaped": true,
+              "returncode": 0
+            },
+            "image": {
+              "status": "ok",
+              "method": "macos.proc_pidpath",
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083",
+              "lookup_start": 559929.402903833,
+              "lookup_end": 559929.403249791
+            },
+            "image_evidence": "kernel_image"
+          },
+          "complete": true,
+          "error": null,
+          "captured_bytes": 14725,
+          "read_bytes": 14725
+        }
+      },
+      "root_pid": 93192,
+      "member_rows": [
+        {
+          "pid": 93192,
+          "parent": 93191,
+          "pgid": 93192,
+          "rss_bytes": 210026496
+        },
+        {
+          "pid": 93209,
+          "parent": 93192,
+          "pgid": 93192,
+          "rss_bytes": 11173888
+        }
+      ],
+      "membership_root_rss_bytes": 210026496,
+      "owned_live_proof": {
+        "sample_id": 1,
+        "row": {
+          "pid": 93192,
+          "parent": 93191,
+          "rss_bytes": 5586944,
+          "sample_start": 559928.439028416,
+          "sample_end": 559928.471051958,
+          "raw_comm": "/opt/homebrew/Ce",
+          "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B /Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py survivor /private/tmp/t18c-0e9vq89g/native/survivor.socket 559932.933020375",
+          "image": {
+            "status": "ok",
+            "method": "macos.proc_pidpath",
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+            "lookup_start": 559928.471707208,
+            "lookup_end": 559928.471896416
+          },
+          "ambiguous": false
+        }
+      },
+      "latest_owned_root": {
+        "sample_id": 17,
+        "row": {
+          "pid": 93192,
+          "parent": 93191,
+          "rss_bytes": 210026496,
+          "sample_start": 559929.35922075,
+          "sample_end": 559929.397217916,
+          "raw_comm": "/opt/homebrew/Ce",
+          "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B /Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py survivor /private/tmp/t18c-0e9vq89g/native/survivor.socket 559932.933020375",
+          "image": {
+            "status": "ok",
+            "method": "macos.proc_pidpath",
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+            "lookup_start": 559929.399678458,
+            "lookup_end": 559929.399962125
+          },
+          "ambiguous": false
+        }
+      },
+      "baseline": {
+        "event": "baseline",
+        "pid": 93192,
+        "rss": 209141760,
+        "monotonic": 559929.333167708,
+        "utc_epoch": 1792324238.930382,
+        "boundary": "post-import/pre-allocation"
+      },
+      "self_event": {
+        "event": "observer_sample",
+        "monotonic": 559929.333122041,
+        "emitter_pid": 93192,
+        "self_pid": 93192,
+        "processes": [
+          {
+            "pid": 93192,
+            "parent": 93191,
+            "rss_bytes": 209141760,
+            "sample_start": 559929.284192666,
+            "sample_end": 559929.33165475,
+            "raw_comm": "/opt/homebrew/Ce",
+            "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B /Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py survivor /private/tmp/t18c-0e9vq89g/native/survivor.socket 559932.933020375",
+            "image": {
+              "status": "ok",
+              "method": "macos.proc_pidpath",
+              "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+              "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+              "lookup_start": 559929.332771666,
+              "lookup_end": 559929.332996791
+            },
+            "ambiguous": false
+          },
+          {
+            "pid": 93207,
+            "parent": 93192,
+            "rss_bytes": 1802240,
+            "sample_start": 559929.284192666,
+            "sample_end": 559929.33165475,
+            "raw_comm": "/bin/ps",
+            "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+            "image": {
+              "status": "error",
+              "method": "macos.proc_pidpath",
+              "reason": "native_lookup_failed",
+              "errno": 3,
+              "lookup_start": 559929.332999208,
+              "lookup_end": 559929.333021375
+            },
+            "ambiguous": false
+          }
+        ]
+      },
+      "peer_read": {
+        "start": 559929.4283425,
+        "end": 559929.42835625,
+        "raw": "{\"pid\": 93209, \"parent\": 93192, \"pgid\": 93192}\n",
+        "eof": true
+      },
+      "descendant": {
+        "pid": 93209,
+        "parent": 93192,
+        "pgid": 93192
+      },
+      "child_query_parent": 93192,
+      "child_socket_parent": 93192,
+      "descendant_evidence": "actual same-group query + successful owned SIGKILL + sole child socket line/EOF before fallback; no owning orphan reap claimed",
+      "compatibility": "PASS",
+      "end": 559929.428483041,
+      "elapsed": 0.9954626660328358
+    }
+  ],
+  "end": 559929.428483375,
+  "elapsed": 1.0217093749670312,
+  "compatibility": "PASS"
+}

@@ -1,0 +1,58 @@
+{
+  "started_epoch": 1792324389.055779,
+  "end_epoch": 1792324389.0885959,
+  "report_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-native-guarded-cancellation-native-report.md"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "source_check": {
+    "command": [
+      "git",
+      "diff",
+      "22dbc9a07f11b778bf3c061bf521c9ff14a93677",
+      "--check",
+      "--",
+      "famjet",
+      "validation",
+      "tests",
+      "requirements.lock",
+      "docs/research/task18-native-guarded-cancellation-control.py",
+      "docs/research/task18-owned-root-lifecycle-native-worker.py"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "raw_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-native-guarded-cancellation-native-evidence/original"
+    ],
+    "exit": 2,
+    "diagnostics": [
+      "docs/research/task18-native-guarded-cancellation-native-evidence/original/native/survivor-output/monitor.json:2: trailing whitespace.",
+      "docs/research/task18-native-guarded-cancellation-native-evidence/original/native/survivor-output/monitor.json:2: new blank line at EOF."
+    ],
+    "preserved_log": "raw-padding-diff-check.log"
+  },
+  "all12_original_mappings_staged": true,
+  "scratch_report_equals_durable": true,
+  "native_parent_invocations": 1,
+  "status": "PASS",
+  "monitor": "STOPPED/foreign process identity/root-9",
+  "child_socket_eof": true,
+  "fallback": false,
+  "next_action": "HOLD",
+  "tests_or_native_retry": false
+}

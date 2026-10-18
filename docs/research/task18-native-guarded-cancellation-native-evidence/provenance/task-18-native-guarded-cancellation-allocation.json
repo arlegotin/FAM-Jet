@@ -1,0 +1,25 @@
+{
+  "time_utc": "2026-10-18T11:49:48.222702+00:00",
+  "source_full_git": "22dbc9a07f11b778bf3c061bf521c9ff14a93677",
+  "base": "/private/tmp/t18c-0e9vq89g",
+  "destination": "/private/tmp/t18c-0e9vq89g/native",
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-native-guarded-cancellation-control.py",
+    "/private/tmp/t18c-0e9vq89g/native"
+  ],
+  "source_acceptance": "docs/research/task18-native-guarded-cancellation-input-acceptance.json",
+  "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d",
+  "parent_sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3",
+  "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+  "free_disk_bytes": 18990125056,
+  "thread_variables": 1,
+  "one_parent_invocation": true,
+  "outer_seconds": 10,
+  "case_seconds": 4.5,
+  "reserve_seconds": 0.25,
+  "numerical_or_scientific_release": false,
+  "required_label_precheck": "actual clean HEAD == allocation source == TASK18_SOURCE_GIT"
+}
