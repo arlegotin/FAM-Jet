@@ -63,7 +63,7 @@ The stable runtime mapping binds the resolved launcher and its hash separately
 from this interpreter's observed own-process image and hash, plus exact ps/Git
 artifacts. Runtime mapping contains no transient PID or time. Expected Python
 display replaces only the launch vector's first element with that observed image;
-the original launch vector/hash stays unchanged. Every native sample keeps raw
+the original launch vector/hash stays unchanged. Every accepted native sample keeps raw
 `comm`/`args`, numeric RSS/parent, sampling interval and timed lookup outcome.
 A hash identifies the path file when hashed, not every mapped byte.
 
@@ -123,10 +123,40 @@ descendant blocks completion. Observer RSS remains in absolute totals and is
 charged with baseline zero. Conservative outer/inner observer peaks are added
 to the worker incremental peak, including late declarations after a short
 observer exits. No generic non-Python or basename exemption exists.
-One reconciliation step applies every retained observed peak after event
-ingestion and again at finalization, including baselines/declarations arriving
-after a process exits. The final report's bytes affect its verdict before one
-durable write, so its returned and persisted verdict agree. Native ps waits use
+New observations and genuinely affected pending samples reconcile after event
+ingestion, including late baselines/declarations. Settled identity samples are
+not rescanned every poll. Every new Python sample still needs its own actual
+image proof; this does not carry proof forward by PID. A helper launch instance
+keeps only negative lifetime-consistency bounds, so a later contradictory end
+still invalidates that admission without rescanning its raw history.
+
+`monitor-evidence.jsonl` durably appends complete accepted raw sample batches,
+source witnesses/completions, runtime, source events and separate resolutions
+keyed by sample ID. Its bytes are charged when collected. Partial append failure
+rolls back that unaccepted row, retaining earlier complete rows. A rejected raw
+observation receives full numerical RSS charge and a bounded refusal summary
+marked `raw_identity_complete:false`; it is never called complete raw evidence.
+Counts, RSS sums and per-PID peak totals remain complete even when raw identity
+cannot fit. No raw history is copied into the final verdict.
+
+Before launch the supervisor creates a fixed-size `monitor.json` reservation
+(512..8192 bytes, inside the original output cap), initially `STOPPED` with
+`reason:"monitor incomplete"`. Authority permits exactly these two new monitor
+files plus the existing three log/event names. The final JSON overwrites only
+that reservation and uses whitespace padding; returned and durable verdicts
+agree. Inline worker/phase details are explicitly bounded and labeled when
+incomplete; raw evidence remains in the charged log. A compact independent
+failure commitment handles normal metadata/serialization/write errors after
+whole-group cleanup. A storage device refusing both normal and emergency writes
+cannot yield a durable final record; such failure propagates rather than passing.
+
+Collection reserves at most0.1s (at most10% of short controls) inside the original
+deadline for finalization. Deadline checks cover collection, pending work and
+final reconciliation; a final encoding/write crossing the deadline cannot
+persist `COMPLETED`. `outer_seconds` explicitly ends before the bounded final
+commit, after completed reconciliation and the first bounded summary encoding;
+callers measure full elapsed through return to include that final encoding/write.
+There is no report-size/timestamp fixed-point loop. Native ps waits use
 the smaller of the remaining applicable deadline and a conservative one-second
 observer bound. Timeout/failure kills and reaps the exact observer and owned
 worker group; bounded cleanup time remains failed/charged cost. Authority Git

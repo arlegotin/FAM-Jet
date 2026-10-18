@@ -206,6 +206,11 @@ def entry(seal):
     return deadline
 
 
+def _check_initialized_output(out):
+    if not out.is_dir() or {p.name for p in out.iterdir()}!={'stdout.log','stderr.log','monitor-events.jsonl','monitor-evidence.jsonl','monitor.json'}:
+        raise AuthorityError('initialized output boundary mismatch')
+
+
 def verify(seal,root,*,fresh=True,output_initialized=False,deadline=None,event_path=None):
     """Full live verification, bounded and complete BEFORE backend import."""
     original_deadline=entry(seal)
@@ -256,8 +261,7 @@ def verify(seal,root,*,fresh=True,output_initialized=False,deadline=None,event_p
     out=Path(p['output_directory'])
     if not out.is_absolute() or not out.parent.is_dir(): raise AuthorityError('fresh absolute output directory required')
     if output_initialized:
-        if not out.is_dir() or {p.name for p in out.iterdir()}!={'stdout.log','stderr.log','monitor-events.jsonl'}:
-            raise AuthorityError('initialized output boundary mismatch')
+        _check_initialized_output(out)
     elif out.exists(): raise AuthorityError('fresh absolute output directory required')
     if fresh and (not 0<=time.time()-launch['utc_epoch']<=60 or launch['host_identity']!=current['host_identity'] or
                   launch['free_disk_bytes']<LIMITS['free_disk_bytes'] or shutil.disk_usage(out.parent).free<LIMITS['free_disk_bytes']):

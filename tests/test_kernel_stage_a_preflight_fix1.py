@@ -184,7 +184,8 @@ def test_f3_final_report_overflow_has_one_durable_returned_verdict(tmp_path):
         return m.ResidentTree({pid:1,**{p:1 for p in declarations}},dict(identities,**{} )|declarations,declarations)
     result=m.supervise(command,out,outer_seconds=1,
                        output_bytes=8192,free_disk_bytes=0,sampler=sample)
-    assert result['status']=='STOPPED' and result['reason']=='output cap including final monitor report'
+    assert result['status']=='STOPPED' and result['reason']=='output cap'
+    assert m.directory_bytes(out)<=8192
     assert json.loads((out/'monitor.json').read_text())==result
 
 

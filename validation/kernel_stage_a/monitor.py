@@ -187,228 +187,361 @@ def record_baseline(path,*,deadline=None):
     return record
 
 
+class _MonitorStop(RuntimeError): pass
+
+
+def _bounded_json(value,limit,check=lambda:None):
+    """Stop encoding at the available byte budget; never build a report backlog."""
+    chunks=[]; size=0
+    for chunk in json.JSONEncoder(separators=(',',':'),allow_nan=False).iterencode(value):
+        check(); encoded=chunk.encode(); size+=len(encoded)
+        if size+1>limit: raise _MonitorStop('output cap')
+        chunks.append(encoded)
+    check()
+    return b''.join(chunks)+b'\n'
+
+
+def _commit_monitor(path,payload,reserve):
+    """Overwrite only preallocated verdict space; never grow/rewrite a large report."""
+    if len(payload)>reserve: raise _MonitorStop('output cap')
+    with Path(path).open('r+b') as stream:
+        if stream.write(payload+b' '*(reserve-len(payload)))!=reserve: raise OSError('short monitor write')
+        stream.flush()
+
+
 def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk_bytes=4294967296,
               incremental_bytes=201326592,sampler=process_tree,preparation_output=None,authority_root=None,deadline=None):
-    """Own one sequential stage group and reconcile every retained observation."""
+    """One owned group, charged append-only evidence and a bounded final commitment."""
     output=Path(output)
     if output.exists(): raise ValueError('output must be fresh')
     if shutil.disk_usage(output.parent).free<free_disk_bytes: raise ValueError('disk entry condition')
-    output.mkdir(); start=time.monotonic(); utc=time.time(); reason=None; peak=0
+    if output_bytes<512: raise ValueError('at least 512 bytes for a bounded failure verdict')
+    start=time.monotonic(); utc=time.time(); output.mkdir()
     deadline=min(deadline if deadline is not None else start+outer_seconds,start+outer_seconds,start+600)
-    monitor_failure=None
-    baselines={}; per_worker={}; candidate_start=None; event_offset=0; declarations={}; identities={}
-    native_runtime=None
-    root_samples=[]; native_samples=[]; launch_witnesses=[]; candidate_ranges=[]; incremental_peak=0; overhead_peak=0; authority_peak=0; final_roles={}
+    # This time/space belongs to the original allocation, not an extension.
+    work_deadline=deadline-min(.1,max(0,(deadline-start)*.1))
+    reserve=min(8192,max(512,output_bytes//2)); verdict=output/'monitor.json'; evidence_path=output/'monitor-evidence.jsonl'
+    process=None; reason=None; monitor_failure=None; native_runtime=None; conservative=False
+    peak=0; incremental_peak=0; overhead_peak=0; authority_peak=0; rss_peak_sum=0
+    worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; authority_worker=0; unresolved_sum=0; unresolved_root=0
+    baselines={}; per_worker={}; declarations={}; last_roles={}; failed=set(); native_pids=set(); unresolved_pids=set()
+    pending={}; dependencies={}; dirty=set(); pending_roles={}; helper_bounds={}; sequence=0; classified=0
+    candidate_start=None; candidate_ranges=[]; event_offset=0
+    evidence=dict(path=evidence_path.name,accepted_records=0,accepted_samples=0,bytes=0,
+                  rejected_observations=0,rejected_rss_bytes=0,rejected_raw_complete=True)
     phase=dict(active=False,declarations={},completed=set(),ends={},
                commands=authority.git_commands(authority_root) if authority_root is not None else [],started=False)
     def charged_bytes():
         return directory_bytes(output)+(directory_bytes(preparation_output) if preparation_output is not None else 0)
-    def retain_native(batch):
-        nonlocal peak
-        native_samples.append(batch)
-        peak=max(peak,sum(entry['rss_bytes'] for entry in batch.values()))
-        for pid,entry in batch.items():
-            item=per_worker.setdefault(str(pid),dict(absolute_peak_bytes=0,incremental_peak_bytes=0,baseline_bytes=None))
-            item['absolute_peak_bytes']=max(item['absolute_peak_bytes'],entry['rss_bytes'])
-            item['parent']=entry['parent']
-            if pid==process.pid: root_samples.append((entry['sample_start'],entry['sample_end'],entry['rss_bytes']))
-    def declaration(target,entry):
+    def check(*,final=False):
+        if time.monotonic()>=(deadline if final else work_deadline): raise _MonitorStop('outer timeout')
+        if not final and candidate_start is not None and time.monotonic()>=candidate_start+90: raise _MonitorStop('candidate timeout')
+    def append(record,*,final=False):
+        check(final=final)
+        raw=_bounded_json(record,max(0,output_bytes-charged_bytes()),lambda:check(final=final))
+        original_size=evidence_path.stat().st_size
+        try:
+            with evidence_path.open('ab') as stream:
+                if stream.write(raw)!=len(raw): raise OSError('short monitor evidence write')
+                stream.flush()
+        except BaseException:
+            # Keep every previously accepted JSONL row readable after a short write.
+            with evidence_path.open('r+b') as stream: stream.truncate(original_size)
+            raise
+        evidence['accepted_records']+=1; evidence['bytes']+=len(raw)
+    def charge(pid,*,final=False):
+        nonlocal worker_peak,outer_observer,inner_observer,git_peak,authority_worker,unresolved_sum,unresolved_root,incremental_peak,authority_peak,overhead_peak
+        item=per_worker[str(pid)]; absolute=item['absolute_peak_bytes']
+        role='unaccounted' if pid in failed else ('pending_observer_declaration' if pending_roles.get(pid) else last_roles.get(pid,'pending_baseline'))
+        if role in ('pending_baseline','authority_worker') and pid in baselines and pid not in failed: role='worker'
+        item['role']=role
+        if role in ('worker','observer_helper','authority_helper'): unresolved_pids.discard(pid)
+        else: unresolved_pids.add(pid)
+        unresolved_sum-=item.pop('_unresolved_charge',0)
+        if process is not None and pid==process.pid: unresolved_root=0
+        resource_role='authority_helper' if item.get('sampled_authority_helper') else role
+        if conservative or item.get('_forced_full'):
+            item.update(baseline_bytes=0,incremental_peak_bytes=absolute)
+            if process is not None and pid==process.pid: unresolved_root=absolute
+            else: item['_unresolved_charge']=absolute; unresolved_sum+=absolute
+        elif resource_role=='worker':
+            item.update(baseline_bytes=baselines[pid],incremental_peak_bytes=max(0,absolute-baselines[pid]))
+            worker_peak=max(worker_peak,item['incremental_peak_bytes'])
+        elif resource_role in ('authority_worker','authority_helper','observer_helper'):
+            item.update(baseline_bytes=0,incremental_peak_bytes=absolute)
+            if resource_role=='authority_worker': authority_worker=max(authority_worker,absolute)
+            elif resource_role=='authority_helper': git_peak=max(git_peak,absolute)
+            elif item.get('parent')==os.getpid(): outer_observer=max(outer_observer,absolute)
+            else: inner_observer=max(inner_observer,absolute)
+        elif pid in native_pids and (role!='pending_baseline' or final):
+            item.update(baseline_bytes=0,incremental_peak_bytes=absolute)
+            if process is not None and pid==process.pid: unresolved_root=absolute
+            else: item['_unresolved_charge']=absolute; unresolved_sum+=absolute
+        else: item.update(baseline_bytes=None,incremental_peak_bytes=0)
+        authority_peak=max(authority_peak,authority_worker+git_peak)
+        overhead_peak=max(overhead_peak,outer_observer+inner_observer)
+        incremental_peak=max(incremental_peak,max(worker_peak,authority_peak,unresolved_root)+overhead_peak+unresolved_sum)
+    def numeric(readings,entries):
+        nonlocal peak,rss_peak_sum,authority_worker
+        peak=max(peak,sum(readings.values()))
+        for pid,rss in readings.items():
+            item=per_worker.setdefault(str(pid),dict(absolute_peak_bytes=0,baseline_bytes=None,incremental_peak_bytes=0))
+            previous=item['absolute_peak_bytes']; item['absolute_peak_bytes']=max(previous,rss); rss_peak_sum+=item['absolute_peak_bytes']-previous
+            if pid in entries:
+                item['parent']=entries[pid]['parent']
+                if 'raw_args' in entries[pid]: native_pids.add(pid)
+            if phase['active'] and process is not None and pid==process.pid:
+                authority_worker=max(authority_worker,rss); item['authority_phase_peak_bytes']=authority_worker
+            charge(pid)
+    def refused(readings,exc):
+        nonlocal incremental_peak
+        evidence['rejected_observations']+=1; evidence['rejected_rss_bytes']+=sum(readings.values()); evidence['rejected_raw_complete']=False
+        evidence['last_refusal']=dict(kind='refused_observation',reason=str(exc)[:80],raw_identity_complete=False,
+                                     sampled_process_count=len(readings),rss_bytes=sum(readings.values()))
+        for pid in readings:
+            per_worker[str(pid)]['_forced_full']=True; charge(pid,final=True)
+        incremental_peak=max(incremental_peak,rss_peak_sum)
+    def wake(pid): dirty.update(dependencies.get(pid,()))
+    def declaration(target,entry,*,final=False):
         old=target.get(entry['pid'])
         if old is not None and old.get('launch_id')!=entry.get('launch_id'):
-            old['ambiguous']=True; entry['ambiguous']=True
-        if entry.get('provenance')=='source_owned_launch': launch_witnesses.append(entry.copy())
-        target[entry['pid']]=dict(entry,ambiguous=entry.get('ambiguous',False)) if entry.get('launch_id') else entry
-    def completion(target,event):
+            entry=dict(entry,ambiguous=True); old['ambiguous']=True; failed.add(entry['pid'])
+            if str(entry['pid']) in per_worker: charge(entry['pid'])
+        append(dict(kind='witness',value=entry),final=final)
+        target[entry['pid']]=entry; wake(entry['pid'])
+        if entry.get('ambiguous'): raise _MonitorStop('foreign process identity')
+    def completion(target,event,*,final=False):
         entry=target.get(event['pid'])
-        if entry is None or entry.get('launch_id')!=event.get('launch_id') or entry['parent']!=event['parent']:
-            raise ValueError('ambiguous helper completion')
+        if entry is None or entry.get('launch_id')!=event.get('launch_id') or entry['parent']!=event['parent']: raise ValueError('ambiguous helper completion')
+        append(dict(kind='completion',value=event),final=final)
         if event.get('launch_id'):
-            entry.update(completion_end=event['completion_end'],reaped=event['reaped'])
-            launch_witnesses.append(dict(entry))
-    def read_events():
-        nonlocal event_offset,candidate_start
+            # Negative lifetime consistency only; never supplies image proof to a new sample.
+            bounds=helper_bounds.get(event['launch_id'],(float('-inf'),float('-inf')))
+            end=event['completion_end']
+            if (end<entry['launch_start'] or end<bounds[0] or end<=bounds[1] or
+                    ('completion_end' in entry and end!=entry['completion_end'])):
+                failed.add(event['pid'])
+                if str(event['pid']) in per_worker: charge(event['pid'])
+                raise _MonitorStop('foreign process identity')
+            entry.update(completion_end=end,reaped=event['reaped'])
+        wake(event['pid'])
+    def reader_context(before,after):
+        if authority_root is None: return None
+        bounds=[min(deadline,a+90) for a,b in candidate_ranges if after>=a and before<=(b if b is not None else float('inf'))]
+        return dict(root=authority_root,event_path=output/'monitor-events.jsonl',deadline=max(bounds)) if bounds else None
+    def collect(readings,entries,before,after,*,final=False):
+        nonlocal sequence
+        numeric(readings,entries)  # BEFORE any encoding, identity or event failure.
+        sequence+=1
+        try: append(dict(kind='sample',sample_id=sequence,rss=readings,processes=list(entries.values()),before=before,after=after),final=final)
+        except BaseException as exc:
+            refused(readings,exc); raise
+        evidence['accepted_samples']+=1
+        pending[sequence]=dict(entries=entries,before=before,after=after,roles={},context=None)
+        dirty.add(sequence)
+        check(final=final)
+    def read_events(*,final=False):
+        nonlocal event_offset,candidate_start,authority_worker
         path=output/'monitor-events.jsonl'
-        if not path.exists(): return
         with path.open() as stream:
             stream.seek(event_offset)
             while True:
-                position=stream.tell(); line=stream.readline()
-                if not line or not line.endswith('\n'):
-                    event_offset=position; break
-                event=json.loads(line); kind=event['event']
-                if kind=='baseline': baselines[event['pid']]=event['rss']
-                elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')})
-                elif kind=='observer_helper_end': completion(declarations,event)
-                elif kind=='observer_sample':
-                    retain_native({entry['pid']:entry for entry in event['processes']})
-                elif kind=='candidate_start':
-                    candidate_start=event['monotonic']; candidate_ranges.append([candidate_start,None])
-                elif kind=='candidate_end':
-                    if candidate_ranges and candidate_ranges[-1][1] is None: candidate_ranges[-1][1]=event['monotonic']
-                    candidate_start=None
-                elif kind=='authority_start':
-                    if event['pid']!=process.pid or phase['started'] or baselines or candidate_start is not None:
-                        raise ValueError('invalid authority phase start')
-                    phase.update(active=True,started=True,start=event['monotonic'])
-                elif kind=='authority_helper':
-                    entry={k:v for k,v in event.items() if k not in ('event','monotonic')}
-                    if not phase['active'] or entry['parent']!=process.pid or entry['executable']!=authority.GIT or entry['argv'] not in phase['commands'] or entry['pid'] in phase['declarations']:
-                        raise ValueError('undeclared authority identity/operation')
-                    declaration(phase['declarations'],entry)
-                elif kind=='authority_helper_end':
-                    if not phase['active'] or event['pid'] not in phase['declarations'] or event['parent']!=process.pid:
-                        raise ValueError('invalid authority helper lifetime')
-                    completion(phase['declarations'],event)
-                    phase['completed'].add(event['pid']); phase['ends'][event['pid']]=event['monotonic']
-                elif kind=='authority_end':
-                    if not phase['active'] or event['pid']!=process.pid: raise ValueError('invalid authority phase end')
-                    if event['success'] and (set(phase['declarations'])!=phase['completed'] or
-                       sorted(entry['argv'] for entry in phase['declarations'].values())!=sorted(phase['commands'])):
-                        raise ValueError('incomplete exact authority operations')
-                    phase.update(active=False,end=event['monotonic'],success=event['success'])
-                else: raise ValueError('unknown monitoring event')
-    def reader_context(before=None,after=None):
-        if authority_root is None: return None
-        bound=deadline
-        if before is not None:
-            bounds=[min(deadline,a+90) for a,b in candidate_ranges if after>=a and before<=(b if b is not None else float('inf'))]
-            if not bounds: return None
-            bound=max(bounds)
-        return dict(root=authority_root,event_path=output/'monitor-events.jsonl',deadline=bound)
+                check(final=final); position=stream.tell(); line=stream.readline(output_bytes+1)
+                if len(line)>output_bytes: raise _MonitorStop('output cap')
+                if not line or not line.endswith('\n'): event_offset=position; break
+                event_offset=stream.tell(); event=json.loads(line); kind=event['event']
+                if kind=='observer_sample':
+                    entries={entry['pid']:entry for entry in event['processes']}
+                    first=next(iter(entries.values()))
+                    collect({pid:entry['rss_bytes'] for pid,entry in entries.items()},entries,first['sample_start'],first['sample_end'],final=final)
+                elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')},final=final)
+                elif kind=='observer_helper_end': completion(declarations,event,final=final)
+                else:
+                    append(dict(kind='event',value=event),final=final)
+                    if kind=='baseline':
+                        baselines[event['pid']]=event['rss']; wake(event['pid'])
+                        if str(event['pid']) in per_worker: charge(event['pid'])
+                    elif kind=='candidate_start': candidate_start=event['monotonic']; candidate_ranges.append([candidate_start,None])
+                    elif kind=='candidate_end':
+                        if candidate_ranges and candidate_ranges[-1][1] is None: candidate_ranges[-1][1]=event['monotonic']
+                        candidate_start=None
+                    elif kind=='authority_start':
+                        if event['pid']!=process.pid or phase['started'] or baselines or candidate_start is not None: raise ValueError('invalid authority phase start')
+                        phase.update(active=True,started=True,start=event['monotonic']); wake(process.pid)
+                    elif kind=='authority_helper':
+                        entry={k:v for k,v in event.items() if k not in ('event','monotonic')}
+                        if not phase['active'] or entry['parent']!=process.pid or entry['executable']!=authority.GIT or entry['argv'] not in phase['commands'] or entry['pid'] in phase['declarations']: raise ValueError('undeclared authority identity/operation')
+                        declaration(phase['declarations'],entry,final=final)
+                    elif kind=='authority_helper_end':
+                        if not phase['active'] or event['pid'] not in phase['declarations'] or event['parent']!=process.pid: raise ValueError('invalid authority helper lifetime')
+                        completion(phase['declarations'],event,final=final)
+                        phase['completed'].add(event['pid']); phase['ends'][event['pid']]=event['monotonic']
+                    elif kind=='authority_end':
+                        if not phase['active'] or event['pid']!=process.pid: raise ValueError('invalid authority phase end')
+                        if event['success'] and (set(phase['declarations'])!=phase['completed'] or sorted(entry['argv'] for entry in phase['declarations'].values())!=sorted(phase['commands'])): raise ValueError('incomplete exact authority operations')
+                        phase.update(active=False,end=event['monotonic'],success=event['success'])
+                        for entry in phase['declarations'].values():
+                            if entry.get('completion_end',event['monotonic'])>event['monotonic']:
+                                failed.add(entry['pid'])
+                                if str(entry['pid']) in per_worker: charge(entry['pid'])
+                                raise _MonitorStop('foreign process identity')
+                        wake(process.pid)
+                    else: raise ValueError('unknown monitoring event')
     def reconcile(*,final=False):
-        nonlocal incremental_peak,overhead_peak,authority_peak,final_roles
-        # Historical identities remain attributable after their exact lifetime.
-        historical=dict(phase,active=False)
-        final_roles=classify(process.pid,identities,baselines,declarations,authority_phase=historical,current_pids=set(),stage_vector=command,reader_context=reader_context())
-        native_roles={}
-        for batch in native_samples:
-            first=next(iter(batch.values()))
-            before,after=first['sample_start'],first['sample_end']
+        nonlocal classified
+        while dirty:
+            check(final=final); identifier=dirty.pop(); batch=pending.get(identifier)
+            if batch is None: continue
+            entries=batch['entries']; before,after=batch['before'],batch['after']
+            for pid,role in batch['roles'].items():
+                pending_roles.get(pid,set()).discard(identifier)
             sample_phase=dict(phase,active=phase['started'] and after>=phase.get('start',float('inf')) and before<=phase.get('end',float('inf')))
-            resolved=classify(process.pid,batch,baselines,declarations,authority_phase=sample_phase,
-                              stage_vector=command,reader_context=reader_context(before,after),runtime_identity=native_runtime)
+            live={pid for pid in entries if phase['ends'].get(pid,float('-inf'))<before}
+            context=reader_context(before,after)
+            resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
+                              stage_vector=command,reader_context=context,runtime_identity=native_runtime)
+            classified+=len(entries)
+            # Identity history is immutable evidence, never a per-PID proof cache.
             for pid,role in resolved.items():
-                if role=='authority_worker' and pid in baselines: role='worker'
-                previous=native_roles.get(pid)
-                if previous=='unaccounted' or role=='unaccounted': native_roles[pid]='unaccounted'
-                elif previous is not None and previous.startswith('pending_'): continue
-                else: native_roles[pid]=role
-        final_roles.update(native_roles)
-        worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; unresolved_peak=0; unresolved_root=0
-        for pid_text,item in per_worker.items():
-            pid=int(pid_text); role=final_roles.get(pid,'pending_baseline'); item['role']=role
-            # A sampled exact live admission is retained as a resource charge,
-            # even if termination prevents its helper-end event. This does not
-            # extend that helper's identity exception beyond its lifetime.
-            charge_role='authority_helper' if item.get('sampled_authority_helper') else role
-            absolute=item['absolute_peak_bytes']
-            if charge_role=='worker':
-                item['baseline_bytes']=baselines[pid]
-                item['incremental_peak_bytes']=max(0,absolute-baselines[pid])
-                worker_peak=max(worker_peak,item['incremental_peak_bytes'])
-            elif charge_role in ('observer_helper','authority_helper'):
-                item['baseline_bytes']=0; item['incremental_peak_bytes']=absolute
-                if charge_role=='authority_helper': git_peak=max(git_peak,absolute)
-                elif item.get('parent',identities.get(pid,{}).get('parent'))==os.getpid(): outer_observer=max(outer_observer,absolute)
-                else: inner_observer=max(inner_observer,absolute)
-            elif pid in native_roles and (role!='pending_baseline' or final):
-                item['baseline_bytes']=0; item['incremental_peak_bytes']=absolute
-                if pid==process.pid: unresolved_root=absolute
-                else: unresolved_peak+=absolute
-            else: item['baseline_bytes']=None
-        if phase['started']:
-            end=phase.get('end',float('inf'))
-            authority_worker=max((rss for before,after,rss in root_samples if after>=phase['start'] and before<=end),default=0)
-            authority_peak=max(authority_peak,authority_worker+git_peak)
-            item=per_worker.get(str(process.pid))
-            if item is not None: item['authority_phase_peak_bytes']=authority_worker
-        overhead_peak=max(overhead_peak,outer_observer+inner_observer)
-        # These conservative peaks may come from different instants; no sampled
-        # worker/helper evidence is discarded when its declaration arrives late.
-        incremental_peak=max(incremental_peak,max(worker_peak,authority_peak,unresolved_root)+overhead_peak+unresolved_peak)
-    with (output/'stdout.log').open('wb') as stdout,(output/'stderr.log').open('wb') as stderr:
-        process=subprocess.Popen(command,cwd=output,stdout=stdout,stderr=stderr,start_new_session=True,close_fds=True)
-        try:
-            while process.poll() is None:
-                if time.monotonic()>=deadline: reason='outer timeout'; break
-                if charged_bytes()>output_bytes-4096: reason='output cap'; break
-                if shutil.disk_usage(output).free<free_disk_bytes: reason='disk free prerequisite'; break
-                read_events(); reconcile()
-                if candidate_start is not None and time.monotonic()-candidate_start>=90:
-                    reason='candidate timeout'; break
-                before=time.monotonic()
-                applicable=min(deadline,candidate_start+90 if candidate_start is not None else deadline)
-                if sampler is process_tree:
-                    if native_runtime is None: native_runtime=authority.runtime()
-                    readings=sampler(process.pid,authority_root=authority_root,deadline=applicable,runtime_identity=native_runtime)
-                else: readings=sampler(process.pid)
-                after=time.monotonic()
-                observed=getattr(readings,'processes',{})
-                native={pid:entry for pid,entry in observed.items() if 'raw_args' in entry}
-                if native: retain_native(native)
-                identities.update({pid:entry for pid,entry in observed.items() if 'raw_args' not in entry})
-                peak=max(peak,sum(readings.values()))
-                if process.pid in readings: root_samples.append((before,after,readings[process.pid]))
-                for pid,rss in readings.items():
-                    item=per_worker.setdefault(str(pid),dict(absolute_peak_bytes=0,incremental_peak_bytes=0,baseline_bytes=None))
-                    item['absolute_peak_bytes']=max(item['absolute_peak_bytes'],rss)
-                    if pid in observed: item['parent']=observed[pid]['parent']
-                # All numeric RSS is retained before events or identity resolution.
-                if native and native_runtime is None: native_runtime=authority.runtime()
-                for entry in getattr(readings,'declarations',{}).values(): declaration(declarations,entry)
-                read_events()
-                # A completed helper observed during this sampling interval is
-                # historical, not an authority exception extending past phase end.
-                live={pid for pid in readings if phase['ends'].get(pid,float('-inf'))<before}
-                sampled_phase=dict(phase,active=phase['started'] and after>=phase.get('start',float('inf')) and before<=phase.get('end',float('inf')))
-                roles=classify(process.pid,identities|native,baselines,declarations,authority_phase=sampled_phase,current_pids=live,
-                               stage_vector=command,reader_context=reader_context(before,after),runtime_identity=native_runtime)
-                for pid in readings:
-                    if roles.get(pid)=='authority_helper': per_worker[str(pid)]['sampled_authority_helper']=True
-                reconcile()
-                if any(roles.get(pid)=='unaccounted' for pid in readings): reason='foreign process identity'; break
-                if incremental_peak>incremental_bytes: reason='incremental worker memory cap'; break
-                time.sleep(.02)
-        except ObserverFailure as exc:
-            reason=str(exc); monitor_failure=exc.evidence
-        except Exception as exc:
-            reason='monitor common failure'; monitor_failure=dict(type=type(exc).__name__,message=str(exc))
-        finally:
-            try: os.killpg(process.pid,signal.SIGKILL)
-            except ProcessLookupError: pass
-            process.wait(timeout=1)
-    try: read_events(); reconcile(final=True)
+                if role=='unaccounted': failed.add(pid)
+                if role=='authority_helper': per_worker.get(str(pid),{})['sampled_authority_helper']=True
+                if role in ('authority_helper','observer_helper') and 'raw_args' in entries[pid]:
+                    declared=phase['declarations'].get(pid) if role=='authority_helper' else declarations.get(pid)
+                    launch_id=declared['launch_id']; prior=helper_bounds.get(launch_id,(float('-inf'),float('-inf')))
+                    image=entries[pid].get('image',{})
+                    helper_bounds[launch_id]=(max(prior[0],entries[pid]['sample_start']),
+                        max(prior[1],image.get('lookup_start',float('-inf'))) if image.get('status')=='ok' else prior[1])
+                last_roles[pid]=role
+                if role.startswith('pending_') and not (role=='pending_baseline' and pid in native_pids): pending_roles.setdefault(pid,set()).add(identifier)
+                if str(pid) in per_worker: charge(pid,final=final)
+            batch['roles']=resolved
+            check(final=final)
+            append(dict(kind='resolution',sample_id=identifier,roles=resolved,
+                        identities={pid:entry.get('identity') for pid,entry in entries.items() if 'raw_args' in entry}),final=final)
+            waiting={pid for pid,role in resolved.items() if role.startswith('pending_') and not (role=='pending_baseline' and pid in native_pids)}
+            if waiting:
+                for pid in waiting: dependencies.setdefault(pid,set()).add(identifier)
+            else:
+                pending.pop(identifier,None)
+                for pid in entries:
+                    dependencies.get(pid,set()).discard(identifier)
+            if any(role=='unaccounted' for role in resolved.values()): raise _MonitorStop('foreign process identity')
+            if incremental_peak>incremental_bytes: raise _MonitorStop('incremental worker memory cap')
+    def failure(exc):
+        nonlocal reason,monitor_failure,conservative,incremental_peak
+        if isinstance(exc,_MonitorStop):
+            if reason is None or str(exc)=='outer timeout': reason=str(exc)
+        elif isinstance(exc,ObserverFailure): reason=str(exc); monitor_failure=exc.evidence
+        else:
+            reason='monitor common failure'; monitor_failure=dict(type=type(exc).__name__,message=str(exc)[:300]); conservative=True
+            incremental_peak=max(incremental_peak,rss_peak_sum)
+    def emergency(why):
+        # Independent of the normal JSON encoder and Path write boundary.
+        body=('{"status":"STOPPED","reason":"'+why+'","returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
+              ',"absolute_process_tree_peak_bytes":'+str(peak)+',"incremental_worker_peak_bytes":'+str(max(incremental_peak,rss_peak_sum))+
+              ',"outer_seconds":'+repr(time.monotonic()-start)+',"timing_boundary":"before bounded emergency commit; caller measures full elapsed"}\n').encode()
+        return body
+    initial=emergency('monitor incomplete')
+    with verdict.open('xb') as stream: stream.write(initial+b' '*(reserve-len(initial)))
+    evidence_path.touch(); (output/'monitor-events.jsonl').touch()
+    try:
+        check()
+        if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
+        with (output/'stdout.log').open('wb') as stdout,(output/'stderr.log').open('wb') as stderr:
+            process=subprocess.Popen(command,cwd=output,stdout=stdout,stderr=stderr,start_new_session=True,close_fds=True)
+            try:
+                while process.poll() is None:
+                    check()
+                    if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
+                    if shutil.disk_usage(output).free<free_disk_bytes: raise _MonitorStop('disk free prerequisite')
+                    read_events(); reconcile()
+                    before=time.monotonic(); applicable=min(work_deadline,candidate_start+90 if candidate_start is not None else work_deadline)
+                    if sampler is process_tree:
+                        if native_runtime is None:
+                            native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
+                        readings=sampler(process.pid,authority_root=authority_root,deadline=applicable,runtime_identity=native_runtime)
+                    else: readings=sampler(process.pid)
+                    after=time.monotonic(); entries=getattr(readings,'processes',{})
+                    collect(dict(readings),entries,before,after)
+                    if any('raw_args' in entry for entry in entries.values()) and native_runtime is None:
+                        native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
+                    for entry in getattr(readings,'declarations',{}).values(): declaration(declarations,entry)
+                    read_events(); reconcile(); check()
+                    time.sleep(.02)
+            except (Exception,) as exc: failure(exc)
+            finally:
+                try: os.killpg(process.pid,signal.SIGKILL)
+                except ProcessLookupError: pass
+                process.wait(timeout=1)
+    except Exception as exc: failure(exc)
+    finalization_start=time.monotonic()
+    try:
+        check(final=True)
+        if process is not None: read_events(final=True); reconcile(final=True)
+        for pid_text in per_worker:
+            check(final=True); charge(int(pid_text),final=True)
+        if incremental_peak>incremental_bytes and reason is None: reason='incremental worker memory cap'
     except Exception as exc:
-        if reason is None: reason='monitor common failure'
-        monitor_failure=dict(type=type(exc).__name__,message=str(exc))
-    if monitor_failure is not None and native_samples:
-        # Failed event/identity reconciliation never erases a numeric charge.
-        native_pids={pid for batch in native_samples for pid in batch}
-        for pid in native_pids:
-            item=per_worker[str(pid)]; item['baseline_bytes']=0
-            item['incremental_peak_bytes']=item['absolute_peak_bytes']
-        incremental_peak=max(incremental_peak,sum(per_worker[str(pid)]['absolute_peak_bytes'] for pid in native_pids))
-    if incremental_peak>incremental_bytes and reason is None: reason='incremental worker memory cap'
-    unresolved=[pid for pid in per_worker if final_roles.get(int(pid)) not in ('worker','observer_helper','authority_helper')]
-    if unresolved and reason is None: reason='missing post-import worker baseline or unresolved declaration'
+        failure(exc)
+        if not isinstance(exc,_MonitorStop) or str(exc)=='outer timeout':
+            conservative=True; incremental_peak=max(incremental_peak,rss_peak_sum)
+    unresolved_count=len(unresolved_pids); unresolved=[]
+    # Final summaries are bounded while traversing; raw histories stay in the log.
+    workers={}; workers_complete=True
+    for pid in unresolved_pids:
+        unresolved.append(str(pid))
+        if len(unresolved)==16: break
+    for pid_text,item in per_worker.items():
+        if len(workers)==16: workers_complete=False; break
+        clean={k:v for k,v in item.items() if not k.startswith('_')}
+        if conservative or item.get('_forced_full'): clean.update(baseline_bytes=0,incremental_peak_bytes=item['absolute_peak_bytes'])
+        workers[pid_text]=clean
+    if unresolved_count and reason is None: reason='missing post-import worker baseline or unresolved declaration'
     if phase['started'] and (phase['active'] or not phase.get('success')) and reason is None: reason='authority verification incomplete/failed'
-    result=dict(status='STOPPED' if reason or process.returncode else 'COMPLETED',reason=reason,
-                monitor_failure=monitor_failure,runtime_identity=native_runtime,
-                process_samples=[entry for batch in native_samples for entry in batch.values()],
-                source_launch_witnesses=launch_witnesses,
-                stage_launch_vector_sha256=commands.vector_hash(command),
-                argv_observation='exact source-generated expected native display; not arbitrary argv-byte certification',
-                returncode=process.returncode,outer_seconds=time.monotonic()-start,utc_start_epoch=utc,
-                utc_end_epoch=time.time(),absolute_process_tree_peak_bytes=peak,incremental_worker_peak_bytes=incremental_peak,
-                workers=per_worker,observer_helper_peak_bytes=overhead_peak,
-                observer_helper_charge='full RSS, baseline zero; conservative observed helper peaks added to worker peak',
-                authority_phase=dict(phase,completed=sorted(phase['completed'])),authority_full_rss_peak_bytes=authority_peak,
-                output_bytes_before_monitor_report=charged_bytes(),timer_resolution=time.get_clock_info('monotonic').resolution,
-                rss_poll_seconds=.02,rss_scope='sampled resident memory; not allocator peak',missing_worker_baselines=unresolved)
-    raw=json.dumps(result,indent=2)+'\n'
-    if charged_bytes()+len(raw.encode())>output_bytes and reason is None:
-        result.update(status='STOPPED',reason='output cap including final monitor report')
-        raw=json.dumps(result,indent=2)+'\n'
-    # One final serialization after any verdict change, one durable write.
-    (output/'monitor.json').write_text(raw)
-    return result
+    if charged_bytes()>output_bytes and reason is None: reason='output cap'
+    try:
+        phase_complete=len(phase['declarations'])<=16 and len(phase['completed'])<=16
+        phase_summary=dict(phase,completed=sorted(phase['completed']) if phase_complete else [],
+                           declarations=phase['declarations'] if phase_complete else {},
+                           ends=phase['ends'] if phase_complete else {},
+                           details_complete_inline=phase_complete,helper_count=len(phase['declarations']),completed_count=len(phase['completed']))
+        result=dict(status='STOPPED' if reason or process is None or process.returncode else 'COMPLETED',reason=reason,monitor_failure=monitor_failure,
+                    stage_launch_vector_sha256=commands.vector_hash(command),returncode=process.returncode if process is not None else None,
+                    outer_seconds=time.monotonic()-start,utc_start_epoch=utc,utc_end_epoch=time.time(),
+                    timing_boundary='before bounded final commit; caller must measure full elapsed including commit',
+                    finalization_start_seconds=finalization_start-start,
+                    absolute_process_tree_peak_bytes=peak,incremental_worker_peak_bytes=incremental_peak,
+                    observed_pid_peak_sum_bytes=rss_peak_sum,workers=workers,workers_complete_inline=workers_complete,worker_count=len(per_worker),
+                    observer_helper_peak_bytes=overhead_peak,authority_full_rss_peak_bytes=authority_peak,
+                    authority_phase=phase_summary,
+                    missing_worker_baselines=unresolved,unresolved_worker_count=unresolved_count,evidence=evidence,
+                    classified_process_observations=classified,verdict_reserved_bytes=reserve,
+                    rss_scope='sampled resident memory; not allocator peak')
+        try: _bounded_json(result,reserve)
+        except _MonitorStop:
+            result.update(workers={},workers_complete_inline=False,
+                          authority_phase={k:phase[k] for k in ('active','started')})
+            if result['reason'] is None: result.update(status='STOPPED',reason='output cap including final monitor report')
+        # Includes the completed bounded summary traversal/first encoding.
+        result['outer_seconds']=time.monotonic()-start
+        result['output_bytes_before_monitor_report']=charged_bytes()
+        if time.monotonic()>=deadline: result.update(status='STOPPED',reason='outer timeout')
+        raw=_bounded_json(result,reserve)
+        if time.monotonic()>=deadline:
+            result.update(status='STOPPED',reason='outer timeout',outer_seconds=time.monotonic()-start)
+            # One bounded last encoding, never a size/timestamp fixed point.
+            raw=_bounded_json(result,reserve)
+        _commit_monitor(verdict,raw,reserve)
+        if time.monotonic()>=deadline and result['status']=='COMPLETED': raise _MonitorStop('outer timeout')
+        return result
+    except Exception as exc:
+        raw=emergency(str(exc) if isinstance(exc,_MonitorStop) else 'monitor serialization/write failure')
+        fd=os.open(verdict,os.O_WRONLY)
+        try:
+            payload=raw+b' '*(reserve-len(raw)); written=0
+            while written<len(payload):
+                count=os.write(fd,payload[written:])
+                if count<=0: raise OSError('short emergency monitor write')
+                written+=count
+        finally: os.close(fd)
+        return json.loads(raw)

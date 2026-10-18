@@ -29,6 +29,17 @@ def witness(pid,parent,vector,helper='ps'):
                 artifact=identity()['helpers'][helper],launch_start=11.,completion_end=14.,reaped=True)
 
 
+def retained_evidence(out):
+    import json
+    records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+    batches={row['sample_id']:row['processes'] for row in records if row['kind']=='sample'}
+    for row in records:
+        if row['kind']=='resolution':
+            for entry in batches[row['sample_id']]:
+                if str(entry['pid']) in row['identities']: entry['identity']=row['identities'][str(entry['pid'])]
+    return [entry for batch in batches.values() for entry in batch],[row['value'] for row in records if row['kind']=='witness']
+
+
 def test_native_display_uses_observed_image_without_changing_launch_vector(tmp_path):
     assert hasattr(c,'native_display')
     vector=c.stage_command(tmp_path,tmp_path/'seal with spaces')
@@ -157,7 +168,7 @@ def test_native_unresolved_python_failure_preserves_full_rss(tmp_path,monkeypatc
     assert result['reason']=='foreign process identity'
     item=next(iter(result['workers'].values()))
     assert item['absolute_peak_bytes']==70 and item['baseline_bytes']==0 and item['incremental_peak_bytes']==70
-    assert result['incremental_worker_peak_bytes']>=70 and result['process_samples'][0]['image']['errno']==errno.ESRCH
+    assert result['incremental_worker_peak_bytes']>=70 and retained_evidence(tmp_path/'unresolved')[0][0]['image']['errno']==errno.ESRCH
 
 
 @pytest.mark.parametrize('reuse',[False,True])
@@ -194,10 +205,10 @@ def test_late_native_witness_reconciles_history_without_authorizing_reuse(tmp_pa
     if reuse:
         assert result['status']=='STOPPED' and helper in result['missing_worker_baselines']
         assert result['workers'][helper]['role']=='unaccounted'
-        assert len({row['launch_id'] for row in result['source_launch_witnesses']})==2
+        assert len({row['launch_id'] for row in retained_evidence(out)[1]})==2
     else:
         assert result['status']=='COMPLETED',result
-        observed=next(row for row in result['process_samples'] if row['pid']==int(helper))
+        observed=next(row for row in retained_evidence(out)[0] if row['pid']==int(helper))
         assert observed['identity']['image_evidence']=='unavailable_exited'
 
 
@@ -261,7 +272,7 @@ def test_python_success_and_later_missing_image_are_distinct_retained_samples(tm
         return m.ResidentTree({pid:70},{pid:entry})
     result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0)
     assert result['reason']=='foreign process identity'
-    assert [row['identity']['image_evidence'] for row in result['process_samples']]==['kernel_image','unresolved']
+    assert [row['identity']['image_evidence'] for row in retained_evidence(out)[0]]==['kernel_image','unresolved']
     assert result['incremental_worker_peak_bytes']>=70
 
 
