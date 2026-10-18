@@ -1,0 +1,133 @@
+{
+  "source_base": "c0e66464ea5e5361bccf007786ee8f80a6b903fc",
+  "source_commit": "d95bfaf",
+  "timestamps": "The tools did not capture absolute start/end epochs. Nulls are intentional, not estimated.",
+  "attempts": [
+    {
+      "id": "startup-no-pytest",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "-k",
+        "asynchronous_root_rss or positive_root_rss"
+      ],
+      "exit": 1,
+      "tool_reported_wall_seconds": 0.000007834,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": null,
+      "archive_specimens": null,
+      "log": "logs/red-startup-no-pytest.log",
+      "notes": "PATH selected /Volumes/git/legotin/golden-board/.venv/bin/python; pytest unavailable."
+    },
+    {
+      "id": "red-positive-rss",
+      "command": [
+        "/Users/artemlegotin/anaconda3/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "-k",
+        "asynchronous_root_rss or positive_root_rss"
+      ],
+      "exit": 1,
+      "tool_reported_wall_seconds": 0.619112708,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4364",
+      "archive_specimens": "specimens/red-positive-rss",
+      "log": "logs/red-positive-rss.log",
+      "notes": "Four expected behavior failures; one poll=None case passed. Source snapshot was not captured before this run."
+    },
+    {
+      "id": "green-interrupted",
+      "command": [
+        "/Users/artemlegotin/anaconda3/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_owned_root_terminal.py"
+      ],
+      "exit": 130,
+      "tool_reported_wall_seconds": 30.001820209,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4365",
+      "archive_specimens": "specimens/green-interrupted",
+      "log": "logs/green-interrupted-prefix.log",
+      "notes": "66 test dots printed; Ctrl-C sent after pytest session cleanup stalled in recursive removal of unrelated numbered temp roots. Exit 130. Prefix and tool-returned traceback retained; no live on-disk full log."
+    },
+    {
+      "id": "green-focused-anaconda",
+      "command": [
+        "/Users/artemlegotin/anaconda3/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "--basetemp=/private/tmp/t18async-green-1"
+      ],
+      "exit": 0,
+      "tool_reported_wall_seconds": 0.683167458,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": "/private/tmp/t18async-green-1",
+      "archive_specimens": "specimens/green-focused-anaconda",
+      "log": "logs/green-focused-anaconda.log",
+      "notes": "66 passed."
+    },
+    {
+      "id": "green-focused-venv",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "--basetemp=/private/tmp/t18async-green-2"
+      ],
+      "exit": 0,
+      "tool_reported_wall_seconds": 0.393061333,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": "/private/tmp/t18async-green-2",
+      "archive_specimens": "specimens/green-focused-venv",
+      "log": "logs/green-focused-venv.log",
+      "notes": "66 passed under repository virtual environment."
+    },
+    {
+      "id": "affected-cover",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_terminal_lifecycle.py",
+        "tests/test_kernel_stage_a_python_lifetime.py",
+        "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+        "tests/test_kernel_stage_a_native_process.py",
+        "tests/test_kernel_stage_a_native_process_fix1.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py",
+        "tests/test_kernel_stage_a_native_process_fix3.py",
+        "-k",
+        "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+        "-q",
+        "--basetemp=/private/tmp/t18async-cover-1",
+        "-ra"
+      ],
+      "exit": 0,
+      "tool_reported_wall_seconds": 2.060486708,
+      "started_epoch": null,
+      "end_epoch": null,
+      "original_specimens": "/private/tmp/t18async-cover-1",
+      "archive_specimens": "specimens/affected-cover",
+      "log": "logs/affected-cover.log",
+      "notes": "Single affected cover; 286 passed, 6 native/scientific-operation deselected."
+    }
+  ]
+}

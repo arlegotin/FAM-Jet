@@ -1,0 +1,57 @@
+{
+  "executed": false,
+  "parent": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-native-control.py",
+    "bytes": 13077,
+    "sha256": "e09582ddd07a3d667b5ab7bfc3b080e717503c43396b82aabd3d81e054a3f71c"
+  },
+  "worker": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+    "bytes": 2372,
+    "sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5"
+  },
+  "old_parent": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+    "bytes": 12886,
+    "sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352"
+  },
+  "parent_vector": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-native-control.py",
+    "<fresh separately allocated destination>"
+  ],
+  "worker_vectors": [
+    [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-I",
+      "-B",
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+      "empty",
+      "<destination>/empty.socket",
+      "<repr(actual case deadline)>"
+    ],
+    [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-I",
+      "-B",
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+      "survivor",
+      "<destination>/survivor.socket",
+      "<repr(actual case deadline)>"
+    ]
+  ],
+  "allocation_seconds": 10,
+  "ordered_cases": [
+    "empty",
+    "survivor"
+  ],
+  "case_seconds": 4.5,
+  "reserve_seconds": 0.25,
+  "incremental_bytes": 201326592,
+  "output_bytes": 67108864,
+  "worker_threads": 1,
+  "dynamic_slots": "Destination, actual executable choice and monotonic deadlines await separate allocation; no concrete runtime vector hash exists.",
+  "static_ast_only": true
+}

@@ -1,0 +1,94 @@
+FFF.F                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[214876160-0-232079360-5357568] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4364/test_asynchronous_root_rss_qua0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1031d9a90>
+terminal_rss = 214876160, membership_rss = 0, absolute_peak = 232079360
+incremental_peak = 5357568
+
+    @pytest.mark.parametrize(('terminal_rss','membership_rss','absolute_peak','incremental_peak'),[
+        (214876160,0,232079360,5357568),
+        (0,238000000,238000000,11278208),
+        (236000000,240000000,240000000,13278208),
+    ])
+    def test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak(
+            tmp_path,monkeypatch,terminal_rss,membership_rss,absolute_peak,incremental_peak):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,
+            terminal_rss=terminal_rss,membership_rss=membership_rss)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_owned_root_terminal.py:168: AssertionError
+_ test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[0-238000000-238000000-11278208] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4364/test_asynchronous_root_rss_qua1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1030e0510>
+terminal_rss = 0, membership_rss = 238000000, absolute_peak = 238000000
+incremental_peak = 11278208
+
+    @pytest.mark.parametrize(('terminal_rss','membership_rss','absolute_peak','incremental_peak'),[
+        (214876160,0,232079360,5357568),
+        (0,238000000,238000000,11278208),
+        (236000000,240000000,240000000,13278208),
+    ])
+    def test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak(
+            tmp_path,monkeypatch,terminal_rss,membership_rss,absolute_peak,incremental_peak):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,
+            terminal_rss=terminal_rss,membership_rss=membership_rss)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_owned_root_terminal.py:168: AssertionError
+_ test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[236000000-240000000-240000000-13278208] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4364/test_asynchronous_root_rss_qua2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x103100e90>
+terminal_rss = 236000000, membership_rss = 240000000, absolute_peak = 240000000
+incremental_peak = 13278208
+
+    @pytest.mark.parametrize(('terminal_rss','membership_rss','absolute_peak','incremental_peak'),[
+        (214876160,0,232079360,5357568),
+        (0,238000000,238000000,11278208),
+        (236000000,240000000,240000000,13278208),
+    ])
+    def test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak(
+            tmp_path,monkeypatch,terminal_rss,membership_rss,absolute_peak,incremental_peak):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,
+            terminal_rss=terminal_rss,membership_rss=membership_rss)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_owned_root_terminal.py:168: AssertionError
+________ test_positive_root_rss_over_cap_stops_after_valid_attribution _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4364/test_positive_root_rss_over_ca0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10312fb90>
+
+    def test_positive_root_rss_over_cap_stops_after_valid_attribution(tmp_path,monkeypatch):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,
+            terminal_rss=236000000,membership_rss=240000000,incremental_bytes=6000000)
+>       assert any(r['kind']=='cleanup_terminal_qualification' and
+                   r['route']=='source_owned_root_lifecycle' for r in records)
+E       assert False
+E        +  where False = any(<generator object test_positive_root_rss_over_cap_stops_after_valid_attribution.<locals>.<genexpr> at 0x1031f5490>)
+
+tests/test_kernel_stage_a_owned_root_terminal.py:190: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[214876160-0-232079360-5357568]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[0-238000000-238000000-11278208]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak[236000000-240000000-240000000-13278208]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_positive_root_rss_over_cap_stops_after_valid_attribution
+4 failed, 1 passed, 61 deselected in 0.27s

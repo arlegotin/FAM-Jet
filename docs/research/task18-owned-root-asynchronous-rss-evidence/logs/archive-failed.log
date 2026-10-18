@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-evidence/provenance/archive_existing.py", line 66, in <module>
+    main()
+    ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-evidence/provenance/archive_existing.py", line 57, in main
+    retain(source, destination, entries)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-evidence/provenance/archive_existing.py", line 27, in retain
+    destination.mkdir()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-evidence/specimens/red-positive-rss'

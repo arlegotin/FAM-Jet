@@ -1,0 +1,74 @@
+{
+  "fault": null,
+  "calls": [
+    "sample",
+    "sample",
+    "sample",
+    "membership",
+    "poll",
+    "end",
+    "wait"
+  ],
+  "result": {
+    "status": "COMPLETED",
+    "reason": null,
+    "monitor_failure": null,
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "8c61028d873c4bd0a19153dcea97e7cdf367d38c438a8fda52277f440575d87f",
+    "returncode": 0,
+    "outer_seconds": 0.006528958096168935,
+    "utc_start_epoch": 1792322407.568437,
+    "utc_end_epoch": 1792322407.574922,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.006200583069585264,
+    "absolute_process_tree_peak_bytes": 238000000,
+    "incremental_worker_peak_bytes": 11278208,
+    "observed_pid_peak_sum_bytes": 238000000,
+    "workers": {
+      "570001": {
+        "absolute_peak_bytes": 238000000,
+        "baseline_bytes": 226721792,
+        "incremental_peak_bytes": 11278208,
+        "role": "worker",
+        "parent": 89901
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 1,
+    "observer_helper_peak_bytes": 0,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": false,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [],
+      "started": false,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [],
+    "unresolved_worker_count": 0,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 17,
+      "accepted_samples": 4,
+      "bytes": 6972,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": true,
+      "through_bytes": 728,
+      "samples": 1
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 15892
+  }
+}

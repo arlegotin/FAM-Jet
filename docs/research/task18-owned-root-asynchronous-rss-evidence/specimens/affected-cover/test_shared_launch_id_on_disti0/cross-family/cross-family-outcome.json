@@ -1,0 +1,275 @@
+{
+  "result": {
+    "status": "STOPPED",
+    "reason": "monitor common failure",
+    "monitor_failure": {
+      "type": "ValueError",
+      "message": "duplicate/reused source launch generation"
+    },
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "9821171a2919c775ed349ce1c0251200f5f7f0001e4b251efe29fc91a54128b2",
+    "returncode": 0,
+    "outer_seconds": 0.004220291040837765,
+    "utc_start_epoch": 1792322509.316061,
+    "utc_end_epoch": 1792322509.3202162,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.00386833306401968,
+    "absolute_process_tree_peak_bytes": 100,
+    "incremental_worker_peak_bytes": 200,
+    "observed_pid_peak_sum_bytes": 200,
+    "workers": {
+      "630001": {
+        "absolute_peak_bytes": 0,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 0,
+        "role": "worker",
+        "parent": 90025
+      },
+      "630002": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "unaccounted",
+        "parent": 630001
+      },
+      "630003": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "unaccounted",
+        "parent": 630001
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 3,
+    "observer_helper_peak_bytes": 0,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": false,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0",
+          "rev-parse",
+          "HEAD"
+        ],
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0",
+          "status",
+          "--porcelain"
+        ]
+      ],
+      "started": false,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [
+      "630002",
+      "630003"
+    ],
+    "unresolved_worker_count": 2,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 20,
+      "accepted_samples": 5,
+      "bytes": 9600,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": false,
+      "through_bytes": 4735,
+      "samples": 3
+    },
+    "classified_process_observations": 3,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 22527
+  },
+  "source": [
+    {
+      "event": "baseline",
+      "pid": 630001,
+      "rss": 0,
+      "monotonic": 558199.732242583
+    },
+    {
+      "event": "candidate_start",
+      "monotonic": 558199.732276875
+    },
+    {
+      "event": "python_worker_launch",
+      "monotonic": 558199.732300333,
+      "pid": 630002,
+      "parent": 630001,
+      "role": "reader",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.path.insert(0,'/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0'); from validation.kernel_stage_a.reader_worker import main; main()",
+        "/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0/cross-family/monitor-events.jsonl",
+        "558199.9323003329"
+      ],
+      "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "vector_sha256": "b264cdc966a2fe128e9258654a9811dd392a7228bc80ebdfd3f2bf22e6b9d679",
+      "launch_id": "first",
+      "launch_start": 558199.732300333,
+      "provenance": "source_owned_python_launch",
+      "launcher": {
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+      },
+      "expected_image": {
+        "path": "/long/framework/Python.app/Contents/MacOS/Python",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "method": "macos.proc_pidpath"
+      },
+      "reaped": false
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 558199.732366041,
+          "sample_end": 558199.732366083,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0'); from validation.kernel_stage_a.reader_worker import main; main() /private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0/cross-family/monitor-events.jsonl 558199.9323003329",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 558199.732366125,
+            "lookup_end": 558199.732367416
+          }
+        }
+      ],
+      "monotonic": 558199.732368583,
+      "emitter_pid": 630002,
+      "self_pid": 630002
+    },
+    {
+      "event": "python_worker_end",
+      "monotonic": 558199.732405,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 558199.732405,
+      "returncode": 0
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 0,
+          "raw_comm": "<defunct>",
+          "raw_args": "<defunct>",
+          "sample_start": 558199.732404875,
+          "sample_end": 558199.732412916,
+          "image": {
+            "status": "error",
+            "errno": 3,
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "lookup_start": 558199.732412916,
+            "lookup_end": 558199.732413083
+          }
+        }
+      ],
+      "monotonic": 558199.732438625
+    },
+    {
+      "pid": 630003,
+      "parent": 630001,
+      "executable": "/bin/ps",
+      "argv": [
+        "/bin/ps",
+        "-axo",
+        "pid=,ppid=,rss=,comm=,args="
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "first",
+      "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+      "artifact": {
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "launch_start": 558199.732405708,
+      "reaped": false,
+      "event": "observer_helper",
+      "monotonic": 558199.732405708
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630003,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 558199.732411,
+          "sample_end": 558199.732411041,
+          "raw_comm": "/observed",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "ok",
+            "path": "/bin/ps",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "lookup_start": 558199.732411083,
+            "lookup_end": 558199.732411666
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 90025,
+          "rss_bytes": 0,
+          "sample_start": 558199.732411,
+          "sample_end": 558199.732411041,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/t18async-cover-1/test_shared_launch_id_on_disti0/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 558199.732411083,
+            "lookup_end": 558199.732411666
+          }
+        }
+      ],
+      "monotonic": 558199.734250041
+    },
+    {
+      "event": "observer_helper_end",
+      "monotonic": 558199.732412458,
+      "pid": 630003,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 558199.732412458
+    },
+    {
+      "event": "baseline",
+      "pid": 630002,
+      "rss": 100,
+      "boundary": "post-import/pre-allocation",
+      "monotonic": 558199.732404625
+    }
+  ]
+}

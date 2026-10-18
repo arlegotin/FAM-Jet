@@ -1,0 +1,76 @@
+{
+  "fault": null,
+  "calls": [
+    "sample",
+    "sample",
+    "sample",
+    "membership",
+    "poll",
+    "end",
+    "wait"
+  ],
+  "result": {
+    "status": "STOPPED",
+    "reason": "foreign process identity",
+    "monitor_failure": null,
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "8c61028d873c4bd0a19153dcea97e7cdf367d38c438a8fda52277f440575d87f",
+    "returncode": 0,
+    "outer_seconds": 0.006261041038669646,
+    "utc_start_epoch": 1792322401.9149172,
+    "utc_end_epoch": 1792322401.921132,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.005937708076089621,
+    "absolute_process_tree_peak_bytes": 238000000,
+    "incremental_worker_peak_bytes": 238000000,
+    "observed_pid_peak_sum_bytes": 238000000,
+    "workers": {
+      "570001": {
+        "absolute_peak_bytes": 238000000,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 238000000,
+        "role": "unaccounted",
+        "parent": 89889
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 1,
+    "observer_helper_peak_bytes": 0,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": false,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [],
+      "started": false,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [
+      "570001"
+    ],
+    "unresolved_worker_count": 1,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 16,
+      "accepted_samples": 4,
+      "bytes": 5781,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": true,
+      "through_bytes": 727,
+      "samples": 1
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 14700
+  }
+}
