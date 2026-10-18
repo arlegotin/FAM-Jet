@@ -1,0 +1,34 @@
+{
+  "scope": "static AST/input freeze only; never executed",
+  "files": {
+    "docs/research/task18-terminal-attribution-native-control.py": {
+      "bytes": 12851,
+      "sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+      "ast_parse": true
+    },
+    "docs/research/task18-terminal-lifecycle-file-control.py": {
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+      "ast_parse": true
+    },
+    "docs/research/task18-terminal-lifecycle-file-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+      "ast_parse": true
+    },
+    "docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/committed-native-control.py": {
+      "bytes": 9495,
+      "sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+      "ast_parse": true
+    }
+  },
+  "worker_body_byte_equal": true,
+  "preserved_ast": [
+    "supervise call/limits",
+    "worker vector",
+    "deadlines",
+    "EOF loop",
+    "exception/failure retention"
+  ],
+  "native_execution": false
+}
