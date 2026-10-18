@@ -2,7 +2,7 @@
 
 FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
 
-The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is running CPU development comparisons at 128, 512 and 2048 events.
+The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is assessing CPU development comparisons at 128, 512 and 2048 events.
 
 The latest completed comparison used fixed temporal bases and full structured readers. Both models passed their trained numerical checks after 8192 updates, but simple summaries still had much lower error on the same 96 development histories:
 
@@ -17,7 +17,9 @@ The latest completed comparison used fixed temporal bases and full structured re
 
 The [completed pair](docs/research/task18-epsilon1em6-learning-results.md) retains all curves, length/regime results, numerical checks and costs. An earlier structured Jet run failed a strict trained gradient check; the [failed result](docs/research/task18-structured-stopped8192-report.md) remains failed. The new pair uses a different numerical smoothing setting and does not repair that historical result. Earlier learned-rate and fixed-basis comparisons remain in the [development inventory](docs/research/task18-development-inventory.json); the learned-rate Bank's observed loss of 0.3871 also remains below the current pair.
 
-A [source-only diagnostic amendment](docs/amendments/2026-10-18-kernel-projection-adoption.md) has been reviewed and adopted: the next step is to implement a deterministic read from the same saved state, with focused tests. Numerical campaigns and new experiments still require separate review and allocation. A successful alternative read could show that useful information remains in the state, while failure would not prove information loss.
+A [diagnostic amendment](docs/amendments/2026-10-18-kernel-projection-adoption.md) adds a deterministic mathematical reader of the same saved state. Its source and focused numerical controls are accepted; its experimental evaluation has not run. This comparison will help separate reader-training difficulties from temporal compression. A successful alternative read could show that useful information remains in the state, while failure would not prove information loss.
+
+The first preparation attempt stopped in the Mac process-measurement harness, before any reader or reference evaluation. Subsequent checks verified a worker's real identity and normal exit, but exposed unsupported terminal-process display handling and two cleanup defects. Those repairs are under review. The [failed preparation](docs/research/task18-kernel-stage-a-setup-stopped01-report.md) and [native check](docs/research/task18-kernel-stage-a-terminal-lifecycle-file-control-report.md) remain preserved; neither is an accuracy result or a successful resource test. No protected comparison has begun.
 
 The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 

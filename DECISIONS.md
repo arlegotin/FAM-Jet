@@ -377,3 +377,8 @@ Ruling: accept the new kernel-projection SOURCE component after independent SPEC
 
 
 18 October2026 — Accept external StageA preflight source at5bcd05d after original independent review and two scoped fixes; all Important findings closed. This acceptance certifies the reviewed source/control evidence, not native readiness or scientific applicability. Preserve all failed tests and earlier reviews. Next is the separately bounded native identity adapter; no factor or fixture allocation follows automatically.
+
+
+### 18 October 2026 — account for terminal Mac process rows explicitly
+
+The corrected native control verified exact live identity and actual natural exit0, then observed a literal `<defunct>`/RSS0 row. The existing live-command classifier rejected it. Adopt the finite [source-owned terminal attribution amendment](docs/amendments/2026-10-18-source-owned-terminal-attribution.md) for separately reviewed source work, with historical evidence explicitly separated from current OS identity. Preserve exact live admission, all earlier failures, original resource bounds and numerical guards. Root-only membership is recorded as nonempty; genuine survivors still require owned cancellation. The independent builder review also exposed a first-reader-SELF timing case; its same-sample live-parent exception requires the actual shared event, valid proof origin and baseline join, never a copied proof. This source decision grants no native or scientific execution. If its finite attribution is wrong, a foreign process could be undercharged, so focused negative controls and independent source/native checks remain gates.
