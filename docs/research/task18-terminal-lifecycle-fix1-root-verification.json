@@ -1,0 +1,52 @@
+{
+  "time_utc": "2026-10-18T09:55:25.100440+00:00",
+  "head": "aea79458d645e0fa586501488067b0054fef689e",
+  "base": "4815000fef3060f88518a8577713a0085aebb1f4",
+  "source_commit": "75c0d0f4913388668e71444156ae3e63bee032db",
+  "manifest_entries": 433,
+  "manifest_bytes": 4323447,
+  "prior_entries_verified": 4615,
+  "prior_bytes": 62606889,
+  "original_specimen_mappings": 254,
+  "source_files_verified": 6,
+  "identity_AST_unchanged": true,
+  "report_bytes": 22014,
+  "report_sha256": "d6bfa9bca3ea250c294d6cd5f9ad520385cbdf94f3a4896500a239801780cd53",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "attempts": [
+    {
+      "name": "task18-terminal-fix1-r1-green-rq03csh2",
+      "exit": 0,
+      "summary": "============================== 6 passed in 0.03s ==============================="
+    },
+    {
+      "name": "task18-terminal-fix1-r1-red-pdyvok_6",
+      "exit": 1,
+      "summary": "============================== 6 failed in 0.09s ==============================="
+    },
+    {
+      "name": "task18-terminal-fix1-r2-green-ewo945f5",
+      "exit": 0,
+      "summary": "============================== 7 passed in 0.05s ==============================="
+    },
+    {
+      "name": "task18-terminal-fix1-r2-minimum-red-tczm5mhg",
+      "exit": 1,
+      "summary": "============================== 1 failed in 0.07s ==============================="
+    },
+    {
+      "name": "task18-terminal-fix1-r2-red-bc72ds_7",
+      "exit": 1,
+      "summary": "============================== 7 failed in 0.17s ==============================="
+    },
+    {
+      "name": "task18-terminal-fix1-scoped-cover-evy_hhso",
+      "exit": 0,
+      "summary": "============================== 55 passed in 0.64s =============================="
+    }
+  ],
+  "root_test_native_or_project_import": false,
+  "scientific_release": false,
+  "native_gate": "NEEDS_CONTEXT; survivor NOTRUN",
+  "clean_main": true
+}

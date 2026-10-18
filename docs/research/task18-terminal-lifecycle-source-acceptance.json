@@ -1,0 +1,51 @@
+{
+  "time_utc": "2026-10-18T09:59:06.895047+00:00",
+  "status": "accepted_source_only_native_gate_open",
+  "source_commit": "75c0d0f4913388668e71444156ae3e63bee032db",
+  "evidence_commit": "aea79458d645e0fa586501488067b0054fef689e",
+  "reviewed_base": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+  "fix_base": "4815000fef3060f88518a8577713a0085aebb1f4",
+  "source_sha256": "0340aea63b1776ff8ac19ee6c67743e15bd5e6f1f392fcbd44492d62803409e2",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "spec_verdict": "PASS for source corrections",
+  "quality_verdict": "PASS",
+  "closed_findings": [
+    "R1 helper cleanup after EOF/wait failure",
+    "R2 primary violation survives emergency finalization"
+  ],
+  "focused_cover": {
+    "passed": 55,
+    "seconds": 0.64,
+    "scope": "changed lifecycle and directly affected finalization controls; not full repository or all133"
+  },
+  "root_proof": [
+    {
+      "path": "docs/research/task18-terminal-lifecycle-fix1-root-verification.json",
+      "sha256": "ff1350e25a078d11bf6d295131c70a1c502979ba849a20528c6917161e21802a",
+      "bytes": 1933
+    },
+    {
+      "path": "docs/research/task18-terminal-lifecycle-fix1-review.md",
+      "sha256": "dcf67c6e26a34c2efa08ad1db5d9337c0d5adcda8782b6cde7e4ecede2623c03",
+      "bytes": 7920
+    },
+    {
+      "path": "docs/research/task18-terminal-lifecycle-fix1-brief.md",
+      "sha256": "7001eccbdaece818aed341bb90f29d52d404cb825addd5f3b4de9664cc02d454",
+      "bytes": 4004
+    }
+  ],
+  "native_compatibility": false,
+  "native_gate": "NEEDS_CONTEXT; both historical survivor cases NOTRUN",
+  "task18_scientific": "OPEN",
+  "protected_access": "CLOSED",
+  "scientific_restart_authorized": false,
+  "native_allocation_authorized": false,
+  "next_source_task": "finite source-owned terminal attribution under dated amendment; separate implementation and review",
+  "limitations": [
+    "sampled RSS, not allocator peak",
+    "parent/supervisor RSS outside declared scope",
+    "source-only lifecycle evidence, not continuous OS identity or containment",
+    "failed original setup and all costs remain failed, no reused accepted factors"
+  ]
+}
