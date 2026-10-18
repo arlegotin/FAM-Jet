@@ -1,0 +1,1347 @@
+{
+  "bytes": 170503879,
+  "file_count": 223,
+  "files": [
+    {
+      "bytes": 862,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/bank-learning-allocation.json",
+      "sha256": "856a1910db1525bfc0d7f0c8c6dccddf612d80bd38db59b3bbb4e3952eb2312c"
+    },
+    {
+      "bytes": 526,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/bank-learning-clock.json",
+      "sha256": "934cbcd0d7da5581a2c539d56f628d0e5df3af94d6f6423aa985030610312dfe"
+    },
+    {
+      "bytes": 262,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/00-jet-train-attempt.json",
+      "sha256": "23a384043dac2fadaacc7d293ccff159b4a7333ef21b4c9943471536f3475f9a"
+    },
+    {
+      "bytes": 268,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/01-jet-endpoint-attempt.json",
+      "sha256": "db91d9455e475f1a4418a7eaccc9ac11420ae015c0d6e14cc4f6f18ac369ffc3"
+    },
+    {
+      "bytes": 260,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/02-jet-risk-attempt.json",
+      "sha256": "e3d0359eb75387f3437c28796a0ef98eeb9ab5f982dd1269e65632d317281956"
+    },
+    {
+      "bytes": 264,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/03-bank-train-attempt.json",
+      "sha256": "f123901f7563fe5a0ef40e241a9c145c564cd20ee62da3f42166e7f9159dcbd7"
+    },
+    {
+      "bytes": 270,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/04-bank-endpoint-attempt.json",
+      "sha256": "43dd2a89853652928a3bfe40f5196d064e4dbc1d7c2f97fdb5e71e208b7759ff"
+    },
+    {
+      "bytes": 262,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/05-bank-risk-attempt.json",
+      "sha256": "51a6378ab3e1bc3793fe29c21b424329abdc21f775378bc295e6eefb16bcc726"
+    },
+    {
+      "bytes": 969,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/allocation.json",
+      "sha256": "124bb3f7d5d9b85198688a108aff40847108ade20aeded1782d500ebba2a5bdd"
+    },
+    {
+      "bytes": 3735,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/bank-endpoint.txt",
+      "sha256": "974a0a075fe24aac717e4aaf104905d6ab11987ba20dab244056150f897976a3"
+    },
+    {
+      "bytes": 2679,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/bank-risk.txt",
+      "sha256": "b3d15d3219c1dc2a708b12d1f5a8ef7ba643e078eb4e8b699f93323396e8a04d"
+    },
+    {
+      "bytes": 291,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/bank-train.txt",
+      "sha256": "ab49621bef82d208bde4fc612f2343b91442adec3daecbce91b0dec73fb0997e"
+    },
+    {
+      "bytes": 813,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-01.json",
+      "sha256": "221638f00ef1cc91c17d6e69e5efb1926aaa1f448fef81aba442c1149bd0a414"
+    },
+    {
+      "bytes": 839,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-02.json",
+      "sha256": "3df9e0e5892df309f402c326cb3e725659f5ce9b8a333f82071a5a6b9204bf8a"
+    },
+    {
+      "bytes": 805,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-03.json",
+      "sha256": "71ed716918d8e82c9779e991f982a26c2f732b1f99e296e3af11eadd848eac4e"
+    },
+    {
+      "bytes": 814,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-04.json",
+      "sha256": "95068a5384ed6f9ce34d0799f9d61f7d231f162f3c48e0df79a7ebfa93ce664b"
+    },
+    {
+      "bytes": 842,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-05.json",
+      "sha256": "7e70979cdd6b659800bc2dbfb65ee0f9ae50ccbe0240587ef83d441555c72975"
+    },
+    {
+      "bytes": 807,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/completed-06.json",
+      "sha256": "e80aabf590eaf63ebe53325d1151e93bb92a8572305f26b1020ea77aeac836e7"
+    },
+    {
+      "bytes": 3728,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/jet-endpoint.txt",
+      "sha256": "3a7ff4aa0339e053984a3204c28377652681a466f791332b115a851ec4d3da8a"
+    },
+    {
+      "bytes": 2680,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/jet-risk.txt",
+      "sha256": "324c1fe2781f30324bedc361d3d1c95fd51cc3a9428de855919d04287245c490"
+    },
+    {
+      "bytes": 286,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/jet-train.txt",
+      "sha256": "66f681f85cf36ea840fcd4dd2403d6c01b5fb35c41aef05fdee3dc5179449157"
+    },
+    {
+      "bytes": 5451,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/driver/summary.json",
+      "sha256": "6ecddb1dbdebafcdad08751959def20cc5e8ae665338e511acec18204fb9fd0b"
+    },
+    {
+      "bytes": 580,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/procedure.json",
+      "sha256": "7ff25142dd798ffeece8cf2e05812a7ca8bc88277ad22ae822f7a5a5456a41eb"
+    },
+    {
+      "bytes": 3109,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/progress.json",
+      "sha256": "2687fe830c209541e37ea165d657124af803dec7614ad032ce162d720394b904"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-00/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-00/procedure.json",
+      "sha256": "158f30514c75b5fc0cd19a97a7bf4ed4cf6ff15dcaadca70a767397b1639d85c"
+    },
+    {
+      "bytes": 14165,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-00/summary.json",
+      "sha256": "5a7bbae9d200b70327714abc8bcab5ed2198a8b3c4680d7a982eba44ef6a251e"
+    },
+    {
+      "bytes": 535573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-00/task-gradients.pt",
+      "sha256": "1370a6e110f1ee01ce9317394e1bc8d2c7496e3d66015d367f209a104be36471"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-00.txt",
+      "sha256": "826f27afbc4d8d2d0bbc4543bdb28527ed942cf73e763f242de676c543b709f4"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-01/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-01/procedure.json",
+      "sha256": "8b5a4de84a68e62c003b9c27afa502788687688089c0005179e9a79644dc3069"
+    },
+    {
+      "bytes": 14161,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-01/summary.json",
+      "sha256": "8b84af301cd0723d7da3ace761376cad94c0cf5e0af6ea5a8a95f3c4b963df92"
+    },
+    {
+      "bytes": 689173,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-01/task-gradients.pt",
+      "sha256": "c9ee52b9c412288c69e0d652fcdff11a9a026bae5f49269ddd0b45803ec11d8e"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-01.txt",
+      "sha256": "4ed6f8334d62d4c52cffcc96c0e77c108d5990b1329378621025bf0476e62bef"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-02/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-02/procedure.json",
+      "sha256": "a71e15c7c8bd5303174479d1d440214fa04a8fa8ebc72fc5f29fb517b143e031"
+    },
+    {
+      "bytes": 14104,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-02/summary.json",
+      "sha256": "e60c6e3a298e9317caf160c1a226363ddde0eb2c8d9d956249e0d26d7fea500e"
+    },
+    {
+      "bytes": 1303573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-02/task-gradients.pt",
+      "sha256": "ae5389b93d5a01d8101bab70e9e39b44d8687aee9f603decbc0d008cfebfff04"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-02.txt",
+      "sha256": "9f89d19c6aece6fde3bfb5b4aa3caa803d60f0b7a64f62f111ad115cdaf13d03"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-03/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-03/procedure.json",
+      "sha256": "ed47177f043fd4eabf308074a2a0671886b17adc42600b5c55f5142d5a875aab"
+    },
+    {
+      "bytes": 14095,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-03/summary.json",
+      "sha256": "8a752d29069b969937effbed04dd6aa256bddb6ed60728ef48152fe977845b50"
+    },
+    {
+      "bytes": 535573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-03/task-gradients.pt",
+      "sha256": "976efcf6cbc9ddab3dd984908379f8486a6fd2550f422e99f52045a5fa22c11a"
+    },
+    {
+      "bytes": 10777,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-03.txt",
+      "sha256": "e8d335246bbff93e68dc5d59e7b9031e65b500369288972f575fac81f8d8f149"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-04/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-04/procedure.json",
+      "sha256": "4101bdf3098b6fef63bb5f8e9dd3845fa415135cb583aa7a801248cdf4c6708f"
+    },
+    {
+      "bytes": 14139,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-04/summary.json",
+      "sha256": "d657d6fc6be7f81f80df4cfd87388e2129c06dbd1c30dc92689d9330df848e97"
+    },
+    {
+      "bytes": 689173,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-04/task-gradients.pt",
+      "sha256": "1cfac080776b79a735991b251d94255e9fe9c6a2230c08e46d35e821ba45c671"
+    },
+    {
+      "bytes": 10777,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-04.txt",
+      "sha256": "750cc8d40493b0c013503bad2346988f6cb23b02854c93e2d9b0792e4a75e953"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-05/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-05/procedure.json",
+      "sha256": "da2a4dfcfc617580d20090403c7ea17cb36cea92be2b3641e8648709464de23d"
+    },
+    {
+      "bytes": 14106,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-05/summary.json",
+      "sha256": "86bd63e41e87f9c47553297a185246e794b1d662330d1d89db5e7b2b36088790"
+    },
+    {
+      "bytes": 1303573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-05/task-gradients.pt",
+      "sha256": "f0927bb5efc6bb362a390b0728d28dd48ce01b5daa14f9245570c3f124cbe8b0"
+    },
+    {
+      "bytes": 10776,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-05.txt",
+      "sha256": "32e6bb5a939a023763fc0a95e75e6ff90b3a1d51c46d9c7473cb2cfe3280bd90"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-06/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-06/procedure.json",
+      "sha256": "9fb84d4ff3ee7220909af121e4b1bc2fa079d41d8d793c5ecaf24944bb92e0c7"
+    },
+    {
+      "bytes": 14162,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-06/summary.json",
+      "sha256": "4af86824e1f75d7254ae532ef0aa286800db6b1ecabee165b960e848bf4c1d67"
+    },
+    {
+      "bytes": 535573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-06/task-gradients.pt",
+      "sha256": "ae07af95d74ef5e53c60cc5ab83166842edc72ffb90c75fbe2ca2817eda8c523"
+    },
+    {
+      "bytes": 10782,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-06.txt",
+      "sha256": "779392bd0f8460dbeaf27e1dfbadaf4156943b01f5990d7ea44e2aca6d753220"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-07/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-07/procedure.json",
+      "sha256": "ba5301f1ef5eabf69c58eac7640d2d928397805d41bf45ffff5106f5774216a0"
+    },
+    {
+      "bytes": 14104,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-07/summary.json",
+      "sha256": "290db747e825a0432992ce488bbd74f15b5399d4e6c569b5e1f9056cb138078d"
+    },
+    {
+      "bytes": 689173,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-07/task-gradients.pt",
+      "sha256": "ca6482d7933af3ba02453b525731fada1b3e3da95dd9cea4bec166e8bf4f556b"
+    },
+    {
+      "bytes": 10783,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-07.txt",
+      "sha256": "627f531a109fc409487fec0c7cd88e4b9bc40e02eccabbb82275697b17c66e8f"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-08/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-08/procedure.json",
+      "sha256": "3f1ece80febc72f7bb3655de4f965c63520cdff43bf6c154cba6675df40bf07b"
+    },
+    {
+      "bytes": 14151,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-08/summary.json",
+      "sha256": "dc221be3b00027a8b99c4eab9832f2065b06712ed39205d8d30956d0cedcfdba"
+    },
+    {
+      "bytes": 1303573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-08/task-gradients.pt",
+      "sha256": "602d155bb1ac53d6e9fc03f7cfd0f2970effb7e9d082513cbda4df197e0fa44d"
+    },
+    {
+      "bytes": 10782,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-08.txt",
+      "sha256": "dceeb5e39260c891ec77ecb178c83bf8988506d408374aba4b1314677b72fb1a"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-09/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24473,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-09/procedure.json",
+      "sha256": "28d0bacf6802ffc3d9900e97636b345466c599fd542585a3880107b9585ab5c6"
+    },
+    {
+      "bytes": 14158,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-09/summary.json",
+      "sha256": "dc7ffb329d3d4dd847e4f6a45eb5a2675464ae2ae9cfd49bd835e140c905675a"
+    },
+    {
+      "bytes": 535573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-09/task-gradients.pt",
+      "sha256": "82179f216b908b493427189375d3140d8f7f515aa0ebed62e01c314309b59f70"
+    },
+    {
+      "bytes": 10785,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-09.txt",
+      "sha256": "2933a5be19ae2193a6a9f7e39ad664c00a51409fede6b8931e4207987a693127"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-10/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24474,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-10/procedure.json",
+      "sha256": "579c78376cd02339945b10613854572d8073e180b06971bda1d66c1a18950b14"
+    },
+    {
+      "bytes": 14108,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-10/summary.json",
+      "sha256": "c353a7ecc2508d1aa2b4a58a29c5911f190b64e30e32ba50095adf922059b825"
+    },
+    {
+      "bytes": 689173,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-10/task-gradients.pt",
+      "sha256": "da7196c6074ee72d47773db4d911a56272bad753453d995456082f676e47f47e"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-10.txt",
+      "sha256": "1d55d36c13d888a900779a6b7d82a964bc1c177883d61354becaa27ba6cb985f"
+    },
+    {
+      "bytes": 8746,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-11/checkpoint-verification.json",
+      "sha256": "2cca784452024626eeb2c8b3444096b01568b462ff4846d2b1536acef8b1814d"
+    },
+    {
+      "bytes": 24474,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-11/procedure.json",
+      "sha256": "82371b52eb2181b778d10a9f41c77e7bb734d6a72225a6b54ca94838a90c78f1"
+    },
+    {
+      "bytes": 14156,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-11/summary.json",
+      "sha256": "1a1509089cacfe4077e08d25c67a64502e7b94350b5f8f5c534ab28a9a3a2558"
+    },
+    {
+      "bytes": 1303573,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-11/task-gradients.pt",
+      "sha256": "d97880d02aec821f00442bba3a81e13a00361f243c02d000b1a2396262769cd2"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/step8192-11.txt",
+      "sha256": "a0f1d827697a16609f8a91ea11d226e87ee7d97f0c316c485e7de10ee2e6f179"
+    },
+    {
+      "bytes": 3566,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-bank/summary.json",
+      "sha256": "2bdcc165e8e7a58a38d297961265403a5f1cecd51624131d2da2ce330f4e0d2d"
+    },
+    {
+      "bytes": 580,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/procedure.json",
+      "sha256": "dde22f9e22e15d3e5d08630d25b04fb61c1ef7d8b79021b6574abc43b2687d8e"
+    },
+    {
+      "bytes": 3100,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/progress.json",
+      "sha256": "df6ecec59249b7d43f44b4ec21ef7753cf4d2bebb11b8530758ad23ce39310e8"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-00/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-00/procedure.json",
+      "sha256": "37971e143ba0d9a7bd3cb0bf06615c6de0e104d7a67592900f41f0c6cd9cd898"
+    },
+    {
+      "bytes": 14159,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-00/summary.json",
+      "sha256": "e1ce33e08a449697de8aed9841c81db1b2ca58bc39bc8711bf7b6c4f43f3c94e"
+    },
+    {
+      "bytes": 537237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-00/task-gradients.pt",
+      "sha256": "03a6fb5b5027f9f4ac3c3e3999842500d1af1ba0ef0d24947fa4b6bbaf72bee9"
+    },
+    {
+      "bytes": 10788,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-00.txt",
+      "sha256": "c06f5de0cde792a4284990bfe413d6836d87def36caf272c3cfe0ef83663bffc"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-01/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-01/procedure.json",
+      "sha256": "bdf0c0d0f99b21ab34e9919bacde21dadcb25d5ac5de9d65a9e21d2fc6410647"
+    },
+    {
+      "bytes": 14161,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-01/summary.json",
+      "sha256": "10046c57611591d1a73a715cfe934605baf9eecf5acd7db1bbd93a396083561c"
+    },
+    {
+      "bytes": 690837,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-01/task-gradients.pt",
+      "sha256": "753cebbb6d68033c8b422ccbef3fd1eb3b11b84eee883e3de851024450c60b09"
+    },
+    {
+      "bytes": 10789,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-01.txt",
+      "sha256": "9dc79f562a87f03a0a777de001033efec6f60599aee2be5cd3445cd7dea0e162"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-02/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-02/procedure.json",
+      "sha256": "a17c7cba71a89f3b0ec594d448a14e30745bd944acc815003d922216bd04a807"
+    },
+    {
+      "bytes": 14162,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-02/summary.json",
+      "sha256": "73b8caeca187860bfc546598c8f1ea954f02d72ae4b3b4dade39e2bb38065bdb"
+    },
+    {
+      "bytes": 1305237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-02/task-gradients.pt",
+      "sha256": "fdbb675f8e729d788c735217ad79ff091c7dde6f6bfda6c7dab0ed083030ba89"
+    },
+    {
+      "bytes": 10789,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-02.txt",
+      "sha256": "f6f8636e436da030ccea459f84135555a1413d2bd24d872688b7b40eb772417f"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-03/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-03/procedure.json",
+      "sha256": "ce73bf57a062cd41138ec79b3c081847a82f06b6b0e7235911e54c0732897744"
+    },
+    {
+      "bytes": 14149,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-03/summary.json",
+      "sha256": "b19ccfe65beeb2fff15662f925db132bd9a35e099d02b6990b42e83e84fb6dbd"
+    },
+    {
+      "bytes": 537237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-03/task-gradients.pt",
+      "sha256": "89907aa32d0d0b127956f2824fae7f11cefb9ef34ccf9df94398c02253303c8e"
+    },
+    {
+      "bytes": 10779,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-03.txt",
+      "sha256": "25416d5e04b4d9b0318b17f9494728be1e7a1aea88cdc07b3ad241779a729b44"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-04/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-04/procedure.json",
+      "sha256": "5f85eff892165ac8ff90634d3461a8c293533edd93e93caa362525ad4e50c021"
+    },
+    {
+      "bytes": 14142,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-04/summary.json",
+      "sha256": "951f8df714b5ceadb3974fcbaab2d6d5e8dde6bf45a990872616ab279331de47"
+    },
+    {
+      "bytes": 690837,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-04/task-gradients.pt",
+      "sha256": "dda8fced12aae67dd54d6c0892fef9929eab84074e6e050a553b8f5c46a72a81"
+    },
+    {
+      "bytes": 10780,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-04.txt",
+      "sha256": "3b03da4b3cb268edafa1e43c2a1ab2c96b04d35d4bf483d0eb485ed109a75060"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-05/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-05/procedure.json",
+      "sha256": "b0e3a68ef6240c77c5f24ed40a9147ec574813ed3d43631078c00d55bc151fee"
+    },
+    {
+      "bytes": 14063,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-05/summary.json",
+      "sha256": "700804ac60522f29431b2e882d05d3f782483dd1b4fef64c50fd5d0acf61c286"
+    },
+    {
+      "bytes": 1305237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-05/task-gradients.pt",
+      "sha256": "83fc57f77e219280483e3ce1eee3c73e467c0bdc02a8f3ea29e9716fdcadca67"
+    },
+    {
+      "bytes": 10780,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-05.txt",
+      "sha256": "d5f5d46aade1f60c2b6b9bc123ec4b1332c3965b3fc9d62f3bce5c84b61cac38"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-06/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-06/procedure.json",
+      "sha256": "af3f571cd7e061d5e09538c7341b26af5de1a8f57652f5b44cfdf36d02ea8aae"
+    },
+    {
+      "bytes": 14104,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-06/summary.json",
+      "sha256": "71e2cc90276bc0ac3f3f21e6d0a63de2c2e2e8ef30826deef3f7a0d7fc071b2a"
+    },
+    {
+      "bytes": 537237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-06/task-gradients.pt",
+      "sha256": "b862f5f63417e4ba3757d32d3b1c3268074fb6bc6b74f4c14e4aba349bae7a6e"
+    },
+    {
+      "bytes": 10785,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-06.txt",
+      "sha256": "d71f55afe6f18cd3400cc22a4020e74387c42e385f4f0dfbadcdfb28342887d8"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-07/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-07/procedure.json",
+      "sha256": "30f16839c457a638bd18bfed10a726e30d981e589bfea6a304a4a879b5d9077f"
+    },
+    {
+      "bytes": 14159,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-07/summary.json",
+      "sha256": "8ff81e71ba5847db992321ab5bc2197459791eda7e9fc994dc0ec7965f364c1c"
+    },
+    {
+      "bytes": 690837,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-07/task-gradients.pt",
+      "sha256": "2382402ddb1d5cbb85d54187d867302f0e5f7414d699936544a321c21b6c3e6c"
+    },
+    {
+      "bytes": 10785,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-07.txt",
+      "sha256": "f07fafedabbb3ed2e062bdd333ce3ffdf59022fe5ddab4287eb7aeabe6a51241"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-08/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-08/procedure.json",
+      "sha256": "e6b24b9f13cdf50dc156823a6ceacf56619e0aa20d365dfcbe4db1ae7e144350"
+    },
+    {
+      "bytes": 14104,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-08/summary.json",
+      "sha256": "34e1cad0c2308d8b3ba2ac9657643bb1255eda91d2d7a7d7b24b7bf3e669cf09"
+    },
+    {
+      "bytes": 1305237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-08/task-gradients.pt",
+      "sha256": "1eb3388a9d7f55ffa90441092fd6e4f4520e5a69ffe58f870fcd6e3be01034b7"
+    },
+    {
+      "bytes": 10786,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-08.txt",
+      "sha256": "b37a681929ccf2740cf9044bcec171aa83458d448a3c18230a0b4e972a32951b"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-09/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24477,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-09/procedure.json",
+      "sha256": "e4f6e174bf3e744a87d4d9906a6586b7821f425eb92392d004e80162009460f8"
+    },
+    {
+      "bytes": 14106,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-09/summary.json",
+      "sha256": "c30dabbfd775734cd2a1d619e5d585a451cacc1ddb76b3b67449e16e6a146b49"
+    },
+    {
+      "bytes": 537237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-09/task-gradients.pt",
+      "sha256": "75f46bd053b7058f6a9e87d8114dd0e5095c9db5e9cde8f39a9c80fa906a0a6c"
+    },
+    {
+      "bytes": 10788,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-09.txt",
+      "sha256": "e17ef739e485a70a940bf18a40d3a29848591fa0c5ce3e32b0706c75aaeef91d"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-10/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24478,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-10/procedure.json",
+      "sha256": "5f525df28f35d08893f7ca7ee56484dba371f2c20c8d13e39f3d259888fdf61a"
+    },
+    {
+      "bytes": 14106,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-10/summary.json",
+      "sha256": "289b2e0c8193d83539ca2366356fe33954ea01949f1a2ac2e11e28012e89d672"
+    },
+    {
+      "bytes": 690837,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-10/task-gradients.pt",
+      "sha256": "3b56797d6f4944514cf0d4e52c3416dc3e08720ab0f02928d3799e25f497ecb6"
+    },
+    {
+      "bytes": 10789,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-10.txt",
+      "sha256": "8f3edde630ff4b7367ad1035610f8af8d1885398a6fccab442554109de1b7b12"
+    },
+    {
+      "bytes": 8751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-11/checkpoint-verification.json",
+      "sha256": "0cbd1959dbaa38c5c22547b5b4631040ea7eb6f95b466751423148543b45a1c0"
+    },
+    {
+      "bytes": 24478,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-11/procedure.json",
+      "sha256": "670dade53677bb408f46b96c98412eb7e003129abccedc8a51a5906bb34cb15c"
+    },
+    {
+      "bytes": 14162,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-11/summary.json",
+      "sha256": "db15e1cc2612e645008da3e022a42b2374365f1d42c05483de82d3c2405ba410"
+    },
+    {
+      "bytes": 1305237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-11/task-gradients.pt",
+      "sha256": "43325329d20e7fa03fc255130c86070fec802604e70e336cbe20f9263a26a57c"
+    },
+    {
+      "bytes": 10789,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/step8192-11.txt",
+      "sha256": "4dd5560b7ea5af7a3f6325f2b9a80e60ebd2b47a8392f4683a3b906f1559b718"
+    },
+    {
+      "bytes": 3559,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/endpoint-jet/summary.json",
+      "sha256": "70b802321a17f27fde6bd510bf7449238ccfef2c6fc633abcada5ec191b19e89"
+    },
+    {
+      "bytes": 862,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/jet-learning-allocation.json",
+      "sha256": "87f3e2a11a34c866e57015b89ae44c36f8e861cb00af9ee01e71b62dbbe50741"
+    },
+    {
+      "bytes": 527,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/jet-learning-clock.json",
+      "sha256": "57510b3ff17e05568c4675035f67594ee1c70e5176ef3f971d39ad49ba1bacdb"
+    },
+    {
+      "bytes": 1060240,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/development.json",
+      "sha256": "30937f298adfe0e0bb9a38e57d9dbf8e358a20bce23b990ba6560856379e446a"
+    },
+    {
+      "bytes": 56199,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/learning_curve.jsonl",
+      "sha256": "c35ddd6475975e5e577a5e3baf45f1e2605bd16f3e025078f07f1473fa11461f"
+    },
+    {
+      "bytes": 37234,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/manifest.json",
+      "sha256": "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013"
+    },
+    {
+      "bytes": 5458194,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step0.jsonl",
+      "sha256": "b16414a88f5b335913555ad84b8a4fe0a4bb211850ade8dbf82aa3ebdf256d26"
+    },
+    {
+      "bytes": 5452542,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step1024.jsonl",
+      "sha256": "729d8993d4df69eee2c935c45b381040934d853ddb2d532926d098a2a404c493"
+    },
+    {
+      "bytes": 5455267,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step128.jsonl",
+      "sha256": "ce3c8f892b0922a23f0f7806d842f6d72012c5741236944da0e798a8a696c366"
+    },
+    {
+      "bytes": 5452638,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step2048.jsonl",
+      "sha256": "3edc5da693a608bfaa7daeed2936f10251efd442234a08c52e80cd51a15d116c"
+    },
+    {
+      "bytes": 5452609,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step4096.jsonl",
+      "sha256": "d4bc34076fa6f3203e9bf6fcce7063f1d4e943bb328c14c47fb9dc6b1e4b85e5"
+    },
+    {
+      "bytes": 5453521,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step512.jsonl",
+      "sha256": "26a138906df878ed6b3915501ded44ab5d5cb92bd32b1f2a91651647e39d1758"
+    },
+    {
+      "bytes": 5452636,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/predictions-step8192.jsonl",
+      "sha256": "a869374e851739ef92f36061d0a1ba985e891643d4580a76b9fe930eaaf773cd"
+    },
+    {
+      "bytes": 3674017,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/attempts.jsonl",
+      "sha256": "e64166c9441964f384d64df6487cb9420ab089719f9bc5769719b4e988761635"
+    },
+    {
+      "bytes": 1764760,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/checkpoint.pt",
+      "sha256": "e63ec70c6bdcf45cbc51e298e909b3573055c8a2ef61684664a33895c2ef63fd"
+    },
+    {
+      "bytes": 1420696,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/checkpoint.pt.previous",
+      "sha256": "07aada41c1e5b5ea841eeb7dd19aaf361ad0dc3cb04660f6cf2303343c892e26"
+    },
+    {
+      "bytes": 11060809,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/draws.jsonl",
+      "sha256": "21354c8ad0f49a1f0a8c6405c950cd50ca20a482500da343c7f93498d65c733d"
+    },
+    {
+      "bytes": 18158,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/predictions.jsonl",
+      "sha256": "838e2955a6953d1700cc4dfaa7dcd8554a9a2a52f4d94a117bac9328cd9f552f"
+    },
+    {
+      "bytes": 273472,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/preprocessing.jsonl",
+      "sha256": "597016201f57c094e35ee8b320d7b4198b07d819bc6b93dd15d12b9547d2948d"
+    },
+    {
+      "bytes": 278,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/progress.json",
+      "sha256": "558bd0f487e4bf6010ec9ee31ca50ea7a03ec6065996e6fe5384858808d01b9c"
+    },
+    {
+      "bytes": 4557,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/resolved_config.json",
+      "sha256": "96f784d4a0ddb943da65e27b9c7d1d2cb7dcf81c375fbcfaa68f6fac93ff3c25"
+    },
+    {
+      "bytes": 1041322,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/run.json",
+      "sha256": "92f2ee383c7732915e7362d7758ad7d2fbb09934dc1fa25218953a3e8f03feea"
+    },
+    {
+      "bytes": 9073370,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/timing.jsonl",
+      "sha256": "f3e020a3f77315fb1cec448214e1c4e18fc9909593d68c5f191207d92c7aed9a"
+    },
+    {
+      "bytes": 3097296,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-bank/training/training.jsonl",
+      "sha256": "3148af5e66028b1267716d5f0924a134353cbd9d731027c221db5874132f4538"
+    },
+    {
+      "bytes": 1060226,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/development.json",
+      "sha256": "48d36a31bd48b327d85111435f828e685a4d55ce5495fb9e97d9ef8cb3923694"
+    },
+    {
+      "bytes": 56155,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/learning_curve.jsonl",
+      "sha256": "12cabdd00ce6f6dbba0db7a0a4f731ffff1e6ac61fc11c57b70a3b078efd610e"
+    },
+    {
+      "bytes": 37234,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/manifest.json",
+      "sha256": "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013"
+    },
+    {
+      "bytes": 5456890,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step0.jsonl",
+      "sha256": "077b5f8493c8648d861ce1cd25cc335378134f9c3ff6095daa1669545f463c95"
+    },
+    {
+      "bytes": 5452111,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step1024.jsonl",
+      "sha256": "79f71b5ec6746053f3d386418e5744cb7fb244e7ad5d213c9952e354d1f09d8f"
+    },
+    {
+      "bytes": 5453801,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step128.jsonl",
+      "sha256": "0b3e690cb47c6b9de3d22dadddd8289b06f82fe05c2d8e7a7da6016f66f0f991"
+    },
+    {
+      "bytes": 5451518,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step2048.jsonl",
+      "sha256": "ae8c81d310a925b8a3ca0ab8264d4d4a4f5f74d1b730252051f6468ce8003c86"
+    },
+    {
+      "bytes": 5451616,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step4096.jsonl",
+      "sha256": "545483ea73e7d6c73d78d8908031aaf93db2d87f837bb04366b7a6fdb04d31aa"
+    },
+    {
+      "bytes": 5452928,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step512.jsonl",
+      "sha256": "bb48fc768020537e0423fd983941652419698ba746290060887037a8414ab4c2"
+    },
+    {
+      "bytes": 5451422,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/predictions-step8192.jsonl",
+      "sha256": "2783226bb4dde8eecf9337a46de3202762d58769ea70c0cf4a6aede08be66777"
+    },
+    {
+      "bytes": 3674017,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/attempts.jsonl",
+      "sha256": "e64166c9441964f384d64df6487cb9420ab089719f9bc5769719b4e988761635"
+    },
+    {
+      "bytes": 1768088,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/checkpoint.pt",
+      "sha256": "64327d25c36ab26c37ecc581c513d339042809a1fe7de8bcf50f764278c8557d"
+    },
+    {
+      "bytes": 1424024,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/checkpoint.pt.previous",
+      "sha256": "07e5a2d880b9aef5048b7349bf689aec520c6e82387dd8be8c6afd9dfd490bb1"
+    },
+    {
+      "bytes": 11060809,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/draws.jsonl",
+      "sha256": "21354c8ad0f49a1f0a8c6405c950cd50ca20a482500da343c7f93498d65c733d"
+    },
+    {
+      "bytes": 18191,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/predictions.jsonl",
+      "sha256": "03a8ccaf922474308eb55ece2a4edf8e2d8328d6316dcfb42b6390a8015679ca"
+    },
+    {
+      "bytes": 273472,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/preprocessing.jsonl",
+      "sha256": "597016201f57c094e35ee8b320d7b4198b07d819bc6b93dd15d12b9547d2948d"
+    },
+    {
+      "bytes": 278,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/progress.json",
+      "sha256": "558bd0f487e4bf6010ec9ee31ca50ea7a03ec6065996e6fe5384858808d01b9c"
+    },
+    {
+      "bytes": 4554,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/resolved_config.json",
+      "sha256": "3733665257c1dfb56bc492cdbf7823c2fea70293c689e0f0a1bc5bd09bd5c042"
+    },
+    {
+      "bytes": 1041317,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/run.json",
+      "sha256": "362e9fe8acc3a547e9c8b60f780ee8036aec8f31538185ca4498a47148627049"
+    },
+    {
+      "bytes": 9073237,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/timing.jsonl",
+      "sha256": "9fb768194f4760745243298bfe31bc204a0561d3cf2fb0afeac76ffbb502cc7e"
+    },
+    {
+      "bytes": 3097157,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/learn-jet/training/training.jsonl",
+      "sha256": "3381ad8a230e0dfa9515ae328ae58b8fae27ffbeee39cb0e14b0e40721807c05"
+    },
+    {
+      "bytes": 3495920,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-bank/histories.jsonl",
+      "sha256": "808871eccc15b3437a9ea02bb06c8860d4ae9fa23277a47c94104062bc2ab3d3"
+    },
+    {
+      "bytes": 1534,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-bank/procedure.json",
+      "sha256": "f3ca2b3cd69457d3e4043aa69ca9a46c8f884c885eb2fff8ed532760f4664a17"
+    },
+    {
+      "bytes": 2557,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-bank/summary.json",
+      "sha256": "da80549829084c366a20f185a386c4d297eb02481b306d4298714954d7972715"
+    },
+    {
+      "bytes": 3495965,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-jet/histories.jsonl",
+      "sha256": "5107fdc3b5075ea0dc3ab403c07be484bd8fb08f41ef511386661afaaa0c364c"
+    },
+    {
+      "bytes": 1532,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-jet/procedure.json",
+      "sha256": "076e800b1458591ab52be057d6a096b5798b074113962bc1ba8a5f8a351e076a"
+    },
+    {
+      "bytes": 2558,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18/epsilon1em6-learning-76e5f8c/risk-jet/summary.json",
+      "sha256": "6db053741704cc8bffda778e2072d62d3ff929c7e1f3d775708ea719e39f2fac"
+    },
+    {
+      "bytes": 565,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-execution-76e5f8c/allocation.json",
+      "sha256": "013b721024b561a5af44a4156f3f31f0e72ae5d9b06222f18f0e4f0f080018c1"
+    },
+    {
+      "bytes": 102906,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-execution-76e5f8c/complete-summary.json",
+      "sha256": "e431fbc391db3fc8ba1b6a6dffc0f4db260ce1f942ab12e9d3f72db9fc9d066e"
+    },
+    {
+      "bytes": 64,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-execution-76e5f8c/process.json",
+      "sha256": "5cc8f7145939ade68328c20251806f6b5945e2e7f6f125aef88070dbc9b4cea3"
+    },
+    {
+      "bytes": 4920,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-execution-76e5f8c/stdout.txt",
+      "sha256": "2686f93b9dce06b7759da669e49bfacea1983a8c5ad573d3e00b70a381a35df4"
+    },
+    {
+      "bytes": 257,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-execution-76e5f8c/summary.json",
+      "sha256": "88290a7c73de59669d4bafcf70151804d1599f4d9eba07ca13d4ab40ec257b3a"
+    },
+    {
+      "bytes": 2846,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/bank-learning.yaml",
+      "sha256": "85a645ca78c5192a2a41808568fa1dfe470f34520e72a13b164cc18a9f637c55"
+    },
+    {
+      "bytes": 5531,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/calibration.json",
+      "sha256": "9b150c9b04b2e6648ba6fe028a552ed80070df2826254558d0cf7eb54757068a"
+    },
+    {
+      "bytes": 45556,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/helper-delta.patch",
+      "sha256": "461ce74b0bcd04de72519ab3b624efd2716113df8b628f00042e0112d8bfc0d0"
+    },
+    {
+      "bytes": 2844,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/jet-learning.yaml",
+      "sha256": "36597dc78a99117c3c58a6865a1da11678af202ce6875954fddcf4400ffc9a82"
+    },
+    {
+      "bytes": 1075,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/launch-allocation.json",
+      "sha256": "a9ecf56d49b97882cb73e513385e912318acc8e79242750434f95040f6f9895a"
+    },
+    {
+      "bytes": 54101,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/preparation-seal.json",
+      "sha256": "22f50f711ed56e3da77c1cf7c55c518798182057a92bd78536f2a6df2be69b4d"
+    },
+    {
+      "bytes": 2572,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/preparation-verification.json",
+      "sha256": "229d897ce4183a37bb667017d5549a53e46f538e803b6f1db1c4644087d2df85"
+    },
+    {
+      "bytes": 2606,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/procedure.json",
+      "sha256": "b95fbed57fd6c2c9dacaba18da68245e5599d7f0fd996825d63cd23ef9d15722"
+    },
+    {
+      "bytes": 725,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_checked_sequence.py",
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d"
+    },
+    {
+      "bytes": 460,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_full_config.py",
+      "sha256": "b6b15ac36894e6b0fac67be2b4e943551efb1208f675d8a1641a2b2f73fcd95b"
+    },
+    {
+      "bytes": 4278,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_driver.py",
+      "sha256": "0adba919dad6a6144f9649c7b11d1a833fcbff0ef61c7cbaa0088f4a3d9a7fe9"
+    },
+    {
+      "bytes": 2751,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_endpoint.py",
+      "sha256": "41ecf656e17f7863ec5c015f212f249f623c3c54dd661b311cb66f837412ac91"
+    },
+    {
+      "bytes": 10173,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_endpoint_case.py",
+      "sha256": "1bc67214b051a5c5356428baf4d50feea2e7239b5b1db7582ce1f36ff9f6404b"
+    },
+    {
+      "bytes": 6730,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_gate.py",
+      "sha256": "aa9548fefe1a1d45613cfec9cce0d454d14295ceee9d1dcea8fd50316dec48d5"
+    },
+    {
+      "bytes": 6357,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_risk.py",
+      "sha256": "6c186996fdeedba4f6145ff10ec4ddc2932392bd6e70cbc0bdfe40df5c34b893"
+    },
+    {
+      "bytes": 2088,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_timeout.py",
+      "sha256": "cee305a21fae4d41fdf029135258d6e24fc98ad3b9bb361db0f4bf118222fe72"
+    },
+    {
+      "bytes": 2760,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_train.py",
+      "sha256": "75bf6f367af6b1ebc5bcca40bca1348d10f58079ec159c6eaef08beab5b12cf2"
+    },
+    {
+      "bytes": 15571,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_fixed_basis_numeric.py",
+      "sha256": "d17130ff088cfed8f99f3d56073c27338bcb624038ef46e7a36f00cea653d5a1"
+    },
+    {
+      "bytes": 13809,
+      "hash_verification_boundary": "actual file read after completed allocation",
+      "path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_structured_epsilon_numeric.py",
+      "sha256": "59a8d27f219fea153ceaef69403c589923f2328afb6e932ff737276aa80e0146"
+    },
+    {
+      "bytes": 7919,
+      "hash_verification_boundary": "actual report helper read",
+      "path": "/tmp/task18_epsilon_learning_record.py",
+      "sha256": "6a57037af4c1d44f048d36ca8e282e116a529acff897d21f39f1a1067857d929"
+    }
+  ],
+  "reporting_total_seconds": 1.1267463749973103,
+  "scope": "All current learning, outer and sealed preparation files; original reused raw/feature cache inventory remains referenced by exact manifests and prior operational inventory. No redundant corpus read. Self excluded.",
+  "status": "complete_actual_file_inventory"
+}

@@ -1,0 +1,188 @@
+{
+  "net_allocation_limit_bytes": 201326592,
+  "origin_source": {
+    "commit": "c71547932e2875468752db09e6f0a1e02c3e5650",
+    "diff": "",
+    "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+    "untracked_package_files": {}
+  },
+  "profiles": [
+    {
+      "configured_steps": 32768,
+      "eval_histories": 96,
+      "executed_steps": 2,
+      "family": "jet",
+      "feature_manifest_hash": "1a606013ae4f65f81086d22b53c88f10c4f11be8cede6bc9ef9dd0d959507eab",
+      "fit_histories": 768,
+      "net_peak_bytes": 139018240,
+      "path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/development.json",
+      "sha256": "f3644492dbf5d7807f96cb5922d59df440caf3484a9693d1f98666aec9f16187"
+    },
+    {
+      "configured_steps": 32768,
+      "eval_histories": 96,
+      "executed_steps": 2,
+      "family": "bank",
+      "feature_manifest_hash": "399040693be4795147f7690f0add7a3154a09082c44bfa55fc6524926588e592",
+      "fit_histories": 768,
+      "net_peak_bytes": 138854400,
+      "path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/development.json",
+      "sha256": "1852ea7f934695ecbdc919ed3edf8fc82eb3c1230ae61d1de6561fdbcbfc49b6"
+    }
+  ],
+  "purpose": "Task18 local CPU operational evidence; not statistical calibration",
+  "schema_version": 1,
+  "scope": "Accepted initial/fitted0/2 only; genuine v2 cache-integrity and two-fit lifecycle; no trained8192 guarantee",
+  "shapes": [
+    {
+      "cache_manifest_hash": "c18c09aa22127efb6ee56851cbde76a5bb0dd1bb1ef6218abfca6128ab62a43f",
+      "corpus_histories": 6144,
+      "data": {
+        "beijing": null,
+        "generator": {
+          "delay_multiplier": 0.0,
+          "feature_seed": 20261013,
+          "key_load": 16,
+          "max_query_attempts": 4096,
+          "namespace": "training",
+          "population": "primary",
+          "query_seed": 0,
+          "regime": "balanced",
+          "robustness": "standard"
+        },
+        "generator_version": "initial_spec_v2_targets",
+        "key_dim": 16,
+        "key_features": "one_hot",
+        "length": 128,
+        "queries_per_history": 8,
+        "value_dim": 8
+      },
+      "data_seed": 20261017018,
+      "device": "cpu",
+      "eval_histories_per_cell": 8,
+      "feature_cache_manifest_hash": "1a606013ae4f65f81086d22b53c88f10c4f11be8cede6bc9ef9dd0d959507eab",
+      "fit_histories_per_cell": 64,
+      "key_dim": 16,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "method": "jet",
+      "microbatch": 1,
+      "model": {
+        "J": 4,
+        "K": 16,
+        "delta": null,
+        "encode": "terminal",
+        "epsilon": 1e-06,
+        "heads": 1,
+        "interpolation": false,
+        "learned_abstention_threshold": null,
+        "method": "jet",
+        "multiscale": null,
+        "numerical_support_floor": 1e-08,
+        "polynomial": null,
+        "precision": "float64",
+        "probes": 1,
+        "rates": {
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "mode": "fixed",
+          "spacing": "log"
+        },
+        "reader": {
+          "activation": "silu",
+          "kind": "structured",
+          "layers": 2,
+          "max_macs": null,
+          "max_parameters": null,
+          "rank": null,
+          "width": 125
+        },
+        "writer": "fixed"
+      },
+      "queries": 8,
+      "threads": 4,
+      "value_dim": 8
+    },
+    {
+      "cache_manifest_hash": "c18c09aa22127efb6ee56851cbde76a5bb0dd1bb1ef6218abfca6128ab62a43f",
+      "corpus_histories": 6144,
+      "data": {
+        "beijing": null,
+        "generator": {
+          "delay_multiplier": 0.0,
+          "feature_seed": 20261013,
+          "key_load": 16,
+          "max_query_attempts": 4096,
+          "namespace": "training",
+          "population": "primary",
+          "query_seed": 0,
+          "regime": "balanced",
+          "robustness": "standard"
+        },
+        "generator_version": "initial_spec_v2_targets",
+        "key_dim": 16,
+        "key_features": "one_hot",
+        "length": 128,
+        "queries_per_history": 8,
+        "value_dim": 8
+      },
+      "data_seed": 20261017018,
+      "device": "cpu",
+      "eval_histories_per_cell": 8,
+      "feature_cache_manifest_hash": "399040693be4795147f7690f0add7a3154a09082c44bfa55fc6524926588e592",
+      "fit_histories_per_cell": 64,
+      "key_dim": 16,
+      "lengths": [
+        128,
+        512,
+        2048
+      ],
+      "method": "bank",
+      "microbatch": 1,
+      "model": {
+        "J": 8,
+        "K": 16,
+        "delta": null,
+        "encode": "terminal",
+        "epsilon": 1e-06,
+        "heads": 1,
+        "interpolation": false,
+        "learned_abstention_threshold": null,
+        "method": "bank",
+        "multiscale": null,
+        "numerical_support_floor": 1e-08,
+        "polynomial": null,
+        "precision": "float64",
+        "probes": 1,
+        "rates": {
+          "bounds": [
+            0.00019142419601837673,
+            1.0
+          ],
+          "mode": "fixed",
+          "spacing": "log"
+        },
+        "reader": {
+          "activation": "silu",
+          "kind": "structured",
+          "layers": 2,
+          "max_macs": null,
+          "max_parameters": null,
+          "rank": null,
+          "width": 122
+        },
+        "writer": "fixed"
+      },
+      "queries": 8,
+      "threads": 4,
+      "value_dim": 8
+    }
+  ],
+  "source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "status": "passed"
+}

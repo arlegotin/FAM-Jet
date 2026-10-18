@@ -2,22 +2,24 @@
 
 FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
 
-The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks1–17 are accepted; Task18 is running actual CPU development comparisons at128/512/2048 events.
+The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is running CPU development comparisons at 128, 512 and 2048 events.
 
-One comparison learned the decay rates while keeping the writers fixed. After8192 updates, both neural models still had much larger error than a simple bucket summary on the same96 development histories:
+The latest completed comparison used fixed temporal bases and full structured readers. Both models passed their trained numerical checks after 8192 updates, but simple summaries still had much lower error on the same 96 development histories:
 
 | Method | Normalized loss | Persistent state |
 | --- | ---: | ---: |
-| Shared-count temporal buckets |0.1365|9247B|
-| Reservoir sample |0.2815|9297B|
-| Ordinary exponential bank |0.3871|9345B|
-| Jet |0.3926|9345B|
+| Shared-count temporal buckets | 0.1365 | 9247 B |
+| Reservoir sample | 0.2815 | 9297 B |
+| Ordinary exponential bank | 0.3888 | 9345 B |
+| Jet | 0.3945 | 9345 B |
 
-**There is no demonstrated practical Jet advantage.** Both models still improve with training, and both pass a separate reader test where the saved information is known to be sufficient. That leaves optimization, reader capacity and temporal compression as unresolved explanations for the benchmark gap. These are exploratory CPU64 results with one initialization and a reused training corpus; protected evaluation remains closed.
+**There is no demonstrated practical Jet advantage.** Jet's development loss flattened near the end; Bank improved modestly. Frozen training losses remain high too (Jet 0.4183, Bank 0.4687). Optimization, the reader and temporal compression remain unresolved explanations. These are exploratory CPU64 results with one initialization, a reused training corpus and exposed development data—not a convergence or statistical claim. Protected evaluation remains closed.
 
-A wider reader was also tested for2048 updates. Loss improved modestly relative to width64 at that same update count: Jet0.4216 versus0.4255, Bank0.4081 versus0.4238. Both still fit poorly and improved in the last training interval. Tripling the learning rate then worsened both models at the same2048 updates (Jet0.4433, Bank0.4507), including their training losses. A separate fixed-basis comparison has now trained Jet, Bank and log-HiPPO for8192 updates with the same state and reader budgets. Their best observed losses were0.3919,0.3914 and0.4361, respectively: the ordinary bank slightly beats Jet, and all remain far behind shared buckets. The [full fixed-basis results](docs/research/task18-fixed-basis-learning8192-report.md) retain training losses, all milestones, numerical checks and preparation costs. The full structured Jet reader reached a recorded loss of0.3656, then failed a strict endpoint gradient check. The paired Bank run was held, so this is not a completed comparison or evidence of an advantage. A local conditioning test identified a promising regularization setting, but it has not been trained or validated across the required cases. The [stopped-stage report](docs/research/task18-structured-stopped8192-report.md) preserves the failed check and all partial work. [Wider-reader results and limits](docs/research/task18-width128-learning2048-report-and-lr003-procedure.md).
+The [completed pair](docs/research/task18-epsilon1em6-learning-results.md) retains all curves, length/regime results, numerical checks and costs. An earlier structured Jet run failed a strict trained gradient check; the [failed result](docs/research/task18-structured-stopped8192-report.md) remains failed. The new pair uses a different numerical smoothing setting and does not repair that historical result. Earlier learned-rate and fixed-basis comparisons remain in the [development inventory](docs/research/task18-development-inventory.json); the learned-rate Bank's observed loss of 0.3871 also remains below the current pair.
 
-The [current results](docs/research/task18-cpu64-learning8192-summary.json), [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [development inventory](docs/research/task18-development-inventory.json) preserve curves, failures, costs and earlier comparisons. Earlier FP32 results used different scales and state budgets and remain separate. Recorded execution timers can exclude host sleep; the [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes them from elapsed clock time.
+A [draft diagnostic](docs/amendments/2026-10-18-kernel-projection-diagnostic.md) proposes testing a deterministic read from the same saved state before further SGD. It is pending review and adoption; no implementation or new experiment is authorized. A successful alternative read could show that useful information remains in the state, while failure would not prove information loss.
+
+The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
 

@@ -1,0 +1,47 @@
+{
+  "config_checks": [
+    {
+      "cache_guard_scope": "Canonical manifests/identities checked without model construction. Production TrainingFeatureCache after actual fresh fit recomputes exact identity and full raw+feature SHA scans before learning. Prior cold scans passed; no duplicate payload scan during preparation.",
+      "exact_deltas": [
+        "development.mode",
+        "development.calibration_path",
+        "development.calibration_hash"
+      ],
+      "execution_shape_equal": true,
+      "family": "jet",
+      "feature_manifest_hash": "1a606013ae4f65f81086d22b53c88f10c4f11be8cede6bc9ef9dd0d959507eab",
+      "policy_hash": "6fbe4976cf45068f38810bfe4118cc072a89a39c0bb4975da4c1e5c09bc94df2",
+      "raw_manifest_hash": "c18c09aa22127efb6ee56851cbde76a5bb0dd1bb1ef6218abfca6128ab62a43f",
+      "resolve_policy_passed": true
+    },
+    {
+      "cache_guard_scope": "Canonical manifests/identities checked without model construction. Production TrainingFeatureCache after actual fresh fit recomputes exact identity and full raw+feature SHA scans before learning. Prior cold scans passed; no duplicate payload scan during preparation.",
+      "exact_deltas": [
+        "development.mode",
+        "development.calibration_path",
+        "development.calibration_hash"
+      ],
+      "execution_shape_equal": true,
+      "family": "bank",
+      "feature_manifest_hash": "399040693be4795147f7690f0add7a3154a09082c44bfa55fc6524926588e592",
+      "policy_hash": "5f9880ff79ce51e10c40bcaf5fc4f1fbeb366243d0c07fb7eea6e18e48d26ccb",
+      "raw_manifest_hash": "c18c09aa22127efb6ee56851cbde76a5bb0dd1bb1ef6218abfca6128ab62a43f",
+      "resolve_policy_passed": true
+    }
+  ],
+  "dependency_hashes_checked": 95,
+  "fresh_output_absent": true,
+  "git_clean": true,
+  "helpers_archives_equal": 10,
+  "helpers_ast_parsed_not_executed": true,
+  "launch_allocation_sha256": "a9ecf56d49b97882cb73e513385e912318acc8e79242750434f95040f6f9895a",
+  "no_model_or_test_or_science_execution": true,
+  "outer_output_absent": true,
+  "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "scope": "stdlib text/AST/hash and actual load_config/resolve_policy/execution_shape plus canonical cache manifests; no reconstruction, fit, dataset generation, file-payload scan or test",
+  "seal_sha256": "22f50f711ed56e3da77c1cf7c55c518798182057a92bd78536f2a6df2be69b4d",
+  "source_commit": "76e5f8cea0c4bfc763ecefcd35184950562caeb3",
+  "source_file_hashes": 51,
+  "status": "PREPARATION_VERIFIED_STATIC_AND_POLICY_ONLY",
+  "wrapper_archive_equal": true
+}

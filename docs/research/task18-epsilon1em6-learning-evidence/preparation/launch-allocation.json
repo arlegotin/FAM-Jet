@@ -1,0 +1,17 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "/tmp/task18_epsilon_learning_timeout.py"
+  ],
+  "old_wrapper_sha256": "92b5bcdf395638aa496314b7e8ccbdc1fe9a5b64450cdf5679209a3081508001",
+  "scope": "one fresh sequential matched pair and gated endpoints/TRAIN diagnostics; no execution before root release",
+  "seal_path": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/preparation-seal.json",
+  "seal_sha256": "22f50f711ed56e3da77c1cf7c55c518798182057a92bd78536f2a6df2be69b4d",
+  "source_commit": "76e5f8cea0c4bfc763ecefcd35184950562caeb3",
+  "status": "SEALED_PREPARATION_ONLY_EXECUTION_HELD",
+  "termination": "SIGTERM group; 3s grace; SIGKILL surviving whole group even if parent exited; preserve timeout/errors/UTC/perf; no retries",
+  "whole_process_group_cap_seconds": 1800,
+  "wrapper_archive": "artifacts/task18-evidence/epsilon1em6-learning-preparation-76e5f8c/task18_epsilon_learning_timeout.py",
+  "wrapper_path": "/tmp/task18_epsilon_learning_timeout.py",
+  "wrapper_sha256": "cee305a21fae4d41fdf029135258d6e24fc98ad3b9bb361db0f4bf118222fe72"
+}
