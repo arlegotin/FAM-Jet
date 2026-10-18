@@ -1,0 +1,100 @@
+.....F.F....                                                             [100%]
+=================================== FAILURES ===================================
+_ test_late_inner_rss_survives_failed_copy_of_prior_source_provenance[declaration_cap] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4355/test_late_inner_rss_survives_f0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108783d50>
+failure = 'declaration_cap'
+
+    @pytest.mark.parametrize('failure',['declaration_cap','completion_cap','serialization'])
+    def test_late_inner_rss_survives_failed_copy_of_prior_source_provenance(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure; budget=16384; original=m._bounded_json; inner=[]; prior=[]
+        def encode(value,limit,check=lambda:None):
+            kind=value.get('kind') if isinstance(value,dict) else None
+            selected=(kind=='runtime' if failure=='declaration_cap' else kind=='witness')
+            if selected and not prior:
+                if failure=='serialization': prior.append(True); raise OSError('controlled witness encoding failure')
+                raw=original(value,limit,check)
+                padding=budget-m.directory_bytes(out)-len(raw)-16
+                assert padding>0
+                (out/'charged-padding.bin').write_bytes(b'p'*padding)
+                prior.append(True)
+                return raw
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            now=time.monotonic(); helper=pid+100000; inner.append(helper)
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001); root['rss_bytes']=80
+            observer=sample(helper,pid,m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer.update(raw_args=' '.join(m.PS_ARGV),rss_bytes=900)
+            declared=witness(helper,pid,m.PS_ARGV); declared.update(launch_start=now-.01,reaped=False); declared.pop('completion_end')
+            path=out/'monitor-events.jsonl'
+            a.event(path,'observer_helper',**declared)
+            a.event(path,'observer_helper_end',pid=helper,parent=pid,launch_id=declared['launch_id'],completion_end=now+.005,reaped=True)
+            a.event(path,'observer_sample',processes=[root,observer])
+            a.event(path,'baseline',pid=pid,rss=80)
+            outer=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            return m.ResidentTree({pid:70},{pid:outer})  # outer observation misses inner helper
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,output_bytes=budget,free_disk_bytes=0)
+        assert result['status']=='STOPPED' and result['returncode'] is not None
+        assert result['absolute_process_tree_peak_bytes']==980
+        assert result['observed_pid_peak_sum_bytes']==980
+        assert result['incremental_worker_peak_bytes']>=980
+        helper=result['workers'][str(inner[0])]
+        assert helper['baseline_bytes']==0 and helper['incremental_peak_bytes']==900
+>       assert helper['role'] not in ('worker','observer_helper','authority_helper')
+               ^^^^^^^^^^^^^^
+E       KeyError: 'role'
+
+tests/test_kernel_stage_a_native_process_fix2.py:50: KeyError
+_ test_late_inner_rss_survives_failed_copy_of_prior_source_provenance[serialization] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4355/test_late_inner_rss_survives_f2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1087fa5d0>
+failure = 'serialization'
+
+    @pytest.mark.parametrize('failure',['declaration_cap','completion_cap','serialization'])
+    def test_late_inner_rss_survives_failed_copy_of_prior_source_provenance(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure; budget=16384; original=m._bounded_json; inner=[]; prior=[]
+        def encode(value,limit,check=lambda:None):
+            kind=value.get('kind') if isinstance(value,dict) else None
+            selected=(kind=='runtime' if failure=='declaration_cap' else kind=='witness')
+            if selected and not prior:
+                if failure=='serialization': prior.append(True); raise OSError('controlled witness encoding failure')
+                raw=original(value,limit,check)
+                padding=budget-m.directory_bytes(out)-len(raw)-16
+                assert padding>0
+                (out/'charged-padding.bin').write_bytes(b'p'*padding)
+                prior.append(True)
+                return raw
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            now=time.monotonic(); helper=pid+100000; inner.append(helper)
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001); root['rss_bytes']=80
+            observer=sample(helper,pid,m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer.update(raw_args=' '.join(m.PS_ARGV),rss_bytes=900)
+            declared=witness(helper,pid,m.PS_ARGV); declared.update(launch_start=now-.01,reaped=False); declared.pop('completion_end')
+            path=out/'monitor-events.jsonl'
+            a.event(path,'observer_helper',**declared)
+            a.event(path,'observer_helper_end',pid=helper,parent=pid,launch_id=declared['launch_id'],completion_end=now+.005,reaped=True)
+            a.event(path,'observer_sample',processes=[root,observer])
+            a.event(path,'baseline',pid=pid,rss=80)
+            outer=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            return m.ResidentTree({pid:70},{pid:outer})  # outer observation misses inner helper
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,output_bytes=budget,free_disk_bytes=0)
+        assert result['status']=='STOPPED' and result['returncode'] is not None
+        assert result['absolute_process_tree_peak_bytes']==980
+        assert result['observed_pid_peak_sum_bytes']==980
+        assert result['incremental_worker_peak_bytes']>=980
+        helper=result['workers'][str(inner[0])]
+        assert helper['baseline_bytes']==0 and helper['incremental_peak_bytes']==900
+>       assert helper['role'] not in ('worker','observer_helper','authority_helper')
+               ^^^^^^^^^^^^^^
+E       KeyError: 'role'
+
+tests/test_kernel_stage_a_native_process_fix2.py:50: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix2.py::test_late_inner_rss_survives_failed_copy_of_prior_source_provenance[declaration_cap]
+FAILED tests/test_kernel_stage_a_native_process_fix2.py::test_late_inner_rss_survives_failed_copy_of_prior_source_provenance[serialization]
+2 failed, 10 passed in 0.44s

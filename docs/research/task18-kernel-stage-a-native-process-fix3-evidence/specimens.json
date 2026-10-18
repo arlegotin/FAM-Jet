@@ -1,0 +1,2314 @@
+{
+  "covering-initial/test_late_inner_rss_survives_f0/declaration_cap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_late_inner_rss_survives_f0/declaration_cap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap",
+    "directory_bytes": 16368,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1703,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "ambiguous helper completion"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.005361209041438997,
+      "utc_start_epoch": 1792310111.674182,
+      "utc_end_epoch": 1792310111.679449,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.005049459054134786,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12713": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12702
+        },
+        "112713": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12713
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "112713",
+        "12713"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1173,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1561,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 16368
+    }
+  },
+  "covering-initial/test_late_inner_rss_survives_f1/completion_cap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_late_inner_rss_survives_f1/completion_cap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap",
+    "directory_bytes": 16368,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1778,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.0051170410588383675,
+      "utc_start_epoch": 1792310111.681144,
+      "utc_end_epoch": 1792310111.686172,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.004670875030569732,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12714": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12702
+        },
+        "112714": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12714
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12714",
+        "112714"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 3,
+        "accepted_samples": 1,
+        "bytes": 1603,
+        "rejected_observations": 1,
+        "rejected_rss_bytes": 980,
+        "rejected_raw_complete": false,
+        "last_refusal": {
+          "kind": "refused_observation",
+          "reason": "output cap",
+          "raw_identity_complete": false,
+          "sampled_process_count": 2,
+          "rss_bytes": 980
+        }
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1564,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 16368
+    }
+  },
+  "covering-initial/test_late_inner_rss_survives_f2/serialization": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_late_inner_rss_survives_f2/serialization",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization",
+    "directory_bytes": 10924,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1701,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "ambiguous helper completion"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.004484542063437402,
+      "utc_start_epoch": 1792310111.6877,
+      "utc_end_epoch": 1792310111.692101,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.004232667037285864,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12715": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12702
+        },
+        "112715": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12715
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "112715",
+        "12715"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1171,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1561,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10924
+    }
+  },
+  "covering-initial/test_minimum_failure_budget_st0/minimum": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_minimum_failure_budget_st0/minimum",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum",
+    "directory_bytes": 512,
+    "verdict_bytes": 512,
+    "verdict_payload_bytes": 347,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "returncode": -9,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "outer_seconds": 0.004325666930526495,
+      "timing_boundary": "before emergency commit; caller includes write",
+      "raw_identity_complete": false,
+      "refused_observations": 1,
+      "refused_rss_bytes": 70,
+      "source_accounting_complete": true
+    }
+  },
+  "covering-initial/test_post_authority_baseline_b0/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_post_authority_baseline_b0/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete",
+    "directory_bytes": 10555,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1534,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.06533133308403194,
+      "utc_start_epoch": 1792310111.4127722,
+      "utc_end_epoch": 1792310111.478025,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06503658299334347,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 0,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12708": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545801.814774125,
+        "end": 545801.845979166,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1547,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 816,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10555
+    }
+  },
+  "covering-initial/test_post_authority_baseline_b1/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_post_authority_baseline_b1/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete",
+    "directory_bytes": 11915,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1567,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.0638647919986397,
+      "utc_start_epoch": 1792310111.479729,
+      "utc_end_epoch": 1792310111.543498,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06355925009120256,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 60,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12709": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12702,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545801.881529583,
+        "end": 545801.911496125,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 10,
+        "accepted_samples": 3,
+        "bytes": 2901,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 2,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11915
+    }
+  },
+  "covering-initial/test_post_authority_baseline_b2/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_post_authority_baseline_b2/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure",
+    "directory_bytes": 10136,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1505,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.027031959034502506,
+      "utc_start_epoch": 1792310111.545256,
+      "utc_end_epoch": 1792310111.572211,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.026275041978806257,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12710": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545801.94729425,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 7,
+        "accepted_samples": 3,
+        "bytes": 1125,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 819,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10136
+    }
+  },
+  "covering-initial/test_post_authority_baseline_b3/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_post_authority_baseline_b3/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure",
+    "directory_bytes": 11479,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1538,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.033719750004820526,
+      "utc_start_epoch": 1792310111.573728,
+      "utc_end_epoch": 1792310111.6073751,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.03299570793751627,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12711": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12702,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545801.97546725,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 8,
+        "accepted_samples": 3,
+        "bytes": 2467,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 820,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11479
+    }
+  },
+  "covering-initial/test_source_sample_overlapping0/overlap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_source_sample_overlapping0/overlap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap",
+    "directory_bytes": 10577,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1563,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.0640672919107601,
+      "utc_start_epoch": 1792310111.608644,
+      "utc_end_epoch": 1792310111.6726248,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06373462500050664,
+      "absolute_process_tree_peak_bytes": 80,
+      "incremental_worker_peak_bytes": 80,
+      "observed_pid_peak_sum_bytes": 80,
+      "workers": {
+        "12712": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 80,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12702,
+          "authority_phase_peak_bytes": 80
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 80,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545802.010256166,
+        "end": 545802.040659625,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1568,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 817,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10577
+    }
+  },
+  "covering-initial/test_unrecoverable_source_jour0/storage": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_unrecoverable_source_jour0/storage",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage",
+    "directory_bytes": 9946,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1567,
+    "summary": {
+      "status": "FAILED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "OSError",
+        "message": "controlled source journal read failure"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.004182582953944802,
+      "utc_start_epoch": 1792310111.699005,
+      "utc_end_epoch": 1792310111.703118,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.003979666042141616,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12717": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12717"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1173,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 9946
+    }
+  },
+  "covering-initial/test_unrecoverable_source_jour1/partial": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_unrecoverable_source_jour1/partial",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial",
+    "directory_bytes": 11601,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1493,
+    "summary": {
+      "status": "FAILED",
+      "reason": "outer timeout",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.09618662495631725,
+      "utc_start_epoch": 1792310111.7043478,
+      "utc_end_epoch": 1792310111.800236,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.09565249993465841,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12718": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12718"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 7,
+        "accepted_samples": 3,
+        "bytes": 3369,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 3,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11601
+    }
+  },
+  "covering-initial/test_unrecoverable_source_jour2/truncated": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_unrecoverable_source_jour2/truncated",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated",
+    "directory_bytes": 10386,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1548,
+    "summary": {
+      "status": "FAILED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "source event journal truncated"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.026372957974672318,
+      "utc_start_epoch": 1792310111.8021078,
+      "utc_end_epoch": 1792310111.828395,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.026130290934816003,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12719": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "worker",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 5,
+        "accepted_samples": 2,
+        "bytes": 2191,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 78,
+        "samples": 0
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10386
+    }
+  },
+  "covering-initial/test_unscanned_complete_source0/deadline": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357/test_unscanned_complete_source0/deadline",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline",
+    "directory_bytes": 9867,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1459,
+    "summary": {
+      "status": "FAILED",
+      "reason": "outer timeout",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 2.0,
+      "utc_start_epoch": 1792310111.693481,
+      "utc_end_epoch": 1792310111.697621,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 2.0,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12716": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12702
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12716"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1128,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 9867
+    }
+  },
+  "adjacent-green/test_post_authority_baseline_b0/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_post_authority_baseline_b0/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete",
+    "directory_bytes": 10577,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1534,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.048380041029304266,
+      "utc_start_epoch": 1792310164.391266,
+      "utc_end_epoch": 1792310164.439574,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.04807349992915988,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 0,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12784": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12783
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545854.793482291,
+        "end": 545854.816318583,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1563,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10577
+    }
+  },
+  "adjacent-green/test_post_authority_baseline_b1/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_post_authority_baseline_b1/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete",
+    "directory_bytes": 11907,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1568,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.06190679199062288,
+      "utc_start_epoch": 1792310164.441199,
+      "utc_end_epoch": 1792310164.503029,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06160958402324468,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 60,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12789": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12783,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545854.843004166,
+        "end": 545854.871568958,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 10,
+        "accepted_samples": 3,
+        "bytes": 2896,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 819,
+        "samples": 1
+      },
+      "classified_process_observations": 2,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11907
+    }
+  },
+  "adjacent-green/test_post_authority_baseline_b2/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_post_authority_baseline_b2/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure",
+    "directory_bytes": 10141,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1505,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.035858666989952326,
+      "utc_start_epoch": 1792310164.504629,
+      "utc_end_epoch": 1792310164.540413,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.03511404199525714,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12790": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12783
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545854.906529416,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 7,
+        "accepted_samples": 3,
+        "bytes": 1127,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10141
+    }
+  },
+  "adjacent-green/test_post_authority_baseline_b3/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_post_authority_baseline_b3/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure",
+    "directory_bytes": 11481,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1538,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.02657250000629574,
+      "utc_start_epoch": 1792310164.541868,
+      "utc_end_epoch": 1792310164.568375,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.025833499967120588,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12791": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12783,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545854.943655291,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 8,
+        "accepted_samples": 3,
+        "bytes": 2467,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11481
+    }
+  },
+  "adjacent-green/test_source_sample_overlapping0/overlap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_source_sample_overlapping0/overlap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap",
+    "directory_bytes": 10582,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1565,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.05358800000976771,
+      "utc_start_epoch": 1792310164.5697012,
+      "utc_end_epoch": 1792310164.623206,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.053264625021256506,
+      "absolute_process_tree_peak_bytes": 80,
+      "incremental_worker_peak_bytes": 80,
+      "observed_pid_peak_sum_bytes": 80,
+      "workers": {
+        "12792": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 80,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12783,
+          "authority_phase_peak_bytes": 80
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 80,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545854.971553416,
+        "end": 545854.996446875,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1570,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 820,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10582
+    }
+  },
+  "adjacent-green/test_source_sample_overlapping1/overlap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358/test_source_sample_overlapping1/overlap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap",
+    "directory_bytes": 11914,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1609,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "incremental worker memory cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.05406929203309119,
+      "utc_start_epoch": 1792310164.624667,
+      "utc_end_epoch": 1792310164.678653,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.05375345901120454,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12793": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "pending_baseline",
+          "parent": 12783,
+          "authority_phase_peak_bytes": 80
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 80,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545855.026475,
+        "end": 545855.049047916,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12793"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 10,
+        "accepted_samples": 4,
+        "bytes": 2406,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 1316,
+        "samples": 2
+      },
+      "classified_process_observations": 2,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11914
+    }
+  },
+  "final/test_late_inner_rss_survives_f0/declaration_cap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_late_inner_rss_survives_f0/declaration_cap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap",
+    "directory_bytes": 16368,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1703,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "ambiguous helper completion"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.005339749972335994,
+      "utc_start_epoch": 1792310174.823837,
+      "utc_end_epoch": 1792310174.829089,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.005045291967689991,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12812": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12800
+        },
+        "112812": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12812
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "112812",
+        "12812"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1173,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1563,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 16368
+    }
+  },
+  "final/test_late_inner_rss_survives_f1/completion_cap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_late_inner_rss_survives_f1/completion_cap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap",
+    "directory_bytes": 16368,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1778,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.005365833058021963,
+      "utc_start_epoch": 1792310174.8308039,
+      "utc_end_epoch": 1792310174.836087,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.004984374972991645,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12813": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12800
+        },
+        "112813": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12813
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12813",
+        "112813"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 3,
+        "accepted_samples": 1,
+        "bytes": 1599,
+        "rejected_observations": 1,
+        "rejected_rss_bytes": 980,
+        "rejected_raw_complete": false,
+        "last_refusal": {
+          "kind": "refused_observation",
+          "reason": "output cap",
+          "raw_identity_complete": false,
+          "sampled_process_count": 2,
+          "rss_bytes": 980
+        }
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1556,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 16368
+    }
+  },
+  "final/test_late_inner_rss_survives_f2/serialization": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_late_inner_rss_survives_f2/serialization",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization",
+    "directory_bytes": 10928,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1705,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "ambiguous helper completion"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.004764457931742072,
+      "utc_start_epoch": 1792310174.8376691,
+      "utc_end_epoch": 1792310174.8423512,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.004482582909986377,
+      "absolute_process_tree_peak_bytes": 980,
+      "incremental_worker_peak_bytes": 980,
+      "observed_pid_peak_sum_bytes": 980,
+      "workers": {
+        "12814": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 80,
+          "role": "pending_baseline",
+          "parent": 12800
+        },
+        "112814": {
+          "absolute_peak_bytes": 900,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 900,
+          "role": "pending_baseline",
+          "parent": 12814
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 2,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "112814",
+        "12814"
+      ],
+      "unresolved_worker_count": 2,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1173,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 1563,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10928
+    }
+  },
+  "final/test_minimum_failure_budget_st0/minimum": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_minimum_failure_budget_st0/minimum",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum",
+    "directory_bytes": 512,
+    "verdict_bytes": 512,
+    "verdict_payload_bytes": 347,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "returncode": -9,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "outer_seconds": 0.004403917002491653,
+      "timing_boundary": "before emergency commit; caller includes write",
+      "raw_identity_complete": false,
+      "refused_observations": 1,
+      "refused_rss_bytes": 70,
+      "source_accounting_complete": true
+    }
+  },
+  "final/test_post_authority_baseline_b0/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_post_authority_baseline_b0/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete",
+    "directory_bytes": 10576,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1533,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.06211858300957829,
+      "utc_start_epoch": 1792310174.508863,
+      "utc_end_epoch": 1792310174.570902,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06182612502016127,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 0,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12806": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545864.910871291,
+        "end": 545864.941744208,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1562,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10576
+    }
+  },
+  "final/test_post_authority_baseline_b1/complete": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_post_authority_baseline_b1/complete",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete",
+    "directory_bytes": 11911,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1570,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.053958832984790206,
+      "utc_start_epoch": 1792310174.5725288,
+      "utc_end_epoch": 1792310174.626401,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.05367383291013539,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 60,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12807": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 500,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12800,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545864.974560708,
+        "end": 545865.000502291,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 10,
+        "accepted_samples": 3,
+        "bytes": 2898,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 821,
+        "samples": 1
+      },
+      "classified_process_observations": 2,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11911
+    }
+  },
+  "final/test_post_authority_baseline_b2/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_post_authority_baseline_b2/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure",
+    "directory_bytes": 10141,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1505,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.03598820907063782,
+      "utc_start_epoch": 1792310174.6280372,
+      "utc_end_epoch": 1792310174.6639519,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.03522404201794416,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12808": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545865.03008375,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 7,
+        "accepted_samples": 3,
+        "bytes": 1129,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 820,
+        "samples": 1
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10141
+    }
+  },
+  "final/test_post_authority_baseline_b3/copy_failure": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_post_authority_baseline_b3/copy_failure",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure",
+    "directory_bytes": 11481,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1540,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "output cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.031072832993231714,
+      "utc_start_epoch": 1792310174.665361,
+      "utc_end_epoch": 1792310174.6963599,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.030328041058965027,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12809": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "worker",
+          "parent": 12800,
+          "authority_phase_peak_bytes": 60
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 60,
+      "authority_phase": {
+        "active": true,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545865.067508291,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 8,
+        "accepted_samples": 3,
+        "bytes": 2467,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": false,
+        "through_bytes": 822,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11481
+    }
+  },
+  "final/test_source_sample_overlapping0/overlap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_source_sample_overlapping0/overlap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap",
+    "directory_bytes": 10578,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1563,
+    "summary": {
+      "status": "COMPLETED",
+      "reason": null,
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.06145087501499802,
+      "utc_start_epoch": 1792310174.69774,
+      "utc_end_epoch": 1792310174.7590988,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.061124625033698976,
+      "absolute_process_tree_peak_bytes": 80,
+      "incremental_worker_peak_bytes": 80,
+      "observed_pid_peak_sum_bytes": 80,
+      "workers": {
+        "12810": {
+          "absolute_peak_bytes": 80,
+          "baseline_bytes": 80,
+          "incremental_peak_bytes": 0,
+          "role": "worker",
+          "parent": 12800,
+          "authority_phase_peak_bytes": 80
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 80,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545865.099735083,
+        "end": 545865.12737225,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 9,
+        "accepted_samples": 3,
+        "bytes": 1567,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 819,
+        "samples": 1
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10578
+    }
+  },
+  "final/test_source_sample_overlapping1/overlap": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_source_sample_overlapping1/overlap",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap",
+    "directory_bytes": 11921,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1613,
+    "summary": {
+      "status": "STOPPED",
+      "reason": "incremental worker memory cap",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": 0,
+      "outer_seconds": 0.0616999170742929,
+      "utc_start_epoch": 1792310174.7606888,
+      "utc_end_epoch": 1792310174.8223019,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.06137504207435995,
+      "absolute_process_tree_peak_bytes": 500,
+      "incremental_worker_peak_bytes": 500,
+      "observed_pid_peak_sum_bytes": 500,
+      "workers": {
+        "12811": {
+          "absolute_peak_bytes": 500,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 500,
+          "role": "pending_baseline",
+          "parent": 12800,
+          "authority_phase_peak_bytes": 80
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 80,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": true,
+        "start": 545865.162824916,
+        "end": 545865.190086041,
+        "success": true,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12811"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 10,
+        "accepted_samples": 4,
+        "bytes": 2407,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": true,
+        "status": "COMPLETE",
+        "identity_complete": true,
+        "through_bytes": 1322,
+        "samples": 2
+      },
+      "classified_process_observations": 2,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11921
+    }
+  },
+  "final/test_unrecoverable_source_jour0/storage": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_unrecoverable_source_jour0/storage",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage",
+    "directory_bytes": 9941,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1567,
+    "summary": {
+      "status": "FAILED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "OSError",
+        "message": "controlled source journal read failure"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.004205915960483253,
+      "utc_start_epoch": 1792310174.849557,
+      "utc_end_epoch": 1792310174.853688,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.003963958006352186,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12816": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12816"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1169,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 9941
+    }
+  },
+  "final/test_unrecoverable_source_jour1/partial": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_unrecoverable_source_jour1/partial",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial",
+    "directory_bytes": 11607,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1492,
+    "summary": {
+      "status": "FAILED",
+      "reason": "outer timeout",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.09638662496581674,
+      "utc_start_epoch": 1792310174.854987,
+      "utc_end_epoch": 1792310174.951044,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.09579016698990017,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12817": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12817"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 7,
+        "accepted_samples": 3,
+        "bytes": 3375,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 3,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 11607
+    }
+  },
+  "final/test_unrecoverable_source_jour2/truncated": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_unrecoverable_source_jour2/truncated",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated",
+    "directory_bytes": 10387,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1546,
+    "summary": {
+      "status": "FAILED",
+      "reason": "monitor common failure",
+      "monitor_failure": {
+        "type": "ValueError",
+        "message": "source event journal truncated"
+      },
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 0.026127916993573308,
+      "utc_start_epoch": 1792310174.953119,
+      "utc_end_epoch": 1792310174.979166,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 0.02588279196061194,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12818": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "worker",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [],
+      "unresolved_worker_count": 0,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 5,
+        "accepted_samples": 2,
+        "bytes": 2192,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 78,
+        "samples": 0
+      },
+      "classified_process_observations": 1,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 10387
+    }
+  },
+  "final/test_unscanned_complete_source0/deadline": {
+    "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359/test_unscanned_complete_source0/deadline",
+    "durable": "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline",
+    "directory_bytes": 9867,
+    "verdict_bytes": 8192,
+    "verdict_payload_bytes": 1459,
+    "summary": {
+      "status": "FAILED",
+      "reason": "outer timeout",
+      "monitor_failure": null,
+      "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+      "returncode": -9,
+      "outer_seconds": 2.0,
+      "utc_start_epoch": 1792310174.843808,
+      "utc_end_epoch": 1792310174.848135,
+      "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+      "finalization_start_seconds": 2.0,
+      "absolute_process_tree_peak_bytes": 70,
+      "incremental_worker_peak_bytes": 70,
+      "observed_pid_peak_sum_bytes": 70,
+      "workers": {
+        "12815": {
+          "absolute_peak_bytes": 70,
+          "baseline_bytes": 0,
+          "incremental_peak_bytes": 70,
+          "role": "pending_baseline",
+          "parent": 12800
+        }
+      },
+      "workers_complete_inline": true,
+      "worker_count": 1,
+      "observer_helper_peak_bytes": 0,
+      "authority_full_rss_peak_bytes": 0,
+      "authority_phase": {
+        "active": false,
+        "declarations": {},
+        "completed": [],
+        "ends": {},
+        "commands": [],
+        "started": false,
+        "details_complete_inline": true,
+        "helper_count": 0,
+        "completed_count": 0
+      },
+      "missing_worker_baselines": [
+        "12815"
+      ],
+      "unresolved_worker_count": 1,
+      "evidence": {
+        "path": "monitor-evidence.jsonl",
+        "accepted_records": 2,
+        "accepted_samples": 1,
+        "bytes": 1128,
+        "rejected_observations": 0,
+        "rejected_rss_bytes": 0,
+        "rejected_raw_complete": true
+      },
+      "source_event_accounting": {
+        "complete": false,
+        "status": "FAILED",
+        "identity_complete": false,
+        "through_bytes": 0,
+        "samples": 0
+      },
+      "classified_process_observations": 0,
+      "verdict_reserved_bytes": 8192,
+      "rss_scope": "sampled resident memory; not allocator peak",
+      "output_bytes_before_monitor_report": 9867
+    }
+  }
+}

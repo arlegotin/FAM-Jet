@@ -1,0 +1,160 @@
+FFFF.                                                                    [100%]
+=================================== FAILURES ===================================
+__ test_post_authority_baseline_batch_cannot_inflate_authority_peak[False-0] ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4354/test_post_authority_baseline_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108257a80>
+prior_authority_rss = 0, copy_failure = False
+
+    @pytest.mark.parametrize('prior_authority_rss',[0,60])
+    @pytest.mark.parametrize('copy_failure',[False,True])
+    def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,monkeypatch,prior_authority_rss,copy_failure):
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/('copy_failure' if copy_failure else 'complete'); polls=[]; original=m._bounded_json
+        def encode(value,limit,check=lambda:None):
+            if (copy_failure and isinstance(value,dict) and value.get('kind')=='event'
+                    and value['value']['event']=='authority_end'):
+                raise m._MonitorStop('output cap')
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            polls.append(pid); path=out/'monitor-events.jsonl'
+            if len(polls)==1:
+                a.event(path,'authority_start',pid=pid)
+                if prior_authority_rss:
+                    now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                    root['rss_bytes']=prior_authority_rss
+                    return m.ResidentTree({pid:prior_authority_rss},{pid:root})
+            elif len(polls)==2:
+                a.event(path,'authority_end',pid=pid,success=True)
+                now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                root['rss_bytes']=500
+                a.event(path,'observer_sample',processes=[root])
+                a.event(path,'baseline',pid=pid,rss=500)
+                (out/'finish').touch()
+            return m.ResidentTree({},{})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
+>       assert result['authority_full_rss_peak_bytes']==prior_authority_rss
+E       assert 500 == 0
+
+tests/test_kernel_stage_a_native_process_fix3.py:40: AssertionError
+__ test_post_authority_baseline_batch_cannot_inflate_authority_peak[False-60] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4354/test_post_authority_baseline_b1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082576f0>
+prior_authority_rss = 60, copy_failure = False
+
+    @pytest.mark.parametrize('prior_authority_rss',[0,60])
+    @pytest.mark.parametrize('copy_failure',[False,True])
+    def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,monkeypatch,prior_authority_rss,copy_failure):
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/('copy_failure' if copy_failure else 'complete'); polls=[]; original=m._bounded_json
+        def encode(value,limit,check=lambda:None):
+            if (copy_failure and isinstance(value,dict) and value.get('kind')=='event'
+                    and value['value']['event']=='authority_end'):
+                raise m._MonitorStop('output cap')
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            polls.append(pid); path=out/'monitor-events.jsonl'
+            if len(polls)==1:
+                a.event(path,'authority_start',pid=pid)
+                if prior_authority_rss:
+                    now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                    root['rss_bytes']=prior_authority_rss
+                    return m.ResidentTree({pid:prior_authority_rss},{pid:root})
+            elif len(polls)==2:
+                a.event(path,'authority_end',pid=pid,success=True)
+                now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                root['rss_bytes']=500
+                a.event(path,'observer_sample',processes=[root])
+                a.event(path,'baseline',pid=pid,rss=500)
+                (out/'finish').touch()
+            return m.ResidentTree({},{})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
+>       assert result['authority_full_rss_peak_bytes']==prior_authority_rss
+E       assert 500 == 60
+
+tests/test_kernel_stage_a_native_process_fix3.py:40: AssertionError
+___ test_post_authority_baseline_batch_cannot_inflate_authority_peak[True-0] ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4354/test_post_authority_baseline_b2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1083e4a70>
+prior_authority_rss = 0, copy_failure = True
+
+    @pytest.mark.parametrize('prior_authority_rss',[0,60])
+    @pytest.mark.parametrize('copy_failure',[False,True])
+    def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,monkeypatch,prior_authority_rss,copy_failure):
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/('copy_failure' if copy_failure else 'complete'); polls=[]; original=m._bounded_json
+        def encode(value,limit,check=lambda:None):
+            if (copy_failure and isinstance(value,dict) and value.get('kind')=='event'
+                    and value['value']['event']=='authority_end'):
+                raise m._MonitorStop('output cap')
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            polls.append(pid); path=out/'monitor-events.jsonl'
+            if len(polls)==1:
+                a.event(path,'authority_start',pid=pid)
+                if prior_authority_rss:
+                    now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                    root['rss_bytes']=prior_authority_rss
+                    return m.ResidentTree({pid:prior_authority_rss},{pid:root})
+            elif len(polls)==2:
+                a.event(path,'authority_end',pid=pid,success=True)
+                now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                root['rss_bytes']=500
+                a.event(path,'observer_sample',processes=[root])
+                a.event(path,'baseline',pid=pid,rss=500)
+                (out/'finish').touch()
+            return m.ResidentTree({},{})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
+>       assert result['authority_full_rss_peak_bytes']==prior_authority_rss
+E       assert 500 == 0
+
+tests/test_kernel_stage_a_native_process_fix3.py:40: AssertionError
+__ test_post_authority_baseline_batch_cannot_inflate_authority_peak[True-60] ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4354/test_post_authority_baseline_b3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10834acf0>
+prior_authority_rss = 60, copy_failure = True
+
+    @pytest.mark.parametrize('prior_authority_rss',[0,60])
+    @pytest.mark.parametrize('copy_failure',[False,True])
+    def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,monkeypatch,prior_authority_rss,copy_failure):
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/('copy_failure' if copy_failure else 'complete'); polls=[]; original=m._bounded_json
+        def encode(value,limit,check=lambda:None):
+            if (copy_failure and isinstance(value,dict) and value.get('kind')=='event'
+                    and value['value']['event']=='authority_end'):
+                raise m._MonitorStop('output cap')
+            return original(value,limit,check)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        def sampler(pid):
+            polls.append(pid); path=out/'monitor-events.jsonl'
+            if len(polls)==1:
+                a.event(path,'authority_start',pid=pid)
+                if prior_authority_rss:
+                    now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                    root['rss_bytes']=prior_authority_rss
+                    return m.ResidentTree({pid:prior_authority_rss},{pid:root})
+            elif len(polls)==2:
+                a.event(path,'authority_end',pid=pid,success=True)
+                now=time.monotonic(); root=sample(pid,os.getpid(),COMMAND,start=now,end=now)
+                root['rss_bytes']=500
+                a.event(path,'observer_sample',processes=[root])
+                a.event(path,'baseline',pid=pid,rss=500)
+                (out/'finish').touch()
+            return m.ResidentTree({},{})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
+>       assert result['authority_full_rss_peak_bytes']==prior_authority_rss
+E       assert 500 == 60
+
+tests/test_kernel_stage_a_native_process_fix3.py:40: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix3.py::test_post_authority_baseline_batch_cannot_inflate_authority_peak[False-0]
+FAILED tests/test_kernel_stage_a_native_process_fix3.py::test_post_authority_baseline_batch_cannot_inflate_authority_peak[False-60]
+FAILED tests/test_kernel_stage_a_native_process_fix3.py::test_post_authority_baseline_batch_cannot_inflate_authority_peak[True-0]
+FAILED tests/test_kernel_stage_a_native_process_fix3.py::test_post_authority_baseline_batch_cannot_inflate_authority_peak[True-60]
+4 failed, 1 passed in 0.23s
