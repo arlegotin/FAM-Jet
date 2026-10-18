@@ -139,6 +139,19 @@ marked `raw_identity_complete:false`; it is never called complete raw evidence.
 Counts, RSS sums and per-PID peak totals remain complete even when raw identity
 cannot fit. No raw history is copied into the final verdict.
 
+A separate numeric cursor scans new complete source-event journal rows before
+semantic interpretation or copying witnesses. An already-written inner
+`observer_sample` therefore contributes its RSS even if copying an earlier
+launch/completion fails. Semantic collection reuses that numerical accounting;
+it does not charge the same source sample twice or admit its identity. Each pass
+has a fixed current byte boundary and the existing deadline/row-size checks.
+`source_event_accounting.complete` reports numerical recovery separately from
+`identity_complete`. If time, unreadable/truncated source storage or a final
+unfinished row prevents complete recovery, the verdict is `FAILED` with
+incomplete accounting; reported known readings are not a certified complete RSS
+bound. The independent512-byte emergency verdict also retains raw completeness,
+refusal count and refused RSS instead of dropping those labels.
+
 Before launch the supervisor creates a fixed-size `monitor.json` reservation
 (512..8192 bytes, inside the original output cap), initially `STOPPED` with
 `reason:"monitor incomplete"`. Authority permits exactly these two new monitor

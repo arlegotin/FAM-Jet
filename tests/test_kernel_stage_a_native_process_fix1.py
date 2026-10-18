@@ -247,6 +247,8 @@ def test_minimum_failure_budget_still_retains_readable_numerical_verdict(tmp_pat
     result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.3,output_bytes=512,free_disk_bytes=0)
     assert result['status']=='STOPPED' and 'output cap' in result['reason']
     assert result['absolute_process_tree_peak_bytes']==70 and result['incremental_worker_peak_bytes']>=70
+    assert result['raw_identity_complete'] is False
+    assert result['refused_observations']==1 and result['refused_rss_bytes']==70
     assert m.directory_bytes(out)<=512
     assert json.loads((out/'monitor.json').read_text())==result
 

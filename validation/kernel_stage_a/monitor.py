@@ -226,7 +226,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; authority_worker=0; unresolved_sum=0; unresolved_root=0
     baselines={}; per_worker={}; declarations={}; last_roles={}; failed=set(); native_pids=set(); unresolved_pids=set()
     pending={}; dependencies={}; dirty=set(); pending_roles={}; helper_bounds={}; sequence=0; classified=0
-    candidate_start=None; candidate_ranges=[]; event_offset=0
+    candidate_start=None; candidate_ranges=[]; event_offset=0; numeric_event_offset=0
+    source_accounting=dict(complete=True,status='COMPLETE',identity_complete=True,through_bytes=0,samples=0)
     evidence=dict(path=evidence_path.name,accepted_records=0,accepted_samples=0,bytes=0,
                   rejected_observations=0,rejected_rss_bytes=0,rejected_raw_complete=True)
     phase=dict(active=False,declarations={},completed=set(),ends={},
@@ -288,7 +289,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             item=per_worker.setdefault(str(pid),dict(absolute_peak_bytes=0,baseline_bytes=None,incremental_peak_bytes=0))
             previous=item['absolute_peak_bytes']; item['absolute_peak_bytes']=max(previous,rss); rss_peak_sum+=item['absolute_peak_bytes']-previous
             if pid in entries:
-                item['parent']=entries[pid]['parent']
+                item['parent']=entries[pid].get('parent')
                 if 'raw_args' in entries[pid]: native_pids.add(pid)
             if phase['active'] and process is not None and pid==process.pid:
                 authority_worker=max(authority_worker,rss); item['authority_phase_peak_bytes']=authority_worker
@@ -329,9 +330,9 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         if authority_root is None: return None
         bounds=[min(deadline,a+90) for a,b in candidate_ranges if after>=a and before<=(b if b is not None else float('inf'))]
         return dict(root=authority_root,event_path=output/'monitor-events.jsonl',deadline=max(bounds)) if bounds else None
-    def collect(readings,entries,before,after,*,final=False):
+    def collect(readings,entries,before,after,*,final=False,accounted=False):
         nonlocal sequence
-        numeric(readings,entries)  # BEFORE any encoding, identity or event failure.
+        if not accounted: numeric(readings,entries)  # BEFORE any encoding, identity or event failure.
         sequence+=1
         try: append(dict(kind='sample',sample_id=sequence,rss=readings,processes=list(entries.values()),before=before,after=after),final=final)
         except BaseException as exc:
@@ -340,7 +341,41 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         pending[sequence]=dict(entries=entries,before=before,after=after,roles={},context=None)
         dirty.add(sequence)
         check(final=final)
-    def read_events(*,final=False):
+    def numeric_events(*,final=False):
+        """One bounded pass over new source bytes, independent of copied proof/admission."""
+        nonlocal numeric_event_offset
+        path=output/'monitor-events.jsonl'
+        try:
+            end=path.stat().st_size
+            if end<numeric_event_offset: raise ValueError('source event journal truncated')
+            if end==numeric_event_offset:
+                source_accounting.update(complete=True,status='COMPLETE'); return
+            with path.open('rb') as stream:
+                stream.seek(numeric_event_offset)
+                while numeric_event_offset<end:
+                    check(final=final)
+                    line=stream.readline(min(output_bytes+1,end-numeric_event_offset))
+                    if len(line)>output_bytes: raise _MonitorStop('output cap')
+                    if not line or not line.endswith(b'\n'):
+                        source_accounting.update(complete=False,status='PENDING')
+                        if final: raise ValueError('incomplete source event row')
+                        return
+                    event=json.loads(line)
+                    if event['event']=='observer_sample':
+                        entries={entry['pid']:entry for entry in event['processes']}
+                        readings={pid:entry['rss_bytes'] for pid,entry in entries.items()}
+                        if any(type(pid) is not int or pid<=0 or type(rss) is not int or rss<0 for pid,rss in readings.items()):
+                            raise ValueError('invalid source sample numerical RSS')
+                        numeric(readings,entries)
+                        source_accounting['samples']+=1
+                    # Move only after this row's numerical information is retained.
+                    numeric_event_offset=stream.tell(); source_accounting['through_bytes']=numeric_event_offset
+                    check(final=final)
+            source_accounting.update(complete=True,status='COMPLETE')
+        except BaseException:
+            source_accounting.update(complete=False,status='FAILED',identity_complete=False)
+            raise
+    def semantic_events(*,final=False):
         nonlocal event_offset,candidate_start,authority_worker
         path=output/'monitor-events.jsonl'
         with path.open() as stream:
@@ -349,11 +384,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                 check(final=final); position=stream.tell(); line=stream.readline(output_bytes+1)
                 if len(line)>output_bytes: raise _MonitorStop('output cap')
                 if not line or not line.endswith('\n'): event_offset=position; break
-                event_offset=stream.tell(); event=json.loads(line); kind=event['event']
+                event_offset=stream.tell()
+                if event_offset>numeric_event_offset: numeric_events(final=final)
+                event=json.loads(line); kind=event['event']
                 if kind=='observer_sample':
                     entries={entry['pid']:entry for entry in event['processes']}
                     first=next(iter(entries.values()))
-                    collect({pid:entry['rss_bytes'] for pid,entry in entries.items()},entries,first['sample_start'],first['sample_end'],final=final)
+                    collect({pid:entry['rss_bytes'] for pid,entry in entries.items()},entries,first['sample_start'],first['sample_end'],final=final,accounted=True)
                 elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')},final=final)
                 elif kind=='observer_helper_end': completion(declarations,event,final=final)
                 else:
@@ -387,6 +424,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                                 raise _MonitorStop('foreign process identity')
                         wake(process.pid)
                     else: raise ValueError('unknown monitoring event')
+    def read_events(*,final=False):
+        numeric_events(final=final)
+        try: semantic_events(final=final)
+        except BaseException:
+            source_accounting['identity_complete']=False
+            raise
+    def stopped_status(): return 'STOPPED' if source_accounting['complete'] else 'FAILED'
     def reconcile(*,final=False):
         nonlocal classified
         while dirty:
@@ -437,9 +481,12 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             incremental_peak=max(incremental_peak,rss_peak_sum)
     def emergency(why):
         # Independent of the normal JSON encoder and Path write boundary.
-        body=('{"status":"STOPPED","reason":"'+why+'","returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
+        body=('{"status":"'+stopped_status()+'","reason":"'+why+'","returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
               ',"absolute_process_tree_peak_bytes":'+str(peak)+',"incremental_worker_peak_bytes":'+str(max(incremental_peak,rss_peak_sum))+
-              ',"outer_seconds":'+repr(time.monotonic()-start)+',"timing_boundary":"before bounded emergency commit; caller measures full elapsed"}\n').encode()
+              ',"outer_seconds":'+repr(time.monotonic()-start)+',"timing_boundary":"before emergency commit; caller includes write"'+
+              ',"raw_identity_complete":'+str(evidence['rejected_raw_complete'] and source_accounting['identity_complete']).lower()+
+              ',"refused_observations":'+str(evidence['rejected_observations'])+',"refused_rss_bytes":'+str(evidence['rejected_rss_bytes'])+
+              ',"source_accounting_complete":'+str(source_accounting['complete']).lower()+'}\n').encode()
         return body
     initial=emergency('monitor incomplete')
     with verdict.open('xb') as stream: stream.write(initial+b' '*(reserve-len(initial)))
@@ -476,6 +523,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     except Exception as exc: failure(exc)
     finalization_start=time.monotonic()
     try:
+        numeric_events(final=True)
         check(final=True)
         if process is not None: read_events(final=True); reconcile(final=True)
         for pid_text in per_worker:
@@ -505,7 +553,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                            declarations=phase['declarations'] if phase_complete else {},
                            ends=phase['ends'] if phase_complete else {},
                            details_complete_inline=phase_complete,helper_count=len(phase['declarations']),completed_count=len(phase['completed']))
-        result=dict(status='STOPPED' if reason or process is None or process.returncode else 'COMPLETED',reason=reason,monitor_failure=monitor_failure,
+        result=dict(status=stopped_status() if reason or process is None or process.returncode or not source_accounting['complete'] else 'COMPLETED',reason=reason,monitor_failure=monitor_failure,
                     stage_launch_vector_sha256=commands.vector_hash(command),returncode=process.returncode if process is not None else None,
                     outer_seconds=time.monotonic()-start,utc_start_epoch=utc,utc_end_epoch=time.time(),
                     timing_boundary='before bounded final commit; caller must measure full elapsed including commit',
@@ -514,21 +562,21 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     observed_pid_peak_sum_bytes=rss_peak_sum,workers=workers,workers_complete_inline=workers_complete,worker_count=len(per_worker),
                     observer_helper_peak_bytes=overhead_peak,authority_full_rss_peak_bytes=authority_peak,
                     authority_phase=phase_summary,
-                    missing_worker_baselines=unresolved,unresolved_worker_count=unresolved_count,evidence=evidence,
+                    missing_worker_baselines=unresolved,unresolved_worker_count=unresolved_count,evidence=evidence,source_event_accounting=source_accounting,
                     classified_process_observations=classified,verdict_reserved_bytes=reserve,
                     rss_scope='sampled resident memory; not allocator peak')
         try: _bounded_json(result,reserve)
         except _MonitorStop:
             result.update(workers={},workers_complete_inline=False,
                           authority_phase={k:phase[k] for k in ('active','started')})
-            if result['reason'] is None: result.update(status='STOPPED',reason='output cap including final monitor report')
+            if result['reason'] is None: result.update(status=stopped_status(),reason='output cap including final monitor report')
         # Includes the completed bounded summary traversal/first encoding.
         result['outer_seconds']=time.monotonic()-start
         result['output_bytes_before_monitor_report']=charged_bytes()
-        if time.monotonic()>=deadline: result.update(status='STOPPED',reason='outer timeout')
+        if time.monotonic()>=deadline: result.update(status=stopped_status(),reason='outer timeout')
         raw=_bounded_json(result,reserve)
         if time.monotonic()>=deadline:
-            result.update(status='STOPPED',reason='outer timeout',outer_seconds=time.monotonic()-start)
+            result.update(status=stopped_status(),reason='outer timeout',outer_seconds=time.monotonic()-start)
             # One bounded last encoding, never a size/timestamp fixed point.
             raw=_bounded_json(result,reserve)
         _commit_monitor(verdict,raw,reserve)
