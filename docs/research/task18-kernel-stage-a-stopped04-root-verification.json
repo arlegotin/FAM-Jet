@@ -1,0 +1,19 @@
+{
+  "time_utc": "2026-10-18T13:29:09.500141+00:00",
+  "evidence_commit": "78c45d10a5715f86700e5946fda9c1ce8ca51ddc",
+  "executed_source": "dda35712332b8edf13ca340257b2e9eb8ae6bd8b",
+  "original_files": 59,
+  "original_bytes": 701070,
+  "changed_git_files": 63,
+  "changed_git_bytes": 730497,
+  "sealed_source_hashes": 25,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "report_full_read_sha256": "ec3c160b48b149fb66c9f2ce2c52ac58b64f1bf6aea751acfa0f73387c47b637",
+  "actual_stage_a_status": "STOPPED",
+  "reason": "incremental worker memory cap",
+  "first_three_retained_results": "PASS only",
+  "no_whole_stage_a_result": true,
+  "external_stage_a_seconds": 3.7168397079221904,
+  "no_test_or_native_or_science_rerun": true,
+  "protected_access": "CLOSED"
+}

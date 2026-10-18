@@ -1,0 +1,49 @@
+{
+  "time_utc": "2026-10-18T13:26:42.575063+00:00",
+  "scope": "read-only capacity observation for a prospective explicit resource amendment; no scientific allocation",
+  "commands": [
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit": 0,
+      "stdout": "38654705664\n",
+      "stderr": "",
+      "elapsed": 0.002606875030323863
+    },
+    {
+      "command": [
+        "/usr/bin/vm_stat"
+      ],
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   121901.\nPages active:                                 566415.\nPages inactive:                               503376.\nPages speculative:                             73871.\nPages throttled:                                   0.\nPages wired down:                             230138.\nPages purgeable:                               19686.\n\"Translation faults\":                     6364312928.\nPages copy-on-write:                       513949545.\nPages zero filled:                        5829042992.\nPages reactivated:                         154968602.\nPages purged:                               50712532.\nFile-backed pages:                            427751.\nAnonymous pages:                              715911.\nPages stored in compressor:                  1862944.\nPages occupied by compressor:                 803989.\nDecompressions:                            164740471.\nCompressions:                              216390312.\nPageins:                                   162699689.\nPageouts:                                     721946.\nSwapins:                                     2919524.\nSwapouts:                                    5000617.\n",
+      "stderr": "",
+      "elapsed": 0.002289332915097475
+    },
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "vm.swapusage"
+      ],
+      "exit": 0,
+      "stdout": "vm.swapusage: total = 6144.00M  used = 5110.81M  free = 1033.19M  (encrypted)\n",
+      "stderr": "",
+      "elapsed": 0.002037417027167976
+    },
+    {
+      "command": [
+        "/usr/bin/pmset",
+        "-g",
+        "batt"
+      ],
+      "exit": 0,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+      "stderr": "",
+      "elapsed": 0.00753629207611084
+    }
+  ],
+  "free_disk_bytes": 20241354752,
+  "elapsed": 0.014645708026364446
+}
