@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_attribution.py",
+    "-q",
+    "--basetemp=/private/tmp/task18-terminal-attribution-focused03-fdg2w2h2/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792318038.5829198,
+  "end_epoch": 1792318038.889493,
+  "owned_base": "/private/tmp/task18-terminal-attribution-focused03-fdg2w2h2",
+  "source_git": "d0c9a51e77a2028f6b648c4cfc0889734ec089b5"
+}

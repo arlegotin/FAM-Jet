@@ -1,0 +1,177 @@
+{
+  "attempts": [
+    {
+      "name": "task18-terminal-attribution-red01-7o5ripm9",
+      "exit": 1,
+      "outcome": "45 failed, 5 passed in 0.31s",
+      "wall_seconds": 0.4889106750488281,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-red01-7o5ripm9/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792317762.1862001,
+      "end_epoch": 1792317762.6751108
+    },
+    {
+      "name": "task18-terminal-attribution-red02-gxj17_je",
+      "exit": 1,
+      "outcome": "14 failed, 36 passed in 0.13s",
+      "wall_seconds": 0.25429511070251465,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-red02-gxj17_je/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792317775.961629,
+      "end_epoch": 1792317776.215924
+    },
+    {
+      "name": "task18-terminal-attribution-green01-xb6wmwn5",
+      "exit": 0,
+      "outcome": "50 passed in 0.07s",
+      "wall_seconds": 0.1909489631652832,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-green01-xb6wmwn5/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-green01-xb6wmwn5/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792317881.30092,
+      "end_epoch": 1792317881.491869
+    },
+    {
+      "name": "task18-terminal-attribution-red03-ntcv2tup",
+      "exit": 1,
+      "outcome": "8 failed, 55 passed in 0.17s",
+      "wall_seconds": 0.3050239086151123,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-red03-ntcv2tup/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792317968.950262,
+      "end_epoch": 1792317969.255286
+    },
+    {
+      "name": "task18-terminal-attribution-green02-zi6r2hli",
+      "exit": 0,
+      "outcome": "63 passed in 0.11s",
+      "wall_seconds": 0.22854018211364746,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-green02-zi6r2hli/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-green02-zi6r2hli/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792317991.432126,
+      "end_epoch": 1792317991.6606662
+    },
+    {
+      "name": "task18-terminal-attribution-focused03-fdg2w2h2",
+      "exit": 0,
+      "outcome": "83 passed in 0.15s",
+      "wall_seconds": 0.30657315254211426,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-focused03-fdg2w2h2/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-focused03-fdg2w2h2/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792318038.5829198,
+      "end_epoch": 1792318038.889493
+    },
+    {
+      "name": "task18-terminal-attribution-red04-ezsb5n_p",
+      "exit": 1,
+      "outcome": "1 failed in 0.06s",
+      "wall_seconds": 0.21641302108764648,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-red04-ezsb5n_p/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py::test_child_first_cannot_use_terminal_reader_outside_its_context",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-red04-ezsb5n_p/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792318158.281755,
+      "end_epoch": 1792318158.498168
+    },
+    {
+      "name": "task18-terminal-attribution-green04-gvcrb54l",
+      "exit": 0,
+      "outcome": "1 passed in 0.03s",
+      "wall_seconds": 0.1392502784729004,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-green04-gvcrb54l/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py::test_child_first_cannot_use_terminal_reader_outside_its_context",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-green04-gvcrb54l/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792318168.1568599,
+      "end_epoch": 1792318168.2961102
+    },
+    {
+      "name": "task18-terminal-attribution-final-cover-dak1jqro",
+      "exit": 0,
+      "outcome": "211 passed, 6 deselected in 1.79s",
+      "wall_seconds": 2.018949031829834,
+      "attempt": "docs/research/task18-terminal-attribution-evidence/task18-terminal-attribution-final-cover-dak1jqro/attempt.json",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_terminal_lifecycle.py",
+        "tests/test_kernel_stage_a_python_lifetime.py",
+        "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+        "tests/test_kernel_stage_a_native_process.py",
+        "tests/test_kernel_stage_a_native_process_fix1.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py",
+        "tests/test_kernel_stage_a_native_process_fix3.py",
+        "-k",
+        "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-final-cover-dak1jqro/specimens",
+        "-ra"
+      ],
+      "started_epoch": 1792318176.430811,
+      "end_epoch": 1792318178.44976
+    }
+  ],
+  "total_test_process_wall_seconds": 4.148904323577881,
+  "all_attempts_retained": true
+}

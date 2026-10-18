@@ -1,0 +1,25 @@
+{
+  "source_git": "795e4c05f07378fc57accae4ad4012d4d9f57b8b",
+  "input_git": "fd888972801ba5582ec2413122e9882b4fc68f82",
+  "final_source_checks": {
+    "validation/kernel_stage_a/monitor.py": {
+      "final_test_bytes_equal_source_commit": true,
+      "sha256": "ac8270ff96af7adbeb9581b6fa4ba2df9a58cc298e94d222e97c7a9fa51b2696"
+    },
+    "tests/test_kernel_stage_a_terminal_attribution.py": {
+      "final_test_bytes_equal_source_commit": true,
+      "sha256": "332bb89b9ccb6a517b98f14d92424b6223f641708a0eaeb9182152cd1f36a8f8"
+    }
+  },
+  "frozen_input_hashes_match": true,
+  "original_attempt_manifests_verified": 9,
+  "original_attempt_file_hashes_verified": 916,
+  "git_diff_check_exit": 0,
+  "compilation": "compile(bytes,path,exec) only; monitor/new test/new frozen control all PASS",
+  "source_scope": [
+    "tests/test_kernel_stage_a_terminal_attribution.py",
+    "validation/kernel_stage_a/README.md",
+    "validation/kernel_stage_a/monitor.py"
+  ],
+  "native_or_scientific_execution": false
+}

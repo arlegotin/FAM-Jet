@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_child_first_cannot_use_terminal_reader_outside_its_context ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red04-ezsb5n_p/specimens/test_child_first_cannot_use_te0')
+
+    def test_child_first_cannot_use_terminal_reader_outside_its_context(tmp_path):
+        state,launch,live,parent,end,context=prepared(tmp_path,'reader')
+        child,declared=helper(parent=20)
+        roles=classify(state,[child,parent],None,declarations={30:declared})
+>       assert roles=={20:'unaccounted',30:'unaccounted'}
+E       AssertionError: assert {30: 'observe...'unaccounted'} == {20: 'unaccou...'unaccounted'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {30: 'observer_helper'} != {30: 'unaccounted'}
+E         Use -v to get more diff
+
+tests/test_kernel_stage_a_terminal_attribution.py:458: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_child_first_cannot_use_terminal_reader_outside_its_context
+1 failed in 0.06s

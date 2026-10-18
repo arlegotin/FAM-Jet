@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_attribution.py",
+    "-q",
+    "--basetemp=/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792317968.950262,
+  "end_epoch": 1792317969.255286,
+  "owned_base": "/private/tmp/task18-terminal-attribution-red03-ntcv2tup",
+  "source_git": "d0c9a51e77a2028f6b648c4cfc0889734ec089b5"
+}

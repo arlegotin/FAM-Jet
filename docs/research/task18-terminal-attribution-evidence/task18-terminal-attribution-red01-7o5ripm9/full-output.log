@@ -1,0 +1,1201 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.....                       [100%]
+=================================== FAILURES ===================================
+_ test_literal_python_keeps_raw_terminal_and_records_source_proof[owned_root] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_literal_python_keeps_raw_0')
+family = 'owned_root'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,family):
+>       state,launch,live,row,end,context=prepared(tmp_path,family)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_literal_python_keeps_raw_0')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+___ test_literal_python_keeps_raw_terminal_and_records_source_proof[reader] ____
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_literal_python_keeps_raw_1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,family):
+>       state,launch,live,row,end,context=prepared(tmp_path,family)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_literal_python_keeps_raw_1')
+role = 'reader', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+            if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+>           else: state.self_sample(launch['pid'],[live],sample_context=sample)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.self_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:28: TypeError
+________ test_reader_needs_genuine_self_baseline_and_completion[proof] _________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self0')
+missing = 'proof'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+state = <validation.kernel_stage_a.monitor.PythonLifetimes object at 0x10a064410>
+rows = [{'pid': 20, 'parent': 10, 'rss_bytes': 0, 'sample_start': 13.0, ...}]
+context = {'root': PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self0'...te/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self0/events'), 'deadline': 90.0}
+declarations = None, phase = None, sample_context = None
+
+    def classify(state, rows, context, *, declarations=None, phase=None, sample_context=None):
+>       return m.classify(10,{r['pid']:r for r in rows},{10:70,20:70},declarations or {},
+            stage_vector=state.stage_vector,reader_context=context,runtime_identity=identity(),
+            python_lifetimes=state,authority_phase=phase,sample_context=sample_context)
+E       TypeError: classify() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:36: TypeError
+_______ test_reader_needs_genuine_self_baseline_and_completion[baseline] _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self1')
+missing = 'baseline'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+>       state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self1')
+role = 'reader', proof = True, baseline = False, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+            if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+>           else: state.self_sample(launch['pid'],[live],sample_context=sample)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.self_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:28: TypeError
+_________ test_reader_needs_genuine_self_baseline_and_completion[end] __________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self2')
+missing = 'end'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+>       state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_reader_needs_genuine_self2')
+role = 'reader', proof = True, baseline = True, ended = False
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+            if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+>           else: state.self_sample(launch['pid'],[live],sample_context=sample)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.self_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:28: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change0] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio0')
+change = {'raw_comm': 'defunct'}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio0')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change1] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio1')
+change = {'raw_args': '<defunct> '}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio1')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change2] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio2')
+change = {'rss_bytes': 1}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio2')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change3] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio3')
+change = {'rss_bytes': 0.0}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio3')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change4] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio4')
+change = {'rss_bytes': False}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio4')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change5] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio5')
+change = {'ambiguous': True}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio5')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change6] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio6')
+change = {'parent': 99}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio6')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change7] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio7')
+change = {'sample_start': 15.0, 'sample_end': 16.0}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio7')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change8] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio8')
+change = {'sample_start': 9.0, 'sample_end': 9.5}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio8')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+____________ test_terminal_row_contradictions_fail_closed[change9] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio9')
+change = {'sample_start': 12.0, 'sample_end': 14.0}
+
+    @pytest.mark.parametrize('change',[
+        {'raw_comm':'defunct'}, {'raw_args':'<defunct> '}, {'rss_bytes':1}, {'rss_bytes':0.0}, {'rss_bytes':False},
+        {'ambiguous':True}, {'parent':99}, {'sample_start':15.,'sample_end':16.},
+        {'sample_start':9.,'sample_end':9.5}, {'sample_start':12.,'sample_end':14.},
+    ])
+    def test_terminal_row_contradictions_fail_closed(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_row_contradictio9')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change0] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or0')
+change = {'errno': 1}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or0')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change1] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or1')
+change = {'reason': 'native_binding_failed'}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or1')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change2] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or2')
+change = {'method': 'invented'}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or2')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change3] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or3')
+change = {'status': 'ok', 'path': '/wrong', 'sha256': 'x'}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or3')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change4] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or4')
+change = {'lookup_start': 13.5}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or4')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______ test_terminal_requires_real_ordered_proc_pidpath_esrch[change5] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or5')
+change = {'lookup_end': 14.9}
+
+    @pytest.mark.parametrize('change',[{'errno':errno.EPERM},{'reason':'native_binding_failed'},
+        {'method':'invented'},{'status':'ok','path':'/wrong','sha256':'x'},
+        {'lookup_start':13.5},{'lookup_end':14.9}])
+    def test_terminal_requires_real_ordered_proc_pidpath_esrch(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_requires_real_or5')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+________________ test_ps_helper_historical_parent_routes[live] _________________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare0')
+parent_state = 'live'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+>       state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare0')
+role = 'owned_root', proof = True, baseline = True, ended = False
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_______________ test_ps_helper_historical_parent_routes[absent] ________________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare1')
+parent_state = 'absent'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+>       state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare1')
+role = 'owned_root', proof = True, baseline = True, ended = False
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______________ test_ps_helper_historical_parent_routes[terminal] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare2')
+parent_state = 'terminal'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+>       state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_ps_helper_historical_pare2')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_declared_terminal_helpers0')
+family = 'ps'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_declared_terminal_helpers0')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_declared_terminal_helpers1')
+family = 'git'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_declared_terminal_helpers1')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_ test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_first_same_sample_live_pa0')
+family = 'owned_root'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+>       if family=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=batch)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:125: TypeError
+__ test_first_same_sample_live_parent_join_needs_no_extra_observation[reader] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_first_same_sample_live_pa1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+        if family=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=batch)
+>       else: state.self_sample(20,[child,live],sample_context=batch)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: PythonLifetimes.self_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:126: TypeError
+_____________ test_same_sample_exception_cannot_be_borrowed[copy] ______________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_same_sample_exception_can0')
+wrong = 'copy'
+
+    @pytest.mark.parametrize('wrong',['copy','different_sample','different_emitter','forwarded_root','late_python_terminal'])
+    def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root')
+        state.launch(launch,context)
+        child,declared=helper(start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live])
+>       state.root_sample(live,owner_unreaped=True,sample_context=batch if wrong!='forwarded_root' else retained([live],origin='emitter_self'))
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: TypeError
+_______ test_same_sample_exception_cannot_be_borrowed[different_sample] ________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_same_sample_exception_can1')
+wrong = 'different_sample'
+
+    @pytest.mark.parametrize('wrong',['copy','different_sample','different_emitter','forwarded_root','late_python_terminal'])
+    def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root')
+        state.launch(launch,context)
+        child,declared=helper(start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live])
+>       state.root_sample(live,owner_unreaped=True,sample_context=batch if wrong!='forwarded_root' else retained([live],origin='emitter_self'))
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: TypeError
+_______ test_same_sample_exception_cannot_be_borrowed[different_emitter] _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_same_sample_exception_can2')
+wrong = 'different_emitter'
+
+    @pytest.mark.parametrize('wrong',['copy','different_sample','different_emitter','forwarded_root','late_python_terminal'])
+    def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root')
+        state.launch(launch,context)
+        child,declared=helper(start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live])
+>       state.root_sample(live,owner_unreaped=True,sample_context=batch if wrong!='forwarded_root' else retained([live],origin='emitter_self'))
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: TypeError
+________ test_same_sample_exception_cannot_be_borrowed[forwarded_root] _________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_same_sample_exception_can3')
+wrong = 'forwarded_root'
+
+    @pytest.mark.parametrize('wrong',['copy','different_sample','different_emitter','forwarded_root','late_python_terminal'])
+    def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root')
+        state.launch(launch,context)
+        child,declared=helper(start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live])
+>       state.root_sample(live,owner_unreaped=True,sample_context=batch if wrong!='forwarded_root' else retained([live],origin='emitter_self'))
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: TypeError
+_____ test_same_sample_exception_cannot_be_borrowed[late_python_terminal] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_same_sample_exception_can4')
+wrong = 'late_python_terminal'
+
+    @pytest.mark.parametrize('wrong',['copy','different_sample','different_emitter','forwarded_root','late_python_terminal'])
+    def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root')
+        state.launch(launch,context)
+        child,declared=helper(start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live])
+>       state.root_sample(live,owner_unreaped=True,sample_context=batch if wrong!='forwarded_root' else retained([live],origin='emitter_self'))
+E       TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change0] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c0')
+change = {'reaped': False}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c0')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change1] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c1')
+change = {'parent': 99}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c1')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change2] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c2')
+change = {'argv': ['/bin/ps']}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c2')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change3] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c3')
+change = {'vector_sha256': 'bad'}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c3')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change4] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c4')
+change = {'artifact': {'path': '/wrong', 'sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'}}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c4')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change5] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c5')
+change = {'launch_id': None}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c5')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change6] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c6')
+change = {'provenance': 'copied'}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c6')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change7] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c7')
+change = {'launch_start': 9.0}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c7')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change8] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c8')
+change = {'completion_end': 12.0}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c8')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+______ test_terminal_helper_rejects_contradictory_source_witness[change9] ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c9')
+change = {'ambiguous': True}
+
+    @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
+        {'artifact':{'path':'/wrong','sha256':'c'*64}},{'launch_id':None},{'provenance':'copied'},
+        {'launch_start':9.},{'completion_end':12.},{'ambiguous':True}])
+    def test_terminal_helper_rejects_contradictory_source_witness(tmp_path,change):
+>       state,launch,live,row,end,context=prepared(tmp_path)
+                                          ^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_terminal_attribution.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_terminal_helper_rejects_c9')
+role = 'owned_root', proof = True, baseline = True, ended = True
+
+    def prepared(tmp_path, role='owned_root', *, proof=True, baseline=True, ended=True):
+        state,launch,live,gone,end,context=generation(tmp_path,role)
+        state.launch(launch,context)
+        sample=retained([live],origin='owned_supervisor' if role=='owned_root' else 'emitter_self')
+        if proof:
+>           if role=='owned_root': state.root_sample(live,owner_unreaped=True,sample_context=sample)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: PythonLifetimes.root_sample() got an unexpected keyword argument 'sample_context'
+
+tests/test_kernel_stage_a_terminal_attribution.py:27: TypeError
+_ test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[True] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_root_only_cleanup_is_trut0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a141a70>
+literal = True
+
+    @pytest.mark.parametrize('literal',[True,False])
+    def test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end(tmp_path,monkeypatch,literal):
+        result,records,order=terminal_exercise(tmp_path,monkeypatch,literal=literal)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:192: AssertionError
+_ test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[False] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red01-7o5ripm9/specimens/test_root_only_cleanup_is_trut1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a141940>
+literal = False
+
+    @pytest.mark.parametrize('literal',[True,False])
+    def test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end(tmp_path,monkeypatch,literal):
+        result,records,order=terminal_exercise(tmp_path,monkeypatch,literal=literal)
+        assert result['status']=='COMPLETED',result
+        decisions=[r for r in records if r['kind']=='cleanup_terminal_qualification']
+>       assert len(decisions)==1 and decisions[0]['qualified_terminal_root_only'] is True
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/test_kernel_stage_a_terminal_attribution.py:194: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_literal_python_keeps_raw_terminal_and_records_source_proof[owned_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_literal_python_keeps_raw_terminal_and_records_source_proof[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[proof]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[baseline]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[end]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change0]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change1]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change2]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change3]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change4]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change5]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change6]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change7]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change8]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_row_contradictions_fail_closed[change9]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change0]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change1]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change2]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change3]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change4]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_requires_real_ordered_proc_pidpath_esrch[change5]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[live]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[absent]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[terminal]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_same_sample_exception_cannot_be_borrowed[copy]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_same_sample_exception_cannot_be_borrowed[different_sample]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_same_sample_exception_cannot_be_borrowed[different_emitter]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_same_sample_exception_cannot_be_borrowed[forwarded_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_same_sample_exception_cannot_be_borrowed[late_python_terminal]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change0]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change1]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change2]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change3]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change4]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change5]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change6]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change7]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change8]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_helper_rejects_contradictory_source_witness[change9]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[True]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[False]
+45 failed, 5 passed in 0.31s

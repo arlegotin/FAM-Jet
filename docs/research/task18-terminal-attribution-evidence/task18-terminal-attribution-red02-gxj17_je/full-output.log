@@ -1,0 +1,275 @@
+FFFFF................FFFFFFF...............FF.....                       [100%]
+=================================== FAILURES ===================================
+_ test_literal_python_keeps_raw_terminal_and_records_source_proof[owned_root] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_literal_python_keeps_raw_0')
+family = 'owned_root'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path,family)
+        raw=copy.deepcopy(row)
+>       assert classify(state,[row],context)[row['pid']]=='worker'
+E       AssertionError: assert 'unaccounted' == 'worker'
+E         
+E         - worker
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:57: AssertionError
+___ test_literal_python_keeps_raw_terminal_and_records_source_proof[reader] ____
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_literal_python_keeps_raw_1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path,family)
+        raw=copy.deepcopy(row)
+>       assert classify(state,[row],context)[row['pid']]=='worker'
+E       AssertionError: assert 'unaccounted' == 'worker'
+E         
+E         - worker
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:57: AssertionError
+________ test_reader_needs_genuine_self_baseline_and_completion[proof] _________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_reader_needs_genuine_self0')
+missing = 'proof'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x109ed7870>('pending_')
+E        +    where <built-in method startswith of str object at 0x109ed7870> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:71: AssertionError
+_______ test_reader_needs_genuine_self_baseline_and_completion[baseline] _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_reader_needs_genuine_self1')
+missing = 'baseline'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x109ed7870>('pending_')
+E        +    where <built-in method startswith of str object at 0x109ed7870> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:71: AssertionError
+_________ test_reader_needs_genuine_self_baseline_and_completion[end] __________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_reader_needs_genuine_self2')
+missing = 'end'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x109ed7870>('pending_')
+E        +    where <built-in method startswith of str object at 0x109ed7870> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:71: AssertionError
+________________ test_ps_helper_historical_parent_routes[live] _________________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_ps_helper_historical_pare0')
+parent_state = 'live'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+_______________ test_ps_helper_historical_parent_routes[absent] ________________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_ps_helper_historical_pare1')
+parent_state = 'absent'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+______________ test_ps_helper_historical_parent_routes[terminal] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_ps_helper_historical_pare2')
+parent_state = 'terminal'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_declared_terminal_helpers0')
+family = 'ps'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(parent=os.getpid() if family=='ps' else 10)
+        phase=None
+        if family=='git':
+            vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+            declared=witness(30,10,vector,'git'); declared['launch_id']='git';
+            phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+>       assert classify(state,[child],context,declarations={30:declared} if family=='ps' else {},phase=phase)[30]==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:126: AssertionError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_declared_terminal_helpers1')
+family = 'git'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(parent=os.getpid() if family=='ps' else 10)
+        phase=None
+        if family=='git':
+            vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+            declared=witness(30,10,vector,'git'); declared['launch_id']='git';
+            phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+>       assert classify(state,[child],context,declarations={30:declared} if family=='ps' else {},phase=phase)[30]==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:126: AssertionError
+_ test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_first_same_sample_live_pa0')
+family = 'owned_root'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+        if family=='owned_root': root_proof(state,live,batch)
+        else: self_proof(state,20,[child,live],batch)
+        before=classify(state,[child,live],context,declarations={30:declared},sample_context=batch)
+        if family=='reader':
+            assert before[30].startswith('pending_')
+            state.baseline(dict(pid=20,rss=70,monotonic=12.2,boundary='post-import/pre-allocation'))
+>       assert classify(state,[child,live],context,declarations={30:declared},sample_context=batch)[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: AssertionError
+__ test_first_same_sample_live_parent_join_needs_no_extra_observation[reader] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_first_same_sample_live_pa1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+        if family=='owned_root': root_proof(state,live,batch)
+        else: self_proof(state,20,[child,live],batch)
+        before=classify(state,[child,live],context,declarations={30:declared},sample_context=batch)
+        if family=='reader':
+>           assert before[30].startswith('pending_')
+E           AssertionError: assert False
+E            +  where False = <built-in method startswith of str object at 0x109ed7870>('pending_')
+E            +    where <built-in method startswith of str object at 0x109ed7870> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:141: AssertionError
+_ test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[True] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_root_only_cleanup_is_trut0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109f55a70>
+literal = True
+
+    @pytest.mark.parametrize('literal',[True,False])
+    def test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end(tmp_path,monkeypatch,literal):
+        result,records,order=terminal_exercise(tmp_path,monkeypatch,literal=literal)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:204: AssertionError
+_ test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[False] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red02-gxj17_je/specimens/test_root_only_cleanup_is_trut1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109f55cd0>
+literal = False
+
+    @pytest.mark.parametrize('literal',[True,False])
+    def test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end(tmp_path,monkeypatch,literal):
+        result,records,order=terminal_exercise(tmp_path,monkeypatch,literal=literal)
+        assert result['status']=='COMPLETED',result
+        decisions=[r for r in records if r['kind']=='cleanup_terminal_qualification']
+>       assert len(decisions)==1 and decisions[0]['qualified_terminal_root_only'] is True
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/test_kernel_stage_a_terminal_attribution.py:206: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_literal_python_keeps_raw_terminal_and_records_source_proof[owned_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_literal_python_keeps_raw_terminal_and_records_source_proof[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[proof]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[baseline]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[end]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[live]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[absent]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[terminal]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[True]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_root_only_cleanup_is_truthful_nonempty_and_resolves_after_actual_end[False]
+14 failed, 36 passed in 0.13s

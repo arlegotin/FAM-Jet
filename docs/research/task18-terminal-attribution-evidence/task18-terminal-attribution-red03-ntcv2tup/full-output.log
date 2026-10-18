@@ -1,0 +1,196 @@
+..................................................FFFFFFFF.....          [100%]
+=================================== FAILURES ===================================
+__ test_failed_generation_cannot_be_repaired_by_late_valid_events[duplicate] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_failed_generation_cannot_0')
+contradiction = 'duplicate'
+
+    @pytest.mark.parametrize('contradiction',['duplicate','wrong_end','wrong_baseline','bad_image','reused_id'])
+    def test_failed_generation_cannot_be_repaired_by_late_valid_events(tmp_path,contradiction):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',ended=False)
+        if contradiction=='bad_image':
+            bad=dict(live,image=dict(status='ok',path='/wrong',sha256='x'))
+            assert classify(state,[bad],context)[20]=='unaccounted'
+        else:
+            with pytest.raises(ValueError):
+                if contradiction=='duplicate': state.launch(launch,context)
+                elif contradiction=='reused_id': state.launch(dict(launch,pid=21),context)
+                elif contradiction=='wrong_end': state.end(dict(end,launch_id='wrong'))
+                else: state.baseline(dict(pid=20,rss=71,monotonic=12.3,boundary='post-import/pre-allocation'))
+        try: state.end(end)
+        except ValueError: pass
+>       assert classify(state,[row],context)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:254: AssertionError
+__ test_failed_generation_cannot_be_repaired_by_late_valid_events[wrong_end] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_failed_generation_cannot_1')
+contradiction = 'wrong_end'
+
+    @pytest.mark.parametrize('contradiction',['duplicate','wrong_end','wrong_baseline','bad_image','reused_id'])
+    def test_failed_generation_cannot_be_repaired_by_late_valid_events(tmp_path,contradiction):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',ended=False)
+        if contradiction=='bad_image':
+            bad=dict(live,image=dict(status='ok',path='/wrong',sha256='x'))
+            assert classify(state,[bad],context)[20]=='unaccounted'
+        else:
+            with pytest.raises(ValueError):
+                if contradiction=='duplicate': state.launch(launch,context)
+                elif contradiction=='reused_id': state.launch(dict(launch,pid=21),context)
+                elif contradiction=='wrong_end': state.end(dict(end,launch_id='wrong'))
+                else: state.baseline(dict(pid=20,rss=71,monotonic=12.3,boundary='post-import/pre-allocation'))
+        try: state.end(end)
+        except ValueError: pass
+>       assert classify(state,[row],context)[20]=='unaccounted'
+E       AssertionError: assert 'pending_python_lifetime' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_terminal_attribution.py:254: AssertionError
+_ test_failed_generation_cannot_be_repaired_by_late_valid_events[wrong_baseline] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_failed_generation_cannot_2')
+contradiction = 'wrong_baseline'
+
+    @pytest.mark.parametrize('contradiction',['duplicate','wrong_end','wrong_baseline','bad_image','reused_id'])
+    def test_failed_generation_cannot_be_repaired_by_late_valid_events(tmp_path,contradiction):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',ended=False)
+        if contradiction=='bad_image':
+            bad=dict(live,image=dict(status='ok',path='/wrong',sha256='x'))
+            assert classify(state,[bad],context)[20]=='unaccounted'
+        else:
+            with pytest.raises(ValueError):
+                if contradiction=='duplicate': state.launch(launch,context)
+                elif contradiction=='reused_id': state.launch(dict(launch,pid=21),context)
+                elif contradiction=='wrong_end': state.end(dict(end,launch_id='wrong'))
+                else: state.baseline(dict(pid=20,rss=71,monotonic=12.3,boundary='post-import/pre-allocation'))
+        try: state.end(end)
+        except ValueError: pass
+>       assert classify(state,[row],context)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:254: AssertionError
+__ test_failed_generation_cannot_be_repaired_by_late_valid_events[bad_image] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_failed_generation_cannot_3')
+contradiction = 'bad_image'
+
+    @pytest.mark.parametrize('contradiction',['duplicate','wrong_end','wrong_baseline','bad_image','reused_id'])
+    def test_failed_generation_cannot_be_repaired_by_late_valid_events(tmp_path,contradiction):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',ended=False)
+        if contradiction=='bad_image':
+            bad=dict(live,image=dict(status='ok',path='/wrong',sha256='x'))
+            assert classify(state,[bad],context)[20]=='unaccounted'
+        else:
+            with pytest.raises(ValueError):
+                if contradiction=='duplicate': state.launch(launch,context)
+                elif contradiction=='reused_id': state.launch(dict(launch,pid=21),context)
+                elif contradiction=='wrong_end': state.end(dict(end,launch_id='wrong'))
+                else: state.baseline(dict(pid=20,rss=71,monotonic=12.3,boundary='post-import/pre-allocation'))
+        try: state.end(end)
+        except ValueError: pass
+>       assert classify(state,[row],context)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:254: AssertionError
+__ test_failed_generation_cannot_be_repaired_by_late_valid_events[reused_id] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_failed_generation_cannot_4')
+contradiction = 'reused_id'
+
+    @pytest.mark.parametrize('contradiction',['duplicate','wrong_end','wrong_baseline','bad_image','reused_id'])
+    def test_failed_generation_cannot_be_repaired_by_late_valid_events(tmp_path,contradiction):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',ended=False)
+        if contradiction=='bad_image':
+            bad=dict(live,image=dict(status='ok',path='/wrong',sha256='x'))
+            assert classify(state,[bad],context)[20]=='unaccounted'
+        else:
+            with pytest.raises(ValueError):
+                if contradiction=='duplicate': state.launch(launch,context)
+                elif contradiction=='reused_id': state.launch(dict(launch,pid=21),context)
+                elif contradiction=='wrong_end': state.end(dict(end,launch_id='wrong'))
+                else: state.baseline(dict(pid=20,rss=71,monotonic=12.3,boundary='post-import/pre-allocation'))
+        try: state.end(end)
+        except ValueError: pass
+>       assert classify(state,[row],context)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:254: AssertionError
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change0] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_historical_helper_parent_0')
+change = {'lookup_start': 11.0}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:263: AssertionError
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change1] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_historical_helper_parent_1')
+change = {'lookup_end': 11.5}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:263: AssertionError
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change2] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-red03-ntcv2tup/specimens/test_historical_helper_parent_2')
+change = {'lookup_start': 15.0, 'lookup_end': 16.0}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:263: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_failed_generation_cannot_be_repaired_by_late_valid_events[duplicate]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_failed_generation_cannot_be_repaired_by_late_valid_events[wrong_end]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_failed_generation_cannot_be_repaired_by_late_valid_events[wrong_baseline]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_failed_generation_cannot_be_repaired_by_late_valid_events[bad_image]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_failed_generation_cannot_be_repaired_by_late_valid_events[reused_id]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change0]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change1]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change2]
+8 failed, 55 passed in 0.17s

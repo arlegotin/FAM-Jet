@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_attribution.py::test_child_first_cannot_use_terminal_reader_outside_its_context",
+    "-q",
+    "--basetemp=/private/tmp/task18-terminal-attribution-green04-gvcrb54l/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792318168.1568599,
+  "end_epoch": 1792318168.2961102,
+  "owned_base": "/private/tmp/task18-terminal-attribution-green04-gvcrb54l",
+  "source_git": "d0c9a51e77a2028f6b648c4cfc0889734ec089b5"
+}
