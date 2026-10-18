@@ -1,0 +1,28 @@
+{
+  "time_utc": "2026-10-18T08:56:38.004060+00:00",
+  "ruling": "Release ONE existing reviewed setup body on actual clean source; exactly two grids and six ordered factor attempts, zero reads. Setup and any later separately root-sealed Stage A share the original start+600s. No retries, alternative solve, cap increase, protected or Stage B work. Actual setup monitor must complete and root must inspect its raw evidence before any scientific reader/reference launch. A failed setup remains retained and blocks the driver.",
+  "source_full_git": "36f0847eee8244bf3fd9f7efe5a57b7b37950275",
+  "source_acceptance_sha256": "07d1b668f1bf2120e087f6ac6bad8c8912d45ebc7b7ff7ba388a41783b686524",
+  "parent": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup-launch.py",
+    "sha256": "582747ddca1c5c3ae36ff5f88cfbf2bcf20aad7d6a9b49b89997af22b3519188"
+  },
+  "worker_sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0",
+  "preparation": "/private/tmp/famjet-task18-kernel-stage-a-source36f0847-01",
+  "driver_output": "/private/tmp/famjet-task18-kernel-stage-a-source36f0847-driver-01",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "limits": {
+    "outer_seconds": 600,
+    "candidate_seconds": 90,
+    "incremental_bytes": 201326592,
+    "output_bytes": 67108864,
+    "free_disk_bytes": 4294967296,
+    "threads": 1,
+    "factors": 6,
+    "reads_during_setup": 0
+  },
+  "sampling_seconds": 0.02,
+  "scope": "sampled worker/descendant RSS; supervisor parent excluded; not allocator peak",
+  "stage_A_scientific_release": false,
+  "protected_access": "CLOSED"
+}

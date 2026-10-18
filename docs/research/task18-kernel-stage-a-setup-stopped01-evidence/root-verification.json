@@ -1,0 +1,28 @@
+{
+  "time_utc": "2026-10-18T08:57:49.491703+00:00",
+  "source_full_git": "36f0847eee8244bf3fd9f7efe5a57b7b37950275",
+  "status": "STOPPED_NOT_SCIENTIFIC_READER_EVIDENCE",
+  "reason": "monitor common failure",
+  "monitor_failure": {
+    "message": "[Errno 1] Operation not permitted",
+    "type": "PermissionError"
+  },
+  "actual_rate_grid_constructions": 2,
+  "actual_factor_constructions": 6,
+  "actual_completed_top_level_exports": 6,
+  "reads": 0,
+  "references": 0,
+  "fit_train_panel_protected": 0,
+  "setup_elapsed_at_finalization_start": 1.7455247920006514,
+  "monitor_outer_seconds_before_final_commit": 1.7116587089840323,
+  "monitor_incremental_peak_conservative_bytes": 296091648,
+  "monitor_absolute_process_tree_peak_bytes": 241532928,
+  "output_peak_bytes_as_recorded": 150355,
+  "worker_report_completed": true,
+  "monitor_completed": false,
+  "root_stage_A_release": null,
+  "driver_output_created": false,
+  "original_files_byte_verified": 21,
+  "archival_cost_scope": "copies after stopped allocation; not scientific execution or peak-memory measurement",
+  "retry_or_clock_renewal": false
+}
