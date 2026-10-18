@@ -387,3 +387,8 @@ The corrected native control verified exact live identity and actual natural exi
 ### 18 October 2026 — accept bounded native lifecycle evidence; fresh setup restart
 
 Ruling: accept the two-case native lifecycle diagnostic and adopt one separately allocated infrastructure restart with unchanged scientific inputs and original limits. Root verified actual ownership, source end before terminal resolution, conservative survivor cleanup and immutable archived evidence. Earlier setup01 remains failed with six factor attempts and zero reads. Native success supplies no accuracy evidence; no automatic Stage B or protected work follows. [Amendment](docs/amendments/2026-10-18-kernel-stage-a-infrastructure-restart.md).
+
+
+## 18 October 2026 — helper lifecycle qualification and one fresh setup04
+
+Accept the independently reviewed source lifecycle implementation and scoped fixes, then its separately allocated one-call native observation on a718a25. Root verified actual source joins, owning completion, expected invalid request rejection and unknown-child membership/SIGKILL/EOF, all original bytes and current protected package. This grants observed compatibility only. Adopt one fresh setup04, retaining all failed attempts and unchanged mathematical/fixture/resource gates. Ruling: the fixed-reader diagnostic may now proceed through fresh setup and controller inspection on one shared600s clock — the actual prerequisite is satisfied — cost if wrong is a stopped bounded diagnostic, never automatic accuracy/protected acceptance.

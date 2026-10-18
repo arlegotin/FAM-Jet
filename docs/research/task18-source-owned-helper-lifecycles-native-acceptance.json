@@ -1,0 +1,47 @@
+{
+  "time_utc": "2026-10-18T13:09:14.147383+00:00",
+  "scope": "observed helper families and unknown-child cancellation only",
+  "executed_source": "a718a2542baf32071ae4d8f169db232c1bff4291",
+  "evidence_commit": "31844a4d4be3262c10e05707cd6c4c4344224e85",
+  "report": {
+    "path": "docs/research/task18-source-owned-helper-lifecycles-native-report.md",
+    "sha256": "483894051b607e9a5c71843c310cbe4c8e19f8dceec8d725d20c5fd0e2c064c1"
+  },
+  "root_verification": "docs/research/task18-source-owned-helper-lifecycles-native-root-verification.json",
+  "compatibility": "PASS",
+  "actual_native_invocations": 1,
+  "external_seconds": 4.732293999986723,
+  "cases": [
+    {
+      "case": "families",
+      "compatibility": "PASS",
+      "status": "COMPLETED",
+      "returncode": 0,
+      "root": 7260,
+      "incremental_worker_peak_bytes": 46792704,
+      "absolute_process_tree_peak_bytes": 458113024,
+      "elapsed": 2.6834074578946456,
+      "fallback": false
+    },
+    {
+      "case": "unknown",
+      "compatibility": "PASS",
+      "status": "STOPPED",
+      "returncode": 0,
+      "root": 7326,
+      "incremental_worker_peak_bytes": 23756800,
+      "absolute_process_tree_peak_bytes": 229048320,
+      "elapsed": 0.7662361250258982,
+      "fallback": false
+    }
+  ],
+  "limits_and_caveats": [
+    "Observed native paths qualify trusted-source attribution, not continuous OS identity or arbitrary scheduling.",
+    "Families reader exit1 is expected closed-schema rejection before any read/factor; no successful inference claim.",
+    "Unknown operation remains STOPPED; its unknown child and last observer are not certified resolved.",
+    "Actual owned nonabsent SIGKILL preceded root end0; child socket EOF preceded fallback/peer close; no orphan-reap claim.",
+    "Historical failures and original charges remain unchanged."
+  ],
+  "scientific_execution_authorized_by_this_record": false,
+  "protected_access": "CLOSED"
+}
