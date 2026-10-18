@@ -1,0 +1,23 @@
+# Task18 kernel-reader setup02 — STOPPED before any reads
+
+One newly allocated setup invocation on clean source `1d4289d2a7b41468ead7ba32e2a2faa8ad8140f2` exited1. The scientific worker exited0 after two rate-grid constructions, six original ordered factor attempts and six top-level exports. It performed **zero reader/reference calls**. The supervisor nevertheless returned STOPPED with `foreign process identity`; root issued no Stage A seal and launched no driver. The allocation is closed without a retry or export reuse. Across failed setup01 and02 there have been twelve factor attempts and zero reads.
+
+The [allocation and exact parent](task18-kernel-stage-a-setup-stopped02-evidence/preallocation/task-18-stage-a-setup02-allocation.json), [setup ledger](task18-kernel-stage-a-setup-stopped02-evidence/original/setup-ledger.json), [raw monitor evidence](task18-kernel-stage-a-setup-stopped02-evidence/original/worker-output/monitor-evidence.jsonl), [worker operation journal](task18-kernel-stage-a-setup-stopped02-evidence/original/worker-output/setup-events.jsonl) and [root verification](task18-kernel-stage-a-setup-stopped02-evidence/root-verification.json) retain the exact input, costs and outcomes. All21original files were copied byte-for-byte; with the two preallocation files the manifest covers23files/181754B. Original setup output was169072B, within64MiB. Source and numerical package were unchanged during execution; package15cf84 and original limits/fixtures remain binding.
+
+## What the observed failure says
+
+The worker's postimport baseline was genuinely emitted at226721792B. Samples1–22 were pending baseline and23–28 classified root85776 as worker with exact live Python image. The last sample29, raw evidence record88, had both actual command display fields **`(Python)`**, integerRSS0 and a real `macos.proc_pidpath` lookup returning ESRCH. This differs from the literal `<defunct>` display exercised by the preceding passing stdlib controls.
+
+The complete cleanup query ran while root ownership remained reserved. It showed only zero-RSS root85776 in its original group, plus the separate query helper. Actual owning root completion0 is record92, followed by poll93, wait94 and final resolution95. The final root role was unaccounted; no root-only qualification record was emitted. No cleanup signal, fallback or monitor exception occurred. This is not evidence of a surviving foreign child. Precise source-cause and architectural options are assigned to an independent read-only reviewer; root has not authorized another patch or native probe.
+
+The reported conservative incremental charge was235683840B, exceeding201326592B; absolute sampled process-tree peak was233881600B. Because final identity was unresolved, the ledger removed accepted baseline credit and charged historical root RSS conservatively. Root peak232079360B minus the emitted baseline is5357568B, but this arithmetic **does not replace or certify the failed resource result**. This failed observation is retained without relabeling it a successful run or a proven model-memory overrun.
+
+## Timing and limits
+
+The setup's original monotonic start was556187.440864958 and deadline556787.440864958. Monitor elapsed reached1.638759291s before bounded final commitment; parent finalization began1.667804208s after allocation start. Final result serialization and controller inspection occur after those endpoints. No separate monotonic measurement of the entire external parent command was retained, so no precise full-command duration is invented. Tool initial wait1.001721333s was only a partial live session, subsequently observed exit1.
+
+Before launch free disk was15202074624B and power was AC/100%; five numerical thread variables were1. The exact unchanged worker body hash wasf768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0. The reviewed parent differed only in the actual clean Git identity and fresh destination. Supervisor-parent RSS remains outside the declared worker/descendant scope; sampled observations do not certify between-sample or allocator peaks.
+
+An archival-index extraction initially mistook a list for a mapping after all originals and their manifest had already been preserved. That read-only metadata script failed without changing source or executing experiments; root verified all23original/archive mappings afterward. Raw padding and failed status remain unchanged.
+
+This failed setup adds no accuracy evidence and does not invalidate the preceding native diagnostic's narrower result. It shows that the native control did not cover the actual setup's terminal display. Task18 science remains OPEN; Stage B, further training/calibration, real/language and protected phases remain unallocated.

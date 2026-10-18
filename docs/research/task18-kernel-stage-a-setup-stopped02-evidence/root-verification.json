@@ -1,0 +1,47 @@
+{
+  "time_utc": "2026-10-18T10:51:19.758908+00:00",
+  "execution_head": "1d4289d2a7b41468ead7ba32e2a2faa8ad8140f2",
+  "status": "STOPPED_no_stage_A_release",
+  "archive_entries": 23,
+  "archive_bytes": 181754,
+  "original_setup_files": 21,
+  "original_output_bytes": 169072,
+  "actual_counts": {
+    "rate_grids": 2,
+    "factors": 6,
+    "top_level_exports": 6,
+    "reads": 0
+  },
+  "cumulative_factor_attempts": 12,
+  "samples": 29,
+  "terminal": {
+    "record": 88,
+    "raw_comm": "(Python)",
+    "raw_args": "(Python)",
+    "rss_bytes": 0,
+    "native_image": {
+      "status": "error",
+      "method": "macos.proc_pidpath",
+      "reason": "native_lookup_failed",
+      "errno": 3,
+      "lookup_start": 556189.091743041,
+      "lookup_end": 556189.09183725
+    },
+    "owning_end_record": 92,
+    "resolution_record": 95,
+    "actual_returncode": 0
+  },
+  "scope": "failed native resource/identity observation; no reader/reference/accuracy result",
+  "root_archive_index_extraction_failure": "AttributeError list has no items after manifest preservation; no source or experiment side effect",
+  "stage_A_seal_created": false,
+  "stage_A_driver_launched": false,
+  "protected_access": "CLOSED",
+  "live_worker_sample_ids": [
+    23,
+    24,
+    25,
+    26,
+    27,
+    28
+  ]
+}
