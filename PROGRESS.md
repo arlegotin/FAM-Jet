@@ -296,3 +296,8 @@ Root verified four control-boundary defects and released only those repairs at B
 ### 18 October 2026 — kernel source acceptance
 
 Kernel-projection source component accepted at ff05c9e/package15cf84 after independent SPEC+QUALITY approval; source-only acceptance and review are preserved under docs/research/task18-kernel-projection-source-*. Root verified20 log/source/lock files,15 unchanged memory components and both package identities. Task18 scientific validation stays open; next is external Stage A preflight implementation/review, then separately sealed bounded execution. No Stage A/panel/fit/corpus/training/protected run was released by source acceptance.
+
+
+### 18 October 2026 — external preflight source accepted
+
+Independent initial review and two scoped fix rounds close all six preflight findings at5bcd05d; production package15cf84 remains unchanged. Root verified the final report,25 source/log/runtime files and actual RED/GREEN/final15-pass covering evidence. Live helper RSS is enforced immediately and retained on stop; authority identity/deadlines/final failure records remain closed. [Acceptance](docs/research/task18-kernel-stage-a-preflight-source-acceptance.json). Native Mac process identity/display compatibility, actual factors/resources and scientific release remain pending. Task18 scientific status OPEN; protected access CLOSED.

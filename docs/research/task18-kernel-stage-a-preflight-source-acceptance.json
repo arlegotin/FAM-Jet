@@ -1,0 +1,61 @@
+{
+  "status": "ACCEPTED external preflight source component",
+  "date": "2026-10-18",
+  "base": "62456be3e6e6cbe3b2a058bd38ade744edc3c628",
+  "reviewed_head": "5bcd05d545979125871a06f2346f1bd535a9aa43",
+  "original_review_head": "93be808f488ef5237121dcdcf75b7ba6903d4712",
+  "fix1_head": "dd0b33927cce8abe254adc06e652263d835d20bf",
+  "fix2_source": "288ffa33ac0477f65c19bde4b0138b8b4e9ccbf3",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "spec": "APPROVED",
+  "quality": "APPROVED",
+  "open_findings": [],
+  "preserved_records": [
+    {
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-review.md",
+      "path": "docs/research/task18-kernel-stage-a-preflight-review.md",
+      "sha256": "1cf83bae81a0fc4551832f30622fd2fd61512b41d5f8ef9e0fe3d8c2b877aef3",
+      "bytes": 14165
+    },
+    {
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix1-review.md",
+      "path": "docs/research/task18-kernel-stage-a-preflight-fix1-review.md",
+      "sha256": "4d009c291ca7acb5571fbb04b4cc2592a22a5d81c47f937e5160b16e027aa06a",
+      "bytes": 9560
+    },
+    {
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix2-review.md",
+      "path": "docs/research/task18-kernel-stage-a-preflight-fix2-review.md",
+      "sha256": "c9a1e6d60f5a12107c57a1902e85cdd85902ba8def5663afb42fb9d1e3cef5d0",
+      "bytes": 3868
+    },
+    {
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix1-brief.md",
+      "path": "docs/research/task18-kernel-stage-a-preflight-fix1-rulings.md",
+      "sha256": "505d959ea2499f280e513a8ba313d802f5493df940598c9455b78fe72e387088",
+      "bytes": 8327
+    },
+    {
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix2-brief.md",
+      "path": "docs/research/task18-kernel-stage-a-preflight-fix2-rulings.md",
+      "sha256": "a160dfe5d3e4d9a3474fc5af7cb77cfcaab657c992bbfb2131df16203e9bc270",
+      "bytes": 2378
+    }
+  ],
+  "fix2_verification": {
+    "path": "docs/research/task18-kernel-stage-a-preflight-fix2-verification.json",
+    "sha256": "a846cced723741f6a9c25b58c27d53db16c643f63c067d2e160f59876b59ddab",
+    "root_verified_files": 25,
+    "root_verified_bytes": 245646
+  },
+  "remaining_prerequisites": [
+    "native process image and exact display compatibility",
+    "actual represented rates and six factor exports",
+    "actual setup/deadline/resource ledger",
+    "fresh fully populated execution seal and root scientific release"
+  ],
+  "native_readiness": false,
+  "scientific_execution_authorized": false,
+  "task18_scientific_status": "OPEN",
+  "protected_status": "CLOSED"
+}

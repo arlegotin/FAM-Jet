@@ -374,3 +374,6 @@ Only the dedicated projection reader, small fixed-kernel wrapper and closed isol
 ### 18 October 2026 — kernel source acceptance
 
 Ruling: accept the new kernel-projection SOURCE component after independent SPEC+QUALITY approval and exact component/hash checks. Prepare the fixed32-fixture independent-reference/stop/resource driver outside the package before separately releasing any numerical campaign. Reason: establish arithmetic/source attribution before judging an untrained reader; cost if wrong is bounded preparation rework, with no scientific inference or cache compatibility conferred.
+
+
+18 October2026 — Accept external StageA preflight source at5bcd05d after original independent review and two scoped fixes; all Important findings closed. This acceptance certifies the reviewed source/control evidence, not native readiness or scientific applicability. Preserve all failed tests and earlier reviews. Next is the separately bounded native identity adapter; no factor or fixture allocation follows automatically.
