@@ -1,0 +1,95 @@
+{
+  "case": "remaining",
+  "calls": [
+    {
+      "operation": "wait",
+      "time": 100.0,
+      "timeout": 0.5
+    },
+    {
+      "operation": "kill",
+      "time": 100.1
+    },
+    {
+      "operation": "wait",
+      "time": 100.1,
+      "timeout": 0.4000000000000057
+    }
+  ],
+  "observation": {
+    "start": 100.0,
+    "end": 100.11,
+    "stdout": "480001 87998 999 2\n",
+    "stderr": "",
+    "rows": [
+      {
+        "pid": 480001,
+        "parent": 87998,
+        "pgid": 999,
+        "rss_bytes": 2048
+      }
+    ],
+    "helper": {
+      "launch": {
+        "parent": 87998,
+        "executable": "/bin/ps",
+        "argv": [
+          "/bin/ps",
+          "-axo",
+          "pid=,ppid=,pgid=,rss="
+        ],
+        "provenance": "source_owned_launch",
+        "launch_id": "355435e9602b4f5d9ed716f1d20cfd14",
+        "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+        "artifact": {
+          "path": "/bin/ps",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "launch_start": 100.0,
+        "reaped": false,
+        "pid": 480001
+      },
+      "witness": {
+        "parent": 87998,
+        "executable": "/bin/ps",
+        "argv": [
+          "/bin/ps",
+          "-axo",
+          "pid=,ppid=,pgid=,rss="
+        ],
+        "provenance": "source_owned_launch",
+        "launch_id": "355435e9602b4f5d9ed716f1d20cfd14",
+        "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+        "artifact": {
+          "path": "/bin/ps",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "launch_start": 100.0,
+        "reaped": true,
+        "pid": 480001,
+        "completion_end": 100.11,
+        "returncode": -9
+      },
+      "completion": {
+        "pid": 480001,
+        "parent": 87998,
+        "launch_id": "355435e9602b4f5d9ed716f1d20cfd14",
+        "completion_end": 100.11,
+        "reaped": true,
+        "returncode": -9
+      },
+      "image": {
+        "status": "ok",
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "lookup_start": 100.0,
+        "lookup_end": 100.0
+      },
+      "image_evidence": "kernel_image"
+    },
+    "complete": false,
+    "error": "helper wait: Command 'initial helper wait' timed out after 0.5 seconds; cleanup observer unsuccessful returncode",
+    "captured_bytes": 19,
+    "read_bytes": 19
+  }
+}

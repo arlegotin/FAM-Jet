@@ -1,0 +1,142 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 53 items
+
+tests/test_kernel_stage_a_owned_root_terminal.py ....................... [ 43%]
+.....FFFFF..F.................                                           [100%]
+
+=================================== FAILURES ===================================
+______ test_incomplete_owned_root_contract_never_qualifies[launch_parent] ______
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con26')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106611320>
+fault = 'launch_parent'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+        assert result['status']!='COMPLETED',result
+        assert not any(r['kind']=='cleanup_terminal_qualification' and r['route']=='source_owned_root_lifecycle' for r in records)
+        if '570001' in result['workers']:
+>           assert result['workers']['570001']['incremental_peak_bytes']>=226721792
+E           assert 0 >= 226721792
+
+tests/test_kernel_stage_a_owned_root_terminal.py:161: AssertionError
+______ test_incomplete_owned_root_contract_never_qualifies[launch_vector] ______
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con27')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10663cd00>
+fault = 'launch_vector'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+        assert result['status']!='COMPLETED',result
+        assert not any(r['kind']=='cleanup_terminal_qualification' and r['route']=='source_owned_root_lifecycle' for r in records)
+        if '570001' in result['workers']:
+>           assert result['workers']['570001']['incremental_peak_bytes']>=226721792
+E           assert 0 >= 226721792
+
+tests/test_kernel_stage_a_owned_root_terminal.py:161: AssertionError
+_____ test_incomplete_owned_root_contract_never_qualifies[launch_artifact] _____
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con28')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10663de10>
+fault = 'launch_artifact'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+        assert result['status']!='COMPLETED',result
+        assert not any(r['kind']=='cleanup_terminal_qualification' and r['route']=='source_owned_root_lifecycle' for r in records)
+        if '570001' in result['workers']:
+>           assert result['workers']['570001']['incremental_peak_bytes']>=226721792
+E           assert 0 >= 226721792
+
+tests/test_kernel_stage_a_owned_root_terminal.py:161: AssertionError
+______ test_incomplete_owned_root_contract_never_qualifies[launch_image] _______
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con29')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1066c7460>
+fault = 'launch_image'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+        assert result['status']!='COMPLETED',result
+        assert not any(r['kind']=='cleanup_terminal_qualification' and r['route']=='source_owned_root_lifecycle' for r in records)
+        if '570001' in result['workers']:
+>           assert result['workers']['570001']['incremental_peak_bytes']>=226721792
+E           assert 0 >= 226721792
+
+tests/test_kernel_stage_a_owned_root_terminal.py:161: AssertionError
+__ test_incomplete_owned_root_contract_never_qualifies[duplicate_generation] ___
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con30')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1066c6cf0>
+fault = 'duplicate_generation'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+        assert result['status']!='COMPLETED',result
+        assert not any(r['kind']=='cleanup_terminal_qualification' and r['route']=='source_owned_root_lifecycle' for r in records)
+        if '570001' in result['workers']:
+>           assert result['workers']['570001']['incremental_peak_bytes']>=226721792
+E           assert 0 >= 226721792
+
+tests/test_kernel_stage_a_owned_root_terminal.py:161: AssertionError
+___ test_incomplete_owned_root_contract_never_qualifies[copied_proof_sample] ___
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens/test_incomplete_owned_root_con33')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1066c7070>
+fault = 'copied_proof_sample'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+>       assert result['status']!='COMPLETED',result
+E       AssertionError: {'status': 'COMPLETED', 'reason': None, 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'COMPLETED' != 'COMPLETED'
+
+tests/test_kernel_stage_a_owned_root_terminal.py:158: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[launch_parent]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[launch_vector]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[launch_artifact]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[launch_image]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[duplicate_generation]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[copied_proof_sample]
+========================= 6 failed, 47 passed in 0.29s =========================

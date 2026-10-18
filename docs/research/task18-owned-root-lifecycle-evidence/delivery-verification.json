@@ -1,0 +1,33 @@
+{
+  "source_commit": "241852ab2442b1486879a78f5478dee7443e0cc5",
+  "source_matches_commit": {
+    "validation/kernel_stage_a/monitor.py": true,
+    "validation/kernel_stage_a/README.md": true,
+    "tests/test_kernel_stage_a_owned_root_terminal.py": true,
+    "docs/research/task18-owned-root-lifecycle-native-control.py": true,
+    "docs/research/task18-owned-root-lifecycle-native-worker.py": true
+  },
+  "final_cover_matches_source": {
+    "validation/kernel_stage_a/monitor.py": true,
+    "tests/test_kernel_stage_a_owned_root_terminal.py": true
+  },
+  "all_original_attempt_files_staged": true,
+  "attempt_files": 3005,
+  "source_diff_check_exit": 0,
+  "evidence_diff_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check"
+    ],
+    "started_epoch": 1792321599.0408719,
+    "end_epoch": 1792321599.352426,
+    "exit": 2,
+    "output_path": "preserved-evidence-diff-check.log",
+    "expected_preserved_whitespace": true
+  },
+  "native_executed": false,
+  "scientific_executed": false,
+  "scratch_report_equals_durable": true
+}

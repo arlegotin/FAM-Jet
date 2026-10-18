@@ -1,0 +1,78 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 56 items
+
+tests/test_kernel_stage_a_owned_root_terminal.py ....................... [ 41%]
+...............F...............FF                                        [100%]
+
+=================================== FAILURES ===================================
+____ test_incomplete_owned_root_contract_never_qualifies[copied_generation] ____
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red03-wqqvbtvx/specimens/test_incomplete_owned_root_con36')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1069ccec0>
+fault = 'copied_generation'
+
+    @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
+        'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
+        'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+        'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
+        'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
+        'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','copied_generation','forwarded_current','member_time'])
+    def test_incomplete_owned_root_contract_never_qualifies(tmp_path,monkeypatch,fault):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,fault=fault)
+>       assert result['status']!='COMPLETED',result
+E       AssertionError: {'status': 'COMPLETED', 'reason': None, 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'COMPLETED' != 'COMPLETED'
+
+tests/test_kernel_stage_a_owned_root_terminal.py:159: AssertionError
+________ test_conflicting_family_cannot_consume_root_receipt[observer] _________
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red03-wqqvbtvx/specimens/test_conflicting_family_cannot0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1069cdfd0>
+family = 'observer'
+
+    @pytest.mark.parametrize('family',['observer','authority'])
+    def test_conflicting_family_cannot_consume_root_receipt(tmp_path,monkeypatch,family):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        collision={570001:dict(pid=570001,launch_id='conflict')}
+        roles=m.classify(570001,{570001:row},{570001:226721792},collision if family=='observer' else {},
+            authority_phase=dict(active=False,declarations=collision if family=='authority' else {},commands=[]),
+            stage_vector=state.stage_vector,runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[570001]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_owned_root_terminal.py:210: AssertionError
+________ test_conflicting_family_cannot_consume_root_receipt[authority] ________
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red03-wqqvbtvx/specimens/test_conflicting_family_cannot1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106b93540>
+family = 'authority'
+
+    @pytest.mark.parametrize('family',['observer','authority'])
+    def test_conflicting_family_cannot_consume_root_receipt(tmp_path,monkeypatch,family):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        collision={570001:dict(pid=570001,launch_id='conflict')}
+        roles=m.classify(570001,{570001:row},{570001:226721792},collision if family=='observer' else {},
+            authority_phase=dict(active=False,declarations=collision if family=='authority' else {},commands=[]),
+            stage_vector=state.stage_vector,runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[570001]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_owned_root_terminal.py:210: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_incomplete_owned_root_contract_never_qualifies[copied_generation]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_conflicting_family_cannot_consume_root_receipt[observer]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_conflicting_family_cannot_consume_root_receipt[authority]
+========================= 3 failed, 53 passed in 0.31s =========================

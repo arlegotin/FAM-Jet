@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 28 items
+
+tests/test_kernel_stage_a_owned_root_terminal.py FF..................... [ 82%]
+.....                                                                    [100%]
+
+=================================== FAILURES ===================================
+_ test_root_ownership_replaces_display_spelling_after_actual_completion[(Python)] _
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red01-2i96iipa/specimens/test_root_ownership_replaces_d0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e28510>
+display = '(Python)'
+
+    @pytest.mark.parametrize('display',['(Python)','harmless teardown display'])
+    def test_root_ownership_replaces_display_spelling_after_actual_completion(tmp_path,monkeypatch,display):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,display=display)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_owned_root_terminal.py:109: AssertionError
+_ test_root_ownership_replaces_display_spelling_after_actual_completion[harmless teardown display] _
+
+tmp_path = PosixPath('/private/tmp/task18-owned-root-lifecycle-red01-2i96iipa/specimens/test_root_ownership_replaces_d1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e28180>
+display = 'harmless teardown display'
+
+    @pytest.mark.parametrize('display',['(Python)','harmless teardown display'])
+    def test_root_ownership_replaces_display_spelling_after_actual_completion(tmp_path,monkeypatch,display):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch,display=display)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_owned_root_terminal.py:109: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_root_ownership_replaces_display_spelling_after_actual_completion[(Python)]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_root_ownership_replaces_display_spelling_after_actual_completion[harmless teardown display]
+========================= 2 failed, 26 passed in 0.17s =========================

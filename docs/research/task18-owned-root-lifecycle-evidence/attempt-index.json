@@ -1,0 +1,141 @@
+[
+  {
+    "path": "task18-owned-root-lifecycle-cover-4f4wdzhn",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "tests/test_kernel_stage_a_terminal_attribution.py",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "tests/test_kernel_stage_a_python_lifetime.py",
+      "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+      "tests/test_kernel_stage_a_native_process.py",
+      "tests/test_kernel_stage_a_native_process_fix1.py",
+      "tests/test_kernel_stage_a_native_process_fix2.py",
+      "tests/test_kernel_stage_a_native_process_fix3.py",
+      "-k",
+      "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+      "-q",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-cover-4f4wdzhn/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792321349.0762591,
+    "end_epoch": 1792321351.5322292,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-cover-4f4wdzhn",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-green01-zzfvcis2",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-green01-zzfvcis2/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792321137.515319,
+    "end_epoch": 1792321137.845734,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-green01-zzfvcis2",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-green02-fsb1dwqp",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-green02-fsb1dwqp/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792321178.881973,
+    "end_epoch": 1792321179.3439848,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-green02-fsb1dwqp",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-green03-v4k5_5v6",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-green03-v4k5_5v6/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792321248.817421,
+    "end_epoch": 1792321249.28256,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-green03-v4k5_5v6",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-green04-5yjx7n85",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-green04-5yjx7n85/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792321336.961045,
+    "end_epoch": 1792321337.4185522,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-green04-5yjx7n85",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-red01-2i96iipa",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-red01-2i96iipa/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792321083.678518,
+    "end_epoch": 1792321084.0428002,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-red01-2i96iipa",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-red02-gyaikos0",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792321238.838847,
+    "end_epoch": 1792321239.361776,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-red02-gyaikos0",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  },
+  {
+    "path": "task18-owned-root-lifecycle-red03-wqqvbtvx",
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_owned_root_terminal.py",
+      "--basetemp=/private/tmp/task18-owned-root-lifecycle-red03-wqqvbtvx/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792321328.9076622,
+    "end_epoch": 1792321329.445288,
+    "owned_base": "/private/tmp/task18-owned-root-lifecycle-red03-wqqvbtvx",
+    "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+  }
+]

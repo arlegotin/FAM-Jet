@@ -1,0 +1,58 @@
+{
+  "executed": false,
+  "parent": {
+    "kind": "regular",
+    "bytes": 12886,
+    "sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352"
+  },
+  "worker": {
+    "kind": "regular",
+    "bytes": 2372,
+    "sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5"
+  },
+  "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+  "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+  "launch_executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+  "parent_vector": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+    "<fresh separately allocated destination>"
+  ],
+  "worker_vectors": [
+    [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-I",
+      "-B",
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+      "empty",
+      "<destination>/empty.socket",
+      "<repr(actual case deadline)>"
+    ],
+    [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-I",
+      "-B",
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+      "survivor",
+      "<destination>/survivor.socket",
+      "<repr(actual case deadline)>"
+    ]
+  ],
+  "dynamic_slots": "Destination and monotonic deadlines are deliberately unallocated; later root release must freeze concrete values and actual vector hashes.",
+  "allocation_seconds": 10,
+  "ordered_cases": [
+    "empty",
+    "survivor"
+  ],
+  "case_seconds": 4.5,
+  "reserve_seconds": 0.25,
+  "incremental_bytes": 201326592,
+  "output_bytes": 67108864,
+  "thread_ceiling": 4,
+  "worker_threads": 1,
+  "static_ast_only": true,
+  "real_record_baseline_calls": 1,
+  "normal_torch_famjet_imports": true
+}

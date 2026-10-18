@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_owned_root_terminal.py",
+    "tests/test_kernel_stage_a_terminal_attribution.py",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py",
+    "tests/test_kernel_stage_a_python_lifetime.py",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+    "tests/test_kernel_stage_a_native_process.py",
+    "tests/test_kernel_stage_a_native_process_fix1.py",
+    "tests/test_kernel_stage_a_native_process_fix2.py",
+    "tests/test_kernel_stage_a_native_process_fix3.py",
+    "-k",
+    "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+    "-q",
+    "--basetemp=/private/tmp/task18-owned-root-lifecycle-cover-4f4wdzhn/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792321349.0762591,
+  "end_epoch": 1792321351.5322292,
+  "owned_base": "/private/tmp/task18-owned-root-lifecycle-cover-4f4wdzhn",
+  "source_git": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7"
+}
