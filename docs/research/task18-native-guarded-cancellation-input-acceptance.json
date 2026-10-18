@@ -1,0 +1,15 @@
+{
+  "time_utc": "2026-10-18T11:49:33.078852+00:00",
+  "status": "accepted_static_input_only",
+  "input_source_commit": "ab69e315f0c397ee22d3565baaecffb5e91baace",
+  "input_path": "docs/research/task18-native-guarded-cancellation-control.py",
+  "input_sha256": "ac2568e8fde84c445adbae23245e04161afe4f8de491948cf3273c437de592a3",
+  "root_verification": "docs/research/task18-native-guarded-cancellation-input-root-verification.json",
+  "independent_review": "docs/research/task18-native-guarded-cancellation-input-review.md",
+  "spec": "PASS",
+  "quality": "PASS",
+  "minor": "TASK18_SOURCE_GIT label must be verified against actual clean HEAD by separately allocated execute-once wrapper; parent alone does not verify it",
+  "native_executed": false,
+  "scientific_restart_authorized": false,
+  "protected_access": "CLOSED"
+}
