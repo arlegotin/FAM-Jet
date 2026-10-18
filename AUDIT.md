@@ -343,3 +343,7 @@ Verified all131 aggregate source-file SHAs and zero dev/risk failure flags; all2
 ## Task18 structured fixed-basis source gate —18 October2026
 
 Structured source RED8 failed as expected; firstGREEN6 passed/2fixture failures because multiscale structured already rejects at typed construction, corrected only the exception boundary. Finalfocused8 passed and native covering205 passed55.04s with MPS fallback0/fastmath0. Exact raw/cached two-pass optimizer+prediction+resume equivalence and dtype/tamper/budget/preallocation gates pass. All logs retained; no371/full-suite or scientific/numerical/corpus/profile repeat. Source report records one production predicate, tests and strict future package-cache invalidation.
+
+## Task18 structured operational closure —18 October2026
+
+No failures in the new bounded24 numerical/probe/sharedraw/preparation/cold/fitted stage. Sharedraw953874048B matches all6144 tuples/fileSHAs of all6 prior complete manifests. Actual structured features101085760/104231488B remain below conservative193044480/196190208B bounds. Current setup1125.775201s, all phase outerUTC/perf agree/AC100%/no override. New complete static ownership/config/export inventories,48 fitted cases and exact source/checkpoint identities retained. Promotion verifies small-file maps, exact config deltas and real policy/shape/canonical manifests; references already completed full-file cold scans, with no duplicate corpus I/O/tests/models.

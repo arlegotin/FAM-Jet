@@ -303,3 +303,7 @@ Root accepted/closed fullGit2def fixed-basis8192 allocation exploratory and unco
 ## Task18 structured fixed-basis source gate —18 October2026
 
 Implement only the exact full structured fixedCPU64 reader predicate approved by root: Jet125/Bank122, unchanged raw128 and family/data/precision/upstream guards. Actual allocation30134/30021params and29875/29768MAC fits current ceilings without padding; primary-active accounting remains upper bounds. Existing factory/cache/trainer/serialization paths need no additional production change. No new scientific or resource allocation follows from unit tests.
+
+## Task18 structured operational closure —18 October2026
+
+Root accepted and closed source7e0 full structured operational setup after exact source/numerical/probe/cache/cold/fitted checks. Promote results and exact fresh-learning configs without package changes. The same prospective fresh Jet125/Bank122 stop8192 comparison keeps common768/96, fixed grids, LR.001, finite6144 order and192MiB cap; no profile resume or automatic extension. Root post-commit launch release remains required; no additional standalone operational review. WholeTask18 scientific acceptance/protected phases remain unresolved/closed.

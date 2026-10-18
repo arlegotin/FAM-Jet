@@ -6962,5 +6962,16 @@
     },
     "current_stage_seconds": 1467.8430695819552,
     "next": "structured Jet125/Bank122 source stage only; all execution held"
+  },
+  "structured_fixed_cpu64_operational": {
+    "status": "passed_operational_only_no_scientific_learning",
+    "source": "7e0a798e8170583223bea1a49878f8569f65e8dd",
+    "report": "docs/research/task18-structured-fixed-operational-report.md",
+    "summary": "docs/research/task18-structured-fixed-operational-summary.json",
+    "calibration_hash": "569495b227e2cf8e8e901658cf3e345f29ce978224cee10556519ace6792368d",
+    "setup_perf_seconds": 1125.7752012919518,
+    "failed_attempts": 0,
+    "old_costs_retained": true,
+    "next": "fresh matched structured8192 pending root post-commit launchrelease"
   }
 }
