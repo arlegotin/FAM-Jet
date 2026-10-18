@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+    "tests/test_kernel_stage_a_python_lifetime.py",
+    "tests/test_kernel_stage_a_native_process_fix3.py",
+    "tests/test_kernel_stage_a_native_process_fix2.py",
+    "tests/test_kernel_stage_a_native_process_fix1.py",
+    "tests/test_kernel_stage_a_native_process.py",
+    "tests/test_kernel_stage_a_preflight_fix2.py",
+    "tests/test_kernel_stage_a_preflight.py",
+    "tests/test_kernel_stage_a_preflight_fix1.py",
+    "-k",
+    "python_lifetime or native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective",
+    "--basetemp=/tmp/task18-python-lifetime-fix1-cover-01"
+  ],
+  "exit": 0,
+  "seconds": 5.088904167059809,
+  "original_basetemp": "/tmp/task18-python-lifetime-fix1-cover-01",
+  "actual_basetemp": "/private/tmp/task18-python-lifetime-fix1-cover-01",
+  "durable_specimens": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-native-python-lifetime-fix1-evidence/cover-01/specimens",
+  "source_inputs": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-native-python-lifetime-fix1-evidence/cover-01/source-inputs",
+  "source_head": "dcd0a4f1265314485577637860b427e97a992b5e"
+}

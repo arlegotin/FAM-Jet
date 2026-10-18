@@ -1,0 +1,19 @@
+{
+  "base": "dcd0a4f1265314485577637860b427e97a992b5e",
+  "source_commit": "1114388e891021cf83ba18eaba32e7dc5744ef9a",
+  "source_hashes": {
+    "validation/kernel_stage_a/__init__.py": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+    "validation/kernel_stage_a/__main__.py": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+    "validation/kernel_stage_a/authority.py": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+    "validation/kernel_stage_a/commands.py": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+    "validation/kernel_stage_a/descriptors.py": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+    "validation/kernel_stage_a/driver.py": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+    "validation/kernel_stage_a/monitor.py": "feeba692a258369ec21f2fb1bc9d4bd3a115b65216f6980e72176dce3f526442",
+    "validation/kernel_stage_a/production.py": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+    "validation/kernel_stage_a/reader_worker.py": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+    "validation/kernel_stage_a/reference.py": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py": "26d07e04b61e474b0378c85086fe49b7b9099ac91c72044045df377b21a9b75c"
+  },
+  "native_rerun": false,
+  "prior_native_source": "18c7753e982b9ea2a8d6191a35970c5151403ab7"
+}

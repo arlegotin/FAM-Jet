@@ -1,0 +1,54 @@
+FF...F                                                                   [100%]
+=================================== FAILURES ===================================
+___ test_valid_reader_join_publishes_after_previous_sample_settles[baseline] ___
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-fix1-red-01/test_valid_reader_join_publish0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10aa575c0>
+join = 'baseline'
+
+    @pytest.mark.parametrize('join',['baseline','launch','self'])
+    def test_valid_reader_join_publishes_after_previous_sample_settles(tmp_path,monkeypatch,join):
+        result,records=run_reader_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED' and result['reason'] is None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'missing post-import worker baseline or unresolved declaration', 'monitor_failure': None, 'stage_launch_vector_sha256': '6558d347ac39cb2ceff0e1273688f563f8f57d6b10a0a49f0cdde0a31354e4f0', ...}
+E       assert ('STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:104: AssertionError
+____ test_valid_reader_join_publishes_after_previous_sample_settles[launch] ____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-fix1-red-01/test_valid_reader_join_publish1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10aa57230>
+join = 'launch'
+
+    @pytest.mark.parametrize('join',['baseline','launch','self'])
+    def test_valid_reader_join_publishes_after_previous_sample_settles(tmp_path,monkeypatch,join):
+        result,records=run_reader_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED' and result['reason'] is None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'missing post-import worker baseline or unresolved declaration', 'monitor_failure': None, 'stage_launch_vector_sha256': 'c8e8f5d2da7fa1c2625e176fc0dd3469b3945c8e539902974052bb547afd3853', ...}
+E       assert ('STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:104: AssertionError
+______ test_late_reader_join_retains_previously_established_full_rss_cap _______
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-fix1-red-01/test_late_reader_join_retains_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ab67350>
+
+    def test_late_reader_join_retains_previously_established_full_rss_cap(tmp_path,monkeypatch):
+        result,_=run_reader_join(tmp_path,monkeypatch,'baseline',failure='cap')
+        assert result['status']=='STOPPED' and result['reason']=='incremental worker memory cap'
+        assert result['incremental_worker_peak_bytes']>=100
+>       assert result['workers']['400002']['baseline_bytes']==100
+E       assert 0 == 100
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:127: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_valid_reader_join_publishes_after_previous_sample_settles[baseline]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_valid_reader_join_publishes_after_previous_sample_settles[launch]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap
+3 failed, 3 passed in 0.08s

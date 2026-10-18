@@ -1,0 +1,2 @@
+{"event": "baseline", "pid": 23300, "rss": 10}
+{"event": "observer_helper", "pid": 123300, "parent": 23300, "executable": "/bin/ps", "argv": ["/bin/ps", "-axo", "pid=,ppid=,rss=,comm=,args="]}

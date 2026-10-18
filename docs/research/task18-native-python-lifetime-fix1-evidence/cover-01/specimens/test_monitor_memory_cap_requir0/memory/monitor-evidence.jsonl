@@ -1,0 +1,4 @@
+{"kind":"sample","sample_id":1,"rss":{"23296":100},"processes":[{"pid":23296,"parent":23242,"executable":"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","argv":["/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","-c","\nimport json,os,time\nfrom pathlib import Path\nPath('monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')\ntime.sleep(10)\n"]}],"before":548871.980323166,"after":548871.980343916}
+{"kind":"resolution","sample_id":1,"roles":{"23296":"pending_baseline"},"identities":{}}
+{"kind":"event","value":{"event":"baseline","pid":23296,"rss":10}}
+{"kind":"resolution","sample_id":1,"roles":{"23296":"worker"},"identities":{}}
