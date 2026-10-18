@@ -1,0 +1,49 @@
+{
+  "ignored_report_mirror": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-stopped04-report.md",
+  "original_file_count": 59,
+  "original_file_count_by_area": {
+    "preallocation": 4,
+    "setup": 30,
+    "stage-a": 25
+  },
+  "original_mappings_path": "docs/research/task18-kernel-stage-a-stopped04-evidence/original-mappings.json",
+  "original_mappings_sha256": "ae6d3edd4d956ba824916c4c9da489c4f20e685431818da87b5af270e2ee24dd",
+  "original_payload_bytes": 701070,
+  "raw_monitor_verdicts": {
+    "setup": {
+      "archive": "docs/research/task18-kernel-stage-a-stopped04-evidence/setup/worker-output/monitor.json",
+      "bytes": 8192,
+      "raw_padding_preserved": true,
+      "sha256": "81645cb1679984061ba8ba5547e07bdef75e53f366fd3a8881b980e78a43ffd8"
+    },
+    "stage-a": {
+      "archive": "docs/research/task18-kernel-stage-a-stopped04-evidence/stage-a/monitor.json",
+      "bytes": 8192,
+      "raw_padding_preserved": true,
+      "sha256": "4d170600043f6e99e60ab0eb1693e57401e33838f6af396e6d6ee96d68e96cd3"
+    }
+  },
+  "recorded_directory_count": 3,
+  "report_path": "docs/research/task18-kernel-stage-a-stopped04-report.md",
+  "retained_empty_directory": {
+    "archive": "docs/research/task18-kernel-stage-a-stopped04-evidence/stage-a/reader-elrnadm1",
+    "git_marker": "docs/research/task18-kernel-stage-a-stopped04-evidence/stage-a/reader-elrnadm1/.empty-directory",
+    "marker_bytes": 0,
+    "marker_is_archive_added": true,
+    "original": "/private/tmp/famjet-task18-kernel-stage-a-sourcedda3571-04-driver/reader-elrnadm1"
+  },
+  "source_full_git": "dda35712332b8edf13ca340257b2e9eb8ae6bd8b",
+  "status": {
+    "setup": "COMPLETED",
+    "stage_a": "STOPPED",
+    "stage_a_reason": "incremental worker memory cap"
+  },
+  "verification": {
+    "archived_and_original_bytes_sha256_equal": true,
+    "current_dependency_lock_hash_equal": true,
+    "current_package_hash_equal": true,
+    "read_only_no_execution_replay": true,
+    "sealed_tracked_file_count": 25,
+    "sealed_tracked_hashes_equal": true
+  }
+}
