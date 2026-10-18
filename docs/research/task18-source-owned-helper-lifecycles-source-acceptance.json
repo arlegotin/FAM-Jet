@@ -1,0 +1,89 @@
+{
+  "time_utc": "2026-10-18T13:00:44.897775+00:00",
+  "scope": "source implementation and static native input only",
+  "reviewed_head": "dbf5d602aa7101ce854b1f6991934ec97f7a4b90",
+  "source_commits": [
+    "34143e8c47728d65c098003724bfc8f1c2a0a5f4",
+    "4cd3a1a0205509801899a272ae7a8bf2daf4ad95",
+    "8642b7c57c90b16ff4a2eab2f04759540e5a9962"
+  ],
+  "spec": "PASS after scoped fix2 review",
+  "quality": "PASS after scoped fix2 review",
+  "closed_findings": [
+    "I1",
+    "I2",
+    "I3",
+    "I4",
+    "I5",
+    "M1"
+  ],
+  "evidence": [
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-review.md",
+      "bytes": 15191,
+      "sha256": "611abd84281e213ea92defdf3d310e6c924f3821ab49db4c801fa1d4010781c7"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-fix1-review.md",
+      "bytes": 5849,
+      "sha256": "2336d0f694eef864b1d401a9c478ac145a94e99a88c134bc20040e2141d1bb57"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-fix2-review.md",
+      "bytes": 3696,
+      "sha256": "0a231e8a45746d7305c6025c49bdf736c7300fdc7866c9a54172db7233e19b66"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-root-verification.json",
+      "bytes": 2166,
+      "sha256": "41ebea9b7a4d85f403b48f66f88aff2d9cc7a38a427750733133223bb43abfb2"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-fix1-root-verification.json",
+      "bytes": 1335,
+      "sha256": "efbc103fe6a5a533b4c0fb5fbc6a4885ad8065ac801d95a670f2f8506aee2dd8"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-lifecycles-fix2-root-verification.json",
+      "bytes": 2280,
+      "sha256": "9fa1b4142690ccbebedd8a2eb34e1fd8194c2eb9ce2d551fa8aab3807cfecef8"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-cleanup-assessment.json",
+      "bytes": 790,
+      "sha256": "7efd30e3544f1bf3f36631e28e70b262859a1788236b67f2ed5ad882b27df00d"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "validation/kernel_stage_a/monitor.py",
+      "bytes": 94488,
+      "sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473"
+    },
+    {
+      "path": "validation/kernel_stage_a/source_lifecycles.py",
+      "bytes": 6743,
+      "sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-native-control.py",
+      "bytes": 13620,
+      "sha256": "3275a093357ca2618973690e03c55f407d2219e60eb68572343b08dc20d42198"
+    },
+    {
+      "path": "docs/research/task18-source-owned-helper-native-worker.py",
+      "bytes": 3987,
+      "sha256": "14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254"
+    }
+  ],
+  "limits": [
+    "Source-owned helper attribution applies to trusted reviewed source; it is not continuous OS image or PID-reuse proof.",
+    "Unknown statuses remain null; sampled/unsampled helper costs remain distinct.",
+    "Historical failed native/setup/scientific operations remain failed and their costs retained.",
+    "Malformed-source operation must remain FAILED/incomplete. Its actual saved duration precedes final commit; controlled fake-time tests cover caller completion.",
+    "Native parent/worker have never run on current source; this acceptance does not qualify native compatibility."
+  ],
+  "native_compatibility": "UNOBSERVED",
+  "scientific_release": false,
+  "protected_access": "CLOSED"
+}

@@ -1,0 +1,36 @@
+{
+  "time_utc": "2026-10-18T12:42:03.159997+00:00",
+  "base": "919c2c93c7b355cb41c239dff034a82645389970",
+  "head": "f02a432cdd63359be7d1938e7d62a3ec57c48df0",
+  "changed_git_files": 64,
+  "changed_git_bytes": 477237,
+  "static_hashes": 5,
+  "prefixed_git_snapshots": 5,
+  "actual_original_specimens": 40,
+  "original_bytes": 117374,
+  "actual_attempts": 4,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "protected_diff_empty": true,
+  "report_full_read_sha256": "1fb161e0f843c524ef76d99e0e2f7e89d5a3e1f668f58154f1f3fdd78f338755",
+  "original_report_prefix_unchanged": true,
+  "cover": "361 passed, 6 deselected",
+  "malformed_source_test_operation": {
+    "status": "FAILED",
+    "returncode": -9,
+    "reason": "outer timeout",
+    "outer_seconds": 0.08068754198029637,
+    "cleanup_diagnostics": [
+      {
+        "operation": "wait",
+        "type": "_MonitorStop",
+        "message": "outer timeout",
+        "errno": null
+      }
+    ]
+  },
+  "verification_metadata_correction": "First verifier assumed log/id keys; actual fix1 index is a list with label and logs named label.log. Corrected only file verification; no tests/source/native effects.",
+  "native_or_test_or_project_import_rerun": false,
+  "review": "PENDING",
+  "scientific_release": false,
+  "protected_access": "CLOSED"
+}

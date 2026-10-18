@@ -1,0 +1,63 @@
+{
+  "time_utc": "2026-10-18T12:27:03.768056+00:00",
+  "base": "100bf1c900e955d855267ba86d11c94948dcd3dd",
+  "head": "919c2c93c7b355cb41c239dff034a82645389970",
+  "changed_git_files": 87,
+  "changed_git_bytes": 847046,
+  "static_hashes_verified": 8,
+  "preedit_files": 4,
+  "specimen_files": 46,
+  "specimen_bytes": 145806,
+  "attempts": 10,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "protected_diff_empty": true,
+  "report_full_read_sha256": "893974bc6ce8f4e380894dfb81d26741fda57b5d771c391aae037188f7b0eb20",
+  "cover_status": "FAILED",
+  "retained_cleanup_failures": [
+    {
+      "attempt": "cover02",
+      "status": "FAILED",
+      "returncode": null,
+      "outer_seconds": 0.0883569159777835,
+      "cleanup": [
+        {
+          "operation": "signal",
+          "type": "_MonitorStop",
+          "message": "outer timeout",
+          "errno": null
+        },
+        {
+          "operation": "wait",
+          "type": "TimeoutExpired",
+          "message": "Command '['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', 'from pathlib import Path; import time\\nwhile not Path(\"finish\").exists(): t",
+          "errno": null
+        }
+      ]
+    },
+    {
+      "attempt": "cover03",
+      "status": "FAILED",
+      "returncode": null,
+      "outer_seconds": 0.08843000000342727,
+      "cleanup": [
+        {
+          "operation": "signal",
+          "type": "_MonitorStop",
+          "message": "outer timeout",
+          "errno": null
+        },
+        {
+          "operation": "wait",
+          "type": "TimeoutExpired",
+          "message": "Command '['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', 'from pathlib import Path; import time\\nwhile not Path(\"finish\").exists(): t",
+          "errno": null
+        }
+      ]
+    }
+  ],
+  "root_verification_first_attempt": "Read-only assertion incorrectly searched diagnostic dict keys for TimeoutExpired; corrected using actual type field. No source/test/native effects.",
+  "native_or_test_or_project_import": false,
+  "review": "PENDING",
+  "scientific_release": false,
+  "protected_access": "CLOSED"
+}

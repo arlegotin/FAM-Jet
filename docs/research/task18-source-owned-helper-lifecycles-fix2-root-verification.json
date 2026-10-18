@@ -1,0 +1,68 @@
+{
+  "time_utc": "2026-10-18T13:00:03.379789+00:00",
+  "base": "f02a432cdd63359be7d1938e7d62a3ec57c48df0",
+  "head": "dbf5d602aa7101ce854b1f6991934ec97f7a4b90",
+  "changed_git_files": 67,
+  "changed_git_bytes": 432561,
+  "static_hashes": 5,
+  "prefixed_git_snapshots": 2,
+  "actual_original_specimens": 44,
+  "original_bytes": 93934,
+  "actual_attempts": 5,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "protected_diff_empty": true,
+  "protected_methods_AST_unchanged": [
+    "owned_baseline_event",
+    "owned_candidate",
+    "qualify_owned_root",
+    "owned_terminal",
+    "root_sample",
+    "root_end",
+    "_git_phase_valid"
+  ],
+  "report_full_read_sha256": "c183303f9fa3fdde6783892660c29792a67b760729e7269386c2d0919436f513",
+  "fix2_report_append_full_read": true,
+  "report_prefix_unchanged": true,
+  "audit_note_full_read_sha256": "1dc5ce62abebad59349d802459f55242e8cf24ef5e2b9ea5ec1a92291023e09e",
+  "cover": "363 passed, 6 deselected in 2.31s",
+  "failed_cover_retained": "1 failed, 362 passed, 6 deselected in 2.35s",
+  "malformed_source_test_operation": {
+    "status": "FAILED",
+    "returncode": -9,
+    "reason": "outer timeout",
+    "outer_seconds": 0.07480183301959187,
+    "cleanup_diagnostics": []
+  },
+  "actual_cleanup_witnesses": [
+    {
+      "kind": "cleanup_signal",
+      "pid": 5258,
+      "signal": 9,
+      "success": true,
+      "owner_unreaped": true
+    },
+    {
+      "kind": "cleanup_owner_wait",
+      "pid": 5258,
+      "start": 563509.310297291,
+      "timeout_seconds": 0.003650958475191146,
+      "returned": -9,
+      "end": 563509.311825541,
+      "returncode": -9,
+      "reaped": true
+    },
+    {
+      "kind": "cleanup_owner_end",
+      "pid": 5258,
+      "returncode": -9,
+      "reaped": true,
+      "monotonic": 563509.312019875,
+      "origin": "synthetic_sampler"
+    }
+  ],
+  "verification_metadata_correction": "Initial read-only verifier compared enriched attempt-index entries to raw captures. Confirmed only added label/summary/failures keys, then compared all captured fields and summaries against actual logs; no test/native/source effects.",
+  "native_or_test_or_project_import_rerun": false,
+  "review": "PENDING",
+  "scientific_release": false,
+  "protected_access": "CLOSED"
+}

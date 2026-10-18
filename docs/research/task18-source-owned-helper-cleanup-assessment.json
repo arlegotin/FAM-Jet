@@ -1,0 +1,27 @@
+{
+  "time_utc": "2026-10-18T12:27:03.768351+00:00",
+  "reason": "Both retained failures have signal path _MonitorStop/outer timeout; no actual signal delivery established. Check for exact owned leftovers before further work.",
+  "recorded_pids": [
+    96845,
+    97247
+  ],
+  "sandboxed_attempt": {
+    "tool_chunk": "0b5646",
+    "result": "PermissionError errno1 launching /bin/ps, no native PS started"
+  },
+  "native_assessment": {
+    "tool_chunk": "5b4754",
+    "command": [
+      "/bin/ps",
+      "-p",
+      "96845,97247",
+      "-o",
+      "pid=,ppid=,pgid=,lstart=,command="
+    ],
+    "exit": 1,
+    "stdout": "",
+    "meaning": "Neither exact PID currently listed; no later owning reap or old SIGKILL inferred"
+  },
+  "root_signals_sent": 0,
+  "tests_or_control_rerun": false
+}
