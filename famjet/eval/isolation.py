@@ -32,6 +32,8 @@ from famjet.memory.expbank import ExpBankMemory, BoundedRates
 from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import QueryBatch, ReadResult, FeatureBatch
 from famjet.models.task_model import TaskModel
+from famjet.models.kernel_read_model import KernelReadModel
+from famjet.readers.kernel_projection import KernelProjection
 from famjet.readers.structured import make_reader
 from famjet.models._schema import inference_config, training_metadata
 from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapshot_hash,
@@ -39,7 +41,7 @@ from famjet.eval.state_io import (snapshot_record, snapshot_from_record, snapsho
 
 REGISTRY_VERSION = 2
 _REGISTRY = {'packed': PackedHistoryMemory, 'reservoir': ReservoirMemory, 'hybrid': HybridMemory,
-             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory, 'multiscale': MultiscaleMemory, 'delta': DeltaMixer}
+             'buckets': TemporalBucketsMemory, 'jet': JetMemory, 'bank': ExpBankMemory, 'task': TaskModel, 'polynomial': PolynomialMemory, 'multiscale': MultiscaleMemory, 'delta': DeltaMixer, 'kernel_projection': KernelReadModel}
 _ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -95,6 +97,16 @@ def _reconstruct(spec, *, freeze_rates=False):
              'unregistered method/schema version')
     kind, schema = spec['kind'], spec['schema']
     _require(type(schema) is dict and type(spec['weights']) is dict, 'invalid method schema')
+    if kind == 'kernel_projection':
+        _require(set(schema) == {'kernel','reader','fit_provenance','target_statistics'}
+                 and type(schema['reader']) is dict and not spec['weights'], 'invalid projection method schema')
+        reader_spec = schema['reader']
+        _require(set(reader_spec) == {'config','arrays'} and type(reader_spec['arrays']) is dict
+                 and set(reader_spec['arrays']) == set(KernelProjection.array_names), 'invalid projection reader schema')
+        reader = KernelProjection.from_statics(reader_spec['config'],
+            {k:tensor_from_record(v) for k,v in reader_spec['arrays'].items()})
+        kernel = _reconstruct(schema['kernel'],freeze_rates=freeze_rates)
+        return KernelReadModel.from_statics(kernel,reader,schema['fit_provenance'],schema['target_statistics'])
     if kind == 'task':
         _require(set(schema) == {'kernel', 'reader', 'inference_config', 'fit_provenance', 'target_statistics', 'frozen_rates'},
                  'invalid task schema')
@@ -175,7 +187,15 @@ def export_method(method):
     kinds = {cls: kind for kind, cls in _REGISTRY.items()}
     _require(type(method) in kinds, 'method type is not registered for isolated inference')
     kind = kinds[type(method)]; weights = {}
-    if kind == 'task':
+    if kind == 'kernel_projection':
+        _require(type(method.reader) is KernelProjection, 'unregistered projection reader')
+        method.reader.validate_statics()
+        provenance, statistics = training_metadata(method.fit_provenance,method.target_statistics,8)
+        schema = dict(kernel=export_method(method.kernel),
+            reader=dict(config={k:getattr(method.reader,k) for k in KernelProjection.config_names},
+                        arrays={k:tensor_record(getattr(method.reader,k)) for k in KernelProjection.array_names}),
+            fit_provenance=provenance,target_statistics=statistics)
+    elif kind == 'task':
         from famjet.readers.mlp import NumericReader
         _require(type(method.reader) is NumericReader, 'unregistered task reader')
         provenance, statistics = method.validate_metadata()
@@ -249,6 +269,9 @@ def _query_from_record(record):
 
 
 def _check_input(method, state, query):
+    if type(method) is KernelReadModel:
+        _require(type(query) is QueryBatch and set(vars(query)) == {f.name for f in fields(QueryBatch)},
+                 'unregistered/hidden projection query attribute')
     _require(state.parameter_hash == method._parameter_hash(), 'snapshot parameter hash mismatch')
     method.persistent_nbytes(state)  # method layout/counters and source hashes
     validate_queries(query, state)
