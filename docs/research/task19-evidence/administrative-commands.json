@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "classification": "administrative_not_scientific",
+  "command": "git add docs/research/task19-analysis-report.md .superpowers/sdd/2026-10-16-famjet/task-19-report.md",
+  "exit_code": 1,
+  "output": "The following paths are ignored by one of your .gitignore files:\n.superpowers/sdd/2026-10-16-famjet\nhint: Use -f if you really want to add them.\nhint: Disable this message with \"git config set advice.addIgnoredFile false\"\n",
+  "following_commit": "3613d023547b8c406947c1353c786685ab52fa5f",
+  "actual_result": "Both intended report updates were staged despite the command returning1. Exact committed bytes were compared with intended working files and the tree was clean.",
+  "lesson": "Check each administrative command status before a dependent commit; explicitly force only the authorized ignored report path."
+}
