@@ -261,7 +261,11 @@ def test_unsampled_git_still_requires_exact_phase_and_qualified_parent(tmp_path,
     def launch(self,entry,context): original(self,entry,context); state['owner']=self
     monkeypatch.setattr(m.PythonLifetimes,'launch',launch)
     def sampler(root,**kw):
-        t0=time.monotonic(); t1=time.monotonic(); t2=time.monotonic(); t3=time.monotonic(); t4=time.monotonic()
+        import math
+        instants=[state['owner'].generations[pid]['launch_start']]
+        for _ in range(4): instants.append(math.nextafter(instants[-1],float('inf')))
+        t0,t1,t2,t3,t4=instants
+        assert t0<t1<t2<t3<t4<time.monotonic()
         if fault!='unqualified_parent':
             row=dict(pid=pid,parent=os.getpid(),rss_bytes=1,raw_args=c.native_display(vector,runtime),
                 sample_start=t0,sample_end=t1,image=dict(status='ok',**runtime['process_image'],lookup_start=t1,lookup_end=t2))
@@ -416,3 +420,64 @@ def test_static_unknown_signal_must_precede_matching_actual_owner_end():
     raw=[dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True),
         dict(kind='python_root_end',value=dict(pid=99,reaped=True,returncode=-9))]
     with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)
+
+
+@pytest.mark.parametrize('waitable_delay',[.0035,None],ids=['reaped','unknown'])
+def test_owning_wait_leaves_time_for_actual_evidence_and_failed_source_commit(tmp_path,monkeypatch,waitable_delay):
+    """Run stdlib POSIX wait with controlled waitpid, clock and journal cost."""
+    import json,threading
+    now=[100.]; waitable=[float('inf')]; sleeps=[]; timeouts=[]; trace=[]
+    real_popen=m.subprocess.Popen
+    owner=real_popen.__new__(real_popen)
+    owner.pid=570001; owner.args=['controlled owner']; owner.returncode=None; owner._child_created=False
+    owner._waitpid_lock=threading.Lock()
+    owner.poll=lambda:owner.returncode
+    owner._try_wait=lambda options:(owner.pid,9) if now[0]>=waitable[0] else (0,0)
+    actual_wait=owner.wait
+    def wait(timeout):
+        timeouts.append(timeout); trace.append(dict(operation='wait_start',time=now[0],timeout=timeout))
+        value=actual_wait(timeout=timeout)
+        trace.append(dict(operation='wait_end',time=now[0],returncode=value))
+        return value
+    owner.wait=wait
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+    monkeypatch.setattr(m.subprocess,'_time',lambda:now[0])
+    monkeypatch.setattr(m.time,'monotonic',lambda:now[0])
+    def sleep(seconds): sleeps.append(seconds); now[0]+=seconds
+    monkeypatch.setattr(m.time,'sleep',sleep)
+    def kill(pid,signum):
+        assert pid==owner.pid and signum==9 and owner.returncode is None
+        waitable[0]=now[0]+waitable_delay if waitable_delay is not None else float('inf')
+        trace.append(dict(operation='signal',time=now[0]))
+    monkeypatch.setattr(m.os,'killpg',kill)
+    original_json=m._bounded_json
+    def encode(value,*args,**kwargs):
+        if value.get('kind')=='cleanup_owner_wait': now[0]+=.0011
+        if 'outer_seconds' in value: now[0]+=.0002
+        return original_json(value,*args,**kwargs)
+    monkeypatch.setattr(m,'_bounded_json',encode)
+    out=tmp_path/'monitor'
+    def sampler(pid):
+        now[0]=100.0718
+        (out/'monitor-events.jsonl').write_bytes(b'{"event":')
+        return {}
+    result=m.supervise(['/fixture/python'],out,sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+    raw=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+    (out/'controlled-timing.json').write_text(json.dumps(dict(trace=trace,sleeps=sleeps,timeouts=timeouts,end=now[0]),indent=2)+'\n')
+    assert result['status']=='FAILED' and result['source_event_accounting']['complete'] is False
+    expected=-9 if waitable_delay is not None else None
+    assert result['returncode']==expected
+    waited=[r for r in raw if r['kind']=='cleanup_owner_wait']
+    ended=[r for r in raw if r['kind']=='cleanup_owner_end']
+    assert len(waited)==len(ended)==1
+    assert waited[0]['returncode']==ended[0]['returncode']==expected
+    assert waited[0]['reaped'] is ended[0]['reaped'] is (expected is not None)
+    assert ended[0]['pid']==owner.pid and ended[0]['origin']=='synthetic_sampler'
+    assert not any(r['kind']=='python_root_end' for r in raw)
+    assert raw.index(next(r for r in raw if r['kind']=='cleanup_signal'))<raw.index(waited[0])<raw.index(ended[0])
+    assert waited[0]['end']<=ended[0]['monotonic']<100.08
+    assert now[0]<100.08 and result['outer_seconds']<.08
+    if waitable_delay is None:
+        assert waited[0]['error']['type']=='TimeoutExpired'
+        assert [d['operation'] for d in result['cleanup_diagnostics']]==['wait']
+    else: assert not result['cleanup_diagnostics']

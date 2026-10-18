@@ -1165,14 +1165,30 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             # Failure to observe cannot waive the original owned cancellation.
             if process.returncode is None: signal_group()
         finally:
+            wait_start=time.monotonic()
+            # POSIX Popen.wait backs off between waitpid calls. Giving it all
+            # remaining time can consume the evidence/final-commit interval.
+            # Split only the existing remainder; never extend the allocation.
+            wait_timeout=max(0,min(1,(deadline-wait_start)/2))
+            wait_record=dict(kind='cleanup_owner_wait',pid=process.pid,start=wait_start,timeout_seconds=wait_timeout)
             try:
-                wait_start=time.monotonic(); waited=process.wait(timeout=max(0,min(1,deadline-wait_start)))
-                append(dict(kind='cleanup_owner_wait',start=wait_start,end=time.monotonic(),returncode=waited,
-                            reaped=type(process.returncode) is int),final=True)
-            except Exception as exc: cleanup_error('wait',exc)
+                wait_record['returned']=process.wait(timeout=wait_timeout)
+            except Exception as exc:
+                wait_record['error']=dict(type=type(exc).__name__,message=str(exc)[:160])
+                cleanup_error('wait',exc)
             finally:
+                wait_record.update(end=time.monotonic(),returncode=process.returncode,reaped=type(process.returncode) is int)
+                try: append(wait_record,final=True)
+                except Exception as exc: cleanup_error('wait evidence',exc)
                 try: root_end()
                 except Exception as exc: cleanup_error('end',exc)
+                try:
+                    # Diagnostic owner status, not a Python generation end,
+                    # receipt, baseline proof or additional poll/reap operation.
+                    append(dict(kind='cleanup_owner_end',pid=process.pid,returncode=process.returncode,
+                        reaped=type(process.returncode) is int,monotonic=time.monotonic(),
+                        origin='native_supervision' if native_supervision else 'synthetic_sampler'),final=True)
+                except Exception as exc: cleanup_error('owner status',exc)
     def emergency(why,*,finalization=None):
         # Independent of the normal JSON encoder and Path write boundary.
         def quoted(value,budget):
