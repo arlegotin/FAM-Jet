@@ -5,6 +5,18 @@
   "exit_code": 1,
   "output": "The following paths are ignored by one of your .gitignore files:\n.superpowers/sdd/2026-10-16-famjet\nhint: Use -f if you really want to add them.\nhint: Disable this message with \"git config set advice.addIgnoredFile false\"\n",
   "following_commit": "3613d023547b8c406947c1353c786685ab52fa5f",
-  "actual_result": "Both intended report updates were staged despite the command returning1. Exact committed bytes were compared with intended working files and the tree was clean.",
-  "lesson": "Check each administrative command status before a dependent commit; explicitly force only the authorized ignored report path."
+  "actual_result": "Both intended report updates reached implementation commit3613d023547b8c406947c1353c786685ab52fa5f despite the later normal add returning1. The ignored SDD scratch report had been force-added during implementation staging; tracking it was a housekeeping error.",
+  "lesson": "Check command status before dependent commits. Keep ignored ephemeral SDD reports local and commit durable docs copies; do not force-track scratch reports.",
+  "housekeeping_correction": {
+    "base": "1ff19ac953106c96a879ce0aa742a87ca24d7bb8",
+    "requested_by": "root",
+    "command": "git rm --cached -- .superpowers/sdd/2026-10-16-famjet/task-19-report.md",
+    "exit_code": 0,
+    "output": "rm '.superpowers/sdd/2026-10-16-famjet/task-19-report.md'\n",
+    "scratch_report_remains_local": true,
+    "durable_report_retained": "docs/research/task19-analysis-report.md",
+    "source_tests_logs_and_ignore_policy": "unchanged",
+    "tests_rerun": false,
+    "scientific_release": false
+  }
 }
