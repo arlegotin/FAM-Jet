@@ -1,8 +1,28 @@
 {
   "complete_inventory_path": "docs/research/task18-epsilon1em6-operational-evidence/execution/complete-inventory.json",
   "complete_inventory_sha256": "3ae2e0cb40afe0251683a7fbb053a1045befe3235f102cc50c357699cc1fe674",
-  "copied_bytes": 16621867,
-  "copied_count": 298,
+  "copied_bytes": 15434383,
+  "copied_count": 296,
+  "correction": {
+    "original_promotion_commit": "60fbcc5b32931f483ceac2bb327ed8d699f62313",
+    "reason": "Suffix-only .pt filter unintentionally included two .pt.previous checkpoints. Follow-up removes only durable copies; original ignored files and complete hashes remain intact.",
+    "removed_durable_copies": [
+      {
+        "bytes": 592910,
+        "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/checkpoint.pt.previous",
+        "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/training/checkpoint.pt.previous",
+        "sha256": "bee9c7a38cafe020ced1639b35d67a76d60d9436108aee43026a597fee9e6d04",
+        "transform": "none; byte-exact"
+      },
+      {
+        "bytes": 594574,
+        "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/checkpoint.pt.previous",
+        "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/training/checkpoint.pt.previous",
+        "sha256": "20d598f2c048b32eb99078e60b7a7c8a2c0e8763e75780bfc7c9d030272ccb15",
+        "transform": "none; byte-exact"
+      }
+    ]
+  },
   "design_documents": "Five design/amendment/review documents are DESIGN ONLY and UNADOPTED; no implementation or execution allocation.",
   "entries": [
     {
@@ -73,13 +93,6 @@
       "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/attempts.jsonl",
       "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/training/attempts.jsonl",
       "sha256": "dba614cdfc53c359da76a69dfee5accee8e734ad73efd8e80e62b0ad6fcf974b",
-      "transform": "none; byte-exact"
-    },
-    {
-      "bytes": 592910,
-      "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/checkpoint.pt.previous",
-      "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/training/checkpoint.pt.previous",
-      "sha256": "bee9c7a38cafe020ced1639b35d67a76d60d9436108aee43026a597fee9e6d04",
       "transform": "none; byte-exact"
     },
     {
@@ -164,13 +177,6 @@
       "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/attempts.jsonl",
       "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/training/attempts.jsonl",
       "sha256": "dba614cdfc53c359da76a69dfee5accee8e734ad73efd8e80e62b0ad6fcf974b",
-      "transform": "none; byte-exact"
-    },
-    {
-      "bytes": 594574,
-      "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/checkpoint.pt.previous",
-      "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/training/checkpoint.pt.previous",
-      "sha256": "20d598f2c048b32eb99078e60b7a7c8a2c0e8763e75780bfc7c9d030272ccb15",
       "transform": "none; byte-exact"
     },
     {
@@ -2093,7 +2099,7 @@
     }
   ],
   "executed_source_commit": "c71547932e2875468752db09e6f0a1e02c3e5650",
-  "omission_policy": "Full original inventory retains every payload/capture/large manifest/prediction/timing hash and size. Cache SHA verification boundary is original preparation and actual cold full-integrity scans; no repeated corpus read. No original files changed.",
+  "omission_policy": "Full original inventory retains every payload/capture/large manifest/prediction/timing hash and size. Cache SHA verification boundary is original preparation and actual cold full-integrity scans; no repeated corpus read. No original files changed. Tensor omission includes .pt and .pt.previous filenames.",
   "omitted_payloads_and_large_transient_records": [
     {
       "bytes": 5458152,
@@ -149934,6 +149940,18 @@
       "hash_verification_boundary": "report actual-file read",
       "path": "artifacts/task18/epsilon1em6-operational-c715479/telemetry-jet/gradients-step2.pt",
       "sha256": "ea970dc7600ceef4b99491f51ad169192bde464d75d85499bf55fdce020425bd"
+    },
+    {
+      "bytes": 592910,
+      "hash_verification_boundary": "actual original/copy verification before removing unintended durable copy; original retained",
+      "path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/training/checkpoint.pt.previous",
+      "sha256": "bee9c7a38cafe020ced1639b35d67a76d60d9436108aee43026a597fee9e6d04"
+    },
+    {
+      "bytes": 594574,
+      "hash_verification_boundary": "actual original/copy verification before removing unintended durable copy; original retained",
+      "path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/training/checkpoint.pt.previous",
+      "sha256": "20d598f2c048b32eb99078e60b7a7c8a2c0e8763e75780bfc7c9d030272ccb15"
     }
   ],
   "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",

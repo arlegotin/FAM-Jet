@@ -13,3 +13,5 @@ The following documents are **design recommendations or drafts, UNADOPTED**. The
 - [Prospective Task19 calibration design](task19-prospective-calibration-design.md)
 
 Next: prepare a sealed fresh Jet→endpoint→TRAIN-risk→Bank sequence against the actual post-promotion source. Execution remains held for controller inspection. No continuation, new family, protected phase or statistical qualification follows from this record.
+
+Promotion correction: commit `60fbcc5` unintentionally included two `.pt.previous` checkpoints because the exclusion matched only the final `.pt` suffix. The follow-up removes those durable copies, retains the original ignored artifacts and exact inventory records, and excludes both `.pt` and `.pt.previous` names. No scientific result or source changed.

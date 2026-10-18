@@ -1,12 +1,32 @@
 {
   "authored_docs": {
-    "AUDIT.md": "d478b449262fdc39a30a800d59ae3e2cbf252e6eb827b55598b5edd71ab8c994",
+    "AUDIT.md": "c87cd0196be04d78a6892e309283a75343b0b2834c62020c93cdb4c7d34dfeea",
     "DECISIONS.md": "5d84cf831a9c5aa63c1b00a24a5a146db9b91569b1968eeeba70a3f69d3ac7f7",
     "PROGRESS.md": "8a62db218e088ef20e03733067cb1ee044ee1a1609a3693e981b5535bf7c3816",
-    "docs/research/task18-epsilon1em6-operational-promotion.md": "7e05facdbc44abfb2c549f6f7b2dae62d462f38b9dafe013181a532983f5303e"
+    "docs/research/task18-epsilon1em6-operational-promotion.md": "7a9f28f10c1723b2042c06c42e05144b3a3b8e35dee1b03bc6b6081a6654d69a"
   },
-  "copied_bytes": 16621867,
-  "copies_checked": 298,
+  "copied_bytes": 15434383,
+  "copies_checked": 296,
+  "correction": {
+    "original_promotion_commit": "60fbcc5b32931f483ceac2bb327ed8d699f62313",
+    "reason": "Suffix-only .pt filter unintentionally included two .pt.previous checkpoints. Follow-up removes only durable copies; original ignored files and complete hashes remain intact.",
+    "removed_durable_copies": [
+      {
+        "bytes": 592910,
+        "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/checkpoint.pt.previous",
+        "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-bank/training/checkpoint.pt.previous",
+        "sha256": "bee9c7a38cafe020ced1639b35d67a76d60d9436108aee43026a597fee9e6d04",
+        "transform": "none; byte-exact"
+      },
+      {
+        "bytes": 594574,
+        "durable_path": "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/checkpoint.pt.previous",
+        "original_path": "artifacts/task18/epsilon1em6-operational-c715479/cold-jet/training/checkpoint.pt.previous",
+        "sha256": "20d598f2c048b32eb99078e60b7a7c8a2c0e8763e75780bfc7c9d030272ccb15",
+        "transform": "none; byte-exact"
+      }
+    ]
+  },
   "exact_stage_paths": [
     "docs/research/task18-epsilon1em6-operational-results.md",
     "docs/research/task18-epsilon1em6-fullprep-preparation.md",
@@ -18,7 +38,6 @@
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/learning_curve.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/manifest.json",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/attempts.jsonl",
-    "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/checkpoint.pt.previous",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/draws.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/predictions.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-bank/training/preprocessing.jsonl",
@@ -31,7 +50,6 @@
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/learning_curve.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/manifest.json",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/attempts.jsonl",
-    "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/checkpoint.pt.previous",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/draws.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/predictions.jsonl",
     "docs/research/task18-epsilon1em6-operational-evidence/run/cold-jet/training/preprocessing.jsonl",
@@ -315,7 +333,7 @@
   ],
   "executed_source_commit": "c71547932e2875468752db09e6f0a1e02c3e5650",
   "package_hash_unchanged": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
-  "promotion_manifest_sha256": "410d9124879a2c57435ef5458724e4c36330f5420f5e748fe27cfddf187aa3fe",
+  "promotion_manifest_sha256": "9e089259804f70667b66d7bb084e1c7c74af54d9d8c55f398ec2503121d7e215",
   "scope": "Metadata byte/hash/path checks only. No tests, imports, models, corpus scan or experiment rerun.",
   "source_tests_configs_lock_pyproject_unchanged": true,
   "status": "VERIFIED_results_only; initial/fitted0/2 applicability only"
