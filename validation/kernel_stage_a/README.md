@@ -68,13 +68,11 @@ the original launch vector/hash stays unchanged. Every accepted native sample ke
 A hash identifies the path file when hashed, not every mapped byte.
 
 Every helper requires an exact source launch witness, artifact hash, parent,
-phase and compatible lifetime. Successful contradictory images always fail.
-Only already-exited exact ps/Git helpers may use `source_owned_launch` with
-`image_evidence=unavailable_exited` on ESRCH; that attribution does not invent
-kernel-image proof. Other lookup errors and ambiguous PID generations fail.
-Python requires successful applicable image proof for each sample. Earlier
-successful samples remain historical evidence; a later unresolved sample is
-retained separately and stops the run without borrowing proof by PID.
+phase and compatible lifetime. The adopted source-owned lifecycle contract below
+covers ordinary ps, numeric cleanup ps, both authority Git commands and the clean
+reader. Successful contradictory images always fail. Source attribution with an
+unavailable current image is explicitly distinct from kernel-image evidence.
+The directly owned root receipt remains governed by its separate requirements.
 
 The baseline observer emits one `observer_sample` containing its actual selected
 sample, separately from launch/completion witnesses. Late ingestion retains an
@@ -116,19 +114,16 @@ reported RSS is sampled resident memory, not allocator peak or a proof that no
 between-sample spike occurred. Timings are descriptive heterogeneous call/group
 boundaries, with no extra timing reads, warmup, stable-p95 or throughput claim.
 
-For ordinary samples, only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=` process,
-matching its PID, executable, arguments and expected parent, is an observer
-helper. Every other worker requires its post-import baseline; an unresolved
-descendant blocks completion. Observer RSS remains in absolute totals and is
-charged with baseline zero. Conservative outer/inner observer peaks are added
-to the worker incremental peak, including late declarations after a short
-observer exits. No generic non-Python or basename exemption exists.
-New observations and genuinely affected pending samples reconcile after event
-ingestion, including late baselines/declarations. Settled identity samples are
-not rescanned every poll. Every new Python sample still needs its own actual
-image proof; this does not carry proof forward by PID. A helper launch instance
-keeps only negative lifetime-consistency bounds, so a later contradictory end
-still invalidates that admission without rescanning its raw history.
+For ordinary samples, only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=`
+launch is an observer helper. Its sampled display may differ after exit; it is
+retained verbatim. Full helper RSS remains in absolute and incremental totals.
+Conservative outer/inner observer peaks are added to the worker incremental peak,
+including delayed declarations and stale positive observations. Unknown children
+receive only the existing bounded source drain and then prevent completion.
+There is no basename exemption, extra sampler, delay, retry or grace period.
+Pending batches index their own and parent generations; source/proof/end changes
+wake affected batches without rescanning settled history. The shared registry
+retains negative lifetime bounds so later contradictions remain failures.
 
 Terminal native rows and cancellation enter a private supervisor cleanup phase
 before the owning root PID is reaped. Its sole extra vector is
@@ -270,54 +265,53 @@ Focused verification:
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py
 ```
 
-Adopted source-owned terminal attribution (18 October 2026)
----------------------------------------------------------
+Adopted source-owned helper lifecycles (18 October 2026)
+------------------------------------------------------
 
-The dated terminal-attribution amendment adds four finite literal-terminal
-families: owned root Python, the exact owned reader, declared authority Git,
-and normal PS_ARGV observers. Both raw display fields must be exactly
-`<defunct>` with integer RSS0 and an actual ordered macOS proc_pidpath ESRCH
-lookup. Attribution needs a unique valid source launch/vector/artifact and
-matching reaped completion. Python additionally needs its historical exact
-live/native proof before the terminal sample; the reader needs its genuine
-emitter=self SELF row joined to the post-import/pre-allocation baseline.
-Launch-only Python and failed/conflicting generations cannot qualify.
+`source_lifecycles.py` supplies one finite generation registry shared by ordinary
+observer ps, supervisor numeric cleanup ps, both authority Git commands, and the
+single owned reader at a time. `PythonLifetimes` retains the stronger Python
+SELF/baseline and directly owned root receipt rules. Launch IDs and PIDs are
+unique across families. The registry retains immutable launch fields, source
+journal offsets, parent-generation joins, actual owning ends/returncodes and
+sample bounds; completion cannot manufacture a historical missing status.
 
-A terminal inner ps helper binds to one accepted root/reader generation with
-matching source/raw parent and compatible launch lifetimes. A historical parent
-proof may qualify a live or absent parent; a terminal parent needs its complete
-terminal attribution. The narrow first-SELF exception uses a live parent row in
-the very same retained sample, including actual row object and sample reference,
-with the owning-supervisor origin or genuine reader SELF/baseline join. Copied
-rows, coincident timestamps, other emitters and unrelated later samples do not
-supply this proof. Python's own terminal cutoff remains unchanged. Pending
-batches index own and parent launch generations; missing launches use a PID
-index only for discovery. Actual source/proof/baseline/end changes wake affected
-batches, without rescanning settled history or introducing a grace period.
+`process_tree` declares and ends the same retained ps Popen, now including its
+actual returncode. The existing authority Git and production reader dispatch
+already emit their same-Popen ends and remain unchanged. Numeric cleanup uses
+its retained Popen and the same registry validation; source-controlled workers
+cannot declare the cleanup-only vector. The root's existing receipt remains
+separate and cannot be borrowed by another generation.
 
-Root proof is collected only on the actual supervisor sampling path while its
-owner remains unreaped. Forwarded emitter samples cannot establish it. The
-journal retains raw sample origin/event references separately from source-only
-resolutions: unavailable current image, family, launch ID, proof sample ID,
-completion and directly observed versus parent-witnessed ownership.
+An unambiguous nonnegative integer RSS row overlapping launch through actual
+completion may use `launch_evidence:source_owned_lifecycle` with genuine ordered
+native ESRCH, regardless of retained display and without a previous live image
+of that helper. Such evidence says `image_unavailable`; only an actual successful
+matching lookup says `kernel_image`. An inner helper binds to retained qualified
+root/reader ownership. Arrival order does not replace sample time. Missing ends,
+source gaps, wrong vectors/parents/artifacts/phase, duplicate IDs/PIDs, reuse,
+contradictory images, malformed lookup chronology and wholly late rows fail.
+Pending evidence cannot certify a generation or grant baseline credit.
 
-Literal root-only cleanup eligibility is checked before poll, using the current
-retained terminal row and complete zero-RSS root-only membership. Actual own
-poll0 and truthful end finish qualification before reconciliation. The separate
-`cleanup_terminal_qualification` record says `qualified_terminal_root_only:true`
-and `membership_empty:false`. The existing exact-display/ESRCH attribution path
-is preserved and labeled `exact_display_esrch`; it does not need a fabricated
-literal marker. A complete empty query remains a distinct recorded fact.
-Nonroot survivors still require owned group cancellation even if a terminal
-zero-RSS root is present. Prior failures, missing prerequisites and poll=None
-cannot qualify; signals never use a released owner identifier.
+Every observed helper RSS is fully charged with baseline zero, including numeric
+cleanup and positive stale rows. Final `source_lifecycle` journal records expose
+per-generation sampled peaks; `null` means no measured peak, never proven zero
+cost. The original caps and peak aggregation remain. This trusted-source
+attribution is not continuous executable proof or adversarial PID-reuse exclusion.
 
-This is sampled trusted-source lifetime attribution, not a current OS image,
-exact death instant, birth-token identity, continuous exec/reuse exclusion,
-security containment or unsampled RSS bound. The newly frozen future native
-control is an input only and requires its own separate allocation. Synthetic
-source controls confer neither native compatibility nor scientific readiness.
+Reader lifecycle attribution by itself is `reader_lifecycle` and receives full
+RSS charge. Baseline subtraction still requires genuine SELF, matching live
+image and post-import baseline. Exact clean launch/request/deadline, result,
+read-count and isolation gates remain outside ownership attribution. A nonzero
+owning completion may establish attribution but does not make the operation
+successful. Unknown children and cleanup failures still stop the run.
 
+The new `task18-source-owned-helper-native-{control,worker}.py` files are STATIC
+inputs only. Source tests use controlled observations; no new native execution
+has been observed. Separate review/allocation is required for their one-parent,
+two-case compatibility control. Its actual reader is designed to reject `{}`
+before isolation/read execution, an expected failed operation with zero reads.
+Neither that planned control nor unit tests release scientific work.
 
 Directly owned root lifecycle receipt (18 October 2026)
 ------------------------------------------------------
@@ -335,12 +329,12 @@ objects. Cleanup and final classification consume that same receipt; copied rows
 coincident sample times, fabricated identity dictionaries, readers and helpers
 cannot borrow it. Pending completion grants no identity or baseline credit.
 
-The legacy literal, exact-display, reader and helper routes keep their existing
-contracts. Earlier failures remain sticky; survivors require cancellation before
-owning release. No query family, grace period or budget is added. The new frozen
+The root legacy literal and exact-display routes keep their existing
+contracts. Reader/helper attribution now follows the shared contract above. Earlier failures remain sticky; survivors require cancellation before
+owning release. No query family, grace period or budget is added. The historical
 `task18-owned-root-asynchronous-rss-native-control.py` parent reuses the unchanged
 `task18-owned-root-lifecycle-native-worker.py`, which imports the normal local
 torch/famjet runtime and calls real `record_baseline`. The earlier lifecycle
-parent is a consumed historical input. The new parent is statically reviewed
-only and requires a separate native allocation before execution.
+parent is a consumed historical input. Its historical outcome does not validate the new helper registry; the new static
+control above requires independent review and a separate allocation.
 Scientific gates remain OPEN and protected work CLOSED.

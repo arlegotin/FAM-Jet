@@ -11,6 +11,8 @@ import sys
 import time
 from . import authority,commands
 
+from .source_lifecycles import SourceLifecycles
+
 PS='/bin/ps'
 PS_ARGV=[PS,'-axo','pid=,ppid=,rss=,comm=,args=']
 _CLEANUP_ARGV=[PS,'-axo','pid=,ppid=,pgid=,rss=']
@@ -61,9 +63,10 @@ class PythonLifetimes:
         self.root_pid=root_pid; self.stage_vector=stage_vector; self.runtime=runtime_identity
         self.generations={}; self.ids={}; self.ends={}; self.self_rows={}; self.baseline_rows={}
         self.reader_pid=None; self.unbound=set(); self.self_contexts={}; self.failed=set()
+        self.registry=SourceLifecycles(self.failed)
         self.owned_sample=None; self.owned_proof=None; self.owned_baseline=None; self.owned_receipt=None; self.owned_baseline_duplicate=False
 
-    def launch(self,entry,context):
+    def launch(self,entry,context,source=None):
         pid=entry['pid']; vector=entry['argv']; root=entry.get('role')=='owned_root'
         if (pid in self.failed or pid in self.generations or entry.get('launch_id') in self.ids or not entry.get('launch_id') or
             entry.get('provenance')!='source_owned_python_launch' or
@@ -81,6 +84,7 @@ class PythonLifetimes:
         if not root and other.get('completion_end',float('-inf') if self.reader_pid is None else float('inf'))>entry['launch_start']:
             self.failed.update((pid,self.reader_pid))
             raise ValueError('overlapping reader ownership')
+        self.registry.declare(entry,'owned_root' if root else 'reader',source)
         self.generations[pid]=dict(entry); self.ids[entry['launch_id']]=pid
         self.unbound.discard(pid)
         if not root: self.reader_pid=pid
@@ -92,6 +96,7 @@ class PythonLifetimes:
         pid=event['pid']
         if pid in self.ends:
             self.failed.add(pid); raise ValueError('duplicate Python completion')
+        self.registry.complete(event)
         self.ends[pid]=dict(event)
         if pid not in self.generations: self.unbound.add(pid)
         if pid in self.generations: self._end(self.generations[pid],event)
@@ -285,32 +290,18 @@ class PythonLifetimes:
         if entry is None: return 'pending_terminal_parent',None
         if (entry['launch_start']>declared['launch_start'] or
                 declared['launch_start']>=entry.get('completion_end',float('inf'))): return 'unaccounted',None
-        parent=processes.get(pid); route='absent'
-        if parent is not None:
-            if parent.get('raw_args')=='<defunct>' or parent.get('raw_comm')=='<defunct>':
-                status=self.terminal(parent)
-                if status!='attributed': return status,None
-                route='terminal'
-            elif (not self.matches(entry,parent) or parent.get('image',{}).get('status')!='ok' or
-                    any(parent['image'].get(k)!=entry['expected_image'][k] for k in ('path','sha256')) or
-                    not entry['launch_start']<=parent['sample_start']<=parent['sample_end']<=parent['image'].get('lookup_start',float('-inf'))<=parent['image'].get('lookup_end',float('inf'))<entry.get('completion_end',float('inf'))):
-                return 'unaccounted',None
-            else: route='live'
+        parent=processes.get(pid)
+        if parent is not None and parent.get('image',{}).get('status')=='ok':
+            image=parent['image']
+            if (not self.matches(entry,parent) or
+                    any(image.get(k)!=entry['expected_image'][k] for k in ('path','sha256')) or
+                    not entry['launch_start']<=parent['sample_start']<=parent['sample_end']<=image.get('lookup_start',float('-inf'))<=image.get('lookup_end',float('inf'))<entry.get('completion_end',float('inf'))):
+                self.failed.add(pid); return 'unaccounted',None
         proof=entry.get('proof')
         if entry['role']=='reader' and 'baseline' not in entry: return 'pending_terminal_parent',None
-        if proof is not None and 'sample_id' in proof and proof['lookup_end']<=row['sample_start']:
-            return 'attributed',dict(launch_id=entry['launch_id'],route='historical_'+route,proof=proof,
-                                    ownership_observability='source_only_historical_parent')
-        if (route=='live' and sample_context is not None and
-                sample_context['entries'].get(pid) is parent and sample_context['entries'].get(row['pid']) is row):
-            same=sample_context['proofs'].get(pid)
-            origin='unreaped_owned_root' if entry['role']=='owned_root' else 'trusted_emitter_self_row'
-            if (same is not None and same['launch_id']==entry['launch_id'] and same['origin']==origin and
-                    parent['sample_start']==row['sample_start'] and parent['sample_end']==row['sample_end'] and
-                    entry['launch_start']<=row['sample_start']<=row['sample_end']<=same['lookup_start']<=same['lookup_end']<entry.get('completion_end',float('inf'))):
-                return 'attributed',dict(launch_id=entry['launch_id'],route='same_sample_live',proof=same,
-                                        ownership_observability='same_sample_parent_proof')
-        return 'pending_terminal_parent',None
+        if proof is None or 'sample_id' not in proof: return 'pending_terminal_parent',None
+        return 'attributed',dict(launch_id=entry['launch_id'],route='retained_generation',proof=proof,
+                                ownership_observability='source_reported_parent')
 
     def unsettled(self):
         return bool(self.unbound)
@@ -326,8 +317,8 @@ def _literal_terminal(row):
 
 
 def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,current_pids=None,
-             stage_vector=None,reader_context=None,runtime_identity=None,python_lifetimes=None,sample_context=None):
-    """Native samples need image proof; the explicit synthetic test seam is separate."""
+             stage_vector=None,reader_context=None,runtime_identity=None,python_lifetimes=None,sample_context=None,source_lifecycles=None):
+    """Resolve native images or exact completed source lifetimes; keep the synthetic seam separate."""
     native={pid:entry for pid,entry in processes.items() if 'raw_args' in entry}
     synthetic={pid:entry for pid,entry in processes.items() if 'raw_args' not in entry}
     roles=_synthetic_classify(root_pid,synthetic,baselines,declarations,authority_phase=authority_phase,
@@ -339,49 +330,54 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
     def image_matches(entry,artifact):
         image=entry.get('image',{})
         return image.get('status')=='ok' and all(image.get(k)==artifact[k] for k in ('path','sha256'))
-    def terminal_role(pid,entry):
-        if not _literal_terminal(entry): return 'unaccounted'
-        generation=python_lifetimes.generations.get(pid) if python_lifetimes is not None else None
-        if sum((generation is not None,pid in declarations,pid in phase['declarations']))>1:
-            return 'unaccounted'
-        if generation is not None:
-            if generation['role']=='reader' and commands.reader_vector(generation['argv'],reader_context)!=generation['argv']: return 'unaccounted'
-            outcome=python_lifetimes.terminal(entry)
-            return ('authority_worker' if pid==root_pid and phase['active'] else
-                    'worker' if pid in baselines else 'pending_baseline') if outcome=='attributed' else outcome
-        declared=declarations.get(pid); helper='ps'
+    registry=python_lifetimes.registry if python_lifetimes is not None else source_lifecycles if source_lifecycles is not None else SourceLifecycles()
+    def helper_role(pid,row):
+        declared=declarations.get(pid); family='ps'
         if pid in phase['declarations']:
-            if declared is not None: return 'unaccounted'
-            declared=phase['declarations'][pid]; helper='git'
-        if declared is None: return 'pending_terminal_launch'
-        vector=PS_ARGV if helper=='ps' else declared.get('argv')
-        artifact=runtime_identity['helpers'][helper]
-        if (declared.get('ambiguous') or declared.get('provenance')!='source_owned_launch' or
-                declared.get('pid')!=pid or declared.get('parent')!=entry['parent'] or
-                declared.get('executable')!=vector[0] or declared.get('argv')!=vector or
-                declared.get('vector_sha256')!=commands.vector_hash(vector) or declared.get('artifact')!=artifact or
-                not declared.get('launch_id') or declared.get('launch_start',float('inf'))>entry['sample_end'] or
-                declared.get('completion_end',float('inf'))<entry['sample_start']): return 'unaccounted'
-        if helper=='git' and (entry['parent']!=root_pid or vector not in phase['commands'] or
-                not phase.get('started',phase['active']) or
-                entry['sample_end']<phase.get('start',float('-inf')) or entry['sample_start']>phase.get('end',float('inf')) or
-                declared['launch_start']<phase.get('start',float('-inf')) or
-                declared.get('completion_end',float('-inf'))>phase.get('end',float('inf'))): return 'unaccounted'
-        if 'completion_end' not in declared: return 'pending_terminal_launch'
-        if declared.get('reaped') is not True or declared['completion_end']<declared['launch_start']: return 'unaccounted'
-        relation=None
-        if helper=='ps' and entry['parent']!=os.getpid():
-            if roles.get(entry['parent'])=='unaccounted': return 'unaccounted'
-            if python_lifetimes is None: return 'pending_terminal_parent'
-            outcome,relation=python_lifetimes.helper_parent(declared,entry,native,sample_context)
+            if declared is not None: registry.failed.add(pid); return 'unaccounted'
+            declared=phase['declarations'][pid]; family='git'
+        generation=python_lifetimes.generations.get(pid) if python_lifetimes is not None else None
+        if declared is not None and generation is not None:
+            registry.failed.add(pid); return 'unaccounted'
+        if generation is not None and generation['role']=='reader':
+            if commands.reader_vector(generation['argv'],reader_context)!=generation['argv']:
+                registry.failed.add(pid); return 'unaccounted'
+            outcome=registry.attribute(row)
             if outcome!='attributed': return outcome
-        entry['identity'].update(terminal_attribution='source_only_terminal_attribution',
-            image_evidence='unavailable_exited',launch_evidence='source_owned_launch',raw_marker='<defunct>',
-            family=helper,launch_id=declared['launch_id'],expected_image=artifact,
-            completion={k:declared[k] for k in ('pid','parent','launch_id','completion_end','reaped')},
-            ownership_observability='directly_observed_owner' if entry['parent']==os.getpid() else 'parent_witnessed')
-        if relation is not None: entry['identity']['parent_qualification']=relation
-        return 'authority_helper' if helper=='git' else 'observer_helper'
+            return 'worker' if 'baseline' in generation and pid in baselines else 'reader_lifecycle'
+        if declared is None: return None
+        vector=PS_ARGV if family=='ps' else declared.get('argv')
+        if (declared.get('ambiguous') or declared.get('provenance')!='source_owned_launch' or
+                declared.get('pid')!=pid or declared.get('executable')!=vector[0] or declared.get('argv')!=vector or
+                declared.get('vector_sha256')!=commands.vector_hash(vector) or
+                declared.get('artifact')!=runtime_identity['helpers'][family] or
+                (row.get('image',{}).get('status')=='ok' and row.get('raw_args')!=commands.display(vector))):
+            registry.failed.add(pid); return 'unaccounted'
+        if family=='git' and (row['parent']!=root_pid or vector not in phase['commands'] or
+                not phase.get('started',phase['active']) or
+                declared.get('launch_start',float('-inf'))<phase.get('start',float('-inf')) or
+                declared.get('completion_end',float('-inf'))>phase.get('end',float('inf')) or
+                row['sample_end']<phase.get('start',float('-inf')) or row['sample_start']>phase.get('end',float('inf'))):
+            registry.failed.add(pid); return 'unaccounted'
+        try:
+            if pid not in registry.generations: registry.declare(declared,family)
+            else:
+                known=registry.generations[pid]
+                if known['family']!=family or known['original'] is not declared:
+                    registry.reject(pid,'cross-family or replaced source generation')
+                if 'completion_end' in declared and pid not in registry.ends: registry.complete(declared)
+            outcome=registry.attribute(row)
+        except (ValueError,KeyError,TypeError):
+            registry.failed.add(pid); return 'unaccounted'
+        if outcome!='attributed': return outcome
+        if row['parent']!=os.getpid():
+            if python_lifetimes is None: return 'pending_terminal_parent'
+            if roles.get(row['parent'])=='unaccounted': return 'unaccounted'
+            outcome,relation=python_lifetimes.helper_parent(declared,row,native,sample_context)
+            if outcome!='attributed': return outcome
+            row['identity']['parent_qualification']=relation
+            registry.generations[pid]['parent_generation']=relation['launch_id']
+        return 'authority_helper' if family=='git' else 'observer_helper'
     expected=set()
     for pid,entry in native.items():
         display_ok=(stage_vector is not None and entry['raw_args']==commands.native_display(stage_vector,runtime_identity)) if pid==root_pid else (
@@ -406,10 +402,21 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
                     roles[pid]='unaccounted'; continue
                 roles[pid]='worker' if owned=='attributed' and pid in baselines else owned
                 continue
-        if entry.get('raw_args')=='<defunct>' or entry.get('raw_comm')=='<defunct>':
-            roles[pid]=terminal_role(pid,entry)
+        generation=generations.get(pid)
+        if pid!=root_pid and (pid in declarations or pid in phase['declarations'] or
+                (generation is not None and generation['role']=='reader' and entry.get('image',{}).get('status')!='ok')):
+            role=helper_role(pid,entry)
+            roles[pid]=role if role is not None else 'pending_source_lifecycle'
+            continue
+        if pid==root_pid and (entry.get('raw_args')=='<defunct>' or entry.get('raw_comm')=='<defunct>'):
+            outcome=python_lifetimes.terminal(entry) if generation is not None else 'pending_source_lifecycle'
+            roles[pid]=('authority_worker' if pid==root_pid and phase['active'] else
+                        'worker' if pid in baselines else 'pending_baseline') if outcome=='attributed' else outcome
             continue
         if pid in expected:
+            if generation is not None and generation['role']=='reader':
+                if registry.attribute(entry)=='unaccounted':
+                    roles[pid]='unaccounted'; continue
             if python_lifetimes is not None and pid in python_lifetimes.generations:
                 generation=python_lifetimes.generations[pid]
                 generation['latest_sample_start']=max(generation.get('latest_sample_start',float('-inf')),entry['sample_start'])
@@ -417,6 +424,8 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
             roles[pid]=('authority_worker' if pid==root_pid and phase['active'] else
                         ('worker' if pid in baselines else 'pending_baseline'))
             continue
+        if generation is not None and generation['role']=='reader':
+            roles[pid]='unaccounted'; continue
         if python_lifetimes is not None:
             python_vector=(stage_vector if pid==root_pid and entry['raw_args']==commands.native_display(stage_vector,runtime_identity) else
                            commands.reader_from_display(entry['raw_args'],**reader_context,runtime_identity=runtime_identity) if reader_context is not None and pid!=root_pid else None)
@@ -425,40 +434,16 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
                 roles[pid]=('authority_worker' if pid==root_pid and phase['active'] else
                             'worker' if pid in baselines else 'pending_baseline') if outcome=='attributed' else outcome
                 continue
-        vector=None; declared=None; helper=None
-        if entry['parent']==root_pid:
-            vector=next((cmd for cmd in phase['commands'] if entry['raw_args']==commands.display(cmd)),None)
-            if vector is not None: declared=phase['declarations'].get(pid); helper='git'
-        if vector is None and entry['raw_args']==commands.display(PS_ARGV) and (entry['parent']==os.getpid() or entry['parent'] in expected):
-            vector=PS_ARGV; declared=declarations.get(pid); helper='ps'
-        roles[pid]='unaccounted'
-        if vector is None or entry.get('ambiguous'): continue
-        artifact=runtime_identity['helpers'][helper]; image=entry.get('image',{})
-        kernel=image_matches(entry,artifact)
-        exited=image.get('status')=='error' and image.get('errno')==errno.ESRCH
-        # A contradictory image or any other native failure cannot be repaired.
-        if not kernel and not exited: continue
-        if helper=='git' and (not phase.get('started',phase['active']) or
-                entry['sample_end']<phase.get('start',float('-inf')) or entry['sample_start']>phase.get('end',float('inf'))): continue
-        if declared is None:
-            roles[pid]='pending_authority_declaration' if helper=='git' else 'pending_observer_declaration'
-            continue
-        if (declared.get('ambiguous') or declared.get('provenance')!='source_owned_launch' or
-            declared.get('pid')!=pid or declared.get('parent')!=entry['parent'] or
-            declared.get('executable')!=vector[0] or declared.get('argv')!=vector or
-            declared.get('vector_sha256')!=commands.vector_hash(vector) or declared.get('artifact')!=artifact or
-            not declared.get('launch_id') or declared.get('launch_start',float('inf'))>entry['sample_end'] or
-            declared.get('completion_end',float('inf'))<entry['sample_start']): continue
-        if helper=='git' and (declared['launch_start']<phase.get('start',float('-inf')) or
-                              declared.get('completion_end',float('-inf'))>phase.get('end',float('inf'))): continue
-        if kernel and image.get('lookup_start',float('-inf'))>=declared.get('completion_end',float('inf')): continue
-        if exited and 'completion_end' in declared and not declared.get('reaped'): continue
-        if exited and 'completion_end' not in declared:
-            roles[pid]='pending_authority_declaration' if helper=='git' else 'pending_observer_declaration'
-            continue
-        entry['identity'].update(image_evidence='kernel_image' if kernel else 'unavailable_exited',
-                                 launch_evidence='source_owned_launch',launch_id=declared['launch_id'],expected_image=artifact)
-        roles[pid]='authority_helper' if helper=='git' else 'observer_helper'
+        # Unknown children get only the existing bounded source drain. Display
+        # resemblance grants neither identity nor resource baseline.
+        image=entry.get('image',{})
+        ordered=all(type(entry.get(k)) in (int,float) for k in ('sample_start','sample_end')) and (
+            entry['sample_start']<=entry['sample_end']<=image.get('lookup_start',float('-inf'))<=image.get('lookup_end',float('-inf')))
+        known_image=any(image_matches(entry,artifact) for artifact in [python_image,*runtime_identity['helpers'].values()])
+        exited=(image.get('status')=='error' and image.get('errno')==errno.ESRCH and
+            image.get('method')=='macos.proc_pidpath' and image.get('reason')=='native_lookup_failed')
+        roles[pid]='pending_source_lifecycle' if (pid!=root_pid and not (python_lifetimes is not None and root_pid in python_lifetimes.ends) and
+            not entry.get('ambiguous') and ordered and (known_image or exited)) else 'unaccounted'
     if python_lifetimes is not None: python_lifetimes.failed.update(pid for pid,role in roles.items() if role=='unaccounted')
     return roles
 
@@ -485,9 +470,9 @@ def process_tree(pid,*,observer_log=None,authority_root=None,deadline=None,runti
             probe.kill(); probe.communicate(timeout=1)
         raise
     finally:
-        own_observer.update(completion_end=time.monotonic(),reaped=probe.poll() is not None)
+        own_observer.update(completion_end=time.monotonic(),reaped=probe.poll() is not None,returncode=probe.returncode)
         authority.event(observer_log,'observer_helper_end',pid=probe.pid,parent=os.getpid(),
-                        launch_id=own_observer['launch_id'],completion_end=own_observer['completion_end'],reaped=own_observer['reaped'])
+                        launch_id=own_observer['launch_id'],completion_end=own_observer['completion_end'],reaped=own_observer['reaped'],returncode=probe.returncode)
         if probe.stdout is not None: probe.stdout.close()
     sampled_end=time.monotonic(); table={}; raw_identity={}; ambiguous=set(); parents={}
     for line in raw.splitlines():
@@ -613,17 +598,25 @@ def _cleanup_observation(root_pid,runtime_identity,*,deadline,output_limit):
     result['rows']=[row for row in rows if row['pgid']==root_pid or (probe is not None and row['pid']==probe.pid)]
     if probe is not None:
         if probe.returncode!=0: errors.append('cleanup observer unsuccessful returncode')
-        image=image or {}; artifact=runtime_identity['helpers']['ps']
-        kernel=image.get('status')=='ok' and all(image.get(k)==artifact[k] for k in ('path','sha256'))
-        exited=(image.get('status')=='error' and image.get('reason')=='native_lookup_failed' and
-                image.get('errno')==errno.ESRCH and image.get('method')=='macos.proc_pidpath')
-        timed=(witness['launch_start']<=image.get('lookup_start',float('-inf'))<=
-               image.get('lookup_end',float('inf'))<witness['completion_end'])
         helper_rows=[row for row in result['rows'] if row['pid']==probe.pid]
-        if (not witness['reaped'] or not timed or not (kernel or exited) or
-            len(helper_rows)!=1 or any(row['parent']!=os.getpid() for row in helper_rows)):
-            errors.append('cleanup helper identity/lifetime unavailable')
-        else: result['helper']['image_evidence']='kernel_image' if kernel else 'unavailable_exited'
+        local=SourceLifecycles()
+        try:
+            local.declare(launch,'cleanup_ps',dict(kind='owned_supervisor'))
+            local.complete(result['helper']['completion'])
+            if len(helper_rows)>1: raise ValueError('ambiguous cleanup helper')
+            if helper_rows:
+                row=dict(helper_rows[0],sample_start=started,sample_end=result['end'],image=image)
+                if local.attribute(row,numeric=True)!='attributed': raise ValueError('cleanup helper identity/lifetime unavailable')
+                result['helper']['image_evidence']=row['identity']['image_evidence']
+                result['helper']['identity']=row['identity']
+            else:
+                # Unobserved RSS is unmeasured. Native lookup still must be genuine.
+                evidence=local.image_evidence(probe.pid,image or {},started,result['end'],numeric=True)
+                if evidence is None: raise ValueError('cleanup helper image unavailable')
+                result['helper']['image_evidence']=evidence
+                result['helper']['rss_peak_bytes']=None
+        except (ValueError,KeyError,TypeError) as exc:
+            errors.append('cleanup helper identity/lifetime unavailable: '+str(exc))
     if time.monotonic()>=bound: errors.append('cleanup observer timeout')
     result.update(complete=not errors,error='; '.join(errors)[:600] if errors else None)
     return result
@@ -684,8 +677,9 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     peak=0; incremental_peak=0; overhead_peak=0; authority_peak=0; rss_peak_sum=0
     worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; authority_worker=0; unresolved_sum=0; unresolved_root=0
     baselines={}; per_worker={}; declarations={}; last_roles={}; failed=set(); native_pids=set(); unresolved_pids=set()
-    pending={}; dependencies={}; dirty=set(); pending_roles={}; helper_bounds={}; notified_failures=set(); sequence=0; classified=0
-    candidate_start=None; candidate_ranges=[]; event_offset=0; numeric_event_offset=0; launch_ids={}; launch_pids={}; latest_owned=None
+    pending={}; dependencies={}; dirty=set(); pending_roles={}; notified_failures=set(); sequence=0; classified=0
+    candidate_start=None; candidate_ranges=[]; event_offset=0; numeric_event_offset=0; latest_owned=None
+    registry=SourceLifecycles(failed)
     source_accounting=dict(complete=True,status='COMPLETE',identity_complete=True,through_bytes=0,samples=0)
     evidence=dict(path=evidence_path.name,accepted_records=0,accepted_samples=0,bytes=0,
                   rejected_observations=0,rejected_rss_bytes=0,rejected_raw_complete=True)
@@ -709,13 +703,14 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             with evidence_path.open('r+b') as stream: stream.truncate(original_size)
             raise
         evidence['accepted_records']+=1; evidence['bytes']+=len(raw)
+        return original_size
     def charge(pid,*,final=False):
         nonlocal worker_peak,outer_observer,inner_observer,git_peak,authority_worker,unresolved_sum,unresolved_root,incremental_peak,authority_peak,overhead_peak
         item=per_worker[str(pid)]; absolute=item['absolute_peak_bytes']
         role='unaccounted' if pid in failed else ('pending_observer_declaration' if pending_roles.get(pid) else last_roles.get(pid,'pending_baseline'))
         if role in ('pending_baseline','authority_worker') and pid in baselines and pid not in failed: role='worker'
         item['role']=role
-        if role in ('worker','observer_helper','authority_helper'): unresolved_pids.discard(pid)
+        if role in ('worker','observer_helper','authority_helper','reader_lifecycle'): unresolved_pids.discard(pid)
         else: unresolved_pids.add(pid)
         unresolved_sum-=item.pop('_unresolved_charge',0)
         if process is not None and pid==process.pid: unresolved_root=0
@@ -727,6 +722,9 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         elif resource_role=='worker':
             item.update(baseline_bytes=baselines[pid],incremental_peak_bytes=max(0,absolute-baselines[pid]))
             worker_peak=max(worker_peak,item['incremental_peak_bytes'])
+        elif resource_role=='reader_lifecycle':
+            item.update(baseline_bytes=0,incremental_peak_bytes=absolute)
+            worker_peak=max(worker_peak,absolute)
         elif resource_role in ('authority_worker','authority_helper','observer_helper'):
             # Root authority RSS comes only from intervals attributed below, never
             # from its whole-lifetime maximum (which includes later imports).
@@ -772,16 +770,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     def wake(pid):
         dirty.update(dependencies.get(('pid',pid),()))
         dirty.update(dependencies.get(dependency_key(pid),()))
-    def register_launch(entry):
-        identifier=entry.get('launch_id'); pid=entry['pid']
-        if not identifier or identifier in launch_ids or pid in launch_pids or pid in failed:
-            affected={pid}
-            if identifier in launch_ids: affected.add(launch_ids[identifier])
-            for failed_pid in affected: failed.add(failed_pid); wake(failed_pid)
-            for failed_pid in affected:
-                if str(failed_pid) in per_worker: charge(failed_pid)
-            raise ValueError('duplicate/reused source launch generation')
-        launch_ids[identifier]=pid; launch_pids[pid]=identifier
+    def register_launch(entry,family,source):
+        try: registry.declare(entry,family,source)
+        except ValueError:
+            for pid in failed:
+                wake(pid)
+                if str(pid) in per_worker: charge(pid)
+            raise
     def publish_python_baseline(pid,*,final=False):
         # A valid generation join may complete after its last sample settled.
         if python_lifetimes is None or not source_accounting['identity_complete'] or pid in failed: return
@@ -789,9 +784,20 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         if 'baseline' not in generation or baselines.get(pid)==generation['baseline']: return
         baselines[pid]=generation['baseline']
         if str(pid) in per_worker: charge(pid,final=final)
-    def declaration(target,entry,*,final=False):
-        append(dict(kind='witness',value=entry),final=final)
-        register_launch(entry)
+    def declaration(target,entry,*,final=False,source=None):
+        offset=append(dict(kind='witness',value=entry),final=final)
+        if source is not None and source.get('kind')=='owned_supervisor': source=dict(source,path=evidence_path.name,offset=offset)
+        family='git' if target is phase['declarations'] else 'ps'
+        vector=entry.get('argv')
+        if ('raw_args' not in entry and native_supervision and
+                (entry.get('provenance')!='source_owned_launch' or
+                 vector not in (phase['commands'] if family=='git' else [PS_ARGV]) or
+                 entry.get('executable')!=vector[0] or entry.get('vector_sha256')!=commands.vector_hash(vector) or
+                 entry.get('artifact')!=native_runtime['helpers'][family] or
+                 (family=='git' and entry.get('parent')!=process.pid))):
+            failed.add(entry['pid']); raise ValueError('invalid helper source generation')
+        register_launch(entry,family,source)
+        if entry['pid'] in registry.ends: registry.generations[entry['pid']]['completion_source']=source
         old=target.get(entry['pid'])
         if old is not None and old.get('launch_id')!=entry.get('launch_id'):
             entry=dict(entry,ambiguous=True); old['ambiguous']=True; failed.add(entry['pid'])
@@ -801,17 +807,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     def completion(target,event,*,final=False):
         entry=target.get(event['pid'])
         if entry is None or entry.get('launch_id')!=event.get('launch_id') or entry['parent']!=event['parent']: raise ValueError('ambiguous helper completion')
-        append(dict(kind='completion',value=event),final=final)
-        if event.get('launch_id'):
-            # Negative lifetime consistency only; never supplies image proof to a new sample.
-            bounds=helper_bounds.get(event['launch_id'],(float('-inf'),float('-inf')))
-            end=event['completion_end']
-            if (end<entry['launch_start'] or end<bounds[0] or end<=bounds[1] or
-                    ('completion_end' in entry and end!=entry['completion_end'])):
-                failed.add(event['pid'])
-                if str(event['pid']) in per_worker: charge(event['pid'])
-                raise _MonitorStop('foreign process identity')
-            entry.update(completion_end=end,reaped=event['reaped'])
+        offset=append(dict(kind='completion',value=event),final=final)
+        registry.complete(event)
+        registry.generations[event['pid']]['completion_source']=dict(path=evidence_path.name,offset=offset)
+        entry.update(completion_end=event['completion_end'],reaped=event['reaped'],returncode=event['returncode'])
         wake(event['pid'])
     def reader_context(before,after):
         if authority_root is None: return None
@@ -897,7 +896,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                         if event.get('self_pid')!=event['emitter_pid']: raise ValueError('invalid self row tag')
                         python_lifetimes.self_sample(event['emitter_pid'],list(entries.values()),sample_context=batch)
                         publish_python_baseline(event['emitter_pid'],final=final); wake(event['emitter_pid'])
-                elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')},final=final)
+                elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')},final=final,source=dict(kind='parent_reported',path='monitor-events.jsonl',offset=position))
                 elif kind=='observer_helper_end': completion(declarations,event,final=final)
                 else:
                     append(dict(kind='event',value=event),final=final)
@@ -915,11 +914,15 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                         entry={k:v for k,v in event.items() if k not in ('event','monotonic')}
                         context=reader_context(entry['launch_start'],entry['launch_start'])
                         if entry.get('role')!='reader': raise ValueError('invalid emitted Python role')
-                        register_launch(entry); python_lifetimes.launch(entry,context)
+                        python_lifetimes.launch(entry,context)
+                        registry.generations[entry['pid']]['source']=dict(kind='parent_reported',path='monitor-events.jsonl',offset=position)
                         publish_python_baseline(entry['pid'],final=final); wake(entry['pid'])
                     elif kind=='python_worker_end':
                         if python_lifetimes is None: raise ValueError('Python runtime witness missing')
-                        python_lifetimes.end(event); wake(event['pid'])
+                        python_lifetimes.end(event)
+                        if event['pid'] in registry.generations:
+                            registry.generations[event['pid']]['completion_source']=dict(path='monitor-events.jsonl',offset=position)
+                        wake(event['pid'])
                     elif kind=='candidate_start': candidate_start=event['monotonic']; candidate_ranges.append([candidate_start,None])
                     elif kind=='candidate_end':
                         if candidate_ranges and candidate_ranges[-1][1] is None: candidate_ranges[-1][1]=event['monotonic']
@@ -930,14 +933,14 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     elif kind=='authority_helper':
                         entry={k:v for k,v in event.items() if k not in ('event','monotonic')}
                         if not phase['active'] or entry['parent']!=process.pid or entry['executable']!=authority.GIT or entry['argv'] not in phase['commands'] or entry['pid'] in phase['declarations']: raise ValueError('undeclared authority identity/operation')
-                        declaration(phase['declarations'],entry,final=final)
+                        declaration(phase['declarations'],entry,final=final,source=dict(kind='parent_reported',path='monitor-events.jsonl',offset=position))
                     elif kind=='authority_helper_end':
                         if not phase['active'] or event['pid'] not in phase['declarations'] or event['parent']!=process.pid: raise ValueError('invalid authority helper lifetime')
                         completion(phase['declarations'],event,final=final)
                         phase['completed'].add(event['pid']); phase['ends'][event['pid']]=event['monotonic']
                     elif kind=='authority_end':
                         if not phase['active'] or event['pid']!=process.pid: raise ValueError('invalid authority phase end')
-                        if event['success'] and (set(phase['declarations'])!=phase['completed'] or sorted(entry['argv'] for entry in phase['declarations'].values())!=sorted(phase['commands'])): raise ValueError('incomplete exact authority operations')
+                        if event['success'] and (any(entry.get('returncode')!=0 for entry in phase['declarations'].values()) or set(phase['declarations'])!=phase['completed'] or sorted(entry['argv'] for entry in phase['declarations'].values())!=sorted(phase['commands'])): raise ValueError('incomplete exact authority operations')
                         phase.update(active=False,end=event['monotonic'],success=event['success'])
                         for entry in phase['declarations'].values():
                             if entry.get('completion_end',event['monotonic'])>event['monotonic']:
@@ -966,7 +969,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             context=reader_context(before,after)
             if source_accounting['identity_complete']:
                 resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
-                                  stage_vector=command,reader_context=context,runtime_identity=native_runtime,python_lifetimes=python_lifetimes,sample_context=batch)
+                                  stage_vector=command,reader_context=context,runtime_identity=native_runtime,python_lifetimes=python_lifetimes,sample_context=batch,source_lifecycles=registry)
             else:
                 # A skipped boundary can leave phase active after its actual end.
                 # Failed provenance cannot authorize new attribution or proof.
@@ -981,12 +984,6 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                 if role=='unaccounted' and pid not in notified_failures:
                     failed.add(pid); notified_failures.add(pid); wake(pid)
                 if role=='authority_helper': per_worker.get(str(pid),{})['sampled_authority_helper']=True
-                if role in ('authority_helper','observer_helper') and 'raw_args' in entries[pid]:
-                    declared=phase['declarations'].get(pid) if role=='authority_helper' else declarations.get(pid)
-                    launch_id=declared['launch_id']; prior=helper_bounds.get(launch_id,(float('-inf'),float('-inf')))
-                    image=entries[pid].get('image',{})
-                    helper_bounds[launch_id]=(max(prior[0],entries[pid]['sample_start']),
-                        max(prior[1],image.get('lookup_start',float('-inf'))) if image.get('status')=='ok' else prior[1])
                 last_roles[pid]=role
                 if role.startswith('pending_') and not (role=='pending_baseline' and pid in native_pids): pending_roles.setdefault(pid,set()).add(identifier)
                 if str(pid) in per_worker: charge(pid,final=final)
@@ -999,7 +996,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             affected=set(waiting)
             for pid in waiting:
                 row=entries[pid]
-                if row.get('raw_args')=='<defunct>' and row.get('parent')!=os.getpid():
+                if row.get('parent')!=os.getpid():
                     declared=declarations.get(pid)
                     if declared is not None or pid not in (python_lifetimes.generations if python_lifetimes else {}):
                         affected.add(declared['parent'] if declared is not None else row['parent'])
@@ -1089,15 +1086,21 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     pid=row['pid']; readings[pid]=max(readings.get(pid,0),row['rss_bytes']); entries[pid]=row
                     native_pids.add(pid)
                 numeric(readings,entries)
-                try: append(dict(kind='cleanup_membership',owner_pid=process.pid,owner_unreaped=True,value=observed),final=True)
+                try: cleanup_offset=append(dict(kind='cleanup_membership',owner_pid=process.pid,owner_unreaped=True,value=observed),final=True)
                 except BaseException as exc:
                     refused(readings,exc); raise
                 helper=observed['helper']
                 if helper is not None:
                     witness=helper['witness']; helper_pid=witness['pid']
-                    if helper['image_evidence'] in ('kernel_image','unavailable_exited'):
-                        last_roles[helper_pid]='observer_helper'
-                    else: failed.add(helper_pid)
+                    register_launch(helper['launch'],'cleanup_ps',dict(kind='owned_supervisor',path=evidence_path.name,offset=cleanup_offset))
+                    registry.complete(helper['completion'])
+                    registry.generations[helper_pid]['completion_source']=dict(path=evidence_path.name,offset=cleanup_offset)
+                    helper_rows=[row for row in selected if row['pid']==helper_pid]
+                    if helper_rows:
+                        row=dict(helper_rows[0],sample_start=observed['start'],sample_end=observed['end'],image=helper['image'])
+                        if registry.attribute(row,numeric=True)=='attributed': last_roles[helper_pid]='observer_helper'
+                        else: failed.add(helper_pid)
+                    if helper['image_evidence'] not in ('kernel_image','image_unavailable'): failed.add(helper_pid)
                 members=[row for row in selected if row['pgid']==process.pid]
                 append(dict(kind='cleanup_group_observation',membership_empty=observed['complete'] and not members,
                             complete=observed['complete'],member_count=len(members)),final=True)
@@ -1205,9 +1208,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             try:
                 if root_witness is not None:
                     root_witness['pid']=process.pid
-                    python_lifetimes=PythonLifetimes(process.pid,command,native_runtime); python_lifetimes.failed=failed
-                    register_launch(root_witness)
-                    python_lifetimes.launch(root_witness,None); append(dict(kind='python_root_launch',value=root_witness))
+                    python_lifetimes=PythonLifetimes(process.pid,command,native_runtime); python_lifetimes.failed=failed; python_lifetimes.registry=registry
+                    python_lifetimes.launch(root_witness,None)
+                    offset=append(dict(kind='python_root_launch',value=root_witness))
+                    registry.generations[process.pid]['source']=dict(kind='owned_supervisor',path=evidence_path.name,offset=offset)
                 while process.returncode is None if native_supervision else process.poll() is None:
                     check()
                     if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
@@ -1223,7 +1227,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     collect(dict(readings),entries,before,after,owned=True)
                     if any('raw_args' in entry for entry in entries.values()) and native_runtime is None:
                         native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
-                    for entry in getattr(readings,'declarations',{}).values(): declaration(declarations,entry)
+                    for entry in getattr(readings,'declarations',{}).values(): declaration(declarations,entry,source=dict(kind='owned_supervisor'))
                     read_events()
                     root_row=entries.get(process.pid)
                     terminal=native_supervision and (root_row is None or
@@ -1241,6 +1245,26 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         check(final=True)
         if process is not None: read_events(final=True); reconcile(final=True)
         if python_lifetimes is not None and python_lifetimes.unsettled(): raise ValueError('unmatched Python generation evidence')
+        if native_supervision and registry.unsettled(): raise ValueError('unmatched source generation evidence')
+        if native_supervision:
+            for pid,generation in registry.generations.items():
+                check(final=True)
+                entry=generation['entry']; family=generation['family']
+                if generation['source'] is None: raise ValueError('missing generation source reference')
+                if family=='owned_root': continue
+                if entry['parent']!=os.getpid():
+                    parent=python_lifetimes.generations.get(entry['parent'])
+                    if (parent is None or entry['parent'] in failed or
+                            not parent['launch_start']<=entry['launch_start']<parent.get('completion_end',float('inf'))):
+                        failed.add(pid); raise ValueError('invalid helper parent generation')
+                    generation['parent_generation']=parent['launch_id']
+                elif family in ('reader','git'):
+                    failed.add(pid); raise ValueError('invalid helper owner')
+                append(dict(kind='source_lifecycle',pid=pid,family=family,launch_id=entry['launch_id'],
+                    parent_generation=generation.get('parent_generation'),source=generation['source'],
+                    completion=registry.ends[pid],completion_source=generation.get('completion_source'),
+                    measured_peak_bytes=per_worker.get(str(pid),{}).get('absolute_peak_bytes'),
+                    peak_scope='sampled RSS; null means unmeasured'),final=True)
         for pid_text in per_worker:
             check(final=True); charge(int(pid_text),final=True)
         if failed and reason is None: reason='foreign process identity'

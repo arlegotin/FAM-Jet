@@ -188,7 +188,7 @@ def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_pat
         assert queried==pid; now=time.monotonic()
         result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
                 if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
-                dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+                dict(status='ok',method='macos.proc_pidpath',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
         return dict(result,lookup_start=now,lookup_end=time.monotonic())
     monkeypatch.setattr(a,'process_image',image)
     class Probe:
@@ -227,7 +227,7 @@ def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_pat
     if observed['complete']:
         assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
                                   dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
-        assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        assert observed['helper']['image_evidence']==('image_unavailable' if case=='esrch' else 'kernel_image')
     else: assert observed['error']
     if case=='malformed':
         assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)

@@ -18,6 +18,11 @@ def identity():
 
 def sample(pid,parent,vector,*,image=None,start=12.,end=13.):
     runtime=identity()
+    if image is not None:
+        image=dict(image)
+        image.setdefault('method','macos.proc_pidpath')
+        image.setdefault('lookup_start',end); image.setdefault('lookup_end',end)
+        if image.get('errno')==errno.ESRCH: image.setdefault('reason','native_lookup_failed')
     return dict(pid=pid,parent=parent,rss_bytes=70,sample_start=start,sample_end=end,
                 raw_comm='/opt/homebrew/C',raw_args=c.display([runtime['process_image']['path'],*vector[1:]]),
                 image=image or dict(status='ok',method='macos.proc_pidpath',**{k:runtime['process_image'][k] for k in ('path','sha256')}))
@@ -26,7 +31,7 @@ def sample(pid,parent,vector,*,image=None,start=12.,end=13.):
 def witness(pid,parent,vector,helper='ps'):
     return dict(pid=pid,parent=parent,executable=vector[0],argv=vector,
                 provenance='source_owned_launch',launch_id='source-1',vector_sha256=c.vector_hash(vector),
-                artifact=identity()['helpers'][helper],launch_start=11.,completion_end=14.,reaped=True)
+                artifact=identity()['helpers'][helper],launch_start=11.,completion_end=14.,reaped=True,returncode=0)
 
 
 def retained_evidence(out):
@@ -114,8 +119,8 @@ def test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts():
     def role(value,decl=declared):
         return m.classify(10,{30:value},{},{30:decl},runtime_identity=runtime)[30]
     assert role(entry)=='observer_helper'
-    assert entry['identity']['image_evidence']=='unavailable_exited'
-    assert entry['identity']['launch_evidence']=='source_owned_launch'
+    assert entry['identity']['image_evidence']=='image_unavailable'
+    assert entry['identity']['launch_evidence']=='source_owned_lifecycle'
     for change in (dict(image=dict(status='error',errno=errno.EPERM)),
                    dict(image=dict(status='ok',path='/wrong',sha256='c'*64)),dict(sample_start=15.,sample_end=16.)):
         assert role(dict(entry,**change))=='unaccounted'
@@ -124,16 +129,18 @@ def test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts():
 
 
 def test_git_witness_requires_sampled_authority_phase_and_exact_generation(tmp_path):
+    from test_kernel_stage_a_terminal_attribution import prepared
+    state,*_=prepared(tmp_path)
     runtime=identity(); vector=a.git_commands(tmp_path)[0]
     declared=witness(30,10,vector,'git')
     entry=sample(30,10,vector,image=dict(status='error',errno=errno.ESRCH)); entry['raw_args']=c.display(vector)
     phase=dict(active=True,started=True,start=10.,end=14.,declarations={30:declared},completed={30},commands=a.git_commands(tmp_path))
-    assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime)[30]=='authority_helper'
+    assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime,python_lifetimes=state)[30]=='authority_helper'
     phase['end']=11.
-    assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime)[30]=='unaccounted'
+    assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime,python_lifetimes=state)[30]=='unaccounted'
     phase.update(end=14.,active=False)
     later=dict(entry,sample_start=15.,sample_end=16.,image=dict(status='ok',**runtime['helpers']['git']))
-    assert m.classify(10,{30:later},{},{},authority_phase=phase,runtime_identity=runtime)[30]=='unaccounted'
+    assert m.classify(10,{30:later},{},{},authority_phase=phase,runtime_identity=runtime,python_lifetimes=state)[30]=='unaccounted'
 
 
 @pytest.mark.parametrize('duplicate',[False,True])
@@ -209,7 +216,7 @@ def test_late_native_witness_reconciles_history_without_authorizing_reuse(tmp_pa
     else:
         assert result['status']=='COMPLETED',result
         observed=next(row for row in retained_evidence(out)[0] if row['pid']==int(helper))
-        assert observed['identity']['image_evidence']=='unavailable_exited'
+        assert observed['identity']['image_evidence']=='image_unavailable'
 
 
 def test_event_failure_after_native_sampling_still_charges_all_rss(tmp_path,monkeypatch):
@@ -291,7 +298,7 @@ def test_native_live_authority_charge_counts_worker_once_before_helper_end(tmp_p
         return m.ResidentTree({pid:60,helper:70},{pid:root,helper:entry})
     result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0,incremental_bytes=100,authority_root=tmp_path)
     assert result['reason']=='incremental worker memory cap'
-    assert result['authority_full_rss_peak_bytes']==130
+    assert all(item['baseline_bytes']==0 for item in result['workers'].values())
     assert result['incremental_worker_peak_bytes']==130
 
 

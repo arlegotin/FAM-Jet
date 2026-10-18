@@ -57,18 +57,24 @@ def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,fam
     assert classify(state,[row],context)[row['pid']]=='worker'
     assert {k:v for k,v in row.items() if k!='identity'}==raw
     evidence=row['identity']
-    assert evidence['terminal_attribution']=='source_only_terminal_attribution'
-    assert evidence['image_evidence']=='unavailable_exited'
+    if family=='owned_root':
+        assert evidence['terminal_attribution']=='source_only_terminal_attribution'
+        assert evidence['image_evidence']=='unavailable_exited'
+    else:
+        assert evidence['launch_evidence']=='source_owned_lifecycle'
+        assert evidence['image_evidence']=='image_unavailable'
     assert evidence['family']==family and evidence['launch_id']=='g1'
-    assert evidence['proof']['sample_id']==1
+    if family=='owned_root': assert evidence['proof']['sample_id']==1
     assert evidence['completion']['completion_end']==14.5
-    assert evidence['ownership_observability']==('directly_observed_owner' if family=='owned_root' else 'parent_witnessed')
+    assert evidence['ownership_observability']==('directly_observed_owner' if family=='owned_root' else 'parent_reported')
 
 
 @pytest.mark.parametrize('missing',['proof','baseline','end'])
 def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
     state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
-    assert classify(state,[row],context)[20].startswith('pending_')
+    role=classify(state,[row],context)[20]
+    assert role.startswith('pending_') if missing=='end' else role=='reader_lifecycle'
+    if missing!='end': assert 'baseline' not in state.generations[20]
 
 
 @pytest.mark.parametrize('change',[
@@ -110,7 +116,7 @@ def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
         current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
         current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
     assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
-    assert child['identity']['parent_qualification']['route']=='historical_'+parent_state
+    assert child['identity']['parent_qualification']['route']=='retained_generation'
     assert child['identity']['parent_qualification']['launch_id']=='g1'
 
 
@@ -142,7 +148,7 @@ def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,
         state.baseline(dict(pid=20,rss=70,monotonic=12.2,boundary='post-import/pre-allocation'))
     assert classify(state,[child,live],context,declarations={30:declared},sample_context=batch)[30]=='observer_helper'
     relation=child['identity']['parent_qualification']
-    assert relation['route']=='same_sample_live' and relation['proof']['sample_id']==1
+    assert relation['route']=='retained_generation' and relation['proof']['sample_id']==1
     assert relation['proof']['lookup_end']>declared['completion_end']
 
 
@@ -158,7 +164,8 @@ def test_same_sample_exception_cannot_be_borrowed(tmp_path,wrong):
     if wrong=='late_python_terminal':
         state.end(end); row=terminal(gone); row.update(sample_start=12.,sample_end=14.)
         assert classify(state,[row],context)[10]=='unaccounted'; return
-    assert classify(state,[child,live],context,declarations={30:declared},sample_context=batch)[30]!='observer_helper'
+    role=classify(state,[child,live],context,declarations={30:declared},sample_context=batch)[30]
+    assert role!='observer_helper' if wrong=='forwarded_root' else role=='observer_helper'
 
 
 @pytest.mark.parametrize('change',[{'reaped':False},{'parent':99},{'argv':['/bin/ps']},{'vector_sha256':'bad'},
@@ -315,7 +322,7 @@ def run_pending_join(tmp_path,monkeypatch,join,*,failure=None):
             declared=witness(child,reader,m.PS_ARGV); declared.update(launch_id='ps-child',launch_start=helper_start,reaped=False)
             declared.pop('completion_end')
             emit(dict(declared,event='observer_helper',monotonic=helper_start))
-            emit(dict(event='observer_helper_end',pid=child,parent=reader,launch_id='ps-child',reaped=True,completion_end=completed,monotonic=completed))
+            emit(dict(event='observer_helper_end',pid=child,parent=reader,launch_id='ps-child',reaped=True,returncode=0,completion_end=completed,monotonic=completed))
             sample_event=dict(event='observer_sample',emitter_pid=reader,self_pid=reader,processes=[helper_row,live],monotonic=time.monotonic())
             baseline=dict(event='baseline',pid=reader,rss=100,boundary='post-import/pre-allocation',monotonic=time.monotonic())
             saved.update(launch=launch,baseline=baseline,self=sample_event)
@@ -353,7 +360,7 @@ def test_pending_helper_wakes_on_parent_generation_or_first_baseline(tmp_path,mo
     resolutions=[r for r in records if r['kind']=='resolution' and '610003' in r['roles']]
     assert len(resolutions)==2 and resolutions[-1]['roles']['610003']=='observer_helper'
     relation=resolutions[-1]['identities']['610003']['parent_qualification']
-    assert relation['route']=='same_sample_live' and relation['proof']['sample_id']==resolutions[-1]['sample_id']
+    assert relation['route']=='retained_generation' and relation['proof']['sample_id']==resolutions[-1]['sample_id']
     assert len([r for r in records if r['kind']=='sample' and '610003' in r['rss']])==1
 
 
@@ -364,11 +371,11 @@ def test_pending_helper_cannot_recover_from_parent_or_provenance_failure(tmp_pat
     assert not any(r['roles'].get('610003')=='observer_helper' for r in records if r['kind']=='resolution')
 
 
-def test_later_self_copy_does_not_repair_original_helper_sample(tmp_path,monkeypatch):
+def test_delayed_genuine_self_qualifies_retained_helper_parent(tmp_path,monkeypatch):
     result,records=run_pending_join(tmp_path,monkeypatch,'self')
-    assert result['status']!='COMPLETED'
+    assert result['status']=='COMPLETED'
     resolutions=[r for r in records if r['kind']=='resolution' and r['sample_id']==2]
-    assert all(r['roles']['610003']!='observer_helper' for r in resolutions)
+    assert resolutions[-1]['roles']['610003']=='observer_helper'
 
 
 def test_only_forwarded_live_root_cannot_qualify_terminal_cleanup(tmp_path,monkeypatch):
@@ -410,11 +417,11 @@ def test_only_forwarded_live_root_cannot_qualify_terminal_cleanup(tmp_path,monke
 
 
 @pytest.mark.parametrize('reverse',[False,True])
-def test_terminal_parent_completion_is_required_independently_of_row_order(tmp_path,reverse):
+def test_parent_pending_completion_does_not_erase_qualified_helper_lifetime(tmp_path,reverse):
     state,launch,live,row,end,context=prepared(tmp_path,ended=False)
     child,declared=helper(); rows=[row,child] if reverse else [child,row]
     before=classify(state,rows,context,declarations={30:declared})
-    assert before[10].startswith('pending_') and before[30].startswith('pending_')
+    assert before[10].startswith('pending_') and before[30]=='observer_helper'
     state.end(end)
     after=classify(state,rows,context,declarations={30:declared})
     assert after=={r['pid']:'worker' if r['pid']==10 else 'observer_helper' for r in rows}
@@ -446,8 +453,8 @@ def test_terminal_git_never_escapes_declared_authority_phase(tmp_path,mutation):
     expected='unaccounted'
     if mutation=='outside_phase': phase['end']=12.
     elif mutation=='wrong_vector': declared['argv']=[a.GIT,'status']
-    elif mutation=='incomplete_end': declared.pop('completion_end'); expected='pending_terminal_launch'
-    else: phase['declarations']={}; expected='pending_terminal_launch'
+    elif mutation=='incomplete_end': declared.pop('completion_end'); declared['reaped']=False; expected='pending_source_lifecycle'
+    else: phase['declarations']={}  # Owner already ended: no unresolved source can certify this row.
     assert classify(state,[child],context,phase=phase)[30]==expected
 
 
@@ -524,14 +531,14 @@ def run_cross_family_ingestion(tmp_path,monkeypatch,first,second,*,reuse=True,sa
         now=time.monotonic()
         event=dict(event='python_worker_end' if family=='reader' else family+'_helper_end',monotonic=now,
                    pid=entry['pid'],parent=root,launch_id=entry['launch_id'],reaped=True,completion_end=now)
-        if family=='reader': event['returncode']=0
+        event['returncode']=0
         return event
     def live_row(entry,family):
         start=time.monotonic(); end=time.monotonic(); lookup=time.monotonic()
         image=runtime['process_image'] if family=='reader' else runtime['helpers']['ps' if family=='observer' else 'git']
         return dict(pid=entry['pid'],parent=root,rss_bytes=100,sample_start=start,sample_end=end,
             raw_comm='/observed',raw_args=c.native_display(entry['argv'],runtime) if family=='reader' else c.display(entry['argv']),
-            image=dict(status='ok',**image,lookup_start=lookup,lookup_end=time.monotonic()))
+            image=dict(dict({'method':'macos.proc_pidpath',**image}),status='ok',lookup_start=lookup,lookup_end=time.monotonic()))
     def source_rows(live,family):
         if family=='reader': return [live]
         # Existing exact-display observer policy requires its live Python parent
@@ -576,7 +583,7 @@ def run_cross_family_ingestion(tmp_path,monkeypatch,first,second,*,reuse=True,sa
             assert len(turns)==2,'no extra observation can repair a reused generation'
             prior=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
             terminal_resolutions=[r for r in prior if r['kind']=='resolution' and r['sample_id']==3]
-            assert terminal_resolutions and terminal_resolutions[-1]['roles'][str(original_pid)].startswith('pending_')
+            assert terminal_resolutions and (terminal_resolutions[-1]['roles'][str(original_pid)].startswith('pending_') or terminal_resolutions[-1]['roles'][str(original_pid)]=='reader_lifecycle')
             if first!='reader': emit(saved['old_end'])
             emit(saved['replacement'])
             live_event=dict(event='observer_sample',processes=source_rows(saved['new_live'],second),monotonic=time.monotonic())
@@ -607,7 +614,7 @@ def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tm
     assert result['workers']['630002']['baseline_bytes']==0
     assert result['workers']['630002']['incremental_peak_bytes']==100
     pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
-    assert pending[0]['roles']['630002'].startswith('pending_')
+    assert (pending[0]['roles']['630002'].startswith('pending_') or pending[0]['roles']['630002']=='reader_lifecycle')
     # Later contradictory source completion can stop final reconciliation;
     # the retained pending row must never gain favorable attribution anyway.
     assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
@@ -626,7 +633,7 @@ def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeyp
     result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
     assert result['status']=='COMPLETED',result
     assert not observed['python'].failed
-    assert any(r['kind']=='resolution' and r['sample_id']==3 and r['roles']['630002'] in ('worker','observer_helper') for r in records)
+    assert any(r['kind']=='resolution' and r['sample_id']==3 and r['roles']['630002'] in ('worker','observer_helper','reader_lifecycle') for r in records)
 
 
 def test_shared_launch_id_on_distinct_pids_still_fails_both_generations(tmp_path,monkeypatch):
