@@ -81,7 +81,7 @@ def test_reference_guards_finite_comparisons_and_three_way_policy():
     assert r.compare(dict(p,coefficients=[[1.]]),dict(a,coefficients=[[2.]]))['status']=='FAILED'
     assert r.compare(dict(p,windows=[dict(p,mass=2.)]),dict(a,windows=[dict(a,mass=3.)]))['status']=='FAILED'
     assert r.compare(dict(code=5,prediction=None,mass=0.,raw=None),
-                     dict(code=5,prediction=[3.,4.],mass=0.,raw=None))['status']=='PASS'
+                     dict(code=5,prediction=[3.,4.],mass=0.,raw=None))['status']=='FAILED'
     with pytest.raises(r.ReferenceFailure, match='threshold'):
         r.stable_margin(Decimal(0), Decimal(0))
     with pytest.raises(r.ReferenceFailure, match='precision'):
@@ -251,8 +251,8 @@ def test_exact_synthetic_authority_detects_identity_release_and_deadline_mutatio
     setup=tmp_path/'setup.json'
     setup.write_text(json.dumps(dict(actual_factor_constructions=6,actual_reads=0,allocation_start_monotonic=started)))
     observed=dict(package_hash=a.PACKAGE,host_identity={'node':'synthetic'},source_full_git='synthetic')
-    monkeypatch.setattr(a,'observe',lambda root:observed)
-    monkeypatch.setattr(a,'git',lambda *args:'')
+    monkeypatch.setattr(a,'observe',lambda root,**kwargs:observed)
+    monkeypatch.setattr(a,'git',lambda *args,**kwargs:'')
     for key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS','VECLIB_MAXIMUM_THREADS','NUMEXPR_NUM_THREADS'):
         monkeypatch.setenv(key,'1')
     p=dict(implementation_review=dict(record_ref,approved=True),
@@ -290,8 +290,11 @@ from pathlib import Path
 Path('monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
 time.sleep(10)
 '''
+    import os
+    def sample(pid):
+        return m.ResidentTree({pid:100},{pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code])})
     result=m.supervise([sys.executable,'-c',code],tmp_path/'memory',outer_seconds=2,
-                       incremental_bytes=50,free_disk_bytes=0,sampler=lambda pid:{pid:100})
+                       incremental_bytes=50,free_disk_bytes=0,sampler=sample)
     assert result['reason']=='incremental worker memory cap'
     assert result['incremental_worker_peak_bytes']==90
     assert result['workers'][next(iter(result['workers']))]['baseline_bytes']==10
@@ -334,21 +337,24 @@ def test_observed_schema_and_package_match_read_only_registered_interfaces():
 
 def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv():
     m=module('monitor'); import os,sys
+    c=module('commands'); stage=[sys.executable,'-c','pass']
+    context=dict(root=Path.cwd(),event_path=Path('/tmp/unit-events'),deadline=100.)
+    def classify(*args): return m.classify(*args,stage_vector=stage,reader_context=context)
     entry=dict(pid=30,parent=20,executable=m.PS,argv=m.PS_ARGV)
     declared={30:entry}
-    processes={10:dict(parent=os.getpid(),executable=sys.executable,argv=[]),
-               20:dict(parent=10,executable=sys.executable,argv=[]),30:entry}
-    roles=m.classify(10,processes,{10:100,20:100},declared)
+    processes={10:dict(parent=os.getpid(),executable=sys.executable,argv=stage),
+               20:dict(parent=10,executable=sys.executable,argv=c.reader_command(context['root'],context['event_path'],100.)),30:entry}
+    roles=classify(10,processes,{10:100,20:100},declared)
     assert roles=={10:'worker',20:'worker',30:'observer_helper'}
-    assert m.classify(10,processes,{10:100},declared)[30]=='unaccounted'
+    assert classify(10,processes,{10:100},declared)[30]=='observer_helper'
     for change in (dict(parent=99),dict(executable='/tmp/ps'),dict(argv=[m.PS,'different'])):
         altered=dict(processes,**{})
         altered[30]=dict(entry,**change)
-        assert m.classify(10,altered,{10:100,20:100},declared)[30]=='unaccounted'
-    assert m.classify(10,processes,{10:100,20:100},{})[30]=='unaccounted'
+        assert classify(10,altered,{10:100,20:100},declared)[30]=='unaccounted'
+    assert classify(10,processes,{10:100,20:100},{})[30]=='pending_observer_declaration'
     for change in (dict(parent=99),dict(executable='/tmp/not-python')):
         altered=dict(processes); altered[20]=dict(processes[20],**change)
-        assert m.classify(10,altered,{10:100,20:100},declared)[20]=='unaccounted'
+        assert classify(10,altered,{10:100,20:100},declared)[20]=='unaccounted'
 
 
 def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
@@ -369,7 +375,7 @@ time.sleep(10)
         helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
         readings={pid:100}
         if polls[0]<3: readings[pid+100000]=20
-        return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[]),pid+100000:helper})
+        return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code]),pid+100000:helper})
     result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
                         free_disk_bytes=0,incremental_bytes=100,sampler=sample)
     assert result['reason']=='incremental worker memory cap'

@@ -19,6 +19,7 @@ LIMITS=dict(outer_seconds=600,candidate_seconds=90,incremental_worker_bytes=2013
             factors=6,reads=768)
 PENDING=('implementation_review','represented_rate_records','static_exports',
          'resource_measurement_boundary_seal','fresh_launch_snapshot','output_directory')
+GIT=str(Path(shutil.which('git') or '/usr/bin/git').resolve())
 
 
 class AuthorityError(ValueError): pass
@@ -32,8 +33,41 @@ def digest(value): return hashlib.sha256(canonical(value)).hexdigest()
 def file_hash(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def git(root,*args):
-    return subprocess.check_output(['git','-C',str(root),*args],text=True).strip()
+def event(path,kind,**fields):
+    if path is not None:
+        with Path(path).open('a') as stream:
+            stream.write(json.dumps(dict(event=kind,monotonic=time.monotonic(),**fields))+'\n'); stream.flush()
+
+
+def git_commands(root):
+    return [[GIT,'-C',str(Path(root).resolve()),*args]
+            for args in (('rev-parse','HEAD'),('status','--porcelain'))]
+
+
+def git(root,*args,deadline=None,event_path=None):
+    command=[GIT,'-C',str(Path(root).resolve()),*args]
+    if command not in git_commands(root): raise AuthorityError('undeclared authority operation')
+    deadline=deadline if deadline is not None else time.monotonic()+5
+    remaining=deadline-time.monotonic()
+    if remaining<=0: raise AuthorityError('authority deadline expired')
+    started=time.monotonic()
+    process=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,close_fds=True)
+    try:
+        event(event_path,'authority_helper',pid=process.pid,parent=os.getpid(),executable=GIT,argv=command)
+        try:
+            stdout,stderr=process.communicate(timeout=max(0,deadline-time.monotonic()))
+            if process.returncode: raise AuthorityError('authority Git operation failed: '+stderr[-1000:])
+            return stdout.strip()
+        except BaseException:
+            if process.poll() is None: process.kill()
+            process.communicate(timeout=1)
+            raise
+        finally:
+            event(event_path,'authority_helper_end',pid=process.pid,parent=os.getpid(),
+                  returncode=process.returncode,seconds=time.monotonic()-started)
+    finally:
+        if process.stdout is not None: process.stdout.close()
+        if process.stderr is not None: process.stderr.close()
 
 
 def runtime():
@@ -44,7 +78,7 @@ def runtime():
                 byteorder=sys.byteorder,machine=platform.machine(),context='80/160 ROUND_HALF_EVEN Emin=-999999999 Emax=999999999 traps=InvalidOperation,DivisionByZero,Overflow')
 
 
-def observe(root):
+def observe(root,*,deadline=None,event_path=None):
     root=Path(root)
     paths=['docs/amendments/2026-10-18-kernel-projection-adoption.md',
            'docs/amendments/2026-10-18-kernel-projection-diagnostic.md',
@@ -62,7 +96,7 @@ def observe(root):
     previous=json.loads((root/'docs/research/task18-kernel-projection-source-verification.json').read_bytes())
     if any(memory[k]!=v['current_sha256'] for k,v in previous['identities']['memory_components'].items()):
         raise AuthorityError('unchanged-kernel proof mismatch')
-    return dict(source_full_git=git(root,'rev-parse','HEAD'),package_hash=digest(package),
+    return dict(source_full_git=git(root,'rev-parse','HEAD',deadline=deadline,event_path=event_path),package_hash=digest(package),
                 adopted_amendment=dict(path=paths[1],sha256=file_hash(root/paths[1]),adoption_date='2026-10-18',
                                        adoption_record=paths[0],adoption_record_sha256=file_hash(root/paths[0])),
                 dependency_lock_hash=file_hash(root/'requirements.lock'),python_decimal_runtime_identity=runtime(),
@@ -93,8 +127,8 @@ def _null(value):
     return False
 
 
-def verify(seal,root,*,fresh=True,output_initialized=False):
-    """Must finish BEFORE importing backend, constructing state or evaluating math."""
+def entry(seal):
+    """Parent launch gate: no Git, backend, scientific allocation or null waiver."""
     if type(seal) is not dict or set(seal)!={'version','scope','observed','pending','limits','root_stage_A_release'}:
         raise AuthorityError('closed seal schema mismatch')
     if _null(seal): raise AuthorityError('null execution authority blocks work')
@@ -102,10 +136,24 @@ def verify(seal,root,*,fresh=True,output_initialized=False):
         raise AuthorityError('seal scope/limits mismatch')
     if type(seal['pending']) is not dict or set(seal['pending'])!=set(PENDING):
         raise AuthorityError('pending authority schema mismatch')
-    current=observe(root)
+    boundary=seal['pending']['resource_measurement_boundary_seal']
+    if type(boundary) is not dict or not {'deadline_monotonic','allocation_start_monotonic'}<=set(boundary):
+        raise AuthorityError('original deadline missing')
+    start,deadline=boundary['allocation_start_monotonic'],boundary['deadline_monotonic']
+    if type(start) not in (int,float) or type(deadline) not in (int,float) or deadline!=start+600 or not start<=time.monotonic()<deadline:
+        raise AuthorityError('original 600s allocation deadline expired/mismatched')
+    return deadline
+
+
+def verify(seal,root,*,fresh=True,output_initialized=False,deadline=None,event_path=None):
+    """Full live verification, bounded and complete BEFORE backend import."""
+    original_deadline=entry(seal)
+    if deadline is None: deadline=original_deadline
+    if deadline!=original_deadline: raise AuthorityError('authority deadline mismatch')
+    current=observe(root,deadline=deadline,event_path=event_path)
     if current!=seal['observed'] or current['package_hash']!=PACKAGE:
         raise AuthorityError('observed source/package/runtime/helper identity mismatch')
-    if git(root,'status','--porcelain'): raise AuthorityError('clean sealed source required')
+    if git(root,'status','--porcelain',deadline=deadline,event_path=event_path): raise AuthorityError('clean sealed source required')
     p=seal['pending']
     review=p['implementation_review']
     if type(review) is not dict or set(review)!={'path','sha256','approved'} or review['approved'] is not True or file_hash(Path(root)/review['path'])!=review['sha256']:
@@ -147,7 +195,7 @@ def verify(seal,root,*,fresh=True,output_initialized=False):
     out=Path(p['output_directory'])
     if not out.is_absolute() or not out.parent.is_dir(): raise AuthorityError('fresh absolute output directory required')
     if output_initialized:
-        if not out.is_dir() or {p.name for p in out.iterdir()}!={'stdout.log','stderr.log'}:
+        if not out.is_dir() or {p.name for p in out.iterdir()}!={'stdout.log','stderr.log','monitor-events.jsonl'}:
             raise AuthorityError('initialized output boundary mismatch')
     elif out.exists(): raise AuthorityError('fresh absolute output directory required')
     if fresh and (not 0<=time.time()-launch['utc_epoch']<=60 or launch['host_identity']!=current['host_identity'] or

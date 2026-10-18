@@ -21,7 +21,7 @@ from famjet.eval.state_io import (snapshot_record,snapshot_from_record,snapshot_
                                   tensor_record,tensor_from_record,state_bytes,_decode)
 from famjet.memory._fixed_writer import _digest_tensor
 from famjet.types import EventBatch,QueryBatch
-from . import authority,reference
+from . import authority,reference,commands
 from .descriptors import fixtures,timeline
 from .driver import CommonFailure,CandidateFailure
 
@@ -86,6 +86,13 @@ def finite(value):
     return value
 
 
+def gram_gate(candidate,comparison,ledger):
+    if comparison['status']=='FAILED':
+        ledger.events.append(dict(kind='candidate_gram_arithmetic_failure',
+                                  candidate=[candidate[0],candidate[1].hex()],comparison=comparison))
+        raise CandidateFailure('production/reference Gram arithmetic gate failed: '+repr(comparison))
+
+
 class Backend:
     def __init__(self,seal,root):
         self.seal=seal; self.root=Path(root); self.out=Path(seal['pending']['output_directory'])
@@ -94,11 +101,14 @@ class Backend:
         torch.set_num_threads(1); torch.set_num_interop_threads(1)
 
     def event(self,kind,**fields):
+        stamp=time.monotonic()
         with (self.out/'monitor-events.jsonl').open('a') as f:
-            f.write(json.dumps(dict(event=kind,monotonic=time.monotonic(),**fields))+'\n')
+            f.write(json.dumps(dict(event=kind,monotonic=stamp,**fields))+'\n')
+        return stamp
 
     def setup(self,candidate,ledger):
-        family,rho=candidate; self.event('candidate_start')
+        family,rho=candidate; started=self.event('candidate_start')
+        self.candidate_deadline=min(started+90,self.seal['pending']['resource_measurement_boundary_seal']['deadline_monotonic'])
         record=self.seal['pending']['static_exports'][f'{family}:{rho.hex()}']
         spec=json.loads((self.root/record['path']).read_bytes())
         if type(spec) is dict and set(spec)=={'candidate','status','factor_diagnostics'}:
@@ -135,7 +145,10 @@ class Backend:
             reference.agree(a.gram,b.gram)
             factor_check=reference.compare({'code':0,'prediction':sum(model.reader.gram.tolist(),[])},
                                            {'code':0,'prediction':sum(b.gram,[])})
-        if factor_check['status']!='PASS': raise CommonFailure('production/reference Gram gate failed')
+        factor_check.update(production_gram=model.reader.gram.tolist(),reference_gram=finite(b.gram))
+        try: gram_gate(candidate,factor_check,ledger)
+        except CandidateFailure:
+            self.event('candidate_end'); raise
         (self.out/f'statics-{family}-{rho.hex()}.json').write_bytes(authority.canonical(finite(dict(
              unit_transport=audit,ownership=model.ownership_ledger(),unit_ownership=unit_model.ownership_ledger(),
              factor_diagnostics=model.reader.factor_diagnostics(),gram_gate=factor_check))))
@@ -160,14 +173,17 @@ class Backend:
         request=dict(method=spec,state=ledger.call('state_record',snapshot_record,state),
                      queries=isolation._query_record(query),operation='read',model_hash=authority.digest(spec),source_hash=authority.PACKAGE)
         raw=ledger.call('request_serialization',authority.canonical,request)
-        bootstrap='import sys; sys.path.insert(0,'+repr(str(self.root))+'); from validation.kernel_stage_a.reader_worker import main; main()'
         env={'OMP_NUM_THREADS':'1','MKL_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','VECLIB_MAXIMUM_THREADS':'1',
              'NUMEXPR_NUM_THREADS':'1','PYTORCH_ENABLE_MPS_FALLBACK':'0','PYTORCH_MPS_FAST_MATH':'0'}
         ordinal=ledger.counts['read_dispatch']
         stdout_path=self.out/f'reader-{ordinal:03}.jsonl'; stderr_path=self.out/f'reader-{ordinal:03}.stderr'
         with tempfile.TemporaryDirectory(prefix='reader-',dir=self.out) as work,stdout_path.open('wb') as stdout,stderr_path.open('wb') as stderr:
-            result=ledger.call('read_dispatch',subprocess.run,[sys.executable,'-I','-c',bootstrap,str(self.out/'monitor-events.jsonl')],
-                   input=raw,stdout=stdout,stderr=stderr,cwd=work,env=env,timeout=90,close_fds=True)
+            remaining=self.candidate_deadline-time.monotonic()
+            if remaining<=0: raise CommonFailure('candidate/original deadline expired before reader')
+            vector=commands.reader_command(self.root,self.out/'monitor-events.jsonl',self.candidate_deadline)
+            ledger.events.append(dict(kind='reader_launch_vector',sha256=commands.vector_hash(vector),deadline=self.candidate_deadline))
+            result=ledger.call('read_dispatch',subprocess.run,vector,
+                   input=raw,stdout=stdout,stderr=stderr,cwd=work,env=env,timeout=remaining,close_fds=True)
         # Flushed entry counters persist even when the whole group is killed.
         lines=stdout_path.read_bytes().splitlines(); response=None
         for line in lines:
@@ -197,7 +213,8 @@ class Backend:
             raise CommonFailure('resume ownership mismatch')
         result=response['numeric']; diagnostics=result['diagnostics']; code=diagnostics['failure_code'][0][0]
         p=dict(code=next((c for c in code if c),0),prediction=result['prediction'][0][0],windows=response['windows'],
-               coefficients=response['coefficients'],window_vectors=response['window_vectors'])
+               coefficients=response['coefficients'],window_vectors=response['window_vectors'],task=row.task,
+               path='quarantined' if diagnostics['quarantined'][0][0] else ('empty' if not bool(state.valid[0]) else 'decoded'))
         if row.poison:
             if not diagnostics['quarantined'][0][0] or code[0]!=1 or not result['failure'][0][0]:
                 raise CommonFailure('nonfinite quarantine policy mismatch')

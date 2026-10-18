@@ -105,7 +105,8 @@ class Factors:
 def decode(normalizers,numerators,coefficients,fallback,*,quarantined=False,structural_zero=False):
     n=[exact(v) for v in normalizers]; u=[[exact(v) for v in row] for row in numerators]
     c=coefficients; margins={}
-    result=dict(code=0,prediction=[exact(v) for v in fallback],mass=None,bound=None,raw=None,margins=margins)
+    reached=dict(coefficients=False,mass=False,bound=False,raw=False,prediction=False)
+    result=dict(code=0,prediction=[exact(v) for v in fallback],mass=None,bound=None,raw=None,margins=margins,reached=reached)
     def failed(code):
         result['code']=code
         return result
@@ -113,8 +114,10 @@ def decode(normalizers,numerators,coefficients,fallback,*,quarantined=False,stru
     if not all(v.is_finite() for v in n for _ in (0,)) or not all(v.is_finite() for row in u for v in row):
         return failed(2)
     if any(v<0 for v in n): return failed(3)
+    reached['coefficients']=True
     mass=ordered_sum([a*b for a,b in zip(c,n)]); result['mass']=mass
     if not mass.is_finite(): return failed(7)
+    reached['mass']=True
     if any(n): margins['nonnegative_mass']=mass
     if mass<0: return failed(4)
     margins['floor']=mass-exact(1e-8)
@@ -122,11 +125,14 @@ def decode(normalizers,numerators,coefficients,fallback,*,quarantined=False,stru
     bound=Decimal(64)*Decimal(2)**-53*ordered_sum([abs(a)*b for a,b in zip(c,n)])
     result['bound']=bound; margins['cancellation']=mass-bound
     if not bound.is_finite(): return failed(7)
+    reached['bound']=True
     if not mass>bound: return failed(6)
     raw=[ordered_sum([a*row[j] for a,row in zip(c,u)]) for j in range(len(fallback))]
     result['raw']=raw
+    reached['raw']=all(v.is_finite() for v in raw)
     prediction=[x/(mass+exact(1e-8)) for x in raw]
     if not all(v.is_finite() for v in prediction): return failed(7)
+    reached['prediction']=True
     result['prediction']=prediction
     return result
 
@@ -150,27 +156,95 @@ def stable_margin(low,high):
         raise ReferenceFailure('unresolved threshold applicability')
 
 
-def compare(left,right):
-    """Every mutually finite field remains mandatory even for equal decisions."""
+def _finite_vector(value):
+    try:
+        return (type(value) is list and len(value)>0 and
+                all(v is not None and exact(v).is_finite() for v in value))
+    except ReferenceFailure: return False
+
+
+def _evidence(record):
+    """Validate independently reached evidence before accepting arithmetic."""
     failed=[]
+    required={'code','prediction','path','task','windows','coefficients','window_vectors'}
+    if not required<=set(record): return ['required_evidence']
+    if not _finite_vector(record['prediction']): failed.append('prediction.required_finite')
+    path,task=record['path'],record['task']
+    if task not in ('mean','contrast') or path not in ('decoded','empty','quarantined'):
+        return failed+['applicability.schema']
+    arrays=[record[k] for k in ('windows','coefficients','window_vectors')]
+    if not all(type(v) is list for v in arrays): return failed+['evidence.shape']
+    windows,coefficients,vectors=arrays
+    if path!='decoded':
+        if record['code']!={'empty':5,'quarantined':1}[path] or any(arrays):
+            failed.append('unreached_path')
+        return failed
+    count=2 if task=='contrast' and windows and windows[0].get('code')==0 else 1
+    if any(len(v)!=count for v in arrays): return failed+['window_count']
+    codes=[]; width=len(record['prediction']) if type(record['prediction']) is list else 0
+    names={'coefficients','mass','bound','raw','prediction'}
+    stages={0:names,1:set(),2:set(),3:set(),4:{'coefficients','mass'},
+            5:{'coefficients','mass'},6:{'coefficients','mass','bound'}}
+    for i,window in enumerate(windows):
+        if not {'code','prediction','mass','bound','raw','reached'}<=set(window):
+            failed.append(f'windows[{i}].required'); continue
+        code=window['code']; codes.append(code); reached=window['reached']
+        if type(code) is not int or not 0<=code<=7 or type(reached) is not dict or set(reached)!=names or any(type(v) is not bool for v in reached.values()):
+            failed.append(f'windows[{i}].applicability'); continue
+        if code!=7 and {k for k,v in reached.items() if v}!=stages[code]:
+            failed.append(f'windows[{i}].reached')
+        if code==7 and reached['prediction']: failed.append(f'windows[{i}].failed_prediction')
+        if not _finite_vector(vectors[i]): failed.append(f'window_vectors[{i}].required_finite')
+        c=coefficients[i]
+        if reached['coefficients']:
+            if not _finite_vector(c) or not _finite_vector(vectors[i]) or len(c)!=len(vectors[i]): failed.append(f'coefficients[{i}].shape')
+        elif c is not None: failed.append(f'coefficients[{i}].unreached')
+        for field in ('mass','bound','raw','prediction'):
+            value=window[field]
+            if not reached[field]:
+                if value is not None: failed.append(f'windows[{i}].{field}.unreached')
+            elif field in ('raw','prediction'):
+                if not _finite_vector(value) or len(value)!=width: failed.append(f'windows[{i}].{field}.shape')
+            elif value is None or not exact(value).is_finite(): failed.append(f'windows[{i}].{field}.required_finite')
+    if record['code']!=next((v for v in codes if v),0): failed.append('window_decision')
+    return failed
+
+
+def compare(left,right):
+    """Required reached evidence cannot disappear behind equal final outputs."""
+    failed=[]
+    if any(k in left or k in right for k in ('windows','coefficients','window_vectors','path','task')):
+        failed.extend('left.'+key for key in _evidence(left))
+        failed.extend('right.'+key for key in _evidence(right))
+        if failed: return dict(status='FAILED',failed_fields=failed)
+    if 'reached' in left or 'reached' in right:
+        if left.get('reached')!=right.get('reached'): failed.append('reached')
     if left['code']!=right['code']: failed.append('code')
     for field in ('prediction','mass','bound','raw'):
         a,b=left.get(field),right.get(field)
-        if a is None or b is None: continue  # field was not reached in this scope
+        if a is None and b is None: continue
+        if a is None or b is None: failed.append(field+'.presence'); continue
         aa=a if isinstance(a,(list,tuple)) else [a]
         bb=b if isinstance(b,(list,tuple)) else [b]
         if len(aa)!=len(bb): failed.append(field+'.shape'); continue
         for i,(x,y) in enumerate(zip(aa,bb)):
-            if x is None or y is None: continue
+            if x is None or y is None:
+                if x is not y: failed.append(f'{field}[{i}].presence')
+                continue
             x,y=exact(x),exact(y)
             if x.is_finite() and y.is_finite() and abs(x-y)>exact(1e-12)*(1+abs(y)):
                 failed.append(f'{field}[{i}]')
     for field in ('coefficients','window_vectors'):
         if field in left and field in right:
+            if len(left[field])!=len(right[field]): failed.append(field+'.shape')
             for j,(a,b) in enumerate(zip(left[field],right[field])):
+                if a is None or b is None:
+                    if a is not b: failed.append(f'{field}[{j}].presence')
+                    continue
                 nested=compare({'code':0,'prediction':a},{'code':0,'prediction':b})
                 failed.extend(f'{field}[{j}].{key}' for key in nested['failed_fields'])
     if 'windows' in left and 'windows' in right:
+        if len(left['windows'])!=len(right['windows']): failed.append('windows.shape')
         for j,(a,b) in enumerate(zip(left['windows'],right['windows'])):
             nested=compare(a,b)
             failed.extend(f'windows[{j}].{key}' for key in nested['failed_fields'])
@@ -216,21 +290,25 @@ def advance(factors,n,u,delay,t_ref):
 def evaluate(factors,n,u,lower,upper,task,fallback,*,solve_call,invalid=False,quarantined=False):
     windows=[]; coefficients=[]; vectors=[]; residuals=[]
     prediction=[exact(v) for v in fallback]; code=0
+    if invalid or quarantined:
+        return dict(code=1 if quarantined else 5,prediction=prediction,windows=[],coefficients=[],
+                    window_vectors=[],residuals=[],task=task,path='quarantined' if quarantined else 'empty')
     intervals=[(exact(lower),exact(upper))]
     if task=='contrast': intervals.append((exact(upper),2*exact(upper)-exact(lower)))
     elif task!='mean': raise ReferenceFailure('unknown task')
     for a,b in intervals:
         c,window,residual=solve_call(lambda:factors.coefficients(a,b))
-        coefficients.append(c); vectors.append(window); residuals.append(residual)
         result=decode(n,u,c,fallback,quarantined=quarantined)
-        if invalid: result.update(code=5,prediction=prediction,mass=None,bound=None,raw=None,margins={})
+        coefficients.append(c if result['reached']['coefficients'] else None)
+        vectors.append(window); residuals.append(residual)
+        if result['code']: result['prediction']=None
         windows.append(result)
         if result['code']:
             code=result['code']; break
     if not code:
         prediction=windows[0]['prediction'] if task=='mean' else [a-b for a,b in zip(windows[0]['prediction'],windows[1]['prediction'])]
     return dict(code=code,prediction=prediction,windows=windows,coefficients=coefficients,
-                window_vectors=vectors,residuals=residuals)
+                window_vectors=vectors,residuals=residuals,task=task,path='decoded')
 
 
 def validate_pair(low,high):
@@ -238,4 +316,11 @@ def validate_pair(low,high):
     for residual in high.get('residuals',[]):
         if residual>=Decimal('1e-50'): raise ReferenceFailure('normalized solve residual')
     for a,b in zip(low.get('windows',[]),high.get('windows',[])):
-        for key,margin in b['margins'].items(): stable_margin(a['margins'][key],margin)
+        deferred=set()
+        if a['code']==b['code']==5 and 'floor' in b['margins']:
+            stable_margin(a['margins']['floor'],b['margins']['floor'])
+            # Agreeing, decisive floor failure makes these later/unused tests
+            # inapplicable. Code4 and every code disagreement remain required.
+            deferred={'nonnegative_mass','cancellation'}
+        for key,margin in b['margins'].items():
+            if key not in deferred: stable_margin(a['margins'][key],margin)

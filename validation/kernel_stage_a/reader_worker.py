@@ -26,19 +26,27 @@ class Trace:
         if event=='c_call' and getattr(arg,'__name__','') in ('linalg_eigh','_linalg_eigh'):
             self.increment('factor'); raise RuntimeError('factorization forbidden in read worker')
         if event=='return' and path.endswith('/famjet/readers/kernel_projection.py'):
-            if name=='coefficients' and arg is not None:
-                self.coefficients.append(arg.tolist()); self.vectors.append(self.latest_vector[:])
             if name=='window_vector' and arg is not None: self.latest_vector[:]=arg.tolist()
             if name=='window' and arg is not None:
                 value,diagnostic=arg
+                c=frame.f_locals.get('c')
+                self.coefficients.append(c.tolist() if c is not None and bool(torch.isfinite(c).all()) else None)
+                self.vectors.append(self.latest_vector[:])
+                def finite_scalar(v): return v is not None and math.isfinite(v)
+                raw=frame.f_locals.get('sums')
+                reached=dict(coefficients=self.coefficients[-1] is not None,
+                    mass=finite_scalar(diagnostic['mass']),bound=finite_scalar(diagnostic['cancellation_bound']),
+                    raw=raw is not None and all(math.isfinite(v) for v in raw),prediction=value is not None)
                 self.windows.append(dict(code=diagnostic['code'],prediction=value.tolist() if value is not None else None,
-                    mass=diagnostic['mass'],bound=diagnostic['cancellation_bound'],raw=frame.f_locals.get('sums')))
+                    mass=diagnostic['mass'] if reached['mass'] else None,
+                    bound=diagnostic['cancellation_bound'] if reached['bound'] else None,
+                    raw=raw if reached['raw'] else None,reached=reached))
         return self.profile
 
 
 def main():
     torch.set_num_threads(1); torch.set_num_interop_threads(1)
-    record_baseline(sys.argv[1])  # after imports, before numeric request allocation
+    record_baseline(sys.argv[1],deadline=float(sys.argv[2]))  # after imports, before numeric request allocation
     request=json.loads(sys.stdin.buffer.read())
     if set(request)!={'method','state','queries','operation','model_hash','source_hash'} or request['operation']!='read':
         raise ValueError('closed read-only worker request required')

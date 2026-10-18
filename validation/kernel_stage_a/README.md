@@ -21,6 +21,12 @@ endpoint antiderivatives intentionally share no production integral branches.
 Partial pivoting uses largest absolute column value and lowest current row ties;
 event/channel sums sort by decreasing absolute magnitude with stable ties.
 Finite values remain mandatory when decisions agree. No precision repair occurs.
+The review fix records explicit task/path/window applicability and reached finite
+fields. Missing/truncated eligible coefficients, vectors, windows, contractions
+or predictions fail closed; empty/quarantine and short-circuited older windows
+are explicitly unreached. Final fallbacks remain mandatory. A decisively failed
+floor with agreeing code5 defers only its unused sign/cancellation margins;
+code4, code disagreement and genuinely reached threshold ambiguity still stop.
 
 `authority.py` observes hashes without constructing models and refuses incomplete,
 extra, changed, dirty, stale or mismatched launch authority before backend import.
@@ -32,6 +38,24 @@ the exact payload hash. Its hash layers are: source/input files -> observed
 inventory -> seal payload -> root release. The seal never includes its own hash.
 The later root must regenerate observations at the final clean HEAD; an earlier
 prospective observation is not permission to bypass exact identity checks.
+
+The parent performs only seal/null/original-deadline entry checks. The monitored
+stage child completes full live verification in one pre-backend authority phase.
+Only the exact resolved Git executable and source-owned `-C ROOT rev-parse HEAD`
+and `-C ROOT status --porcelain` vectors are eligible there, with declared
+PID/parent and completed lifetime evidence. Authority Python and Git RSS are
+charged at baseline zero; their time consumes the original outer allowance.
+Their exception ends with the phase. Foreign identities stop immediately;
+strictly expected Python/declaration races may remain pending, never pass final
+verification unresolved. No backend is imported before authority succeeds.
+
+`commands.py` generates the exact owned stage/reader vectors. The reader permits
+only its fixed interpreter/bootstrap/options/event path and a finite deadline
+within the active candidate/original bound. Extra or different Python arguments
+are foreign even with a baseline. Native ps supplies a formatted command string;
+the check uses the exact expected source-generated display, without shlex guesses
+or a claim to certify arbitrary argv byte boundaries. The monitor records the
+actual stage launch-vector hash and reader launches retain their vector hashes.
 
 `driver.py` visits the fixed candidate/group/row order. Source-only failures remain
 FAILED and permit remaining original slots; reader failures stop a candidate;
@@ -71,6 +95,15 @@ descendant blocks completion. Observer RSS remains in absolute totals and is
 charged with baseline zero. Conservative outer/inner observer peaks are added
 to the worker incremental peak, including late declarations after a short
 observer exits. No generic non-Python or basename exemption exists.
+One reconciliation step applies every retained observed peak after event
+ingestion and again at finalization, including baselines/declarations arriving
+after a process exits. The final report's bytes affect its verdict before one
+durable write, so its returned and persisted verdict agree. Native ps waits use
+the smaller of the remaining applicable deadline and a conservative one-second
+observer bound. Timeout/failure kills and reaps the exact observer and owned
+worker group; bounded cleanup time remains failed/charged cost. Authority Git
+waits and reader baseline observers receive the original/candidate deadline;
+there is no extra600s or90s window.
 
 Pending setup and exact invocation
 ----------------------------------
@@ -126,5 +159,5 @@ is provided by this command.
 Focused verification:
 
 ```sh
-OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_kernel_stage_a_preflight.py
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py
 ```
