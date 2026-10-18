@@ -438,6 +438,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             per_worker[str(pid)]['_forced_full']=True; charge(pid,final=True)
         incremental_peak=max(incremental_peak,rss_peak_sum)
     def wake(pid): dirty.update(dependencies.get(pid,()))
+    def publish_python_baseline(pid,*,final=False):
+        # A valid generation join may complete after its last sample settled.
+        if python_lifetimes is None or not source_accounting['identity_complete'] or pid in failed: return
+        generation=python_lifetimes.generations.get(pid,{})
+        if 'baseline' not in generation or baselines.get(pid)==generation['baseline']: return
+        baselines[pid]=generation['baseline']
+        if str(pid) in per_worker: charge(pid,final=final)
     def declaration(target,entry,*,final=False):
         old=target.get(entry['pid'])
         if old is not None and old.get('launch_id')!=entry.get('launch_id'):
@@ -527,7 +534,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     first=next(iter(entries.values()))
                     if python_lifetimes is not None and 'emitter_pid' in event:
                         if event.get('self_pid')!=event['emitter_pid']: raise ValueError('invalid self row tag')
-                        python_lifetimes.self_sample(event['emitter_pid'],list(entries.values())); wake(event['emitter_pid'])
+                        python_lifetimes.self_sample(event['emitter_pid'],list(entries.values()))
+                        publish_python_baseline(event['emitter_pid'],final=final); wake(event['emitter_pid'])
                     collect({pid:entry['rss_bytes'] for pid,entry in entries.items()},entries,first['sample_start'],first['sample_end'],final=final,accounted=True)
                 elif kind=='observer_helper': declaration(declarations,{k:v for k,v in event.items() if k not in ('event','monotonic')},final=final)
                 elif kind=='observer_helper_end': completion(declarations,event,final=final)
@@ -536,15 +544,18 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     if kind=='baseline':
                         if python_lifetimes is not None and event['pid']!=process.pid:
                             python_lifetimes.baseline(event)
-                        else: baselines[event['pid']]=event['rss']
+                            publish_python_baseline(event['pid'],final=final)
+                        else:
+                            baselines[event['pid']]=event['rss']
+                            if str(event['pid']) in per_worker: charge(event['pid'])
                         wake(event['pid'])
-                        if str(event['pid']) in per_worker: charge(event['pid'])
                     elif kind=='python_worker_launch':
                         if python_lifetimes is None: raise ValueError('Python runtime witness missing')
                         entry={k:v for k,v in event.items() if k not in ('event','monotonic')}
                         context=reader_context(entry['launch_start'],entry['launch_start'])
                         if entry.get('role')!='reader': raise ValueError('invalid emitted Python role')
-                        python_lifetimes.launch(entry,context); wake(entry['pid'])
+                        python_lifetimes.launch(entry,context)
+                        publish_python_baseline(entry['pid'],final=final); wake(entry['pid'])
                     elif kind=='python_worker_end':
                         if python_lifetimes is None: raise ValueError('Python runtime witness missing')
                         python_lifetimes.end(event); wake(event['pid'])
@@ -597,9 +608,6 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     root_row=entries.get(process.pid)
                     if root_row is not None and root_row.get('image',{}).get('status')=='ok':
                         python_lifetimes.root_sample(root_row,owner_unreaped=batch['owner_unreaped'])
-                    for pid in entries:
-                        generation=python_lifetimes.generations.get(pid,{})
-                        if 'baseline' in generation: baselines[pid]=generation['baseline']
                 resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
                                   stage_vector=command,reader_context=context,runtime_identity=native_runtime,python_lifetimes=python_lifetimes)
             else:
