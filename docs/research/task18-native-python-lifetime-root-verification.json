@@ -1,0 +1,43 @@
+{
+  "base": "d698a5e422d6b55148bb795f0ad0bd86d9c5e10b",
+  "head": "dcd0a4f1265314485577637860b427e97a992b5e",
+  "source_commit": "18c7753e982b9ea2a8d6191a35970c5151403ab7",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "manifest_entries": 1201,
+  "types": {
+    "file": 974,
+    "symlink": 226,
+    "fifo": 1
+  },
+  "regular_file_bytes": 2822799,
+  "original_specimen_links_and_files_verified": 1114,
+  "attempts": 9,
+  "report_sha256": "b2dde7afb86da42a26ae264683e14b3fad506429e6bc6d8ab13a397ace5a4fc0",
+  "manifest_sha256": "7ce5edafdaa843f9172b6ae91c098ba7344c0632ee0d31937e188eeddf549ae5",
+  "verification_sha256": "fb45e17243eedd3be43b796a28dcc6062aea82bead1b800787bdbbba69864de4",
+  "native_seconds": 2.031376834027469,
+  "native_import_seconds": 0.9912320839939639,
+  "native_cases": [
+    {
+      "role": "root",
+      "pid": 18680,
+      "returncode": 2,
+      "rss_bytes": 22151168,
+      "proof_origin": "unreaped_owned_root",
+      "baseline_bytes": null,
+      "actual_ESRCH": true
+    },
+    {
+      "role": "reader",
+      "pid": 18688,
+      "returncode": 1,
+      "rss_bytes": 223690752,
+      "proof_origin": "trusted_emitter_self_row",
+      "baseline_bytes": 222806016,
+      "actual_ESRCH": true
+    }
+  ],
+  "clean_main": true,
+  "root_tests_native_or_project_imports": false,
+  "scientific_release": false
+}

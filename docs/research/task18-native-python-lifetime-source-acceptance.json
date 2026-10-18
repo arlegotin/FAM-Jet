@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "component": "Task18 generation-bound Python lifetime and L1 baseline handoff SOURCE ONLY",
+  "accepted_at_utc": "2026-10-18T08:55:36.001585+00:00",
+  "reviewed_base": "d698a5e422d6b55148bb795f0ad0bd86d9c5e10b",
+  "reviewed_head": "d746726729b075804857d6dc5993ea527d69eba4",
+  "latest_source_commit": "1114388e891021cf83ba18eaba32e7dc5744ef9a",
+  "production_package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "source_review": {
+    "spec": "compliant",
+    "quality": "approved",
+    "closure": "original lifetime review L1 addressed in one scoped repair round",
+    "final_review": {
+      "path": "docs/research/task18-native-python-lifetime-fix1-review.md",
+      "sha256": "94ac1b24c849247edf2dcfc5da4c86c9921672d8f62727d851c08e2a5756c763",
+      "bytes": 8250
+    }
+  },
+  "evidence": [
+    {
+      "path": "docs/research/task18-native-python-lifetime-review.md",
+      "sha256": "587c95ac2eea114541643d0b6ee575a6f0282ee92bd60f4c1bdcae9357047c36",
+      "bytes": 12290
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-fix1-review.md",
+      "sha256": "94ac1b24c849247edf2dcfc5da4c86c9921672d8f62727d851c08e2a5756c763",
+      "bytes": 8250
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-root-verification.json",
+      "sha256": "59ce6c10a1f390564072e64f8407880a70c1dd9b59d28820281c80f6faa6c76b",
+      "bytes": 1373
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-fix1-root-verification.json",
+      "sha256": "4dffe6579714af1e04e88ad7a136a69a216b4e3f7560ed69e5fcfbb3d334062d",
+      "bytes": 1543
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-design.md",
+      "sha256": "3eaf212d9880befc2d635dbb4eecec04c3bb3c79a31e85fb539f88cb43158432",
+      "bytes": 11471
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-requirements.md",
+      "sha256": "c3343cb1c3236a53dc57f82e56bc04b2772c591e002531415609d4bab4dbd36d",
+      "bytes": 10518
+    },
+    {
+      "path": "docs/research/task18-native-python-lifetime-fix1-requirements.md",
+      "sha256": "c0bacb416d4266cd4bbc5954d748cc0bd3bc3fb6b1edb91500bd0f95920afc03",
+      "bytes": 6604
+    }
+  ],
+  "rulings": {
+    "path": "docs/research/task18-native-python-lifetime-rulings.md",
+    "sha256": "c8800b631afef9f8e8e56fe6dab90f827f3a41bf5eab0b4a172935fc5d0a2475",
+    "bytes": 2886
+  },
+  "external_source_hashes": {
+    "validation/kernel_stage_a/__init__.py": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+    "validation/kernel_stage_a/__main__.py": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+    "validation/kernel_stage_a/authority.py": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+    "validation/kernel_stage_a/commands.py": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+    "validation/kernel_stage_a/descriptors.py": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+    "validation/kernel_stage_a/driver.py": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+    "validation/kernel_stage_a/monitor.py": "feeba692a258369ec21f2fb1bc9d4bd3a115b65216f6980e72176dce3f526442",
+    "validation/kernel_stage_a/production.py": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+    "validation/kernel_stage_a/reader_worker.py": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+    "validation/kernel_stage_a/reference.py": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py": "26d07e04b61e474b0378c85086fe49b7b9099ac91c72044045df377b21a9b75c"
+  },
+  "final_covering": {
+    "passed": 105,
+    "deselected": 24,
+    "reported_seconds": 4.67,
+    "raw": {
+      "path": "docs/research/task18-native-python-lifetime-fix1-evidence/cover-01/output.log",
+      "sha256": "b113405f9c401a8ff039e7ae12280949b2cf657f69963ce2e0b0e6e9bfe68da2",
+      "bytes": 195
+    },
+    "root_repeated_suite": false
+  },
+  "historical_native_control": {
+    "source": "18c7753e982b9ea2a8d6191a35970c5151403ab7",
+    "seconds": 2.031376834027469,
+    "actual_ESRCH_observations": 2,
+    "expected_worker_returncodes": [
+      2,
+      1
+    ],
+    "numerical_work": 0,
+    "rerun_on_fixed_wholefile": false,
+    "full_native_supervisor_resource_pass": false
+  },
+  "supersedes": "strict per-sample Python ESRCH prohibition in earlier native-process record; generation-bound adopted contract only",
+  "scientific_validation": "OPEN",
+  "protected_access": "CLOSED",
+  "scientific_release": false,
+  "root_stage_A_release": null,
+  "metadata_only_commit": true
+}

@@ -1,0 +1,47 @@
+{
+  "time_utc": "2026-10-18T08:53:15.302278+00:00",
+  "base": "dcd0a4f1265314485577637860b427e97a992b5e",
+  "head": "d746726729b075804857d6dc5993ea527d69eba4",
+  "source_commit": "1114388e891021cf83ba18eaba32e7dc5744ef9a",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "manifest_entries": 524,
+  "types": {
+    "file": 453,
+    "symlink": 71
+  },
+  "regular_file_bytes": 1686566,
+  "source_hashes_verified": 11,
+  "original_specimen_mappings_verified": 461,
+  "attempts": [
+    {
+      "name": "red-01",
+      "exit": 1,
+      "summary": "3 failed, 3 passed in 0.08s",
+      "seconds": 0.25956220796797425
+    },
+    {
+      "name": "green-01",
+      "exit": 0,
+      "summary": "6 passed in 0.06s",
+      "seconds": 0.20899887499399483
+    },
+    {
+      "name": "cover-01",
+      "exit": 0,
+      "summary": "105 passed, 24 deselected in 4.67s",
+      "seconds": 5.088904167059809
+    }
+  ],
+  "prior_regular_files_verified": 974,
+  "report_sha256": "7ff4af310be52d46f95525ec3066470a412d6b60dfe2effc418dda6a5078ecf5",
+  "manifest_sha256": "90be651a157bb21a23f4fb109162f985b4f678ff14bbbf802561d421fb274d5b",
+  "verification_sha256": "b95fc4433f4a0b7f55c0aa3fee96116753025a07a4521bfb6aeff61855c9addb",
+  "authored_source_paths": [
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+    "validation/kernel_stage_a/monitor.py"
+  ],
+  "PythonLifetimes_AST_unchanged_from_prior_native": true,
+  "clean_main": true,
+  "no_root_test_or_native_or_project_import": true,
+  "scientific_release": false
+}
