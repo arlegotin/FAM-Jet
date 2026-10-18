@@ -456,3 +456,181 @@ def test_child_first_cannot_use_terminal_reader_outside_its_context(tmp_path):
     child,declared=helper(parent=20)
     roles=classify(state,[child,parent],None,declarations={30:declared})
     assert roles=={20:'unaccounted',30:'unaccounted'}
+
+
+@pytest.mark.parametrize('helper_family',['observer','authority'])
+def test_cross_family_terminal_conflict_cannot_select_old_python_generation(tmp_path,helper_family):
+    state,launch,live,row,end,context=prepared(tmp_path,'reader')
+    row.update(sample_start=14.,sample_end=15.)
+    row['image'].update(lookup_start=15.,lookup_end=15.1)
+    vector=m.PS_ARGV if helper_family=='observer' else [a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+    declared=witness(20,10,vector,'ps' if helper_family=='observer' else 'git')
+    declared.update(launch_id='replacement',launch_start=14.6,completion_end=14.9)
+    phase=None; declarations={20:declared}
+    if helper_family=='authority':
+        phase=dict(active=True,started=True,start=10.,end=16.,commands=[vector],declarations=declarations,completed={20})
+        declarations={}
+    assert classify(state,[row],context,declarations=declarations,phase=phase)[20]=='unaccounted'
+    # Removing the conflicting table does not repair the known failed PID.
+    assert classify(state,[row],context)[20]=='unaccounted'
+    assert row['identity'].get('family') is None
+
+
+def run_cross_family_ingestion(tmp_path,monkeypatch,first,second,*,reuse=True,same_id=False):
+    """Ingest actual source journal events through supervise; native boundaries are fake."""
+    from pathlib import Path
+    import sys
+    import time
+    runtime=identity(); runtime.update(executable=str(Path(sys.executable).resolve()),
+        executable_sha256=a.file_hash(Path(sys.executable).resolve()))
+    monkeypatch.setattr(a,'runtime',lambda:runtime)
+    out=tmp_path/'cross-family'; events=out/'monitor-events.jsonl'
+    root=630001; original_pid=630002; second_pid=original_pid if reuse else 630003
+    vector=c.stage_command(tmp_path,tmp_path/'seal'); turns=[]; saved={}; observed={}; signals=[]
+    def emit(event):
+        with events.open('a') as stream: stream.write(json.dumps(event)+'\n')
+    class Owner:
+        pid=root; returncode=None
+        def poll(self): self.returncode=0; return 0
+        def wait(self,timeout): self.returncode=0; return 0
+    owner=Owner()
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+    monkeypatch.setattr(m.os,'killpg',lambda *args:signals.append(args))
+    monkeypatch.setattr(m.time,'sleep',lambda seconds:None)
+    original_classify=m.classify
+    def classify_and_retain(*args,**kw):
+        observed['declarations']=args[3]
+        observed['python']=kw['python_lifetimes']
+        observed['authority']=kw['authority_phase']['declarations']
+        return original_classify(*args,**kw)
+    monkeypatch.setattr(m,'classify',classify_and_retain)
+    def membership(*args,**kw):
+        now=time.monotonic()
+        return dict(start=now,end=now,rows=[],helper=None,complete=True,error=None,stdout='',stderr='')
+    monkeypatch.setattr(m,'_cleanup_observation',membership)
+    def launch(family,pid,identifier):
+        start=time.monotonic()
+        if family=='reader':
+            argv=c.reader_command(tmp_path,events,start+.2)
+            return dict(event='python_worker_launch',monotonic=start,pid=pid,parent=root,role='reader',argv=argv,
+                executable=argv[0],vector_sha256=c.vector_hash(argv),launch_id=identifier,launch_start=start,
+                provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                expected_image=runtime['process_image'],reaped=False)
+        argv=m.PS_ARGV if family=='observer' else a.git_commands(tmp_path)[0]
+        result=witness(pid,root,argv,'ps' if family=='observer' else 'git')
+        result.pop('completion_end'); result.update(launch_id=identifier,launch_start=start,reaped=False)
+        return dict(result,event=family+'_helper',monotonic=start)
+    def completed(entry,family):
+        now=time.monotonic()
+        event=dict(event='python_worker_end' if family=='reader' else family+'_helper_end',monotonic=now,
+                   pid=entry['pid'],parent=root,launch_id=entry['launch_id'],reaped=True,completion_end=now)
+        if family=='reader': event['returncode']=0
+        return event
+    def live_row(entry,family):
+        start=time.monotonic(); end=time.monotonic(); lookup=time.monotonic()
+        image=runtime['process_image'] if family=='reader' else runtime['helpers']['ps' if family=='observer' else 'git']
+        return dict(pid=entry['pid'],parent=root,rss_bytes=100,sample_start=start,sample_end=end,
+            raw_comm='/observed',raw_args=c.native_display(entry['argv'],runtime) if family=='reader' else c.display(entry['argv']),
+            image=dict(status='ok',**image,lookup_start=lookup,lookup_end=time.monotonic()))
+    def source_rows(live,family):
+        if family=='reader': return [live]
+        # Existing exact-display observer policy requires its live Python parent
+        # in this source sample; keep that ordinary admission prerequisite.
+        parent=dict(live,pid=root,parent=os.getpid(),rss_bytes=0,raw_args=c.native_display(vector,runtime),
+                    image=dict(status='ok',**runtime['process_image'],lookup_start=live['image']['lookup_start'],
+                               lookup_end=live['image']['lookup_end']))
+        return [live,parent]
+    def sample(pid,**kw):
+        turns.append(pid); start=time.monotonic(); end=time.monotonic(); lookup=time.monotonic()
+        root_image=(dict(status='ok',**runtime['process_image']) if len(turns)==1 else
+            dict(status='error',errno=errno.ESRCH,method='macos.proc_pidpath',reason='native_lookup_failed'))
+        root_row=dict(pid=root,parent=os.getpid(),rss_bytes=0,raw_comm='/Python',raw_args=c.native_display(vector,runtime),
+            sample_start=start,sample_end=end,image=dict(root_image,lookup_start=lookup,lookup_end=time.monotonic()))
+        if len(turns)==1:
+            if 'authority' in (first,second):
+                emit(dict(event='authority_start',pid=root,monotonic=time.monotonic()))
+            else:
+                emit(dict(event='baseline',pid=root,rss=0,monotonic=time.monotonic()))
+                emit(dict(event='candidate_start',monotonic=time.monotonic()))
+            old=launch(first,original_pid,'first'); emit(old)
+            live=live_row(old,first)
+            event=dict(event='observer_sample',processes=source_rows(live,first),monotonic=time.monotonic())
+            if first=='reader': event.update(emitter_pid=original_pid,self_pid=original_pid)
+            emit(event)
+            baseline=dict(event='baseline',pid=original_pid,rss=100,boundary='post-import/pre-allocation',monotonic=time.monotonic())
+            sample_start=time.monotonic(); old_end=completed(old,first)
+            replacement=launch(second,second_pid,'first' if same_id else 'second')
+            new_live=live_row(replacement,second)
+            second_baseline=dict(event='baseline',pid=second_pid,rss=100,boundary='post-import/pre-allocation',monotonic=time.monotonic())
+            new_end=completed(replacement,second)
+            sample_end=time.monotonic(); lookup=time.monotonic()
+            terminal_row=dict(pid=original_pid,parent=root,rss_bytes=0,raw_comm='<defunct>',raw_args='<defunct>',
+                sample_start=sample_start,sample_end=sample_end,
+                image=dict(status='error',errno=errno.ESRCH,method='macos.proc_pidpath',reason='native_lookup_failed',lookup_start=lookup,lookup_end=time.monotonic()))
+            # Reader awaits its delayed baseline; helper awaits its truthful delayed end.
+            if first=='reader': emit(old_end)
+            emit(dict(event='observer_sample',processes=[terminal_row],monotonic=time.monotonic()))
+            saved.update(old_end=old_end,replacement=replacement,new_live=new_live,new_end=new_end,
+                         baseline=baseline,second_baseline=second_baseline,terminal=terminal_row)
+        else:
+            assert len(turns)==2,'no extra observation can repair a reused generation'
+            prior=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+            terminal_resolutions=[r for r in prior if r['kind']=='resolution' and r['sample_id']==3]
+            assert terminal_resolutions and terminal_resolutions[-1]['roles'][str(original_pid)].startswith('pending_')
+            if first!='reader': emit(saved['old_end'])
+            emit(saved['replacement'])
+            live_event=dict(event='observer_sample',processes=source_rows(saved['new_live'],second),monotonic=time.monotonic())
+            if second=='reader': live_event.update(emitter_pid=second_pid,self_pid=second_pid)
+            emit(live_event)
+            if second=='reader': emit(saved['second_baseline'])
+            emit(saved['new_end'])
+            if first=='reader': emit(saved['baseline'])
+        return m.ResidentTree({root:0},{root:root_row})
+    monkeypatch.setattr(m,'process_tree',sample)
+    result=m.supervise(vector,out,sampler=sample,authority_root=tmp_path,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=1000)
+    records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+    source=[json.loads(line) for line in events.read_text().splitlines()]
+    (out/'cross-family-outcome.json').write_text(json.dumps(dict(result=result,source=source),indent=2)+'\n')
+    assert saved['terminal']['sample_start']<saved['old_end']['completion_end']<saved['replacement']['launch_start']<saved['terminal']['sample_end']
+    return result,records,observed,source
+
+
+@pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+    result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+    assert result['status']!='COMPLETED'
+    assert result['monitor_failure'] is not None,result
+    assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+    stores=dict(reader=observed['python'].generations,observer=observed['declarations'],authority=observed['authority'])
+    assert 630002 in stores[first] and 630002 not in stores[second]
+    assert 630002 in observed['python'].failed
+    assert result['workers']['630002']['baseline_bytes']==0
+    assert result['workers']['630002']['incremental_peak_bytes']==100
+    pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
+    assert pending[0]['roles']['630002'].startswith('pending_')
+    # Later contradictory source completion can stop final reconciliation;
+    # the retained pending row must never gain favorable attribution anyway.
+    assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
+    assert result['workers']['630002']['role'] not in ('worker','observer_helper','authority_helper')
+    old=next(r for r in records if r['kind']=='sample' and r['sample_id']==3)['processes'][0]
+    direct=m.classify(630001,{630002:old},{630002:100},observed['declarations'],
+        stage_vector=observed['python'].stage_vector,runtime_identity=identity(),python_lifetimes=observed['python'],
+        authority_phase=dict(active=False,declarations=observed['authority'],commands=[]))
+    assert direct[630002]=='unaccounted'
+    assert any(r['event']=='observer_sample' and r['processes'][0]['rss_bytes']==100 for r in source)
+    assert any(r.get('launch_id')=='second' for r in source)
+
+
+@pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader')])
+def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeypatch,first,second):
+    result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
+    assert result['status']=='COMPLETED',result
+    assert not observed['python'].failed
+    assert any(r['kind']=='resolution' and r['sample_id']==3 and r['roles']['630002'] in ('worker','observer_helper') for r in records)
+
+
+def test_shared_launch_id_on_distinct_pids_still_fails_both_generations(tmp_path,monkeypatch):
+    result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,'reader','observer',reuse=False,same_id=True)
+    assert result['status']!='COMPLETED'
+    assert {630002,630003}<=observed['python'].failed
+    assert 630003 not in observed['declarations']

@@ -265,6 +265,8 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
     def terminal_role(pid,entry):
         if not _literal_terminal(entry): return 'unaccounted'
         generation=python_lifetimes.generations.get(pid) if python_lifetimes is not None else None
+        if sum((generation is not None,pid in declarations,pid in phase['declarations']))>1:
+            return 'unaccounted'
         if generation is not None:
             if generation['role']=='reader' and commands.reader_vector(generation['argv'],reader_context)!=generation['argv']: return 'unaccounted'
             outcome=python_lifetimes.terminal(entry)
@@ -599,7 +601,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; authority_worker=0; unresolved_sum=0; unresolved_root=0
     baselines={}; per_worker={}; declarations={}; last_roles={}; failed=set(); native_pids=set(); unresolved_pids=set()
     pending={}; dependencies={}; dirty=set(); pending_roles={}; helper_bounds={}; notified_failures=set(); sequence=0; classified=0
-    candidate_start=None; candidate_ranges=[]; event_offset=0; numeric_event_offset=0; launch_ids={}; latest_owned=None
+    candidate_start=None; candidate_ranges=[]; event_offset=0; numeric_event_offset=0; launch_ids={}; launch_pids={}; latest_owned=None
     source_accounting=dict(complete=True,status='COMPLETE',identity_complete=True,through_bytes=0,samples=0)
     evidence=dict(path=evidence_path.name,accepted_records=0,accepted_samples=0,bytes=0,
                   rejected_observations=0,rejected_rss_bytes=0,rejected_raw_complete=True)
@@ -688,11 +690,14 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         dirty.update(dependencies.get(dependency_key(pid),()))
     def register_launch(entry):
         identifier=entry.get('launch_id'); pid=entry['pid']
-        if not identifier or identifier in launch_ids or pid in failed:
-            failed.add(pid); wake(pid)
-            if identifier in launch_ids: failed.add(launch_ids[identifier]); wake(launch_ids[identifier])
+        if not identifier or identifier in launch_ids or pid in launch_pids or pid in failed:
+            affected={pid}
+            if identifier in launch_ids: affected.add(launch_ids[identifier])
+            for failed_pid in affected: failed.add(failed_pid); wake(failed_pid)
+            for failed_pid in affected:
+                if str(failed_pid) in per_worker: charge(failed_pid)
             raise ValueError('duplicate/reused source launch generation')
-        launch_ids[identifier]=pid
+        launch_ids[identifier]=pid; launch_pids[pid]=identifier
     def publish_python_baseline(pid,*,final=False):
         # A valid generation join may complete after its last sample settled.
         if python_lifetimes is None or not source_accounting['identity_complete'] or pid in failed: return
@@ -701,12 +706,12 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         baselines[pid]=generation['baseline']
         if str(pid) in per_worker: charge(pid,final=final)
     def declaration(target,entry,*,final=False):
+        append(dict(kind='witness',value=entry),final=final)
         register_launch(entry)
         old=target.get(entry['pid'])
         if old is not None and old.get('launch_id')!=entry.get('launch_id'):
             entry=dict(entry,ambiguous=True); old['ambiguous']=True; failed.add(entry['pid'])
             if str(entry['pid']) in per_worker: charge(entry['pid'])
-        append(dict(kind='witness',value=entry),final=final)
         target[entry['pid']]=entry; wake(entry['pid'])
         if entry.get('ambiguous'): raise _MonitorStop('foreign process identity')
     def completion(target,event,*,final=False):
