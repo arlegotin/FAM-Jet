@@ -1,0 +1,692 @@
+...................................................FF.....FFFFFFFFFFFFFF [ 76%]
+FFFFFF.FF.FFFFFFFF.FFF                                                   [100%]
+=================================== FAILURES ===================================
+_ test_qualified_test_only_analysis_exports_no_confirmation_or_nuisance_permission _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4278/test_qualified_test_only_analy0')
+
+    def test_qualified_test_only_analysis_exports_no_confirmation_or_nuisance_permission(tmp_path):
+        from famjet.analysis.statistics import analyze_confirmation
+        r = analyze_confirmation(*qualified_analysis_case(tmp_path)[0])
+        assert r['status'] == 'analyzed_test_only' and not r['errors']
+        assert r['gate']['calibration'] == 'qualified'  # Artificial counts retained as diagnostics.
+        assert r['gate']['endpoint_mc'] == ['met', 'met']
+        assert r['gate']['secondary_p_mc'] == 'adequate'
+        assert r['secondary']['nominal']['secondary']['reject']
+        assert r['methods']['baseline']['fallback_count'] == 2
+>       assert not r['gate']['confirmation_allowed'] and not r['gate']['nuisance_only_allowed']
+E       assert (not True)
+
+tests/test_statistics.py:418: AssertionError
+__ test_scientific_secondary_budget_must_be_frozen_before_score_parsing[None] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4278/test_scientific_secondary_budg0')
+budget = None
+
+    @pytest.mark.parametrize('budget', [None, 0., 1., 'not-a-budget', True])
+    def test_scientific_secondary_budget_must_be_frozen_before_score_parsing(tmp_path, budget):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, _ = qualified_analysis_case(tmp_path, scientific=True, budget=budget)
+        unopened_score_sentinel(paths, manifest)
+        r = analyze_confirmation(*paths)
+        assert r['status'] == 'blocked'
+>       assert r['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:431: AssertionError
+____ test_matching_invalid_calibration_provenance_cannot_qualify[-scope_id] ____
+
+field = 'scope_id', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+__ test_matching_invalid_calibration_provenance_cannot_qualify[-source_hash] ___
+
+field = 'source_hash', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[-selection_stream] _
+
+field = 'selection_stream', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[-validation_stream] _
+
+field = 'validation_stream', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+__ test_matching_invalid_calibration_provenance_cannot_qualify[ \t -scope_id] __
+
+field = 'scope_id', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[ \t -source_hash] _
+
+field = 'source_hash', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[ \t -selection_stream] _
+
+field = 'selection_stream', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[ \t -validation_stream] _
+
+field = 'validation_stream', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+___ test_matching_invalid_calibration_provenance_cannot_qualify[17-scope_id] ___
+
+field = 'scope_id', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[17-source_hash] __
+
+field = 'source_hash', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[17-selection_stream] _
+
+field = 'selection_stream', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[17-validation_stream] _
+
+field = 'validation_stream', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-scope_id] _
+
+field = 'scope_id', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-source_hash] _
+
+field = 'source_hash', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-selection_stream] _
+
+field = 'selection_stream', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-validation_stream] _
+
+field = 'validation_stream', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-scope_id] _
+
+field = 'scope_id', invalid = {}
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-source_hash] _
+
+field = 'source_hash', invalid = {}
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-selection_stream] _
+
+field = 'selection_stream', invalid = {}
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-validation_stream] _
+
+field = 'validation_stream', invalid = {}
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+    def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        p[field] = invalid
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        for record in e['calibration_cells']:
+            if field in ('scope_id', 'source_hash'): record[field] = invalid
+            if field == 'validation_stream': record['rng_stream'] = invalid
+            record['policy_hash'] = canonical_hash(p)
+        r = evaluate_gate(e, p)
+>       assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+E       AssertionError: assert ('qualified' != 'qualified')
+
+tests/test_statistics.py:456: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[-scope_id] __
+
+field = 'scope_id', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[-source_hash] _
+
+field = 'source_hash', invalid = ''
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -scope_id] _
+
+field = 'scope_id', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -source_hash] _
+
+field = 'source_hash', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -authority] _
+
+field = 'authority', invalid = ' \t '
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-scope_id] _
+
+field = 'scope_id', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-source_hash] _
+
+field = 'source_hash', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-authority] _
+
+field = 'authority', invalid = 17
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[invalid3-scope_id] _
+
+field = 'scope_id', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_invalid_nuisance_scope_source_or_authority_cannot_authorize[invalid3-source_hash] _
+
+field = 'source_hash', invalid = []
+
+    @pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+    @pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+    def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        if field in ('scope_id', 'source_hash'): e[field] = invalid
+        p['nuisance_authorization'][field] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:485: AssertionError
+_ test_nuisance_authorization_requires_an_explicit_allocation_mapping[untyped-allocation] _
+
+invalid = 'untyped-allocation'
+
+    @pytest.mark.parametrize('invalid', ['untyped-allocation', 17])
+    def test_nuisance_authorization_requires_an_explicit_allocation_mapping(invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        p['nuisance_authorization']['allocation'] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:493: AssertionError
+___ test_nuisance_authorization_requires_an_explicit_allocation_mapping[17] ____
+
+invalid = 17
+
+    @pytest.mark.parametrize('invalid', ['untyped-allocation', 17])
+    def test_nuisance_authorization_requires_an_explicit_allocation_mapping(invalid):
+        from famjet.analysis.statistics import evaluate_gate
+        e, p = nuisance_case()
+        p['nuisance_authorization']['allocation'] = invalid
+>       assert not evaluate_gate(e, p)['nuisance_only_allowed']
+E       assert not True
+
+tests/test_statistics.py:493: AssertionError
+_ test_positive_weight_regime_without_declared_units_is_rejected_before_score_parsing _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4278/test_positive_weight_regime_wi0')
+
+    def test_positive_weight_regime_without_declared_units_is_rejected_before_score_parsing(tmp_path):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, rows = analysis_case(tmp_path)
+        manifest['scoring_policy']['regime_weights'] = {'r': .5, 'absent': .5}
+        write_case(paths, manifest, rows)
+        unopened_score_sentinel(paths, manifest)
+        r = analyze_confirmation(*paths)
+>       assert r['status'] == 'blocked' and r['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert ('blocked' == 'blocked'
+E         
+E           blocked and 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError)
+
+tests/test_statistics.py:503: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_qualified_test_only_analysis_exports_no_confirmation_or_nuisance_permission
+FAILED tests/test_statistics.py::test_scientific_secondary_budget_must_be_frozen_before_score_parsing[None]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[-scope_id]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[-source_hash]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[-selection_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[-validation_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[ \t -scope_id]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[ \t -source_hash]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[ \t -selection_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[ \t -validation_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[17-scope_id]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[17-source_hash]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[17-selection_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[17-validation_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-scope_id]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-source_hash]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-selection_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid3-validation_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-scope_id]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-source_hash]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-selection_stream]
+FAILED tests/test_statistics.py::test_matching_invalid_calibration_provenance_cannot_qualify[invalid4-validation_stream]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[-scope_id]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[-source_hash]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -scope_id]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -source_hash]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[ \t -authority]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-scope_id]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-source_hash]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[17-authority]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[invalid3-scope_id]
+FAILED tests/test_statistics.py::test_invalid_nuisance_scope_source_or_authority_cannot_authorize[invalid3-source_hash]
+FAILED tests/test_statistics.py::test_nuisance_authorization_requires_an_explicit_allocation_mapping[untyped-allocation]
+FAILED tests/test_statistics.py::test_nuisance_authorization_requires_an_explicit_allocation_mapping[17]
+FAILED tests/test_statistics.py::test_positive_weight_regime_without_declared_units_is_rejected_before_score_parsing
+35 failed, 59 passed in 1.73s

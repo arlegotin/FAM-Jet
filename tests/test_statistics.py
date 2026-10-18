@@ -366,3 +366,139 @@ def test_qualified_label_cannot_override_missing_scope_counts_or_other_gates(fai
     elif failure == 'baseline': e['baseline_status'] = 'not_run'
     r = evaluate_gate(e, p)
     assert not r['confirmation_allowed'] and r['unresolved_reasons']
+
+
+def qualified_analysis_case(tmp_path, *, scientific=False, secondary=True, budget=.1):
+    """Invented fully passing gate evidence; never a scientific dataset/release."""
+    from famjet.provenance import canonical_hash
+    paths, manifest, rows = analysis_case(tmp_path)
+    evidence, policy = artificial_gate_case()
+    policy.update(scope_id=manifest['scope_id'], source_hash=manifest['source_hash'])
+    policy['nuisance_authorization'] = {
+        'scope_id': manifest['scope_id'], 'source_hash': manifest['source_hash'],
+        'authority': 'software-only-invented-authority', 'status': 'authorized',
+        'allocation': {'histories': 2, 'seeds': 2}, 'max_seconds': 1., 'max_bytes': 1024}
+    for record in evidence['calibration_cells']:
+        record.update(scope_id=manifest['scope_id'], source_hash=manifest['source_hash'],
+                      policy_hash=canonical_hash(policy))
+    manifest.update(calibration_policy=policy, calibration_evidence=evidence['calibration_cells'],
+                    p_mc_error_budget=budget, design_evidence={
+                        key: evidence[key] for key in ['implementation', 'resource_status',
+                                                      'baseline_status', 'nuisance_domain_status']})
+    manifest['design_evidence']['implementation_source_hash'] = manifest['source_hash']
+    if not secondary: manifest['comparisons'].pop('secondary')
+    if scientific: manifest.update(test_only=False, namespace='protected_confirmation')
+    write_case(paths, manifest, rows)
+    if scientific:
+        release_path = paths[0].parent / manifest['release_record']
+        release = json.loads(release_path.read_text())
+        release.update(mode='legitimate')
+        release['authorization']['authority'] = 'task21_unblind_v1'
+        release_path.write_text(json.dumps(release))
+    return paths, manifest, rows
+
+
+def unopened_score_sentinel(paths, manifest):
+    paths[1].write_text('invalid unopened score JSON')
+    release_path = paths[0].parent / manifest['release_record']
+    release = json.loads(release_path.read_text())
+    release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+    release_path.write_text(json.dumps(release))
+
+
+def test_qualified_test_only_analysis_exports_no_confirmation_or_nuisance_permission(tmp_path):
+    from famjet.analysis.statistics import analyze_confirmation
+    r = analyze_confirmation(*qualified_analysis_case(tmp_path)[0])
+    assert r['status'] == 'analyzed_test_only' and not r['errors']
+    assert r['gate']['calibration'] == 'qualified'  # Artificial counts retained as diagnostics.
+    assert r['gate']['endpoint_mc'] == ['met', 'met']
+    assert r['gate']['secondary_p_mc'] == 'adequate'
+    assert r['secondary']['nominal']['secondary']['reject']
+    assert r['methods']['baseline']['fallback_count'] == 2
+    assert not r['gate']['confirmation_allowed'] and not r['gate']['nuisance_only_allowed']
+    assert r['gate']['eligibility'] == 'blocked'
+    assert any('test-only' in reason for reason in r['gate']['unresolved_reasons'])
+    assert not r['strong_primary_rejection'] and not any(r['strong_secondary_rejections'].values())
+
+
+@pytest.mark.parametrize('budget', [None, 0., 1., 'not-a-budget', True])
+def test_scientific_secondary_budget_must_be_frozen_before_score_parsing(tmp_path, budget):
+    from famjet.analysis.statistics import analyze_confirmation
+    paths, manifest, _ = qualified_analysis_case(tmp_path, scientific=True, budget=budget)
+    unopened_score_sentinel(paths, manifest)
+    r = analyze_confirmation(*paths)
+    assert r['status'] == 'blocked'
+    assert r['errors'][0]['type'] == 'ValueError'
+    assert 'budget' in r['errors'][0]['message']
+
+
+def test_primary_only_scientific_preflight_allows_null_secondary_budget_without_future_mc(tmp_path):
+    from famjet.analysis.statistics import _contract
+    paths, manifest, _ = qualified_analysis_case(tmp_path, scientific=True, secondary=False, budget=None)
+    unopened_score_sentinel(paths, manifest)
+    _, evidence = _contract(manifest, paths[0], paths[1])
+    assert 'endpoint_mc' not in evidence and 'secondary_p_mc' not in evidence
+
+
+@pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'selection_stream', 'validation_stream'])
+@pytest.mark.parametrize('invalid', ['', ' \t ', 17, [], {}])
+def test_matching_invalid_calibration_provenance_cannot_qualify(field, invalid):
+    from famjet.analysis.statistics import evaluate_gate
+    from famjet.provenance import canonical_hash
+    e, p = artificial_gate_case()
+    p[field] = invalid
+    if field in ('scope_id', 'source_hash'): e[field] = invalid
+    for record in e['calibration_cells']:
+        if field in ('scope_id', 'source_hash'): record[field] = invalid
+        if field == 'validation_stream': record['rng_stream'] = invalid
+        record['policy_hash'] = canonical_hash(p)
+    r = evaluate_gate(e, p)
+    assert r['calibration'] != 'qualified' and not r['confirmation_allowed']
+    assert not r['nuisance_only_allowed'] and r['unresolved_reasons']
+
+
+def nuisance_case():
+    from famjet.analysis.statistics import unfilled_calibration_policy
+    e = {'implementation': 'pass', 'scope_id': 'bounded-software-nuisance', 'source_hash': 'a' * 64}
+    p = unfilled_calibration_policy()
+    p['nuisance_authorization'] = {**e, 'authority': 'software-only-authority', 'status': 'authorized',
+                                   'allocation': {'histories': 2, 'seeds': 2},
+                                   'max_seconds': 1., 'max_bytes': 1024}
+    return e, p
+
+
+def test_explicit_nuisance_permission_does_not_require_unfilled_calibration_streams():
+    from famjet.analysis.statistics import evaluate_gate
+    e, p = nuisance_case()
+    r = evaluate_gate(e, p)
+    assert r['calibration'] == 'not_run' and r['nuisance_only_allowed']
+    assert not r['confirmation_allowed'] and p['selection_stream'] is p['validation_stream'] is None
+
+
+@pytest.mark.parametrize('field', ['scope_id', 'source_hash', 'authority'])
+@pytest.mark.parametrize('invalid', ['', ' \t ', 17, []])
+def test_invalid_nuisance_scope_source_or_authority_cannot_authorize(field, invalid):
+    from famjet.analysis.statistics import evaluate_gate
+    e, p = nuisance_case()
+    if field in ('scope_id', 'source_hash'): e[field] = invalid
+    p['nuisance_authorization'][field] = invalid
+    assert not evaluate_gate(e, p)['nuisance_only_allowed']
+
+
+@pytest.mark.parametrize('invalid', ['untyped-allocation', 17])
+def test_nuisance_authorization_requires_an_explicit_allocation_mapping(invalid):
+    from famjet.analysis.statistics import evaluate_gate
+    e, p = nuisance_case()
+    p['nuisance_authorization']['allocation'] = invalid
+    assert not evaluate_gate(e, p)['nuisance_only_allowed']
+
+
+def test_positive_weight_regime_without_declared_units_is_rejected_before_score_parsing(tmp_path):
+    from famjet.analysis.statistics import analyze_confirmation
+    paths, manifest, rows = analysis_case(tmp_path)
+    manifest['scoring_policy']['regime_weights'] = {'r': .5, 'absent': .5}
+    write_case(paths, manifest, rows)
+    unopened_score_sentinel(paths, manifest)
+    r = analyze_confirmation(*paths)
+    assert r['status'] == 'blocked' and r['errors'][0]['type'] == 'ValueError'
+    assert 'stratum weights' in r['errors'][0]['message']

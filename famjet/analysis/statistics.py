@@ -198,6 +198,10 @@ def unfilled_calibration_policy() -> dict:
         'selection_stream', 'validation_stream', 'nuisance_authorization')})
 
 
+def _nonempty_identifier(value):
+    return type(value) is str and bool(value.strip())
+
+
 def evaluate_gate(evidence: dict, frozen_policy: dict) -> dict:
     """Fail closed; recompute scoped calibration decisions from retained counts.
 
@@ -213,7 +217,9 @@ def evaluate_gate(evidence: dict, frozen_policy: dict) -> dict:
         reasons.append('unfilled calibration policy: ' + ', '.join(missing))
     else:
         p = frozen_policy
-        valid = (p['schema_version'] == 1 and p['scope_id'] == evidence.get('scope_id') and
+        valid = (all(_nonempty_identifier(p[k]) for k in
+                     ('scope_id', 'source_hash', 'selection_stream', 'validation_stream')) and
+                 p['schema_version'] == 1 and p['scope_id'] == evidence.get('scope_id') and
                  p['source_hash'] == evidence.get('source_hash') and
                  type(p['outer_n']) is int and p['outer_n'] > 0 and
                  type(p['outer_error_budget']) in (int, float) and 0 < p['outer_error_budget'] < 1 and
@@ -274,9 +280,11 @@ def evaluate_gate(evidence: dict, frozen_policy: dict) -> dict:
     allowed = not reasons
     auth = frozen_policy.get('nuisance_authorization')
     nuisance = bool(evidence.get('implementation') == 'pass' and isinstance(auth, dict) and
+                    all(_nonempty_identifier(evidence.get(k)) and _nonempty_identifier(auth.get(k))
+                        for k in ('scope_id', 'source_hash')) and
                     auth.get('scope_id') == evidence.get('scope_id') and
-                    auth.get('source_hash') == evidence.get('source_hash') and auth.get('authority') and
-                    auth.get('status') == 'authorized' and auth.get('allocation') and
+                    auth.get('source_hash') == evidence.get('source_hash') and _nonempty_identifier(auth.get('authority')) and
+                    auth.get('status') == 'authorized' and isinstance(auth.get('allocation'), dict) and auth['allocation'] and
                     all(type(auth.get(k)) in (int, float) and math.isfinite(auth[k]) and auth[k] > 0
                         for k in ('max_seconds', 'max_bytes')))
     return {'implementation': evidence.get('implementation', 'not_run'), 'calibration': calibration,
@@ -320,7 +328,7 @@ def _contract(manifest, manifest_path, unblinded):
                 'source_hash', 'statistics_hash', 'scoring_policy', 'methods', 'expected_runs', 'units', 'comparisons',
                 'files', 'release_record', 'calibration_policy', 'calibration_evidence', 'p_mc_error_budget'}
     _require(required <= m.keys(), 'incomplete versioned analysis manifest')
-    _require(m['schema_version'] == 1 and isinstance(m['scope_id'], str) and bool(m['scope_id']), 'invalid analysis schema/scope')
+    _require(m['schema_version'] == 1 and _nonempty_identifier(m['scope_id']), 'invalid analysis schema/scope')
     _require(type(m['test_only']) is bool and m['namespace'] == ('test_only' if m['test_only'] else
              'protected_replication' if m['namespace'] == 'protected_replication' else 'protected_confirmation'),
              'invalid test-only/protected namespace')
@@ -333,9 +341,9 @@ def _contract(manifest, manifest_path, unblinded):
     _require(bool(policy['task_weights']) and set(policy['task_weights']) == set(policy['primary_tasks']) and
              all(math.isclose(w, 1 / len(policy['task_weights']), rel_tol=0, abs_tol=1e-12)
                  for w in policy['task_weights'].values()), 'primary tasks require equal frozen weights')
-    # Validate positivity and normalization using the same explicit weight boundary.
-    _weights(np.array(list(policy['regime_weights'])), policy['regime_weights'])
     inventory = policy['expected_inventory']
+    # Compare the actual declared inventory, not the weight keys to themselves.
+    _weights(np.array([c['regime'] for c in inventory]), policy['regime_weights'])
     histories = {c['history_id'] for c in inventory}
     replicates = {c['replicate'] for c in inventory}
     _require(all(type(s) is int and s >= 0 for s in replicates), 'explicit paired replicate IDs required')
@@ -362,6 +370,7 @@ def _contract(manifest, manifest_path, unblinded):
     for u in units:
         _require(all(c['regime'] == u['stratum'] for c in inventory if c['history_id'] in u['history_ids']),
                  'cluster/history stratum mismatch')
+    _weights(np.array([u['stratum'] for u in units]), policy['regime_weights'])
     comparisons = m['comparisons']
     _require(sum(c['role'] == 'primary' for c in comparisons.values()) == 1, 'exactly one frozen primary comparison required')
     _require(set(methods) == {v for c in comparisons.values() for v in c['pair']}, 'undeclared or unused comparison method')
@@ -369,8 +378,11 @@ def _contract(manifest, manifest_path, unblinded):
         _require(len(c['pair']) == 2 and c['pair'][0] != c['pair'][1] and
                  c['role'] in ('primary', 'secondary', 'exploratory') and
                  type(c['seed']) is int and 0 <= c['seed'] < 2**63, 'invalid frozen comparison/pair/seed')
+    secondary_count = sum(c['role'] == 'secondary' for c in comparisons.values())
+    _require(m['test_only'] or not secondary_count or m['p_mc_error_budget'] is not None,
+             'scientific secondary family requires a frozen p-MC error budget')
     if m['p_mc_error_budget'] is not None:
-        _p_bounds(0, 2000, m['p_mc_error_budget'], max(1, sum(c['role'] == 'secondary' for c in comparisons.values())))
+        _p_bounds(0, 2000, m['p_mc_error_budget'], max(1, secondary_count))
     _require({f['role'] for f in m['files']} == {'source', 'dependencies', 'data', 'config', 'weights', 'statistics'},
              'missing source/dependency/data/config/weight/statistics commitments')
     for record in m['files']:
@@ -471,6 +483,9 @@ def analyze_confirmation(manifest: Path, unblinded: Path, out: Path) -> dict:
         evidence.update(endpoint_mc=[r['endpoint_mc'] for r in report['comparisons'].values() if r['role'] != 'exploratory'],
                         secondary_p_mc=guard['status'])
         report['gate'] = evaluate_gate(evidence, m['calibration_policy'])
+        if m['test_only']:
+            report['gate'].update(confirmation_allowed=False, nuisance_only_allowed=False, eligibility='blocked')
+            report['gate']['unresolved_reasons'].append('test-only scope cannot authorize confirmation or nuisance execution')
         allowed = report['gate']['confirmation_allowed'] and not m['test_only']
         primary = next(r for r in report['comparisons'].values() if r['role'] == 'primary')
         report['nominal_primary_null_excluded'] = primary['interval'][0] > 0 or primary['interval'][1] < 0
