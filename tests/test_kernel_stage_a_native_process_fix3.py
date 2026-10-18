@@ -36,7 +36,10 @@ def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,mo
             a.event(path,'baseline',pid=pid,rss=500)
             (out/'finish').touch()
         return m.ResidentTree({},{})
-    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
+    # Failure recovery must reach the post-end sample, past the preceding empty
+    # batch: a cap below the retained500 would mask stale-phase attribution.
+    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,
+                       incremental_bytes=1000 if copy_failure else 100)
     assert result['authority_full_rss_peak_bytes']==prior_authority_rss
     assert result['absolute_process_tree_peak_bytes']==500
     assert result['observed_pid_peak_sum_bytes']==500
@@ -44,8 +47,15 @@ def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,mo
     if copy_failure:
         assert result['status']=='STOPPED' and result['reason']=='output cap'
         assert result['source_event_accounting']['identity_complete'] is False
-        assert result['incremental_worker_peak_bytes']>=500
-        assert next(iter(result['workers'].values()))['baseline_bytes']==0
+        assert result['incremental_worker_peak_bytes']==500
+        worker=next(iter(result['workers'].values()))
+        assert worker['baseline_bytes']==0 and worker['incremental_peak_bytes']==500
+        assert worker.get('authority_phase_peak_bytes',0)==prior_authority_rss
+        assert worker['role']=='unaccounted' and result['unresolved_worker_count']==1
+        records=rows(out)
+        post_end=next(row for row in records if row['kind']=='sample' and list(row['rss'].values())==[500])
+        resolution=next(row for row in records if row['kind']=='resolution' and row['sample_id']==post_end['sample_id'])
+        assert list(resolution['roles'].values())==['unaccounted']
     else:
         assert result['status']=='COMPLETED' and result['reason'] is None
         assert result['incremental_worker_peak_bytes']==prior_authority_rss

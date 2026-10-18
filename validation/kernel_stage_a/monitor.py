@@ -446,8 +446,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             sample_phase=dict(phase,active=phase['started'] and after>=phase.get('start',float('inf')) and before<=phase.get('end',float('inf')))
             live={pid for pid in entries if phase['ends'].get(pid,float('-inf'))<before}
             context=reader_context(before,after)
-            resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
-                              stage_vector=command,reader_context=context,runtime_identity=native_runtime)
+            if source_accounting['identity_complete']:
+                resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
+                                  stage_vector=command,reader_context=context,runtime_identity=native_runtime)
+            else:
+                # A skipped boundary can leave phase active after its actual end.
+                # Failed provenance cannot authorize new attribution or proof.
+                resolved={pid:'unaccounted' for pid in entries}
             classified+=len(entries)
             # Identity history is immutable evidence, never a per-PID proof cache.
             for pid,role in resolved.items():
