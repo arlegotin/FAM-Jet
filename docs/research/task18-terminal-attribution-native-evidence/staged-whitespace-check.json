@@ -1,0 +1,23 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "exit": 2,
+  "findings": [
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/monitor.json:2: trailing whitespace.",
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/monitor.json:2: new blank line at EOF.",
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/monitor.json:2: trailing whitespace.",
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/monitor.json:2: new blank line at EOF."
+  ],
+  "explanation": "Only preserved native monitor.json padding; intentionally retained byte-exact, not corrected. Full raw output in staged-whitespace-check.log.",
+  "bookkeeping_failure": {
+    "command": ".venv/bin/python -B - [artifact metadata helper]",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 7, in <module>\nAssertionError\n",
+    "cause": "Metadata helper incorrectly expected 3 findings; actual 4: trailing whitespace and final blank line for each of two padded native monitor reports.",
+    "effect": "Metadata/report completion halted; next batched stage/commit proceeded. Evidence-only follow-up records failure, completes metadata and manifest. No native or source change."
+  }
+}
