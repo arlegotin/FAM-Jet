@@ -1,0 +1,57 @@
+{
+  "cached_returncode_before_signal": null,
+  "completed": 549902.811980875,
+  "images": [
+    {
+      "errno": 3,
+      "lookup_end": 549902.809066333,
+      "lookup_start": 549902.808931541,
+      "method": "macos.proc_pidpath",
+      "reason": "native_lookup_failed",
+      "status": "error"
+    }
+  ],
+  "launch": 549902.790694583,
+  "name": "natural_exit_unreaped",
+  "operations": [
+    {
+      "end": 549902.81180325,
+      "errno": 3,
+      "message": "[Errno 3] No such process",
+      "name": "getpgid_owned_exited_unreaped",
+      "start": 549902.809074041,
+      "status": "error",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-exit-control02/control.py\", line 13, in attempt\n    value=fn();row['operations'].append(dict(name=name,status='ok',value=value,start=t,end=time.monotonic()));return value\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-exit-control02/control.py\", line 39, in <lambda>\n    attempt(row,'getpgid_owned_exited_unreaped',lambda:os.getpgid(p.pid))\n                                                       ~~~~~~~~~~^^^^^^^\nProcessLookupError: [Errno 3] No such process\n",
+      "type": "ProcessLookupError"
+    },
+    {
+      "end": 549902.811963375,
+      "errno": 1,
+      "message": "[Errno 1] Operation not permitted",
+      "name": "killpg_owned_unreaped",
+      "start": 549902.811805041,
+      "status": "error",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-exit-control02/control.py\", line 13, in attempt\n    value=fn();row['operations'].append(dict(name=name,status='ok',value=value,start=t,end=time.monotonic()));return value\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-exit-control02/control.py\", line 41, in <lambda>\n    attempt(row,'killpg_owned_unreaped',lambda:os.killpg(p.pid,signal.SIGKILL))\n                                               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 1] Operation not permitted\n",
+      "type": "PermissionError"
+    },
+    {
+      "end": 549902.811980458,
+      "name": "wait_owned",
+      "status": "ok",
+      "value": 0
+    }
+  ],
+  "parent": 33849,
+  "parent_pgid": 33849,
+  "pid": 33851,
+  "returncode": 0,
+  "stderr": "",
+  "stdout_remaining": "",
+  "vector": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "-c",
+    "pass"
+  ]
+}

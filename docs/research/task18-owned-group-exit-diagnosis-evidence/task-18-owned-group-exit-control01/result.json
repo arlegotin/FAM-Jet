@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "completed": 549872.51450125,
+      "images": [],
+      "launch": 549872.493572875,
+      "name": "live",
+      "operations": [
+        {
+          "end": 549872.51450025,
+          "name": "wait_owned",
+          "status": "ok",
+          "value": 1
+        }
+      ],
+      "parent": 33619,
+      "parent_pgid": 33619,
+      "pid": 33620,
+      "returncode": 1,
+      "stderr": "  File \"<string>\", line 1\n    import sys;sys.stdout.buffer.write(b\"READY\n                                       ^\nSyntaxError: unterminated string literal (detected at line 1)\n",
+      "stdout_remaining": "",
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "-c",
+        "import sys;sys.stdout.buffer.write(b\"READY\n\");sys.stdout.buffer.flush();sys.stdin.buffer.read(1)"
+      ]
+    }
+  ],
+  "deadline": 549882.491994583,
+  "end": 549872.51848825,
+  "error": {
+    "message": "",
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-exit-control01/control.py\", line 25, in <module>\n    ready=select.select([p.stdout],[],[],min(2,deadline-time.monotonic()))[0];assert ready and p.stdout.readline()==b'READY\\n'\n                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "type": "AssertionError"
+  },
+  "numerical_work": 0,
+  "scope": "NEW nonnumerical owned-group exit syscall diagnosis only",
+  "seconds": 0.026493749930523336,
+  "start": 549872.491994583,
+  "status": "CONTROL_FAILED_NO_RETRY"
+}

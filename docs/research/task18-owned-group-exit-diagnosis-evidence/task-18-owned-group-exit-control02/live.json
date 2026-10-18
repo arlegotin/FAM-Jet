@@ -1,0 +1,43 @@
+{
+  "cached_returncode_before_signal": null,
+  "completed": 549902.788989291,
+  "images": [],
+  "launch": 549902.771192208,
+  "name": "live",
+  "operations": [
+    {
+      "end": 549902.787652666,
+      "name": "getpgid_owned_live",
+      "start": 549902.7876445,
+      "status": "ok",
+      "value": 33850
+    },
+    {
+      "end": 549902.787674583,
+      "name": "killpg_owned_unreaped",
+      "start": 549902.787661375,
+      "status": "ok",
+      "value": null
+    },
+    {
+      "end": 549902.788988666,
+      "name": "wait_owned",
+      "status": "ok",
+      "value": -9
+    }
+  ],
+  "parent": 33849,
+  "parent_pgid": 33849,
+  "pid": 33850,
+  "ready": true,
+  "returncode": -9,
+  "stderr": "",
+  "stdout_remaining": "",
+  "vector": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "-c",
+    "import sys;sys.stdout.buffer.write(bytes([82,69,65,68,89,10]));sys.stdout.buffer.flush();sys.stdin.buffer.read(1)"
+  ]
+}

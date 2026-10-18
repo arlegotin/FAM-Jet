@@ -1,0 +1,29 @@
+{
+  "time_utc": "2026-10-18T09:05:13.054194+00:00",
+  "source": "451a196054fc69377b8f0747e8f76319527ea29e",
+  "control01": {
+    "result": "FAILED_LITERAL_CHILD_SYNTAX_BEFORE_SIGNAL",
+    "seconds": 0.026493749930523336,
+    "harness_exit": 0,
+    "child_exit": 1,
+    "fully_reaped": true
+  },
+  "control02": {
+    "result": "COMPLETED_SYSCALL_COMPARISON",
+    "seconds": 0.04223991697654128,
+    "harness_exit": 0,
+    "live_killpg": "success",
+    "live_child_exit": -9,
+    "naturally_exited_unreaped_image_errno": 3,
+    "getpgid_errno": 3,
+    "killpg_errno": 1,
+    "natural_child_exit": 0,
+    "fully_reaped": true
+  },
+  "numerical_work": 0,
+  "scientific_retry": false,
+  "original_setup_status": "STOPPED",
+  "original_error_syscall_trace_available": false,
+  "interpretation": "new native control reproduces EPERM when signaling an exited owned group; source and original timeline support cleanup masking an earlier pending-lifetime cap stop",
+  "next": "source lifecycle ordering/cleanup design; no blanket EPERM waiver"
+}
