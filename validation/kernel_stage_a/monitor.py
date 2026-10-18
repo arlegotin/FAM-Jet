@@ -173,14 +173,18 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0
         for pid_text,item in per_worker.items():
             pid=int(pid_text); role=final_roles.get(pid,'pending_baseline'); item['role']=role
+            # A sampled exact live admission is retained as a resource charge,
+            # even if termination prevents its helper-end event. This does not
+            # extend that helper's identity exception beyond its lifetime.
+            charge_role='authority_helper' if item.get('sampled_authority_helper') else role
             absolute=item['absolute_peak_bytes']
-            if role=='worker':
+            if charge_role=='worker':
                 item['baseline_bytes']=baselines[pid]
                 item['incremental_peak_bytes']=max(0,absolute-baselines[pid])
                 worker_peak=max(worker_peak,item['incremental_peak_bytes'])
-            elif role in ('observer_helper','authority_helper'):
+            elif charge_role in ('observer_helper','authority_helper'):
                 item['baseline_bytes']=0; item['incremental_peak_bytes']=absolute
-                if role=='authority_helper': git_peak=max(git_peak,absolute)
+                if charge_role=='authority_helper': git_peak=max(git_peak,absolute)
                 elif identities[pid]['parent']==os.getpid(): outer_observer=max(outer_observer,absolute)
                 else: inner_observer=max(inner_observer,absolute)
             else: item['baseline_bytes']=None
@@ -220,6 +224,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                 sampled_phase=dict(phase,active=phase['started'] and after>=phase.get('start',float('inf')) and before<=phase.get('end',float('inf')))
                 roles=classify(process.pid,identities,baselines,declarations,authority_phase=sampled_phase,current_pids=live,
                                stage_vector=command,reader_context=reader_context(before,after))
+                for pid in readings:
+                    if roles.get(pid)=='authority_helper': per_worker[str(pid)]['sampled_authority_helper']=True
                 reconcile()
                 if any(roles.get(pid)=='unaccounted' for pid in readings): reason='foreign process identity'; break
                 if incremental_peak>incremental_bytes: reason='incremental worker memory cap'; break
