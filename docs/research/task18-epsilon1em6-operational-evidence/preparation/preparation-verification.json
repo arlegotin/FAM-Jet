@@ -1,0 +1,96 @@
+{
+  "all_helper_archives_byte_equal": true,
+  "all_sources_and_dependencies_hash_match": true,
+  "base_configs_equal_accepted_initial_configs": true,
+  "delta_sha256": "6c0b55d50edd9420e9c376ec7629a3bdf9c650265ffa7250ca0e5c55004f59a9",
+  "dependencies": 78,
+  "files": [
+    {
+      "bytes": 2450,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/bank-base.yaml",
+      "sha256": "77414254e3ac838567f828cdc290c42a0aac5e4d6873ae2479a7c611704983db"
+    },
+    {
+      "bytes": 48816,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/helper-delta.patch",
+      "sha256": "6c0b55d50edd9420e9c376ec7629a3bdf9c650265ffa7250ca0e5c55004f59a9"
+    },
+    {
+      "bytes": 2449,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/jet-base.yaml",
+      "sha256": "9e36d3a5c70f9945ec55aeb21e097ad525dff2d14e3907e7adac129c040eee9f"
+    },
+    {
+      "bytes": 72798,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/preparation-seal.json",
+      "sha256": "53fc2cc2e2af15ad915abd4a0f5db90035760e898d5eae81d66a322e6abe93c1"
+    },
+    {
+      "bytes": 725,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_checked_sequence.py",
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d"
+    },
+    {
+      "bytes": 5298,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_cold.py",
+      "sha256": "ad1ffa4bf6dd9891ce1413c1d874f306d977770122915cab63e226e1402f7242"
+    },
+    {
+      "bytes": 452,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_config.py",
+      "sha256": "ce87cd4a7ae109427706783e23cef892a7e7930bc0b5c46b1335aed65bc1e1f9"
+    },
+    {
+      "bytes": 4734,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_driver.py",
+      "sha256": "c0f65913b12ac69eab7431491b4cbd4fdc5959d400229b0c43ee1a18f250b360"
+    },
+    {
+      "bytes": 10343,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_fitted.py",
+      "sha256": "da43862b4fa86762086122f4eb51a9c69e83f93167b48f075221d7d41a1de87d"
+    },
+    {
+      "bytes": 2788,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_fitted_driver.py",
+      "sha256": "04729641e622c6fa91e7bc96006a3283a04492e2f7a0ccf6d63da975d4a0f72d"
+    },
+    {
+      "bytes": 7005,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_gate.py",
+      "sha256": "b845a47caa7718eb85763932fe090365f3abfa53ee0ad07eaae30c5eaa35f861"
+    },
+    {
+      "bytes": 5441,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_prepare.py",
+      "sha256": "e2ab5444a440b876b52ee979072e77da9aaead964ab5d208d59524984e7acdb2"
+    },
+    {
+      "bytes": 4116,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_epsilon_full_raw_prepare.py",
+      "sha256": "cd5d670c12ea790bfd3a7f24806ff93f5c332428466266131a536c19bb6d2bde"
+    },
+    {
+      "bytes": 15571,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_fixed_basis_numeric.py",
+      "sha256": "d17130ff088cfed8f99f3d56073c27338bcb624038ef46e7a36f00cea653d5a1"
+    },
+    {
+      "bytes": 13809,
+      "path": "artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479/task18_structured_epsilon_numeric.py",
+      "sha256": "59a8d27f219fea153ceaef69403c589923f2328afb6e932ff737276aa80e0146"
+    }
+  ],
+  "helpers": 11,
+  "output_absent": true,
+  "package_files": 51,
+  "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "prior_raw_metadata_manifests": 7,
+  "report": ".superpowers/sdd/2026-10-16-famjet/task-18-epsilon-fullprep-preparation.md",
+  "report_sha256": "7906b4090a82cd98afb2e0f3df9e8bb4ea8f6563164ac010ecb8477a3fb153af",
+  "seal_sha256": "53fc2cc2e2af15ad915abd4a0f5db90035760e898d5eae81d66a322e6abe93c1",
+  "source_commit": "c71547932e2875468752db09e6f0a1e02c3e5650",
+  "static_AST_parse_only_no_imports_tests_or_execution": true,
+  "status": "PREPARED_ONLY_STATIC_VERIFIED_NOT_EXECUTED",
+  "tracked_tree_clean": true
+}

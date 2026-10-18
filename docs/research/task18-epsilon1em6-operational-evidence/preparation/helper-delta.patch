@@ -1,0 +1,354 @@
+--- docs/research/task18-procedures/task18_structured_cold.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_cold.py
+@@ -1,7 +1,9 @@
+ from pathlib import Path
+ import argparse,json,time,hashlib,resource,platform,torch,subprocess
+ from datetime import datetime,timezone
+-from task18_structured_fixed_numeric import EXPECTED,PACKAGE
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,fitted_case_ok
++SEAL=preflight()
++from task18_epsilon_full_config import EXPECTED,PACKAGE
+ from famjet.config import load_config
+ from famjet.analysis.development import run_development
+ from famjet.train import _source
+@@ -11,8 +13,10 @@
+ from famjet.eval.splits import _write_immutable
+ from famjet.provenance import canonical_hash
+ P=argparse.ArgumentParser();P.add_argument('family',choices=['jet','bank']);args=P.parse_args();family=args.family
+-configpath=Path(f'artifacts/task18/structured-fixed-preparation-{family}/calibration.yaml');c=load_config(configpath);out=Path(f'artifacts/task18/calibration-{family}-structured-fixed');telemetry=Path(f'artifacts/task18/telemetry-{family}-structured-fixed');telemetry.mkdir(exist_ok=False)
++prepared_ok(family)
++configpath=Path(f'artifacts/task18/epsilon1em6-operational-c715479/prepare-{family}/calibration.yaml');c=load_config(configpath);out=ROOT/f'cold-{family}';telemetry=ROOT/f'telemetry-{family}';telemetry.mkdir(exist_ok=False)
+ factor=1 if platform.system()=='Darwin' else 1024;base=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor;started=time.perf_counter();source=_source();step=0;utc_start=datetime.now(timezone.utc)
++assert not out.exists()
+ assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files']
+ _write_immutable(telemetry/'procedure.json',{'utc_start':utc_start.isoformat(),'power_start':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout,'power_override':False,'source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'config':str(configpath),'config_sha256':hashlib.sha256(configpath.read_bytes()).hexdigest(),'scope':'cold actual raw+feature scan+768fit+96dev+2updates/checkpoints; configured32768, not quality','precision':'CPU float64 parameters/buffers/gradients/moments; actual AdamW step scalar float32','net_limit_bytes':201326592,'peak_boundary':'process cumulative highwater; not isolated stage live allocations','instrumentation':'external fit wrapper and optimizer pre/post hooks; no candidate arithmetic/optimizer mutation'})
+ def peak():return {'rss_highwater_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor,'additional_since_external_start':max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor-base)}
+@@ -44,4 +48,5 @@
+ except BaseException as exc:
+  note('profile_failed',error_type=type(exc).__name__,message=str(exc));raise
+ finally:
+- atomic_json(telemetry/'cost.json',{'full_external_seconds':time.perf_counter()-started,**peak(),'source':source,'utc_start':utc_start.isoformat(),'utc_end':datetime.now(timezone.utc).isoformat(),'utc_seconds':(datetime.now(timezone.utc)-utc_start).total_seconds(),'power_end':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout})
++ power_end=subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout;end=datetime.now(timezone.utc);elapsed=time.perf_counter()-started
++ atomic_json(telemetry/'cost.json',{'full_external_seconds':elapsed,**peak(),'source':source,'utc_start':utc_start.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc_start).total_seconds(),'power_end':power_end})
+--- /dev/null
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_config.py
+@@ -0,0 +1,7 @@
++"""Current source/config binding; reviewed independent math reused unchanged."""
++from pathlib import Path
++from famjet.config import load_config
++from task18_epsilon_full_gate import EXPECTED,PACKAGE,sha
++from task18_structured_epsilon_numeric import metric,static_inventory,reference_structured,ORIGIN,ORIGIN_PACKAGE
++
++def config(family):return load_config(Path('artifacts/task18-evidence/epsilon1em6-fullprep-preparation-c715479')/(family+'-base.yaml'))
+--- docs/research/task18-procedures/task18_structured_operational_driver.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_driver.py
+@@ -1,19 +1,43 @@
++"""One sealed operational chain; execution requires root allocation, no retries."""
+ from pathlib import Path
+ from datetime import datetime,timezone
+-import subprocess,json,hashlib,time,os
+-from task18_structured_fixed_numeric import EXPECTED,PACKAGE
+-from famjet.train import _source
+-from famjet.artifacts import atomic_json
+-from famjet.eval.splits import _write_immutable
+-root=Path('artifacts/task18');out=root/'structured-fixed-operational';out.mkdir(exist_ok=False);source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files'];raw=json.loads((root/'structured-fixed-raw-preparation/summary.json').read_text());assert raw['status']=='complete_shared_strict_raw' and raw['all_prior_comparisons']
+-start=time.perf_counter();utc=datetime.now(timezone.utc);helpers=['task18_structured_prepare.py','task18_structured_cold.py','task18_structured_fitted_driver.py','task18_structured_fitted.py'];procedure={'source':source,'scope':'rootapproved sequential Jet Bank preparer768fit+6144features then cold768/96/stop2 and all12fitted0/2; no scientific learning','helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'helpers':{h:hashlib.sha256((Path('/tmp')/h).read_bytes()).hexdigest() for h in helpers},'raw_summary_sha256':hashlib.sha256((root/'structured-fixed-raw-preparation/summary.json').read_bytes()).hexdigest(),'net_limit':201326592,'utc_start':utc.isoformat(),'power_override':False};_write_immutable(out/'procedure.json',procedure);rows=[]
++import argparse,json,os,subprocess,sys,time,shutil
++from task18_checked_sequence import run_sequence
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,sha
++
++def write_new(path,record):
++ with Path(path).open('x') as f:json.dump(record,f,sort_keys=True,allow_nan=False);f.write('\n')
++def power():
++ r=subprocess.run(['/usr/bin/pmset','-g','batt'],capture_output=True,text=True)
++ return {'returncode':r.returncode,'stdout':r.stdout,'stderr':r.stderr,'scope':'read-only; no wake/power override'}
++p=argparse.ArgumentParser();p.add_argument('--seal',required=True);p.add_argument('--seal-sha',required=True);a=p.parse_args()
++os.environ['TASK18_FULL_SEAL']=a.seal;os.environ['TASK18_FULL_SEAL_SHA']=a.seal_sha;s=preflight();assert not ROOT.exists();out=ROOT/'driver';out.mkdir(parents=True,exist_ok=False);start=time.perf_counter();utc=datetime.now(timezone.utc);rows=[]
++steps=[('shared','raw','raw_prepare',ROOT/'raw-preparation/summary.json','complete_shared_strict_raw')]+[(f,phase,helper,ROOT/path/statusfile,status) for f in ('jet','bank') for phase,helper,path,statusfile,status in [('prepare','prepare',f'prepare-{f}','summary.json','prepared_fit_and_features_only'),('cold','cold',f'cold-{f}','development.json','completed'),('fitted','fitted_driver',f'fitted-{f}','summary.json','all24_fitted_checkpoint_cells_passed')]]
++write_new(out/'allocation.json',{'source_commit':s['source_commit'],'package_hash':s['package_hash'],'seal_sha256':a.seal_sha,'helper_sha256':sha(__file__),'stage_order':[[f,p] for f,p,*_ in steps],'utc_start':utc.isoformat(),'power_start':power(),'scope':'shared strictRAW6144 thenJetBank each768preparerfit/features+cold768fit96devSTOP2+all12fitted0/2; no scientifictraining','forecast_seconds':[1080,1210],'net_limit':201326592,'minimum_free_bytes':4294967296,'new_stage_reserve_bytes':2500000000,'no_retry':True})
++def verify(family,phase):
++ if phase=='raw':return raw_ok()
++ if phase=='prepare':return prepared_ok(family)
++ if phase=='cold':return cold_ok(family)
++ return fitted_ok(family)
+ try:
+- for family in ('jet','bank'):
+-  for phase,helper in [('prepare',helpers[0]),('cold',helpers[1]),('fitted',helpers[2])]:
+-   power_start=subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout;t=time.perf_counter();u=datetime.now(timezone.utc);atomic_json(out/'current.json',{'family':family,'phase':phase,'utc_start':u.isoformat(),'completed':rows});log=out/f'{family}-{phase}.txt'
+-   with log.open('w') as f:r=subprocess.run(['.venv/bin/python',str(Path('/tmp')/helper),family],stdout=f,stderr=subprocess.STDOUT,env={**os.environ,'PYTHONPATH':'.:/tmp'})
+-   end=datetime.now(timezone.utc);row={'family':family,'phase':phase,'exit_code':r.returncode,'perf_seconds':time.perf_counter()-t,'utc_start':u.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-u).total_seconds(),'log':str(log),'power_start':power_start,'power_end':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout};rows.append(row);atomic_json(out/'progress.json',{'completed':rows});print(json.dumps(row),flush=True)
+-   if r.returncode:raise RuntimeError(f'{family} {phase} failed; subsequent families held')
+- end=datetime.now(timezone.utc);atomic_json(out/'summary.json',{'status':'both_operational_profiles_and_fitted_checks_complete','source':source,'stages':rows,'perf_seconds':time.perf_counter()-start,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'scientific_learning':'not authorized'})
++ for family,phase,helper,summary,status in steps:
++  preflight();assert shutil.disk_usage(ROOT).free>=4294967296
++  if family=='bank':fitted_ok('jet')
++  if phase=='prepare':
++   raw_ok();assert not (ROOT/f'features-{family}').exists()
++  if phase=='cold':prepared_ok(family)
++  if phase=='fitted':cold_ok(family)
++  assert not summary.parent.exists(),str(summary.parent)
++  if phase=='cold':assert not (ROOT/f'telemetry-{family}').exists()
++  cmd=[sys.executable,str(Path(__file__).with_name(f'task18_epsilon_full_{helper}.py'))]+([] if family=='shared' else [family])
++  tick=time.perf_counter();u=datetime.now(timezone.utc);power_start=power();attempt={'family':family,'phase':phase,'command':cmd,'utc_start':u.isoformat(),'completed':len(rows)};write_new(out/f'{len(rows):02d}-{family}-{phase}-attempt.json',attempt)
++  def execute(command):
++   with (out/f'{family}-{phase}.txt').open('x') as log:r=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,env={**os.environ,'PYTHONPATH':'.:'+str(Path(__file__).parent)})
++   if r.returncode==0:verify(family,phase)
++   return r.returncode
++  run_sequence([{'command':cmd,'summary':str(summary),'expected_status':status}],execute)
++  verify(family,phase);power_end=power();end=datetime.now(timezone.utc);elapsed=time.perf_counter()-tick
++  row={'family':family,'phase':phase,'status':status,'summary':str(summary),'summary_sha256':sha(summary),'perf_seconds':elapsed,'utc_start':u.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-u).total_seconds(),'power_start':power_start,'power_end':power_end};rows.append(row);write_new(out/f'completed-{len(rows):02d}.json',row);print(json.dumps(row),flush=True)
++ preflight();end=datetime.now(timezone.utc);elapsed=time.perf_counter()-start;write_new(out/'summary.json',{'status':'both_operational_profiles_and_fitted_checks_complete','source_commit':s['source_commit'],'package_hash':s['package_hash'],'seal_sha256':a.seal_sha,'stages':rows,'perf_seconds':elapsed,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'scientific_learning':'NOT AUTHORIZED'})
+ except BaseException as exc:
+- atomic_json(out/'failure.json',{'source':source,'error':str(exc),'completed':rows,'perf_seconds':time.perf_counter()-start});raise
++ end=datetime.now(timezone.utc);elapsed=time.perf_counter()-start;write_new(out/'failure.json',{'status':'interrupted' if isinstance(exc,KeyboardInterrupt) else 'failed','type':type(exc).__name__,'error':str(exc),'source_commit':s['source_commit'],'seal_sha256':a.seal_sha,'completed':rows,'perf_seconds':elapsed,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds()});raise
+--- docs/research/task18-procedures/task18_structured_fitted.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_fitted.py
+@@ -2,12 +2,14 @@
+ from pathlib import Path
+ from datetime import datetime,timezone
+ from dataclasses import replace
+-import argparse,copy,hashlib,json,platform,resource,time
++import argparse,copy,hashlib,json,platform,resource,time,sys
+ import numpy as np
+ from numpy.polynomial.legendre import leggauss,legvander
+ from scipy.linalg import expm
+ import torch
+-from task18_structured_fixed_numeric import config,metric,EXPECTED,PACKAGE,ORIGIN,ORIGIN_PACKAGE,reference_structured,sha
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,fitted_case_ok
++SEAL=preflight()
++from task18_epsilon_full_config import config,metric,EXPECTED,PACKAGE,ORIGIN,ORIGIN_PACKAGE,reference_structured,sha
+ from famjet.train import make_model,move_episode,_source,history_loss,check_smoke_memory,identities,_reconstruct
+ from famjet.checkpoint import load_checkpoint
+ from famjet.config import load_config
+@@ -22,13 +24,15 @@
+ from famjet.types import FeatureBatch
+ from famjet.readers.structured import query_inputs
+ p=argparse.ArgumentParser();p.add_argument('family',choices=['jet','bank']);p.add_argument('ordinal',type=int);p.add_argument('out');p.add_argument('--step',type=int,choices=[0,2],required=True);args=p.parse_args();assert 0<=args.ordinal<12
++cold_ok(args.family)
+ source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files'];torch.set_num_threads(4)
+ root=Path(f'artifacts/task18/fixed-basis-initial/{args.family}-{args.ordinal:02d}');old=json.loads((root/'summary.json').read_text());assert old['source']['commit']==ORIGIN and old['source']['package_hash']==ORIGIN_PACKAGE
+-newroot=Path(f'artifacts/task18/structured-fixed-initial/{args.family}-{args.ordinal:02d}');newsummary=json.loads((newroot/'summary.json').read_text());assert newsummary['source']==source and newsummary['status']=='passed' and newsummary['origin_summary_sha256']==sha(root/'summary.json')
++newroot=Path(f'artifacts/task18/epsilon1em6-initial-9aca1b/{args.family}-{args.ordinal:02d}');newsummary=json.loads((newroot/'summary.json').read_text());assert newsummary['source']['commit']=='9aca1b8514aea36d6da060fbd2db01c5a6b33bf7' and newsummary['source']['package_hash']==PACKAGE and newsummary['status']=='passed' and newsummary['origin_summary_sha256']==sha(root/'summary.json')
+ assert sha(newroot/'new-structured-capture.pt')==newsummary['capture_sha256'];newcapture=torch.load(newroot/'new-structured-capture.pt',weights_only=True)
+ out=Path(args.out);out.mkdir(parents=True,exist_ok=False);start=time.perf_counter();utc=datetime.now(timezone.utc);factor=1 if platform.system()=='Darwin' else 1024;base=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor
+-configpath=Path(f'artifacts/task18/structured-fixed-preparation-{args.family}/calibration.yaml');c=load_config(configpath);identity,_=identities(c,resolve_policy(c));checkpoint=Path(f'artifacts/task18/calibration-{args.family}-structured-fixed/training/checkpoint.pt'+('.previous' if args.step==0 else ''));ck=load_checkpoint(checkpoint,{**identity,'source':source});assert ck['completed_step']==args.step
++configpath=Path(f'artifacts/task18/epsilon1em6-operational-c715479/prepare-{args.family}/calibration.yaml');c=load_config(configpath);identity,_=identities(c,resolve_policy(c));checkpoint=Path(f'artifacts/task18/epsilon1em6-operational-c715479/cold-{args.family}/training/checkpoint.pt'+('.previous' if args.step==0 else ''));ck=load_checkpoint(checkpoint,{**identity,'source':source});assert ck['completed_step']==args.step
+ m=_reconstruct(ck['model']).eval();assert canonical_hash(m.target_statistics)=='0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21' and m.fit_provenance['history_count']==768 and m.kernel.t_ref==1.
++assert m.kernel.eps==c.model.epsilon==1e-6 and m.kernel.support_floor==c.model.numerical_support_floor==1e-8
+ assert all(x.dtype==torch.float64 for x in m.state_dict().values() if x.is_floating_point());assert m.persistent_nbytes(m.init_state(1,device='cpu',dtype='float64'))==9345
+ for st in ck['optimizer']['state'].values():assert st['exp_avg'].dtype==st['exp_avg_sq'].dtype==torch.float64 and st['step'].dtype==torch.float32
+ torch.manual_seed(c.seed);initial=make_model(c);assert initial._parameter_hash()==m._parameter_hash()==newsummary['fixed_kernel_hash'];del initial
+@@ -36,7 +40,7 @@
+ checkpoint_record={'path':str(checkpoint),'sha256':hashlib.sha256(checkpoint.read_bytes()).hexdigest(),'step':args.step,'config_sha256':hashlib.sha256(configpath.read_bytes()).hexdigest(),'fit_provenance':m.fit_provenance,'target_hash':canonical_hash(m.target_statistics),'fixed_kernel_hash':m._parameter_hash(),'parameter_accounting':parameter_accounting(m),'ledger':model_ledger(m)};del ck
+ atomic_json(out/'checkpoint-verification.json',checkpoint_record)
+ prior=torch.load(root/'candidate.pt',weights_only=True);assert hashlib.sha256((root/'candidate.pt').read_bytes()).hexdigest()==old['candidate_sha256']
+-procedure={'new_structured_initial_summary_sha256':sha(newroot/'summary.json'),'new_structured_capture_sha256':newsummary['capture_sha256'],'independent_equation_helper_sha256':sha('/tmp/task18_structured_fixed_numeric.py'),'old_memory_origin_source':old['source'],'source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'common_helper_sha256':hashlib.sha256(Path('/tmp/task18_fixed_basis_numeric.py').read_bytes()).hexdigest(),'original_summary_sha256':hashlib.sha256((root/'summary.json').read_bytes()).hexdigest(),'original_candidate_sha256':old['candidate_sha256'],'fitted_model_export_sha256':exporthash,'checkpoint':checkpoint_record,'scope':'saved fitted reader task/prediction/key/value/gate/reader gradients all12cells; no stream/Decimal/refit replay; fixed kernel identity and exact terminal/direct-reference plus new structured-feature replay compose accepted old memory and new formula gates; original1e-12; common production reader/query inputs not independently certified','ordinal':args.ordinal,'family':args.family,'net_limit':201326592,'utc_start':utc.isoformat(),'power_override':False};_write_immutable(out/'procedure.json',procedure)
++procedure={'new_structured_initial_summary_sha256':sha(newroot/'summary.json'),'new_structured_capture_sha256':newsummary['capture_sha256'],'independent_equation_helper_sha256':sha(Path(__file__).with_name('task18_structured_epsilon_numeric.py')),'config_binding_helper_sha256':sha(Path(__file__).with_name('task18_epsilon_full_config.py')),'old_memory_origin_source':old['source'],'source':source,'source_composition':SEAL['source_composition'],'seal_sha256':__import__('os').environ['TASK18_FULL_SEAL_SHA'],'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'common_helper_sha256':hashlib.sha256(Path(str(Path(__file__).with_name('task18_fixed_basis_numeric.py'))).read_bytes()).hexdigest(),'original_summary_sha256':hashlib.sha256((root/'summary.json').read_bytes()).hexdigest(),'original_candidate_sha256':old['candidate_sha256'],'fitted_model_export_sha256':exporthash,'checkpoint':checkpoint_record,'scope':'saved fitted reader task/prediction/key/value/gate/reader gradients all12cells; no stream/Decimal/refit replay; fixed kernel identity and exact terminal/direct-reference plus new structured-feature replay compose accepted old memory and new formula gates; original1e-12; common production reader/query inputs not independently certified','ordinal':args.ordinal,'family':args.family,'net_limit':201326592,'utc_start':utc.isoformat(),'power_override':False};_write_immutable(out/'procedure.json',procedure)
+ try:
+  dc,hid=draw_config(c,args.ordinal);ep0=generate_episode(dc,c.development.data_seed,hid);assert ep0.metadata['hashes']==old['raw_hashes'];ep=move_episode(ep0,'cpu',dtype=torch.float64);e=ep.events;n=int(e.lengths[0]);ages=(e.timestamps[0,n-1]-e.timestamps[0,:n]).double();mask=e.present[0,:n]&e.observed[0,:n].all(-1)
+  key=e.key_features.clone().requires_grad_();value=e.values.clone().requires_grad_();gate=torch.ones(e.present.shape,dtype=torch.float64,requires_grad=True);e=replace(e,key_features=key,values=value,auxiliary={**e.auxiliary,'gate':gate});ep=replace(ep,events=e);assert batch_hash(e)==old['events_hash']
+@@ -56,6 +60,8 @@
+  metrics=[metric('fitted_task_prediction',pred.prediction,rpred.prediction),metric('fitted_task_loss',loss,rloss)]+[metric('fitted_task_gradient_'+name,a,b) for name,a,b in zip(('key','value','gate',*names),ga,gr)]
+  torch.save({'candidate':{name:a.detach() if a is not None else None for name,a in zip(('key','value','gate',*names),ga)},'reference':{name:a.detach() if a is not None else None for name,a in zip(('key','value','gate',*names),gr)}},out/'task-gradients.pt')
+  peak=max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor-base);check_smoke_memory(c,peak);end=datetime.now(timezone.utc)
+- summary={'status':'passed' if all(m['accepted'] for m in metrics) else 'failed_original_tolerance','source':source,'family':args.family,'ordinal':args.ordinal,'history_id':hid,'raw_hashes':ep0.metadata['hashes'],'metrics':metrics,'original_summary_sha256':procedure['original_summary_sha256'],'task_gradients_sha256':hashlib.sha256((out/'task-gradients.pt').read_bytes()).hexdigest(),'candidate_reference_terminal_bitwise_replay':True,'fitted_model_export_sha256':exporthash,'checkpoint':checkpoint_record,'perf_seconds':time.perf_counter()-start,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'net_peak_bytes':peak};atomic_json(out/'summary.json',summary);print(json.dumps({k:v for k,v in summary.items() if k!='metrics'}),flush=True)
++ assert 'famjet.analysis.statistics' not in sys.modules
++ summary={'statistics_module_absent':True,'seal_sha256':__import__('os').environ['TASK18_FULL_SEAL_SHA'],'status':'passed' if all(m['accepted'] for m in metrics) else 'failed_original_tolerance','source':source,'family':args.family,'ordinal':args.ordinal,'history_id':hid,'raw_hashes':ep0.metadata['hashes'],'metrics':metrics,'original_summary_sha256':procedure['original_summary_sha256'],'task_gradients_sha256':hashlib.sha256((out/'task-gradients.pt').read_bytes()).hexdigest(),'candidate_reference_terminal_bitwise_replay':True,'fitted_model_export_sha256':exporthash,'checkpoint':checkpoint_record,'perf_seconds':time.perf_counter()-start,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'net_peak_bytes':peak};atomic_json(out/'summary.json',summary);print(json.dumps({k:v for k,v in summary.items() if k!='metrics'}),flush=True)
++ if summary['status']!='passed':raise RuntimeError('original fitted tolerance failed; downstream held')
+ except BaseException as exc:
+  atomic_json(out/'failure.json',{'source':source,'type':type(exc).__name__,'error':str(exc),'perf_seconds':time.perf_counter()-start});raise
+--- docs/research/task18-procedures/task18_structured_fitted_driver.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_fitted_driver.py
+@@ -1,20 +1,24 @@
+ from pathlib import Path
+ from datetime import datetime,timezone
+ import argparse,subprocess,json,hashlib,time,os
+-from task18_structured_fixed_numeric import EXPECTED,PACKAGE
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,fitted_case_ok
++SEAL=preflight()
++from task18_epsilon_full_config import EXPECTED,PACKAGE
+ from famjet.train import _source
+ from famjet.artifacts import atomic_json
+ from famjet.eval.splits import _write_immutable
+ p=argparse.ArgumentParser();p.add_argument('family',choices=['jet','bank']);a=p.parse_args();source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files']
+-out=Path(f'artifacts/task18/structured-fixed-fitted-{a.family}');out.mkdir(exist_ok=False);tick=time.perf_counter();utc=datetime.now(timezone.utc)
+-_write_immutable(out/'procedure.json',{'source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'case_helper_sha256':hashlib.sha256(Path('/tmp/task18_structured_fitted.py').read_bytes()).hexdigest(),'scope':'all12cells atactual0/2; savedfits no rerun; no optimizer; fixedmemory composition via exact initial kernel/terminal/raw replay; original1e-12','utc_start':utc.isoformat(),'power_override':False});rows=[]
++cold_ok(a.family)
++out=Path(f'artifacts/task18/epsilon1em6-operational-c715479/fitted-{a.family}');out.mkdir(exist_ok=False);tick=time.perf_counter();utc=datetime.now(timezone.utc)
++_write_immutable(out/'procedure.json',{'source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'case_helper_sha256':hashlib.sha256(Path(str(Path(__file__).with_name('task18_epsilon_full_fitted.py'))).read_bytes()).hexdigest(),'scope':'all12cells atactual0/2; savedfits no rerun; no optimizer; fixedmemory composition via exact initial kernel/terminal/raw replay; original1e-12','utc_start':utc.isoformat(),'power_override':False});rows=[]
+ try:
+  for step in (0,2):
+   for ordinal in range(12):
+    dest=out/f'step{step}-{ordinal:02d}'
+-   with (out/f'step{step}-{ordinal:02d}.txt').open('w') as f:r=subprocess.run(['.venv/bin/python','/tmp/task18_structured_fitted.py',a.family,str(ordinal),str(dest),'--step',str(step)],stdout=f,stderr=subprocess.STDOUT,env={**os.environ,'PYTHONPATH':'.:/tmp'})
++   assert not dest.exists()
++   with (out/f'step{step}-{ordinal:02d}.txt').open('x') as f:r=subprocess.run(['.venv/bin/python',str(Path(__file__).with_name('task18_epsilon_full_fitted.py')),a.family,str(ordinal),str(dest),'--step',str(step)],stdout=f,stderr=subprocess.STDOUT,env={**os.environ,'PYTHONPATH':'.:'+str(Path(__file__).parent)})
+    assert r.returncode==0,(step,ordinal,r.returncode)
+-   summary=json.loads((dest/'summary.json').read_text());assert summary['status']=='passed';rows.append({'step':step,'ordinal':ordinal,'summary':str(dest/'summary.json'),'sha256':hashlib.sha256((dest/'summary.json').read_bytes()).hexdigest(),'max_ratio':max(m.get('max_pointwise_ratio',0) for m in summary['metrics']),'net_peak_bytes':summary['net_peak_bytes']});atomic_json(out/'progress.json',{'completed':rows})
++   summary=fitted_case_ok(a.family,step,ordinal);rows.append({'step':step,'ordinal':ordinal,'summary':str(dest/'summary.json'),'sha256':hashlib.sha256((dest/'summary.json').read_bytes()).hexdigest(),'max_ratio':max(m.get('max_pointwise_ratio',0) for m in summary['metrics']),'net_peak_bytes':summary['net_peak_bytes']});atomic_json(out/'progress.json',{'completed':rows})
+  end=datetime.now(timezone.utc);record={'status':'all24_fitted_checkpoint_cells_passed','source':source,'family':a.family,'cases':rows,'max_ratio':max(r['max_ratio'] for r in rows),'max_case_net_peak_bytes':max(r['net_peak_bytes'] for r in rows),'perf_seconds':time.perf_counter()-tick,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds()};atomic_json(out/'summary.json',record);print(json.dumps(record),flush=True)
+ except BaseException as exc:
+  atomic_json(out/'failure.json',{'source':source,'error':str(exc),'completed':len(rows),'perf_seconds':time.perf_counter()-tick});raise
+--- /dev/null
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_gate.py
+@@ -0,0 +1,75 @@
++"""External fixed stage provenance checks; no model construction or compatibility rule."""
++from pathlib import Path
++import hashlib,json,os,subprocess,sys
++EXPECTED='c71547932e2875468752db09e6f0a1e02c3e5650'
++PACKAGE='57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717'
++ROOT=Path('artifacts/task18/epsilon1em6-operational-c715479')
++TARGET='0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21'
++def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
++def canonical(x):return hashlib.sha256(json.dumps(x,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode()).hexdigest()
++def read(p):return json.loads(Path(p).read_text())
++def preflight():
++ path=os.environ['TASK18_FULL_SEAL'];digest=os.environ['TASK18_FULL_SEAL_SHA'];assert sha(path)==digest;s=read(path)
++ assert s['source_commit']==EXPECTED and s['package_hash']==PACKAGE
++ assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==EXPECTED and not subprocess.check_output(['git','status','--porcelain'],text=True)
++ files={str(p):sha(p) for p in sorted(Path('famjet').rglob('*.py'))};assert files==s['package_files'] and canonical(files)==PACKAGE
++ for n,r in s['helpers'].items():assert sha(Path(__file__).with_name(n))==r['sha256']
++ for p,r in s['dependencies'].items():assert sha(p)==r['sha256']
++ for f,c in s['configs'].items():assert sha(c['path'])==c['sha256'] and canonical(c['config'])==c['config_hash']
++ assert 'famjet.analysis.statistics' not in sys.modules
++ return s
++
++def source_ok(value):assert value=={'commit':EXPECTED,'diff':'','package_hash':PACKAGE,'untracked_package_files':{}}
++def raw_ok():
++ r=read(ROOT/'raw-preparation/summary.json');source_ok(r['source']);assert r['status']=='complete_shared_strict_raw' and r['all_prior_comparisons']
++ p=ROOT/'raw-cache/manifest.json';m=read(p);assert r['cache_manifest']==str(p) and r['cache_manifest_hash']==canonical(m)
++ assert m['status']=='complete' and len(m['entries'])==6144 and m['identity']['source_hash']==PACKAGE and m['total_bytes']==953874048
++ assert r['preparation']['rss_highwater_additional_bytes']<=201326592
++ return r,m
++
++def prepared_ok(family):
++ raw,m=raw_ok();r=read(ROOT/f'prepare-{family}/summary.json');source_ok(r['source']);assert r['family']==family and r['status']=='prepared_fit_and_features_only' and r['net_peak_bytes']<=201326592
++ p=ROOT/f'prepare-{family}/calibration.yaml';assert r['config_path']==str(p) and r['config_sha256']==sha(p)
++ import yaml
++ c=yaml.safe_load(p.read_text());s=read(os.environ['TASK18_FULL_SEAL']);expected=json.loads(json.dumps(s['configs'][family]['config']))
++ fp=ROOT/f'features-{family}/manifest.json';fm=read(fp);assert fm['status']=='complete' and len(fm['entries'])==6144 and r['feature_manifest']==str(fp) and r['feature_manifest_hash']==canonical(fm)
++ expected['development'].update(cache_manifest_path=str(ROOT/'raw-cache/manifest.json'),cache_manifest_hash=canonical(m),feature_cache_manifest_path=str(fp),feature_cache_manifest_hash=canonical(fm));assert c==expected
++ identity=fm['identity'];assert identity['version']==2 and identity['source_hash']==PACKAGE and identity['read_policy']=={'epsilon':1e-6,'numerical_support_floor':1e-8}
++ assert identity['raw_manifest_hash']==canonical(m) and identity['target_statistics_hash']==TARGET and identity['fit_provenance']['history_count']==768 and identity['t_ref']==1. and identity['precision']=='float64' and identity['device']=='cpu'
++ assert identity['input_dim']==(105 if family=='jet' else 113) and identity['corpus_histories']==6144
++ assert fm['total_bytes']<=s['feature_caps'][family] and r['raw_manifest_hash']==canonical(m)
++ fit=read(ROOT/f'prepare-{family}/fit.json');assert fit['fit_provenance']['history_count']==768 and fit['target_statistics_hash']==TARGET and fit['net_peak_bytes']<=201326592
++ return r,c,fm
++
++def cold_ok(family):
++ prep,c,fm=prepared_ok(family);r=read(ROOT/f'cold-{family}/development.json');source_ok(r['source']);assert r['status']=='completed' and r['source_hash']==PACKAGE and r['config']==c
++ assert r['training_run']['completed_step']==2 and r['configured_training_horizon']==32768 and r['execution_stop_at']==2 and r['rss_highwater_additional_bytes']<=201326592
++ cp=ROOT/f'cold-{family}/training/checkpoint.pt';assert r['checkpoint']==str(cp) and cp.is_file() and Path(str(cp)+'.previous').is_file()
++ records=[json.loads(x) for x in (ROOT/f'telemetry-{family}/stages.jsonl').read_text().splitlines()]
++ fits=[x for x in records if x['stage']=='fit_end'];assert len(fits)==1 and fits[0]['target_statistics_hash']==TARGET and fits[0]['fit_provenance']['history_count']==768
++ for stage in ('before_optimizer','after_optimizer'):assert [x['step'] for x in records if x['stage']==stage]==[1,2]
++ for x in records:
++  assert x['additional_since_external_start']<=201326592
++  if x['stage']=='before_optimizer':assert x['all_gradients_finite'] and x['gradient_dtypes']==['torch.float64']
++  if x['stage']=='after_optimizer':assert x['moment_dtypes']==['torch.float64'] and x['step_counter_dtypes']==['torch.float32']
++ cost=read(ROOT/f'telemetry-{family}/cost.json');source_ok(cost['source']);assert cost['additional_since_external_start']<=201326592
++ assert any(x['stage']=='profile_complete' for x in records) and not any(x['stage']=='profile_failed' for x in records)
++ return r
++
++def fitted_case_ok(family,step,ordinal):
++ p=ROOT/f'fitted-{family}/step{step}-{ordinal:02d}';r=read(p/'summary.json');source_ok(r['source']);assert r['status']=='passed' and r['family']==family and r['ordinal']==ordinal and r['net_peak_bytes']<=201326592
++ initial=read(f'artifacts/task18/epsilon1em6-initial-9aca1b/{family}-{ordinal:02d}/summary.json');assert r['history_id']==initial['history_id'] and r['raw_hashes']==initial['raw_hashes'] and r['candidate_reference_terminal_bitwise_replay']
++ ck=r['checkpoint'];assert ck['step']==step and ck['target_hash']==TARGET and ck['fit_provenance']['history_count']==768 and ck['fixed_kernel_hash']==initial['fixed_kernel_hash']
++ cp=ROOT/f'cold-{family}/training/checkpoint.pt';cp=Path(str(cp)+'.previous') if step==0 else cp
++ assert ck['path']==str(cp) and ck['sha256']==sha(cp) and ck['config_sha256']==sha(ROOT/f'prepare-{family}/calibration.yaml')
++ assert r['task_gradients_sha256']==sha(p/'task-gradients.pt') and len(r['metrics'])==13
++ assert all(m['accepted'] for m in r['metrics']) and all(m['atol']==m['rtol']==1e-12 for m in r['metrics'] if m.get('scope')!='inactive_parameter')
++ assert r['statistics_module_absent'] and r['seal_sha256']==os.environ['TASK18_FULL_SEAL_SHA']
++ return r
++
++def fitted_ok(family):
++ r=read(ROOT/f'fitted-{family}/summary.json');source_ok(r['source']);assert r['status']=='all24_fitted_checkpoint_cells_passed' and r['family']==family and len(r['cases'])==24
++ assert [(x['step'],x['ordinal']) for x in r['cases']]==[(s,i) for s in (0,2) for i in range(12)]
++ for x in r['cases']:fitted_case_ok(family,x['step'],x['ordinal']);assert sha(x['summary'])==x['sha256']
++ assert r['max_case_net_peak_bytes']<=201326592
++ return r
+--- docs/research/task18-procedures/task18_structured_prepare.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_prepare.py
+@@ -2,27 +2,32 @@
+ from dataclasses import replace,asdict
+ from datetime import datetime,timezone
+ import argparse,json,hashlib,time,shutil,resource,platform,subprocess,torch,yaml
+-from task18_structured_fixed_numeric import config,EXPECTED,PACKAGE,static_inventory
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,fitted_case_ok
++SEAL=preflight()
++from task18_epsilon_full_config import config,EXPECTED,PACKAGE,static_inventory
+ from famjet.train import _source,make_model,move_episode,check_smoke_memory
+ from famjet.analysis.development import iter_fit_panel
+-from famjet.data.feature_cache import prepare_feature_cache
++from famjet.data.feature_cache import prepare_feature_cache,feature_identity
+ from famjet.provenance import canonical_hash
+ from famjet.artifacts import atomic_json
+ from famjet.eval.splits import _write_immutable
+ p=argparse.ArgumentParser();p.add_argument('family',choices=['jet','bank']);a=p.parse_args();family=a.family
+-root=Path('artifacts/task18');out=root/f'structured-fixed-preparation-{family}';out.mkdir(exist_ok=False);source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files']
+-torch.set_num_threads(4);rawpath=root/'cache-structured-fixed-6144/manifest.json';raw=json.loads(rawpath.read_text());assert raw['status']=='complete';c=config(family);c=replace(c,development=replace(c.development,cache_manifest_path=str(rawpath),cache_manifest_hash=canonical_hash(raw)))
++raw_ok()
++if family=='bank':fitted_ok('jet')
++root=ROOT;out=root/f'prepare-{family}';out.mkdir(exist_ok=False);source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files']
++torch.set_num_threads(4);rawpath=root/'raw-cache/manifest.json';raw=json.loads(rawpath.read_text());assert raw['status']=='complete';c=config(family);c=replace(c,development=replace(c.development,cache_manifest_path=str(rawpath),cache_manifest_hash=canonical_hash(raw)))
+ utc=datetime.now(timezone.utc);tick=time.perf_counter();factor=1 if platform.system()=='Darwin' else 1024;base=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor
+ assert shutil.disk_usage(root).free>=4*1024**3
+ feature_cap=193044480 if family=='jet' else 196190208
+-procedure={'bounded_probe_summary_sha256':hashlib.sha256(Path('artifacts/task18/structured-fixed-bounded-summary.json').read_bytes()).hexdigest(),'size_audit_summary_sha256':hashlib.sha256(Path('artifacts/task18/fixed-basis-feature-size-audit/summary.json').read_bytes()).hexdigest(),'retained_historical_failed_attempt':'artifacts/task18/fixed-basis-preparation-jet','source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'config':asdict(c),'raw_manifest_hash':canonical_hash(raw),'scope':'approved768 training-only fit then6144 fixed-upstream features; no optimizer/dev fit','projected_feature_bytes':feature_cap,'output_reserve_bytes':1500000000,'free_disk_bytes':shutil.disk_usage(root).free,'utc_start':utc.isoformat(),'power_override':False,'power_start':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout};_write_immutable(out/'procedure.json',procedure)
++procedure={'bounded_probe_summary_sha256':hashlib.sha256(Path('artifacts/task18-evidence/epsilon1em6-probe-execution-9aca1b/complete-summary.json').read_bytes()).hexdigest(),'size_audit_summary_sha256':hashlib.sha256(Path('artifacts/task18/fixed-basis-feature-size-audit/summary.json').read_bytes()).hexdigest(),'retained_historical_failed_attempt':'artifacts/task18/fixed-basis-preparation-jet','source':source,'helper_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'config':asdict(c),'raw_manifest_hash':canonical_hash(raw),'scope':'approved768 training-only fit then6144 fixed-upstream features; no optimizer/dev fit','projected_feature_bytes':feature_cap,'output_reserve_bytes':1500000000,'free_disk_bytes':shutil.disk_usage(root).free,'utc_start':utc.isoformat(),'power_override':False,'power_start':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout};_write_immutable(out/'procedure.json',procedure)
+ def peak():return max(0,resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*factor-base)
+ try:
+  torch.manual_seed(c.seed);t=time.perf_counter();model=make_model(c);construction=time.perf_counter()-t;t=time.perf_counter();model.fit_statistics(lambda:(move_episode(ep,'cpu',dtype=torch.float64) for ep in iter_fit_panel(c)));fit=time.perf_counter()-t;check_smoke_memory(c,peak())
+  assert canonical_hash(model.target_statistics)=='0cebf5f59f3b44f44875b73d582e6cb3c21a0ade54867edfabaebcab220dad21' and model.kernel.t_ref==1. and model.fit_provenance['history_count']==768
+- fitrecord={'construction_seconds':construction,'fit_seconds':fit,'target_statistics_hash':canonical_hash(model.target_statistics),'fit_provenance':model.fit_provenance,'target_statistics':model.target_statistics,'net_peak_bytes':peak(),'static_inventory':static_inventory(model,c)};atomic_json(out/'fit.json',fitrecord);print(json.dumps({'family':family,'stage':'fit_complete','seconds':fit,'net_peak_bytes':peak()}),flush=True)
+- fp=prepare_feature_cache(c,model,root/f'features-structured-fixed-6144-{family}',projected_data_bytes=feature_cap,output_reserve_bytes=1500000000);fm=json.loads(fp.read_text());check_smoke_memory(c,peak());cc=replace(c,development=replace(c.development,feature_cache_manifest_path=str(fp),feature_cache_manifest_hash=canonical_hash(fm)))
+- configpath=out/'calibration.yaml';assert not configpath.exists();configpath.write_text(yaml.safe_dump(asdict(cc),sort_keys=False));end=datetime.now(timezone.utc)
++ actual_identity=feature_identity(c,model);assert actual_identity['version']==2 and actual_identity['read_policy']=={'epsilon':1e-6,'numerical_support_floor':1e-8};atomic_json(out/'feature-identity.json',actual_identity)
++ fitrecord={'actual_constructor_executions':1,'construction_seconds':construction,'fit_seconds':fit,'target_statistics_hash':canonical_hash(model.target_statistics),'fit_provenance':model.fit_provenance,'target_statistics':model.target_statistics,'net_peak_bytes':peak(),'static_inventory':static_inventory(model,c)};atomic_json(out/'fit.json',fitrecord);print(json.dumps({'family':family,'stage':'fit_complete','seconds':fit,'net_peak_bytes':peak()}),flush=True)
++ fp=prepare_feature_cache(c,model,root/f'features-{family}',projected_data_bytes=feature_cap,output_reserve_bytes=1500000000);fm=json.loads(fp.read_text());assert canonical_hash(fm['identity'])==canonical_hash(actual_identity);check_smoke_memory(c,peak());cc=replace(c,development=replace(c.development,feature_cache_manifest_path=str(fp),feature_cache_manifest_hash=canonical_hash(fm)))
++ configpath=out/'calibration.yaml';assert not configpath.exists();configpath.open('x').write(yaml.safe_dump(asdict(cc),sort_keys=False));end=datetime.now(timezone.utc)
+  record={'status':'prepared_fit_and_features_only','source':source,'family':family,'config_path':str(configpath),'config_sha256':hashlib.sha256(configpath.read_bytes()).hexdigest(),'raw_manifest_hash':canonical_hash(raw),'feature_manifest':str(fp),'feature_manifest_hash':canonical_hash(fm),'feature_bytes':fm['total_bytes'],'feature_seconds':fm['total_seconds'],'upstream_preparation_totals':fm['upstream_preparation_totals'],'fit_seconds':fit,'construction_seconds':construction,'net_peak_bytes':peak(),'perf_seconds':time.perf_counter()-tick,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'free_disk_after_bytes':shutil.disk_usage(root).free,'power_end':subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout};atomic_json(out/'summary.json',record);print(json.dumps(record),flush=True)
+ except BaseException as exc:
+  atomic_json(out/'failure.json',{'source':source,'error':str(exc),'type':type(exc).__name__,'perf_seconds':time.perf_counter()-tick,'net_peak_bytes':peak()});raise
+--- docs/research/task18-procedures/task18_structured_raw_prepare.py
++++ /tmp/task18-epsilon-fullprep-c715479/task18_epsilon_full_raw_prepare.py
+@@ -2,28 +2,31 @@
+ from dataclasses import asdict
+ from datetime import datetime,timezone
+ import hashlib,json,time,shutil,torch,subprocess
+-from task18_structured_fixed_numeric import config,EXPECTED,PACKAGE,sha
++from task18_epsilon_full_gate import ROOT,preflight,raw_ok,prepared_ok,cold_ok,fitted_ok,fitted_case_ok
++SEAL=preflight()
++from task18_epsilon_full_config import config,EXPECTED,PACKAGE,sha
+ from famjet.train import _source,check_smoke_memory
+ from famjet.data.development_cache import prepare_cache
+ from famjet.provenance import canonical_hash
+ from famjet.artifacts import atomic_json
+ from famjet.eval.splits import _write_immutable
+-root=Path('artifacts/task18');out=root/'structured-fixed-raw-preparation';assert not out.exists()
++root=ROOT;out=root/'raw-preparation';assert not out.exists()
+ source=_source();assert source['commit']==EXPECTED and source['package_hash']==PACKAGE and not source['diff'] and not source['untracked_package_files']
+-torch.set_num_threads(4);c=config('jet');oldpath=root/'cache-fixed-basis-6144/manifest.json';old=json.loads(oldpath.read_text());free=shutil.disk_usage(root).free;assert free>=4*1024**3
++torch.set_num_threads(4);c=config('jet');oldpath=Path(SEAL['prior_raw_manifests'][0]['path']);old=json.loads(oldpath.read_text());free=shutil.disk_usage(root).free;assert free>=4*1024**3
+ reserve_total=2500000000;extra=reserve_total-old['total_bytes']-6144*2048;assert extra>0
+ out.mkdir();power_start=subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout;utc=datetime.now(timezone.utc);tick=time.perf_counter()
+-procedure={'allocation':'root2026-10-18 approved strict sharedraw then sequential JetBank768preparerfit/features+cold768/96stop2+all12fitted0/2; scientificlearningHELD','source':source,'helper_sha256':sha(__file__),'config_helper_sha256':sha('/tmp/task18_structured_fixed_numeric.py'),'config':asdict(c),'old_manifest':str(oldpath),'old_manifest_hash':canonical_hash(old),'free_disk_bytes':free,'minimum_free_bytes':4*1024**3,'reserved_total_new_bytes':reserve_total,'raw_projection_bytes':old['total_bytes'],'additional_output_reserve_bytes':extra,'feature_caps':[193044480,196190208],'cost':'one shared raw generation, all prior costs/caches retained; both necessary fits per family charged','utc_start':utc.isoformat(),'power_override':False,'power_start':power_start};_write_immutable(out/'procedure.json',procedure)
++procedure={'allocation':'root2026-10-18 approved strict sharedraw then sequential JetBank768preparerfit/features+cold768/96stop2+all12fitted0/2; scientificlearningHELD','source':source,'helper_sha256':sha(__file__),'seal_sha256':__import__('os').environ['TASK18_FULL_SEAL_SHA'],'config_helper_sha256':sha(str(Path(__file__).with_name('task18_epsilon_full_config.py'))),'config':asdict(c),'old_manifest':str(oldpath),'old_manifest_hash':canonical_hash(old),'free_disk_bytes':free,'minimum_free_bytes':4*1024**3,'reserved_total_new_bytes':reserve_total,'raw_projection_bytes':old['total_bytes'],'additional_output_reserve_bytes':extra,'feature_caps':[193044480,196190208],'cost':'one shared raw generation, all prior costs/caches retained; both necessary fits per family charged','utc_start':utc.isoformat(),'power_override':False,'power_start':power_start};_write_immutable(out/'procedure.json',procedure)
+ try:
+- path=prepare_cache(c,root/'cache-structured-fixed-6144',projected_data_bytes=old['total_bytes'],output_reserve_bytes=extra)
++ path=prepare_cache(c,root/'raw-cache',projected_data_bytes=old['total_bytes'],output_reserve_bytes=extra)
+  m=json.loads(path.read_text());prep=json.loads((path.parent/'preparation.json').read_text());keys=('ordinal','episode_id','length','regime','sha256','hashes','bytes');assert len(m['entries'])==6144;comparisons=[]
+- for priorpath in sorted(root.glob('cache*/manifest.json')):
++ for prior_record in SEAL['prior_raw_manifests']:
++  priorpath=Path(prior_record['path']);assert sha(priorpath)==prior_record['sha256']
+   if priorpath==path:continue
+   prior=json.loads(priorpath.read_text())
+-  if prior.get('status')!='complete' or len(prior.get('entries',[]))!=6144:continue
++  assert prior.get('status')=='complete' and len(prior.get('entries',[]))==6144
+   assert all(all(a[k]==b[k] for k in keys) for a,b in zip(prior['entries'],m['entries'])),str(priorpath)
+   comparisons.append({'path':str(priorpath),'manifest_hash':canonical_hash(prior),'all6144_ordered_ids_content_query_oracle_file_bytes_sha_equal':True})
+- assert comparisons;check_smoke_memory(c,prep['rss_highwater_additional_bytes']);power_end=subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout;elapsed=time.perf_counter()-tick;end=datetime.now(timezone.utc)
++ assert len(comparisons)==len(SEAL['prior_raw_manifests']);check_smoke_memory(c,prep['rss_highwater_additional_bytes']);power_end=subprocess.run(['pmset','-g','batt'],capture_output=True,text=True).stdout;elapsed=time.perf_counter()-tick;end=datetime.now(timezone.utc)
+  record={'status':'complete_shared_strict_raw','source':source,'cache_manifest':str(path),'cache_manifest_hash':canonical_hash(m),'all_prior_comparisons':comparisons,'compared_fields':keys,'cache_total_bytes':m['total_bytes'],'cache_total_seconds':m['total_seconds'],'preparation':prep|{'entries':'omitted; actualpreparation.json retainsfullentries'},'perf_seconds':elapsed,'utc_start':utc.isoformat(),'utc_end':end.isoformat(),'utc_seconds':(end-utc).total_seconds(),'power_end':power_end,'next':'authorized Jet then Bank prepare/cold/fitted; learningheld'};atomic_json(out/'summary.json',record);print(json.dumps(record),flush=True)
+ except BaseException as exc:
+  atomic_json(out/'failure.json',{'source':source,'error':str(exc),'type':type(exc).__name__,'perf_seconds':time.perf_counter()-tick,'utc_end':datetime.now(timezone.utc).isoformat()});raise
