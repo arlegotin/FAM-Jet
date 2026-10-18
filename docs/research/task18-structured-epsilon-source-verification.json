@@ -1,0 +1,73 @@
+{
+  "status": "source_tests_passed_pending_independent_review_no_experimental_release",
+  "base": "8494fda1b336908e64ab7f966b0a247ebfaa9371",
+  "package_hash": "d8043d2eeb938980ca34eafb33286711e7d0609a5311ca454a5d9a0e975b2f29",
+  "production_files": [
+    "famjet/analysis/development.py",
+    "famjet/data/feature_cache.py"
+  ],
+  "test_files": [
+    "tests/test_fixed_structured_development.py",
+    "tests/test_fixed_basis_development.py"
+  ],
+  "files": [
+    {
+      "path": "famjet/analysis/development.py",
+      "sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561"
+    },
+    {
+      "path": "famjet/data/feature_cache.py",
+      "sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a"
+    },
+    {
+      "path": "tests/test_fixed_structured_development.py",
+      "sha256": "6f0ef5c7ceddf121c61a03403920540b75eacb2ed838cee18a309d53f1b3a148"
+    },
+    {
+      "path": "tests/test_fixed_basis_development.py",
+      "sha256": "d4ca1d4b3ee93d898108598f905ce06098f562810d3f549db09ee15cfcc5a272"
+    }
+  ],
+  "checks": [
+    {
+      "label": "red",
+      "command": ".venv/bin/python -m pytest -q tests/test_fixed_structured_development.py",
+      "exit_code": 1,
+      "result": "6 failed,8 passed",
+      "seconds": 5.78,
+      "source_log": "artifacts/task18-evidence/structured-epsilon-source-red.txt",
+      "promoted_log": "docs/research/task18-structured-epsilon-source-red.txt",
+      "sha256": "eef9b905ad3b617c9ae0e0cb9fadb84b1e25cdab19e08b56a14ddc2ece2dd9cf",
+      "promoted_sha256": "cbba0dc55da04d8c1e3bfaba42a4477749830b5adc951df0962fe8dd3ad8bfd4",
+      "promotion_transform": "trailing whitespace removed; raw log and raw SHA preserved"
+    },
+    {
+      "label": "green",
+      "command": ".venv/bin/python -m pytest -q tests/test_fixed_structured_development.py tests/test_fixed_basis_development.py",
+      "exit_code": 0,
+      "result": "27 passed",
+      "seconds": 26.62,
+      "source_log": "artifacts/task18-evidence/structured-epsilon-source-green.txt",
+      "promoted_log": "docs/research/task18-structured-epsilon-source-green.txt",
+      "sha256": "dbbee298b362aa0b8c76842ffe30c6e6aa7b10076e538a4908506727ffb9bcc2",
+      "promoted_sha256": "dbbee298b362aa0b8c76842ffe30c6e6aa7b10076e538a4908506727ffb9bcc2",
+      "promotion_transform": "exact bytes"
+    },
+    {
+      "label": "cover",
+      "command": "PYTORCH_ENABLE_MPS_FALLBACK=0 PYTORCH_MPS_FAST_MATH=0 .venv/bin/python -m pytest -q tests/test_finite_feature_cache.py tests/test_development_cache.py tests/test_learned_rate_development.py tests/test_resume.py",
+      "exit_code": 0,
+      "result": "89 passed",
+      "seconds": 26.99,
+      "source_log": "artifacts/task18-evidence/structured-epsilon-source-cover.txt",
+      "promoted_log": "docs/research/task18-structured-epsilon-source-cover.txt",
+      "sha256": "a65edf277ba28b55fc1e0a1a0e6b68f3c177f57d8896b6ccb50f6b0db64563b5",
+      "promoted_sha256": "a65edf277ba28b55fc1e0a1a0e6b68f3c177f57d8896b6ccb50f6b0db64563b5",
+      "promotion_transform": "exact bytes"
+    }
+  ],
+  "old_numerical_gate": "FAILED_retained",
+  "external_experiments": "not_run",
+  "source_expansion": "root authorized explicit feature read-policy identity after actual RED reproduction",
+  "schema": "feature_identity version2; no historical rewrite or compatibility fallback"
+}

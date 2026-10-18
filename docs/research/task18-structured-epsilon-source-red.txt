@@ -1,0 +1,210 @@
+..FF..FFFF....                                                           [100%]
+=================================== FAILURES ===================================
+_ test_only_declared_full_structured_shape_enters_before_allocation[1e-06-jet] _
+
+family = 'jet', epsilon = 1e-06
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4264/test_only_declared_full_struct2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10d896570>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    @pytest.mark.parametrize('epsilon',[1e-8,1e-6])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,epsilon,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family,epsilon)
+>       assert resolve_policy(c)['fit_histories']==768
+               ^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:20:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def resolve_policy(config):
+        from dataclasses import asdict
+        from famjet.train import SMOKE_POLICY,ROOT
+        from famjet.provenance import canonical_hash
+        from famjet.eval.isolation import source_identity
+        import json
+        d=config.development
+        if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
+        if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
+            raise ValueError('development precision requires CPU calibration')
+        fixed_profile=fixed_basis_cpu64(config)
+        if config.model.precision=='float64' and not fixed_profile and (config.model.method not in {'jet','bank'}
+                or config.model.writer!='fixed' or config.model.rates.mode!='learned'
+                or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
+>           raise ValueError('FP64 requires learned-rate raw calibration')
+E           ValueError: FP64 requires learned-rate raw calibration
+
+famjet/analysis/development.py:152: ValueError
+_ test_only_declared_full_structured_shape_enters_before_allocation[1e-06-bank] _
+
+family = 'bank', epsilon = 1e-06
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4264/test_only_declared_full_struct3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10d905ae0>
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    @pytest.mark.parametrize('epsilon',[1e-8,1e-6])
+    def test_only_declared_full_structured_shape_enters_before_allocation(family,epsilon,tmp_path,monkeypatch):
+        from famjet.analysis.development import resolve_policy,run_development
+        c=structured_config(family,epsilon)
+>       assert resolve_policy(c)['fit_histories']==768
+               ^^^^^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:20:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+
+    def resolve_policy(config):
+        from dataclasses import asdict
+        from famjet.train import SMOKE_POLICY,ROOT
+        from famjet.provenance import canonical_hash
+        from famjet.eval.isolation import source_identity
+        import json
+        d=config.development
+        if config.phase!='development' or d is None: raise ValueError('explicit development calibration policy required')
+        if config.resources.device!='cpu' or config.model.precision not in {'float32','float64'}:
+            raise ValueError('development precision requires CPU calibration')
+        fixed_profile=fixed_basis_cpu64(config)
+        if config.model.precision=='float64' and not fixed_profile and (config.model.method not in {'jet','bank'}
+                or config.model.writer!='fixed' or config.model.rates.mode!='learned'
+                or config.model.reader.kind!='generic_contracted' or d.feature_cache_manifest_path is not None):
+>           raise ValueError('FP64 requires learned-rate raw calibration')
+E           ValueError: FP64 requires learned-rate raw calibration
+
+famjet/analysis/development.py:152: ValueError
+_ test_structured_fp64_real_export_budget_and_constant_input_accounting[1e-06-jet-125-105-30134-29875-2288-78-29258] _
+
+family = 'jet', width = 125, dim = 105, params = 30134, macs = 29875
+buffers = 2288, zero_log = 78, active_bound = 29258, epsilon = 1e-06
+
+    @pytest.mark.parametrize('family,width,dim,params,macs,buffers,zero_log,active_bound',[
+        ('jet',125,105,30134,29875,2288,78,29258),
+        ('bank',122,113,30021,29768,2448,86,29166)])
+    @pytest.mark.parametrize('epsilon',[1e-8,1e-6])
+    def test_structured_fp64_real_export_budget_and_constant_input_accounting(
+            family,width,dim,params,macs,buffers,zero_log,active_bound,epsilon):
+        from famjet.train import make_model,move_episode,history_loss
+        from famjet.analysis.development import draw_config,parameter_accounting
+        from famjet.data.synthetic import generate_episode
+        from famjet.eval.isolation import export_method,_reconstruct
+        from famjet.eval.budgets import model_ledger
+        from test_resume import equal_tree
+>       c=structured_config(family,epsilon);m=make_model(c)
+                                              ^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:66:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+_ test_structured_fp64_real_export_budget_and_constant_input_accounting[1e-06-bank-122-113-30021-29768-2448-86-29166] _
+
+family = 'bank', width = 122, dim = 113, params = 30021, macs = 29768
+buffers = 2448, zero_log = 86, active_bound = 29166, epsilon = 1e-06
+
+    @pytest.mark.parametrize('family,width,dim,params,macs,buffers,zero_log,active_bound',[
+        ('jet',125,105,30134,29875,2288,78,29258),
+        ('bank',122,113,30021,29768,2448,86,29166)])
+    @pytest.mark.parametrize('epsilon',[1e-8,1e-6])
+    def test_structured_fp64_real_export_budget_and_constant_input_accounting(
+            family,width,dim,params,macs,buffers,zero_log,active_bound,epsilon):
+        from famjet.train import make_model,move_episode,history_loss
+        from famjet.analysis.development import draw_config,parameter_accounting
+        from famjet.data.synthetic import generate_episode
+        from famjet.eval.isolation import export_method,_reconstruct
+        from famjet.eval.budgets import model_ledger
+        from test_resume import equal_tree
+>       c=structured_config(family,epsilon);m=make_model(c)
+                                              ^^^^^^^^^^^^^
+
+tests/test_fixed_structured_development.py:66:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = RunConfig(schema_version=1, phase='development', seed=20261013, data=DataConfig(generator_version='initial_spec_v2_tar...'fixed-features.json', feature_cache_manifest_hash='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'))
+policy = {'version': 1, 'schedule': 'constant', 'gradient_clip_norm': None, 'terminal_chunk': 32, ...}
+
+    def make_model(config, policy=None):
+        policy=SMOKE_POLICY if policy is None else policy
+        m,d=config.model,config.data
+        device=config.resources.device
+        dtype=getattr(torch,m.precision)
+        from famjet.analysis.development import fixed_basis_cpu64
+        if m.precision != 'float32' and not fixed_basis_cpu64(config) and not (m.precision=='float64' and device=='cpu'
+                and config.phase=='development' and config.development is not None
+                and m.method in {'jet','bank'} and m.writer=='fixed' and m.rates.mode=='learned'
+                and m.reader.kind=='generic_contracted' and config.development.feature_cache_manifest_path is None):
+>           raise ValueError('FP64 training requires the CPU learned-rate development profile')
+E           ValueError: FP64 training requires the CPU learned-rate development profile
+
+famjet/train.py:51: ValueError
+_____ test_feature_identity_rejects_read_epsilon_not_matching_config[jet] ______
+
+family = 'jet'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_feature_identity_rejects_read_epsilon_not_matching_config(family):
+        from famjet.train import make_model,move_episode
+        from famjet.analysis.development import draw_config
+        from famjet.data.synthetic import generate_episode
+        from famjet.data.feature_cache import feature_identity
+        c=structured_config(family);m=make_model(c)
+        dc,hid=draw_config(c,0)
+        ep=move_episode(generate_episode(dc,c.development.data_seed,hid),'cpu',dtype=torch.float64)
+        m.fit_statistics([ep]);before=feature_identity(c,m)
+        # Epsilon is a read policy, not a writer/state parameter. A stale fitted
+        # buffer or an accidentally mutated read policy must not identify old data.
+        writer_hash=m._parameter_hash();m.kernel.eps=1e-6
+        assert m._parameter_hash()==writer_hash
+>       with pytest.raises(ValueError,match='identity|epsilon|read policy'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_fixed_structured_development.py:103: Failed
+_____ test_feature_identity_rejects_read_epsilon_not_matching_config[bank] _____
+
+family = 'bank'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_feature_identity_rejects_read_epsilon_not_matching_config(family):
+        from famjet.train import make_model,move_episode
+        from famjet.analysis.development import draw_config
+        from famjet.data.synthetic import generate_episode
+        from famjet.data.feature_cache import feature_identity
+        c=structured_config(family);m=make_model(c)
+        dc,hid=draw_config(c,0)
+        ep=move_episode(generate_episode(dc,c.development.data_seed,hid),'cpu',dtype=torch.float64)
+        m.fit_statistics([ep]);before=feature_identity(c,m)
+        # Epsilon is a read policy, not a writer/state parameter. A stale fitted
+        # buffer or an accidentally mutated read policy must not identify old data.
+        writer_hash=m._parameter_hash();m.kernel.eps=1e-6
+        assert m._parameter_hash()==writer_hash
+>       with pytest.raises(ValueError,match='identity|epsilon|read policy'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_fixed_structured_development.py:103: Failed
+=========================== short test summary info ============================
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[1e-06-jet]
+FAILED tests/test_fixed_structured_development.py::test_only_declared_full_structured_shape_enters_before_allocation[1e-06-bank]
+FAILED tests/test_fixed_structured_development.py::test_structured_fp64_real_export_budget_and_constant_input_accounting[1e-06-jet-125-105-30134-29875-2288-78-29258]
+FAILED tests/test_fixed_structured_development.py::test_structured_fp64_real_export_budget_and_constant_input_accounting[1e-06-bank-122-113-30021-29768-2448-86-29166]
+FAILED tests/test_fixed_structured_development.py::test_feature_identity_rejects_read_epsilon_not_matching_config[jet]
+FAILED tests/test_fixed_structured_development.py::test_feature_identity_rejects_read_epsilon_not_matching_config[bank]
+6 failed, 8 passed in 5.78s

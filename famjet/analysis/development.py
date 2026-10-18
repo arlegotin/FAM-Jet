@@ -114,14 +114,16 @@ def execution_shape(config):
 def fixed_basis_cpu64(config):
     """Only the declared fixed-basis arm; does not grant execution allocation."""
     m,d=config.model,config.data
+    structured=(m.method in {'jet','bank'} and m.reader.kind=='structured'
+                and m.reader.width==(125 if m.method=='jet' else 122))
     if (config.phase!='development' or config.development is None
             or config.resources.device!='cpu' or m.precision!='float64'
             or m.heads!=1 or m.K!=16 or d.key_dim!=16 or d.value_dim!=8 or d.key_features!='one_hot'
-            or m.writer!='fixed' or m.encode!='terminal' or m.epsilon!=1e-8
+            or m.writer!='fixed' or m.encode!='terminal'
+            or not (m.epsilon==1e-8 or (structured and m.epsilon==1e-6))
             or m.numerical_support_floor!=1e-8 or m.learned_abstention_threshold is not None
             or not ((m.reader.kind=='generic_contracted' and m.reader.width==128)
-                    or (m.method in {'jet','bank'} and m.reader.kind=='structured'
-                        and m.reader.width==(125 if m.method=='jet' else 122)))
+                    or structured)
             or m.reader.layers!=2
             or m.reader.rank is not None or m.reader.max_parameters is not None or m.reader.max_macs is not None):
         return False

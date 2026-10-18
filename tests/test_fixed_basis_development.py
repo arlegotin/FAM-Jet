@@ -84,8 +84,10 @@ def test_fixed_basis_true_fp64_fit_export_and_budget(family,kernel_bytes):
     assert account['reader_input_width']==97 and account['macs_per_query']==29952
 
 
-@pytest.mark.parametrize('family,reader_kind',[(f,'generic_contracted') for f in ('jet','bank','multiscale')]+[(f,'structured') for f in ('jet','bank')])
-def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family,reader_kind):
+@pytest.mark.parametrize('family,reader_kind,epsilon',
+    [(f,'generic_contracted',1e-8) for f in ('jet','bank','multiscale')]
+    +[(f,'structured',e) for f in ('jet','bank') for e in (1e-8,1e-6)])
+def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,family,reader_kind,epsilon,monkeypatch):
     from famjet.train import make_model,move_episode,train_model
     from famjet.analysis.development import iter_fit_panel
     from famjet.data.development_cache import prepare_cache
@@ -96,7 +98,7 @@ def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,fami
     from test_resume import equal_tree
     c=fixed_config(family)
     if reader_kind=='structured':
-        c=replace(c,model=replace(c.model,reader=replace(c.model.reader,kind='structured',width=125 if family=='jet' else 122)))
+        c=replace(c,model=replace(c.model,epsilon=epsilon,reader=replace(c.model.reader,kind='structured',width=125 if family=='jet' else 122)))
     c=replace(c,training=replace(c.training,optimizer_steps=8,effective_batch=1),development=replace(c.development,
         lengths=(128,),fit_histories_per_cell=1,eval_histories_per_cell=1,corpus_histories=4,milestones=(0,4,8),
         cache_manifest_path=None,cache_manifest_hash=None,feature_cache_manifest_path=None,feature_cache_manifest_hash=None))
@@ -105,6 +107,16 @@ def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,fami
     model.fit_statistics(lambda:(move_episode(ep,'cpu',dtype=torch.float64) for ep in iter_fit_panel(c)))
     f=prepare_feature_cache(c,model,tmp_path/'features',projected_data_bytes=1000000,output_reserve_bytes=100000)
     fc=attach_features(c,f);cache=TrainingFeatureCache(fc,model);example=cache.read(0)
+    if reader_kind=='structured' and epsilon==1e-8:
+        changed=replace(fc,model=replace(fc.model,epsilon=1e-6))
+        model.kernel.eps=1e-6
+        def forbidden(*a,**k):raise AssertionError('raw/tensor allocation before actual stale feature-manifest rejection')
+        with monkeypatch.context() as guard:
+            guard.setattr('famjet.data.feature_cache.TrainingDrawCache',forbidden)
+            guard.setattr(torch,'load',forbidden)
+            with pytest.raises(ValueError,match='feature cache identity mismatch'):
+                TrainingFeatureCache(changed,model)
+        model.kernel.eps=epsilon
     if family=='multiscale':
         manifest=json.loads(f.read_text())
         costs=manifest['upstream_preparation_totals']
@@ -112,6 +124,10 @@ def test_fp64_fixed_feature_multpass_optimizer_resume_and_identity(tmp_path,fami
         assert costs['matrix_cubic_work']==4*127*128
         assert costs['scope']=='unique_corpus_encode_and_feature_reads_forward_only'
     from famjet.data.feature_cache import feature_identity
+    identity=feature_identity(c,model)
+    assert identity['version']==2
+    assert identity['read_policy']==({} if family=='multiscale' else
+        {'epsilon':epsilon,'numerical_support_floor':1e-8})
     with pytest.raises(ValueError,match='precision|identity'):
         feature_identity(replace(c,model=replace(c.model,precision='float32')),model)
     assert example.features.values.dtype==torch.float64

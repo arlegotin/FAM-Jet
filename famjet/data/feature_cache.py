@@ -36,6 +36,13 @@ def feature_identity(config,model):
             or model.kernel.reference_tensor.device.type!=config.resources.device
             or model.kernel.reader_feature_spec['family']!=config.model.method):
         raise ValueError('feature cache model/config precision or family identity mismatch')
+    read_policy={}
+    if config.model.method in {'jet','bank'}:
+        if (model.kernel.eps!=config.model.epsilon
+                or model.kernel.support_floor!=config.model.numerical_support_floor):
+            raise ValueError('feature cache read policy identity mismatch')
+        read_policy={'epsilon':model.kernel.eps,
+                     'numerical_support_floor':model.kernel.support_floor}
     if (d is None or d.corpus_histories is None or d.cache_manifest_path is None
             or config.resources.device!='cpu'
             or not (fixed_basis_cpu64(config) or (config.model.precision=='float32' and config.model.method in {'jet','bank'})) or config.model.writer!='fixed'
@@ -43,7 +50,7 @@ def feature_identity(config,model):
             or any(p.requires_grad for n,p in model.named_parameters() if not n.startswith('reader.'))):
         raise ValueError('fixed features require authorized CPU finite corpus with no learned upstream parameters')
     if model.fit_provenance is None:raise ValueError('fixed features require frozen training preprocessing')
-    return {'version':1,'source_hash':source_identity(),
+    return {'version':2,'source_hash':source_identity(),'read_policy':read_policy,
             'lock_hash':hashlib.sha256((ROOT/'requirements.lock').read_bytes()).hexdigest(),
             'raw_manifest_hash':d.cache_manifest_hash,'corpus_histories':d.corpus_histories,
             'writer_rates_hash':model._parameter_hash(),'reader_schema':model.reader.schema,
