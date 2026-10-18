@@ -1,0 +1,27 @@
+{
+  "time_utc": "2026-10-18T11:10:48.609391+00:00",
+  "status": "accepted_source_only_native_unverified",
+  "base": "ace9b7cb6b37ab9909f5b07cf5a255dfb3a82dd7",
+  "source_commit": "241852ab2442b1486879a78f5478dee7443e0cc5",
+  "evidence_commit": "188ecb8b08100c952a75abf75befc6c4cca221e7",
+  "spec_verdict": "PASS",
+  "quality_verdict": "PASS",
+  "blocking_findings": [],
+  "report_sha256": "7e36b7c7529fbd617ebb5d85ae4e81875a68c5f3339348eab209335ddf4d13aa",
+  "root_verification": "docs/research/task18-owned-root-lifecycle-root-verification.json",
+  "review": "docs/research/task18-owned-root-lifecycle-review.md",
+  "monitor_sha256": "551d1bd639a43e4c06581e7e51b008700df1d3ff5433d1eedbb7d29bcec1d5eb",
+  "native_parent_sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352",
+  "native_worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "focused_passed": 56,
+  "cover": {
+    "passed": 276,
+    "deselected": 6,
+    "seconds": 2.13
+  },
+  "native_control_executed": false,
+  "scientific_restart_authorized": false,
+  "task18_scientific": "OPEN",
+  "protected_access": "CLOSED"
+}

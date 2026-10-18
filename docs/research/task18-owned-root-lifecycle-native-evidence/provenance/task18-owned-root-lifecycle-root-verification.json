@@ -1,0 +1,63 @@
+{
+  "time_utc": "2026-10-18T11:09:06.051957+00:00",
+  "head": "188ecb8b08100c952a75abf75befc6c4cca221e7",
+  "source_commit": "241852ab2442b1486879a78f5478dee7443e0cc5",
+  "manifest_entries": 3017,
+  "manifest_bytes": 19057864,
+  "prior_files": 8020,
+  "prior_bytes": 91567387,
+  "original_specimens": 2805,
+  "attempt_file_hashes": 2879,
+  "original_regular_specimen_hashes": 2687,
+  "source_files": 5,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "unchanged_memory_components": 15,
+  "attempts": [
+    {
+      "name": "task18-owned-root-lifecycle-cover-4f4wdzhn",
+      "exit": 0,
+      "last_output": "276 passed, 6 deselected in 2.13s"
+    },
+    {
+      "name": "task18-owned-root-lifecycle-green01-zzfvcis2",
+      "exit": 0,
+      "last_output": "============================== 28 passed in 0.16s =============================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-green02-fsb1dwqp",
+      "exit": 0,
+      "last_output": "============================== 41 passed in 0.24s =============================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-green03-v4k5_5v6",
+      "exit": 0,
+      "last_output": "============================== 53 passed in 0.28s =============================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-green04-5yjx7n85",
+      "exit": 0,
+      "last_output": "============================== 56 passed in 0.27s =============================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-red01-2i96iipa",
+      "exit": 1,
+      "last_output": "========================= 2 failed, 26 passed in 0.17s ========================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-red02-gyaikos0",
+      "exit": 1,
+      "last_output": "========================= 6 failed, 47 passed in 0.29s ========================="
+    },
+    {
+      "name": "task18-owned-root-lifecycle-red03-wqqvbtvx",
+      "exit": 1,
+      "last_output": "========================= 3 failed, 53 passed in 0.31s ========================="
+    }
+  ],
+  "report_bytes": 12391,
+  "report_sha256": "7e36b7c7529fbd617ebb5d85ae4e81875a68c5f3339348eab209335ddf4d13aa",
+  "native_or_test_or_project_import_rerun": false,
+  "root_verification_metadata_correction": "Initial file-reading script incorrectly looked for archive-created attempt.json under pytest specimen root and failed after prior/original/source checks; corrected mapping checks archived originals and actual specimen mappings. No test/source/native side effect.",
+  "clean_main": true,
+  "source_acceptance_pending_review": true
+}

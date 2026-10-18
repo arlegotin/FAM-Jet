@@ -1,0 +1,55 @@
+{
+  "started_epoch": 1792322174.566922,
+  "end_epoch": 1792322174.598767,
+  "report_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-owned-root-lifecycle-native-report.md"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "source_check": {
+    "command": [
+      "git",
+      "diff",
+      "6e5f38d951afc606e9707e408b9d182603480e15",
+      "--check",
+      "--",
+      "famjet",
+      "validation",
+      "tests",
+      "requirements.lock",
+      "docs/research/task18-owned-root-lifecycle-native-control.py",
+      "docs/research/task18-owned-root-lifecycle-native-worker.py"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "raw_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-owned-root-lifecycle-native-evidence/original"
+    ],
+    "exit": 2,
+    "diagnostics": [
+      "docs/research/task18-owned-root-lifecycle-native-evidence/original/native/empty-output/monitor.json:2: trailing whitespace.",
+      "docs/research/task18-owned-root-lifecycle-native-evidence/original/native/empty-output/monitor.json:2: new blank line at EOF."
+    ],
+    "preserved_log": "raw-padding-diff-check.log"
+  },
+  "all12_original_mappings_staged": true,
+  "scratch_report_equals_durable": true,
+  "native_parent_invocations": 1,
+  "status": "NEEDS_CONTEXT",
+  "next_action": "HOLD",
+  "tests_or_native_retry": false
+}

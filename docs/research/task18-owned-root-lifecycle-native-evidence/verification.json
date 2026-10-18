@@ -1,0 +1,113 @@
+{
+  "checked_epoch": 1792322067.695251,
+  "source_matches": {
+    "validation/kernel_stage_a/monitor.py": {
+      "sha256": "551d1bd639a43e4c06581e7e51b008700df1d3ff5433d1eedbb7d29bcec1d5eb",
+      "equals_execution_head": true
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "equals_execution_head": true
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "equals_execution_head": true
+    },
+    "docs/research/task18-owned-root-lifecycle-native-control.py": {
+      "sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352",
+      "equals_execution_head": true
+    },
+    "docs/research/task18-owned-root-lifecycle-native-worker.py": {
+      "sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+      "equals_execution_head": true
+    },
+    "requirements.lock": {
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+      "equals_execution_head": true
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "lock_hash": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "memory_components": {
+    "famjet/memory/__init__.py": {
+      "expected": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+      "actual": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe"
+    },
+    "famjet/memory/_coefficient.py": {
+      "expected": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+      "actual": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5"
+    },
+    "famjet/memory/_fixed_writer.py": {
+      "expected": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+      "actual": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2"
+    },
+    "famjet/memory/associative_hippo.py": {
+      "expected": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+      "actual": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b"
+    },
+    "famjet/memory/buckets.py": {
+      "expected": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+      "actual": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75"
+    },
+    "famjet/memory/coordinates.py": {
+      "expected": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+      "actual": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1"
+    },
+    "famjet/memory/delta.py": {
+      "expected": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+      "actual": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784"
+    },
+    "famjet/memory/exact_store.py": {
+      "expected": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+      "actual": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17"
+    },
+    "famjet/memory/expbank.py": {
+      "expected": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+      "actual": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d"
+    },
+    "famjet/memory/gaver.py": {
+      "expected": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+      "actual": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65"
+    },
+    "famjet/memory/hippo.py": {
+      "expected": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+      "actual": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3"
+    },
+    "famjet/memory/jet.py": {
+      "expected": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+      "actual": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1"
+    },
+    "famjet/memory/multiscale.py": {
+      "expected": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+      "actual": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a"
+    },
+    "famjet/memory/oracle.py": {
+      "expected": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+      "actual": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c"
+    },
+    "famjet/memory/reservoir.py": {
+      "expected": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+      "actual": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12"
+    }
+  },
+  "original_equal": {
+    "/private/tmp/t18o-3cipo8u0/precheck.json": true,
+    "/private/tmp/t18o-3cipo8u0/native/empty-output/stderr.log": true,
+    "/private/tmp/t18o-3cipo8u0/native/empty-output/monitor.json": true,
+    "/private/tmp/t18o-3cipo8u0/native/empty-output/monitor-events.jsonl": true,
+    "/private/tmp/t18o-3cipo8u0/native/empty-output/stdout.log": true,
+    "/private/tmp/t18o-3cipo8u0/native/empty-output/monitor-evidence.jsonl": true,
+    "/private/tmp/t18o-3cipo8u0/native/native-result.json": true,
+    "/private/tmp/t18o-3cipo8u0/parent-stdout.log": true,
+    "/private/tmp/t18o-3cipo8u0/execute-once.py": true,
+    "/private/tmp/t18o-3cipo8u0/invocation-started.json": true,
+    "/private/tmp/t18o-3cipo8u0/external-result.json": true,
+    "/private/tmp/t18o-3cipo8u0/parent-stderr.log": true
+  },
+  "unchanged_source_diff": "",
+  "prior_integrity_proof": "docs/research/task18-owned-root-lifecycle-root-verification.json",
+  "repeated_broad_prior_audit": false,
+  "native_invocations": 1,
+  "native_retry": false,
+  "source_or_test_rerun": false
+}

@@ -1,0 +1,239 @@
+{
+  "allocation_start": 557658.629735291,
+  "absolute_deadline": 557668.629735291,
+  "scope": "ONE imported-runtime native two-case owned-root lifecycle integration; zero factors/reads",
+  "cases": [
+    {
+      "case": "empty",
+      "start": 557658.658628125,
+      "deadline": 557663.158628125,
+      "syscalls": [],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+        "empty",
+        "/private/tmp/t18o-3cipo8u0/native/empty.socket",
+        "557663.158628125"
+      ],
+      "vector_sha256": "5e872d2fc28dcb78576b1b17963abc5a4a6f987ddccc24b11be5ff611caa2524",
+      "inputs": {
+        "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+        "parent_sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352",
+        "parent_bytes": 12886,
+        "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+        "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+        "worker_bytes": 2372,
+        "parent_ast_parse": true,
+        "worker_ast_parse": true,
+        "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+        "monitor_sha256": "551d1bd639a43e4c06581e7e51b008700df1d3ff5433d1eedbb7d29bcec1d5eb"
+      },
+      "execution_status": "STOPPED",
+      "verdict": {
+        "status": "STOPPED",
+        "reason": "foreign process identity",
+        "monitor_failure": null,
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "5e872d2fc28dcb78576b1b17963abc5a4a6f987ddccc24b11be5ff611caa2524",
+        "returncode": 0,
+        "outer_seconds": 1.0623302090680227,
+        "utc_start_epoch": 1792321968.2247932,
+        "utc_end_epoch": 1792321969.2869902,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 1.0619004169711843,
+        "absolute_process_tree_peak_bytes": 216662016,
+        "incremental_worker_peak_bytes": 218447872,
+        "observed_pid_peak_sum_bytes": 250593280,
+        "workers": {
+          "89312": {
+            "absolute_peak_bytes": 214876160,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 214876160,
+            "role": "unaccounted",
+            "parent": 89311
+          },
+          "89313": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89324": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89325": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89327": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89328": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89329": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89330": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89331": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89332": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89333": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89334": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89335": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89336": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89337": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          },
+          "89338": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 89311
+          }
+        },
+        "workers_complete_inline": false,
+        "worker_count": 21,
+        "observer_helper_peak_bytes": 3571712,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [
+          "89312"
+        ],
+        "unresolved_worker_count": 1,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 66,
+          "accepted_samples": 19,
+          "bytes": 66816,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 2208,
+          "samples": 1
+        },
+        "classified_process_observations": 38,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 77485
+      },
+      "root_pid": 89312,
+      "member_rows": [
+        {
+          "pid": 89312,
+          "parent": 89311,
+          "pgid": 89312,
+          "rss_bytes": 0
+        }
+      ],
+      "compatibility": "NEEDS_CONTEXT",
+      "error": {
+        "type": "AssertionError",
+        "message": ""
+      },
+      "end": 557659.721603958,
+      "elapsed": 1.0629758330760524
+    }
+  ],
+  "source_git": "6e5f38d951afc606e9707e408b9d182603480e15",
+  "control_sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352",
+  "inputs": {
+    "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+    "parent_sha256": "b12c89e91dfd46df3399477323ace56218f748b54fde54f9c759ef3443187352",
+    "parent_bytes": 12886,
+    "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-worker.py",
+    "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+    "worker_bytes": 2372,
+    "parent_ast_parse": true,
+    "worker_ast_parse": true,
+    "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+    "monitor_sha256": "551d1bd639a43e4c06581e7e51b008700df1d3ff5433d1eedbb7d29bcec1d5eb"
+  },
+  "end": 557659.721605791,
+  "elapsed": 1.0918705000076443,
+  "compatibility": "NEEDS_CONTEXT"
+}

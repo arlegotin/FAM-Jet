@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-lifecycle-native-control.py",
+    "/private/tmp/t18o-3cipo8u0/native"
+  ],
+  "exit": 1,
+  "monotonic_before": 557658.611485,
+  "monotonic_after": 557659.726305458,
+  "utc_before": 1792321968.177601,
+  "utc_after": 1792321969.292428,
+  "elapsed_seconds": 1.114820457994938,
+  "timer_boundary": "immediately before subprocess.run through actual parent exit, including parent artifact write; wrapper final JSON/copy/commit excluded",
+  "parent_invocations": 1
+}
