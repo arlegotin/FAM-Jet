@@ -1,0 +1,57 @@
+{
+  "cached_returncode_before_signal": null,
+  "completed": 550101.08594675,
+  "images": [
+    {
+      "errno": 3,
+      "lookup_end": 550101.081111791,
+      "lookup_start": 550101.080922666,
+      "method": "macos.proc_pidpath",
+      "reason": "native_lookup_failed",
+      "status": "error"
+    }
+  ],
+  "launch": 550101.062069541,
+  "name": "natural_exit_unreaped",
+  "operations": [
+    {
+      "end": 550101.085754583,
+      "errno": 3,
+      "message": "[Errno 3] No such process",
+      "name": "getpgid_owned_exited_unreaped",
+      "start": 550101.081126333,
+      "status": "error",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-zero-control03/control.py\", line 13, in attempt\n    value=fn();row['operations'].append(dict(name=name,status='ok',value=value,start=t,end=time.monotonic()));return value\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-zero-control03/control.py\", line 39, in <lambda>\n    attempt(row,'getpgid_owned_exited_unreaped',lambda:os.getpgid(p.pid))\n                                                       ~~~~~~~~~~^^^^^^^\nProcessLookupError: [Errno 3] No such process\n",
+      "type": "ProcessLookupError"
+    },
+    {
+      "end": 550101.085918166,
+      "errno": 1,
+      "message": "[Errno 1] Operation not permitted",
+      "name": "signal_zero_owned_group",
+      "start": 550101.085756541,
+      "status": "error",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-zero-control03/control.py\", line 13, in attempt\n    value=fn();row['operations'].append(dict(name=name,status='ok',value=value,start=t,end=time.monotonic()));return value\n  File \"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-owned-group-zero-control03/control.py\", line 41, in <lambda>\n    attempt(row,'signal_zero_owned_group',lambda:os.killpg(p.pid,0))\n                                                 ~~~~~~~~~^^^^^^^^^\nPermissionError: [Errno 1] Operation not permitted\n",
+      "type": "PermissionError"
+    },
+    {
+      "end": 550101.085946291,
+      "name": "wait_owned",
+      "status": "ok",
+      "value": 0
+    }
+  ],
+  "parent": 35426,
+  "parent_pgid": 35426,
+  "pid": 35428,
+  "returncode": 0,
+  "stderr": "",
+  "stdout_remaining": "",
+  "vector": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "-c",
+    "pass"
+  ]
+}
