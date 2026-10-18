@@ -1,0 +1,174 @@
+F..FFF                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-201326592-incremental worker memory cap] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red4-k5zzcyl6/pytest/test_controlled_monitor_charge0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108acf360>
+charge = 286146560, limit = 201326592, reason = 'incremental worker memory cap'
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        output = tmp_path / 'monitor'
+        samples = []
+        killed = []
+    
+        class Owner:
+            pid = 570001
+            returncode = None
+    
+            def poll(self):
+                if len(samples) >= 3 and self.returncode is None:
+                    self.returncode = 0
+                return self.returncode
+    
+            def wait(self, timeout):
+                if self.returncode is None:
+                    self.returncode = -9 if killed else 0
+                return self.returncode
+    
+        monkeypatch.setattr(m.subprocess, 'Popen', lambda *args, **kwargs: Owner())
+        monkeypatch.setattr(m.os, 'killpg', lambda group, signal: killed.append((group, signal)))
+        monkeypatch.setattr(m.time, 'sleep', lambda seconds: None)
+    
+        def sampler(pid):
+            samples.append(pid)
+            if len(samples) == 1:
+                with (output / 'monitor-events.jsonl').open('a') as stream:
+                    stream.write(json.dumps({'event': 'baseline', 'pid': pid, 'rss': 0}) + '\n')
+            return m.ResidentTree({pid: charge if len(samples) == 2 else 0}, {})
+    
+        result = m.supervise(['/controlled/python'], output, sampler=sampler,
+                             outer_seconds=0.5, free_disk_bytes=0, incremental_bytes=limit)
+        assert result['reason'] == reason, result
+        assert result['status'] == ('COMPLETED' if reason is None else 'STOPPED'), result
+        assert result['incremental_worker_peak_bytes'] == charge
+>       assert bool(killed) == (reason is not None)
+E       AssertionError: assert False == ('incremental worker memory cap' is not None)
+E        +  where False = bool([])
+
+tests/test_kernel_stage_a_execution_budget.py:63: AssertionError
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653185-402653184-incremental worker memory cap] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red4-k5zzcyl6/pytest/test_controlled_monitor_charge3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108c0a030>
+charge = 402653185, limit = 402653184, reason = 'incremental worker memory cap'
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        output = tmp_path / 'monitor'
+        samples = []
+        killed = []
+    
+        class Owner:
+            pid = 570001
+            returncode = None
+    
+            def poll(self):
+                if len(samples) >= 3 and self.returncode is None:
+                    self.returncode = 0
+                return self.returncode
+    
+            def wait(self, timeout):
+                if self.returncode is None:
+                    self.returncode = -9 if killed else 0
+                return self.returncode
+    
+        monkeypatch.setattr(m.subprocess, 'Popen', lambda *args, **kwargs: Owner())
+        monkeypatch.setattr(m.os, 'killpg', lambda group, signal: killed.append((group, signal)))
+        monkeypatch.setattr(m.time, 'sleep', lambda seconds: None)
+    
+        def sampler(pid):
+            samples.append(pid)
+            if len(samples) == 1:
+                with (output / 'monitor-events.jsonl').open('a') as stream:
+                    stream.write(json.dumps({'event': 'baseline', 'pid': pid, 'rss': 0}) + '\n')
+            return m.ResidentTree({pid: charge if len(samples) == 2 else 0}, {})
+    
+        result = m.supervise(['/controlled/python'], output, sampler=sampler,
+                             outer_seconds=0.5, free_disk_bytes=0, incremental_bytes=limit)
+        assert result['reason'] == reason, result
+        assert result['status'] == ('COMPLETED' if reason is None else 'STOPPED'), result
+        assert result['incremental_worker_peak_bytes'] == charge
+>       assert bool(killed) == (reason is not None)
+E       AssertionError: assert False == ('incremental worker memory cap' is not None)
+E        +  where False = bool([])
+
+tests/test_kernel_stage_a_execution_budget.py:63: AssertionError
+_____ test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise _____
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red4-k5zzcyl6/pytest/test_exact_new_seal_passes_ent0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108c0a7a0>
+capsys = <_pytest.capture.CaptureFixture object at 0x108c58ec0>
+
+    def test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise(tmp_path, monkeypatch, capsys):
+        calls = []
+    
+        def fake_supervise(command, output, **options):
+            calls.append(options)
+            return {'status': 'COMPLETED'}
+    
+        monkeypatch.setattr(m, 'supervise', fake_supervise)
+        monkeypatch.setattr(cli.commands, 'stage_command', lambda root, seal: ['/controlled/stage'])
+        for limit, expected_exit in [(201326592, 2), (ADOPTED, 0)]:
+            seal_path = tmp_path / f'seal-{limit}.json'
+            seal_path.write_text(json.dumps(_seal(tmp_path, limit)))
+            monkeypatch.setattr(sys, 'argv', ['stage-a', '--seal', str(seal_path)])
+>           assert cli.main() == expected_exit
+E           assert 0 == 2
+E            +  where 0 = <function main at 0x108c89ee0>()
+E            +    where <function main at 0x108c89ee0> = cli.main
+
+tests/test_kernel_stage_a_execution_budget.py:99: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"status": "COMPLETED"}
+_ test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker _
+
+    def test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker():
+        old = ast.parse(REVIEWED.read_text())
+>       new = ast.parse(CURRENT.read_text())
+                        ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_execution_budget.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('docs/research/task18-stage-a-setup-parent-384mib.py')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'docs/research/task18-stage-a-setup-parent-384mib.py'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-201326592-incremental worker memory cap]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653185-402653184-incremental worker memory cap]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker
+4 failed, 2 passed in 0.06s

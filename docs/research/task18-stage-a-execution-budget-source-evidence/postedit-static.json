@@ -1,0 +1,556 @@
+{
+  "utc": "2026-10-18T13:34:58.406920+00:00",
+  "monotonic": 565923.313701041,
+  "git_head": "df22a467bfb3c9ab60bc872e1ee5a5f931b656cb",
+  "protected": [
+    {
+      "path": "validation/kernel_stage_a/monitor.py",
+      "bytes": 94488,
+      "current_sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473",
+      "preedit_sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473",
+      "preedit_equal": true,
+      "accepted_sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473",
+      "accepted_equal": true
+    },
+    {
+      "path": "validation/kernel_stage_a/source_lifecycles.py",
+      "bytes": 6743,
+      "current_sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004",
+      "preedit_sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004",
+      "preedit_equal": true,
+      "accepted_sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004",
+      "accepted_equal": true
+    },
+    {
+      "path": "validation/kernel_stage_a/production.py",
+      "bytes": 18796,
+      "current_sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "preedit_sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "preedit_equal": true,
+      "accepted_sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "accepted_equal": true
+    },
+    {
+      "path": "validation/kernel_stage_a/commands.py",
+      "bytes": 2375,
+      "current_sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "preedit_sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "preedit_equal": true,
+      "accepted_sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "accepted_equal": true
+    },
+    {
+      "path": "validation/kernel_stage_a/reader_worker.py",
+      "bytes": 3771,
+      "current_sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "preedit_sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "preedit_equal": true,
+      "accepted_sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "accepted_equal": true
+    },
+    {
+      "path": "requirements.lock",
+      "bytes": 2658,
+      "current_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+      "preedit_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+      "preedit_equal": true,
+      "accepted_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/__init__.py",
+      "bytes": 100,
+      "current_sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9",
+      "preedit_sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9",
+      "preedit_equal": true,
+      "accepted_sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/analysis/development.py",
+      "bytes": 27031,
+      "current_sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+      "preedit_sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+      "preedit_equal": true,
+      "accepted_sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/analysis/statistics.py",
+      "bytes": 32306,
+      "current_sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+      "preedit_sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+      "preedit_equal": true,
+      "accepted_sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/artifacts.py",
+      "bytes": 2032,
+      "current_sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f",
+      "preedit_sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f",
+      "preedit_equal": true,
+      "accepted_sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/checkpoint.py",
+      "bytes": 16745,
+      "current_sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af",
+      "preedit_sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af",
+      "preedit_equal": true,
+      "accepted_sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/config.py",
+      "bytes": 21507,
+      "current_sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241",
+      "preedit_sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241",
+      "preedit_equal": true,
+      "accepted_sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/__init__.py",
+      "bytes": 71,
+      "current_sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7",
+      "preedit_sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7",
+      "preedit_equal": true,
+      "accepted_sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/_processes.py",
+      "bytes": 5378,
+      "current_sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4",
+      "preedit_sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4",
+      "preedit_equal": true,
+      "accepted_sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/beijing.py",
+      "bytes": 23102,
+      "current_sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49",
+      "preedit_sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49",
+      "preedit_equal": true,
+      "accepted_sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/development_cache.py",
+      "bytes": 7166,
+      "current_sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258",
+      "preedit_sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258",
+      "preedit_equal": true,
+      "accepted_sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/feature_cache.py",
+      "bytes": 11029,
+      "current_sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+      "preedit_sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+      "preedit_equal": true,
+      "accepted_sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/schema.py",
+      "bytes": 8877,
+      "current_sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a",
+      "preedit_sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a",
+      "preedit_equal": true,
+      "accepted_sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/data/synthetic.py",
+      "bytes": 16157,
+      "current_sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15",
+      "preedit_sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15",
+      "preedit_equal": true,
+      "accepted_sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/doctor.py",
+      "bytes": 10772,
+      "current_sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d",
+      "preedit_sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d",
+      "preedit_equal": true,
+      "accepted_sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/__init__.py",
+      "bytes": 51,
+      "current_sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5",
+      "preedit_sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5",
+      "preedit_equal": true,
+      "accepted_sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/budgets.py",
+      "bytes": 7346,
+      "current_sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790",
+      "preedit_sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790",
+      "preedit_equal": true,
+      "accepted_sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/controls.py",
+      "bytes": 8130,
+      "current_sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9",
+      "preedit_sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9",
+      "preedit_equal": true,
+      "accepted_sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/isolation.py",
+      "bytes": 22180,
+      "current_sha256": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf",
+      "preedit_sha256": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf",
+      "preedit_equal": true,
+      "accepted_sha256": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/metrics.py",
+      "bytes": 24093,
+      "current_sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3",
+      "preedit_sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3",
+      "preedit_equal": true,
+      "accepted_sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/oracle.py",
+      "bytes": 7098,
+      "current_sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35",
+      "preedit_sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35",
+      "preedit_equal": true,
+      "accepted_sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/runner.py",
+      "bytes": 7653,
+      "current_sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836",
+      "preedit_sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836",
+      "preedit_equal": true,
+      "accepted_sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/splits.py",
+      "bytes": 10372,
+      "current_sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf",
+      "preedit_sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf",
+      "preedit_equal": true,
+      "accepted_sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/eval/state_io.py",
+      "bytes": 9352,
+      "current_sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba",
+      "preedit_sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba",
+      "preedit_equal": true,
+      "accepted_sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/__init__.py",
+      "bytes": 55,
+      "current_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+      "preedit_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+      "preedit_equal": true,
+      "accepted_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/_coefficient.py",
+      "bytes": 8250,
+      "current_sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+      "preedit_sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+      "preedit_equal": true,
+      "accepted_sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/_fixed_writer.py",
+      "bytes": 17016,
+      "current_sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+      "preedit_sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+      "preedit_equal": true,
+      "accepted_sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/associative_hippo.py",
+      "bytes": 5529,
+      "current_sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+      "preedit_sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+      "preedit_equal": true,
+      "accepted_sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/buckets.py",
+      "bytes": 13873,
+      "current_sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+      "preedit_sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+      "preedit_equal": true,
+      "accepted_sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/coordinates.py",
+      "bytes": 1369,
+      "current_sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+      "preedit_sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+      "preedit_equal": true,
+      "accepted_sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/delta.py",
+      "bytes": 18139,
+      "current_sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+      "preedit_sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+      "preedit_equal": true,
+      "accepted_sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/exact_store.py",
+      "bytes": 25297,
+      "current_sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+      "preedit_sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+      "preedit_equal": true,
+      "accepted_sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/expbank.py",
+      "bytes": 12786,
+      "current_sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+      "preedit_sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+      "preedit_equal": true,
+      "accepted_sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/gaver.py",
+      "bytes": 4189,
+      "current_sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+      "preedit_sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+      "preedit_equal": true,
+      "accepted_sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/hippo.py",
+      "bytes": 6167,
+      "current_sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+      "preedit_sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+      "preedit_equal": true,
+      "accepted_sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/jet.py",
+      "bytes": 13178,
+      "current_sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+      "preedit_sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+      "preedit_equal": true,
+      "accepted_sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/multiscale.py",
+      "bytes": 9143,
+      "current_sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+      "preedit_sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+      "preedit_equal": true,
+      "accepted_sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/oracle.py",
+      "bytes": 1399,
+      "current_sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+      "preedit_sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+      "preedit_equal": true,
+      "accepted_sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/memory/reservoir.py",
+      "bytes": 12438,
+      "current_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+      "preedit_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+      "preedit_equal": true,
+      "accepted_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/models/__init__.py",
+      "bytes": 41,
+      "current_sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b",
+      "preedit_sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b",
+      "preedit_equal": true,
+      "accepted_sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/models/_schema.py",
+      "bytes": 5577,
+      "current_sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a",
+      "preedit_sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a",
+      "preedit_equal": true,
+      "accepted_sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/models/kernel_read_model.py",
+      "bytes": 9804,
+      "current_sha256": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
+      "preedit_sha256": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
+      "preedit_equal": true,
+      "accepted_sha256": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/models/task_model.py",
+      "bytes": 21397,
+      "current_sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60",
+      "preedit_sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60",
+      "preedit_equal": true,
+      "accepted_sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/ops.py",
+      "bytes": 12009,
+      "current_sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc",
+      "preedit_sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc",
+      "preedit_equal": true,
+      "accepted_sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/prepare.py",
+      "bytes": 3341,
+      "current_sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3",
+      "preedit_sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3",
+      "preedit_equal": true,
+      "accepted_sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/provenance.py",
+      "bytes": 3522,
+      "current_sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+      "preedit_sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+      "preedit_equal": true,
+      "accepted_sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/readers/__init__.py",
+      "bytes": 63,
+      "current_sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513",
+      "preedit_sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513",
+      "preedit_equal": true,
+      "accepted_sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/readers/kernel_projection.py",
+      "bytes": 11340,
+      "current_sha256": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e",
+      "preedit_sha256": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e",
+      "preedit_equal": true,
+      "accepted_sha256": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/readers/mlp.py",
+      "bytes": 2157,
+      "current_sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e",
+      "preedit_sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e",
+      "preedit_equal": true,
+      "accepted_sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/readers/structured.py",
+      "bytes": 7781,
+      "current_sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca",
+      "preedit_sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca",
+      "preedit_equal": true,
+      "accepted_sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/reproduce.py",
+      "bytes": 23578,
+      "current_sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936",
+      "preedit_sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936",
+      "preedit_equal": true,
+      "accepted_sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/run.py",
+      "bytes": 1315,
+      "current_sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd",
+      "preedit_sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd",
+      "preedit_equal": true,
+      "accepted_sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/train.py",
+      "bytes": 41569,
+      "current_sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+      "preedit_sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+      "preedit_equal": true,
+      "accepted_sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+      "accepted_equal": true
+    },
+    {
+      "path": "famjet/types.py",
+      "bytes": 4399,
+      "current_sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f",
+      "preedit_sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f",
+      "preedit_equal": true,
+      "accepted_sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f",
+      "accepted_equal": true
+    }
+  ],
+  "all_preedit_equal": true,
+  "all_accepted_equal": true,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "template": {
+    "old_sha256": "0ad8232b3bef8758b8f671bc4cdea980f5738e04899b0cbb10c0cc8027bd9291",
+    "new_sha256": "a0f89038b48f041e668ab926ab5a7575b3ef9b74cdcada7e8a2b54c292f590b4",
+    "bytes": 11109,
+    "one_literal_only": true,
+    "worker_bytes": 6621,
+    "worker_sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0"
+  },
+  "authority_sha256": "89dc449619d8ef0e8b2b4f823c6bbba702b0fbe177c501968533eeb8c8c1bb50",
+  "monitor_sha256": "044b6d0f76e11bc2a2f2d608d35f1e36e3bd85244e31fc063335124a0db5c473",
+  "source_diff_paths": [
+    "validation/kernel_stage_a/README.md",
+    "validation/kernel_stage_a/__main__.py",
+    "validation/kernel_stage_a/authority.py"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python3.13",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_kernel_stage_a_preflight.py::test_authority_refuses_null_unknown_mismatch_before_backend",
+    "tests/test_kernel_stage_a_preflight.py::test_exact_synthetic_authority_detects_identity_release_and_deadline_mutations",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_real_worker_authority_phase_finishes_before_backend_and_refusal_blocks_it",
+    "--basetemp=/private/tmp/task18-budget-cover-uvisbiew/pytest"
+  ],
+  "selection": [
+    "tests/test_kernel_stage_a_preflight.py::test_authority_refuses_null_unknown_mismatch_before_backend",
+    "tests/test_kernel_stage_a_preflight.py::test_exact_synthetic_authority_detects_identity_release_and_deadline_mutations",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_real_worker_authority_phase_finishes_before_backend_and_refusal_blocks_it"
+  ],
+  "basetemp": "/private/tmp/task18-budget-cover-uvisbiew",
+  "start_utc": "2026-10-18T13:34:31.569533+00:00",
+  "end_utc": "2026-10-18T13:34:31.702626+00:00",
+  "start_monotonic": 565896.476350041,
+  "end_monotonic": 565896.60936725,
+  "external_duration": 0.1330172090092674,
+  "exit_code": 0,
+  "stdout": "cover.stdout",
+  "stderr": "cover.stderr"
+}

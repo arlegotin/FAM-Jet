@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python3.13",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_kernel_stage_a_execution_budget.py",
+    "--basetemp=/private/tmp/task18-budget-red5-7zzh7atm/pytest"
+  ],
+  "basetemp": "/private/tmp/task18-budget-red5-7zzh7atm",
+  "start_utc": "2026-10-18T13:33:48.592400+00:00",
+  "end_utc": "2026-10-18T13:33:48.757270+00:00",
+  "start_monotonic": 565853.499296125,
+  "end_monotonic": 565853.664098416,
+  "external_duration": 0.16480229096487164,
+  "exit_code": 1,
+  "stdout": "red5.stdout",
+  "stderr": "red5.stderr"
+}

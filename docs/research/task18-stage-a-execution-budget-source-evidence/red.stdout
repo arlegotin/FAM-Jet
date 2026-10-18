@@ -1,0 +1,237 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-201326592-incremental worker memory cap] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red-rcibkvnm/pytest/test_controlled_monitor_charge0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109f3fbb0>
+charge = 286146560, limit = 201326592, reason = 'incremental worker memory cap'
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        original = m.supervise
+    
+        def supervise(command, output, **options):
+            sampler = options['sampler']
+            count = 0
+    
+            def charged_sample(pid, **kwargs):
+                nonlocal count
+                count += 1
+                sample = sampler(pid, **kwargs)
+                if count == 2:
+                    # The fixture's genuine SELF baseline is 226721792 bytes.
+                    # Raise its later worker observation by the hand-set charge.
+                    sample[pid] = 226721792 + charge
+                    sample.processes[pid]['rss_bytes'] = sample[pid]
+                return sample
+    
+            options['sampler'] = charged_sample
+            return original(command, output, **options)
+    
+        monkeypatch.setattr(m, 'supervise', supervise)
+        result, records, calls, _ = exercise(tmp_path, monkeypatch, incremental_bytes=limit)
+>       assert result['reason'] == reason, result
+E       AssertionError: {'status': 'COMPLETED', 'reason': None, 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None == 'incremental worker memory cap'
+
+tests/test_kernel_stage_a_execution_budget.py:52: AssertionError
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-402653184-None] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red-rcibkvnm/pytest/test_controlled_monitor_charge1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109f3f820>
+charge = 286146560, limit = 402653184, reason = None
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        original = m.supervise
+    
+        def supervise(command, output, **options):
+            sampler = options['sampler']
+            count = 0
+    
+            def charged_sample(pid, **kwargs):
+                nonlocal count
+                count += 1
+                sample = sampler(pid, **kwargs)
+                if count == 2:
+                    # The fixture's genuine SELF baseline is 226721792 bytes.
+                    # Raise its later worker observation by the hand-set charge.
+                    sample[pid] = 226721792 + charge
+                    sample.processes[pid]['rss_bytes'] = sample[pid]
+                return sample
+    
+            options['sampler'] = charged_sample
+            return original(command, output, **options)
+    
+        monkeypatch.setattr(m, 'supervise', supervise)
+        result, records, calls, _ = exercise(tmp_path, monkeypatch, incremental_bytes=limit)
+        assert result['reason'] == reason, result
+        assert result['status'] == ('COMPLETED' if reason is None else 'STOPPED'), result
+>       assert result['incremental_worker_peak_bytes'] == charge
+E       assert 0 == 286146560
+
+tests/test_kernel_stage_a_execution_budget.py:54: AssertionError
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653184-402653184-None] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red-rcibkvnm/pytest/test_controlled_monitor_charge2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a12a570>
+charge = 402653184, limit = 402653184, reason = None
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        original = m.supervise
+    
+        def supervise(command, output, **options):
+            sampler = options['sampler']
+            count = 0
+    
+            def charged_sample(pid, **kwargs):
+                nonlocal count
+                count += 1
+                sample = sampler(pid, **kwargs)
+                if count == 2:
+                    # The fixture's genuine SELF baseline is 226721792 bytes.
+                    # Raise its later worker observation by the hand-set charge.
+                    sample[pid] = 226721792 + charge
+                    sample.processes[pid]['rss_bytes'] = sample[pid]
+                return sample
+    
+            options['sampler'] = charged_sample
+            return original(command, output, **options)
+    
+        monkeypatch.setattr(m, 'supervise', supervise)
+        result, records, calls, _ = exercise(tmp_path, monkeypatch, incremental_bytes=limit)
+        assert result['reason'] == reason, result
+        assert result['status'] == ('COMPLETED' if reason is None else 'STOPPED'), result
+>       assert result['incremental_worker_peak_bytes'] == charge
+E       assert 0 == 402653184
+
+tests/test_kernel_stage_a_execution_budget.py:54: AssertionError
+_ test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653185-402653184-incremental worker memory cap] _
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red-rcibkvnm/pytest/test_controlled_monitor_charge3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a07b460>
+charge = 402653185, limit = 402653184, reason = 'incremental worker memory cap'
+
+    @pytest.mark.parametrize(('charge', 'limit', 'reason'), [
+        (RECORDED, 201326592, 'incremental worker memory cap'),
+        (RECORDED, ADOPTED, None),
+        (ADOPTED, ADOPTED, None),
+        (ADOPTED + 1, ADOPTED, 'incremental worker memory cap'),
+    ])
+    def test_controlled_monitor_charge_respects_both_limits_and_new_boundary(
+            tmp_path, monkeypatch, charge, limit, reason):
+        original = m.supervise
+    
+        def supervise(command, output, **options):
+            sampler = options['sampler']
+            count = 0
+    
+            def charged_sample(pid, **kwargs):
+                nonlocal count
+                count += 1
+                sample = sampler(pid, **kwargs)
+                if count == 2:
+                    # The fixture's genuine SELF baseline is 226721792 bytes.
+                    # Raise its later worker observation by the hand-set charge.
+                    sample[pid] = 226721792 + charge
+                    sample.processes[pid]['rss_bytes'] = sample[pid]
+                return sample
+    
+            options['sampler'] = charged_sample
+            return original(command, output, **options)
+    
+        monkeypatch.setattr(m, 'supervise', supervise)
+        result, records, calls, _ = exercise(tmp_path, monkeypatch, incremental_bytes=limit)
+>       assert result['reason'] == reason, result
+E       AssertionError: {'status': 'COMPLETED', 'reason': None, 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None == 'incremental worker memory cap'
+
+tests/test_kernel_stage_a_execution_budget.py:52: AssertionError
+_____ test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise _____
+
+tmp_path = PosixPath('/private/tmp/task18-budget-red-rcibkvnm/pytest/test_exact_new_seal_passes_ent0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a07b8a0>
+capsys = <_pytest.capture.CaptureFixture object at 0x109f8fcb0>
+
+    def test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise(tmp_path, monkeypatch, capsys):
+        calls = []
+    
+        def fake_supervise(command, output, **options):
+            calls.append(options)
+            return {'status': 'COMPLETED'}
+    
+        monkeypatch.setattr(m, 'supervise', fake_supervise)
+        monkeypatch.setattr(cli.commands, 'stage_command', lambda root, seal: ['/controlled/stage'])
+        for limit, expected_exit in [(201326592, 2), (ADOPTED, 0)]:
+            seal_path = tmp_path / f'seal-{limit}.json'
+            seal_path.write_text(json.dumps(_seal(tmp_path, limit)))
+            monkeypatch.setattr(sys, 'argv', ['stage-a', '--seal', str(seal_path)])
+>           assert cli.main() == expected_exit
+E           assert 2 == 0
+E            +  where 2 = <function main at 0x10a101ee0>()
+E            +    where <function main at 0x10a101ee0> = cli.main
+
+tests/test_kernel_stage_a_execution_budget.py:86: AssertionError
+----------------------------- Captured stderr call -----------------------------
+REFUSED: pending authority schema mismatch
+REFUSED: seal scope/limits mismatch
+_ test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker _
+
+    def test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker():
+        old = ast.parse(REVIEWED.read_text())
+>       new = ast.parse(CURRENT.read_text())
+                        ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_execution_budget.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('docs/research/task18-stage-a-setup-parent-384mib.py')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'docs/research/task18-stage-a-setup-parent-384mib.py'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-201326592-incremental worker memory cap]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[286146560-402653184-None]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653184-402653184-None]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_controlled_monitor_charge_respects_both_limits_and_new_boundary[402653185-402653184-incremental worker memory cap]
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise
+FAILED tests/test_kernel_stage_a_execution_budget.py::test_new_static_setup_template_changes_only_supervise_limit_and_preserves_worker
+6 failed in 0.07s
