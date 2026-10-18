@@ -112,7 +112,8 @@ def test_finalization_failure_returns_bounded_durable_failure_and_reaps(tmp_path
         now=time.monotonic(); (out/'finish').touch()
         return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
     result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.3,output_bytes=8192,free_disk_bytes=0)
-    assert result['status']=='STOPPED' and result['reason']=='monitor serialization/write failure'
+    assert result['status']=='STOPPED' and result['reason']=='missing post-import worker baseline or unresolved declaration'
+    assert result['finalization_failure'].startswith('OSError: controlled final')
     assert result['returncode'] is not None
     assert result['absolute_process_tree_peak_bytes']==70 and result['incremental_worker_peak_bytes']>=70
     assert json.loads((out/'monitor.json').read_text())==result
@@ -282,6 +283,7 @@ def test_final_metadata_serialization_error_uses_same_failure_commit(tmp_path,mo
         now=time.monotonic(); (out/'finish').touch()
         return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
     result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0)
-    assert result['reason']=='monitor serialization/write failure'
+    assert result['reason']=='missing post-import worker baseline or unresolved declaration'
+    assert result['finalization_failure'].startswith('OSError: controlled metadata')
     assert result['returncode'] is not None and result['absolute_process_tree_peak_bytes']==70
     assert json.loads((out/'monitor.json').read_text())==result

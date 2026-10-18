@@ -363,12 +363,25 @@ def _cleanup_observation(root_pid,runtime_identity,*,deadline,output_limit):
         errors.append(str(exc)[:160])
     finally:
         if probe is not None:
+            kill_attempted=False
             try:
-                if errors: probe.kill()
+                if errors and probe.returncode is None:
+                    kill_attempted=True; probe.kill()
             except Exception as exc: errors.append('helper kill: '+str(exc)[:120])
             finally:
                 try: probe.wait(timeout=max(0,bound-time.monotonic()))
-                except Exception as exc: errors.append('helper wait: '+str(exc)[:120])
+                except Exception as exc:
+                    # EOF is not completion. Keep this first wait failure even
+                    # if termination/reap subsequently succeeds, and spend only
+                    # the original helper remainder (including wait(0)).
+                    errors.append('helper wait: '+str(exc)[:120])
+                    try:
+                        if not kill_attempted and probe.returncode is None:
+                            kill_attempted=True; probe.kill()
+                    except Exception as cleanup_exc: errors.append('helper kill: '+str(cleanup_exc)[:120])
+                    finally:
+                        try: probe.wait(timeout=max(0,bound-time.monotonic()))
+                        except Exception as cleanup_exc: errors.append('helper cleanup wait: '+str(cleanup_exc)[:120])
                 finally:
                     witness.update(completion_end=time.monotonic(),reaped=type(probe.returncode) is int,
                                    returncode=probe.returncode)
@@ -867,15 +880,38 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             finally:
                 try: root_end()
                 except Exception as exc: cleanup_error('end',exc)
-    def emergency(why):
+    def emergency(why,*,finalization=None):
         # Independent of the normal JSON encoder and Path write boundary.
-        body=('{"status":"'+stopped_status()+'","reason":"'+why+'","returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
+        def quoted(value,budget):
+            # Bound escaped ASCII bytes, not input characters. This also handles
+            # controls, lone surrogates and non-BMP text without the failed encoder.
+            parts=[]; used=2
+            for char in value[:max(0,budget)]:
+                code=ord(char)
+                if char in ('"','\\'): piece='\\'+char
+                elif 32<=code<127: piece=char
+                elif code<=65535: piece='\\u%04x'%code
+                else:
+                    code-=65536; piece='\\u%04x\\u%04x'%(55296+(code>>10),56320+(code&1023))
+                if used+len(piece)+3>budget:
+                    parts.append('...'); break
+                parts.append(piece); used+=len(piece)
+            return '"'+''.join(parts)+'"'
+        prefix='{"status":"'+stopped_status()+'","reason":'
+        suffix=(',"returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
               ',"absolute_process_tree_peak_bytes":'+str(peak)+',"incremental_worker_peak_bytes":'+str(max(incremental_peak,rss_peak_sum))+
               ',"outer_seconds":'+repr(time.monotonic()-start)+',"timing_boundary":"before emergency commit; caller includes write"'+
               ',"raw_identity_complete":'+str(evidence['rejected_raw_complete'] and source_accounting['identity_complete']).lower()+
               ',"refused_observations":'+str(evidence['rejected_observations'])+',"refused_rss_bytes":'+str(evidence['rejected_rss_bytes'])+
-              ',"source_accounting_complete":'+str(source_accounting['complete']).lower()+'}\n').encode()
-        return body
+              ',"source_accounting_complete":'+str(source_accounting['complete']).lower())
+        secondary=''
+        if finalization is not None:
+            suffix+=',"cleanup_failure_count":'+str(len(cleanup_diagnostics))
+            secondary=',"finalization_failure":'
+        available=reserve-len(prefix)-len(suffix)-len(secondary)-2
+        primary=quoted(reason if reason is not None else why,min(256,available-(18 if secondary else 0)))
+        detail=quoted(finalization,min(256,available-len(primary))) if secondary else ''
+        return (prefix+primary+suffix+secondary+detail+'}\n').encode('ascii')
     initial=emergency('monitor incomplete')
     with verdict.open('xb') as stream: stream.write(initial+b' '*(reserve-len(initial)))
     evidence_path.touch(); (output/'monitor-events.jsonl').touch()
@@ -985,7 +1021,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         if time.monotonic()>=deadline and result['status']=='COMPLETED': raise _MonitorStop('outer timeout')
         return result
     except Exception as exc:
-        raw=emergency(str(exc) if isinstance(exc,_MonitorStop) else 'monitor serialization/write failure')
+        raw=emergency(str(exc) if isinstance(exc,_MonitorStop) else 'monitor serialization/write failure',
+                      finalization=type(exc).__name__+': '+str(exc)[:160])
         fd=os.open(verdict,os.O_WRONLY)
         try:
             payload=raw+b' '*(reserve-len(raw)); written=0

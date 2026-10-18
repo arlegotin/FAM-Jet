@@ -240,3 +240,104 @@ def test_worker_cannot_admit_numeric_cleanup_vector_as_an_observer(tmp_path):
     entry=dict(pid=pid,parent=os.getpid(),executable='/bin/ps',argv=vector)
     roles=m.classify(10,{pid:entry},{},{pid:dict(entry)})
     assert roles[pid]=='unaccounted'
+
+
+@pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+    """EOF cannot waive owning termination/reap after its first wait fails."""
+    runtime=identity(); clock=[100.]; calls=[]; pid=480001
+    monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+    monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+    monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+        lookup_start=100.,lookup_end=100.))
+    class Probe:
+        returncode=None
+        def __init__(self):
+            self.pid=pid
+            for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                read,write=os.pipe(); os.write(write,raw); os.close(write)
+                setattr(self,name,os.fdopen(read,'rb',buffering=0))
+        def kill(self):
+            assert self.returncode is None,'never signal an already-reaped numeric PID'
+            calls.append(dict(operation='kill',time=clock[0]))
+            if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+        def wait(self,timeout):
+            calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+            assert 0<=timeout<=max(0,100.5-clock[0])
+            if len([row for row in calls if row['operation']=='wait'])==1:
+                clock[0]=100.5 if case=='exhausted' else 100.1
+                if case=='already_reaped': self.returncode=0
+                raise subprocess.TimeoutExpired('initial helper wait',timeout)
+            clock[0]+=.01
+            if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+            self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+            return self.returncode
+    probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+    if case=='read_error':
+        def denied_read(fd,count): raise OSError('controlled helper read failure')
+        monkeypatch.setattr(m.os,'read',denied_read)
+    observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+    (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+    assert observed['complete'] is False and 'initial helper wait' in observed['error']
+    assert len([row for row in calls if row['operation']=='wait'])==2
+    assert len([row for row in calls if row['operation']=='kill'])==(0 if case=='already_reaped' else 1)
+    assert observed['helper']['witness']['reaped'] is (case not in ('exhausted','reap_failed'))
+    assert observed['helper']['witness']['returncode']==probe.returncode
+    if case=='exhausted':
+        assert calls[-1]['timeout']==0 and observed['end']>=100.5
+        assert observed['helper']['witness']['returncode'] is None
+    if case=='kill_denied': assert 'controlled helper kill denial' in observed['error']
+    if case=='reap_failed': assert 'controlled helper reap failure' in observed['error']
+    if case=='read_error': assert 'controlled helper read failure' in observed['error']
+
+
+@pytest.mark.parametrize('final_failure',['encoding','commit','output'])
+@pytest.mark.parametrize('prior_cap',[True,False])
+def test_emergency_preserves_first_cap_and_separate_finalization_failure(tmp_path,monkeypatch,final_failure,prior_cap):
+    message='later "encoded"\\\n\t\x00故障🙂'
+    if final_failure=='commit':
+        def commit(*args): raise OSError(message)
+        monkeypatch.setattr(m,'_commit_monitor',commit)
+    else:
+        original=json.JSONEncoder.iterencode
+        def encode(self,value,*args,**kwargs):
+            if isinstance(value,dict) and 'stage_launch_vector_sha256' in value:
+                if final_failure=='output': raise m._MonitorStop(message)
+                raise OSError(message)
+            return original(self,value,*args,**kwargs)
+        monkeypatch.setattr(json.JSONEncoder,'iterencode',encode)
+    result,records,order=exercise(tmp_path,monkeypatch,cap=prior_cap,
+        failure='signal' if prior_cap else None,group='survivor' if prior_cap else 'empty')
+    assert result['status']=='STOPPED' and result['returncode'] is not None
+    assert result['reason']==('incremental worker memory cap' if prior_cap else
+                             message if final_failure=='output' else 'monitor serialization/write failure')
+    assert message in result['finalization_failure']
+    if prior_cap:
+        assert result['incremental_worker_peak_bytes']>=500000000
+        assert result['cleanup_failure_count']>=1
+    assert (tmp_path/'monitor/monitor.json').stat().st_size==8192
+    assert len([row for row in records if row['kind']=='python_root_end'])==1
+
+
+def test_emergency_quoted_primary_and_long_secondary_fit_minimum_reservation(tmp_path,monkeypatch):
+    primary='primary "quoted"\\\n\t\x00故障🙂\ud800'; out=tmp_path/'minimum-emergency'
+    class Owner:
+        pid=490001; returncode=None
+        def poll(self): return self.returncode
+        def wait(self,timeout): self.returncode=0; return 0
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kwargs:Owner())
+    monkeypatch.setattr(m.os,'killpg',lambda *args:None)
+    def sampler(pid): raise m._MonitorStop(primary)
+    original=json.JSONEncoder.iterencode
+    def encode(self,value,*args,**kwargs):
+        if isinstance(value,dict) and 'stage_launch_vector_sha256' in value:
+            raise OSError('secondary "escaped"\\\n\x00故障🙂'*100)
+        return original(self,value,*args,**kwargs)
+    monkeypatch.setattr(json.JSONEncoder,'iterencode',encode)
+    result=m.supervise([sys.executable,'-c','pass'],out,sampler=sampler,outer_seconds=.5,
+                       output_bytes=1024,free_disk_bytes=0)
+    assert result['status']=='STOPPED' and result['reason']==primary
+    assert result['finalization_failure'].startswith('OSError: secondary')
+    assert json.loads((out/'monitor.json').read_text())==result
+    assert (out/'monitor.json').stat().st_size==512
+    assert m.directory_bytes(out)<=1024
