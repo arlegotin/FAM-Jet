@@ -1,0 +1,17 @@
+{
+  "time_utc": "2026-10-18T11:54:02.804183+00:00",
+  "status": "accepted_named_paired_native_lifecycle_prerequisite",
+  "guarded_cancellation_report": "docs/research/task18-native-guarded-cancellation-native-report.md",
+  "guarded_cancellation_execution_head": "22dbc9a07f11b778bf3c061bf521c9ff14a93677",
+  "evidence_commit": "09ed78fb255e03bd5fb03e5e2f3bc139f1cfb943",
+  "root_verification": "docs/research/task18-native-guarded-cancellation-native-root-verification.json",
+  "normal_exit_evidence": "docs/research/task18-owned-root-asynchronous-rss-native-root-verification.json",
+  "normal_exit_execution_head": "db8c1ed2bfde0754c730a04e61b88d036e807ef4",
+  "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "scope": "normal imported-runtime owning exit plus guarded sole-child cancellation; no natural-exit/reparented cancellation claim",
+  "historical_failed_results_unchanged": true,
+  "mathematical_reads": 0,
+  "scientific_stage_A_released": false,
+  "protected_access": "CLOSED"
+}
