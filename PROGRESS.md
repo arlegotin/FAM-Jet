@@ -301,3 +301,10 @@ Kernel-projection source component accepted at ff05c9e/package15cf84 after indep
 ### 18 October 2026 — external preflight source accepted
 
 Independent initial review and two scoped fix rounds close all six preflight findings at5bcd05d; production package15cf84 remains unchanged. Root verified the final report,25 source/log/runtime files and actual RED/GREEN/final15-pass covering evidence. Live helper RSS is enforced immediately and retained on stop; authority identity/deadlines/final failure records remain closed. [Acceptance](docs/research/task18-kernel-stage-a-preflight-source-acceptance.json). Native Mac process identity/display compatibility, actual factors/resources and scientific release remain pending. Task18 scientific status OPEN; protected access CLOSED.
+
+
+### 18 October 2026 — native monitor source component accepted
+
+Independent initial and scoped repair reviews close the native monitor findings at0367d58/source daa89fc, with unchanged production package15cf84. Final covering64passed/24deselected/3.03s; root verified2203files,571original/archive/copy mappings and50actual control verdicts. Raw numerical recovery survives failed proof storage; phase costs follow admitted boundaries; incomplete provenance cannot create later phase attribution. All source repairs are synthetic-control evidence. The historical0.867s native check remains bound to its earlier dirty snapshot, and the round3 missing transient specimens remain explicitly disclosed. [Acceptance](docs/research/task18-kernel-stage-a-native-process-source-acceptance.json), [rulings](docs/research/task18-kernel-stage-a-native-process-rulings.md).
+
+A separate generation-bound Python lifetime source task and zero-request normal-exit checks come next. No factors, numerical reads, StageA/panel/fit/training/calibration/protected work is released. Task18 scientific status OPEN; protected access CLOSED.

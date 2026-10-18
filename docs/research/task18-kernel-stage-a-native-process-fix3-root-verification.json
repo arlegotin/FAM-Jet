@@ -1,0 +1,1590 @@
+{
+  "base": "1b0bb18aed81bcb88a0faec5f6d56397fb2de5d7",
+  "head": "6ae27aa9ceacd83905d47de60bfee5961cf752e1",
+  "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "files": {
+    "validation/kernel_stage_a/monitor.py": {
+      "sha256": "7da73ce53fed13b4f827b057bc1ee4b203193ee39c36a04b77bf5f075bb0ae4f",
+      "bytes": 41501
+    },
+    "validation/kernel_stage_a/README.md": {
+      "sha256": "2df90ad83e3305d66fa45fcbdbefedcd3b1e6f2b8e7d870620d62cd76b52952f",
+      "bytes": 16370
+    },
+    "tests/test_kernel_stage_a_native_process_fix3.py": {
+      "sha256": "cd9fd0902097411c2b72403659316f965954365177a2cc83eec2a0d34e834532",
+      "bytes": 5037
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/adjacent-green.txt": {
+      "sha256": "5707b7c226afa31cdf05b00ea6ace6139bf169b53d9f8ca5d16d7cc61b909f18",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/audit.py": {
+      "sha256": "5688229eb212218374ef1143dcef8e8c3ba1493763ca656f03b8e2be1f3d37d6",
+      "bytes": 1492
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/audit.txt": {
+      "sha256": "772e3496aa9d20d644fbef4f9b80a47cb55b2ff32375ae4bcd866c8a29c60496",
+      "bytes": 167
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/contract/task-18-native-process-fix2-review.md": {
+      "sha256": "d3766b562004285c0befb0e5e78b9a39637ff2bce5ad540b3ee90b8851a95032",
+      "bytes": 8831
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/contract/task-18-native-process-fix3-brief.md": {
+      "sha256": "adb5f6179a3259bd47dd0bb462bcb03287eaeb3f02693c43bae468831eb493e0",
+      "bytes": 5073
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/covering-initial.txt": {
+      "sha256": "871e88ec9a2bfae32e85c13f7c69713a41e389c2fe084fe8571ed23f62a2a2c3",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/final-focused.txt": {
+      "sha256": "3e966999e12de639f9328071109ca20c25da28ea80c274ca8d050b538db56b96",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/finalize.py": {
+      "sha256": "97a5e5a20a9d637c400f6ac74eda6dbd5280c72e1b7dcb774a392a2be66904be",
+      "bytes": 13717
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/green.txt": {
+      "sha256": "dbee5a80322a93a09157ae8e67132beac22a6a05b6faa84cd514af0615857f8b",
+      "bytes": 6897
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/green2.txt": {
+      "sha256": "edaad5165ef323501309b18f0e6e4f16c6b323cf2374650b11b0f9f3169d0b0e",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/package.py": {
+      "sha256": "28b7bcef9cab768d809692f8dbbb9cbbc77bade47a034b04eb138beb6b4c003c",
+      "bytes": 5833
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/packaging-whitespace.txt": {
+      "sha256": "1235aed3db33ee207cc1987ec27ab7ef8a4a7005aef8997614e74d993016650b",
+      "bytes": 216522
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/prior-byte-inventory.json": {
+      "sha256": "b6e3e1d3c137980335893fe646e5525a39f3ac947b77d7d138f1601866b4db73",
+      "bytes": 30530
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/py-compile.txt": {
+      "sha256": "bde294368bfed77c2cddf8cec271d398aee9cdbab3b26e1059281bd33adb0120",
+      "bytes": 12
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/red.txt": {
+      "sha256": "cdac2ada9a50c52492dea089e0ada555ce2a41bc9f992a705ec1f816906a7910",
+      "bytes": 9876
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/source-whitespace.txt": {
+      "sha256": "bde294368bfed77c2cddf8cec271d398aee9cdbab3b26e1059281bd33adb0120",
+      "bytes": 12
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/monitor-events.jsonl": {
+      "sha256": "0f5d22da349ca4d301018409eda2559c42c36981ddb9be670756f283e432c4b9",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/monitor-evidence.jsonl": {
+      "sha256": "268c8f9e59f1469691d3c74b8bfe281aaa0ee113ac5ab62da421dfb201dd5c38",
+      "bytes": 1563
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/monitor.json": {
+      "sha256": "6a64dc772bff8672452e654eab5e4e172a33cf1738118f33fa2bb95dd8758aec",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b0/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/monitor-events.jsonl": {
+      "sha256": "efed660e42261b8cae63b591c971a665a0191b282c901c35ace107b1dc6d05ae",
+      "bytes": 819
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/monitor-evidence.jsonl": {
+      "sha256": "b01cd517af0f7307c1221d7fed63f8fb8c65b15e4f716fd502eea061c724fbe5",
+      "bytes": 2896
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/monitor.json": {
+      "sha256": "a9bb722a38e143572f34445ac53c71a05ab3be03276ce0c1cd5db85979ab4edc",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b1/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/monitor-events.jsonl": {
+      "sha256": "61516c94ee6987d26a8e938fd71caaf4a9c38d66ae4fd03f3aada0d9fbc39aeb",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "5a0c4883e3099460a72f0b088808ec9082c6d7e6873b2dfb4725997855ea7e5e",
+      "bytes": 1127
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/monitor.json": {
+      "sha256": "5708f3b5949a7b40e8dcdb4cf76a9fb278b732d115e8e49a26264503788f6669",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b2/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/monitor-events.jsonl": {
+      "sha256": "82b88e3e39e741469d277e51f963e0ab3fc50e8ce621baed5f070db1bd7a1cb9",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "47f95519dad61ab9c42af105713e7f962ecc8d598640ed7cfd7afec4b1031955",
+      "bytes": 2467
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/monitor.json": {
+      "sha256": "f1b1cfad8b45049b0e36be5de8587079e9a8c19ee1c4153f8ae4091cf8467057",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_post_authority_baseline_b3/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/monitor-events.jsonl": {
+      "sha256": "31565a3687edf2ca164e7d11b2a9af7b6c003af81bb06a5b34bf32ded1483670",
+      "bytes": 820
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/monitor-evidence.jsonl": {
+      "sha256": "fa518491a24dfb4d99ecac1fad35e7f434a32218c66849ecc3fd4df7838f9cfe",
+      "bytes": 1570
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/monitor.json": {
+      "sha256": "b30aad01c753429e009dcff95623493b70e60e49d86eac13c3af06ee85ab0d9a",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping0/overlap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/monitor-events.jsonl": {
+      "sha256": "6d8d16bead136dc7fdab0c2342f05ea9a30af45c62378235968465544c25f6b7",
+      "bytes": 1316
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/monitor-evidence.jsonl": {
+      "sha256": "02de58035f3e87d613c6e59014b6183f9c8b7e6b729b6af52d7c27749c61b19e",
+      "bytes": 2406
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/monitor.json": {
+      "sha256": "3ed722338e99a3854da647f017c57074bbcf25fb668992b6f75a8e48a15231dc",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/adjacent-green/test_source_sample_overlapping1/overlap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/charged-padding.bin": {
+      "sha256": "f89c4706fc52cb640cb45cb4ae012d33ecd1609399cb7bba972e4a39cacc0cef",
+      "bytes": 5442
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/monitor-events.jsonl": {
+      "sha256": "c12b94a23a3a01cd48db4ff05134bfad50431e6b33d617b357e8f8987dd1e56e",
+      "bytes": 1561
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/monitor-evidence.jsonl": {
+      "sha256": "21ad42ae38a9b93dd13d36526a80e2dc8c9b38f7ad3185036d5fb4c44eefc390",
+      "bytes": 1173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/monitor.json": {
+      "sha256": "b3b008f68933b596f462a3a88b8a446d3f4c9d5148d4e16da917dd3db1cde72c",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f0/declaration_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/charged-padding.bin": {
+      "sha256": "6fc618aa3dc5d3f47b92a3e9ded07c07601087db7d894a2ba95ada715fddcbe9",
+      "bytes": 5009
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/monitor-events.jsonl": {
+      "sha256": "7c8fbc5c907356c1fcf176c49d88572eeb959f60fdc1b715c3d63cb50ee7d9cf",
+      "bytes": 1564
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/monitor-evidence.jsonl": {
+      "sha256": "c0a485d613290788a790ec4fc69be4e690f1b04da1a600af30125d16472b6f3a",
+      "bytes": 1603
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/monitor.json": {
+      "sha256": "c12725fbfe89c78edd55441e9f1c78d5e2eee1903f1ecf11aaa7c46c4f1f7b92",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f1/completion_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization/monitor-events.jsonl": {
+      "sha256": "578ce36ed52289c8a4e3dc13b4adeecd9ea6944d9a9d80d0806d04b084fa11d7",
+      "bytes": 1561
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization/monitor-evidence.jsonl": {
+      "sha256": "52c1f7853551b1b605602c234611199d9a2dbfb15de90cbae4fb01e4e43419c1",
+      "bytes": 1171
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization/monitor.json": {
+      "sha256": "a948a46f71ea25358944dae4b6b56e58732104d90d2f32bb55d330f9ecf84094",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_late_inner_rss_survives_f2/serialization/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum/monitor-events.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum/monitor-evidence.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum/monitor.json": {
+      "sha256": "d58943ff5a389c2ab9deba222c5d8a51146f52d5bfb6a9f628b65634990caf65",
+      "bytes": 512
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_minimum_failure_budget_st0/minimum/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/monitor-events.jsonl": {
+      "sha256": "d968fbc5d039a923213faae238b198d771a844b606e1a107e1201a7fafc8a513",
+      "bytes": 816
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/monitor-evidence.jsonl": {
+      "sha256": "4eeedea0987284a785ff713784208a7777ebb1bed7ee5fb2b30937c06fab2d8f",
+      "bytes": 1547
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/monitor.json": {
+      "sha256": "896cabfc86023fb3b38a85344c00e0a86a75ab7e96d04bb254caa3e9fbd489c7",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b0/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/monitor-events.jsonl": {
+      "sha256": "fdea17c4b469d4bffd0f4075ade6d2805d6fa0b4ab80473ea832116d3abfb9a8",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/monitor-evidence.jsonl": {
+      "sha256": "96d0ddb332ec230b0e121112168ea8d1e371a9860995ce7774dbd278a548ffd8",
+      "bytes": 2901
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/monitor.json": {
+      "sha256": "cc9cd409813419c6d148321635ef5dcdfdbd360eadb2a73b9657b80ce0219d8e",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b1/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/monitor-events.jsonl": {
+      "sha256": "b9ef8ba968929cfbd1bcb356b65baa04ee4879c921c644bebd77375f7c3eca92",
+      "bytes": 819
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "45dd0eeca0fb0a544afb4c01f4c52b8c06f4be3293c19350cc059fe7ee8d7e6a",
+      "bytes": 1125
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/monitor.json": {
+      "sha256": "9edc95033738633305e3c053be82ba1f0cd3d180bd2a05845be9d83e59ae6273",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b2/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/monitor-events.jsonl": {
+      "sha256": "ac209fdea18398e773a1795865b1b9466633bd4080fe5d91b1dd5bc50acfbeac",
+      "bytes": 820
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "035075cc9a7e34a614361845e7af4660c5e855539eef8e844243fe1807a7c3d0",
+      "bytes": 2467
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/monitor.json": {
+      "sha256": "d9a6f4ed7ee40212ddae625e75463a6aa5780a35b3f4891144c2fe86cc9c1087",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_post_authority_baseline_b3/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/monitor-events.jsonl": {
+      "sha256": "41ba1716451ea66fe02dff011cbeb827ce81a50e0f01b7b928cc2c7dc494086f",
+      "bytes": 817
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/monitor-evidence.jsonl": {
+      "sha256": "852aaa72919785d779a1df3b96004c0133447e86a0229dbc7a9845a37f6f365c",
+      "bytes": 1568
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/monitor.json": {
+      "sha256": "23988cc09199bcdea1b5adfdddf471a42269ae27d6d71f18cc666f5a34a87f4a",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_source_sample_overlapping0/overlap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage/monitor-events.jsonl": {
+      "sha256": "0dd814fb9834fca7367d1c38aca8e692f2521924cc76c1ad2df751e40039e585",
+      "bytes": 581
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage/monitor-evidence.jsonl": {
+      "sha256": "e90d378199c61305f1e2601e43011e7cea4516ae583d6c750d2ed9123602b9e4",
+      "bytes": 1173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage/monitor.json": {
+      "sha256": "07838229af1d6156f822637849c34b9c52e28f8492d2843d24046ab46cada247",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour0/storage/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial/monitor-events.jsonl": {
+      "sha256": "2a6db2e7860b19a98ce908d176d9e86b25c2c6fe40125a18ef28eb04db0ad0fc",
+      "bytes": 40
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl": {
+      "sha256": "79471b41511a6929c06c6cef6e3e8e88c0268799087a4198c07a1987ec272767",
+      "bytes": 3369
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial/monitor.json": {
+      "sha256": "4200f7a7b1de72f110c06b947ad901df6df41d1d44556186f2543e219d4a7544",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour1/partial/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated/monitor-events.jsonl": {
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated/monitor-evidence.jsonl": {
+      "sha256": "fd1059683e20666a2a953fb70952bb33d8c78b1098f89d51107094c1b1f07627",
+      "bytes": 2191
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated/monitor.json": {
+      "sha256": "358a377c687eb03013beb5580358d4c344214f489d63cf83f41ac7b3e6d2eae9",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unrecoverable_source_jour2/truncated/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline/monitor-events.jsonl": {
+      "sha256": "e05788dafb85824fbff8b3505ec46268a7e91454cb2a2ee3b75631403d4bf538",
+      "bytes": 547
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline/monitor-evidence.jsonl": {
+      "sha256": "312c131d8b73755a262f40455120bd4ba50a19632cbf8abf9e8e2354379ae453",
+      "bytes": 1128
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline/monitor.json": {
+      "sha256": "35d58b1e171c5884f5f656fa54e2f08009f9e5563750d1d9d7184573e965ef1b",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/covering-initial/test_unscanned_complete_source0/deadline/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/charged-padding.bin": {
+      "sha256": "1fbd94408ded9e2f5b80d8ba40d45c574f2dc16aa0d299aefee88beae3d34686",
+      "bytes": 5440
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/monitor-events.jsonl": {
+      "sha256": "f58b538adcef29a75ddbf05a35655fdfd3f9611663f4f903ab020b6ec53f53c3",
+      "bytes": 1563
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/monitor-evidence.jsonl": {
+      "sha256": "28bfd232e0f7558f86df4dc6100426244c3c9678348e13231c2a59aadb009f1c",
+      "bytes": 1173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/monitor.json": {
+      "sha256": "090c0954fd5182703602d82d4efdb67b5f2a61ea52eeb75a9128c3062f4cf4df",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f0/declaration_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/charged-padding.bin": {
+      "sha256": "e9dea7fc4e59ee65cd6623dff1dc1811c3928532a551d9733098fc9565193e3b",
+      "bytes": 5021
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/monitor-events.jsonl": {
+      "sha256": "246339b6805d842f1b5c324963b00a8271aff01ceddbd5f774724d10befeea42",
+      "bytes": 1556
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/monitor-evidence.jsonl": {
+      "sha256": "c0ce93cb36048e5fca9632677a5b6ac799a079c56734b783e1aae9bec38f978f",
+      "bytes": 1599
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/monitor.json": {
+      "sha256": "94364160d27de2ce5346ed5eac76eaaefd132e1bab53928609d1fa24d91c869b",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f1/completion_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization/monitor-events.jsonl": {
+      "sha256": "b57334e36ee097b3f813005ce1caeddbeae020d3d66e392fd3b8f752f08715c5",
+      "bytes": 1563
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization/monitor-evidence.jsonl": {
+      "sha256": "31ae792ba3acfa8820d17d924b8ffbcce9419412b7a06e9cbd1028a640e3ed98",
+      "bytes": 1173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization/monitor.json": {
+      "sha256": "5db6679ae75c8d1dff7374e86c13e23228bae8b51857fcf3526d569d0eabddae",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_late_inner_rss_survives_f2/serialization/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum/monitor-events.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum/monitor-evidence.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum/monitor.json": {
+      "sha256": "b2ed629519169bfcc6bb02dbcc2f6214b788210ab29b7649fe84e0cff7e1134a",
+      "bytes": 512
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_minimum_failure_budget_st0/minimum/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/monitor-events.jsonl": {
+      "sha256": "65392781438e76992d78bf2c7e46adfdc1fafe553cd63811d19dc0d88f872a12",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/monitor-evidence.jsonl": {
+      "sha256": "40a162a52ade22aa9fa31ac88fa36174ccd1005112aa11b737f8d363c54a5199",
+      "bytes": 1562
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/monitor.json": {
+      "sha256": "ad22cea29ed2955178e83d940706ba916a32b46fc5f58f253ebd568bf561501d",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b0/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/monitor-events.jsonl": {
+      "sha256": "7ba6d51e2b7ab6919005752f3bbf1cd4e1b2fa287677b1cb4274ff2e71d4c820",
+      "bytes": 821
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/monitor-evidence.jsonl": {
+      "sha256": "00e0403a41cf20f96b8aeefabb72f26ae4ad7379bfc622b733fe6eeb7800464f",
+      "bytes": 2898
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/monitor.json": {
+      "sha256": "99df74d260cc4a4daf2e49db2b384a2523914f91b6042de38e7b02ec9e065ec7",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b1/complete/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/monitor-events.jsonl": {
+      "sha256": "2f4f1237c90521633db98b70eeb52c0a3ae8f150101f1a8999ab49e5c8fb5f6f",
+      "bytes": 820
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "c10b0f6d8cbafcfa428edaf6292dc01206396b2fa2738c334fdebb685b1e5805",
+      "bytes": 1129
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/monitor.json": {
+      "sha256": "b8ef00aa2f36fff12042a3935eb4ae8ce79e9e1824acdae187a8bc039b9c107a",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b2/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/monitor-events.jsonl": {
+      "sha256": "2c1f6f12988cdf03464c7be196a868552962cda12a6ab589492ea78eaaaea8b2",
+      "bytes": 822
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/monitor-evidence.jsonl": {
+      "sha256": "6aa1ebe7fccbbf870d5776d93372636826a8cee010f3dd5e22d3949d65846069",
+      "bytes": 2467
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/monitor.json": {
+      "sha256": "ad471eda0c2c42c638011ea08445efe21d07cf779f7d54df67c346dd304b0cb5",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_post_authority_baseline_b3/copy_failure/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/monitor-events.jsonl": {
+      "sha256": "cf36ba91b62f04dceb26c473d58f7b8741cf44f174cd302c5e4c20fb4e570b67",
+      "bytes": 819
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/monitor-evidence.jsonl": {
+      "sha256": "99860fa571932a87027c4d1c17f4333cb896b1b8da764db12a90b1262bffb132",
+      "bytes": 1567
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/monitor.json": {
+      "sha256": "e13872c9ddfed01b56f01c98fb8c9c39c031d9c9568f6eb3bef2f5d513dc479e",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping0/overlap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/monitor-events.jsonl": {
+      "sha256": "e2f1e9f00b1f764abc0411ce198b6032722e7994b0239e4f55254f713d184ad8",
+      "bytes": 1322
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/monitor-evidence.jsonl": {
+      "sha256": "b72e60e561c3fbdb3f2533f2ed01b62809ece21fb27731b7278d10696e22eff0",
+      "bytes": 2407
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/monitor.json": {
+      "sha256": "c7839532367471c036c84f8a717592f672b88bf8e9307992cf719f00b9891372",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_source_sample_overlapping1/overlap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage/monitor-events.jsonl": {
+      "sha256": "e783954041025efc2ad358d36a901cf123cf34bd26c056e3f83a0446878d116d",
+      "bytes": 580
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage/monitor-evidence.jsonl": {
+      "sha256": "e020e2ef391453796002cd0fe18ecf9caa5258ba31604f3e43803804dccc201b",
+      "bytes": 1169
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage/monitor.json": {
+      "sha256": "e113ea772358706e1574cf74f503a68cb27aa4412401f19d917819922afe27b4",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour0/storage/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial/monitor-events.jsonl": {
+      "sha256": "2a6db2e7860b19a98ce908d176d9e86b25c2c6fe40125a18ef28eb04db0ad0fc",
+      "bytes": 40
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl": {
+      "sha256": "a1e93646f0ec8e0773cd6266bfc1e1eaa80b62821043eb4d6e50c60e3b1c8bbd",
+      "bytes": 3375
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial/monitor.json": {
+      "sha256": "50d004413b5490528d601ee0e3442f31f4e7850332f4e7be29553ce1f825ce8e",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour1/partial/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated/monitor-events.jsonl": {
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated/monitor-evidence.jsonl": {
+      "sha256": "eeda78b312428089d258e64325bd3a7e54662e37851c843b12d77892510df6c1",
+      "bytes": 2192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated/monitor.json": {
+      "sha256": "3c574bf476a09218580d95c0af66899a2535f3ceb4384d7359b45b8d9a45fb7e",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unrecoverable_source_jour2/truncated/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline/monitor-events.jsonl": {
+      "sha256": "ec8c2b4550a88b0b69625df186b559f7c92793051d8cca8ada963d97caeda3c2",
+      "bytes": 547
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline/monitor-evidence.jsonl": {
+      "sha256": "c3fac7aa4b8ec104062eac7d59f47f1b0fc2a84587d4ebe5d91875df75d0f346",
+      "bytes": 1128
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline/monitor.json": {
+      "sha256": "11f62ccdf1e8c4dba0e258fc99fa8c9c226a1dd5a76af1c352e148890a1a330c",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens/final/test_unscanned_complete_source0/deadline/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-evidence/specimens.json": {
+      "sha256": "36e46898551b7a6f290aa95f7fa8b9e5dc940befad641a53b1bcd8fc9ba04c78",
+      "bytes": 83740
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix3-report.md": {
+      "sha256": "6c14730e331b0ebfc1b775cae41121d3ac362a7bc9d78330320595ad974deba0",
+      "bytes": 12782
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/charge-red.txt": {
+      "sha256": "704d4f627ffe9a90012a44241309c1344d66565c5867bc48f8afd3a557fa5f32",
+      "bytes": 3218
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cleanup-red.txt": {
+      "sha256": "e44d5607d5f7c248b1061f4608b165d8b380c5596dddd8437526326ef618be30",
+      "bytes": 1736
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt1.txt": {
+      "sha256": "46350b5fe9a34740bc3ccb7610775d98f06df790ec02faa9e02eb6af0fd45e10",
+      "bytes": 6830
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt2.txt": {
+      "sha256": "45d849574d07d67c1ce05c099f895f1a4c8c65fe395fc08d41e7e016382e1dc4",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt3.txt": {
+      "sha256": "9aeb1f03156939cc3f864909a287fc4644e1c6f7c611bae6ee688638f846ffc3",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/duplicate-red.txt": {
+      "sha256": "34767545928928271bc42cf672024eb214491544a28f03e10ca17eff11a6f1fd",
+      "bytes": 1860
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/final-focused.txt": {
+      "sha256": "1be2e3f6cb8ff8c4db0e9145627d729e6e63ad29535b17804690b8b61d6f961f",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/generation-red.txt": {
+      "sha256": "1a6231372ada543a66d17cf80451a83e201b45a22f2837b003c148e996663956",
+      "bytes": 1090
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt1.txt": {
+      "sha256": "d3563496b8f76570668ff702ca4add1ed6ac6646c330d6aef23f8276bfe307e2",
+      "bytes": 3272
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt2.txt": {
+      "sha256": "54d62a0149f447ee2867b9e102287fade45e0a057ff3b969489678c98884e9ae",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/inner-red.txt": {
+      "sha256": "70acac7de3e312fc0a6e2eb5b098ea2ee6adff6ace19e0240514afdae602585c",
+      "bytes": 2154
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/late-red.txt": {
+      "sha256": "aa3b08c10d6f5981ebf0d46e1ee770eeab66e44245d950bc97237a8e5c384f79",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native-output.txt": {
+      "sha256": "4d3d6ef9bc09386e9afb43ecbc07c842bc1a1acad4ba5769a02d8653c02bc27e",
+      "bytes": 101
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native-source.json": {
+      "sha256": "f75461eb7c643770c63dbceaf3f2ae10d2f992363b1a033810fa7c66e1ba49f7",
+      "bytes": 441
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native.json": {
+      "sha256": "77037737112852b552f505c74c5278cffba2e4847e8dd318541eded69bc8c377",
+      "bytes": 22605
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/red.txt": {
+      "sha256": "d8aa35c28119bbd6da095fdee095f171c03b1bd40800e0c776505028a1f0f8b3",
+      "bytes": 7616
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/retention-red.txt": {
+      "sha256": "98c0e20a45ee3e5e552ac137d831bb33f58dd7d7b57f534982f2a0e906422cde",
+      "bytes": 2847
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/task-18-native-process-check.py": {
+      "sha256": "1b8ebf8ef0a6d991e85459ad848dfa5ecd13157798b004eb7f60c053cbf48518",
+      "bytes": 7835
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-events.jsonl": {
+      "sha256": "c6b7719884d69dc7dc186ef9cd093897881de61307a37b3e3ff29706acf82ab9",
+      "bytes": 233
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-evidence.jsonl": {
+      "sha256": "f9e353922f84f34a8744e26e6dfb6c0617b71dbad7912724a8432f91dfe7aa85",
+      "bytes": 4606
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor.json": {
+      "sha256": "5dc0351f281592278d41cf9dcc89efa677ac96a6720189fe29b572fb344e5e65",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt1.txt": {
+      "sha256": "da01ad5734788084448ab571c94da1e538936bcaa4de07357710ab1394feb647",
+      "bytes": 11704
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt2.txt": {
+      "sha256": "d53591f8ee008391e999d2ac776e1ae4688a88f41e110927c88be84eb598e13a",
+      "bytes": 5173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt3.txt": {
+      "sha256": "15cbdfbbadba151798046d2a7a45f3017b95a87af8fb268427a2f3931b7b327c",
+      "bytes": 1503
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt4.txt": {
+      "sha256": "3642f5168b582e8d1a8cbd64304526065ad94b9281c902fe43077cf53d24ea50",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/final-focused.txt": {
+      "sha256": "5efb3fe89a916ee792e3215afe59db4d083584cd7c21c0413226bf919c6849fa",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt1.txt": {
+      "sha256": "9c2bc789bf2cba75cc5ed822cd3fccab9cf3d7a226611daf566ceea5ed0c55b1",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt2.txt": {
+      "sha256": "fcae3a17c00314b543399c60ea5d11767e786b36981cd109a979aea2b13e5838",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-events.jsonl": {
+      "sha256": "f3032cdc698b78bce1378c2ced1b259e578fee76f91c6eef7317d56b31b50c12",
+      "bytes": 78
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-evidence.jsonl": {
+      "sha256": "2fa505323c1b7d089f8bc4f482ef55dbe9bb213e3636faad52a64f43a9420b43",
+      "bytes": 15631
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor.json": {
+      "sha256": "4fff718a3ea08fcb20f9d07ad3251788978b4eac266a360a6ce339aa7aff2481",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-events.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-evidence.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor.json": {
+      "sha256": "c4ff095383fcf870265e192fa530564c42e6bc35b95fded1a141c6a68dfae581",
+      "bytes": 512
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/packaging-whitespace.txt": {
+      "sha256": "cb6d77587a9a7cbc2e05d72f0494ff5dcedc465a1256fb5476bca94633810885",
+      "bytes": 28305
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-events.jsonl": {
+      "sha256": "1f6da6112ccb3137f06c80acd21206aeaee1d5bced5bacffd5c2412bf4f9d464",
+      "bytes": 156
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-evidence.jsonl": {
+      "sha256": "c2de514bfbb7b4f3aee680ce9ce7c97add9f809064f01296354871241cffc3f9",
+      "bytes": 1688
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor.json": {
+      "sha256": "cce7e4e1ed9eca6b468e4cdfa17b875ac12bd0f93e97ca4f9f7ef28874d322fa",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-events.jsonl": {
+      "sha256": "4f9444fd4897e80529351faec1976f75d6587dce186bd370fae236bb86f93c33",
+      "bytes": 600
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-evidence.jsonl": {
+      "sha256": "172c05f8e15572fe73375020ec3bdb7ee310f7a35cd044f2e439edc869baf674",
+      "bytes": 15886
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor.json": {
+      "sha256": "4827bc5bccd52bf456b89643480ccad17f718c06ac94f8b113af24adef0f8a73",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red.txt": {
+      "sha256": "53abcc1422f2027aa6c5aa6f14637a1e3475deaa068b90504f9415f8d967966c",
+      "bytes": 6333
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red2.txt": {
+      "sha256": "0c5ffc28ae62e527e3dcfe966988d56b9b5d1189a059fda1148724d08fbf6a76",
+      "bytes": 7962
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red3.txt": {
+      "sha256": "aa07aa56dd90f987f5f27a63d7d4235f3b8457aa144408668e5d6f675db3f7fb",
+      "bytes": 4008
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red4.txt": {
+      "sha256": "5646b5e29c2f5c6432dc6736a8ae1b648137a88272983fd1e16b4c3d4eb56bf0",
+      "bytes": 2326
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-report.md": {
+      "sha256": "edb06ac8b0a0c5fc7cc4203ab0fb876a0fdd5762dd43eced6ebebe033f33bf7f",
+      "bytes": 16127
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-verification.json": {
+      "sha256": "fd8db461df85c406fc2529ce6142b7156b5f8666210bf7a464dcd7cb1075a67a",
+      "bytes": 38209
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/charged-padding.bin": {
+      "sha256": "6fc618aa3dc5d3f47b92a3e9ded07c07601087db7d894a2ba95ada715fddcbe9",
+      "bytes": 5009
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/monitor-events.jsonl": {
+      "sha256": "1da790b7d3caf1d9b23976d918814284de37a8964ba3c8416cdf7205399a7916",
+      "bytes": 1564
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/monitor-evidence.jsonl": {
+      "sha256": "1d3e1aad0a9a0069de06dc5f23a09fabcf0a9f377cb5a2d95f1162ea40a486d2",
+      "bytes": 1603
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/monitor.json": {
+      "sha256": "ef97e9cf2532dd7d0375630fb74a521fbb156fd58148edd9aecff8831226c78f",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/completion_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/cover-attempt1.txt": {
+      "sha256": "667e4c046f647024a6eb6e78582b859c3d240549c87bd54d8c405b3f55791f82",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/charged-padding.bin": {
+      "sha256": "123f9a33fc4df631fe642ed155246fee8c1a3398083f5195f0719cf4f1d37295",
+      "bytes": 5444
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/monitor-events.jsonl": {
+      "sha256": "aa5647f07b4d7295918c1afd73556abc65e0f7fcbc2642b7d717bd870498bf78",
+      "bytes": 1560
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/monitor-evidence.jsonl": {
+      "sha256": "1f7362548a75516975adf1d37c7de6589f468b9c6fa18b24d5c48c988127d7a7",
+      "bytes": 1172
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/monitor.json": {
+      "sha256": "e77be14e0e62c51a2e542c4ce9e356b5c4e8553d5ca5ef3eed7716377e64981c",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/declaration_cap/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/final-focused.txt": {
+      "sha256": "0b568bf297a903d779c879ea1817b965fe72c9157cc52947101a8e8bd524ddf3",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/green-attempt1.txt": {
+      "sha256": "7218b9d77fd972384ff7a554147260b3d956d647cd77138dd350987c9e55060d",
+      "bytes": 113
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/minimum/monitor-events.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/minimum/monitor-evidence.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/minimum/monitor.json": {
+      "sha256": "02c63498c64aaf50873c943962aef4847548ff3704b7c3d739d199e01fbb7d38",
+      "bytes": 512
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/minimum/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/minimum/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/packaging-whitespace.txt": {
+      "sha256": "4b039f440d86a1f1ac0353eb1d7d3d3eaa11e0f243fee0cb95044ab77a628b52",
+      "bytes": 48334
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/partial/monitor-events.jsonl": {
+      "sha256": "2a6db2e7860b19a98ce908d176d9e86b25c2c6fe40125a18ef28eb04db0ad0fc",
+      "bytes": 40
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/partial/monitor-evidence.jsonl": {
+      "sha256": "6c34d3caca8cb6952e9a1df81f419eb505195cb635c42e40bb753f6df6aa7829",
+      "bytes": 3373
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/partial/monitor.json": {
+      "sha256": "ee8cb2dd3944259d27f8f282dc9a91c86179d7b5409099a6f884438b21a37eea",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/partial/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/partial/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/red.txt": {
+      "sha256": "5fda5695f7294ee56d5bd76817137b38e2505fdd5806b7f43dd3c515f0fba8c8",
+      "bytes": 12488
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/red2.txt": {
+      "sha256": "2ac1ab42d82fab3c826b15df5e1f17eee4a4d1ac860f88ab80e9d2f441a10d8e",
+      "bytes": 2374
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/serialization/monitor-events.jsonl": {
+      "sha256": "ae2ca032b83710ca63c145dabf5d52107c2b1a1cc8b525d9e8fb72909f10fdd1",
+      "bytes": 1564
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/serialization/monitor-evidence.jsonl": {
+      "sha256": "1697a91d29092c340396e85e59f04f56c3f0024f0dbe2d3228e46ca85844945a",
+      "bytes": 1169
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/serialization/monitor.json": {
+      "sha256": "1014107e2a73371d84ae365c41b64fbbb93bd7be0227d9b29f8d4323a06942b9",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/serialization/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/serialization/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/storage/monitor-events.jsonl": {
+      "sha256": "7b24b5ee8f0e5628a75433059148c1944622ce4b683caaed58f4d85f7bdba259",
+      "bytes": 580
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/storage/monitor-evidence.jsonl": {
+      "sha256": "3ec20b9fc84e81b233d4d3b8eb447b9388bd1d42e261180100fecfbccd86d5ef",
+      "bytes": 1172
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/storage/monitor.json": {
+      "sha256": "3218aa7fb4f2eecf358f0591418ceec0bb5d8f42db7131e7ef1b3b674b8f5a66",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/storage/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/storage/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/truncated/monitor-events.jsonl": {
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/truncated/monitor-evidence.jsonl": {
+      "sha256": "65726d8ea8aa1f8e1b935a148d826cb674112467a0e7f9ed62cacda6ec19e69c",
+      "bytes": 2187
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/truncated/monitor.json": {
+      "sha256": "e3a76e724cec328b51d7be1e33a1e5ee9c772fbaf7c5a14299eedc56c64a6dbe",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/truncated/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/truncated/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/unscanned_deadline/monitor-events.jsonl": {
+      "sha256": "5d3deec184a495e3bb1c6cb1e6caece861d1f7479cdb608e8433c1eef55e8480",
+      "bytes": 547
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/unscanned_deadline/monitor-evidence.jsonl": {
+      "sha256": "ba9e451599cb28d0bd138cb953dd772d95376ca869a0363ccabcdc14a83df67f",
+      "bytes": 1128
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/unscanned_deadline/monitor.json": {
+      "sha256": "c879907ba8497b0f1bdeade07c4117d2dc68805b4800d1193de53e17e4a987fc",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/unscanned_deadline/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-evidence/unscanned_deadline/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-report.md": {
+      "sha256": "20b89d5814d9be48b394d9fbd0f9def8aca13b11f52bee48c38cf75dc235d9a7",
+      "bytes": 12793
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix2-verification.json": {
+      "sha256": "fe874137091684a187a6da9e1cee7ced5ea34ee836dd280af9cbe464d6fa9f1a",
+      "bytes": 51066
+    },
+    "docs/research/task18-kernel-stage-a-native-process-report.md": {
+      "sha256": "659dae1b0dccb50cf48856d90cd38ec26bfe12779936047fc58e92d370354d26",
+      "bytes": 18187
+    },
+    "docs/research/task18-kernel-stage-a-native-process-verification.json": {
+      "sha256": "17b937747c1a865fe108b1e5629e4838759d60b17bc8d0c4b1ce9881ccdca440",
+      "bytes": 15662
+    },
+    "docs/research/task18-kernel-stage-a-preflight-source-acceptance.json": {
+      "sha256": "a843920bbf5dd7e1dbe792da2b2d404e1a8648ea288fba58e64e1a2aa72d38f5",
+      "bytes": 2726
+    },
+    "famjet/__init__.py": {
+      "sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9",
+      "bytes": 100
+    },
+    "famjet/analysis/development.py": {
+      "sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+      "bytes": 27031
+    },
+    "famjet/analysis/statistics.py": {
+      "sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+      "bytes": 32306
+    },
+    "famjet/artifacts.py": {
+      "sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f",
+      "bytes": 2032
+    },
+    "famjet/checkpoint.py": {
+      "sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af",
+      "bytes": 16745
+    },
+    "famjet/config.py": {
+      "sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241",
+      "bytes": 21507
+    },
+    "famjet/data/__init__.py": {
+      "sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7",
+      "bytes": 71
+    },
+    "famjet/data/_processes.py": {
+      "sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4",
+      "bytes": 5378
+    },
+    "famjet/data/beijing.py": {
+      "sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49",
+      "bytes": 23102
+    },
+    "famjet/data/development_cache.py": {
+      "sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258",
+      "bytes": 7166
+    },
+    "famjet/data/feature_cache.py": {
+      "sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+      "bytes": 11029
+    },
+    "famjet/data/schema.py": {
+      "sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a",
+      "bytes": 8877
+    },
+    "famjet/data/synthetic.py": {
+      "sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15",
+      "bytes": 16157
+    },
+    "famjet/doctor.py": {
+      "sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d",
+      "bytes": 10772
+    },
+    "famjet/eval/__init__.py": {
+      "sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5",
+      "bytes": 51
+    },
+    "famjet/eval/budgets.py": {
+      "sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790",
+      "bytes": 7346
+    },
+    "famjet/eval/controls.py": {
+      "sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9",
+      "bytes": 8130
+    },
+    "famjet/eval/isolation.py": {
+      "sha256": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf",
+      "bytes": 22180
+    },
+    "famjet/eval/metrics.py": {
+      "sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3",
+      "bytes": 24093
+    },
+    "famjet/eval/oracle.py": {
+      "sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35",
+      "bytes": 7098
+    },
+    "famjet/eval/runner.py": {
+      "sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836",
+      "bytes": 7653
+    },
+    "famjet/eval/splits.py": {
+      "sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf",
+      "bytes": 10372
+    },
+    "famjet/eval/state_io.py": {
+      "sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba",
+      "bytes": 9352
+    },
+    "famjet/memory/__init__.py": {
+      "sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+      "bytes": 55
+    },
+    "famjet/memory/_coefficient.py": {
+      "sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+      "bytes": 8250
+    },
+    "famjet/memory/_fixed_writer.py": {
+      "sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+      "bytes": 17016
+    },
+    "famjet/memory/associative_hippo.py": {
+      "sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+      "bytes": 5529
+    },
+    "famjet/memory/buckets.py": {
+      "sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+      "bytes": 13873
+    },
+    "famjet/memory/coordinates.py": {
+      "sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+      "bytes": 1369
+    },
+    "famjet/memory/delta.py": {
+      "sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+      "bytes": 18139
+    },
+    "famjet/memory/exact_store.py": {
+      "sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+      "bytes": 25297
+    },
+    "famjet/memory/expbank.py": {
+      "sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+      "bytes": 12786
+    },
+    "famjet/memory/gaver.py": {
+      "sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+      "bytes": 4189
+    },
+    "famjet/memory/hippo.py": {
+      "sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+      "bytes": 6167
+    },
+    "famjet/memory/jet.py": {
+      "sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+      "bytes": 13178
+    },
+    "famjet/memory/multiscale.py": {
+      "sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+      "bytes": 9143
+    },
+    "famjet/memory/oracle.py": {
+      "sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+      "bytes": 1399
+    },
+    "famjet/memory/reservoir.py": {
+      "sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+      "bytes": 12438
+    },
+    "famjet/models/__init__.py": {
+      "sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b",
+      "bytes": 41
+    },
+    "famjet/models/_schema.py": {
+      "sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a",
+      "bytes": 5577
+    },
+    "famjet/models/kernel_read_model.py": {
+      "sha256": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
+      "bytes": 9804
+    },
+    "famjet/models/task_model.py": {
+      "sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60",
+      "bytes": 21397
+    },
+    "famjet/ops.py": {
+      "sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc",
+      "bytes": 12009
+    },
+    "famjet/prepare.py": {
+      "sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3",
+      "bytes": 3341
+    },
+    "famjet/provenance.py": {
+      "sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+      "bytes": 3522
+    },
+    "famjet/readers/__init__.py": {
+      "sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513",
+      "bytes": 63
+    },
+    "famjet/readers/kernel_projection.py": {
+      "sha256": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e",
+      "bytes": 11340
+    },
+    "famjet/readers/mlp.py": {
+      "sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e",
+      "bytes": 2157
+    },
+    "famjet/readers/structured.py": {
+      "sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca",
+      "bytes": 7781
+    },
+    "famjet/reproduce.py": {
+      "sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936",
+      "bytes": 23578
+    },
+    "famjet/run.py": {
+      "sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd",
+      "bytes": 1315
+    },
+    "famjet/train.py": {
+      "sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+      "bytes": 41569
+    },
+    "famjet/types.py": {
+      "sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f",
+      "bytes": 4399
+    },
+    "requirements.lock": {
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+      "bytes": 2658
+    },
+    "validation/kernel_stage_a/__main__.py": {
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "bytes": 2695
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "sha256": "7777ed3a637e16be381bc100811b89e1fc58c5ba6a2a4464cf4d94a628ef0d2a",
+      "bytes": 16878
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "bytes": 2375
+    },
+    "validation/kernel_stage_a/fixture-descriptors.json": {
+      "sha256": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0",
+      "bytes": 59678
+    },
+    "validation/kernel_stage_a/frozen-training-metadata.json": {
+      "sha256": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c",
+      "bytes": 6299
+    },
+    "validation/kernel_stage_a/production.py": {
+      "sha256": "a8ff35fb86516be4c54806a7d0a8110287403ea8440fa41e2beb0bae11656ef3",
+      "bytes": 17351
+    },
+    "validation/kernel_stage_a/prospective-seal.json": {
+      "sha256": "6d331f63a24415b2675ef9aeb6ee9f3e54c6f1b214b44a977b0c228bbdfa3230",
+      "bytes": 7015
+    }
+  },
+  "report_sha256": "6c14730e331b0ebfc1b775cae41121d3ac362a7bc9d78330320595ad974deba0",
+  "verification_sha256": "2d6e5c3a68e11e1a7e27e6990537ccdc3becb73a9340ec399bd0ba003ea508be",
+  "artifacts": 204,
+  "mappings": 203,
+  "specimens": 33,
+  "prior_files": 173,
+  "source_files": 3,
+  "new_tests_run": false,
+  "native_run": false,
+  "science_run": false,
+  "artifact_status": {
+    "pruned_early_specimens": [
+      {
+        "attempt": "RED",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4354",
+        "status": "pruned_by_pytest_before_packaging",
+        "actual_output_byte_preservation_claim": false,
+        "raw_log_retained": true,
+        "test_inputs_retained": true,
+        "scope": "all transient control output directories under this pytest root; none copied or recreated",
+        "source_status": "current focused source retains exercised inputs/logic; raw RED traces retain failing function text; no byte-exact early whole-file snapshot claimed"
+      },
+      {
+        "attempt": "intermediate_GREEN_attempt_failed",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4355",
+        "status": "pruned_by_pytest_before_packaging",
+        "actual_output_byte_preservation_claim": false,
+        "raw_log_retained": true,
+        "test_inputs_retained": true,
+        "scope": "all transient control output directories under this pytest root; none copied or recreated",
+        "source_status": "current focused source retains exercised inputs/logic; raw RED traces retain failing function text; no byte-exact early whole-file snapshot claimed"
+      },
+      {
+        "attempt": "focused_GREEN",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4356",
+        "status": "pruned_by_pytest_before_packaging",
+        "actual_output_byte_preservation_claim": false,
+        "raw_log_retained": true,
+        "test_inputs_retained": true,
+        "scope": "all transient control output directories under this pytest root; none copied or recreated",
+        "source_status": "current focused source retains exercised inputs/logic; raw RED traces retain failing function text; no byte-exact early whole-file snapshot claimed"
+      }
+    ],
+    "retained_runs": [
+      {
+        "attempt": "covering-initial",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4357",
+        "status": "retained_selected_actual_specimens"
+      },
+      {
+        "attempt": "adjacent-green",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4358",
+        "status": "retained_selected_actual_specimens"
+      },
+      {
+        "attempt": "final",
+        "pytest_root": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4359",
+        "status": "retained_selected_actual_specimens"
+      }
+    ],
+    "early_missing_outputs_recreated": false,
+    "packaging_reruns": 0
+  }
+}

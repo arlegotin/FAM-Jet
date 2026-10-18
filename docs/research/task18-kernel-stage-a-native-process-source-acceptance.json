@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "component": "Task18 external native process adapter and bounded monitor accounting SOURCE ONLY",
+  "accepted_at_utc": "2026-10-18 08:18:13 UTC",
+  "reviewed_base": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+  "reviewed_head": "0367d5871d6413ce317664c796cf5322dff1bcee",
+  "latest_source_commit": "daa89fcd7986e9a4c600869d256451fbba65c927",
+  "production_package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "source_review": {
+    "spec": "compliant",
+    "quality": "approved",
+    "closure": "original I1 and subsequent F1/F2/N1 findings addressed through four scoped repair rounds",
+    "final_review": {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix4-review.md",
+      "sha256": "06ec9dc3283da9adaf599d74d1acb8092081543bb6149a243adeb8ed1f8be707",
+      "bytes": 5800
+    }
+  },
+  "reviews": [
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-review.md",
+      "sha256": "57fdcdde4f1e0e67b7b5fcb44af187acebfc1b6c37927e9987ed5b274ad65c95",
+      "bytes": 10202
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix1-review.md",
+      "sha256": "e537f3baee229c2789210fe6162e52bd99b93f9d35d5b681733dcbeb65eb8d80",
+      "bytes": 8871
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix2-review.md",
+      "sha256": "d3766b562004285c0befb0e5e78b9a39637ff2bce5ad540b3ee90b8851a95032",
+      "bytes": 8831
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix3-review.md",
+      "sha256": "bb82dcbcd245f23e3b31209ae75cb612a61241e66dc915583240c684263c0eeb",
+      "bytes": 8719
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix4-review.md",
+      "sha256": "06ec9dc3283da9adaf599d74d1acb8092081543bb6149a243adeb8ed1f8be707",
+      "bytes": 5800
+    }
+  ],
+  "root_verifications": [
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix2-root-verification.json",
+      "sha256": "b70a733d811368ba847590d319251d316e324a08e1b0d61aa995f71c5fea129c",
+      "bytes": 24891
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix3-root-verification.json",
+      "sha256": "707a698870babc4eddb75f2d7f9154d0f22042c30c2b9fce777c7dc4eeef9af6",
+      "bytes": 88326
+    },
+    {
+      "path": "docs/research/task18-kernel-stage-a-native-process-fix4-root-verification.json",
+      "sha256": "2d3750a5d28f017bcad04b2f42001ead73190fa18e190542625fe5e2ac258f4c",
+      "bytes": 818
+    }
+  ],
+  "rulings": {
+    "path": "docs/research/task18-kernel-stage-a-native-process-rulings.md",
+    "sha256": "cf3489207fdc2abc8cfe3dca41c6f7e7efce7dcb87858cd3a59b72263e05524c",
+    "bytes": 4644
+  },
+  "external_source_files": {
+    "validation/kernel_stage_a/__init__.py": {
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "bytes": 77
+    },
+    "validation/kernel_stage_a/__main__.py": {
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "bytes": 2695
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "sha256": "7777ed3a637e16be381bc100811b89e1fc58c5ba6a2a4464cf4d94a628ef0d2a",
+      "bytes": 16878
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "bytes": 2375
+    },
+    "validation/kernel_stage_a/descriptors.py": {
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "bytes": 4876
+    },
+    "validation/kernel_stage_a/driver.py": {
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "bytes": 3911
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "sha256": "5a7e72be8a4d0987bc8f5de2d8f46fb2fedae599fcc3e24c58b35e8ea8d89cf0",
+      "bytes": 41807
+    },
+    "validation/kernel_stage_a/production.py": {
+      "sha256": "a8ff35fb86516be4c54806a7d0a8110287403ea8440fa41e2beb0bae11656ef3",
+      "bytes": 17351
+    },
+    "validation/kernel_stage_a/reader_worker.py": {
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "bytes": 3771
+    },
+    "validation/kernel_stage_a/reference.py": {
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "bytes": 16497
+    }
+  },
+  "final_covering": {
+    "passed": 64,
+    "deselected": 24,
+    "reported_seconds": 3.03,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/output.txt",
+    "sha256": "1d4435d52ab5f902b64f6009098e43cf247885bf7cc78ef14cf724f214bed1a3",
+    "root_repeated_suite": false
+  },
+  "historical_native_control": {
+    "elapsed_seconds": 0.867311832960695,
+    "source_base": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+    "tracked_diff_sha256": "e54105e540129e17dab0b55c8940a7388773475f07e191054c8feaf68c18ae19",
+    "final_source_native_pass": false,
+    "ordinary_completion_tested": false
+  },
+  "current_policy": "strict per-sample Python image proof; later ESRCH remains unresolved failure",
+  "next_component": "separate adopted generation-bound Python lifetime policy and bounded nonnumerical normal-exit controls",
+  "scientific_validation": "OPEN",
+  "protected_access": "CLOSED",
+  "scientific_release": false,
+  "root_stage_A_release": null,
+  "pending": {
+    "implementation_review": null,
+    "represented_rate_records": null,
+    "static_exports": null,
+    "resource_measurement_boundary_seal": null,
+    "fresh_launch_snapshot": null,
+    "output_directory": null
+  },
+  "archival_limitation": "round3 early specimen roots4354–4356 pruned; raw logs retained, missing outputs not recreated; final surviving controls and all round4 attempts archived",
+  "metadata_only_commit": true
+}
