@@ -1,0 +1,32 @@
+............F                                                            [100%]
+=================================== FAILURES ===================================
+_____ test_inner_baseline_sample_retains_observer_missed_by_outer_sampler ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4327/test_inner_baseline_sample_ret0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a9cce60>
+
+    def test_inner_baseline_sample_retains_observer_missed_by_outer_sampler(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/'inner'; command=[sys.executable,'-c','import time; time.sleep(10)']; helper=[]
+        def sampler(pid):
+            now=time.monotonic(); observer=pid+100000; helper.append(observer)
+            root=sample(pid,os.getpid(),command,start=now,end=now+.001)
+            entry=sample(observer,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            entry['raw_args']=c.display(m.PS_ARGV)
+            declared=witness(observer,os.getpid(),m.PS_ARGV); declared.update(launch_start=now-.01,completion_end=now+.002)
+            a.event(out/'monitor-events.jsonl','observer_helper',**declared)
+            a.event(out/'monitor-events.jsonl','observer_sample',processes=[root,entry])
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:20},{pid:root})
+        result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0,incremental_bytes=50)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_native_process.py:237: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_inner_baseline_sample_retains_observer_missed_by_outer_sampler
+1 failed, 12 passed in 0.26s

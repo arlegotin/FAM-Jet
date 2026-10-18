@@ -1,0 +1,49 @@
+................FF                                                       [100%]
+=================================== FAILURES ===================================
+____ test_native_live_authority_charge_counts_worker_once_before_helper_end ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4333/test_native_live_authority_cha0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a73d570>
+
+    def test_native_live_authority_charge_counts_worker_once_before_helper_end(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'live-native'
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        def sampler(pid):
+            a.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+            now=time.monotonic(); helper=pid+100000; vector=a.git_commands(tmp_path)[0]
+            declared=witness(helper,pid,vector,'git'); declared.update(launch_start=now,reaped=False); declared.pop('completion_end')
+            a.event(out/'monitor-events.jsonl','authority_helper',**declared)
+            root=sample(pid,os.getpid(),command,start=now,end=now+.001); root['rss_bytes']=60
+            entry=sample(helper,pid,vector,image=dict(status='ok',**identity()['helpers']['git']),start=now,end=now+.001)
+            entry['raw_args']=c.display(vector)
+            return m.ResidentTree({pid:60,helper:70},{pid:root,helper:entry})
+        result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0,incremental_bytes=100,authority_root=tmp_path)
+        assert result['reason']=='incremental worker memory cap'
+        assert result['authority_full_rss_peak_bytes']==130
+>       assert result['incremental_worker_peak_bytes']==130
+E       assert 190 == 130
+
+tests/test_kernel_stage_a_native_process.py:284: AssertionError
+____________ test_native_final_missing_baseline_is_charged_in_full _____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4333/test_native_final_missing_base0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3c6390>
+
+    def test_native_final_missing_baseline_is_charged_in_full(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity)
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        def sampler(pid):
+            now=time.monotonic()
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),command,start=now,end=now+.001)})
+        result=m.supervise(command,tmp_path/'missing-baseline',sampler=sampler,outer_seconds=.04,free_disk_bytes=0)
+        assert result['status']=='STOPPED'
+>       assert result['incremental_worker_peak_bytes']>=70
+E       assert 0 >= 70
+
+tests/test_kernel_stage_a_native_process.py:296: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_live_authority_charge_counts_worker_once_before_helper_end
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_final_missing_baseline_is_charged_in_full
+2 failed, 16 passed in 0.37s

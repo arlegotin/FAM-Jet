@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "scope": "Task18 external macOS process identity compatibility; NONNUMERICAL",
+  "base": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+  "source_commit": "8ece30b70c56fc26e1e212f1e33c4637741e6354",
+  "source_self_accepted": false,
+  "scientific_release": false,
+  "full_native_stage_a_pass": false,
+  "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "source_files": {
+    "validation/kernel_stage_a/authority.py": "721c7af47fcfe82b03d1ae3756c79657d1521a5713507f1fcbd6a8ca74d1f5c8",
+    "validation/kernel_stage_a/commands.py": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+    "validation/kernel_stage_a/monitor.py": "aee57b0cab168e84ef412548074a03bbfe3da088ae458a173b2230e07350a1ce",
+    "validation/kernel_stage_a/README.md": "dcf7fa41395f28ebd3dc66e896b499afafc21133ab3ccdf2a182e7356f01e454",
+    "tests/test_kernel_stage_a_native_process.py": "8663d64bb3f39113af794187c4c3a2cc2f5e25feed6cb1c906e17a5fab07a30a",
+    "tests/test_kernel_stage_a_preflight_fix1.py": "9085d508ec4648ffb959a53e4d47f3a0db836ec7b462f6d9415cc0ba8baef32e",
+    ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-check.py": "1b8ebf8ef0a6d991e85459ad848dfa5ecd13157798b004eb7f60c053cbf48518"
+  },
+  "runtime_identity": {
+    "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+    "executable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+    "executable_sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+    "implementation": "CPython",
+    "process_image": {
+      "method": "macos.proc_pidpath",
+      "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+    },
+    "helpers": {
+      "ps": {
+        "path": "/bin/ps",
+        "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+      },
+      "git": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+      }
+    },
+    "decimal_version": "1.70",
+    "libmpdec_version": "4.0.1",
+    "decimal_extension": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload/_decimal.cpython-313-darwin.so",
+    "decimal_extension_sha256": "012ccc5fc549ca1da531e00957e6f1807e364971fcd55209f51d5545d788e585",
+    "byteorder": "little",
+    "machine": "arm64",
+    "context": "80/160 ROUND_HALF_EVEN Emin=-999999999 Emax=999999999 traps=InvalidOperation,DivisionByZero,Overflow"
+  },
+  "native": {
+    "status": "PASS",
+    "exit_code": 0,
+    "seconds": 0.867311832960695,
+    "allowance_seconds": 30,
+    "source": {
+      "commit": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+      "tracked_diff_sha256": "e54105e540129e17dab0b55c8940a7388773475f07e191054c8feaf68c18ae19",
+      "additional_files": {
+        "tests/test_kernel_stage_a_native_process.py": "1c15a60eb95f011d3cce4ca1b7231010ce2f778bc8d9e8beffb7aa68da435c69",
+        ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-check.py": "1b8ebf8ef0a6d991e85459ad848dfa5ecd13157798b004eb7f60c053cbf48518"
+      }
+    },
+    "report_path": "docs/research/task18-kernel-stage-a-native-process-evidence/native.json",
+    "report_sha256": "77037737112852b552f505c74c5278cffba2e4847e8dd318541eded69bc8c377",
+    "all_owned_children_reaped": true,
+    "stage_pid": 9196,
+    "reader_pid": 9198,
+    "ps_pids": [
+      9197,
+      9199,
+      9200
+    ],
+    "git_pids": [
+      9201,
+      9202
+    ],
+    "failed_native_attempts": 0,
+    "git_raw_ps_display_sampled": false,
+    "final_source_native_rerun": false,
+    "post_native_changes": [
+      "duplicate numeric PID rows retain descendants and maximum RSS",
+      "native authority worker RSS counted once; final missing baseline fully charged",
+      "Git witness-write failure always kills/reaps child",
+      "focused controls and README"
+    ],
+    "reader_event_bytes": 2242,
+    "reader_event_rows": 4,
+    "reader_observer_sample_bytes": 1385,
+    "event_bytes_method": "reconstructed exact default-json serialization from saved event rows, removing harness-added resolved identity annotations"
+  },
+  "focused_tests": {
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py -k 'native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective'",
+    "exit_code": 0,
+    "output": ".....................................                                    [100%]\n37 passed, 24 deselected in 1.67s\n",
+    "full_suite_run": false
+  },
+  "unchanged": {
+    "requirements.lock": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+    "validation/kernel_stage_a/fixture-descriptors.json": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0",
+    "validation/kernel_stage_a/frozen-training-metadata.json": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c",
+    "validation/kernel_stage_a/prospective-seal.json": "6d331f63a24415b2675ef9aeb6ee9f3e54c6f1b214b44a977b0c228bbdfa3230",
+    "docs/research/task18-kernel-stage-a-preflight-source-acceptance.json": "a843920bbf5dd7e1dbe792da2b2d404e1a8648ea288fba58e64e1a2aa72d38f5"
+  },
+  "scientific_nulls": {
+    "pending": {
+      "implementation_review": null,
+      "represented_rate_records": null,
+      "static_exports": null,
+      "resource_measurement_boundary_seal": null,
+      "fresh_launch_snapshot": null,
+      "output_directory": null
+    },
+    "root_stage_A_release": null
+  },
+  "limitations": [
+    "Exact Git source vectors/witnesses and live native images verified; raw Git ps display not sampled.",
+    "Already-exited ps/Git source-launch attribution is not per-PID kernel image proof.",
+    "Earlier successful Python image samples are retained; later unresolved samples fail without PID-only proof carry-forward.",
+    "Path-file hashes do not certify every mapped byte; sampled RSS is not allocator peak.",
+    "Root-scoped source review and fresh fully bound seal remain required before any scientific allocation."
+  ],
+  "artifacts": {
+    "docs/research/task18-kernel-stage-a-native-process-evidence/charge-red.txt": {
+      "sha256": "704d4f627ffe9a90012a44241309c1344d66565c5867bc48f8afd3a557fa5f32",
+      "bytes": 3218
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cleanup-red.txt": {
+      "sha256": "e44d5607d5f7c248b1061f4608b165d8b380c5596dddd8437526326ef618be30",
+      "bytes": 1736
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt1.txt": {
+      "sha256": "46350b5fe9a34740bc3ccb7610775d98f06df790ec02faa9e02eb6af0fd45e10",
+      "bytes": 6830
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt2.txt": {
+      "sha256": "45d849574d07d67c1ce05c099f895f1a4c8c65fe395fc08d41e7e016382e1dc4",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt3.txt": {
+      "sha256": "9aeb1f03156939cc3f864909a287fc4644e1c6f7c611bae6ee688638f846ffc3",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/duplicate-red.txt": {
+      "sha256": "34767545928928271bc42cf672024eb214491544a28f03e10ca17eff11a6f1fd",
+      "bytes": 1860
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/final-focused.txt": {
+      "sha256": "1be2e3f6cb8ff8c4db0e9145627d729e6e63ad29535b17804690b8b61d6f961f",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/generation-red.txt": {
+      "sha256": "1a6231372ada543a66d17cf80451a83e201b45a22f2837b003c148e996663956",
+      "bytes": 1090
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt1.txt": {
+      "sha256": "d3563496b8f76570668ff702ca4add1ed6ac6646c330d6aef23f8276bfe307e2",
+      "bytes": 3272
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt2.txt": {
+      "sha256": "54d62a0149f447ee2867b9e102287fade45e0a057ff3b969489678c98884e9ae",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/inner-red.txt": {
+      "sha256": "70acac7de3e312fc0a6e2eb5b098ea2ee6adff6ace19e0240514afdae602585c",
+      "bytes": 2154
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/late-red.txt": {
+      "sha256": "aa3b08c10d6f5981ebf0d46e1ee770eeab66e44245d950bc97237a8e5c384f79",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native-output.txt": {
+      "sha256": "4d3d6ef9bc09386e9afb43ecbc07c842bc1a1acad4ba5769a02d8653c02bc27e",
+      "bytes": 101
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native-source.json": {
+      "sha256": "f75461eb7c643770c63dbceaf3f2ae10d2f992363b1a033810fa7c66e1ba49f7",
+      "bytes": 441
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/native.json": {
+      "sha256": "77037737112852b552f505c74c5278cffba2e4847e8dd318541eded69bc8c377",
+      "bytes": 22605
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/red.txt": {
+      "sha256": "d8aa35c28119bbd6da095fdee095f171c03b1bd40800e0c776505028a1f0f8b3",
+      "bytes": 7616
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/retention-red.txt": {
+      "sha256": "98c0e20a45ee3e5e552ac137d831bb33f58dd7d7b57f534982f2a0e906422cde",
+      "bytes": 2847
+    },
+    "docs/research/task18-kernel-stage-a-native-process-evidence/task-18-native-process-check.py": {
+      "sha256": "1b8ebf8ef0a6d991e85459ad848dfa5ecd13157798b004eb7f60c053cbf48518",
+      "bytes": 7835
+    }
+  },
+  "durable_evidence_mapping": [
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/charge-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/charge-red.txt",
+      "sha256": "704d4f627ffe9a90012a44241309c1344d66565c5867bc48f8afd3a557fa5f32"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/cleanup-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/cleanup-red.txt",
+      "sha256": "e44d5607d5f7c248b1061f4608b165d8b380c5596dddd8437526326ef618be30"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/cover-attempt1.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt1.txt",
+      "sha256": "46350b5fe9a34740bc3ccb7610775d98f06df790ec02faa9e02eb6af0fd45e10"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/cover-attempt2.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt2.txt",
+      "sha256": "45d849574d07d67c1ce05c099f895f1a4c8c65fe395fc08d41e7e016382e1dc4"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/cover-attempt3.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/cover-attempt3.txt",
+      "sha256": "9aeb1f03156939cc3f864909a287fc4644e1c6f7c611bae6ee688638f846ffc3"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/duplicate-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/duplicate-red.txt",
+      "sha256": "34767545928928271bc42cf672024eb214491544a28f03e10ca17eff11a6f1fd"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/final-focused.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/final-focused.txt",
+      "sha256": "1be2e3f6cb8ff8c4db0e9145627d729e6e63ad29535b17804690b8b61d6f961f"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/generation-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/generation-red.txt",
+      "sha256": "1a6231372ada543a66d17cf80451a83e201b45a22f2837b003c148e996663956"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/green-attempt1.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt1.txt",
+      "sha256": "d3563496b8f76570668ff702ca4add1ed6ac6646c330d6aef23f8276bfe307e2"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/green-attempt2.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/green-attempt2.txt",
+      "sha256": "54d62a0149f447ee2867b9e102287fade45e0a057ff3b969489678c98884e9ae"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/inner-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/inner-red.txt",
+      "sha256": "70acac7de3e312fc0a6e2eb5b098ea2ee6adff6ace19e0240514afdae602585c"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/late-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/late-red.txt",
+      "sha256": "aa3b08c10d6f5981ebf0d46e1ee770eeab66e44245d950bc97237a8e5c384f79"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/native-output.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/native-output.txt",
+      "sha256": "4d3d6ef9bc09386e9afb43ecbc07c842bc1a1acad4ba5769a02d8653c02bc27e"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/native-source.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/native-source.json",
+      "sha256": "f75461eb7c643770c63dbceaf3f2ae10d2f992363b1a033810fa7c66e1ba49f7"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/native.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/native.json",
+      "sha256": "77037737112852b552f505c74c5278cffba2e4847e8dd318541eded69bc8c377"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/red.txt",
+      "sha256": "d8aa35c28119bbd6da095fdee095f171c03b1bd40800e0c776505028a1f0f8b3"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-evidence/retention-red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/retention-red.txt",
+      "sha256": "98c0e20a45ee3e5e552ac137d831bb33f58dd7d7b57f534982f2a0e906422cde"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-native-process-check.py",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-evidence/task-18-native-process-check.py",
+      "sha256": "1b8ebf8ef0a6d991e85459ad848dfa5ecd13157798b004eb7f60c053cbf48518"
+    }
+  ],
+  "durable_report": "docs/research/task18-kernel-stage-a-native-process-report.md",
+  "packaging_checks": {
+    "source_only_diff_check_exit_code": 0,
+    "raw_pytest_evidence_diff_check_exit_code": 2,
+    "raw_whitespace_preserved": true,
+    "artifact_hash_validation_exit_code": 0
+  }
+}

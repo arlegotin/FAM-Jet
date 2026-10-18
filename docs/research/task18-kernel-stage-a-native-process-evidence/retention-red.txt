@@ -1,0 +1,51 @@
+..........FF                                                             [100%]
+=================================== FAILURES ===================================
+________ test_event_failure_after_native_sampling_still_charges_all_rss ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4325/test_event_failure_after_nativ0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106039e50>
+
+    def test_event_failure_after_native_sampling_still_charges_all_rss(tmp_path,monkeypatch):
+        runtime=identity(); monkeypatch.setattr(a,'runtime',lambda:runtime)
+        out=tmp_path/'bad-event'; command=[sys.executable,'-c','import time; time.sleep(10)']
+        def sampler(pid):
+            (out/'monitor-events.jsonl').write_text('{"event":"unknown"}\n')
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),command)})
+        result=m.supervise(command,out,outer_seconds=.3,free_disk_bytes=0,sampler=sampler)
+        assert result['reason']=='monitor common failure'
+        assert result['absolute_process_tree_peak_bytes']==70
+>       assert result['incremental_worker_peak_bytes']>=70
+E       assert 0 >= 70
+
+tests/test_kernel_stage_a_native_process.py:210: AssertionError
+___________________ test_native_call_exception_is_structured ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106305c70>
+
+    def test_native_call_exception_is_structured(monkeypatch):
+        class Call:
+            def __call__(self,*args): raise OSError('call denied')
+        class Library: proc_pidpath=Call()
+        monkeypatch.setattr(a.ctypes,'CDLL',lambda *args,**kwargs:Library())
+>       assert a.process_image(20)['reason']=='native_call_failed'
+               ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_native_process.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_a/authority.py:53: in process_image
+    length=lookup(pid,buffer,4096)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <test_kernel_stage_a_native_process.test_native_call_exception_is_structured.<locals>.Call object at 0x1060b0590>
+args = (20, <ctypes.c_char_Array_4096 object at 0x10602d9d0>, 4096)
+
+>   def __call__(self,*args): raise OSError('call denied')
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: call denied
+
+tests/test_kernel_stage_a_native_process.py:216: OSError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_event_failure_after_native_sampling_still_charges_all_rss
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_call_exception_is_structured
+2 failed, 10 passed in 0.26s

@@ -1,0 +1,55 @@
+.F..F...                                                                 [100%]
+=================================== FAILURES ===================================
+____________ test_libproc_signature_long_path_and_structured_errors ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a50b100>
+
+    def test_libproc_signature_long_path_and_structured_errors(monkeypatch):
+        assert hasattr(a,'process_image')
+        long_path='/'+('a'*200)+'/Python'
+        class Function:
+            def __call__(self,pid,buffer,size):
+                assert size==4096
+                buffer.value=long_path.encode()
+                return len(long_path)
+        class Library: proc_pidpath=Function()
+        monkeypatch.setattr(a.ctypes,'CDLL',lambda path,**kw: Library())
+        monkeypatch.setattr(a,'file_hash',lambda path:'e'*64)
+        found=a.process_image(20)
+        assert found==dict(status='ok',method='macos.proc_pidpath',path=long_path,sha256='e'*64)
+        assert Library.proc_pidpath.argtypes==[ctypes.c_int,ctypes.c_void_p,ctypes.c_uint32]
+        assert Library.proc_pidpath.restype is ctypes.c_int
+        def gone(*args): ctypes.set_errno(errno.ESRCH); return 0
+        Library.proc_pidpath=gone
+        failed=a.process_image(20)
+>       assert failed['status']=='error' and failed['errno']==errno.ESRCH and failed['reason']=='native_lookup_failed'
+                                             ^^^^^^^^^^^^^^^
+E       KeyError: 'errno'
+
+tests/test_kernel_stage_a_native_process.py:64: KeyError
+___ test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts ____
+
+    def test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts():
+        runtime=identity(); declared=witness(30,os.getpid(),m.PS_ARGV)
+        entry=sample(30,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH))
+        entry['raw_args']=c.display(m.PS_ARGV)
+        def role(value,decl=declared):
+            return m.classify(10,{30:value},{},{30:decl},runtime_identity=runtime)[30]
+        assert role(entry)=='observer_helper'
+        assert entry['identity']['image_evidence']=='unavailable_exited'
+        assert entry['identity']['launch_evidence']=='source_owned_launch'
+        for change in (dict(image=dict(status='error',errno=errno.EPERM)),
+                       dict(image=dict(status='ok',path='/wrong',sha256='c'*64)),dict(sample_start=15.,sample_end=16.)):
+            assert role(dict(entry,**change))=='unaccounted'
+        for change in (dict(artifact=dict(path=m.PS,sha256='0'*64)),dict(parent=9999),dict(reaped=False),dict(ambiguous=True)):
+>           assert role(copy.deepcopy(entry),dict(declared,**change))=='unaccounted'
+E           AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E             
+E             - unaccounted
+E             + pending_observer_declaration
+
+tests/test_kernel_stage_a_native_process.py:111: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_libproc_signature_long_path_and_structured_errors
+FAILED tests/test_kernel_stage_a_native_process.py::test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts
+2 failed, 6 passed in 0.05s

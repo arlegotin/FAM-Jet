@@ -1,0 +1,131 @@
+FFFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+____ test_native_display_uses_observed_image_without_changing_launch_vector ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4320/test_native_display_uses_obser0')
+
+    def test_native_display_uses_observed_image_without_changing_launch_vector(tmp_path):
+>       assert hasattr(c,'native_display')
+E       AssertionError: assert False
+E        +  where False = hasattr(c, 'native_display')
+
+tests/test_kernel_stage_a_native_process.py:33: AssertionError
+____________ test_libproc_signature_long_path_and_structured_errors ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1067b6c40>
+
+    def test_libproc_signature_long_path_and_structured_errors(monkeypatch):
+>       assert hasattr(a,'process_image')
+E       AssertionError: assert False
+E        +  where False = hasattr(a, 'process_image')
+
+tests/test_kernel_stage_a_native_process.py:47: AssertionError
+___ test_runtime_binds_launcher_and_own_image_separately_without_transients ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1067b7230>
+
+    def test_runtime_binds_launcher_and_own_image_separately_without_transients(monkeypatch):
+>       assert hasattr(a,'process_image')
+E       AssertionError: assert False
+E        +  where False = hasattr(a, 'process_image')
+
+tests/test_kernel_stage_a_native_process.py:73: AssertionError
+________ test_native_python_requires_image_parent_and_exact_raw_display ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4320/test_native_python_requires_im0')
+
+    def test_native_python_requires_image_parent_and_exact_raw_display(tmp_path):
+        runtime=identity(); stage=c.stage_command(tmp_path,tmp_path/'seal')
+        entry=sample(10,os.getpid(),stage)
+        def role(value):
+            return m.classify(10,{10:value},{10:1},{},stage_vector=stage,runtime_identity=runtime)[10]
+>       assert role(entry)=='worker'
+               ^^^^^^^^^^^
+
+tests/test_kernel_stage_a_native_process.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'pid': 10, 'parent': 8711, 'rss_bytes': 70, 'sample_start': 12.0, ...}
+
+    def role(value):
+>       return m.classify(10,{10:value},{10:1},{},stage_vector=stage,runtime_identity=runtime)[10]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: classify() got an unexpected keyword argument 'runtime_identity'
+
+tests/test_kernel_stage_a_native_process.py:88: TypeError
+___ test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts ____
+
+    def test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts():
+        runtime=identity(); declared=witness(30,os.getpid(),m.PS_ARGV)
+        entry=sample(30,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH))
+        entry['raw_args']=c.display(m.PS_ARGV)
+        def role(value,decl=declared):
+            return m.classify(10,{30:value},{},{30:decl},runtime_identity=runtime)[30]
+>       assert role(entry)=='observer_helper'
+               ^^^^^^^^^^^
+
+tests/test_kernel_stage_a_native_process.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'pid': 30, 'parent': 8711, 'rss_bytes': 70, 'sample_start': 12.0, ...}
+decl = {'pid': 30, 'parent': 8711, 'executable': '/bin/ps', 'argv': ['/bin/ps', '-axo', 'pid=,ppid=,rss=,comm=,args='], ...}
+
+    def role(value,decl=declared):
+>       return m.classify(10,{30:value},{},{30:decl},runtime_identity=runtime)[30]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: classify() got an unexpected keyword argument 'runtime_identity'
+
+tests/test_kernel_stage_a_native_process.py:103: TypeError
+____ test_git_witness_requires_sampled_authority_phase_and_exact_generation ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4320/test_git_witness_requires_samp0')
+
+    def test_git_witness_requires_sampled_authority_phase_and_exact_generation(tmp_path):
+        runtime=identity(); vector=a.git_commands(tmp_path)[0]
+        declared=witness(30,10,vector,'git')
+        entry=sample(30,10,vector,image=dict(status='error',errno=errno.ESRCH)); entry['raw_args']=c.display(vector)
+        phase=dict(active=True,started=True,start=10.,end=14.,declarations={30:declared},completed={30},commands=a.git_commands(tmp_path))
+>       assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime)[30]=='authority_helper'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: classify() got an unexpected keyword argument 'runtime_identity'
+
+tests/test_kernel_stage_a_native_process.py:119: TypeError
+__________ test_numeric_rss_retained_before_malformed_identity_lookup __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106989490>
+
+    def test_numeric_rss_retained_before_malformed_identity_lookup(monkeypatch):
+>       assert hasattr(a,'process_image')
+E       AssertionError: assert False
+E        +  where False = hasattr(a, 'process_image')
+
+tests/test_kernel_stage_a_native_process.py:128: AssertionError
+___________ test_native_unresolved_python_failure_preserves_full_rss ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4320/test_native_unresolved_python_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1068e27a0>
+
+    def test_native_unresolved_python_failure_preserves_full_rss(tmp_path,monkeypatch):
+        runtime=identity(); stage=[sys.executable,'-c','import time; time.sleep(10)']
+        monkeypatch.setattr(a,'runtime',lambda:runtime)
+        def sampler(pid):
+            entry=sample(pid,os.getpid(),stage,image=dict(status='error',errno=errno.ESRCH))
+            return m.ResidentTree({pid:70},{pid:entry})
+        result=m.supervise(stage,tmp_path/'unresolved',sampler=sampler,outer_seconds=.3,free_disk_bytes=0)
+>       assert result['reason']=='foreign process identity'
+E       AssertionError: assert 'monitor common failure' == 'foreign process identity'
+E         
+E         - foreign process identity
+E         + monitor common failure
+
+tests/test_kernel_stage_a_native_process.py:154: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_display_uses_observed_image_without_changing_launch_vector
+FAILED tests/test_kernel_stage_a_native_process.py::test_libproc_signature_long_path_and_structured_errors
+FAILED tests/test_kernel_stage_a_native_process.py::test_runtime_binds_launcher_and_own_image_separately_without_transients
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_python_requires_image_parent_and_exact_raw_display
+FAILED tests/test_kernel_stage_a_native_process.py::test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts
+FAILED tests/test_kernel_stage_a_native_process.py::test_git_witness_requires_sampled_authority_phase_and_exact_generation
+FAILED tests/test_kernel_stage_a_native_process.py::test_numeric_rss_retained_before_malformed_identity_lookup
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_unresolved_python_failure_preserves_full_rss
+8 failed in 0.05s

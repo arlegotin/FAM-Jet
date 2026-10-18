@@ -1,0 +1,555 @@
+{
+  "scope": "NONNUMERICAL native compatibility only",
+  "allowance_seconds": 30,
+  "attempts": [
+    {
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main())",
+        "--worker",
+        "--seal",
+        "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/incomplete-seal"
+      ],
+      "vector_sha256": "5ae2fa87a238bfee75f1490451c34a09af2865f604f5512bade308ab3cafd9ad",
+      "pid": 9196,
+      "started": 542315.9393695,
+      "kind": "stage held at incomplete FIFO",
+      "observation": {
+        "readings": {
+          "9196": 22167552,
+          "9197": 1851392
+        },
+        "samples": [
+          {
+            "pid": 9196,
+            "parent": 9195,
+            "rss_bytes": 22167552,
+            "sample_start": 542316.050744791,
+            "sample_end": 542316.089196291,
+            "raw_comm": "/opt/homebrew/Ce",
+            "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/incomplete-seal",
+            "image": {
+              "status": "ok",
+              "method": "macos.proc_pidpath",
+              "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+              "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+              "lookup_start": 542316.089963208,
+              "lookup_end": 542316.090229291
+            },
+            "ambiguous": false,
+            "identity": {
+              "image_evidence": "kernel_image",
+              "launch_evidence": null,
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              }
+            }
+          },
+          {
+            "pid": 9197,
+            "parent": 9195,
+            "rss_bytes": 1851392,
+            "sample_start": 542316.050744791,
+            "sample_end": 542316.089196291,
+            "raw_comm": "/bin/ps",
+            "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+            "image": {
+              "status": "error",
+              "method": "macos.proc_pidpath",
+              "reason": "native_lookup_failed",
+              "errno": 3,
+              "lookup_start": 542316.090231708,
+              "lookup_end": 542316.090252125
+            },
+            "ambiguous": false,
+            "identity": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "dc89bceeecf340199ce8edb5fb28d1fb",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            }
+          }
+        ],
+        "witnesses": [
+          {
+            "parent": 9195,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,rss=,comm=,args="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "dc89bceeecf340199ce8edb5fb28d1fb",
+            "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 542316.05106175,
+            "reaped": true,
+            "pid": 9197,
+            "completion_end": 542316.089176125
+          }
+        ],
+        "roles": {
+          "9196": "pending_baseline",
+          "9197": "observer_helper"
+        }
+      },
+      "returncode": -9,
+      "reaped": true,
+      "seconds": 0.15266412496566772,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.reader_worker import main; main()",
+        "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/reader-events.jsonl",
+        "542325.092098541"
+      ],
+      "vector_sha256": "02b889cd6327ea782994ca250477d4f7ce0dac4c6f7bb746b7ccb903ab441704",
+      "pid": 9198,
+      "started": 542316.092264708,
+      "kind": "reader held with ZERO request bytes",
+      "request_bytes": 0,
+      "observation": {
+        "readings": {
+          "9200": 1851392,
+          "9198": 226459648
+        },
+        "samples": [
+          {
+            "pid": 9200,
+            "parent": 9195,
+            "rss_bytes": 1851392,
+            "sample_start": 542316.747067625,
+            "sample_end": 542316.774782833,
+            "raw_comm": "/bin/ps",
+            "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+            "image": {
+              "status": "error",
+              "method": "macos.proc_pidpath",
+              "reason": "native_lookup_failed",
+              "errno": 3,
+              "lookup_start": 542316.775287833,
+              "lookup_end": 542316.775370875
+            },
+            "ambiguous": false,
+            "identity": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "556a00717f6742029273ba2098d0d147",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            }
+          },
+          {
+            "pid": 9198,
+            "parent": 9195,
+            "rss_bytes": 226459648,
+            "sample_start": 542316.747067625,
+            "sample_end": 542316.774782833,
+            "raw_comm": "/opt/homebrew/Ce",
+            "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.reader_worker import main; main() /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/reader-events.jsonl 542325.092098541",
+            "image": {
+              "status": "ok",
+              "method": "macos.proc_pidpath",
+              "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+              "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+              "lookup_start": 542316.77537225,
+              "lookup_end": 542316.775541
+            },
+            "ambiguous": false,
+            "identity": {
+              "image_evidence": "kernel_image",
+              "launch_evidence": null,
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              }
+            }
+          }
+        ],
+        "witnesses": [
+          {
+            "parent": 9195,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,rss=,comm=,args="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "556a00717f6742029273ba2098d0d147",
+            "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 542316.747282833,
+            "reaped": true,
+            "pid": 9200,
+            "completion_end": 542316.774775666
+          }
+        ],
+        "roles": {
+          "9200": "observer_helper",
+          "9198": "pending_baseline"
+        }
+      },
+      "events": [
+        {
+          "event": "observer_helper",
+          "monotonic": 542316.71781375,
+          "parent": 9198,
+          "executable": "/bin/ps",
+          "argv": [
+            "/bin/ps",
+            "-axo",
+            "pid=,ppid=,rss=,comm=,args="
+          ],
+          "provenance": "source_owned_launch",
+          "launch_id": "4b2982965f3544559d35f15e23de4e61",
+          "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+          "artifact": {
+            "path": "/bin/ps",
+            "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+          },
+          "launch_start": 542316.713334041,
+          "reaped": false,
+          "pid": 9199
+        },
+        {
+          "event": "observer_helper_end",
+          "monotonic": 542316.74571425,
+          "pid": 9199,
+          "parent": 9198,
+          "launch_id": "4b2982965f3544559d35f15e23de4e61",
+          "completion_end": 542316.745615458,
+          "reaped": true
+        },
+        {
+          "event": "observer_sample",
+          "monotonic": 542316.746822625,
+          "processes": [
+            {
+              "pid": 9198,
+              "parent": 9195,
+              "rss_bytes": 225984512,
+              "sample_start": 542316.71103475,
+              "sample_end": 542316.745789333,
+              "raw_comm": "/opt/homebrew/Ce",
+              "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.reader_worker import main; main() /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/reader-events.jsonl 542325.092098541",
+              "image": {
+                "status": "ok",
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+                "lookup_start": 542316.746567958,
+                "lookup_end": 542316.746739375
+              },
+              "ambiguous": false,
+              "identity": {
+                "image_evidence": "kernel_image",
+                "launch_evidence": null,
+                "expected_image": {
+                  "method": "macos.proc_pidpath",
+                  "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                  "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+                }
+              }
+            },
+            {
+              "pid": 9199,
+              "parent": 9198,
+              "rss_bytes": 1851392,
+              "sample_start": 542316.71103475,
+              "sample_end": 542316.745789333,
+              "raw_comm": "/bin/ps",
+              "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 542316.746741125,
+                "lookup_end": 542316.7467575
+              },
+              "ambiguous": false,
+              "identity": {
+                "image_evidence": "unavailable_exited",
+                "launch_evidence": "source_owned_launch",
+                "launch_id": "4b2982965f3544559d35f15e23de4e61",
+                "expected_image": {
+                  "path": "/bin/ps",
+                  "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "event": "baseline",
+          "pid": 9198,
+          "rss": 225984512,
+          "monotonic": 542316.746860708,
+          "utc_epoch": 1792305836.249244,
+          "boundary": "post-import/pre-allocation"
+        }
+      ],
+      "inner_roles": {
+        "9198": "pending_baseline",
+        "9199": "observer_helper"
+      },
+      "inner_samples": [
+        {
+          "pid": 9198,
+          "parent": 9195,
+          "rss_bytes": 225984512,
+          "sample_start": 542316.71103475,
+          "sample_end": 542316.745789333,
+          "raw_comm": "/opt/homebrew/Ce",
+          "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/Users/artemlegotin/Documents/git_alter/FAM-Jet'); from validation.kernel_stage_a.reader_worker import main; main() /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/task18-native-njvsy22b/reader-events.jsonl 542325.092098541",
+          "image": {
+            "status": "ok",
+            "method": "macos.proc_pidpath",
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+            "lookup_start": 542316.746567958,
+            "lookup_end": 542316.746739375
+          },
+          "ambiguous": false,
+          "identity": {
+            "image_evidence": "kernel_image",
+            "launch_evidence": null,
+            "expected_image": {
+              "method": "macos.proc_pidpath",
+              "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+              "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+            }
+          }
+        },
+        {
+          "pid": 9199,
+          "parent": 9198,
+          "rss_bytes": 1851392,
+          "sample_start": 542316.71103475,
+          "sample_end": 542316.745789333,
+          "raw_comm": "/bin/ps",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "error",
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "errno": 3,
+            "lookup_start": 542316.746741125,
+            "lookup_end": 542316.7467575
+          },
+          "ambiguous": false,
+          "identity": {
+            "image_evidence": "unavailable_exited",
+            "launch_evidence": "source_owned_launch",
+            "launch_id": "4b2982965f3544559d35f15e23de4e61",
+            "expected_image": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            }
+          }
+        }
+      ],
+      "returncode": -9,
+      "reaped": true,
+      "seconds": 0.688252666965127,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "kind": "exact readonly Git",
+      "witness": {
+        "parent": 9195,
+        "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "argv": [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+          "rev-parse",
+          "HEAD"
+        ],
+        "provenance": "source_owned_launch",
+        "launch_id": "06497956a96f48228fdd510807f41f85",
+        "vector_sha256": "01d589ab55e0a79546f15c7807de16dd8d89855b7c437096eb7a5692c88df900",
+        "artifact": {
+          "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+        },
+        "launch_start": 542316.783477958,
+        "reaped": false,
+        "pid": 9201
+      },
+      "image_at_launch": {
+        "status": "ok",
+        "method": "macos.proc_pidpath",
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954",
+        "lookup_start": 542316.784703333,
+        "lookup_end": 542316.786234541
+      },
+      "seconds": 0.008171957917511463,
+      "output": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+      "raw_display": "not sampled: short exact source-owned Git may exit before ps lookup"
+    },
+    {
+      "kind": "exact readonly Git",
+      "witness": {
+        "parent": 9195,
+        "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "argv": [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+          "status",
+          "--porcelain"
+        ],
+        "provenance": "source_owned_launch",
+        "launch_id": "61dc0a60fe214a75badd8917947f3da2",
+        "vector_sha256": "3c3f7ae206987500812e82c18626e715c87bbbcaf48ef02d9079ee6695b922c7",
+        "artifact": {
+          "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+        },
+        "launch_start": 542316.791467041,
+        "reaped": false,
+        "pid": 9202
+      },
+      "image_at_launch": {
+        "status": "ok",
+        "method": "macos.proc_pidpath",
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954",
+        "lookup_start": 542316.792622916,
+        "lookup_end": 542316.794186083
+      },
+      "seconds": 0.014034291030839086,
+      "output": "M tests/test_kernel_stage_a_preflight_fix1.py\n M validation/kernel_stage_a/authority.py\n M validation/kernel_stage_a/commands.py\n M validation/kernel_stage_a/monitor.py\n?? tests/test_kernel_stage_a_native_process.py",
+      "raw_display": "not sampled: short exact source-owned Git may exit before ps lookup"
+    }
+  ],
+  "source_commit": "691a9a0bb686ba3ba4aa708df28f7ef74aed9277",
+  "source_diff_sha256": "e54105e540129e17dab0b55c8940a7388773475f07e191054c8feaf68c18ae19",
+  "runtime": {
+    "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+    "executable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+    "executable_sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+    "implementation": "CPython",
+    "process_image": {
+      "method": "macos.proc_pidpath",
+      "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+    },
+    "helpers": {
+      "ps": {
+        "path": "/bin/ps",
+        "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+      },
+      "git": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+      }
+    },
+    "decimal_version": "1.70",
+    "libmpdec_version": "4.0.1",
+    "decimal_extension": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload/_decimal.cpython-313-darwin.so",
+    "decimal_extension_sha256": "012ccc5fc549ca1da531e00957e6f1807e364971fcd55209f51d5545d788e585",
+    "byteorder": "little",
+    "machine": "arm64",
+    "context": "80/160 ROUND_HALF_EVEN Emin=-999999999 Emax=999999999 traps=InvalidOperation,DivisionByZero,Overflow"
+  },
+  "git_events": [
+    {
+      "event": "authority_helper",
+      "monotonic": 542316.784607958,
+      "parent": 9195,
+      "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+      "argv": [
+        "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "-C",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+        "rev-parse",
+        "HEAD"
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "06497956a96f48228fdd510807f41f85",
+      "vector_sha256": "01d589ab55e0a79546f15c7807de16dd8d89855b7c437096eb7a5692c88df900",
+      "artifact": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+      },
+      "launch_start": 542316.783477958,
+      "reaped": false,
+      "pid": 9201
+    },
+    {
+      "event": "authority_helper_end",
+      "monotonic": 542316.788666083,
+      "pid": 9201,
+      "parent": 9195,
+      "launch_id": "06497956a96f48228fdd510807f41f85",
+      "reaped": true,
+      "completion_end": 542316.788628458,
+      "returncode": 0,
+      "seconds": 0.008041499997489154
+    },
+    {
+      "event": "authority_helper",
+      "monotonic": 542316.792557625,
+      "parent": 9195,
+      "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+      "argv": [
+        "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "-C",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+        "status",
+        "--porcelain"
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "61dc0a60fe214a75badd8917947f3da2",
+      "vector_sha256": "3c3f7ae206987500812e82c18626e715c87bbbcaf48ef02d9079ee6695b922c7",
+      "artifact": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954"
+      },
+      "launch_start": 542316.791467041,
+      "reaped": false,
+      "pid": 9202
+    },
+    {
+      "event": "authority_helper_end",
+      "monotonic": 542316.802698291,
+      "pid": 9202,
+      "parent": 9195,
+      "launch_id": "61dc0a60fe214a75badd8917947f3da2",
+      "reaped": true,
+      "completion_end": 542316.802658791,
+      "returncode": 0,
+      "seconds": 0.01386370905674994
+    }
+  ],
+  "status": "PASS",
+  "seconds": 0.867311832960695,
+  "all_owned_children_reaped": true
+}
