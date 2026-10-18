@@ -1,0 +1,598 @@
+FFFFFFFFFFFFFFFFFFFF                                                     [100%]
+=================================== FAILURES ===================================
+________ test_same_generation_self_proof_end_admits_esrch_with_raw_rss _________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_same_generation_self_proo0')
+
+    def test_same_generation_self_proof_end_admits_esrch_with_raw_rss(tmp_path):
+>       state,launch,live,gone,end,context=generation(tmp_path)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_same_generation_self_proo0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering0] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events0')
+ordering = ('sample', 'end', 'launch')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+>       state,launch,live,gone,end,context=generation(tmp_path)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering1] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events1')
+ordering = ('end', 'launch', 'sample')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+>       state,launch,live,gone,end,context=generation(tmp_path)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events1')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering2] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events2')
+ordering = ('launch', 'sample', 'end')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+>       state,launch,live,gone,end,context=generation(tmp_path)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_delayed_generation_events2')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+___________ test_missing_generation_evidence_remains_pending[proof] ____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_missing_generation_eviden0')
+missing = 'proof'
+
+    @pytest.mark.parametrize('missing',['proof','end'])
+    def test_missing_generation_evidence_remains_pending(tmp_path,missing):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_missing_generation_eviden0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_missing_generation_evidence_remains_pending[end] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_missing_generation_eviden1')
+missing = 'end'
+
+    @pytest.mark.parametrize('missing',['proof','end'])
+    def test_missing_generation_evidence_remains_pending(tmp_path,missing):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_missing_generation_eviden1')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_conflicting_or_outside_generation_fails[change0] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge0')
+change = {'parent': 99}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_conflicting_or_outside_generation_fails[change1] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge1')
+change = {'raw_args': 'python unknown'}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge1')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_conflicting_or_outside_generation_fails[change2] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge2')
+change = {'sample_start': 16.0, 'sample_end': 17.0}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge2')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_conflicting_or_outside_generation_fails[change3] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge3')
+change = {'image': {'status': 'error', 'errno': 1}}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge3')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+____________ test_conflicting_or_outside_generation_fails[change4] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge4')
+change = {'image': {'status': 'ok', 'path': '/wrong', 'sha256': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'}}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_conflicting_or_outside_ge4')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+______________ test_duplicate_pid_or_launch_id_rejected[change0] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i0')
+change = {'launch_id': 'g2'}
+
+    @pytest.mark.parametrize('change',[dict(launch_id='g2'),dict(pid=21),{}])
+    def test_duplicate_pid_or_launch_id_rejected(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+______________ test_duplicate_pid_or_launch_id_rejected[change1] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i1')
+change = {'pid': 21}
+
+    @pytest.mark.parametrize('change',[dict(launch_id='g2'),dict(pid=21),{}])
+    def test_duplicate_pid_or_launch_id_rejected(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i1')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+______________ test_duplicate_pid_or_launch_id_rejected[change2] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i2')
+change = {}
+
+    @pytest.mark.parametrize('change',[dict(launch_id='g2'),dict(pid=21),{}])
+    def test_duplicate_pid_or_launch_id_rejected(tmp_path,change):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_duplicate_pid_or_launch_i2')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+___________ test_root_proof_cannot_be_established_after_owner_reaps ____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_root_proof_cannot_be_esta0')
+
+    def test_root_proof_cannot_be_established_after_owner_reaps(tmp_path):
+>       state,launch,live,gone,end,context=generation(tmp_path,'owned_root'); state.launch(launch,None); state.end(end)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_root_proof_cannot_be_esta0')
+role = 'owned_root'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+_________ test_outer_reader_image_cannot_supply_self_generation_proof __________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_outer_reader_image_cannot0')
+
+    def test_outer_reader_image_cannot_supply_self_generation_proof(tmp_path):
+>       state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+                                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_outer_reader_image_cannot0')
+role = 'reader'
+
+    def generation(tmp_path, role='reader'):
+        runtime=identity(); parent=10 if role=='reader' else os.getpid()
+        context=dict(root=tmp_path,event_path=tmp_path/'events',deadline=90.)
+        vector=c.reader_command(tmp_path,context['event_path'],80.) if role=='reader' else c.stage_command(tmp_path,tmp_path/'seal')
+        launch=dict(pid=20 if role=='reader' else 10,parent=parent,role=role,argv=vector,
+                    executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='g1',launch_start=10.,
+                    provenance='source_owned_python_launch',launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                    expected_image=runtime['process_image'],reaped=False)
+        live=sample(launch['pid'],parent,vector,start=11.,end=12.)
+        live['image'].update(lookup_start=12.,lookup_end=12.1)
+        gone=sample(launch['pid'],parent,vector,start=13.,end=14.,image=dict(status='error',errno=errno.ESRCH,lookup_start=15.,lookup_end=15.1))
+        end=dict(pid=launch['pid'],parent=parent,launch_id='g1',reaped=True,returncode=2,completion_end=14.5)
+>       state=m.PythonLifetimes(10, c.stage_command(tmp_path,tmp_path/'seal'),runtime)
+              ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute 'PythonLifetimes'
+
+tests/test_kernel_stage_a_python_lifetime.py:28: AttributeError
+__________ test_python_launcher_is_rechecked_and_distinct_from_image ___________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_python_launcher_is_rechec0')
+
+    def test_python_launcher_is_rechecked_and_distinct_from_image(tmp_path):
+        runtime=a.runtime(); vector=[sys.executable,'-c','pass']
+>       witness=a.python_launch(vector,runtime,'reader')
+                ^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.authority' has no attribute 'python_launch'
+
+tests/test_kernel_stage_a_python_lifetime.py:91: AttributeError
+________ test_owned_dispatch_once_reaps_and_emits_truthful_end[nonzero] ________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_owned_dispatch_once_reaps0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106444fc0>
+failure = 'nonzero'
+
+    @pytest.mark.parametrize('failure',['nonzero','timeout','witness'])
+    def test_owned_dispatch_once_reaps_and_emits_truthful_end(tmp_path,monkeypatch,failure):
+>       from validation.kernel_stage_a.production import owned_reader_dispatch
+E       ImportError: cannot import name 'owned_reader_dispatch' from 'validation.kernel_stage_a.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/production.py)
+
+tests/test_kernel_stage_a_python_lifetime.py:99: ImportError
+________ test_owned_dispatch_once_reaps_and_emits_truthful_end[timeout] ________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_owned_dispatch_once_reaps1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10cffc3e0>
+failure = 'timeout'
+
+    @pytest.mark.parametrize('failure',['nonzero','timeout','witness'])
+    def test_owned_dispatch_once_reaps_and_emits_truthful_end(tmp_path,monkeypatch,failure):
+>       from validation.kernel_stage_a.production import owned_reader_dispatch
+E       ImportError: cannot import name 'owned_reader_dispatch' from 'validation.kernel_stage_a.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/production.py)
+
+tests/test_kernel_stage_a_python_lifetime.py:99: ImportError
+________ test_owned_dispatch_once_reaps_and_emits_truthful_end[witness] ________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-01/test_owned_dispatch_once_reaps2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1063104d0>
+failure = 'witness'
+
+    @pytest.mark.parametrize('failure',['nonzero','timeout','witness'])
+    def test_owned_dispatch_once_reaps_and_emits_truthful_end(tmp_path,monkeypatch,failure):
+>       from validation.kernel_stage_a.production import owned_reader_dispatch
+E       ImportError: cannot import name 'owned_reader_dispatch' from 'validation.kernel_stage_a.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/production.py)
+
+tests/test_kernel_stage_a_python_lifetime.py:99: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_same_generation_self_proof_end_admits_esrch_with_raw_rss
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering0]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering2]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_generation_evidence_remains_pending[proof]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_generation_evidence_remains_pending[end]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change0]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change2]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change3]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change4]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_duplicate_pid_or_launch_id_rejected[change0]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_duplicate_pid_or_launch_id_rejected[change1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_duplicate_pid_or_launch_id_rejected[change2]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_root_proof_cannot_be_established_after_owner_reaps
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_outer_reader_image_cannot_supply_self_generation_proof
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_python_launcher_is_rechecked_and_distinct_from_image
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_owned_dispatch_once_reaps_and_emits_truthful_end[nonzero]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_owned_dispatch_once_reaps_and_emits_truthful_end[timeout]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_owned_dispatch_once_reaps_and_emits_truthful_end[witness]
+20 failed in 1.22s

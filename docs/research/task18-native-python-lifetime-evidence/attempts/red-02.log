@@ -1,0 +1,19 @@
+.........................F                                               [100%]
+=================================== FAILURES ===================================
+_________ test_root_self_emitter_does_not_supply_unreaped_owner_proof __________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-02/test_root_self_emitter_does_no0')
+
+    def test_root_self_emitter_does_not_supply_unreaped_owner_proof(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root'); state.launch(launch,None)
+        state.end(end); state.self_sample(10,[live])
+>       assert role(state,gone,context)=='pending_python_lifetime'
+E       AssertionError: assert 'worker' == 'pending_python_lifetime'
+E         
+E         - pending_python_lifetime
+E         + worker
+
+tests/test_kernel_stage_a_python_lifetime.py:150: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_root_self_emitter_does_not_supply_unreaped_owner_proof
+1 failed, 25 passed in 1.54s

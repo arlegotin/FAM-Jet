@@ -1,0 +1,72 @@
+{
+  "status": "VERIFIED_ARTIFACTS_ONLY_NO_SOURCE_ACCEPTANCE",
+  "source_commit": "18c7753e982b9ea2a8d6191a35970c5151403ab7",
+  "source_hashes": {
+    "validation/kernel_stage_a/monitor.py": "687be22c28334e59b2bfdeb380f760c94d39998dad0a3f2c51267dc782ad9137",
+    "validation/kernel_stage_a/__init__.py": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+    "validation/kernel_stage_a/descriptors.py": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+    "validation/kernel_stage_a/authority.py": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+    "validation/kernel_stage_a/reader_worker.py": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+    "validation/kernel_stage_a/reference.py": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+    "validation/kernel_stage_a/driver.py": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+    "validation/kernel_stage_a/commands.py": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+    "validation/kernel_stage_a/__main__.py": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+    "validation/kernel_stage_a/production.py": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+    "tests/test_kernel_stage_a_python_lifetime.py": "19c4a1d2bcf133744872331ec4c81d399fecc9a73528bf317ef6e48eb8c3bc55",
+    "docs/research/task18-native-python-lifetime-evidence/native-normal-exit.py": "d3c3b022f3ac3d1075da858afe78edce942bcac788b0112a2e15fe09b2fb1e8e"
+  },
+  "native_cases": [
+    {
+      "case": "root",
+      "pid": 18680,
+      "returncode": 2,
+      "proof": {
+        "launch_id": "a0c7600e030e4bfb8c502558bb8add34",
+        "pid": 18680,
+        "origin": "unreaped_owned_root",
+        "lookup_start": 547834.45361675,
+        "lookup_end": 547834.453848083
+      },
+      "launch_start": 547834.367568958,
+      "completion_end": 547834.507098208,
+      "rss_bytes": 22151168,
+      "baseline_bytes": null,
+      "esrch": {
+        "status": "error",
+        "method": "macos.proc_pidpath",
+        "reason": "native_lookup_failed",
+        "errno": 3,
+        "lookup_start": 547834.507191541,
+        "lookup_end": 547834.507290291
+      }
+    },
+    {
+      "case": "reader",
+      "pid": 18688,
+      "returncode": 1,
+      "proof": {
+        "launch_id": "9df2596b68f74608bd14e17e0f6e92bb",
+        "pid": 18688,
+        "origin": "trusted_emitter_self_row",
+        "lookup_start": 547835.166593875,
+        "lookup_end": 547835.166810166
+      },
+      "launch_start": 547834.508397166,
+      "completion_end": 547835.393272166,
+      "rss_bytes": 223690752,
+      "baseline_bytes": 222806016,
+      "esrch": {
+        "status": "error",
+        "method": "macos.proc_pidpath",
+        "reason": "native_lookup_failed",
+        "errno": 3,
+        "lookup_start": 547835.393714416,
+        "lookup_end": 547835.393815541
+      }
+    }
+  ],
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "seconds": 2.031376834027469,
+  "import_seconds": 0.9912320839939639,
+  "raw_bytes": 26738
+}

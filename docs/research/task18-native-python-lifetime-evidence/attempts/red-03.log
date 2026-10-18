@@ -1,0 +1,19 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_completion_cannot_precede_later_owned_image_proof ____________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-03/test_completion_cannot_precede0')
+
+    def test_completion_cannot_precede_later_owned_image_proof(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root'); state.launch(launch,None)
+        state.root_sample(live,owner_unreaped=True)
+        later=copy.deepcopy(live); later['sample_start']=14.; later['sample_end']=15.; later['image'].update(lookup_start=15.,lookup_end=15.1)
+        state.root_sample(later,owner_unreaped=True)
+>       with pytest.raises(ValueError): state.end(end)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_python_lifetime.py:188: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_completion_cannot_precede_later_owned_image_proof
+1 failed, 27 deselected in 0.04s

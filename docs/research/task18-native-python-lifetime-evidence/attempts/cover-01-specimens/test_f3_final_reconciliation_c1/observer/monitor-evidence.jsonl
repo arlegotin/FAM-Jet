@@ -1,0 +1,5 @@
+{"kind":"sample","sample_id":1,"rss":{"16393":20,"116393":100},"processes":[{"pid":16393,"parent":16340,"executable":"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","argv":["/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","-c","from pathlib import Path; import time\nwhile not Path(\"finish\").exists(): time.sleep(.005)"]},{"pid":116393,"parent":16393,"executable":"/bin/ps","argv":["/bin/ps","-axo","pid=,ppid=,rss=,comm=,args="]}],"before":547599.263615833,"after":547599.263832291}
+{"kind":"event","value":{"event":"baseline","pid":16393,"rss":10}}
+{"kind":"resolution","sample_id":1,"roles":{"16393":"worker","116393":"pending_observer_declaration"},"identities":{}}
+{"kind":"witness","value":{"pid":116393,"parent":16393,"executable":"/bin/ps","argv":["/bin/ps","-axo","pid=,ppid=,rss=,comm=,args="]}}
+{"kind":"resolution","sample_id":1,"roles":{"16393":"worker","116393":"observer_helper"},"identities":{}}

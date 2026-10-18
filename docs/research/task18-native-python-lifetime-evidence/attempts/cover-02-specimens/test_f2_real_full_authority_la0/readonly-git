@@ -1,0 +1,4 @@
+#!/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+import sys,time
+time.sleep(.04)
+print("controlled-head" if sys.argv[-2:]==["rev-parse","HEAD"] else "",end="")

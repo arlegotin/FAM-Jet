@@ -1,0 +1,68 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+____ test_missing_launch_does_not_defer_conflicting_native_sample[change0] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-04/test_missing_launch_does_not_d0')
+change = {'parent': 99}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(image=dict(status='error',errno=errno.EPERM)),
+        dict(image=dict(status='error',errno=errno.ESRCH,reason='native_binding_failed'))])
+    def test_missing_launch_does_not_defer_conflicting_native_sample(tmp_path,change):
+        state,launch,live,gone,end,context=generation(tmp_path)
+>       assert role(state,dict(gone,**change),context)=='unaccounted'
+E       AssertionError: assert 'pending_python_lifetime' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_python_lifetime.py:195: AssertionError
+____ test_missing_launch_does_not_defer_conflicting_native_sample[change1] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-04/test_missing_launch_does_not_d1')
+change = {'image': {'status': 'error', 'errno': 1}}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(image=dict(status='error',errno=errno.EPERM)),
+        dict(image=dict(status='error',errno=errno.ESRCH,reason='native_binding_failed'))])
+    def test_missing_launch_does_not_defer_conflicting_native_sample(tmp_path,change):
+        state,launch,live,gone,end,context=generation(tmp_path)
+>       assert role(state,dict(gone,**change),context)=='unaccounted'
+E       AssertionError: assert 'pending_python_lifetime' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_python_lifetime.py:195: AssertionError
+____ test_missing_launch_does_not_defer_conflicting_native_sample[change2] _____
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-04/test_missing_launch_does_not_d2')
+change = {'image': {'status': 'error', 'errno': 3, 'reason': 'native_binding_failed'}}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(image=dict(status='error',errno=errno.EPERM)),
+        dict(image=dict(status='error',errno=errno.ESRCH,reason='native_binding_failed'))])
+    def test_missing_launch_does_not_defer_conflicting_native_sample(tmp_path,change):
+        state,launch,live,gone,end,context=generation(tmp_path)
+>       assert role(state,dict(gone,**change),context)=='unaccounted'
+E       AssertionError: assert 'pending_python_lifetime' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_python_lifetime.py:195: AssertionError
+___________ test_completion_rechecks_already_bound_baseline_lifetime ___________
+
+tmp_path = PosixPath('/private/tmp/task18-python-lifetime-red-04/test_completion_rechecks_alrea0')
+
+    def test_completion_rechecks_already_bound_baseline_lifetime(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live])
+        state.baseline(dict(pid=20,rss=70,monotonic=16.,boundary='post-import/pre-allocation'))
+>       with pytest.raises(ValueError): state.end(end)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_kernel_stage_a_python_lifetime.py:201: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_launch_does_not_defer_conflicting_native_sample[change0]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_launch_does_not_defer_conflicting_native_sample[change1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_launch_does_not_defer_conflicting_native_sample[change2]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_completion_rechecks_already_bound_baseline_lifetime
+4 failed, 28 deselected in 0.06s

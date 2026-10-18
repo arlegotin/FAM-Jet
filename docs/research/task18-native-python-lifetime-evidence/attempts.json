@@ -1,0 +1,155 @@
+[
+  {
+    "attempt": "red-01",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py --basetemp=/tmp/task18-python-lifetime-red-01",
+    "exit": 1,
+    "summary": "20 failed in 1.22s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/red-01.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-red-01",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-red-01",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-01-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "green-01",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py --basetemp=/tmp/task18-python-lifetime-green-01",
+    "exit": 0,
+    "summary": "20 passed in 1.20s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/green-01.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-green-01",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-green-01",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-01-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "red-02",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py --basetemp=/tmp/task18-python-lifetime-red-02",
+    "exit": 1,
+    "summary": "1 failed, 25 passed in 1.54s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/red-02.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-red-02",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-red-02",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-02-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "green-02",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py --basetemp=/tmp/task18-python-lifetime-green-02",
+    "exit": 1,
+    "summary": "1 failed, 26 passed in 1.19s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/green-02.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-green-02",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-green-02",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/green-02-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "cover-01",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py tests/test_kernel_stage_a_native_process_fix3.py tests/test_kernel_stage_a_native_process_fix2.py tests/test_kernel_stage_a_native_process_fix1.py tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py -k 'python_lifetime or native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective' --basetemp=/tmp/task18-python-lifetime-cover-01",
+    "exit": 0,
+    "summary": "91 passed, 24 deselected in 3.99s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-cover-01",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-cover-01",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-01-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "red-03",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py -k completion_cannot --basetemp=/tmp/task18-python-lifetime-red-03",
+    "exit": 1,
+    "summary": "1 failed, 27 deselected in 0.04s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/red-03.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-red-03",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-red-03",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-03-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "cover-02",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py tests/test_kernel_stage_a_native_process_fix3.py tests/test_kernel_stage_a_native_process_fix2.py tests/test_kernel_stage_a_native_process_fix1.py tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py -k 'python_lifetime or native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective' --basetemp=/tmp/task18-python-lifetime-cover-02",
+    "exit": 0,
+    "summary": "92 passed, 24 deselected in 4.23s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-cover-02",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-cover-02",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-02-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "red-04",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py -k 'missing_launch or completion_rechecks' --basetemp=/tmp/task18-python-lifetime-red-04",
+    "exit": 1,
+    "summary": "4 failed, 28 deselected in 0.06s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/red-04.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-red-04",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-red-04",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/red-04-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  },
+  {
+    "attempt": "cover-03",
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_python_lifetime.py tests/test_kernel_stage_a_native_process_fix3.py tests/test_kernel_stage_a_native_process_fix2.py tests/test_kernel_stage_a_native_process_fix1.py tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py -k 'python_lifetime or native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective' --basetemp=/tmp/task18-python-lifetime-cover-03",
+    "exit": 0,
+    "summary": "96 passed, 24 deselected in 4.36s",
+    "log": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03.log",
+    "original_basetemp": "/tmp/task18-python-lifetime-cover-03",
+    "actual_basetemp": "/private/tmp/task18-python-lifetime-cover-03",
+    "durable_specimens": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-specimens",
+    "source_inputs": "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-source",
+    "source_input_mapping": {
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-source/test_kernel_stage_a_python_lifetime.py": "tests/test_kernel_stage_a_python_lifetime.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-source/monitor.py": "validation/kernel_stage_a/monitor.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-source/authority.py": "validation/kernel_stage_a/authority.py",
+      "docs/research/task18-native-python-lifetime-evidence/attempts/cover-03-source/production.py": "validation/kernel_stage_a/production.py"
+    }
+  }
+]
