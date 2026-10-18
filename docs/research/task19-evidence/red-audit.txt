@@ -1,0 +1,67 @@
+........F.........................F.....F...                             [100%]
+=================================== FAILURES ===================================
+__ test_supported_extreme_constant_at_binary64_limit_has_finite_convex_means ___
+
+    def test_supported_extreme_constant_at_binary64_limit_has_finite_convex_means():
+        from famjet.analysis.statistics import crossed_interval
+        maximum = np.finfo(float).max
+        r = crossed_interval(np.full((7, 3), maximum), np.array(['a'] * 7), 6, 2000)
+>       assert r['mean'] == maximum and r['interval'] == [maximum, maximum]
+E       assert (inf == np.float64(1.7976931348623157e+308))
+
+tests/test_statistics.py:106: AssertionError
+_________ test_hash_and_unblind_evidence_fail_closed[statistics_hash] __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4269/test_hash_and_unblind_evidence5')
+mutation = 'statistics_hash'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace', 'statistics_hash'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, m, rows = analysis_case(tmp_path)
+        if mutation == 'file': (tmp_path / m['files'][0]['path']).write_text('changed')
+        elif mutation == 'rows': paths[1].write_text('[]')
+        elif mutation == 'manifest':
+            m['scope_id'] = 'changed'; paths[0].write_text(json.dumps(m))
+        elif mutation == 'release': (tmp_path / 'release.json').unlink()
+        elif mutation == 'statistics_hash':
+            for row in rows: row['statistics_hash'] = 'b' * 64
+            write_case(paths, m, rows)
+        else:
+            m.update(test_only=False, namespace='protected_confirmation'); write_case(paths, m, rows)
+        r = analyze_confirmation(*paths)
+>       assert r['status'] == 'blocked' and r['errors']
+E       AssertionError: assert ('analyzed_test_only' == 'blocked'
+E         
+E         - blocked
+E         + analyzed_test_only)
+
+tests/test_statistics.py:263: AssertionError
+_ test_qualified_label_cannot_override_missing_scope_counts_or_other_gates[missing_metric] _
+
+failure = 'missing_metric'
+
+    @pytest.mark.parametrize('failure', ['partial_counts', 'wrong_source', 'same_stream', 'missing_metric', 'endpoint', 'p_mc', 'baseline'])
+    def test_qualified_label_cannot_override_missing_scope_counts_or_other_gates(failure):
+        from famjet.analysis.statistics import evaluate_gate
+        from famjet.provenance import canonical_hash
+        e, p = artificial_gate_case()
+        if failure == 'partial_counts': e['calibration_cells'][0]['trials'] = 9
+        elif failure == 'wrong_source': e['calibration_cells'][0]['source_hash'] = 'c' * 64
+        elif failure == 'same_stream': p['selection_stream'] = p['validation_stream']
+        elif failure == 'missing_metric':
+            p['required_cells'] = p['required_cells'][:1]; e['calibration_cells'] = e['calibration_cells'][:1]
+            for record in e['calibration_cells']: record['policy_hash'] = canonical_hash(p)
+        elif failure == 'endpoint': e['endpoint_mc'] = ['cap_unmet']
+        elif failure == 'p_mc': e['secondary_p_mc'] = 'unresolved'
+        elif failure == 'baseline': e['baseline_status'] = 'not_run'
+        r = evaluate_gate(e, p)
+>       assert not r['confirmation_allowed'] and r['unresolved_reasons']
+E       assert (not True)
+
+tests/test_statistics.py:328: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_supported_extreme_constant_at_binary64_limit_has_finite_convex_means
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[statistics_hash]
+FAILED tests/test_statistics.py::test_qualified_label_cannot_override_missing_scope_counts_or_other_gates[missing_metric]
+3 failed, 41 passed in 1.34s

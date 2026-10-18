@@ -1,0 +1,62 @@
+# Task19 independent analysis component — 18 October 2026
+
+Implementation BASE `6bed0cd17e853c135a570682b5931a1e89d11f0d`, current main, no branch/worktree/push. Exact implementation HEAD will be pinned in the follow-up commit metadata before handoff. Component is **ready for independent source review**, not scientifically qualified. Task19 scientific calibration OPEN, Task18 science OPEN/original epsilon1e−8 gate FAILED, protected confirmation/replication CLOSED. No actual training, numerical campaign, corpus/sensor preparation, downloads, pilot, scientific protected output or population-calibration simulation ran.
+
+## Implementation and API
+
+Only production addition is `famjet/analysis/statistics.py`; no development policy, cache, model/state/kernel, target/metric, loss, optimizer or training math changed. Uses the existing scorer/aggregation/history-effect inventory rather than a second evaluation stack. Exact interfaces:
+
+- `crossed_interval(d, strata, seed, draws, *, stratum_weights=None, p_mc_error_budget=None, p_mc_family_size=1) -> dict`: finite complete 2D independent-unit × paired-seed effects, string strata, initial2000 draws; explicit or equal-stratum frozen weights; one shared seed draw, independent per-stratum histories; normalized multinomial counts for Cartesian resampling. Power-of-two scaling plus stratum centering supports representable extreme reductions, including max-float constants. Primary95% linear percentile, weighted-mean-centered absolute empirical-null plus-one p, full draws/stages/provenance. Literal four batches, total doubling through128000, endpoint sampleSD/2 strictly below .01×pooledwidth. Exact-zero A/A only degenerate pass; other zero-width cases unresolved through cap.
+- `holm(pvalues, alpha=.05) -> dict`: nominal step-down plus adjusted point values, thresholds/ranks; stable name tie-break. No inference-calibration claim.
+- `holm_mc_guard(pvalues, bounds, alpha=.05) -> dict`: retain nominal outputs and compare lower/upper conditional-bound Holm decisions. Unassessed/ambiguous p precision withholds strong rejection; no p-driven draws. Optional explicitly supplied conditional error budget uses Clopper–Pearson bounds and union-bound spending across seven stages and frozen family. No scientific budget chosen.
+- `unfilled_calibration_policy() -> dict`: explicit null scientific tolerances/N/domain/error budget/stream fields. `evaluate_gate(evidence, frozen_policy) -> dict` recomputes rate decisions from complete retained counts and source/policy/fixture/allocation/stream bindings. Required metrics include coverage/typeI/FWER/power. Unknowns, incomplete counts, rejected/unresolved cells, MC failure, missing resources/baseline/domain or absent explicit source acceptance block eligibility. Separate nuisance permission needs a concrete authorized allocation/time/byte limit; none supplied.
+- `analyze_confirmation(manifest: Path, unblinded: Path, out: Path) -> dict`: **one v1 input contract for Task21 reuse**, existing v2 score rows, a fresh JSON output file. Manifest freezes methods, runs, expected query/task/history/replicate inventory, ordered history/cluster memberships, stratum weights, comparisons/roles/seeds, source/scorer/statistics identities and exact source/dependency/data/config/weight/statistics file commitments. Release separately binds manifest hash, exact score-file hash, expected-run list and complete successful per-run records. Validate these and the declared complete matrix before parsing score contents. Scientific mode additionally requires legitimate Task21 release plus scoped source acceptance/calibration/design evidence before parsing. Test-only mode is explicit in both manifest and release.
+
+The [protocol](../../../docs/statistical-protocol.md) specifies every schema field, release format, RNG mapping/chunks, output and status. Raw failed-prediction fallback rows count fully; no NaN means, survivor-derived expected IDs or missing-run shrinkage. Existing native unrepresentability flags remain unavailable. Temporal clusters average explicitly declared member histories equally first, preserving stations under one resample. This schema does not support an undeclared different station-weighting rule.
+
+Source acceptance is **not** synthesized from parsing success: absent `design_evidence.implementation` remains `not_run`; pass must match `implementation_source_hash`. All actual test-only e2e gates remain closed. Test fixture statistics/predictions/seeds and artificial loose gate-count thresholds are explicitly invented software controls, never selected scientific tolerances or qualifying simulation outputs.
+
+## RED/GREEN and verification evidence
+
+All logs are original retained bytes in `docs/research/task19-evidence/`; source/log hashes, versions and final package identity are in `source-and-verification.json`. No failed attempt discarded.
+
+| Log | Actual outcome and purpose |
+| --- | --- |
+| `red-core.txt` |17 failed/.10s, missing crossed/Holm/p-MC implementation |
+| `green-core-attempt1.txt` |16 passed/1 failed/4.72s; test used a wrong hand Holm expectation for m2 (p=.03 would reject); corrected test to p=.06 and [.04,.07], no production change |
+| `green-core.txt` |17 passed/.53s |
+| `red-contract.txt` |17 failed/17 passed/.65s, missing analysis/gate contract |
+| `green-contract-attempt1.txt` |34 passed/1.30s |
+| `red-audit.txt` |3 failed/41 passed/1.34s: max-float mean rounding overflow, row statistics hash not matched to frozen manifest, incomplete metric family could qualify |
+| `green-audit.txt` |44 passed/1.31s; stratum centering, frozen statistics match and full required-metric gate |
+| `focused-integration.txt` |103 passed/1 skipped/53.23s, statistics+metrics+harness+no_leakage; sole skip `test_native_learned_bank_preserves_represented_rates_in_cpu_worker` because native MPS unavailable |
+| `red-release-order.txt` |3 failed/1.06s; incomplete/failed/mismatched release runs were checked after JSON parsing |
+| `final-focused.txt` |73 passed/1.47s after moving complete successful release checks before parsing |
+| `red-implementation-status.txt` |1 failed/1.04s; valid parsing incorrectly promoted source acceptance to pass |
+| `final-implementation-status.txt` |73 passed/1.46s; explicit source-bound implementation acceptance |
+| `red-preflight-matrix.txt` |4 failed/1.09s; malformed declared inventory was deferred until scoring aggregation |
+| `final-preflight-matrix.txt` |**77 passed/1.53s**; complete manifest matrix/query checks now occur before score parsing |
+
+Final-source command: `OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_statistics.py tests/test_metrics.py tests/test_harness.py -q -W error` (51 new statistics controls plus26 existing metric/harness tests). Final source did not rerun the103-test integration: only administrative release-order, explicit source-acceptance and declared-inventory preflight checks followed that broader run; no resampling/metric/isolation math changed. Per authorized focused scope, no unrelated full suite/native scientific run. Fourteen pytest invocations total70.83s summed rounded reported wall time (exact individual timings above); this excludes interpreter/orchestration, read-only inspection and document/promotion work, with no RSS or production-throughput claim.
+
+Tests independently enumerate repeated Cartesian indices, verify shared seed cancellation across strata, uncertainty along both axes, unequal frozen weights, literal linear percentile/centered absolute plus-one p and Holm step-down, exact-zero and nonzero degenerate behavior, endpoint diagnostics/stages, finite extreme reductions, ambiguous conditional Holm precision, actual v2 failed-prediction e2e, duplicate-question invariance, shared station clusters, tampering, missing/duplicate inventory and preservation of rejected/unknown calibration. Artificial count fixtures exercise gate mathematics without generating any qualifying outer dataset.
+
+Staged source/tests/protocol/amendment/ledger/report whitespace checks pass. The full staged whitespace check reports only10 pytest-emitted trailing-space lines in retained raw failure logs; their original bytes and SHA mappings are deliberately preserved. Final source/log inventory19 records and all9 original/promoted reconnaissance/review records were reverified exactly before commit.
+
+## Preserved reconnaissance and amendment
+
+Byte-exact promotion inventory at `docs/research/task19-bootstrap-recon/promotion-inventory.json`: nine source/report/result/review files,2,730,490B, every original/promoted SHA identical. Six bootstrap source/report/JSON artifacts retained; variance and gate design reconnaissance promoted separately, with historical links/source context explicitly explained. No redispatch or rerun. Fixed-B exploratory coverage remains Gaussian seed-dominated S4 213/256=83.2%; declared skewed S4 181/256=70.7%, S16 226/256=88.3%. Sixteen endpoint passes did not repair undercoverage. None is production-adaptive, Holm, real-cluster, fallback or eventual design qualification.
+
+The [dated amendment](../../../docs/amendments/2026-10-18-analysis-component-and-nuisance-sequencing.md) records root's prospective sequencing ruling: reviewed correct analysis may be accepted as a component with sampling calibration failed/unknown; Task20 can later receive **only separately bounded exploratory nuisance/resource permission**, never confirmation. No pilot allocation is granted here. Confirmation needs fresh prospective fixed-design calibration and all relevant MC gates. Tolerances, outerN, domain, outer/p-MC budgets and selection/fresh-validation streams remain **UNCHOSEN**.
+
+Per root request, copied the accepted epsilon source review to `docs/research/task18-structured-epsilon-source-review.md`. This accepts source562abb4, pinned metadata6bed0cd/package d8043d2eeb938980ca34eafb33286711e7d0609a5311ca454a5d9a0e975b2f29 ONLY. No original numerical gate repair, model acceptance, source freeze or scientific launch follows.
+
+## Assumptions, costs, limits and next review
+
+Independence of declared histories/clusters and independent complete training procedures is a scientific assumption; neither more queries nor more B supplies missing independent seeds. Equal member-history cluster weighting, frozen regimes/tasks, fixed scope/family, complete paired targets and training-only scales are required. Bootstrap coverage is approximate and can fail with scarce/skewed seeds. Conditional p bounds do not establish marginal p calibration; Holm sorting alone does not prove FWER. Four noisy batch endpoint estimates do not establish coverage. Genuine unrepresentable input/effect/endpoint statistics fail closed; this is not a general correctly-rounded arithmetic framework. Files are administrative accidental-peeking evidence, not cryptographic authorization against malicious local administrators.
+
+Sampler work per comparison is O(B ΣHg S), in addition to repeated quantiles; bounded dense intermediates use at most256 draws × one stratum × seeds/counts, with stored draws O(B). Final capped draws alone are about1MiB binary64 per comparison; Python list/JSON/raw score reports use additional memory. No productionH/S cost or peak RSS was measured. Resource/fairness/nuisance-domain fields remain blocking unknowns.
+
+[Next allocation proposal](../../../docs/research/task19-next-allocation-proposal.md) requests root review only: six deterministic production-analysis resource profiles at H128 or32/64/32 strata, S4/16/64, one CPU/BLAS thread, unchanged adaptiveB, global30s/256MiB incremental cap, no model/data/outer populations. NOT launched. Subsequent production calibration must prospectively freeze the full domain/required cells/tolerances/N/budgets/failure policy and fresh streams, then use measured cost before release. There is no invented universal sufficientS or scientific threshold.
+
+Independent parent/root review remains required before component acceptance or another allocation. Inspect the precise source range, normalized count/cartesian equivalence, shared seed and cluster axes, weighted centering/ties, endpoint cap behavior, conditional-vs-population MC separation, complete-manifest/unblind ordering, source/statistics hashes, explicit acceptance evidence and missing calibration/resource/fairness gates. Source freeze remains held until clean accepted components and separate future permission. No automatic Task20/21 launch.

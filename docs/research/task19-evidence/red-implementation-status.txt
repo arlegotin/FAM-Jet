@@ -1,0 +1,23 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4274/test_testonly_e2e_reuses_scori0')
+
+    def test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units(tmp_path):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, _, rows = analysis_case(tmp_path)
+        r = analyze_confirmation(*paths)
+        assert r['status'] == 'analyzed_test_only' and not r['gate']['confirmation_allowed']
+        assert r['gate']['calibration'] == 'not_run'
+>       assert r['gate']['implementation'] == 'not_run'  # Parsing a contract is not source acceptance.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'pass' == 'not_run'
+E         
+E         - not_run
+E         + pass
+
+tests/test_statistics.py:209: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units
+1 failed in 1.04s

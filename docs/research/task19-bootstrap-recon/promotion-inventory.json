@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "classification": "historical_exploratory_not_production_calibration",
+  "no_rerun": true,
+  "files": [
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/simulate.py",
+      "promoted": "docs/research/task19-bootstrap-recon/simulate.py",
+      "bytes": 9082,
+      "original_sha256": "337309c91e49be426ac4cc6dc135a40e44e566efe3592a9fa7313dacf938fa81",
+      "promoted_sha256": "337309c91e49be426ac4cc6dc135a40e44e566efe3592a9fa7313dacf938fa81",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/write_report.py",
+      "promoted": "docs/research/task19-bootstrap-recon/write_report.py",
+      "bytes": 17955,
+      "original_sha256": "227d5eac67de2bbd657476b15f58a2042bd8ca07f9c4527a2e8ef168e8904931",
+      "promoted_sha256": "227d5eac67de2bbd657476b15f58a2042bd8ca07f9c4527a2e8ef168e8904931",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/report.md",
+      "promoted": "docs/research/task19-bootstrap-recon/report.md",
+      "bytes": 20865,
+      "original_sha256": "ae026c58f5a114e426fea26c2856f44e116ec44080e61b6b0c93b3bffed8f576",
+      "promoted_sha256": "ae026c58f5a114e426fea26c2856f44e116ec44080e61b6b0c93b3bffed8f576",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/controls.json",
+      "promoted": "docs/research/task19-bootstrap-recon/controls.json",
+      "bytes": 752949,
+      "original_sha256": "01ddac62de7f610479824341a7af800d95bee1a6c38cb9207b94ad03bf12d692",
+      "promoted_sha256": "01ddac62de7f610479824341a7af800d95bee1a6c38cb9207b94ad03bf12d692",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/coverage.json",
+      "promoted": "docs/research/task19-bootstrap-recon/coverage.json",
+      "bytes": 1875097,
+      "original_sha256": "520ea1dd3672d333861f900cc8a2e90c365113f6483a9c22f9c04ebf1f8bc571",
+      "promoted_sha256": "520ea1dd3672d333861f900cc8a2e90c365113f6483a9c22f9c04ebf1f8bc571",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/bootstrap-recon/endpoints.json",
+      "promoted": "docs/research/task19-bootstrap-recon/endpoints.json",
+      "bytes": 17853,
+      "original_sha256": "560577a2a101c32c77b46193d9724ef1f0cf5d11bd9ed16a5ff165df23ff197d",
+      "promoted_sha256": "560577a2a101c32c77b46193d9724ef1f0cf5d11bd9ed16a5ff165df23ff197d",
+      "classification": "exploratory_nonqualifying_no_rerun"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-19-design-recon.md",
+      "promoted": "docs/research/task19-gate-design-recon.md",
+      "bytes": 13028,
+      "original_sha256": "a2e27f4b60bc393d358d978f01e57fc16a9b21ac2735243bf5bfc93618f74925",
+      "promoted_sha256": "a2e27f4b60bc393d358d978f01e57fc16a9b21ac2735243bf5bfc93618f74925",
+      "classification": "prospective_design_nonqualification"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-20-variance-recon.md",
+      "promoted": "docs/research/task20-variance-recon.md",
+      "bytes": 16973,
+      "original_sha256": "5bea32d819b6eea2532c72fe531b7682153663b4dbb1583535f8139888705ce1",
+      "promoted_sha256": "5bea32d819b6eea2532c72fe531b7682153663b4dbb1583535f8139888705ce1",
+      "classification": "prospective_design_nonqualification"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-epsilon-source-review.md",
+      "promoted": "docs/research/task18-structured-epsilon-source-review.md",
+      "bytes": 6688,
+      "original_sha256": "a9f61fedae284cd00ebc431e9cfeba0b7dbf58b81a42a2081e307e63a095adcc",
+      "promoted_sha256": "a9f61fedae284cd00ebc431e9cfeba0b7dbf58b81a42a2081e307e63a095adcc",
+      "classification": "source_review_only"
+    }
+  ]
+}

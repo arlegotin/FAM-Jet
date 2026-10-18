@@ -1,0 +1,85 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_____ test_incomplete_release_rejected_before_score_json_is_parsed[status] _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4272/test_incomplete_release_reject0')
+mutation = 'status'
+
+    @pytest.mark.parametrize('mutation', ['status', 'missing', 'method'])
+    def test_incomplete_release_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, _, _ = analysis_case(tmp_path)
+        record_path = tmp_path / 'release.json'
+        release = json.loads(record_path.read_text())
+        paths[1].write_text('invalid unopened score JSON')
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        if mutation == 'status': release['runs'][0]['status'] = 'failed'
+        elif mutation == 'missing': release['runs'].pop()
+        else: release['runs'][0]['method'] = 'other'
+        record_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:290: AssertionError
+____ test_incomplete_release_rejected_before_score_json_is_parsed[missing] _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4272/test_incomplete_release_reject1')
+mutation = 'missing'
+
+    @pytest.mark.parametrize('mutation', ['status', 'missing', 'method'])
+    def test_incomplete_release_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, _, _ = analysis_case(tmp_path)
+        record_path = tmp_path / 'release.json'
+        release = json.loads(record_path.read_text())
+        paths[1].write_text('invalid unopened score JSON')
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        if mutation == 'status': release['runs'][0]['status'] = 'failed'
+        elif mutation == 'missing': release['runs'].pop()
+        else: release['runs'][0]['method'] = 'other'
+        record_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:290: AssertionError
+_____ test_incomplete_release_rejected_before_score_json_is_parsed[method] _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4272/test_incomplete_release_reject2')
+mutation = 'method'
+
+    @pytest.mark.parametrize('mutation', ['status', 'missing', 'method'])
+    def test_incomplete_release_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, _, _ = analysis_case(tmp_path)
+        record_path = tmp_path / 'release.json'
+        release = json.loads(record_path.read_text())
+        paths[1].write_text('invalid unopened score JSON')
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        if mutation == 'status': release['runs'][0]['status'] = 'failed'
+        elif mutation == 'missing': release['runs'].pop()
+        else: release['runs'][0]['method'] = 'other'
+        record_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:290: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_incomplete_release_rejected_before_score_json_is_parsed[status]
+FAILED tests/test_statistics.py::test_incomplete_release_rejected_before_score_json_is_parsed[missing]
+FAILED tests/test_statistics.py::test_incomplete_release_rejected_before_score_json_is_parsed[method]
+3 failed in 1.06s

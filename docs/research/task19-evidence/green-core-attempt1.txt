@@ -1,0 +1,19 @@
+................F                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family _____
+
+    def test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family():
+        from famjet.analysis.statistics import _p_bounds, holm_mc_guard
+        lo, hi = _p_bounds(0, 2000, .01, 3)
+        assert lo == 1 / 2001 and .004 < hi < .006
+        guard = holm_mc_guard({'a': .01, 'b': .03}, {'a': [.009, .011], 'b': [.024, .05]})
+>       assert guard['status'] == 'unresolved' and not guard['strong_rejections']['b']
+E       AssertionError: assert ('adequate' == 'unresolved'
+E         
+E         - unresolved
+E         + adequate)
+
+tests/test_statistics.py:123: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family
+1 failed, 16 passed in 4.72s

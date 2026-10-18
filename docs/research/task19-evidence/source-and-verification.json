@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "implementation_base": "6bed0cd17e853c135a570682b5931a1e89d11f0d",
+  "python": "3.13.5",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "final_package_source_hash": "d2b687aa6db4cff585044503cd200f3dfb2181f3da3803c9bf556b9156d3aa47",
+  "final_source_files": [
+    {
+      "path": "famjet/analysis/statistics.py",
+      "sha256": "62910010951e499485179e399ae36c29cba524247d655c16532e312bd4f94e77",
+      "bytes": 31302
+    },
+    {
+      "path": "tests/test_statistics.py",
+      "sha256": "894c9d633aa6603d117b2ea6802174e2562ef2a689b639be645d77b258c8745f",
+      "bytes": 20522
+    },
+    {
+      "path": "docs/statistical-protocol.md",
+      "sha256": "1382784f85de1220eeebcf290e8036f27781adda041eadb6d35293a585bc4c89",
+      "bytes": 13769
+    },
+    {
+      "path": "docs/amendments/2026-10-18-analysis-component-and-nuisance-sequencing.md",
+      "sha256": "423f4dd38364c6abb13a6d4e667e83688b8a1ee2929d94faa97d99d357845dbe",
+      "bytes": 3059
+    },
+    {
+      "path": "docs/research/task19-next-allocation-proposal.md",
+      "sha256": "e0ef622842201849fa11b255a3c40e87a12db4ed3c9792ce600eababb4290ac0",
+      "bytes": 3680
+    }
+  ],
+  "test_logs": [
+    {
+      "path": "docs/research/task19-evidence/final-focused.txt",
+      "sha256": "f68abff6e980b1432c75d37f0249f1ee75775d8c5154cacf3b64073679d0de7e",
+      "bytes": 179,
+      "summary": "73 passed in 1.47s"
+    },
+    {
+      "path": "docs/research/task19-evidence/final-implementation-status.txt",
+      "sha256": "cbf50dab81a451fce80d6759ed5784b14e3539e0405f759e7bf5d51e9789ffc5",
+      "bytes": 179,
+      "summary": "73 passed in 1.46s"
+    },
+    {
+      "path": "docs/research/task19-evidence/final-preflight-matrix.txt",
+      "sha256": "1dc4654b072813699981dd70772dc0b4e17c19d1fad5e19de9dd742fc0a28fd5",
+      "bytes": 179,
+      "summary": "77 passed in 1.53s"
+    },
+    {
+      "path": "docs/research/task19-evidence/focused-integration.txt",
+      "sha256": "1506c506788546988eee0345b1ad8983068c466051693f7e77dbd62f7fcc2a7a",
+      "bytes": 192,
+      "summary": "103 passed, 1 skipped in 53.23s"
+    },
+    {
+      "path": "docs/research/task19-evidence/green-audit.txt",
+      "sha256": "72a173bae6301f0c170d5ca06b14b3d1450317da5cf6eb15a981d5a5c95868bb",
+      "bytes": 99,
+      "summary": "44 passed in 1.31s"
+    },
+    {
+      "path": "docs/research/task19-evidence/green-contract-attempt1.txt",
+      "sha256": "ff4baa02164addcb06810f37e7a76f575621dfd607e87ebb4015c56e87f43bdd",
+      "bytes": 99,
+      "summary": "34 passed in 1.30s"
+    },
+    {
+      "path": "docs/research/task19-evidence/green-core-attempt1.txt",
+      "sha256": "f8113571c31d3cb6e2a1d0787100239dacaf38b8ec36ef61bac5d04c8c6687e0",
+      "bytes": 1041,
+      "summary": "1 failed, 16 passed in 4.72s"
+    },
+    {
+      "path": "docs/research/task19-evidence/green-core.txt",
+      "sha256": "a7db2c81fcca6438cc798b6a69890c3d0964d86b809bd747ecf31b685007d12f",
+      "bytes": 99,
+      "summary": "17 passed in 0.53s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-audit.txt",
+      "sha256": "ab19fe75c2815c6966f7cb54d9661f794dd6155d657d9e43b5d81f03cf1c623d",
+      "bytes": 3959,
+      "summary": "3 failed, 41 passed in 1.34s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-contract.txt",
+      "sha256": "d6e46b6a8e3f15116666e9e8aedc734f3ebd1ce9c963a1410b528bbcbd5b5d56",
+      "bytes": 15414,
+      "summary": "17 failed, 17 passed in 0.65s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-core.txt",
+      "sha256": "4551d8aa6d510bd4f093ae31ecfe833b06647f0e8064c337a0da77b9eb76ec9c",
+      "bytes": 10411,
+      "summary": "17 failed in 0.10s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-implementation-status.txt",
+      "sha256": "24ab145537e4700d5668c7dac0336b38f9d70a8920677bd87f1d82703404f9c9",
+      "bytes": 1292,
+      "summary": "1 failed in 1.04s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-preflight-matrix.txt",
+      "sha256": "9b0c77ac25147db298284e51a164e4da7060dbdd9227a9cf3671bde149e1b058",
+      "bytes": 7038,
+      "summary": "4 failed in 1.09s"
+    },
+    {
+      "path": "docs/research/task19-evidence/red-release-order.txt",
+      "sha256": "3962ba0624ca231bc0b3a5eaa8cdac8d4d97f2b2cb8eebe5f8a53dc4eabd02f1",
+      "bytes": 4564,
+      "summary": "3 failed in 1.06s"
+    }
+  ],
+  "scope": "software_only_no_population_calibration",
+  "final_command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_statistics.py tests/test_metrics.py tests/test_harness.py -q -W error",
+  "prior_broader_command": "OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_statistics.py tests/test_metrics.py tests/test_harness.py tests/test_no_leakage.py -q -W error",
+  "prior_broader_source_limits": "Precedes administrative release-order, implementation-status and declared-matrix preflight guards; no resampling/metric/isolation math change followed. Not represented as final-source full integration.",
+  "scientific_calibration": "not_run_unfilled_policy",
+  "task18_science": "open_original_numerical_gate_failed",
+  "protected_execution": "closed",
+  "final_test_summary": "77 passed in 1.53s",
+  "reported_test_seconds_sum_rounded": 70.83
+}

@@ -1,0 +1,7 @@
+# Preserved exploratory reconnaissance
+
+Exact original bytes from `.superpowers/sdd/2026-10-16-famjet/bootstrap-recon/`, promoted18 October2026 without rerunning any source. [Promotion inventory](promotion-inventory.json) maps original and durable paths, byte counts and SHA256 for six bootstrap artifacts, two design reconnaissance documents and the separate accepted Task18 epsilon source review.
+
+`simulate.py`/`write_report.py` are historical exploratory programs, not production analysis entrypoints or permission to execute. `coverage.json`, `controls.json`, `endpoints.json` and `report.md` retain their original outcomes and scope. The known S4 and skewed S16 undercoverage remains failed evidence. Sixteen successful endpoint diagnostics did not establish population coverage. No production-adaptive, Holm, real-cluster, metric-aggregation or design qualification is inferred.
+
+Archived relative links were authored in their original source directories; exact bytes are intentionally preserved. Use the current [statistical protocol](../../statistical-protocol.md), [gate design archive](../task19-gate-design-recon.md), [variance design archive](../task20-variance-recon.md) and [dated sequencing amendment](../../amendments/2026-10-18-analysis-component-and-nuisance-sequencing.md) for current navigation and status. The design archives contain proposals, not authority to select tolerances or launch pilots.

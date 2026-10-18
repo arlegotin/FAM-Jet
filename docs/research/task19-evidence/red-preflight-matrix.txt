@@ -1,0 +1,124 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_malformed_expected_matrix_rejected_before_score_json_is_parsed[missing_cell] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4276/test_malformed_expected_matrix0')
+mutation = 'missing_cell'
+
+    @pytest.mark.parametrize('mutation', ['missing_cell', 'duplicate_cell', 'empty_queries', 'duplicate_query'])
+    def test_malformed_expected_matrix_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, rows = analysis_case(tmp_path)
+        cells = manifest['scoring_policy']['expected_inventory']
+        if mutation == 'missing_cell': cells.pop()
+        elif mutation == 'duplicate_cell': cells.append(deepcopy(cells[-1]))
+        elif mutation == 'empty_queries': cells[0]['tasks']['mean'] = []
+        else: cells[0]['tasks']['mean'] = [0, 0]
+        write_case(paths, manifest, rows)
+        paths[1].write_text('invalid unopened score JSON')
+        release_path = tmp_path / 'release.json'
+        release = json.loads(release_path.read_text())
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        release_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:312: AssertionError
+_ test_malformed_expected_matrix_rejected_before_score_json_is_parsed[duplicate_cell] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4276/test_malformed_expected_matrix1')
+mutation = 'duplicate_cell'
+
+    @pytest.mark.parametrize('mutation', ['missing_cell', 'duplicate_cell', 'empty_queries', 'duplicate_query'])
+    def test_malformed_expected_matrix_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, rows = analysis_case(tmp_path)
+        cells = manifest['scoring_policy']['expected_inventory']
+        if mutation == 'missing_cell': cells.pop()
+        elif mutation == 'duplicate_cell': cells.append(deepcopy(cells[-1]))
+        elif mutation == 'empty_queries': cells[0]['tasks']['mean'] = []
+        else: cells[0]['tasks']['mean'] = [0, 0]
+        write_case(paths, manifest, rows)
+        paths[1].write_text('invalid unopened score JSON')
+        release_path = tmp_path / 'release.json'
+        release = json.loads(release_path.read_text())
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        release_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:312: AssertionError
+_ test_malformed_expected_matrix_rejected_before_score_json_is_parsed[empty_queries] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4276/test_malformed_expected_matrix2')
+mutation = 'empty_queries'
+
+    @pytest.mark.parametrize('mutation', ['missing_cell', 'duplicate_cell', 'empty_queries', 'duplicate_query'])
+    def test_malformed_expected_matrix_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, rows = analysis_case(tmp_path)
+        cells = manifest['scoring_policy']['expected_inventory']
+        if mutation == 'missing_cell': cells.pop()
+        elif mutation == 'duplicate_cell': cells.append(deepcopy(cells[-1]))
+        elif mutation == 'empty_queries': cells[0]['tasks']['mean'] = []
+        else: cells[0]['tasks']['mean'] = [0, 0]
+        write_case(paths, manifest, rows)
+        paths[1].write_text('invalid unopened score JSON')
+        release_path = tmp_path / 'release.json'
+        release = json.loads(release_path.read_text())
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        release_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:312: AssertionError
+_ test_malformed_expected_matrix_rejected_before_score_json_is_parsed[duplicate_query] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4276/test_malformed_expected_matrix3')
+mutation = 'duplicate_query'
+
+    @pytest.mark.parametrize('mutation', ['missing_cell', 'duplicate_cell', 'empty_queries', 'duplicate_query'])
+    def test_malformed_expected_matrix_rejected_before_score_json_is_parsed(tmp_path, mutation):
+        from famjet.analysis.statistics import analyze_confirmation
+        paths, manifest, rows = analysis_case(tmp_path)
+        cells = manifest['scoring_policy']['expected_inventory']
+        if mutation == 'missing_cell': cells.pop()
+        elif mutation == 'duplicate_cell': cells.append(deepcopy(cells[-1]))
+        elif mutation == 'empty_queries': cells[0]['tasks']['mean'] = []
+        else: cells[0]['tasks']['mean'] = [0, 0]
+        write_case(paths, manifest, rows)
+        paths[1].write_text('invalid unopened score JSON')
+        release_path = tmp_path / 'release.json'
+        release = json.loads(release_path.read_text())
+        release['rows_sha256'] = hashlib.sha256(paths[1].read_bytes()).hexdigest()
+        release_path.write_text(json.dumps(release))
+        result = analyze_confirmation(*paths)
+        assert result['status'] == 'blocked'
+>       assert result['errors'][0]['type'] == 'ValueError'
+E       AssertionError: assert 'JSONDecodeError' == 'ValueError'
+E         
+E         - ValueError
+E         + JSONDecodeError
+
+tests/test_statistics.py:312: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_malformed_expected_matrix_rejected_before_score_json_is_parsed[missing_cell]
+FAILED tests/test_statistics.py::test_malformed_expected_matrix_rejected_before_score_json_is_parsed[duplicate_cell]
+FAILED tests/test_statistics.py::test_malformed_expected_matrix_rejected_before_score_json_is_parsed[empty_queries]
+FAILED tests/test_statistics.py::test_malformed_expected_matrix_rejected_before_score_json_is_parsed[duplicate_query]
+4 failed in 1.09s

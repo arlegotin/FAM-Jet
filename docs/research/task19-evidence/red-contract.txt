@@ -1,0 +1,209 @@
+.................FFFFFFFFFFFFFFFFF                                       [100%]
+=================================== FAILURES ===================================
+____ test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_testonly_e2e_reuses_scori0')
+
+    def test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units(tmp_path):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:195: ImportError
+_________ test_duplicated_questions_do_not_narrow_cluster_uncertainty __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_duplicated_questions_do_n0')
+
+    def test_duplicated_questions_do_not_narrow_cluster_uncertainty(tmp_path):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:211: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_row] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory0')
+mutation = 'missing_row'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[duplicate_row] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory1')
+mutation = 'duplicate_row'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[target] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory2')
+mutation = 'target'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[query] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory3')
+mutation = 'query'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[policy] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory4')
+mutation = 'policy'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_unit] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory5')
+mutation = 'missing_unit'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[wrong_unit_stratum] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory6')
+mutation = 'wrong_unit_stratum'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_run] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory7')
+mutation = 'missing_run'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_ test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[infinite_loss] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_complete_frozen_inventory8')
+mutation = 'infinite_loss'
+
+    @pytest.mark.parametrize('mutation', ['missing_row', 'duplicate_row', 'target', 'query', 'policy',
+                                        'missing_unit', 'wrong_unit_stratum', 'missing_run', 'infinite_loss'])
+    def test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:222: ImportError
+_______________ test_hash_and_unblind_evidence_fail_closed[file] _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_hash_and_unblind_evidence0')
+mutation = 'file'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:241: ImportError
+_______________ test_hash_and_unblind_evidence_fail_closed[rows] _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_hash_and_unblind_evidence1')
+mutation = 'rows'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:241: ImportError
+_____________ test_hash_and_unblind_evidence_fail_closed[manifest] _____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_hash_and_unblind_evidence2')
+mutation = 'manifest'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:241: ImportError
+_____________ test_hash_and_unblind_evidence_fail_closed[release] ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_hash_and_unblind_evidence3')
+mutation = 'release'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:241: ImportError
+_______ test_hash_and_unblind_evidence_fail_closed[scientific_namespace] _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4267/test_hash_and_unblind_evidence4')
+mutation = 'scientific_namespace'
+
+    @pytest.mark.parametrize('mutation', ['file', 'rows', 'manifest', 'release', 'scientific_namespace'])
+    def test_hash_and_unblind_evidence_fail_closed(tmp_path, mutation):
+>       from famjet.analysis.statistics import analyze_confirmation
+E       ImportError: cannot import name 'analyze_confirmation' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:241: ImportError
+_ test_unknown_calibration_and_endpoint_or_p_precision_cannot_become_permission _
+
+    def test_unknown_calibration_and_endpoint_or_p_precision_cannot_become_permission():
+>       from famjet.analysis.statistics import evaluate_gate, unfilled_calibration_policy
+E       ImportError: cannot import name 'evaluate_gate' from 'famjet.analysis.statistics' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet/analysis/statistics.py)
+
+tests/test_statistics.py:255: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_testonly_e2e_reuses_scoring_preserves_failures_and_cluster_units
+FAILED tests/test_statistics.py::test_duplicated_questions_do_not_narrow_cluster_uncertainty
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_row]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[duplicate_row]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[target]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[query]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[policy]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_unit]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[wrong_unit_stratum]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[missing_run]
+FAILED tests/test_statistics.py::test_complete_frozen_inventory_and_pairing_cannot_be_reconstructed_from_survivors[infinite_loss]
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[file]
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[rows]
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[manifest]
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[release]
+FAILED tests/test_statistics.py::test_hash_and_unblind_evidence_fail_closed[scientific_namespace]
+FAILED tests/test_statistics.py::test_unknown_calibration_and_endpoint_or_p_precision_cannot_become_permission
+17 failed, 17 passed in 0.65s

@@ -1,0 +1,197 @@
+FFFFFFFFFFFFFFFFF                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_cartesian_draws_match_explicit_duplicate_index_oracle __________
+
+    def test_cartesian_draws_match_explicit_duplicate_index_oracle():
+        # Catches cell-pair resampling, wrong normalizers and non-shared seed draws.
+>       from famjet.analysis.statistics import _CrossedSampler
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:9: ModuleNotFoundError
+______ test_shared_seed_axis_across_strata_cancels_opposite_seed_effects _______
+
+    def test_shared_seed_axis_across_strata_cancels_opposite_seed_effects():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:28: ModuleNotFoundError
+________ test_exact_zero_aa_is_only_automatic_degenerate_precision_pass ________
+
+    def test_exact_zero_aa_is_only_automatic_degenerate_precision_pass():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:36: ModuleNotFoundError
+______________ test_both_history_and_seed_axes_change_uncertainty ______________
+
+    def test_both_history_and_seed_axes_change_uncertainty():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:46: ModuleNotFoundError
+__________ test_frozen_weights_do_not_follow_stratum_sample_frequency __________
+
+    def test_frozen_weights_do_not_follow_stratum_sample_frequency():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:56: ModuleNotFoundError
+_____ test_centered_absolute_plusone_p_and_linear_percentiles_are_literal ______
+
+    def test_centered_absolute_plusone_p_and_linear_percentiles_are_literal():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:66: ModuleNotFoundError
+____ test_endpoint_diagnostics_use_four_independent_batches_and_strict_rule ____
+
+    def test_endpoint_diagnostics_use_four_independent_batches_and_strict_rule():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:77: ModuleNotFoundError
+___________ test_finite_extreme_means_do_not_overflow_raw_count_sums ___________
+
+    def test_finite_extreme_means_do_not_overflow_raw_count_sums():
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:90: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d0-strata0-None] _
+
+d = [[1.0, nan]], strata = ['a'], weights = None
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d1-strata1-None] _
+
+d = [[inf]], strata = ['a'], weights = None
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d2-strata2-None] _
+
+d = [[1.0, 2.0]], strata = ['a', 'b'], weights = None
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d3-strata3-None] _
+
+d = [], strata = [], weights = None
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d4-strata4-weights4] _
+
+d = [[1.0]], strata = ['a'], weights = {'b': 1.0}
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d5-strata5-weights5] _
+
+d = [[1.0]], strata = ['a'], weights = {'a': 0.5}
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+_ test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d6-strata6-weights6] _
+
+d = [[1.0]], strata = ['a'], weights = {'a': -1.0}
+
+    @pytest.mark.parametrize('d,strata,weights', [
+        ([[1., np.nan]], ['a'], None), ([[np.inf]], ['a'], None),
+        ([[1., 2.]], ['a', 'b'], None), ([], [], None),
+        ([[1.]], ['a'], {'b': 1.}), ([[1.]], ['a'], {'a': .5}),
+        ([[1.]], ['a'], {'a': -1.}),
+    ])
+    def test_missing_nonfinite_or_changed_weight_inventory_is_rejected(d, strata, weights):
+>       from famjet.analysis.statistics import crossed_interval
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:104: ModuleNotFoundError
+__________ test_holm_stepdown_stops_and_retains_adjusted_point_values __________
+
+    def test_holm_stepdown_stops_and_retains_adjusted_point_values():
+>       from famjet.analysis.statistics import holm
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:110: ModuleNotFoundError
+_____ test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family _____
+
+    def test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family():
+>       from famjet.analysis.statistics import _p_bounds, holm_mc_guard
+E       ModuleNotFoundError: No module named 'famjet.analysis.statistics'
+
+tests/test_statistics.py:119: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_statistics.py::test_cartesian_draws_match_explicit_duplicate_index_oracle
+FAILED tests/test_statistics.py::test_shared_seed_axis_across_strata_cancels_opposite_seed_effects
+FAILED tests/test_statistics.py::test_exact_zero_aa_is_only_automatic_degenerate_precision_pass
+FAILED tests/test_statistics.py::test_both_history_and_seed_axes_change_uncertainty
+FAILED tests/test_statistics.py::test_frozen_weights_do_not_follow_stratum_sample_frequency
+FAILED tests/test_statistics.py::test_centered_absolute_plusone_p_and_linear_percentiles_are_literal
+FAILED tests/test_statistics.py::test_endpoint_diagnostics_use_four_independent_batches_and_strict_rule
+FAILED tests/test_statistics.py::test_finite_extreme_means_do_not_overflow_raw_count_sums
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d0-strata0-None]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d1-strata1-None]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d2-strata2-None]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d3-strata3-None]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d4-strata4-weights4]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d5-strata5-weights5]
+FAILED tests/test_statistics.py::test_missing_nonfinite_or_changed_weight_inventory_is_rejected[d6-strata6-weights6]
+FAILED tests/test_statistics.py::test_holm_stepdown_stops_and_retains_adjusted_point_values
+FAILED tests/test_statistics.py::test_p_mc_bounds_preserve_plusone_and_spend_across_stages_and_family
+17 failed in 0.10s
