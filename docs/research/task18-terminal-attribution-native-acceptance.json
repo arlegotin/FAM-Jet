@@ -1,0 +1,37 @@
+{
+  "time_utc": "2026-10-18T10:47:22.815176+00:00",
+  "status": "accepted_bounded_native_lifecycle_diagnostic",
+  "evidence_head": "927d7fa5d4f9003555eeee28c8e6cf5da00e4e6f",
+  "execution_head": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "source_commit": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "proof": "docs/research/task18-terminal-attribution-native-root-verification.json",
+  "cases": [
+    {
+      "case": "empty",
+      "worker_status": "COMPLETED",
+      "diagnostic": "PASS",
+      "root": 84162,
+      "source_end_before_resolution": true,
+      "query_before_end": true,
+      "membership_empty": false,
+      "root_only": true,
+      "fallback": false
+    },
+    {
+      "case": "survivor",
+      "worker_status": "STOPPED",
+      "diagnostic": "PASS",
+      "root": 84171,
+      "source_end_before_resolution": true,
+      "query_before_end": true,
+      "membership_empty": false,
+      "root_only": false,
+      "fallback": false
+    }
+  ],
+  "external_command_seconds": 0.31539287499617785,
+  "cumulative_terminal_command_seconds": 0.6180540410568938,
+  "scientific_accuracy_or_resource_qualification": false,
+  "scientific_restart": "separate_dated_amendment_and_concrete_allocation_required",
+  "protected_access": "CLOSED"
+}

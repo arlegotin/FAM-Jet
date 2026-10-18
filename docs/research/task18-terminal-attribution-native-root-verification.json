@@ -1,0 +1,47 @@
+{
+  "time_utc": "2026-10-18T10:43:38.949921+00:00",
+  "head": "927d7fa5d4f9003555eeee28c8e6cf5da00e4e6f",
+  "execution_head": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "source_commit": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "manifest_entries": 30,
+  "manifest_bytes": 3844300,
+  "prior_entries_verified": 7858,
+  "prior_bytes": 86336790,
+  "original_native_mappings": 11,
+  "source_files_verified": 5,
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "report_sha256": "761437f46969361535756cea1806988dbcaa2c3a587dcf3439a18be709598471",
+  "report_bytes": 7707,
+  "external_command_seconds": 0.31539287499617785,
+  "internal_seconds": 0.29147862491663545,
+  "cumulative_terminal_command_seconds": 0.6180540410568938,
+  "cases": [
+    {
+      "case": "empty",
+      "worker_status": "COMPLETED",
+      "diagnostic": "PASS",
+      "root": 84162,
+      "source_end_before_resolution": true,
+      "query_before_end": true,
+      "membership_empty": false,
+      "root_only": true,
+      "fallback": false
+    },
+    {
+      "case": "survivor",
+      "worker_status": "STOPPED",
+      "diagnostic": "PASS",
+      "root": 84171,
+      "source_end_before_resolution": true,
+      "query_before_end": true,
+      "membership_empty": false,
+      "root_only": false,
+      "fallback": false
+    }
+  ],
+  "scope": "one stdlib native terminal lifecycle diagnostic; no numerical resource/accuracy qualification",
+  "root_native_or_test_or_project_import": false,
+  "scientific_restart_authorized": false,
+  "clean_main": true,
+  "archival_bookkeeping_correction_disclosed": true
+}
