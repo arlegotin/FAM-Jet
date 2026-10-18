@@ -1,0 +1,41 @@
+{
+  "as_reviewed_draft": {
+    "byte_exact_against_base": true,
+    "historical_DRAFT_header_preserved": true,
+    "path": "docs/amendments/2026-10-18-kernel-projection-diagnostic.md",
+    "sha256": "3e7d07ad8ea88cdd86cd14cba735ca9f4d8af9c757a4d4aaf1ee7c69aad34d17"
+  },
+  "authored_docs": {
+    "AUDIT.md": "b9011c330a91934b37048f8c6efacd469519601059c86d0664f1150f2e1d2c0e",
+    "DECISIONS.md": "ec0119fa97e50a4de8d7e8e1d78ebbf9d7b75efc9a35863b566fdea87560d103",
+    "PROGRESS.md": "f62ed081028bec3102688c19e6ecc96bb8473b065a925e9e32bf587d4b41f196",
+    "README.md": "1937d6f0b15f40d3803e0a3b2b81c4df3e3ec30161dec87d8225db5eeba02f59",
+    "docs/amendments/2026-10-18-kernel-projection-adoption.md": "5d2835d3fb2f66c6c716659d1e35c1da29b9858473ba1f9edd46507cd1b90c08",
+    "docs/research/task18-epsilon1em6-learning-promotion.md": "5bfa6d1d05fefc10427fb372e15d189e7f2e84dece757643691da0ae8f0663ba"
+  },
+  "base": "5fdfdf66e30b2decbff5320e25f9d1b46566f9d3",
+  "exact_stage_paths": [
+    "README.md",
+    "PROGRESS.md",
+    "DECISIONS.md",
+    "AUDIT.md",
+    "docs/research/task18-epsilon1em6-learning-promotion.md",
+    "docs/amendments/2026-10-18-kernel-projection-adoption.md",
+    "docs/research/task18-kernel-projection-amendment-review.md",
+    "docs/research/task18-kernel-projection-adoption-verification.json"
+  ],
+  "historical_promotion_verification_unchanged": {
+    "path": "docs/research/task18-epsilon1em6-learning-promotion-verification.json",
+    "sha256": "002c82653786fb5bdf89e33b69c014a8f8aadc95f24db9e7706831272426264d"
+  },
+  "package_hash_unchanged": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "review_copy": {
+    "byte_exact": true,
+    "bytes": 6555,
+    "durable": "docs/research/task18-kernel-projection-amendment-review.md",
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-projection-amendment-review.md",
+    "sha256": "2a3559ab20092a2afbdc11c01bfa7a524156d6a0577fb20cc3b44f1874e9463b"
+  },
+  "scope": "byte/hash/path/source checks only; no tests/models/fixtures/performance or scientific work",
+  "status": "verified_metadata_adoption_only_no_source_execution"
+}
