@@ -1,0 +1,80 @@
+{
+  "time_utc": "2026-10-18T10:14:13.570976+00:00",
+  "head": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+  "base": "d0c9a51e77a2028f6b648c4cfc0889734ec089b5",
+  "source_commit": "795e4c05f07378fc57accae4ad4012d4d9f57b8b",
+  "frozen_input_commit": "fd888972801ba5582ec2413122e9882b4fc68f82",
+  "manifest_entries": 1116,
+  "manifest_bytes": 7199370,
+  "symlink_payloads": 183,
+  "prior_entries_verified": 5063,
+  "prior_bytes": 67169676,
+  "original_specimen_mappings": 709,
+  "attempt_file_hashes": 916,
+  "source_files_verified": 6,
+  "native_inputs_AST_and_hashes": 4,
+  "worker_byte_equal_old_ROOT_BODY": true,
+  "report_bytes": 9975,
+  "report_sha256": "dd082f9617a58a4938938b572a6dbb3d669bb28c66b3c102ab5cd3091fa84061",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "attempts": [
+    {
+      "name": "task18-terminal-attribution-final-cover-dak1jqro",
+      "exit": 0,
+      "summary": "211 passed, 6 deselected in 1.79s",
+      "wall_seconds": 2.018949031829834
+    },
+    {
+      "name": "task18-terminal-attribution-focused03-fdg2w2h2",
+      "exit": 0,
+      "summary": "83 passed in 0.15s",
+      "wall_seconds": 0.30657315254211426
+    },
+    {
+      "name": "task18-terminal-attribution-green01-xb6wmwn5",
+      "exit": 0,
+      "summary": "50 passed in 0.07s",
+      "wall_seconds": 0.1909489631652832
+    },
+    {
+      "name": "task18-terminal-attribution-green02-zi6r2hli",
+      "exit": 0,
+      "summary": "63 passed in 0.11s",
+      "wall_seconds": 0.22854018211364746
+    },
+    {
+      "name": "task18-terminal-attribution-green04-gvcrb54l",
+      "exit": 0,
+      "summary": "1 passed in 0.03s",
+      "wall_seconds": 0.1392502784729004
+    },
+    {
+      "name": "task18-terminal-attribution-red01-7o5ripm9",
+      "exit": 1,
+      "summary": "45 failed, 5 passed in 0.31s",
+      "wall_seconds": 0.4889106750488281
+    },
+    {
+      "name": "task18-terminal-attribution-red02-gxj17_je",
+      "exit": 1,
+      "summary": "14 failed, 36 passed in 0.13s",
+      "wall_seconds": 0.25429511070251465
+    },
+    {
+      "name": "task18-terminal-attribution-red03-ntcv2tup",
+      "exit": 1,
+      "summary": "8 failed, 55 passed in 0.17s",
+      "wall_seconds": 0.3050239086151123
+    },
+    {
+      "name": "task18-terminal-attribution-red04-ezsb5n_p",
+      "exit": 1,
+      "summary": "1 failed in 0.06s",
+      "wall_seconds": 0.21641302108764648
+    }
+  ],
+  "root_test_native_or_project_import": false,
+  "native_compatibility": false,
+  "scientific_release": false,
+  "clean_main": true
+}

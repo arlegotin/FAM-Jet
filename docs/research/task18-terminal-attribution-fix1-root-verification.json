@@ -1,0 +1,69 @@
+{
+  "time_utc": "2026-10-18T10:30:16.645929+00:00",
+  "head": "15326ea3bed42e94c6969137b8669ddc00d7282d",
+  "base": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+  "source_commit": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "manifest_entries": 1669,
+  "manifest_bytes": 11192224,
+  "symlink_payloads": 204,
+  "prior_entries_verified": 6182,
+  "prior_bytes": 74668344,
+  "original_archive_mappings": 1444,
+  "attempt_file_hashes": 1447,
+  "source_files_verified": 5,
+  "native_input_worker_unchanged": true,
+  "report_bytes": 8325,
+  "report_sha256": "dad0a08af783196540c96dd78428ab4ad0d0f14214a9b54ddd59aad46dfcfed9",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "attempts": [
+    {
+      "name": "task18-terminal-attribution-fix1-failure-charge-green-be9tw8et",
+      "exit": 1,
+      "summary": "1 failed, 10 passed, 84 deselected in 0.28s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2",
+      "exit": 0,
+      "summary": "11 passed, 84 deselected in 0.26s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs",
+      "exit": 0,
+      "summary": "220 passed, 6 deselected in 1.89s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-final-cover-lcyqnci4",
+      "exit": 1,
+      "summary": "1 failed, 219 passed, 6 deselected in 1.94s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-green-corrected-rw15io7v",
+      "exit": 1,
+      "summary": "4 failed, 5 passed, 84 deselected in 0.14s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-green-final-7c7ou3yn",
+      "exit": 0,
+      "summary": "9 passed, 84 deselected in 0.10s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-green-oawu1es_",
+      "exit": 1,
+      "summary": "4 failed, 5 passed, 84 deselected in 0.13s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-red-corrected-31i0gll_",
+      "exit": 1,
+      "summary": "6 failed, 3 passed, 84 deselected in 0.18s"
+    },
+    {
+      "name": "task18-terminal-attribution-fix1-red-s383f7iy",
+      "exit": 1,
+      "summary": "8 failed, 1 passed, 84 deselected in 0.19s"
+    }
+  ],
+  "root_test_native_or_project_import": false,
+  "native_compatibility": false,
+  "scientific_release": false,
+  "clean_main": true
+}

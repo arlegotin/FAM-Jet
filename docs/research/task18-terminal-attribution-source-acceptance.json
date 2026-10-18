@@ -1,0 +1,58 @@
+{
+  "time_utc": "2026-10-18T10:33:37.906869+00:00",
+  "status": "accepted_source_only_native_unverified",
+  "base": "d0c9a51e77a2028f6b648c4cfc0889734ec089b5",
+  "initial_source_commit": "795e4c05f07378fc57accae4ad4012d4d9f57b8b",
+  "final_source_commit": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "evidence_commit": "15326ea3bed42e94c6969137b8669ddc00d7282d",
+  "frozen_input_commit": "fd888972801ba5582ec2413122e9882b4fc68f82",
+  "spec_verdict": "APPROVE",
+  "quality_verdict": "APPROVE",
+  "closed_findings": [
+    "R1 global cross-family PID uniqueness and conflicting terminal stores"
+  ],
+  "monitor_sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e",
+  "native_input_sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+  "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "final_cover": {
+    "passed": 220,
+    "deselected": 6,
+    "seconds": 1.89,
+    "scope": "finite attribution and affected lifecycle/native identity source controls"
+  },
+  "proofs": [
+    {
+      "path": "docs/research/task18-terminal-attribution-review.md",
+      "bytes": 14196,
+      "sha256": "38ce697db9da50cd5e9ca6e700cadab978d02d3b85a1238d145e3e7d0aa8a650"
+    },
+    {
+      "path": "docs/research/task18-terminal-attribution-root-verification.json",
+      "bytes": 2558,
+      "sha256": "ceae9aabe94166a53550e39693781dda2b8161bf998677220d1c5c3d1144e980"
+    },
+    {
+      "path": "docs/research/task18-terminal-attribution-fix1-review.md",
+      "bytes": 8010,
+      "sha256": "4a00ac590fd30a5d2ce98e34dea08d3d86eb2771e60fa31f34d5ca95d1a4fefe"
+    },
+    {
+      "path": "docs/research/task18-terminal-attribution-fix1-root-verification.json",
+      "bytes": 2323,
+      "sha256": "1906f0b00dba4f7a82ac085d69f61f9529eb1184a7338b9f65b905b3ad1de538"
+    }
+  ],
+  "native_control_executed": false,
+  "native_compatibility": false,
+  "scientific_restart_authorized": false,
+  "protected_access": "CLOSED",
+  "task18_scientific": "OPEN",
+  "limitations": [
+    "trusted source-owned sampled attribution, not continuous OS identity or birth tokens",
+    "actual root ownership distinguished from parent-witnessed ownership",
+    "sampled RSS excludes parent/supervisor and is not allocator peak",
+    "all earlier failed controls, setup factors, costs and reports remain failed and immutable"
+  ]
+}
