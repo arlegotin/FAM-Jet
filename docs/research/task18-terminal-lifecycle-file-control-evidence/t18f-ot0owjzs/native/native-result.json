@@ -1,0 +1,162 @@
+{
+  "allocation_start": 551765.33471725,
+  "absolute_deadline": 551775.33471725,
+  "scope": "ONE stdlib native two-case terminal lifecycle integration; zero science",
+  "cases": [
+    {
+      "case": "empty",
+      "start": 551765.380507833,
+      "deadline": 551769.880507833,
+      "syscalls": [],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "-S",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "empty",
+        "/private/tmp/t18f-ot0owjzs/native/empty.socket",
+        "551769.880507833"
+      ],
+      "vector_sha256": "4610a48ad12295330cd6a0e06941830c4ff3b9a96565aa34f79b85b48378bf01",
+      "inputs": {
+        "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-control.py",
+        "parent_sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+        "parent_bytes": 9194,
+        "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+        "worker_bytes": 2183,
+        "original_control_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py",
+        "original_control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+        "worker_body_byte_equal": true,
+        "parent_ast_parse": true,
+        "worker_ast_parse": true,
+        "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+        "monitor_sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+      },
+      "execution_status": "STOPPED",
+      "verdict": {
+        "status": "STOPPED",
+        "reason": "foreign process identity",
+        "monitor_failure": null,
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "4610a48ad12295330cd6a0e06941830c4ff3b9a96565aa34f79b85b48378bf01",
+        "returncode": 0,
+        "outer_seconds": 0.11813133303076029,
+        "utc_start_epoch": 1792316074.9192839,
+        "utc_end_epoch": 1792316075.037324,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.11770754202734679,
+        "absolute_process_tree_peak_bytes": 7716864,
+        "incremental_worker_peak_bytes": 7716864,
+        "observed_pid_peak_sum_bytes": 11288576,
+        "workers": {
+          "61275": {
+            "absolute_peak_bytes": 5931008,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 5931008,
+            "role": "unaccounted",
+            "parent": 61274
+          },
+          "61276": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 61274
+          },
+          "61282": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 61274
+          },
+          "61283": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 61274
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 4,
+        "observer_helper_peak_bytes": 1785856,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [
+          "61275"
+        ],
+        "unresolved_worker_count": 1,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 13,
+          "accepted_samples": 2,
+          "bytes": 23860,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 125,
+          "samples": 0
+        },
+        "classified_process_observations": 4,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 32273
+      },
+      "root_pid": 61275,
+      "member_rows": [
+        {
+          "pid": 61275,
+          "parent": 61274,
+          "pgid": 61275,
+          "rss_bytes": 0
+        }
+      ],
+      "compatibility": "NEEDS_CONTEXT",
+      "error": {
+        "type": "AssertionError",
+        "message": "{'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], 'stage_launch_vector_sha256': '4610a48ad12295330cd6a0e06941830c4ff3b9a96565aa34f79b85b48378bf01', 'returncode': 0, 'outer_seconds': 0.11813133303076029, 'utc_start_epoch': 1792316074.9192839, 'utc_end_epoch': 1792316075.037324, 'timing_boundary': 'before bounded final commit; caller must measure full elapsed including commit', 'finalization_start_seconds': 0.11770754202734679, 'absolute_process_tree_peak_bytes': 7716864, 'incremental_worker_peak_bytes': 7716864, 'observed_pid_peak_su"
+      },
+      "end": 551765.499073958,
+      "elapsed": 0.11856612504925579
+    }
+  ],
+  "source_git": "9550cf38f12915ff81a261ff5372febf26d294d4",
+  "control_sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+  "inputs": {
+    "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-control.py",
+    "parent_sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+    "parent_bytes": 9194,
+    "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+    "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+    "worker_bytes": 2183,
+    "original_control_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py",
+    "original_control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+    "worker_body_byte_equal": true,
+    "parent_ast_parse": true,
+    "worker_ast_parse": true,
+    "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+    "monitor_sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+  },
+  "end": 551765.499076291,
+  "elapsed": 0.16435904102399945,
+  "compatibility": "NEEDS_CONTEXT"
+}

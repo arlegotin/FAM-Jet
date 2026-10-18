@@ -1,0 +1,176 @@
+{
+  "source_git": "9550cf38f12915ff81a261ff5372febf26d294d4",
+  "files": {
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/delivery-verification-output.log": {
+      "bytes": 2252,
+      "sha256": "af1ab23736426162dbbfc5ef5e25e026a8d61d36723ac7028c6db9c0acc657dd",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/delivery-verification.json": {
+      "bytes": 2252,
+      "sha256": "af1ab23736426162dbbfc5ef5e25e026a8d61d36723ac7028c6db9c0acc657dd",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/delivery-verifier.py": {
+      "bytes": 3368,
+      "sha256": "1fceeaa527800286cff0d1f030ec16df058313728b1da46ac82fe0cf491c09fa",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/evidence-diagnoser.py": {
+      "bytes": 2853,
+      "sha256": "b0ba00a4030a240c250bf06a432f1f5a8da1588f970cd83d0c5bac514ec1d169",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/input-preparer.py": {
+      "bytes": 5150,
+      "sha256": "2455d364649d88c5aa55849468e74f7994deddb054eb6d11cf792dd11437540b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/native-attempt-runner.py": {
+      "bytes": 2487,
+      "sha256": "64bffd5460e5ddc997817bbf0c50b6d693c07628eacdefd5c2b2cbfead57158f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/post-attempt-prior-verification.json": {
+      "bytes": 236,
+      "sha256": "746cf4472861e147fca5e91c1728d45ae1eeabe180183b0791bdad112a50cba6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/prior-artifact-audit.json": {
+      "bytes": 1952044,
+      "sha256": "c3583eb84a618f76ecda13038eeef83961f62b6eb46b05d4a49040bcf2481373",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/provenance/task-18-terminal-lifecycle-file-control-brief.md": {
+      "bytes": 5628,
+      "sha256": "4115bb4aae7565a279d2106f25d3426387e7cc01708e84bd7c2f4388211616fe",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/provenance/task-18-terminal-lifecycle-root-verification.json": {
+      "bytes": 3242,
+      "sha256": "a8876cb7facfd9908ee4446c3ca3d8d9438e78879be8279dac48aa917029cff4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/report-builder.py": {
+      "bytes": 17155,
+      "sha256": "f80df766924561dde49f5e050abadb26342d7d07410bbb0fa12970e85a454c2b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/retained-diagnosis-output.log": {
+      "bytes": 477,
+      "sha256": "0a539d27670a7012364d963b827dcd728562a81f35b514a72443d68171ca1544",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/static-verification-output.log": {
+      "bytes": 1584,
+      "sha256": "9cd8dd41e374712d2ea9646491acc0f382984bb26ad904b0e4a37891c73a5407",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/static-verification.json": {
+      "bytes": 1584,
+      "sha256": "9cd8dd41e374712d2ea9646491acc0f382984bb26ad904b0e4a37891c73a5407",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/static-verifier.py": {
+      "bytes": 3716,
+      "sha256": "a7a92a892e24b4e4e1c68a34cbd0875d1cb5f13f32d9a2b1fd65cba19241eb7c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/attempt-before.json": {
+      "bytes": 1233,
+      "sha256": "e5c6a7c642f507eeaf266fe4dcb77acc14610f5662e2fdba3fb845954d9d7a81",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/attempt.json": {
+      "bytes": 1375,
+      "sha256": "8352542320eba9a1796c21a075a49b47fbe509baf4ad892f4af0be8cc362bcc2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/committed-monitor.py": {
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/committed-parent.py": {
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/committed-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/full-output.log": {
+      "bytes": 119,
+      "sha256": "ace8e7f72c67c452a81394ff6e4133cc8e01b170167b77065e2bd7895b3c691e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/manifest.json": {
+      "bytes": 1657,
+      "sha256": "ece0fc50e3073825166491def7b6c3e35a7a3812bc3df26368c1a66c0c76773c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/empty-output/monitor-events.jsonl": {
+      "bytes": 125,
+      "sha256": "29947d4a9065a14140a90ab712455319441234f654b463e905aadd2feb6cb901",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/empty-output/monitor-evidence.jsonl": {
+      "bytes": 23860,
+      "sha256": "793440eb639a6f22c55a826e871d3f7e3b3ddd00c14b90f58190efd8afe987d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/empty-output/monitor.json": {
+      "bytes": 8192,
+      "sha256": "d81bec0354d8b1af584d819c865fc0236124fa56df463f86fa70e754e8b36b54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/empty-output/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/empty-output/stdout.log": {
+      "bytes": 96,
+      "sha256": "85dbda0393c3b76453b62c75a21768b2fc0c95bfeb8525b33690d12c2438c0d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native/native-result.json": {
+      "bytes": 7153,
+      "sha256": "42482ea2b31b473f5d3b535e9232c27d7ec48406052fc91b892e24473f859e24",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/native-file-inventory.json": {
+      "bytes": 875,
+      "sha256": "d51633eece1675bcb27c09c07291870993c1445d065fb1a6a0ef14c05f2cedb3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-file-control-evidence/t18f-ot0owjzs/retained-evidence-diagnosis.json": {
+      "bytes": 22170,
+      "sha256": "821868103dbfa5709cbde15db626941ffb35a2e5e2fdaede05c009f73068877a",
+      "kind": "file"
+    }
+  },
+  "external_inputs_reports": {
+    "docs/research/task18-terminal-lifecycle-file-control.py": {
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f"
+    },
+    "docs/research/task18-terminal-lifecycle-file-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+    },
+    ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-file-control-report.md": {
+      "bytes": 16596,
+      "sha256": "d7f2a2929a5cea06612bc91af5a2412888357b21b6710c7a447b5ab8621d9df1"
+    },
+    "docs/research/task18-kernel-stage-a-terminal-lifecycle-file-control-report.md": {
+      "bytes": 16596,
+      "sha256": "d7f2a2929a5cea06612bc91af5a2412888357b21b6710c7a447b5ab8621d9df1"
+    }
+  },
+  "self_excluded": true,
+  "file_count": 30,
+  "bytes": 2148745
+}

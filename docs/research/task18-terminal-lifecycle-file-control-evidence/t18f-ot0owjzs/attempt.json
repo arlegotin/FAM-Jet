@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-control.py",
+    "/private/tmp/t18f-ot0owjzs/native"
+  ],
+  "source_git": "9550cf38f12915ff81a261ff5372febf26d294d4",
+  "owned_base": "/private/tmp/t18f-ot0owjzs",
+  "inputs": {
+    "docs/research/task18-terminal-lifecycle-file-control.py": {
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f"
+    },
+    "docs/research/task18-terminal-lifecycle-file-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+    }
+  },
+  "thread_limits": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "VECLIB_MAXIMUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4"
+  },
+  "cpu_count": 14,
+  "prior_failed_native_command_seconds": 0.11512133304495364,
+  "scope": "one newly authorized corrected file invocation; no retry or science",
+  "exit": 1,
+  "command_elapsed_including_interpreter_start": 0.18753983301576227,
+  "cumulative_native_command_seconds": 0.3026611660607159
+}

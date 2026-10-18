@@ -1,0 +1,25 @@
+{
+  "live_raw_equals_expected": true,
+  "terminal_raw_args": "<defunct>",
+  "root_returncode": 0,
+  "end_index": 9,
+  "terminal_resolution_index": 12,
+  "numeric_query_complete": true,
+  "members": [
+    {
+      "pid": 61275,
+      "parent": 61274,
+      "pgid": 61275,
+      "rss_bytes": 0
+    },
+    {
+      "pid": 61283,
+      "parent": 61274,
+      "pgid": 61269,
+      "rss_bytes": 1785856
+    }
+  ],
+  "signals": [],
+  "output_bytes": 32273,
+  "survivor_NOT_RUN": true
+}

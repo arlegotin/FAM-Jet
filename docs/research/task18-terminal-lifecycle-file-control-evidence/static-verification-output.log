@@ -1,0 +1,48 @@
+{
+  "base_git": "f31b34bc1ec65a9a9cb1954cc4b0dba731c62579",
+  "inputs": {
+    "docs/research/task18-terminal-lifecycle-file-control.py": {
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f"
+    },
+    "docs/research/task18-terminal-lifecycle-file-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+    },
+    ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py": {
+      "bytes": 9495,
+      "sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+    }
+  },
+  "worker_body_byte_equal": true,
+  "parent_ast_parse": true,
+  "worker_ast_parse": true,
+  "parent_compile": true,
+  "worker_compile": true,
+  "vector_ast": "[sys.executable, '-I', '-B', '-S', str(worker_path), case, str(peer_path), repr(case_deadline)]",
+  "worker_case_semantics": "exact original body bytes; no execution",
+  "unchanged_production_tests_package": {
+    "command": [
+      "git",
+      "diff",
+      "--exit-code",
+      "f31b34bc1ec65a9a9cb1954cc4b0dba731c62579",
+      "--",
+      "validation",
+      "tests",
+      "famjet",
+      "requirements.lock"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "prior_artifact_count": 4580,
+  "prior_artifact_bytes": 60405470,
+  "prior_artifact_mismatches": [],
+  "status": "PASS static only; native not yet attempted"
+}

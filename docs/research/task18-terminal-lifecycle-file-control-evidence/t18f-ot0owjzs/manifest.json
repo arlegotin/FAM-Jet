@@ -1,0 +1,50 @@
+{
+  "attempt-before.json": {
+    "bytes": 1233,
+    "sha256": "e5c6a7c642f507eeaf266fe4dcb77acc14610f5662e2fdba3fb845954d9d7a81"
+  },
+  "attempt.json": {
+    "bytes": 1375,
+    "sha256": "8352542320eba9a1796c21a075a49b47fbe509baf4ad892f4af0be8cc362bcc2"
+  },
+  "committed-monitor.py": {
+    "bytes": 66485,
+    "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+  },
+  "committed-parent.py": {
+    "bytes": 9194,
+    "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f"
+  },
+  "committed-worker.py": {
+    "bytes": 2183,
+    "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+  },
+  "full-output.log": {
+    "bytes": 119,
+    "sha256": "ace8e7f72c67c452a81394ff6e4133cc8e01b170167b77065e2bd7895b3c691e"
+  },
+  "native/empty-output/monitor-events.jsonl": {
+    "bytes": 125,
+    "sha256": "29947d4a9065a14140a90ab712455319441234f654b463e905aadd2feb6cb901"
+  },
+  "native/empty-output/monitor-evidence.jsonl": {
+    "bytes": 23860,
+    "sha256": "793440eb639a6f22c55a826e871d3f7e3b3ddd00c14b90f58190efd8afe987d0"
+  },
+  "native/empty-output/monitor.json": {
+    "bytes": 8192,
+    "sha256": "d81bec0354d8b1af584d819c865fc0236124fa56df463f86fa70e754e8b36b54"
+  },
+  "native/empty-output/stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/empty-output/stdout.log": {
+    "bytes": 96,
+    "sha256": "85dbda0393c3b76453b62c75a21768b2fc0c95bfeb8525b33690d12c2438c0d0"
+  },
+  "native/native-result.json": {
+    "bytes": 7153,
+    "sha256": "42482ea2b31b473f5d3b535e9232c27d7ec48406052fc91b892e24473f859e24"
+  }
+}

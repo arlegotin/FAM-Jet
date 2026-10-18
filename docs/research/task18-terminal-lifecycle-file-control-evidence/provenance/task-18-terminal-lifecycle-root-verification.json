@@ -1,0 +1,81 @@
+{
+  "time_utc": "2026-10-18T09:30:28.785440+00:00",
+  "base": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+  "head": "f31b34bc1ec65a9a9cb1954cc4b0dba731c62579",
+  "source_commit": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "manifest_entries": 1105,
+  "types": {
+    "file": 991,
+    "symlink payload": 114
+  },
+  "bytes": 7341354,
+  "original_specimen_native_mappings_verified": 762,
+  "archival_metadata_input_entries_verified": 202,
+  "attempts": [
+    {
+      "name": "t18n-0zr5z837",
+      "exit": 1,
+      "last_log_line": "{\"compatibility\": \"NEEDS_CONTEXT\", \"elapsed\": 0.09117337502539158, \"destination\": \"/private/tmp/t18n-0zr5z837/native\"}"
+    },
+    {
+      "name": "task18-terminal-failure-final-pwqfmsof",
+      "exit": 0,
+      "last_log_line": "============================== 1 passed in 0.04s ==============================="
+    },
+    {
+      "name": "task18-terminal-failure-followup-0wojll_l",
+      "exit": 1,
+      "last_log_line": "========================= 1 failed, 43 passed in 0.41s ========================="
+    },
+    {
+      "name": "task18-terminal-final-cover-d_18wxom",
+      "exit": 1,
+      "last_log_line": "======================== 12 failed, 121 passed in 4.08s ========================"
+    },
+    {
+      "name": "task18-terminal-focused02-nhsa7wbs",
+      "exit": 0,
+      "last_log_line": "============================== 31 passed in 0.13s =============================="
+    },
+    {
+      "name": "task18-terminal-green01-tvg7h1rz",
+      "exit": 0,
+      "last_log_line": "============================== 26 passed in 0.09s =============================="
+    },
+    {
+      "name": "task18-terminal-launch-green-5dce0mhk",
+      "exit": 0,
+      "last_log_line": "============================== 1 passed in 0.06s ==============================="
+    },
+    {
+      "name": "task18-terminal-launch-red-oltmvow4",
+      "exit": 1,
+      "last_log_line": "============================== 1 failed in 0.06s ==============================="
+    },
+    {
+      "name": "task18-terminal-red01-co0__qex",
+      "exit": 1,
+      "last_log_line": "========================= 12 failed, 5 passed in 0.14s ========================="
+    },
+    {
+      "name": "task18-terminal-red02-t8rws67u",
+      "exit": 1,
+      "last_log_line": "========================= 21 failed, 5 passed in 0.17s ========================="
+    }
+  ],
+  "source_hashes_verified": 10,
+  "prior_artifact_entries_verified": 3471,
+  "prior_artifact_bytes": 52688051,
+  "PythonLifetimes_AST_unchanged": true,
+  "report_sha256": "8559b3b530f082e34bbc0d4b7a328c332ef2e430c53f0246da16c238c42058b4",
+  "native_status": "NEEDS_CONTEXT",
+  "native_cases_entered": 1,
+  "survivor_NOT_RUN": true,
+  "truthful_root_end_count": 1,
+  "actual_cleanup_query_count": 1,
+  "root_test_native_or_project_imports": false,
+  "scientific_release": false,
+  "clean_main": true,
+  "root_audit_note": "Initial mapping attempt incorrectly assumed archive-generated attempt.json existed under original temporary base; corrected to compare actual specimens/native payloads with originals and archive input/metadata with their recorded hashes. No artifact mismatch."
+}

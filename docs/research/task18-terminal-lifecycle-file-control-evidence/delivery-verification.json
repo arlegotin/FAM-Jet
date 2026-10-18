@@ -1,0 +1,82 @@
+{
+  "source_git": "9550cf38f12915ff81a261ff5372febf26d294d4",
+  "checks": [
+    {
+      "check": "complete native attempt manifest",
+      "pass_check": true
+    },
+    {
+      "check": "executed exact committed file",
+      "path": "docs/research/task18-terminal-lifecycle-file-control.py",
+      "bytes": 9194,
+      "sha256": "592940785d137174b9705cca7569f54b2a184f6aabd586cf48e64ff87edf461f",
+      "pass_check": true
+    },
+    {
+      "check": "executed exact committed file",
+      "path": "docs/research/task18-terminal-lifecycle-file-worker.py",
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+      "pass_check": true
+    },
+    {
+      "check": "executed exact committed file",
+      "path": "validation/kernel_stage_a/monitor.py",
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566",
+      "pass_check": true
+    },
+    {
+      "check": "all prior artifacts remain byte equal",
+      "entries": 4580,
+      "bytes": 60405470,
+      "pass_check": true
+    },
+    {
+      "check": "worker exact AST-extracted original bytes",
+      "pass_check": true
+    },
+    {
+      "check": "new report copies byte equal",
+      "bytes": 16596,
+      "sha256": "d7f2a2929a5cea06612bc91af5a2412888357b21b6710c7a447b5ab8621d9df1",
+      "pass_check": true
+    },
+    {
+      "check": "static source boundary/whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "f31b34bc1ec65a9a9cb1954cc4b0dba731c62579",
+        "9550cf38f12915ff81a261ff5372febf26d294d4"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "check": "static source boundary/whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "f31b34bc1ec65a9a9cb1954cc4b0dba731c62579",
+        "--",
+        "validation",
+        "tests",
+        "famjet",
+        "requirements.lock"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "static_delivery_status": "PASS",
+  "native_diagnostic_compatibility": "NEEDS_CONTEXT",
+  "native_execution_status": "STOPPED",
+  "actual_root_returncode": 0,
+  "survivor": "NOT RUN",
+  "no_native_or_test_repeat": true
+}
