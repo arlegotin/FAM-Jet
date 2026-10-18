@@ -317,3 +317,26 @@ exact death instant, birth-token identity, continuous exec/reuse exclusion,
 security containment or unsampled RSS bound. The newly frozen future native
 control is an input only and requires its own separate allocation. Synthetic
 source controls confer neither native compatibility nor scientific readiness.
+
+
+Directly owned root lifecycle receipt (18 October 2026)
+------------------------------------------------------
+
+The owned-root amendment adds `source_owned_root_lifecycle` for the directly
+held root only. Display strings remain raw evidence. Eligibility requires the
+actual latest unreaped supervisor sample, unique exact launch, earlier retained
+supervisor image proof, genuine retained SELF/post-import baseline, zero integer
+RSS and ordered native ESRCH. Complete numeric membership must contain exactly
+the original root with zero integer RSS; membership remains nonempty. Actual
+owning poll0 and matching end create a single receipt retaining those original
+objects. Cleanup and final classification consume that same receipt; copied rows,
+coincident sample times, fabricated identity dictionaries, readers and helpers
+cannot borrow it. Pending completion grants no identity or baseline credit.
+
+The legacy literal, exact-display, reader and helper routes keep their existing
+contracts. Earlier failures remain sticky; survivors require cancellation before
+owning release. No query family, grace period or budget is added. The new frozen
+`task18-owned-root-lifecycle-native-{control,worker}.py` inputs import the normal
+local torch/famjet runtime and call real `record_baseline`; they are statically
+reviewed inputs only and require a separate native allocation before execution.
+Scientific gates remain OPEN and protected work CLOSED.

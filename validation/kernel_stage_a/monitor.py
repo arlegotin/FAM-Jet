@@ -61,6 +61,7 @@ class PythonLifetimes:
         self.root_pid=root_pid; self.stage_vector=stage_vector; self.runtime=runtime_identity
         self.generations={}; self.ids={}; self.ends={}; self.self_rows={}; self.baseline_rows={}
         self.reader_pid=None; self.unbound=set(); self.self_contexts={}; self.failed=set()
+        self.owned_sample=None; self.owned_proof=None; self.owned_baseline=None; self.owned_receipt=None; self.owned_baseline_duplicate=False
 
     def launch(self,entry,context):
         pid=entry['pid']; vector=entry['argv']; root=entry.get('role')=='owned_root'
@@ -133,6 +134,82 @@ class PythonLifetimes:
         if (entry is not None and entry['role']=='owned_root' and owner_unreaped and 'completion_end' not in entry
                 and (sample_context is None or sample_context['origin']=='owned_supervisor')):
             self._proof(entry,row,'unreaped_owned_root',sample_context)
+            if (self.owned_proof is None and sample_context is not None and sample_context is self.owned_sample and
+                    sample_context.get('owner_unreaped') is True and entry['proof'] is sample_context['proofs'].get(row['pid'])):
+                self.owned_proof=(sample_context,row,entry['proof'],entry)
+
+    def owned_baseline_event(self,event):
+        # Retain the actual source event separately; legacy baseline admission is
+        # unchanged. Only this new route requires a genuine SELF generation join.
+        if self.owned_baseline is not None:
+            self.owned_baseline_duplicate=True
+        else: self.owned_baseline=event
+
+    def owned_candidate(self,row,context):
+        entry=self.generations.get(self.root_pid)
+        baseline=self.owned_baseline; own=self.self_rows.get(self.root_pid)
+        own_context=self.self_contexts.get(self.root_pid)
+        if (entry is None or entry['role']!='owned_root' or self.root_pid in self.failed or
+                row['pid']!=self.root_pid or context is None or context is not self.owned_sample or
+                context.get('origin')!='owned_supervisor' or context.get('owner_unreaped') is not True or
+                context['entries'].get(self.root_pid) is not row or self.owned_proof is None or
+                baseline is None or self.owned_baseline_duplicate or own is None or own_context is None): return False
+        proof_context,proof_row,proof,proof_generation=self.owned_proof
+        if (proof_generation is not entry or proof is not entry.get('proof') or proof_context['entries'].get(self.root_pid) is not proof_row or
+                proof_context['proofs'].get(self.root_pid) is not proof or
+                proof_context.get('origin')!='owned_supervisor' or proof_context.get('owner_unreaped') is not True or
+                proof['origin']!='unreaped_owned_root' or proof['launch_id']!=entry['launch_id'] or
+                own_context.get('origin')!='emitter_self' or not own_context.get('event_reference') or
+                own_context['entries'].get(self.root_pid) is not own or not self.matches(entry,own)):
+            return False
+        image=row.get('image',{}); own_image=own.get('image',{})
+        return (not row.get('ambiguous') and row['parent']==entry['parent'] and
+                type(row.get('rss_bytes')) is int and row['rss_bytes']==0 and
+                image.get('status')=='error' and image.get('errno')==errno.ESRCH and
+                image.get('method')=='macos.proc_pidpath' and image.get('reason')=='native_lookup_failed' and
+                own_image.get('status')=='ok' and all(own_image.get(k)==entry['expected_image'][k] for k in ('path','sha256')) and
+                baseline.get('pid')==self.root_pid and baseline.get('boundary')=='post-import/pre-allocation' and
+                type(baseline.get('rss')) is int and baseline['rss']>=0 and baseline['rss']==own['rss_bytes'] and
+                entry['launch_start']<=proof_row['sample_start']<=proof['lookup_end']<row['sample_start'] and
+                entry['launch_start']<=own['sample_start']<=own['sample_end']<=own_image.get('lookup_start',float('-inf'))<=
+                own_image.get('lookup_end',float('inf'))<=baseline['monotonic']<=row['sample_start']<=row['sample_end']<=
+                image.get('lookup_start',float('-inf'))<=image.get('lookup_end',float('-inf')) and
+                proof['lookup_end']<=baseline['monotonic'])
+
+    def qualify_owned_root(self,context,observation,poll_start,poll_value):
+        row=context['entries'].get(self.root_pid) if context is not None else None
+        entry=self.generations.get(self.root_pid); end=self.ends.get(self.root_pid)
+        members=[member for member in observation['rows'] if member['pgid']==self.root_pid]
+        if (row is None or not self.owned_candidate(row,context) or not observation['complete'] or
+                len(members)!=1 or members[0]['pid']!=self.root_pid or members[0]['parent']!=entry['parent'] or
+                type(members[0]['rss_bytes']) is not int or members[0]['rss_bytes']!=0 or
+                type(poll_value) is not int or poll_value!=0 or end is None or
+                end.get('returncode')!=0 or end.get('reaped') is not True or
+                end.get('launch_id')!=entry['launch_id'] or end.get('parent')!=entry['parent'] or
+                not row['image']['lookup_end']<=observation['start']<=observation['end']<=poll_start<=end['completion_end'] or
+                entry.get('completion_end')!=end['completion_end']): return False
+        # References are private and retained; serialized dictionaries cannot
+        # supply this receipt or lend it to a value-equal row/sample.
+        self.owned_receipt=(context,row,entry,self.owned_baseline,self.owned_proof,observation,end)
+        return True
+
+    def owned_terminal(self,row,context):
+        receipt=self.owned_receipt
+        if (receipt is not None and receipt[0] is context and receipt[1] is row and
+                receipt[2] is self.generations.get(self.root_pid) and receipt[3] is self.owned_baseline and
+                receipt[4] is self.owned_proof and receipt[6] is self.ends.get(self.root_pid) and
+                self.owned_candidate(row,context)):
+            entry=receipt[2]
+            row['identity'].update(terminal_attribution='source_owned_root_lifecycle',
+                image_evidence='unavailable_exited',launch_evidence='source_owned_root_lifecycle',
+                family='owned_root',launch_id=entry['launch_id'],proof=entry['proof'],
+                completion=receipt[6],baseline=self.owned_baseline,expected_image=entry['expected_image'],
+                sample_id=context['sample_id'],membership_empty=False,
+                ownership_observability='directly_observed_owner')
+            return 'attributed'
+        if self.owned_candidate(row,context) and self.root_pid not in self.ends:
+            return 'pending_owned_root_completion'
+        return None
 
     def self_sample(self,emitter_pid,rows,*,sample_context=None):
         own=[row for row in rows if row['pid']==emitter_pid]
@@ -322,6 +399,13 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
         entry=native[pid]
         if python_lifetimes is not None and pid in python_lifetimes.failed:
             roles[pid]='unaccounted'; continue
+        if pid==root_pid and python_lifetimes is not None:
+            owned=python_lifetimes.owned_terminal(entry,sample_context)
+            if owned is not None:
+                if pid in declarations or pid in phase['declarations']:
+                    roles[pid]='unaccounted'; continue
+                roles[pid]='worker' if owned=='attributed' and pid in baselines else owned
+                continue
         if entry.get('raw_args')=='<defunct>' or entry.get('raw_comm')=='<defunct>':
             roles[pid]=terminal_role(pid,entry)
             continue
@@ -744,8 +828,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         evidence['accepted_samples']+=1
         pending[sequence]=dict(sample_id=sequence,entries=entries,before=before,after=after,root_rss=readings.get(process.pid,0),
                                roles={},proofs={},dependencies=set(),origin='owned_supervisor' if owned else 'emitter_self',
-                               owner_unreaped=owned and process.returncode is None)
-        if owned: latest_owned=pending[sequence]
+                               owner_unreaped=owned and process.returncode is None,event_reference=event_reference)
+        if owned:
+            latest_owned=pending[sequence]
+            if python_lifetimes is not None: python_lifetimes.owned_sample=latest_owned
         dirty.add(sequence)
         # Preserve a genuine current image proof before any owning poll/reap.
         # Reconciliation after reap cannot establish new image proof.
@@ -820,6 +906,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                             python_lifetimes.baseline(event)
                             publish_python_baseline(event['pid'],final=final)
                         else:
+                            if python_lifetimes is not None: python_lifetimes.owned_baseline_event(event)
                             baselines[event['pid']]=event['rss']
                             if str(event['pid']) in per_worker: charge(event['pid'])
                         wake(event['pid'])
@@ -962,6 +1049,11 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             root_end()
             append(dict(kind='cleanup_owner_poll',start=observed_start,end=time.monotonic(),returncode=value),final=True)
             if qualification is not None and type(value) is int and value==0 and root_end_published and reason is None:
+                if qualification=='source_owned_root_lifecycle':
+                    if python_lifetimes.qualify_owned_root(latest_owned,observed,observed_start,value):
+                        append(dict(kind='cleanup_terminal_qualification',qualified_terminal_root_only=True,membership_empty=False,
+                                    route=qualification,sample_id=latest_owned['sample_id'],completion=python_lifetimes.ends[process.pid]),final=True)
+                    return
                 row=dict(latest_owned['entries'][process.pid],identity={})
                 outcome=python_lifetimes.terminal(row) if qualification=='literal_terminal' else python_lifetimes.exited(row)
                 if outcome=='attributed':
@@ -1022,7 +1114,12 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     current=latest_owned['entries'].get(process.pid) if latest_owned is not None else None
                     literal=current is not None and (current.get('raw_args')=='<defunct>' or current.get('raw_comm')=='<defunct>')
                     route=None
-                    if literal:
+                    if (current is not None and source_accounting['identity_complete'] and source_accounting['complete'] and
+                            process.pid in baselines and python_lifetimes.owned_candidate(current,latest_owned) and
+                            len(members)==1 and members[0]['parent']==os.getpid() and
+                            type(members[0]['rss_bytes']) is int and members[0]['rss_bytes']==0):
+                        route='source_owned_root_lifecycle'
+                    elif literal:
                         provisional=dict(current,identity={})
                         if (len(members)==1 and type(members[0]['rss_bytes']) is int and members[0]['rss_bytes']==0 and
                                 source_accounting['identity_complete'] and process.pid not in failed and process.pid in baselines and
