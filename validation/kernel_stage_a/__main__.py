@@ -52,7 +52,8 @@ def main():
     setup=json.loads((root/boundary['setup_ledger']['path']).read_bytes())
     result=supervise(commands.stage_command(root,args.seal),
              Path(pending['output_directory']),outer_seconds=boundary['deadline_monotonic']-time.monotonic(),
-             preparation_output=Path(setup['output_directory']),authority_root=root,deadline=boundary['deadline_monotonic'])
+             preparation_output=Path(setup['output_directory']),authority_root=root,deadline=boundary['deadline_monotonic'],
+             incremental_bytes=authority.LIMITS['incremental_worker_bytes'])
     print(json.dumps(result,sort_keys=True)); return 0 if result['status']=='COMPLETED' else 1
 
 

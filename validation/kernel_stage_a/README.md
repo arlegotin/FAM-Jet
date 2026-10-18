@@ -114,6 +114,14 @@ reported RSS is sampled resident memory, not allocator peak or a proof that no
 between-sample spike occurred. Timings are descriptive heterogeneous call/group
 boundaries, with no extra timing reads, warmup, stable-p95 or throughput claim.
 
+The adopted [18 October 2026 execution-memory amendment](../../docs/amendments/2026-10-18-kernel-stage-a-execution-memory.md)
+sets the common kernel Stage A and future setup conservative sampled incremental
+execution-charge limit to **402653184 bytes (384 MiB)**. This charge combines
+sampled worker and observer observations and phase maxima; it is not an absolute
+physical-memory or startup ceiling. Report sampled absolute tree RSS, startup,
+baselines and unresolved charges separately. The generic monitor default remains
+201326592 bytes (192 MiB), as do historical seals and their recorded limits.
+
 For ordinary samples, only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=`
 launch is an observer helper. Its sampled display may differ after exit; it is
 retained verbatim. Full helper RSS remains in absolute and incremental totals.

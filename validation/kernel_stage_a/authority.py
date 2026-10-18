@@ -16,7 +16,7 @@ import uuid
 
 BASE='62456be3e6e6cbe3b2a058bd38ade744edc3c628'
 PACKAGE='15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050'
-LIMITS=dict(outer_seconds=600,candidate_seconds=90,incremental_worker_bytes=201326592,
+LIMITS=dict(outer_seconds=600,candidate_seconds=90,incremental_worker_bytes=402653184,
             output_bytes=67108864,free_disk_bytes=4294967296,numerical_threads=4,
             factors=6,reads=768)
 PENDING=('implementation_review','represented_rate_records','static_exports',
