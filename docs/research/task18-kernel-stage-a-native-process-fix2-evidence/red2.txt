@@ -1,0 +1,36 @@
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_unrecoverable_source_journal_is_failed_with_incomplete_accounting[truncated] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4352/test_unrecoverable_source_jour2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10821f550>
+failure = 'truncated'
+
+    @pytest.mark.parametrize('failure',['storage','partial','truncated'])
+    def test_unrecoverable_source_journal_is_failed_with_incomplete_accounting(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure; original=Path.open; polls=[]
+        if failure=='storage':
+            def open_path(path,mode='r',*args,**kwargs):
+                if path.name=='monitor-events.jsonl' and mode=='rb' and path.stat().st_size: raise OSError('controlled source journal read failure')
+                return original(path,mode,*args,**kwargs)
+            monkeypatch.setattr(Path,'open',open_path)
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic(); path=out/'monitor-events.jsonl'
+            if failure=='partial': path.write_bytes(b'{"event":"observer_sample","processes":[')
+            elif failure=='truncated' and len(polls)>1: path.write_bytes(b'{}\n')
+            elif failure=='truncated': a.event(path,'baseline',pid=pid,rss=10)
+            else:
+                root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001); root['rss_bytes']=900
+                a.event(path,'observer_sample',processes=[root])
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+>       assert result['status']=='FAILED' and result['returncode'] is not None
+E       AssertionError: assert ('STOPPED' == 'FAILED'
+E         
+E         - FAILED
+E         + STOPPED)
+
+tests/test_kernel_stage_a_native_process_fix2.py:99: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix2.py::test_unrecoverable_source_journal_is_failed_with_incomplete_accounting[truncated]
+1 failed, 6 passed in 0.24s
