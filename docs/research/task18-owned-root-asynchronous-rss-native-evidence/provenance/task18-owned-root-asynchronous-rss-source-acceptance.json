@@ -1,0 +1,30 @@
+{
+  "time_utc": "2026-10-18T11:31:00.157341+00:00",
+  "status": "accepted_source_only_native_unverified",
+  "behavior_source_commit": "d95bfaf382117bbbf669512b7b2bd4ad872afaec",
+  "evidence_commit": "944c665d675f0adf77c4207113b4a9a26ea10827",
+  "documentation_commit": "126e140320476df8a83a8ef7bdd8aac5b782b06e",
+  "spec_verdict": "PASS",
+  "quality_verdict": "APPROVE",
+  "closed_minor_findings": [
+    "README identifies new parent and unchanged worker; old parent historical",
+    "report says all six epochs null, RED pre-edit snapshot missing, interrupted full stream unavailable"
+  ],
+  "root_verification": "docs/research/task18-owned-root-asynchronous-rss-root-verification.json",
+  "review": "docs/research/task18-owned-root-asynchronous-rss-review.md",
+  "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d",
+  "native_parent_sha256": "e09582ddd07a3d667b5ab7bfc3b080e717503c43396b82aabd3d81e054a3f71c",
+  "native_worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "focused_passed": 66,
+  "cover": {
+    "passed": 286,
+    "deselected": 6,
+    "seconds": 2.09
+  },
+  "evidence_limitations": "All six attempt epochs are null; early pre-edit source snapshots absent; interrupted full stream unavailable. Current source/copies/original specimens are independently verified, no reconstruction as original.",
+  "native_control_executed": false,
+  "scientific_restart_authorized": false,
+  "task18_scientific": "OPEN",
+  "protected_access": "CLOSED"
+}

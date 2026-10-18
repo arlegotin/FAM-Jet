@@ -1,0 +1,59 @@
+{
+  "started_epoch": 1792323358.685318,
+  "end_epoch": 1792323358.73927,
+  "report_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-owned-root-asynchronous-rss-native-report.md"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "source_check": {
+    "command": [
+      "git",
+      "diff",
+      "db8c1ed2bfde0754c730a04e61b88d036e807ef4",
+      "--check",
+      "--",
+      "famjet",
+      "validation",
+      "tests",
+      "requirements.lock",
+      "docs/research/task18-owned-root-asynchronous-rss-native-control.py",
+      "docs/research/task18-owned-root-lifecycle-native-worker.py"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "raw_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check",
+      "--",
+      "docs/research/task18-owned-root-asynchronous-rss-native-evidence/original"
+    ],
+    "exit": 2,
+    "diagnostics": [
+      "docs/research/task18-owned-root-asynchronous-rss-native-evidence/original/native/empty-output/monitor.json:2: trailing whitespace.",
+      "docs/research/task18-owned-root-asynchronous-rss-native-evidence/original/native/empty-output/monitor.json:2: new blank line at EOF.",
+      "docs/research/task18-owned-root-asynchronous-rss-native-evidence/original/native/survivor-output/monitor.json:2: trailing whitespace.",
+      "docs/research/task18-owned-root-asynchronous-rss-native-evidence/original/native/survivor-output/monitor.json:2: new blank line at EOF."
+    ],
+    "preserved_log": "raw-padding-diff-check.log"
+  },
+  "all17_original_mappings_staged": true,
+  "scratch_report_equals_durable": true,
+  "native_parent_invocations": 1,
+  "status": "NEEDS_CONTEXT",
+  "empty_case": "PASS/COMPLETED/root0",
+  "survivor_case": "NEEDS_CONTEXT/STOPPED/root-9",
+  "next_action": "HOLD",
+  "tests_or_native_retry": false
+}

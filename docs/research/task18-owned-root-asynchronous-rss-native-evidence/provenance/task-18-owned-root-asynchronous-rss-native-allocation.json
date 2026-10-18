@@ -1,0 +1,24 @@
+{
+  "time_utc": "2026-10-18T11:32:03.604865+00:00",
+  "source_full_git": "db8c1ed2bfde0754c730a04e61b88d036e807ef4",
+  "base": "/private/tmp/t18p-8_das0uc",
+  "destination": "/private/tmp/t18p-8_das0uc/native",
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-I",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-owned-root-asynchronous-rss-native-control.py",
+    "/private/tmp/t18p-8_das0uc/native"
+  ],
+  "source_acceptance": "docs/research/task18-owned-root-asynchronous-rss-source-acceptance.json",
+  "monitor_sha256": "03fc95723432d355bffcd6efc33ed36544b62630153b0f48cde5d3a6cd0e858d",
+  "parent_sha256": "e09582ddd07a3d667b5ab7bfc3b080e717503c43396b82aabd3d81e054a3f71c",
+  "worker_sha256": "da9819fb58547721371a65930c76101fe5344ad8d2a291ea88b782b007d5b8e5",
+  "free_disk_bytes": 19011559424,
+  "thread_variables": 1,
+  "one_parent_invocation": true,
+  "outer_seconds": 10,
+  "case_seconds": 4.5,
+  "reserve_seconds": 0.25,
+  "numerical_or_scientific_release": false
+}
