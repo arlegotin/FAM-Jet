@@ -75,6 +75,13 @@ def exponential_integral(order, s, lower, upper):
     return math.fsum(terms)
 
 
+class FactorApplicabilityError(ValueError):
+    """Retain static sign/residual evidence even when construction rejects."""
+    def __init__(self, diagnostics):
+        self.diagnostics = diagnostics
+        super().__init__('factor applicability: '+repr(diagnostics))
+
+
 class KernelProjection(nn.Module):
     """FP64 spectral factors; general small bases support analytic unit controls.
 
@@ -138,9 +145,9 @@ class KernelProjection(nn.Module):
             x = getattr(self,name)
             shape = (m,m) if name in ('gram','eigenvectors') else (m,)
             _require(_fp64(x) and x.shape == shape and bool(torch.isfinite(x).all()), 'invalid static factor layout/value')
-        _require(bool((self.diagonal > 0).all()) and bool((self.eigenvalues >= 0).all())
-                 and bool((self.eigenvalues+self.ridge > 0).all()),
-                 'factor applicability: minimum eigenvalue='+repr(self.eigenvalues.min().item()))
+        _require(bool((self.diagonal > 0).all()), 'factor applicability: nonpositive diagonal')
+        if bool((self.eigenvalues < 0).any()) or not bool((self.eigenvalues+self.ridge > 0).all()):
+            raise FactorApplicabilityError(self.factor_diagnostics())
         _require(torch.equal(self.gram,self._gram()) and torch.equal(self.diagonal,torch.sqrt(self.gram.diagonal()))
                  and torch.equal(self.inverse_shifted,1/(self.eigenvalues+self.ridge)), 'static factor formula mismatch')
         r = self.gram/self.diagonal[:,None]/self.diagonal[None,:]

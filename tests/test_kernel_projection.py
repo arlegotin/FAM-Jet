@@ -111,3 +111,12 @@ def test_static_factor_condition_and_residual_are_reported_without_cache():
     assert diagnostic['factor_residual']<=1e-15
     r.coefficients(.25,1.)
     for name,value in r.state_dict().items(): assert torch.equal(value,before[name])
+
+
+def test_negative_eigenvalue_failure_retains_sign_and_residual():
+    r=reader_class()(torch.tensor([2.],dtype=torch.float64),'bank',1.,prior_scale=1.,ridge=1e-2)
+    r.eigenvalues[0]=-2**-53
+    with pytest.raises(ValueError) as caught: r.validate_statics()
+    assert caught.value.diagnostics['minimum_eigenvalue']==-2**-53
+    assert math.isfinite(caught.value.diagnostics['factor_residual'])
+    assert caught.value.diagnostics['factor_residual']>0
