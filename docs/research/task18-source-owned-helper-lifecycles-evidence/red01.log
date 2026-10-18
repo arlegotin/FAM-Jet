@@ -1,0 +1,204 @@
+FFFFFFFFFF....................FF                                         [100%]
+=================================== FAILURES ===================================
+____ test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-ps] ____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel0')
+family = 'ps', display = '(ps)', rss = 3850240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+___ test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-git0] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel1')
+family = 'git0', display = '(ps)', rss = 3850240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+___ test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-git1] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel2')
+family = 'git1', display = '(ps)', rss = 3850240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+_ test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-ps] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel3')
+family = 'ps', display = 'arbitrary retained display', rss = 1802240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+_ test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-git0] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel4')
+family = 'git0', display = 'arbitrary retained display', rss = 1802240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+_ test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-git1] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel5')
+family = 'git1', display = 'arbitrary retained display', rss = 1802240
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+____ test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-ps] ____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel6')
+family = 'ps', display = '<defunct>', rss = 17
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+___ test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-git0] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel7')
+family = 'git0', display = '<defunct>', rss = 17
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+___ test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-git1] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_overlapping_completed_hel8')
+family = 'git1', display = '<defunct>', rss = 17
+
+    @pytest.mark.parametrize('family',['ps','git0','git1'])
+    @pytest.mark.parametrize('display,rss',[('(ps)',3850240),('arbitrary retained display',1802240),('<defunct>',17)])
+    def test_overlapping_completed_helpers_need_no_live_image(tmp_path,family,display,rss):
+        state,decl,row,resolve=helper_case(tmp_path,family,display,rss)
+>       assert resolve()==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:31: AssertionError
+______ test_forwarded_earlier_sample_keeps_positive_peak_and_source_join _______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_forwarded_earlier_sample_0')
+
+    def test_forwarded_earlier_sample_keeps_positive_peak_and_source_join(tmp_path):
+        state,decl,row,resolve=helper_case(tmp_path)
+>       assert resolve()=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:40: AssertionError
+______________ test_reader_lifecycle_alone_never_grants_baseline _______________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_reader_lifecycle_alone_ne0')
+
+    def test_reader_lifecycle_alone_never_grants_baseline(tmp_path):
+        state,launch,live,row,end,context=generation(tmp_path)
+        state.launch(launch,context); state.end(end)
+        row.update(raw_args='arbitrary reader teardown',raw_comm='(Python)')
+        roles=m.classify(10,{20:row},{},{},reader_context=context,stage_vector=state.stage_vector,
+                         runtime_identity=identity(),python_lifetimes=state)
+>       assert roles[20]=='reader_lifecycle'
+E       AssertionError: assert 'unaccounted' == 'reader_lifecycle'
+E         
+E         - reader_lifecycle
+E         + unaccounted
+
+tests/test_kernel_stage_a_source_lifecycles.py:76: AssertionError
+_____________ test_missing_helper_end_stays_pending_then_resolves ______________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-red01-q2udw8kw/test_missing_helper_end_stays_0')
+
+    def test_missing_helper_end_stays_pending_then_resolves(tmp_path):
+        state,decl,row,resolve=helper_case(tmp_path)
+        end=decl.pop('completion_end'); decl['reaped']=False; decl.pop('returncode')
+>       assert resolve().startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x107eb7630>('pending_')
+E        +    where <built-in method startswith of str object at 0x107eb7630> = 'unaccounted'.startswith
+E        +      where 'unaccounted' = <function helper_case.<locals>.resolve at 0x107f8ba60>()
+
+tests/test_kernel_stage_a_source_lifecycles.py:84: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-ps]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-git0]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[(ps)-3850240-git1]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-ps]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-git0]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[arbitrary retained display-1802240-git1]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-ps]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-git0]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_overlapping_completed_helpers_need_no_live_image[<defunct>-17-git1]
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_forwarded_earlier_sample_keeps_positive_peak_and_source_join
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_reader_lifecycle_alone_never_grants_baseline
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_missing_helper_end_stays_pending_then_resolves
+12 failed, 20 passed in 0.09s

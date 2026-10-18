@@ -1,0 +1,1809 @@
+...................................................FFFFFFFF.FFF....FFF.. [ 21%]
+...............FFFFFFF..............................FF....FF............ [ 43%]
+...FF...FFFFFFF.......................FFFFFFFFF..............FFFFFF.F... [ 65%]
+....F........................FF...FF..F..F.FF.......F................... [ 86%]
+............................................                             [100%]
+=================================== FAILURES ===================================
+___________ test_receipt_cannot_be_borrowed_or_fabricated[row_copy] ____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10642dda0>
+borrow = 'row_copy'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+__________ test_receipt_cannot_be_borrowed_or_fabricated[sample_copy] __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10629dda0>
+borrow = 'sample_copy'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+_______ test_receipt_cannot_be_borrowed_or_fabricated[coincident_sample] _______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106282190>
+borrow = 'coincident_sample'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+________ test_receipt_cannot_be_borrowed_or_fabricated[emitter_sample] _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106283d20>
+borrow = 'emitter_sample'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+___________ test_receipt_cannot_be_borrowed_or_fabricated[no_sample] ___________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062808a0>
+borrow = 'no_sample'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+_________ test_receipt_cannot_be_borrowed_or_fabricated[baseline_copy] _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062565f0>
+borrow = 'baseline_copy'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+__________ test_receipt_cannot_be_borrowed_or_fabricated[proof_copy] ___________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062579a0>
+borrow = 'proof_copy'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+________ test_receipt_cannot_be_borrowed_or_fabricated[generation_copy] ________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106269940>
+borrow = 'generation_copy'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+____________ test_receipt_cannot_be_borrowed_or_fabricated[reader] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106269080>
+borrow = 'reader'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+____________ test_receipt_cannot_be_borrowed_or_fabricated[helper] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe10')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10626b070>
+borrow = 'helper'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+_________ test_receipt_cannot_be_borrowed_or_fabricated[fake_identity] _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_receipt_cannot_be_borrowe11')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10626b230>
+borrow = 'fake_identity'
+
+    @pytest.mark.parametrize('borrow',['row_copy','sample_copy','coincident_sample','emitter_sample','no_sample',
+        'baseline_copy','proof_copy','generation_copy','failed_generation','reader','helper','fake_identity'])
+    def test_receipt_cannot_be_borrowed_or_fabricated(tmp_path,monkeypatch,borrow):
+        result,records,calls,saved=exercise(tmp_path,monkeypatch)
+        assert result['status']=='COMPLETED'
+        state=saved['state']; context=saved['context']; row=context['entries'][570001]
+        if borrow=='row_copy': row=copy.deepcopy(row)
+        if borrow=='sample_copy': context=copy.deepcopy(context)
+        if borrow=='coincident_sample': context=dict(context)
+        if borrow=='emitter_sample': context=dict(context,origin='emitter_self')
+        if borrow=='no_sample': context=None
+        if borrow=='baseline_copy': state.owned_baseline=dict(state.owned_baseline)
+        if borrow=='proof_copy': state.owned_proof=tuple(list(state.owned_proof))
+        if borrow=='generation_copy': state.generations[570001]=dict(state.generations[570001])
+        if borrow=='failed_generation': state.failed.add(570001)
+        if borrow in ('reader','helper'): row=dict(row,pid=570002,parent=570001)
+        if borrow=='fake_identity':
+            state.owned_receipt=None
+            row['identity']=dict(terminal_attribution='source_owned_root_lifecycle',sample_id=context['sample_id'])
+        roles=m.classify(570001,{row['pid']:row},{570001:226721792},{},stage_vector=state.stage_vector,
+            runtime_identity=state.runtime,python_lifetimes=state,sample_context=context)
+>       assert roles[row['pid']]=='unaccounted'
+E       AssertionError: assert 'pending_source_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_owned_root_terminal.py:235: AssertionError
+___ test_literal_python_keeps_raw_terminal_and_records_source_proof[reader] ____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_literal_python_keeps_raw_1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_literal_python_keeps_raw_terminal_and_records_source_proof(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path,family)
+        raw=copy.deepcopy(row)
+        assert classify(state,[row],context)[row['pid']]=='worker'
+        assert {k:v for k,v in row.items() if k!='identity'}==raw
+        evidence=row['identity']
+>       assert evidence['terminal_attribution']=='source_only_terminal_attribution'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'terminal_attribution'
+
+tests/test_kernel_stage_a_terminal_attribution.py:60: KeyError
+________ test_reader_needs_genuine_self_baseline_and_completion[proof] _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_reader_needs_genuine_self0')
+missing = 'proof'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x10627b630>('pending_')
+E        +    where <built-in method startswith of str object at 0x10627b630> = 'reader_lifecycle'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:71: AssertionError
+_______ test_reader_needs_genuine_self_baseline_and_completion[baseline] _______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_reader_needs_genuine_self1')
+missing = 'baseline'
+
+    @pytest.mark.parametrize('missing',['proof','baseline','end'])
+    def test_reader_needs_genuine_self_baseline_and_completion(tmp_path,missing):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader',**{dict(proof='proof',baseline='baseline',end='ended')[missing]:False})
+>       assert classify(state,[row],context)[20].startswith('pending_')
+E       AssertionError: assert False
+E        +  where False = <built-in method startswith of str object at 0x10627b630>('pending_')
+E        +    where <built-in method startswith of str object at 0x10627b630> = 'reader_lifecycle'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:71: AssertionError
+________________ test_ps_helper_historical_parent_routes[live] _________________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_ps_helper_historical_pare0')
+parent_state = 'live'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+_______________ test_ps_helper_historical_parent_routes[absent] ________________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_ps_helper_historical_pare1')
+parent_state = 'absent'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+______________ test_ps_helper_historical_parent_routes[terminal] _______________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_ps_helper_historical_pare2')
+parent_state = 'terminal'
+
+    @pytest.mark.parametrize('parent_state',['live','absent','terminal'])
+    def test_ps_helper_historical_parent_routes(tmp_path,parent_state):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=parent_state=='terminal')
+        child,declared=helper()
+        rows=[child]
+        if parent_state=='terminal': rows.append(row)
+        if parent_state=='live':
+            current=copy.deepcopy(live); current.update(sample_start=13.,sample_end=14.)
+            current['image'].update(lookup_start=14.,lookup_end=14.1); rows.append(current)
+>       assert classify(state,rows,context,declarations={30:declared})[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:112: AssertionError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_declared_terminal_helpers0')
+family = 'ps'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(parent=os.getpid() if family=='ps' else 10)
+        phase=None
+        if family=='git':
+            vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+            declared=witness(30,10,vector,'git'); declared['launch_id']='git';
+            phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+>       assert classify(state,[child],context,declarations={30:declared} if family=='ps' else {},phase=phase)[30]==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:126: AssertionError
+_ test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_declared_terminal_helpers1')
+family = 'git'
+
+    @pytest.mark.parametrize('family',['ps','git'])
+    def test_declared_terminal_helpers_require_own_launch_reap_not_historical_image(tmp_path,family):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(parent=os.getpid() if family=='ps' else 10)
+        phase=None
+        if family=='git':
+            vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+            declared=witness(30,10,vector,'git'); declared['launch_id']='git';
+            phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+>       assert classify(state,[child],context,declarations={30:declared} if family=='ps' else {},phase=phase)[30]==('observer_helper' if family=='ps' else 'authority_helper')
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:126: AssertionError
+_ test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_first_same_sample_live_pa0')
+family = 'owned_root'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+        if family=='owned_root': root_proof(state,live,batch)
+        else: self_proof(state,20,[child,live],batch)
+        before=classify(state,[child,live],context,declarations={30:declared},sample_context=batch)
+        if family=='reader':
+            assert before[30].startswith('pending_')
+            state.baseline(dict(pid=20,rss=70,monotonic=12.2,boundary='post-import/pre-allocation'))
+>       assert classify(state,[child,live],context,declarations={30:declared},sample_context=batch)[30]=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:143: AssertionError
+__ test_first_same_sample_live_parent_join_needs_no_extra_observation[reader] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_first_same_sample_live_pa1')
+family = 'reader'
+
+    @pytest.mark.parametrize('family',['owned_root','reader'])
+    def test_first_same_sample_live_parent_join_needs_no_extra_observation(tmp_path,family):
+        state,launch,live,gone,end,context=generation(tmp_path,family)
+        state.launch(launch,context)
+        child,declared=helper(parent=launch['pid'],start=11.,end=12.,launch_start=11.2,completion=11.9)
+        batch=retained([child,live],origin='owned_supervisor' if family=='owned_root' else 'emitter_self')
+        if family=='owned_root': root_proof(state,live,batch)
+        else: self_proof(state,20,[child,live],batch)
+        before=classify(state,[child,live],context,declarations={30:declared},sample_context=batch)
+        if family=='reader':
+>           assert before[30].startswith('pending_')
+E           AssertionError: assert False
+E            +  where False = <built-in method startswith of str object at 0x1062b02b0>('pending_')
+E            +    where <built-in method startswith of str object at 0x1062b02b0> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:141: AssertionError
+___ test_pending_helper_wakes_on_parent_generation_or_first_baseline[launch] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_pending_helper_wakes_on_p0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106193e00>
+join = 'launch'
+
+    @pytest.mark.parametrize('join',['launch','baseline'])
+    def test_pending_helper_wakes_on_parent_generation_or_first_baseline(tmp_path,monkeypatch,join):
+        result,records=run_pending_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'ValueError', 'message': 'invalid source completion lifetime'}, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:352: AssertionError
+__ test_pending_helper_wakes_on_parent_generation_or_first_baseline[baseline] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_pending_helper_wakes_on_p1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106193a10>
+join = 'baseline'
+
+    @pytest.mark.parametrize('join',['launch','baseline'])
+    def test_pending_helper_wakes_on_parent_generation_or_first_baseline(tmp_path,monkeypatch,join):
+        result,records=run_pending_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'ValueError', 'message': 'invalid source completion lifetime'}, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:352: AssertionError
+_ test_terminal_parent_completion_is_required_independently_of_row_order[False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_terminal_parent_completio0')
+reverse = False
+
+    @pytest.mark.parametrize('reverse',[False,True])
+    def test_terminal_parent_completion_is_required_independently_of_row_order(tmp_path,reverse):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=False)
+        child,declared=helper(); rows=[row,child] if reverse else [child,row]
+        before=classify(state,rows,context,declarations={30:declared})
+>       assert before[10].startswith('pending_') and before[30].startswith('pending_')
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method startswith of str object at 0x10627bbb0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10627bbb0> = 'pending_python_lifetime'.startswith
+E        +  and   False = <built-in method startswith of str object at 0x1062b02b0>('pending_')
+E        +    where <built-in method startswith of str object at 0x1062b02b0> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:417: AssertionError
+_ test_terminal_parent_completion_is_required_independently_of_row_order[True] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_terminal_parent_completio1')
+reverse = True
+
+    @pytest.mark.parametrize('reverse',[False,True])
+    def test_terminal_parent_completion_is_required_independently_of_row_order(tmp_path,reverse):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=False)
+        child,declared=helper(); rows=[row,child] if reverse else [child,row]
+        before=classify(state,rows,context,declarations={30:declared})
+>       assert before[10].startswith('pending_') and before[30].startswith('pending_')
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method startswith of str object at 0x10627bbb0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10627bbb0> = 'pending_python_lifetime'.startswith
+E        +  and   False = <built-in method startswith of str object at 0x1062b02b0>('pending_')
+E        +    where <built-in method startswith of str object at 0x1062b02b0> = 'unaccounted'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:417: AssertionError
+___ test_terminal_git_never_escapes_declared_authority_phase[incomplete_end] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_terminal_git_never_escape2')
+mutation = 'incomplete_end'
+
+    @pytest.mark.parametrize('mutation',['outside_phase','wrong_vector','incomplete_end','missing_launch'])
+    def test_terminal_git_never_escapes_declared_authority_phase(tmp_path,mutation):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(); vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(30,10,vector,'git')
+        phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+        expected='unaccounted'
+        if mutation=='outside_phase': phase['end']=12.
+        elif mutation=='wrong_vector': declared['argv']=[a.GIT,'status']
+        elif mutation=='incomplete_end': declared.pop('completion_end'); expected='pending_terminal_launch'
+        else: phase['declarations']={}; expected='pending_terminal_launch'
+>       assert classify(state,[child],context,phase=phase)[30]==expected
+E       AssertionError: assert 'pending_source_lifecycle' == 'pending_terminal_launch'
+E         
+E         - pending_terminal_launch
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_terminal_attribution.py:451: AssertionError
+___ test_terminal_git_never_escapes_declared_authority_phase[missing_launch] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_terminal_git_never_escape3')
+mutation = 'missing_launch'
+
+    @pytest.mark.parametrize('mutation',['outside_phase','wrong_vector','incomplete_end','missing_launch'])
+    def test_terminal_git_never_escapes_declared_authority_phase(tmp_path,mutation):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(); vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(30,10,vector,'git')
+        phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+        expected='unaccounted'
+        if mutation=='outside_phase': phase['end']=12.
+        elif mutation=='wrong_vector': declared['argv']=[a.GIT,'status']
+        elif mutation=='incomplete_end': declared.pop('completion_end'); expected='pending_terminal_launch'
+        else: phase['declarations']={}; expected='pending_terminal_launch'
+>       assert classify(state,[child],context,phase=phase)[30]==expected
+E       AssertionError: assert 'pending_source_lifecycle' == 'pending_terminal_launch'
+E         
+E         - pending_terminal_launch
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_terminal_attribution.py:451: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cross_family_pid_reuse_is0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106282a50>
+first = 'reader', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+        assert result['monitor_failure'] is not None,result
+>       assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'AssertionError', 'message': "as..., 'launch_id': 'first', ...}}}] and False)
+E          +  where False = <built-in method start"}, 'cleanup_diagnostics': [], ...}
+E       assert "assert ([{'k... method start" == 'duplicate/re...ch generation'
+E         
+E         - duplicate/reused source launch generation
+E         + assert ([{'kind': 'resolution', 'sample_id': 3, 'roles': {'630002': 'reader_lifecycle'}, 'identities': {'630002': {'image_evidence': 'image_unavailable', 'launch_evidence': 'source_owned_lifecycle', 'family': 'reader', 'launch_id': 'first', ...}}}] and False)
+E         +  +  where False = <built-in method start
+
+tests/test_kernel_stage_a_terminal_attribution.py:603: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cross_family_pid_reuse_is1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106282c80>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cross_family_pid_reuse_is2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10626b230>
+first = 'authority', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cross_family_pid_reuse_is3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10622ed60>
+first = 'observer', second = 'authority'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+_ test_distinct_pids_across_families_preserve_valid_ingestion[reader-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_distinct_pids_across_fami0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10622e5f0>
+first = 'reader', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader')])
+    def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'AssertionError', 'message': "as..., 'launch_id': 'first', ...}}}] and False)
+E          +  where False = <built-in method start"}, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:627: AssertionError
+_ test_distinct_pids_across_families_preserve_valid_ingestion[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_distinct_pids_across_fami1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10622d390>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader')])
+    def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:627: AssertionError
+_____ test_shared_launch_id_on_distinct_pids_still_fails_both_generations ______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_shared_launch_id_on_disti0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062691d0>
+
+    def test_shared_launch_id_on_distinct_pids_still_fails_both_generations(tmp_path,monkeypatch):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,'reader','observer',reuse=False,same_id=True)
+        assert result['status']!='COMPLETED'
+>       assert {630002,630003}<=observed['python'].failed
+E       assert {630002, 630003} <= set()
+E         
+E         Extra items in the left set:
+E         630002
+E         630003
+
+tests/test_kernel_stage_a_terminal_attribution.py:635: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[success] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106283230>
+case = 'success'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+>       assert observed['complete'] is (case in ('success','esrch'))
+E       AssertionError: assert False is ('success' in ('success', 'esrch'))
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:226: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[esrch] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106193c40>
+case = 'esrch'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+>           assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+E           AssertionError: assert 'image_unavailable' == 'unavailable_exited'
+E             
+E             - unavailable_exited
+E             + image_unavailable
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:230: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[contradiction] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10629e040>
+case = 'contradiction'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[denied] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106211e80>
+case = 'denied'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[nonzero] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106210fa0>
+case = 'nonzero'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[malformed] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106193e00>
+case = 'malformed'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[truncated] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062564a0>
+case = 'truncated'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[overflow] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106268fa0>
+case = 'overflow'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+_ test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[timeout] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_cleanup_query_bounded_cap8')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106283230>
+case = 'timeout'
+
+    @pytest.mark.parametrize('case',['success','esrch','contradiction','denied','nonzero','malformed','truncated','overflow','timeout'])
+    def test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap(tmp_path,monkeypatch,case):
+        runtime=identity(); pid=480001; launched=[]; writers=[]
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        def image(queried):
+            assert queried==pid; now=time.monotonic()
+            result=(dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',errno=errno.ESRCH)
+                    if case=='esrch' else dict(status='error',errno=errno.EPERM) if case=='denied' else
+                    dict(status='ok',path='/wrong' if case=='contradiction' else '/bin/ps',sha256='c'*64))
+            return dict(result,lookup_start=now,lookup_end=time.monotonic())
+        monkeypatch.setattr(a,'process_image',image)
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                data=b'470002 1 470001 3\n480001 '+str(os.getpid()).encode()+b' 999 2\n'
+                if case=='malformed': data+=b'1 nope 3 4\n'
+                if case=='truncated': data=b'1 2 3 4'
+                if case=='overflow': data=b'1 2 3 4\n'*20
+                for name,raw in [('stdout',data),('stderr',b'controlled denial' if case=='nonzero' else b'')]:
+                    read,write=os.pipe(); os.write(write,raw)
+                    if case=='timeout' and name=='stdout': writers.append(write)
+                    else: os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self): self.returncode=-9
+            def wait(self,timeout):
+                assert 0<=timeout<=1
+                if self.returncode is None: self.returncode=1 if case=='nonzero' else 0
+                return self.returncode
+        def popen(argv,**kw):
+            assert argv==['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']
+            assert kw['stdout']==subprocess.PIPE and kw['stderr']==subprocess.PIPE
+            launched.append(Probe()); return launched[-1]
+        monkeypatch.setattr(m.subprocess,'Popen',popen)
+        try:
+            observed=m._cleanup_observation(470001,runtime,deadline=time.monotonic()+.01,output_limit=64)
+        finally:
+            for writer in writers: os.close(writer)
+        assert len(launched)==1 and type(launched[0].returncode) is int
+        assert observed['helper']['witness']['reaped'] is True
+        assert observed['helper']['witness']['returncode']==launched[0].returncode
+        assert observed['helper']['image']['lookup_start']<=observed['helper']['image']['lookup_end']
+        assert len(observed['stdout'].encode('latin1'))+len(observed['stderr'].encode('latin1'))<=64
+        assert observed['complete'] is (case in ('success','esrch'))
+        if observed['complete']:
+            assert observed['rows']==[dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072),
+                                      dict(pid=480001,parent=os.getpid(),pgid=999,rss_bytes=2048)]
+            assert observed['helper']['image_evidence']==('unavailable_exited' if case=='esrch' else 'kernel_image')
+        else: assert observed['error']
+        if case=='malformed':
+            assert observed['rows'][0]==dict(pid=470002,parent=1,pgid=470001,rss_bytes=3072)
+>       assert observed['helper']['launch']['reaped'] is False
+E       assert True is False
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:234: AssertionError
+________ test_same_generation_self_proof_end_admits_esrch_with_raw_rss _________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_same_generation_self_proo0')
+
+    def test_same_generation_self_proof_end_admits_esrch_with_raw_rss(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path)
+        state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+>       assert role(state,gone,context)=='worker'
+E       AssertionError: assert 'reader_lifecycle' == 'worker'
+E         
+E         - worker
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:40: AssertionError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering0] _____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_delayed_generation_events0')
+ordering = ('sample', 'end', 'launch')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+        state,launch,live,gone,end,context=generation(tmp_path)
+        for action in ordering:
+            {'launch':lambda:state.launch(launch,context),'sample':lambda:state.self_sample(20,[live]),'end':lambda:state.end(end)}[action]()
+>       assert role(state,gone,context)=='worker'
+E       AssertionError: assert 'reader_lifecycle' == 'worker'
+E         
+E         - worker
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:52: AssertionError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering1] _____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_delayed_generation_events1')
+ordering = ('end', 'launch', 'sample')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+        state,launch,live,gone,end,context=generation(tmp_path)
+        for action in ordering:
+            {'launch':lambda:state.launch(launch,context),'sample':lambda:state.self_sample(20,[live]),'end':lambda:state.end(end)}[action]()
+>       assert role(state,gone,context)=='worker'
+E       AssertionError: assert 'reader_lifecycle' == 'worker'
+E         
+E         - worker
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:52: AssertionError
+____ test_delayed_generation_events_join_without_pid_only_proof[ordering2] _____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_delayed_generation_events2')
+ordering = ('launch', 'sample', 'end')
+
+    @pytest.mark.parametrize('ordering',[('sample','end','launch'),('end','launch','sample'),('launch','sample','end')])
+    def test_delayed_generation_events_join_without_pid_only_proof(tmp_path,ordering):
+        state,launch,live,gone,end,context=generation(tmp_path)
+        for action in ordering:
+            {'launch':lambda:state.launch(launch,context),'sample':lambda:state.self_sample(20,[live]),'end':lambda:state.end(end)}[action]()
+>       assert role(state,gone,context)=='worker'
+E       AssertionError: assert 'reader_lifecycle' == 'worker'
+E         
+E         - worker
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:52: AssertionError
+___________ test_missing_generation_evidence_remains_pending[proof] ____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_missing_generation_eviden0')
+missing = 'proof'
+
+    @pytest.mark.parametrize('missing',['proof','end'])
+    def test_missing_generation_evidence_remains_pending(tmp_path,missing):
+        state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+        if missing!='proof': state.self_sample(20,[live])
+        if missing!='end': state.end(end)
+>       assert role(state,gone,context)=='pending_python_lifetime'
+E       AssertionError: assert 'reader_lifecycle' == 'pending_python_lifetime'
+E         
+E         - pending_python_lifetime
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:60: AssertionError
+____________ test_missing_generation_evidence_remains_pending[end] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_missing_generation_eviden1')
+missing = 'end'
+
+    @pytest.mark.parametrize('missing',['proof','end'])
+    def test_missing_generation_evidence_remains_pending(tmp_path,missing):
+        state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+        if missing!='proof': state.self_sample(20,[live])
+        if missing!='end': state.end(end)
+>       assert role(state,gone,context)=='pending_python_lifetime'
+E       AssertionError: assert 'pending_source_lifecycle' == 'pending_python_lifetime'
+E         
+E         - pending_python_lifetime
+E         + pending_source_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:60: AssertionError
+____________ test_conflicting_or_outside_generation_fails[change1] _____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_conflicting_or_outside_ge1')
+change = {'raw_args': 'python unknown'}
+
+    @pytest.mark.parametrize('change',[dict(parent=99),dict(raw_args='python unknown'),dict(sample_start=16.,sample_end=17.),
+        dict(image=dict(status='error',errno=errno.EPERM)),dict(image=dict(status='ok',path='/wrong',sha256='b'*64))])
+    def test_conflicting_or_outside_generation_fails(tmp_path,change):
+        state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context); state.self_sample(20,[live]); state.end(end)
+>       assert role(state,dict(gone,**change),context)=='unaccounted'
+E       AssertionError: assert 'reader_lifecycle' == 'unaccounted'
+E         
+E         - unaccounted
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:67: AssertionError
+_________ test_outer_reader_image_cannot_supply_self_generation_proof __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_outer_reader_image_cannot0')
+
+    def test_outer_reader_image_cannot_supply_self_generation_proof(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path); state.launch(launch,context)
+        assert role(state,live,context)=='worker'
+        state.end(end)
+>       assert role(state,gone,context)=='pending_python_lifetime'
+E       AssertionError: assert 'reader_lifecycle' == 'pending_python_lifetime'
+E         
+E         - pending_python_lifetime
+E         + reader_lifecycle
+
+tests/test_kernel_stage_a_python_lifetime.py:86: AssertionError
+___ test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts ____
+
+    def test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts():
+        runtime=identity(); declared=witness(30,os.getpid(),m.PS_ARGV)
+        entry=sample(30,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH))
+        entry['raw_args']=c.display(m.PS_ARGV)
+        def role(value,decl=declared):
+            return m.classify(10,{30:value},{},{30:decl},runtime_identity=runtime)[30]
+>       assert role(entry)=='observer_helper'
+E       AssertionError: assert 'unaccounted' == 'observer_helper'
+E         
+E         - observer_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_native_process.py:116: AssertionError
+____ test_git_witness_requires_sampled_authority_phase_and_exact_generation ____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_git_witness_requires_samp0')
+
+    def test_git_witness_requires_sampled_authority_phase_and_exact_generation(tmp_path):
+        runtime=identity(); vector=a.git_commands(tmp_path)[0]
+        declared=witness(30,10,vector,'git')
+        entry=sample(30,10,vector,image=dict(status='error',errno=errno.ESRCH)); entry['raw_args']=c.display(vector)
+        phase=dict(active=True,started=True,start=10.,end=14.,declarations={30:declared},completed={30},commands=a.git_commands(tmp_path))
+>       assert m.classify(10,{30:entry},{},{},authority_phase=phase,runtime_identity=runtime)[30]=='authority_helper'
+E       AssertionError: assert 'unaccounted' == 'authority_helper'
+E         
+E         - authority_helper
+E         + unaccounted
+
+tests/test_kernel_stage_a_native_process.py:131: AssertionError
+_ test_late_native_witness_reconciles_history_without_authorizing_reuse[False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_late_native_witness_recon0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106213e70>
+reuse = False
+
+    @pytest.mark.parametrize('reuse',[False,True])
+    def test_late_native_witness_reconciles_history_without_authorizing_reuse(tmp_path,monkeypatch,reuse):
+        import json
+        import time
+        out=tmp_path/'late'; stage=[sys.executable,'-c','from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)']
+        monkeypatch.setattr(a,'runtime',identity)
+        captured=[]; real_sleep=time.sleep
+        def sampler(pid):
+            now=time.monotonic()
+            helper=pid+100000
+            root=sample(pid,os.getpid(),stage,start=now,end=now+.001)
+            observer=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer['raw_args']=c.display(m.PS_ARGV)
+            declared=witness(helper,os.getpid(),m.PS_ARGV)
+            declared.update(launch_start=now-.01,completion_end=now+.002)
+            captured.append(declared)
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:20,helper:100},{pid:root,helper:observer})
+        def finish(seconds):
+            if seconds==.02 and captured:
+                declared=captured[0]
+                a.event(out/'monitor-events.jsonl','observer_helper',**declared)
+                if reuse: a.event(out/'monitor-events.jsonl','observer_helper',**dict(declared,launch_id='later-generation'))
+                (out/'finish').touch(); real_sleep(.08)
+            else: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish)
+        result=m.supervise(stage,out,outer_seconds=.5,free_disk_bytes=0,sampler=sampler)
+        helper=str(captured[0]['pid'])
+        assert result['workers'][helper]['absolute_peak_bytes']==100
+        assert result['workers'][helper]['baseline_bytes']==0
+        assert result['incremental_worker_peak_bytes']>=110
+        if reuse:
+            assert result['status']=='STOPPED' and helper in result['missing_worker_baselines']
+            assert result['workers'][helper]['role']=='unaccounted'
+            assert len({row['launch_id'] for row in retained_evidence(out)[1]})==2
+        else:
+>           assert result['status']=='COMPLETED',result
+E           AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E           assert 'STOPPED' == 'COMPLETED'
+E             
+E             - COMPLETED
+E             + STOPPED
+
+tests/test_kernel_stage_a_native_process.py:210: AssertionError
+_ test_late_native_witness_reconciles_history_without_authorizing_reuse[True] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_late_native_witness_recon1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062135b0>
+reuse = True
+
+    @pytest.mark.parametrize('reuse',[False,True])
+    def test_late_native_witness_reconciles_history_without_authorizing_reuse(tmp_path,monkeypatch,reuse):
+        import json
+        import time
+        out=tmp_path/'late'; stage=[sys.executable,'-c','from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)']
+        monkeypatch.setattr(a,'runtime',identity)
+        captured=[]; real_sleep=time.sleep
+        def sampler(pid):
+            now=time.monotonic()
+            helper=pid+100000
+            root=sample(pid,os.getpid(),stage,start=now,end=now+.001)
+            observer=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer['raw_args']=c.display(m.PS_ARGV)
+            declared=witness(helper,os.getpid(),m.PS_ARGV)
+            declared.update(launch_start=now-.01,completion_end=now+.002)
+            captured.append(declared)
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:20,helper:100},{pid:root,helper:observer})
+        def finish(seconds):
+            if seconds==.02 and captured:
+                declared=captured[0]
+                a.event(out/'monitor-events.jsonl','observer_helper',**declared)
+                if reuse: a.event(out/'monitor-events.jsonl','observer_helper',**dict(declared,launch_id='later-generation'))
+                (out/'finish').touch(); real_sleep(.08)
+            else: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish)
+        result=m.supervise(stage,out,outer_seconds=.5,free_disk_bytes=0,sampler=sampler)
+        helper=str(captured[0]['pid'])
+        assert result['workers'][helper]['absolute_peak_bytes']==100
+        assert result['workers'][helper]['baseline_bytes']==0
+        assert result['incremental_worker_peak_bytes']>=110
+        if reuse:
+            assert result['status']=='STOPPED' and helper in result['missing_worker_baselines']
+            assert result['workers'][helper]['role']=='unaccounted'
+>           assert len({row['launch_id'] for row in retained_evidence(out)[1]})==2
+E           assert 0 == 2
+E            +  where 0 = len(set())
+
+tests/test_kernel_stage_a_native_process.py:208: AssertionError
+_____ test_inner_baseline_sample_retains_observer_missed_by_outer_sampler ______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_inner_baseline_sample_ret0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1062102f0>
+
+    def test_inner_baseline_sample_retains_observer_missed_by_outer_sampler(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity)
+        out=tmp_path/'inner'; command=[sys.executable,'-c','import time; time.sleep(10)']; helper=[]
+        def sampler(pid):
+            now=time.monotonic(); observer=pid+100000; helper.append(observer)
+            root=sample(pid,os.getpid(),command,start=now,end=now+.001)
+            entry=sample(observer,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            entry['raw_args']=c.display(m.PS_ARGV)
+            declared=witness(observer,os.getpid(),m.PS_ARGV); declared.update(launch_start=now-.01,completion_end=now+.002)
+            a.event(out/'monitor-events.jsonl','observer_helper',**declared)
+            a.event(out/'monitor-events.jsonl','observer_sample',processes=[root,entry])
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:20},{pid:root})
+        result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0,incremental_bytes=50)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_native_process.py:251: AssertionError
+____ test_native_live_authority_charge_counts_worker_once_before_helper_end ____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_native_live_authority_cha0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1061e4910>
+
+    def test_native_live_authority_charge_counts_worker_once_before_helper_end(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'live-native'
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        def sampler(pid):
+            a.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+            now=time.monotonic(); helper=pid+100000; vector=a.git_commands(tmp_path)[0]
+            declared=witness(helper,pid,vector,'git'); declared.update(launch_start=now,reaped=False); declared.pop('completion_end')
+            a.event(out/'monitor-events.jsonl','authority_helper',**declared)
+            root=sample(pid,os.getpid(),command,start=now,end=now+.001); root['rss_bytes']=60
+            entry=sample(helper,pid,vector,image=dict(status='ok',**identity()['helpers']['git']),start=now,end=now+.001)
+            entry['raw_args']=c.display(vector)
+            return m.ResidentTree({pid:60,helper:70},{pid:root,helper:entry})
+        result=m.supervise(command,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0,incremental_bytes=100,authority_root=tmp_path)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'foreign process identity' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + foreign process identity
+
+tests/test_kernel_stage_a_native_process.py:293: AssertionError
+_____ test_small_budget_retains_accepted_raw_and_charges_rejected_oversize _____
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_small_budget_retains_acce0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1061e6200>
+
+    def test_small_budget_retains_accepted_raw_and_charges_rejected_oversize(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'bounded'; polls=[]
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic()
+            entry=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            if len(polls)==3: entry['raw_args']='x'*20000; entry['rss_bytes']=500
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            if len(polls)==3: return m.ResidentTree({pid:500},{pid:entry})
+            helper=pid+100000+len(polls)
+            observer=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer['raw_args']=' '.join(m.PS_ARGV)
+            declared=witness(helper,os.getpid(),m.PS_ARGV); declared.update(launch_id=str(helper),launch_start=now-.01,completion_end=now+.002)
+            return m.ResidentTree({pid:70,helper:70},{pid:entry,helper:observer},{helper:declared})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,output_bytes=16384,free_disk_bytes=0)
+>       assert result['status']=='STOPPED' and 'output cap' in result['reason']
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'output cap' in 'monitor common failure')
+
+tests/test_kernel_stage_a_native_process_fix1.py:35: AssertionError
+__________ test_settled_native_samples_are_not_reclassified_each_poll __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_settled_native_samples_ar0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10648f2a0>
+
+    def test_settled_native_samples_are_not_reclassified_each_poll(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'linear'; polls=[]; classified=[]
+        real_classify=m.classify; real_sleep=time.sleep
+        def classify(*args,**kwargs):
+            classified.append(len(args[1])); return real_classify(*args,**kwargs)
+        monkeypatch.setattr(m,'classify',classify)
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic(); helper=pid+100000+len(polls)
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            entry=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            entry['raw_args']=' '.join(m.PS_ARGV)
+            declared=witness(helper,os.getpid(),m.PS_ARGV); declared.update(launch_id=str(helper),launch_start=now-.01,completion_end=now+.002)
+            if len(polls)==1: a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:70,helper:70},{pid:root,helper:entry},{helper:declared})
+        def sleep(seconds):
+            if seconds==.02 and len(polls)>=8: (out/'finish').touch(); real_sleep(.08)
+            elif seconds!=.02: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'ValueError', 'message': 'invalid source completion lifetime'}, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_native_process_fix1.py:68: AssertionError
+__ test_genuinely_pending_samples_only_revisit_when_their_declaration_arrives __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover01-uql1p1f_/test_genuinely_pending_samples0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10648ff50>
+
+    def test_genuinely_pending_samples_only_revisit_when_their_declaration_arrives(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'pending'; polls=[]; counted=[]; real_sleep=time.sleep; real_classify=m.classify
+        def classify(*args,**kwargs): counted.append(len(args[1])); return real_classify(*args,**kwargs)
+        monkeypatch.setattr(m,'classify',classify)
+        def sampler(pid):
+            now=time.monotonic(); polls.append(now); helper=pid+100000
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            observer=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            observer['raw_args']=' '.join(m.PS_ARGV)
+            if len(polls)==1: a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:70,helper:70},{pid:root,helper:observer})
+        def sleep(seconds):
+            if seconds==.02 and len(polls)==8:
+                pid=next(row['processes'][0]['pid'] for row in rows(out) if row['kind']=='sample')
+                declared=witness(pid+100000,os.getpid(),m.PS_ARGV); declared.update(launch_start=polls[0]-.01,completion_end=polls[-1]+.01)
+                a.event(out/'monitor-events.jsonl','observer_helper',**declared)
+                (out/'finish').touch(); real_sleep(.08)
+            elif seconds!=.02: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_native_process_fix1.py:211: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[row_copy]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[sample_copy]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[coincident_sample]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[emitter_sample]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[no_sample]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[baseline_copy]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[proof_copy]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[generation_copy]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[reader]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[helper]
+FAILED tests/test_kernel_stage_a_owned_root_terminal.py::test_receipt_cannot_be_borrowed_or_fabricated[fake_identity]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_literal_python_keeps_raw_terminal_and_records_source_proof[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[proof]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_reader_needs_genuine_self_baseline_and_completion[baseline]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[live]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[absent]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_ps_helper_historical_parent_routes[terminal]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[ps]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_declared_terminal_helpers_require_own_launch_reap_not_historical_image[git]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[owned_root]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_first_same_sample_live_parent_join_needs_no_extra_observation[reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_pending_helper_wakes_on_parent_generation_or_first_baseline[launch]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_pending_helper_wakes_on_parent_generation_or_first_baseline[baseline]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_parent_completion_is_required_independently_of_row_order[False]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_parent_completion_is_required_independently_of_row_order[True]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_git_never_escapes_declared_authority_phase[incomplete_end]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_git_never_escapes_declared_authority_phase[missing_launch]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_distinct_pids_across_families_preserve_valid_ingestion[reader-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_distinct_pids_across_families_preserve_valid_ingestion[observer-reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_shared_launch_id_on_distinct_pids_still_fails_both_generations
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[success]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[esrch]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[contradiction]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[denied]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[nonzero]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[malformed]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[truncated]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[overflow]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_query_bounded_capture_uses_actual_helper_image_and_reap[timeout]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_same_generation_self_proof_end_admits_esrch_with_raw_rss
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering0]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_delayed_generation_events_join_without_pid_only_proof[ordering2]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_generation_evidence_remains_pending[proof]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_missing_generation_evidence_remains_pending[end]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_conflicting_or_outside_generation_fails[change1]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_outer_reader_image_cannot_supply_self_generation_proof
+FAILED tests/test_kernel_stage_a_native_process.py::test_exited_observer_witness_keeps_kernel_absence_and_rejects_conflicts
+FAILED tests/test_kernel_stage_a_native_process.py::test_git_witness_requires_sampled_authority_phase_and_exact_generation
+FAILED tests/test_kernel_stage_a_native_process.py::test_late_native_witness_reconciles_history_without_authorizing_reuse[False]
+FAILED tests/test_kernel_stage_a_native_process.py::test_late_native_witness_reconciles_history_without_authorizing_reuse[True]
+FAILED tests/test_kernel_stage_a_native_process.py::test_inner_baseline_sample_retains_observer_missed_by_outer_sampler
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_live_authority_charge_counts_worker_once_before_helper_end
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_small_budget_retains_accepted_raw_and_charges_rejected_oversize
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_settled_native_samples_are_not_reclassified_each_poll
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_genuinely_pending_samples_only_revisit_when_their_declaration_arrives
+60 failed, 272 passed, 6 deselected in 2.08s

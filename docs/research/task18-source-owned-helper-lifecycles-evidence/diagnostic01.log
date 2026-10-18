@@ -1,0 +1,229 @@
+........................................................................ [ 23%]
+.................................................FFF....F.FF............ [ 46%]
+.........FFFFF.......................................................... [ 69%]
+..F......F.............................................................. [ 93%]
+.....................                                                    [100%]
+=================================== FAILURES ===================================
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change0] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_historical_helper_parent_0')
+change = {'lookup_start': 11.0}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:270: AssertionError
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change1] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_historical_helper_parent_1')
+change = {'lookup_end': 11.5}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:270: AssertionError
+_ test_historical_helper_parent_rejects_current_invalid_proof_timing[change2] __
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_historical_helper_parent_2')
+change = {'lookup_start': 15.0, 'lookup_end': 16.0}
+
+    @pytest.mark.parametrize('change',[{'lookup_start':11.},{'lookup_end':11.5},{'lookup_start':15.,'lookup_end':16.}])
+    def test_historical_helper_parent_rejects_current_invalid_proof_timing(tmp_path,change):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=True)
+        parent=copy.deepcopy(live); parent.update(sample_start=13.,sample_end=14.)
+        parent['image'].update(lookup_start=14.,lookup_end=14.1); parent['image'].update(change)
+        child,declared=helper()
+>       assert classify(state,[child,parent],context,declarations={30:declared})[30]=='unaccounted'
+E       AssertionError: assert 'observer_helper' == 'unaccounted'
+E         
+E         - unaccounted
+E         + observer_helper
+
+tests/test_kernel_stage_a_terminal_attribution.py:270: AssertionError
+_________ test_later_self_copy_does_not_repair_original_helper_sample __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_later_self_copy_does_not_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3ac600>
+
+    def test_later_self_copy_does_not_repair_original_helper_sample(tmp_path,monkeypatch):
+        result,records=run_pending_join(tmp_path,monkeypatch,'self')
+>       assert result['status']!='COMPLETED'
+E       AssertionError: assert 'COMPLETED' != 'COMPLETED'
+
+tests/test_kernel_stage_a_terminal_attribution.py:376: AssertionError
+_ test_terminal_parent_completion_is_required_independently_of_row_order[False] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_terminal_parent_completio0')
+reverse = False
+
+    @pytest.mark.parametrize('reverse',[False,True])
+    def test_terminal_parent_completion_is_required_independently_of_row_order(tmp_path,reverse):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=False)
+        child,declared=helper(); rows=[row,child] if reverse else [child,row]
+        before=classify(state,rows,context,declarations={30:declared})
+>       assert before[10].startswith('pending_') and before[30].startswith('pending_')
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method startswith of str object at 0x10a0ccab0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10a0ccab0> = 'pending_python_lifetime'.startswith
+E        +  and   False = <built-in method startswith of str object at 0x10a0894f0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10a0894f0> = 'observer_helper'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:424: AssertionError
+_ test_terminal_parent_completion_is_required_independently_of_row_order[True] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_terminal_parent_completio1')
+reverse = True
+
+    @pytest.mark.parametrize('reverse',[False,True])
+    def test_terminal_parent_completion_is_required_independently_of_row_order(tmp_path,reverse):
+        state,launch,live,row,end,context=prepared(tmp_path,ended=False)
+        child,declared=helper(); rows=[row,child] if reverse else [child,row]
+        before=classify(state,rows,context,declarations={30:declared})
+>       assert before[10].startswith('pending_') and before[30].startswith('pending_')
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method startswith of str object at 0x10a0ccab0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10a0ccab0> = 'pending_python_lifetime'.startswith
+E        +  and   False = <built-in method startswith of str object at 0x10a0894f0>('pending_')
+E        +    where <built-in method startswith of str object at 0x10a0894f0> = 'observer_helper'.startswith
+
+tests/test_kernel_stage_a_terminal_attribution.py:424: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_cross_family_pid_reuse_is1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3af1c0>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:609: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_cross_family_pid_reuse_is2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3ad400>
+first = 'authority', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:609: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_cross_family_pid_reuse_is3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3adcc0>
+first = 'observer', second = 'authority'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:609: AssertionError
+_ test_distinct_pids_across_families_preserve_valid_ingestion[reader-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_distinct_pids_across_fami0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3af3f0>
+first = 'reader', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader')])
+    def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:634: AssertionError
+_ test_distinct_pids_across_families_preserve_valid_ingestion[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_distinct_pids_across_fami1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a3af620>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader')])
+    def test_distinct_pids_across_families_preserve_valid_ingestion(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second,reuse=False)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_attribution.py:634: AssertionError
+___________ test_root_proof_cannot_be_established_after_owner_reaps ____________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_root_proof_cannot_be_esta0')
+
+    def test_root_proof_cannot_be_established_after_owner_reaps(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root'); state.launch(launch,None); state.end(end)
+        state.root_sample(live,owner_unreaped=False)
+>       assert role(state,gone,context)=='reader_lifecycle'
+E       AssertionError: assert 'pending_python_lifetime' == 'reader_lifecycle'
+E         
+E         - reader_lifecycle
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_python_lifetime.py:81: AssertionError
+_________ test_root_self_emitter_does_not_supply_unreaped_owner_proof __________
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-diagnostic01-r8w1ygs4/test_root_self_emitter_does_no0')
+
+    def test_root_self_emitter_does_not_supply_unreaped_owner_proof(tmp_path):
+        state,launch,live,gone,end,context=generation(tmp_path,'owned_root'); state.launch(launch,None)
+        state.end(end); state.self_sample(10,[live])
+>       assert role(state,gone,context)=='reader_lifecycle'
+E       AssertionError: assert 'pending_python_lifetime' == 'reader_lifecycle'
+E         
+E         - reader_lifecycle
+E         + pending_python_lifetime
+
+tests/test_kernel_stage_a_python_lifetime.py:154: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change0]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change1]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_historical_helper_parent_rejects_current_invalid_proof_timing[change2]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_later_self_copy_does_not_repair_original_helper_sample
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_parent_completion_is_required_independently_of_row_order[False]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_parent_completion_is_required_independently_of_row_order[True]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_distinct_pids_across_families_preserve_valid_ingestion[reader-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_distinct_pids_across_families_preserve_valid_ingestion[observer-reader]
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_root_proof_cannot_be_established_after_owner_reaps
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_root_self_emitter_does_not_supply_unreaped_owner_proof
+13 failed, 296 passed, 6 deselected in 1.90s

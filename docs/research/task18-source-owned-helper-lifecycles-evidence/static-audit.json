@@ -1,0 +1,93 @@
+{
+  "utc_start": "2026-10-18T12:19:55.506948+00:00",
+  "monotonic_start": 561685.897076625,
+  "source_base": "100bf1c900e955d855267ba86d11c94948dcd3dd",
+  "files": {
+    "validation/kernel_stage_a/monitor.py": {
+      "sha256": "8cb727399edded7bfb01d71df1d4ea10dbcdf99c692ace2345280351202be757",
+      "bytes": 92375,
+      "AST": true
+    },
+    "validation/kernel_stage_a/source_lifecycles.py": {
+      "sha256": "9ef6b895b792630d4564a8516190f9767d25539117d99a0d2e3a371dee0ea0f5",
+      "bytes": 5957,
+      "AST": true
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "bytes": 17718,
+      "AST": true
+    },
+    "validation/kernel_stage_a/production.py": {
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "bytes": 18796,
+      "AST": true
+    },
+    "validation/kernel_stage_a/README.md": {
+      "sha256": "10efb8660f1ec67481768e7e8b69a9f9e22f4b38dc220ba04dfed2e8014e9b76",
+      "bytes": 22850,
+      "AST": false
+    },
+    "tests/test_kernel_stage_a_source_lifecycles.py": {
+      "sha256": "c573bcbd5c4cd806a53e39020d86ed57f42a3e26264d8c33cc559b5b1215e7e1",
+      "bytes": 12487,
+      "AST": true
+    },
+    "docs/research/task18-source-owned-helper-native-control.py": {
+      "sha256": "1dd6da9b8e281e73309666ce3f3eb7e85493e494876fd08e6141bae5a0c59020",
+      "bytes": 10253,
+      "AST": true
+    },
+    "docs/research/task18-source-owned-helper-native-worker.py": {
+      "sha256": "14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254",
+      "bytes": 3987,
+      "AST": true
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "checks": {
+    "diff_check": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "protected_diff": {
+      "command": [
+        "git",
+        "diff",
+        "--name-only",
+        "100bf1c900e955d855267ba86d11c94948dcd3dd",
+        "--",
+        "famjet",
+        "requirements.lock",
+        "validation/kernel_stage_a/authority.py",
+        "validation/kernel_stage_a/production.py",
+        "validation/kernel_stage_a/commands.py",
+        "validation/kernel_stage_a/reader_worker.py",
+        "validation/kernel_stage_a/fixture-descriptors.json",
+        "validation/kernel_stage_a/frozen-training-metadata.json",
+        "tests/test_kernel_stage_a_owned_root_terminal.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "root_receipt_methods_AST_unchanged": {
+    "owned_baseline_event": true,
+    "owned_candidate": true,
+    "qualify_owned_root": true,
+    "owned_terminal": true,
+    "root_sample": true
+  },
+  "native_execution": false,
+  "utc_end": "2026-10-18T12:19:55.635231+00:00",
+  "monotonic_end": 561686.025376333
+}

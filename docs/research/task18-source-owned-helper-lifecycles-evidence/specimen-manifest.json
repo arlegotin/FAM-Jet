@@ -1,0 +1,283 @@
+{
+  "utc": "2026-10-18T12:20:28.592176+00:00",
+  "monotonic": 561718.982150291,
+  "selection": "Only task-owned final lifecycle controls and both actual partial-journal cleanup failures; no shared pytest tree copied",
+  "files": [
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1/partial/monitor-events.jsonl",
+      "archive": "specimens/cover02/test_unrecoverable_source_jour1/partial/monitor-events.jsonl",
+      "bytes": 40,
+      "sha256": "2a6db2e7860b19a98ce908d176d9e86b25c2c6fe40125a18ef28eb04db0ad0fc"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl",
+      "archive": "specimens/cover02/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl",
+      "bytes": 3520,
+      "sha256": "b4393504ac849659d2426a7ef3dc2c94c026f88f530a94ef79e5dac34da9dd05"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1/partial/monitor.json",
+      "archive": "specimens/cover02/test_unrecoverable_source_jour1/partial/monitor.json",
+      "bytes": 8192,
+      "sha256": "4ce6e9f37c236c38fbbf0dca41edb4ed4b43b892ed2ddc476f3bc78d7b189bb8"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1/partial/stderr.log",
+      "archive": "specimens/cover02/test_unrecoverable_source_jour1/partial/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1/partial/stdout.log",
+      "archive": "specimens/cover02/test_unrecoverable_source_jour1/partial/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_unrecoverable_source_jour1/partial/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_unrecoverable_source_jour1/partial/monitor-events.jsonl",
+      "bytes": 40,
+      "sha256": "2a6db2e7860b19a98ce908d176d9e86b25c2c6fe40125a18ef28eb04db0ad0fc"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_unrecoverable_source_jour1/partial/monitor-evidence.jsonl",
+      "bytes": 3528,
+      "sha256": "2fa52f64bcf29a6a9dbf9815d0978e142320baf0c57cdc482002bc520c7f41cf"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_unrecoverable_source_jour1/partial/monitor.json",
+      "archive": "specimens/cover03/test_unrecoverable_source_jour1/partial/monitor.json",
+      "bytes": 8192,
+      "sha256": "70a669be8e85a16737a79e2847d9255c56e527814e04e7f7e75ae13f41e071c1"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_unrecoverable_source_jour1/partial/stderr.log",
+      "archive": "specimens/cover03/test_unrecoverable_source_jour1/partial/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_unrecoverable_source_jour1/partial/stdout.log",
+      "archive": "specimens/cover03/test_unrecoverable_source_jour1/partial/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/control.json",
+      "bytes": 2525,
+      "sha256": "80c6bf594a2529ab0055da14ebc84276f89f14b31eaa01459fbbf6ee46cf7bbf"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/monitor-events.jsonl",
+      "bytes": 723,
+      "sha256": "a631d6f0a3daf0c5fbd187dce27d46872f61c9b5532f13879e8561fd49587dce"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/monitor-evidence.jsonl",
+      "bytes": 5709,
+      "sha256": "5a64e4806e8daad0a2f5a618f0427442172b4e7d44669118358d222a6642d59a"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "db5b21832a4abeaba22039e7f54fcb01a7b3e24dda3211820b38b670d67b690b"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder4/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder4/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/control.json",
+      "bytes": 2430,
+      "sha256": "52be958f0936bfa842d917a9574f266185aa1867c7dc4c06fcac3664d9659b84"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/monitor-events.jsonl",
+      "bytes": 1921,
+      "sha256": "575caa3a99fece4b4259ebdef874c49dd90c927a144be8a32e0b4f36da5c2382"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/monitor-evidence.jsonl",
+      "bytes": 7457,
+      "sha256": "c5b281c1f4db5a5a6546641f9784d33a8beb205d065f237a16a3e8fe28d053b1"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "46ab34d7d090228e575aabad9a4239837e0a7a4434ec8c071192df2c625ac903"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder3/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder3/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/control.json",
+      "bytes": 2439,
+      "sha256": "096e5e54a75d7bd7e124d89716fd1b79b272509028603933f0f923dedd0db802"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/monitor-events.jsonl",
+      "bytes": 1732,
+      "sha256": "d33ed608c54020e82f5644a77ebc17323a0f0d51ce63baceb69137d67d8ef43c"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/monitor-evidence.jsonl",
+      "bytes": 9187,
+      "sha256": "84dd15b3778e00c107f39e1183258691ceb04f3c932574b16ebbea841ab8bdb4"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "57917c2c5575d729b2eeeb20a605c25a3d78110575dd90c05ae564d2698521dc"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder2/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder2/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/control.json",
+      "bytes": 2642,
+      "sha256": "5a35369e61f0bdb2c91cf17729c5e9c1cc1bcaf052b411beba7b42a210df36cc"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/monitor-events.jsonl",
+      "bytes": 1926,
+      "sha256": "34daf22c5a623f4bdaceb3600006d6f4e2bc4911f9b78517e60d10f18cad5695"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/monitor-evidence.jsonl",
+      "bytes": 7632,
+      "sha256": "fcec3297883785bf44c027aab9b03e60f73afb9b7490ccafea6ab40a8731209d"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "4a01586fca4acea113f89d05f80d9c252e0c5560d093ffb8ed95c8aa1c1fabd2"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder5/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder5/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/control.json",
+      "bytes": 2315,
+      "sha256": "a4391c12feac4e2514675626c26d0ece04c6f0facd12e7ceb59519a44b698afc"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/monitor-events.jsonl",
+      "bytes": 1923,
+      "sha256": "d2ac1b08fb4e52223a0479eccf575b733fee4a0bd36edbae45586378c1007561"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/monitor-evidence.jsonl",
+      "bytes": 11558,
+      "sha256": "2b74d8dcf77dff23f2bcb62be9fa334e88196fafc8dfcca32cfafe8ed6b8e5d2"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "85708dae3a7491cc8fc956266e7c92c49ac6a60997a90b275dbdeed6d5beae06"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder0/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder0/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/control.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/control.json",
+      "bytes": 2343,
+      "sha256": "0486cecfdf5d5c3b975fefdedeb8d0a14858ed41062f7b19ce86fb6b67abb78d"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/monitor-events.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/monitor-events.jsonl",
+      "bytes": 726,
+      "sha256": "be08c7ce0888f2f35b035b3e9866f3a1235621e83b9c877d297d50b9b4f8eac0"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/monitor-evidence.jsonl",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/monitor-evidence.jsonl",
+      "bytes": 7954,
+      "sha256": "cec5183e34a3d19411cc8ca5d722f3fffe7702cbb14aad6b89ec75f178656064"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/monitor.json",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/monitor.json",
+      "bytes": 8192,
+      "sha256": "7de7fa13d2c662962c5f3f7854599cff52b5828cdf943621918014e05cab0533"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/stderr.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/task18-source-lifecycle-cover03-kdc8t2h_/test_supervisor_source_reorder1/monitor/stdout.log",
+      "archive": "specimens/cover03/test_supervisor_source_reorder1/monitor/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

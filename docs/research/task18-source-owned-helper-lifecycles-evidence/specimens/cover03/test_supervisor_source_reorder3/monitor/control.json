@@ -1,0 +1,86 @@
+{
+  "fault": null,
+  "calls": [
+    "sample",
+    "sample",
+    "sample",
+    "membership",
+    "poll",
+    "end",
+    "wait"
+  ],
+  "result": {
+    "status": "FAILED",
+    "reason": "monitor common failure",
+    "monitor_failure": {
+      "type": "ValueError",
+      "message": "incomplete source event row"
+    },
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "6007a3f6e578933468b41254ca83534833606fb27c536e4c554d1c1288b48510",
+    "returncode": 0,
+    "outer_seconds": 0.006322624976746738,
+    "utc_start_epoch": 1792325910.699349,
+    "utc_end_epoch": 1792325910.705612,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.006159750046208501,
+    "absolute_process_tree_peak_bytes": 235929600,
+    "incremental_worker_peak_bytes": 235929600,
+    "observed_pid_peak_sum_bytes": 235929600,
+    "workers": {
+      "570001": {
+        "absolute_peak_bytes": 232079360,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 232079360,
+        "role": "worker",
+        "parent": 97211
+      },
+      "700002": {
+        "absolute_peak_bytes": 3850240,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 3850240,
+        "role": "pending_observer_declaration",
+        "parent": 570001
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 2,
+    "observer_helper_peak_bytes": 0,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": false,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [],
+      "started": false,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [
+      "700002"
+    ],
+    "unresolved_worker_count": 1,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 18,
+      "accepted_samples": 5,
+      "bytes": 7457,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": false,
+      "status": "FAILED",
+      "identity_complete": false,
+      "through_bytes": 1920,
+      "samples": 2
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 17570
+  }
+}

@@ -1,0 +1,104 @@
+........................................................................ [ 21%]
+........................................................................ [ 42%]
+...FF................................................................... [ 64%]
+......................F......................................F.......... [ 85%]
+................................................                         [100%]
+=================================== FAILURES ===================================
+___ test_terminal_git_never_escapes_declared_authority_phase[incomplete_end] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_terminal_git_never_escape2')
+mutation = 'incomplete_end'
+
+    @pytest.mark.parametrize('mutation',['outside_phase','wrong_vector','incomplete_end','missing_launch'])
+    def test_terminal_git_never_escapes_declared_authority_phase(tmp_path,mutation):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(); vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(30,10,vector,'git')
+        phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+        expected='unaccounted'
+        if mutation=='outside_phase': phase['end']=12.
+        elif mutation=='wrong_vector': declared['argv']=[a.GIT,'status']
+        elif mutation=='incomplete_end': declared.pop('completion_end'); expected='pending_source_lifecycle'
+        else: phase['declarations']={}; expected='pending_source_lifecycle'
+>       assert classify(state,[child],context,phase=phase)[30]==expected
+E       AssertionError: assert 'unaccounted' == 'pending_source_lifecycle'
+E         
+E         - pending_source_lifecycle
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:458: AssertionError
+___ test_terminal_git_never_escapes_declared_authority_phase[missing_launch] ___
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_terminal_git_never_escape3')
+mutation = 'missing_launch'
+
+    @pytest.mark.parametrize('mutation',['outside_phase','wrong_vector','incomplete_end','missing_launch'])
+    def test_terminal_git_never_escapes_declared_authority_phase(tmp_path,mutation):
+        state,launch,live,row,end,context=prepared(tmp_path)
+        child,declared=helper(); vector=[a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(30,10,vector,'git')
+        phase=dict(active=True,started=True,start=10.,end=15.,commands=[vector],declarations={30:declared},completed={30})
+        expected='unaccounted'
+        if mutation=='outside_phase': phase['end']=12.
+        elif mutation=='wrong_vector': declared['argv']=[a.GIT,'status']
+        elif mutation=='incomplete_end': declared.pop('completion_end'); expected='pending_source_lifecycle'
+        else: phase['declarations']={}; expected='pending_source_lifecycle'
+>       assert classify(state,[child],context,phase=phase)[30]==expected
+E       AssertionError: assert 'unaccounted' == 'pending_source_lifecycle'
+E         
+E         - pending_source_lifecycle
+E         + unaccounted
+
+tests/test_kernel_stage_a_terminal_attribution.py:458: AssertionError
+_____ test_late_valid_reader_join_cannot_clear_previously_failed_identity ______
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_late_valid_reader_join_ca0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10acdd7f0>
+
+    def test_late_valid_reader_join_cannot_clear_previously_failed_identity(tmp_path,monkeypatch):
+        result,_=run_reader_join(tmp_path,monkeypatch,'baseline',failure='identity')
+>       assert result['status']=='STOPPED' and result['reason']=='foreign process identity'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'monitor common failure' == 'foreign process identity'
+E         
+E         - foreign process identity
+E         + monitor common failure)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:148: AssertionError
+_ test_unrecoverable_source_journal_is_failed_with_incomplete_accounting[partial] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-cover02-fnd6tawu/test_unrecoverable_source_jour1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10acdd7f0>
+failure = 'partial'
+
+    @pytest.mark.parametrize('failure',['storage','partial','truncated'])
+    def test_unrecoverable_source_journal_is_failed_with_incomplete_accounting(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure; original=Path.open; polls=[]
+        if failure=='storage':
+            def open_path(path,mode='r',*args,**kwargs):
+                if path.name=='monitor-events.jsonl' and mode=='rb' and path.stat().st_size: raise OSError('controlled source journal read failure')
+                return original(path,mode,*args,**kwargs)
+            monkeypatch.setattr(Path,'open',open_path)
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic(); path=out/'monitor-events.jsonl'
+            if failure=='partial': path.write_bytes(b'{"event":"observer_sample","processes":[')
+            elif failure=='truncated' and len(polls)>1: path.write_bytes(b'{}\n')
+            elif failure=='truncated': a.event(path,'baseline',pid=pid,rss=10)
+            else:
+                root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001); root['rss_bytes']=900
+                a.event(path,'observer_sample',processes=[root])
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+>       assert result['status']=='FAILED' and result['returncode'] is not None
+E       AssertionError: assert ('FAILED' == 'FAILED'
+E         
+E           FAILED and None is not None)
+
+tests/test_kernel_stage_a_native_process_fix2.py:99: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_git_never_escapes_declared_authority_phase[incomplete_end]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_terminal_git_never_escapes_declared_authority_phase[missing_launch]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_valid_reader_join_cannot_clear_previously_failed_identity
+FAILED tests/test_kernel_stage_a_native_process_fix2.py::test_unrecoverable_source_journal_is_failed_with_incomplete_accounting[partial]
+4 failed, 332 passed, 6 deselected in 2.36s
