@@ -26,6 +26,30 @@ from .descriptors import fixtures,timeline
 from .driver import CommonFailure,CandidateFailure
 
 
+def owned_reader_dispatch(vector,*,input,stdout,stderr,cwd,env,deadline,event_path,runtime_identity=None):
+    """The single reader operation, retaining its exact bytes and original deadline."""
+    runtime_identity=runtime_identity if runtime_identity is not None else authority.runtime()
+    witness=authority.python_launch(vector,runtime_identity,'reader')
+    if time.monotonic()>=deadline: raise CommonFailure('candidate/original deadline expired before reader')
+    process=subprocess.Popen(vector,stdin=subprocess.PIPE,stdout=stdout,stderr=stderr,cwd=cwd,env=env,close_fds=True)
+    witness['pid']=process.pid
+    try:
+        authority.event(event_path,'python_worker_launch',**witness)
+        process.communicate(input=input,timeout=max(0,deadline-time.monotonic()))
+        return subprocess.CompletedProcess(vector,process.returncode)
+    except BaseException:
+        if process.poll() is None: process.kill()
+        process.communicate(timeout=1)
+        raise
+    finally:
+        try:
+            authority.event(event_path,'python_worker_end',pid=process.pid,parent=witness['parent'],
+                            launch_id=witness['launch_id'],reaped=process.returncode is not None,
+                            returncode=process.returncode,completion_end=time.monotonic())
+        finally:
+            if process.stdin is not None: process.stdin.close()
+
+
 def clone(state):
     return snapshot_from_record(snapshot_record(state),state.parameter_hash)
 
@@ -182,8 +206,9 @@ class Backend:
             if remaining<=0: raise CommonFailure('candidate/original deadline expired before reader')
             vector=commands.reader_command(self.root,self.out/'monitor-events.jsonl',self.candidate_deadline)
             ledger.events.append(dict(kind='reader_launch_vector',sha256=commands.vector_hash(vector),deadline=self.candidate_deadline))
-            result=ledger.call('read_dispatch',subprocess.run,vector,
-                   input=raw,stdout=stdout,stderr=stderr,cwd=work,env=env,timeout=remaining,close_fds=True)
+            result=ledger.call('read_dispatch',owned_reader_dispatch,vector,
+                   input=raw,stdout=stdout,stderr=stderr,cwd=work,env=env,deadline=self.candidate_deadline,
+                   event_path=self.out/'monitor-events.jsonl')
         # Flushed entry counters persist even when the whole group is killed.
         lines=stdout_path.read_bytes().splitlines(); response=None
         for line in lines:

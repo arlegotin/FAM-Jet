@@ -88,6 +88,19 @@ def helper_launch(command,artifact):
                 vector_sha256=vector_hash(command),artifact=artifact,launch_start=time.monotonic(),reaped=False)
 
 
+def python_launch(command,runtime_identity,role):
+    """One exact owned Python launch; launcher and sampled image stay distinct."""
+    if role not in ('owned_root','reader'): raise AuthorityError('invalid Python launch role')
+    launcher=helper_artifact(command[0])
+    if launcher!=dict(path=runtime_identity['executable'],sha256=runtime_identity['executable_sha256']):
+        raise AuthorityError('Python launcher changed before launch')
+    from .commands import vector_hash
+    return dict(parent=os.getpid(),role=role,executable=command[0],argv=list(command),
+                provenance='source_owned_python_launch',launch_id=uuid.uuid4().hex,
+                vector_sha256=vector_hash(command),launcher=launcher,
+                expected_image=dict(runtime_identity['process_image']),launch_start=time.monotonic(),reaped=False)
+
+
 def event(path,kind,**fields):
     if path is not None:
         with Path(path).open('a') as stream:
