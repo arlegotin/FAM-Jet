@@ -1,0 +1,79 @@
+{
+  "source_git": "75c0d0f4913388668e71444156ae3e63bee032db",
+  "checks": [
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/manifest.json",
+      "entries": 28,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/manifest.json",
+      "entries": 28,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/manifest.json",
+      "entries": 57,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/manifest.json",
+      "entries": 27,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/manifest.json",
+      "entries": 57,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/manifest.json",
+      "entries": 189,
+      "pass_check": true
+    },
+    {
+      "check": "final covering inputs equal source commit",
+      "path": "validation/kernel_stage_a/monitor.py",
+      "sha256": "0340aea63b1776ff8ac19ee6c67743e15bd5e6f1f392fcbd44492d62803409e2",
+      "pass_check": true
+    },
+    {
+      "check": "final covering inputs equal source commit",
+      "path": "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "sha256": "f17f7c2ac948ceaadceef1c4f18243ef610218b73742468fd73e8554b73aa78c",
+      "pass_check": true
+    },
+    {
+      "check": "final covering inputs equal source commit",
+      "path": "tests/test_kernel_stage_a_native_process_fix1.py",
+      "sha256": "786eb0bf0dc96d49e453478f12c59bd42f569a9f9c0d6521505cad3cae34f0bb",
+      "pass_check": true
+    },
+    {
+      "check": "report copies byte equal",
+      "bytes": 22014,
+      "sha256": "d6bfa9bca3ea250c294d6cd5f9ad520385cbdf94f3a4896500a239801780cd53",
+      "pass_check": true
+    },
+    {
+      "check": "source verification",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "4815000fef3060f88518a8577713a0085aebb1f4",
+        "75c0d0f4913388668e71444156ae3e63bee032db"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "status": "byte/hash/whitespace verification PASS; earlier compile/source audit retained; no new tests/native; native gate remains NEEDS_CONTEXT"
+}

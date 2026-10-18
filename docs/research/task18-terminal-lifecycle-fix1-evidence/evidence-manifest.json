@@ -1,0 +1,2183 @@
+{
+  "source_git": "75c0d0f4913388668e71444156ae3e63bee032db",
+  "self_excluded": true,
+  "files": {
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/artifact-auditor.py": {
+      "bytes": 2706,
+      "sha256": "12fd1f1c1dbe409d3f6e97f9ffc60a7f4ea90fbb2228af82cd08474e8334f81a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/attempt-index.json": {
+      "bytes": 5908,
+      "sha256": "ccaba16d355a3b5add0f6d6359dc037bcf0ee2f414b25f2d0f06fab79c1b0c54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/audit-output.log": {
+      "bytes": 1141,
+      "sha256": "a4dd308adae4615daf255e7306165708c45d325d3a7791ad17735f30f9ddd90e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/delivery-verification-output.log": {
+      "bytes": 2823,
+      "sha256": "0073769a8a098604acdf3db624038a44ac2e98c8794f6f93fc8c70d0b51a1a11",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/delivery-verification.json": {
+      "bytes": 2823,
+      "sha256": "0073769a8a098604acdf3db624038a44ac2e98c8794f6f93fc8c70d0b51a1a11",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/delivery-verifier.py": {
+      "bytes": 2411,
+      "sha256": "0740bce0934aeffd8eb0e0d008a184bdf077a68d0190c38a41402212a6a9276c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/preservation-summary.json": {
+      "bytes": 789,
+      "sha256": "a06ebf8326e9466296f94beceaf299b6be9cd4f975be306ff7d0b9bc629316aa",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/prior-artifacts-audit.json": {
+      "bytes": 2021439,
+      "sha256": "df8cd0621ddbca2d30a81b0c1383e52c4ed71ae6458affb99e73820307f25947",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/provenance/task-18-terminal-lifecycle-fix1-brief.md": {
+      "bytes": 4004,
+      "sha256": "7001eccbdaece818aed341bb90f29d52d404cb825addd5f3b4de9664cc02d454",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/provenance/task-18-terminal-lifecycle-review.md": {
+      "bytes": 17126,
+      "sha256": "7aaaf366784062238d78454bba218f76f739de122f651ff67ea8ff827c032209",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/pytest-attempt-runner.py": {
+      "bytes": 1547,
+      "sha256": "bc03cf3b3c262f046397e4fc4a90a065f7a67430f634096a57cdc792dba5f99e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/report-builder.py": {
+      "bytes": 17312,
+      "sha256": "e25c322f46bdcc37ecdfcd58b8dff3bdf9badb61a060fa22b13279f8487c07c5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/source-audit.json": {
+      "bytes": 1325,
+      "sha256": "cf3994946ac598c4d46562b15b1fa9564cb399804ee4675ae377d68b7ee36496",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/attempt.json": {
+      "bytes": 561,
+      "sha256": "012df345f03167d838785acbbaf33b7d5ec53fc450d91997e9213a56bf9854e4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/full-output.log": {
+      "bytes": 407,
+      "sha256": "4a9b395643e06b9d27e3a48726c0813b78762c0ac0a7271298a7f7601d10ab13",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/manifest.json": {
+      "bytes": 4677,
+      "sha256": "31ef466968ece3af384cacf3bb00d96a0d77a02d453303bdd7ec74378938d499",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 17154,
+      "sha256": "a2031aa8c5c5cc8ef094fe8d0b74416a9b580ed2da7100c083c84c0cabb4998a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 67337,
+      "sha256": "060025252295e349eb9b2323e5061bcdbf3108bfbf5570acb90a32f138b100f0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t0/helper-outcome.json": {
+      "bytes": 2513,
+      "sha256": "0042352196371ac7a63b794aef9418a8a571be25c36d7b727850362c7a72278c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t1/helper-outcome.json": {
+      "bytes": 2625,
+      "sha256": "d74e29ed8ee287903a8f3afecf29343cc04aea33e65bfcc4385d5943ed9136c6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t2/helper-outcome.json": {
+      "bytes": 2525,
+      "sha256": "4ee4dca01442372474bc797d6a892516b7b203d9d7ec5d752e00d45f0c6898fc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t3/helper-outcome.json": {
+      "bytes": 2618,
+      "sha256": "6d28ffe2b27943c6c547138345cd0ada3eac7e359a2c31e685e796250f788089",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t4/helper-outcome.json": {
+      "bytes": 2414,
+      "sha256": "f6b18aec44b8a331aadfd350d9b216b9b92b1607dc11714a77b0c88b35e529c1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_t5/helper-outcome.json": {
+      "bytes": 2452,
+      "sha256": "29a1badbb63cd7441b327ba08a53476e9c976f59d048be8f9aea6e53b6a61c3f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-green-rq03csh2/specimens/test_helper_eof_wait_failure_tcurrent": {
+      "bytes": 93,
+      "sha256": "4ac258bae8afe52987fc0b8731aee2c0722459ee55980ef9430dbdc52bed3d7f",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/attempt.json": {
+      "bytes": 557,
+      "sha256": "2ba73ca03a5239cce95d9818823bae900b5f9ba5daf8371748ff99f1d54dd653",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/full-output.log": {
+      "bytes": 20819,
+      "sha256": "feb31c0aae6c225c7bb5cac653f388d0d1dd4003765ab1da66de46dedf4cbdb1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/manifest.json": {
+      "bytes": 4679,
+      "sha256": "4bf576820507ea62ad8451fb84cf073498e4c0d08939b0826fdb1fedb8c6916b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 17154,
+      "sha256": "a2031aa8c5c5cc8ef094fe8d0b74416a9b580ed2da7100c083c84c0cabb4998a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t0/helper-outcome.json": {
+      "bytes": 2403,
+      "sha256": "b6bc765064ad5ab7ac695d869aee78a4007ceb81f8338ea1cc4d69905a968331",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t1/helper-outcome.json": {
+      "bytes": 2429,
+      "sha256": "3f66ea16f090f0a6ea9b8e358562dbd7caabacb469660b61cac2a6907ddfee45",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t2/helper-outcome.json": {
+      "bytes": 2405,
+      "sha256": "d68a837855a1e421bf1fea24a355eebcb549db93e4c3a1cb921e7283969fdc27",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t3/helper-outcome.json": {
+      "bytes": 2405,
+      "sha256": "0696ed4243bb642ed0ec5b48d8e34d13046ce99393878aa872d1e6ebb5f8d48b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t4/helper-outcome.json": {
+      "bytes": 2314,
+      "sha256": "79990887dc3263255b74ead7632174e07f069d2fce5de83bb6e1664198c701ed",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t5/helper-outcome.json": {
+      "bytes": 2358,
+      "sha256": "024d725e1548804101fa9cadbcf335fd19b3cb46534c6500d3ab535bf79ac9cb",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_tcurrent": {
+      "bytes": 91,
+      "sha256": "4dccc1044a3641eb847683a2d400bcfab0c96d0a6d8d11dc4aa0503ddb70c004",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/attempt.json": {
+      "bytes": 679,
+      "sha256": "81df459008ab5b213f04d41abe70547498792ba99b80444086d302956d0ebce7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/full-output.log": {
+      "bytes": 407,
+      "sha256": "d86185d28190db68b8a784d7cdcec5b122c822e1658a1d423b125955bed397b6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/manifest.json": {
+      "bytes": 9847,
+      "sha256": "53077499a96c20f44972b638714eca01c8fdf55776978ea72f22163e1ca4f98d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 20089,
+      "sha256": "01099d9e03f4c2597d94161e9e5e56493b947d1f07813b424137ab3f7392987c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 68699,
+      "sha256": "0340aea63b1776ff8ac19ee6c67743e15bd5e6f1f392fcbd44492d62803409e2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "a0ec95e9243e14d1f82e0349d961d6c7f0060c673321fafa60f6d208f81164a2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3067,
+      "sha256": "bb4ef27291d6c12f12b813a27d49b134d60ad9fbfc750470cc9d891ddbf8b7b0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "a16d4bd766ad5dca5be69e5cbc181276ac576138ea38ec0bbd67ed549766d303",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first1/monitor/monitor-events.jsonl": {
+      "bytes": 85,
+      "sha256": "9653312e611062cd6090a9d866168eba9d0c3977cf8e21621f4c5d0c97ae566e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3071,
+      "sha256": "53170f066140ba350175e8914d23fe90c4f5aa34e66a106689aa0b9c75b426e0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "84a326eca11a67d01cda13f8b9690d7c205facc7a321359a0b5130c4701016d3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first2/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "ede7d7bebfb198a85869221c2e2633a84e2f6d498c53b73595c270405a27c209",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first2/monitor/monitor-evidence.jsonl": {
+      "bytes": 3071,
+      "sha256": "f23ac2b505242a232640f240289eda0f4ad6d1de7889f2df0726d88511f832d5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first2/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "280c5b8a881da532943e04765a79e9d3eadfdcceb8720cc8f3625a774949c48e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first2/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first2/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first3/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "201cca4094a77f16a97ba8503cc6b13f1618364846017974a5345a11c04adb78",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first3/monitor/monitor-evidence.jsonl": {
+      "bytes": 4170,
+      "sha256": "04aa823beee8a88b25981f9e9ff33bb302f9555f60fde95cfe69542be7724809",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first3/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "4168fd18e1f1ede35b179f32ba7a3b7b4e50dccd8523857dbe5cc48b1ea78f5a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first3/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first3/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first4/monitor/monitor-events.jsonl": {
+      "bytes": 85,
+      "sha256": "bc61a641ad52cf6293e75bca4a570c6c6ca08d0ee5719a5cf6be248a45c95833",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first4/monitor/monitor-evidence.jsonl": {
+      "bytes": 4177,
+      "sha256": "c070baddbf941523352c7319ab7742d6ae5a3f09509bb5f7d9a61b4eef531932",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first4/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "a843c4883897abc0488138d655bc2f1672ea012c3832e02fcb7d83607b6e23d5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first4/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first4/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first5/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "911ce0b05f769cb40da1d39b0586127fe86ff6187c8e6f32eef93a53732979dc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first5/monitor/monitor-evidence.jsonl": {
+      "bytes": 4173,
+      "sha256": "a862fbf8ec981966209dba4ad5b9013fe33252e8588aa7e7c0cce5aa01e0bb64",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first5/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "bad2601e2f86484c2cb1c4f914b9ab3440a83cada38d1164d6774c37a1f9b272",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first5/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_first5/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_preserves_firstcurrent": {
+      "bytes": 93,
+      "sha256": "e82de0fa5e1f7b7b82aa121ba4d832bc3a34cee4ebab1d50d479d4307b626c80",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-evidence.jsonl": {
+      "bytes": 194,
+      "sha256": "a573a6d47919d8965bab51506675001ba4d82247f5b4097ff2088ae8d054c936",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor.json": {
+      "bytes": 512,
+      "sha256": "8001c5ffd9c66d31b09e885e0ece94cf452ced72a578ffae7609170f2d508c49",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_0/minimum-emergency/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_0/minimum-emergency/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-green-ewo945f5/specimens/test_emergency_quoted_primary_current": {
+      "bytes": 93,
+      "sha256": "2b3f3b6431dbd8b094f6532c9a7f6abb961e6443bac2426a51a2959b4d309cea",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/attempt.json": {
+      "bytes": 567,
+      "sha256": "cda2817da2872929ba7287cb04c1ce71984cb29cb4419f076e99feee4aae29df",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/full-output.log": {
+      "bytes": 2470,
+      "sha256": "a93e56e0ae9e83f9e6fabec74af64160054aa9f96523967c3829cfdeb1ea3204",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/manifest.json": {
+      "bytes": 4562,
+      "sha256": "44cc1def485be9a63a0bfbe5f324d94d17fad0ece13f28e33cc580ad3597e77c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 20089,
+      "sha256": "01099d9e03f4c2597d94161e9e5e56493b947d1f07813b424137ab3f7392987c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 67337,
+      "sha256": "060025252295e349eb9b2323e5061bcdbf3108bfbf5570acb90a32f138b100f0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-evidence.jsonl": {
+      "bytes": 192,
+      "sha256": "3ad01c2e4b416df4b7e4a850d37e8934ba73e0a4b524eb216db5a56d3ab655f7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor.json": {
+      "bytes": 512,
+      "sha256": "c77e966b35df8ba2660ba2f3ede5d307afbfc35197c02cbee92dad3bcca24316",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_0/minimum-emergency/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_0/minimum-emergency/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens/test_emergency_quoted_primary_current": {
+      "bytes": 99,
+      "sha256": "10c91fc4ac0e378990b45ea95e2fc346951e63f71bde73046c96088a5fd1c785",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/attempt.json": {
+      "bytes": 675,
+      "sha256": "93f07c9cd0f71928cfd7430f2a30b6a285b3c6b3a7ba14ef2ac8060ee2f2e60e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/full-output.log": {
+      "bytes": 19101,
+      "sha256": "cff263686141b1a0e964d29905da089933d730002dceadf0b21fbd90808dff2b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/manifest.json": {
+      "bytes": 9849,
+      "sha256": "1f2ebef1c04120227474af12af9969cb08e491814f1dd7cecb10a3c2c3e328ca",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 19878,
+      "sha256": "b646ba071392d0ed8f479d6dd5df4bfe839afe2461504946d12a5b489e77b781",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 67337,
+      "sha256": "060025252295e349eb9b2323e5061bcdbf3108bfbf5570acb90a32f138b100f0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "46fd6529a102e4b1d3226f207d9944332264c7c7db4958d507912f1e18a434d7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3070,
+      "sha256": "dd2626489078e3f77ad876fd3fc13f995009fef245770e3da83fae97792e0cf4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "0f8d24bbe1453cf902cb31ea4717c610d0db74f6352daf4bf450f860e9550fa0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first1/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "c8b38a26d53487dd8874f8c998f669a9146db99209760ae61bb6eb9a27eb722f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3069,
+      "sha256": "e9693a0dd638c8205fc579fac9e784a9e6cce60edf5fc85c8f41f93defe998a5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "705541151b1e5eb5cedbfe565b26a08ff5ec4b8bba8955331668d80ca8ef0243",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first2/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "ee689b147a01bf39471561b74fd5f887a3d7e2c555e00b66152a4e48a362b554",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first2/monitor/monitor-evidence.jsonl": {
+      "bytes": 3071,
+      "sha256": "e8f87f91485f4c04b7bec1378b6b428bc28ca33f2d3773bee4c003674df355c7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first2/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "86ae6d2ddc18edeb920718ef0b65e0017ccdc18178336d1fd63caba4fbfc982e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first2/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first2/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first3/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "cc7634583392c318dc7c568f035fef0951c97f2557f75dee5ace3de9855ef57d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first3/monitor/monitor-evidence.jsonl": {
+      "bytes": 4179,
+      "sha256": "e680f2e0543cd40eca3c757c8746103e5e61b4ecab7bc1a05c041d393d12b29f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first3/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "2357aa59389766b957db012cbe72f6609f15bf851aa2f9564da969d15683ba7e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first3/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first3/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first4/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "2057c1da5606bebfbe73aebf3c4416ff65d41712a82b4c3dec37e2aa38a9ce72",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first4/monitor/monitor-evidence.jsonl": {
+      "bytes": 4175,
+      "sha256": "39674f0fad74c02e82bceedbe24c7191bf902e1627e0260cb54da9bc2d417554",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first4/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "7221a492842ca90761acaddeefe89ce880e1a01d5ff694510018205bb3f537f8",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first4/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first4/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first5/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "d33641afa6753df4b2df0a9081b2c9df86855e4f2191e4abf4210314253c91bc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first5/monitor/monitor-evidence.jsonl": {
+      "bytes": 4174,
+      "sha256": "c8a1cae79711ee2ee6237739d6f306e72daa3fb398848ffbb1b9a1615abdb899",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first5/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "a0e9f4ff103f9867a3900cd2ef34af39031f04fd41130a9a07bae985f101de47",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first5/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_first5/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_preserves_firstcurrent": {
+      "bytes": 91,
+      "sha256": "cd44a836ac1518da39b7eee012acaae800cd27b64c56d0bbc621b1ad2cb7cbad",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-evidence.jsonl": {
+      "bytes": 193,
+      "sha256": "9d08af811d0eacd91743be8f23244e58a523b2f35223bdbc57f5569abe5ba3ca",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor.json": {
+      "bytes": 512,
+      "sha256": "76fce084f0bd86270ec265badcc1574fae28f52ebfb4ab99310fd2819756568f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_0/minimum-emergency/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_0/minimum-emergency/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-r2-red-bc72ds_7/specimens/test_emergency_quoted_primary_current": {
+      "bytes": 91,
+      "sha256": "e5838b16efbbc9f55129d7bd9620d5f1bc696cc2653bb1a2370156d7dae86f6e",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/attempt.json": {
+      "bytes": 1479,
+      "sha256": "81c2db770202ce54ae55e3dfef35e1b80947c96774bcdd40b7214bd2367956da",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/full-output.log": {
+      "bytes": 648,
+      "sha256": "39f0076fc3cc0cc8e95942cd41074fabdc61da5523eafba8596893e2fa522922",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/manifest.json": {
+      "bytes": 33125,
+      "sha256": "76bbcbd24af9b03e52772140056b5374cdaaac17a6def2878a35bcced65c44d7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_native_process.py": {
+      "bytes": 18585,
+      "sha256": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 17193,
+      "sha256": "786eb0bf0dc96d49e453478f12c59bd42f569a9f9c0d6521505cad3cae34f0bb",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_native_process_fix2.py": {
+      "bytes": 6370,
+      "sha256": "b7660ab10aa3eea8b760b2bf1382e06882221ff306bad9f694f49415a6c5184b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_native_process_fix3.py": {
+      "bytes": 5795,
+      "sha256": "2a2c0dcde2f1a3ce7dc01e7e4e486397efb9e875213c11b2d7c556ba7133bc1c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_preflight.py": {
+      "bytes": 19690,
+      "sha256": "54f5f3c7ddea0e69a5e4c1d54b69d3be5fec34074e0dfbe9ba7f14472f1d7c51",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_preflight_fix1.py": {
+      "bytes": 20234,
+      "sha256": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_preflight_fix2.py": {
+      "bytes": 2434,
+      "sha256": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 20095,
+      "sha256": "f17f7c2ac948ceaadceef1c4f18243ef610218b73742468fd73e8554b73aa78c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/__init__.py": {
+      "bytes": 77,
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/__main__.py": {
+      "bytes": 2695,
+      "sha256": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/descriptors.py": {
+      "bytes": 4876,
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/driver.py": {
+      "bytes": 3911,
+      "sha256": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/monitor.py": {
+      "bytes": 68699,
+      "sha256": "0340aea63b1776ff8ac19ee6c67743e15bd5e6f1f392fcbd44492d62803409e2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/production.py": {
+      "bytes": 18796,
+      "sha256": "1345896c886d683e1354ccb93feee63dbb62690e3d3eff5a9fa382cbadde25d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/reader_worker.py": {
+      "bytes": 3771,
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/source-inputs/validation/kernel_stage_a/reference.py": {
+      "bytes": 16497,
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "4d6806f40ab5fc9a9278de99785d16ddb69181b5def3b6cb0f67f637d215dd81",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3566,
+      "sha256": "3748dd937a940e415e1d5e40798920cd2284e7e6e0c8e655d96dfa0b88d1bfb6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "35150c871a976e07dd208c479e5fb8f44cb0307b08dbe2ddf5fc65c3b3e911fd",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o1/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "b1c8fd79a7dc84ac8b8f8c25d1a390e6a1247ab15e14d5245192ce39059ae7f7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3749,
+      "sha256": "a336358f1784670660235c8e2aa1b07902b99c31e2e8a4d8b8805f3eb58b9101",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "955823b77b569d54a90489e90abe338134b6785862063ad171dd73fee9e86d73",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_o1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_actual_matching_integer_ocurrent": {
+      "bytes": 97,
+      "sha256": "f35ffd3d197c0c05e7538323e2b94fa2ef3c22dc94a0735211f8d93f8b4cc8fe",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "5d710329ca404b9f970d26e60351b09fb0b54d6c9e8ec997f93cddc692c5e2cc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc0/monitor/monitor-evidence.jsonl": {
+      "bytes": 4136,
+      "sha256": "2335a0002e7c669a4643fd7d0d4ca2720aad28bd848ec59c8519d7f1314ec8ca",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "17cf86f948a484b462faedf505736bc7d4e5e6c910cc10b5ec280f35dd8ec595",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc1/monitor/monitor-events.jsonl": {
+      "bytes": 85,
+      "sha256": "29592d2aaea58ac0f2fb91c66329598105cb727f8fb147a9eba2070d4a573110",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3639,
+      "sha256": "2252d420f0cecec2806d54bdb5281ccc72eb7cd91d3c529f7260ab48b4559da5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "c0e03988a2f3f26b34258eef1bf5c6f5972b7786f3fa6c31144a3d9379a7bf39",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc2/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "206ce4cb871ccc92a0833be59a851bbceee355662d49ce4d6ce7aac6e5ac99b2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc2/monitor/monitor-evidence.jsonl": {
+      "bytes": 4255,
+      "sha256": "d71280070d5edfcc59dfb546f5e36cb7c8246e33f4abcf9416699477f9f262e4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc2/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "0b3720992b3bc5676c8ea8dc331dc8462c33afeaf5e1085dd1ac02a28adf2c6f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc2/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc2/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc3/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "2ef4b497883159df1c794df5a890a29d4da663f16ba9f0bc85860efeb8ce5e36",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc3/monitor/monitor-evidence.jsonl": {
+      "bytes": 4491,
+      "sha256": "1492ed106df00a55581b7e136f2e2872ffd0d7e0571dde83ba7b79864f31391c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc3/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "d9ef44cc99b2e8e1f116c472951037c0053839f3f300077e2ffdce9ed0c2a675",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc3/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc3/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc4/monitor/monitor-events.jsonl": {
+      "bytes": 143,
+      "sha256": "5f487cb1f2689185461740cc1bdc74f79b4940890bb7ba1b981b9516015ca876",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc4/monitor/monitor-evidence.jsonl": {
+      "bytes": 3846,
+      "sha256": "7c46b047d993d701bb6ebaa5b94df0d19b7916595a4a2fd0772bed58df57bb99",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc4/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "48a73a7fb90009ff324361968757400a541a4282b8e5c33f55ba77f7284e00f9",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc4/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucc4/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_failure_is_unsucccurrent": {
+      "bytes": 97,
+      "sha256": "e2f679ae3314b2f7f4407d4edc446859d84328378b219bb945be668a3d9b16ab",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_query_bounded_capcurrent": {
+      "bytes": 97,
+      "sha256": "2470efec8706642a3a05b55a1b9680a9a8917325caa8cd55d6fc3930d670a16f",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "cc39cc5e31450ba5f2ca741010c59bea8f3e63cc9fc39f19362001c119b9c7e6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3966,
+      "sha256": "006819134b2cc3b91f0cf5e24b446e2f053c0dc30d78ca3b4233b75e7a9349ac",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "f5f4965491828b090c60bc5fea1dc20f49872a39b6ae642400cebf3d10f8888b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno1/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "7c031dcff7e4b448aa6fc4935d4740b1c1675f21cbbe3b9de1ca835ab9b8382b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3027,
+      "sha256": "718b3cc72aeb1cd3ff8e5715081000d46fa7f65f6183ec023d3704115ec197a0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "2ea00822a3770b405de671b943e7e84c1b3e35a15a37b89ee6f733f98fa9344d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_kno1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_cleanup_refusal_keeps_knocurrent": {
+      "bytes": 97,
+      "sha256": "49589c2c370bcf3292be965c4113b62cc8b0590a7146090f66851276015f6119",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/monitor-events.jsonl": {
+      "bytes": 78,
+      "sha256": "6dbf28ab6c71e4c7a33a7004de9f1c9a0ca3db2b882bd11683725685529be993",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/monitor-evidence.jsonl": {
+      "bytes": 1697,
+      "sha256": "facd822813642f5cd695563ef6d5beba3a36df5a11db892dcc4c7d96ccfefbf8",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/monitor.json": {
+      "bytes": 8192,
+      "sha256": "e064cf54323fd30f74ab4b66fa3ff3f8e809f4182e1437f6f3cb6f82d3a4c76f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_to0/caller-time/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_commit_cost_is_visible_tocurrent": {
+      "bytes": 97,
+      "sha256": "304416e7dbad777204145808fef6ed18be965c2cee2b57614e3944da3b50cb7d",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/monitor-events.jsonl": {
+      "bytes": 67,
+      "sha256": "86c122ee8801157ee1801e6f64a853727bd7952b57665c49e6c31f6511178d48",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/monitor-evidence.jsonl": {
+      "bytes": 1624,
+      "sha256": "60c9f288a006b73a9cae9949c8f39a48066452b778b246693984d72a0b08944d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/monitor.json": {
+      "bytes": 8192,
+      "sha256": "329fda423e9bc510d599ca028f42f9e5791d1f11d89cb396b14a4e81fa5765ad",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commi0/commit-time/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_commicurrent": {
+      "bytes": 97,
+      "sha256": "3746eefb64d063f95cd5c096cb2739db2d551798ee4fa01a615801208be5fc3e",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/monitor-events.jsonl": {
+      "bytes": 67,
+      "sha256": "e315a7bc90d408d8cb5c9a0d1fd69ed9ca01ff282ab9ac9156e03758b26cd12c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/monitor-evidence.jsonl": {
+      "bytes": 1624,
+      "sha256": "63a25e639811dab1fdb4878286f1e45a86d8771061c49c718ed9df5d212c1ecc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/monitor.json": {
+      "bytes": 8192,
+      "sha256": "06e45ee7c409a4772f39f400c0b97a50c9d12f0a8a22a454158b997b79bc3da2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_final0/final-time/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_deadline_crossed_in_finalcurrent": {
+      "bytes": 97,
+      "sha256": "ded94ede3be1e9fff1aaa8013e9b84fb96eb9f03c65784c224d1621ef0c62634",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "bd43dbe0215ab15527864a08f5707235cf8ea27f8e98dcb4c09019a7df87ba23",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3074,
+      "sha256": "bfb4890ac2a9f0ed23e80310abe8e8c51802040c289a528942a6e31dbaaaccee",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "0318b63d3d03e6bc70a364049c5f15fc3564285246b1b6825c49eac1dbe078a9",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first1/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "6e205cd04587a332cd6a9096c1805539fd98cf8e9dd75cf111a50951ce832f7f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first1/monitor/monitor-evidence.jsonl": {
+      "bytes": 3074,
+      "sha256": "cbeb28225e718876b90e1db109a22085808fe8790d12488de47f1d97d2569d90",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "9697f7f11037f5fe5e65a045f5a73fee8b7831b9b92437fcf054ff58ec45420b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first2/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "6f524da52af4ec996aff1451b927f014c803beb678debff1c09fe036f36e2c4c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first2/monitor/monitor-evidence.jsonl": {
+      "bytes": 3072,
+      "sha256": "c308b1522eb75a60b119b076bf24788870ecc4b77de258667329122a45ce84f5",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first2/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "3b311e0db59b7dea74966183a3db80064770476476eede9f916e3c7f5ce00384",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first2/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first2/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first3/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "fcd8325454ed2e88b92c90188a1f6034b67c66ef98897d973c2c3fd7656566ea",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first3/monitor/monitor-evidence.jsonl": {
+      "bytes": 4176,
+      "sha256": "9328d9faa0cd04fc663852b95ad7f3a215eb98358480d20e1c10d8da7318d8d6",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first3/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "8807b85bf742bb923e3d0d07ffa2d356ba3d08f81c69388ce09e2e398c91d03c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first3/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first3/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first4/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "7317792d50278baae2dd2c5945f580b8d8c69f7ded01bd6bb8d2091c229607e2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first4/monitor/monitor-evidence.jsonl": {
+      "bytes": 4174,
+      "sha256": "d69c42c58173143b48000f282020fcd4347f55be7db9938b068f27fc97d321e0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first4/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "db4a83dafc1e826a1fdc45ceb6422c79bfc520377a6040a8cf7328d78194d768",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first4/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first4/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first5/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "2dbac9be32c493e9fc269feceffdea1409ffabd23a6089fdc4a71fe5c1cb5951",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first5/monitor/monitor-evidence.jsonl": {
+      "bytes": 4172,
+      "sha256": "cf052468c097346e562f9cad8dbf48ddca59edeab56eee23fa78952bfc8ff9b7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first5/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "5e035d1eeafbb224ce3c64f8fb73c86c69e83c250ab916bb253ee0bc45ab64d3",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first5/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_first5/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_preserves_firstcurrent": {
+      "bytes": 97,
+      "sha256": "18cb0543c06ab8af8e77fc6f9766110d8b97d5b02f63545da7d76fc06c0a8451",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor-evidence.jsonl": {
+      "bytes": 194,
+      "sha256": "039a148210d44e02a691249cb5cdf7dcc6517ff1ccfbcde85c15ba70473ea063",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_0/minimum-emergency/monitor.json": {
+      "bytes": 512,
+      "sha256": "b5e8fe6678ea10c5a8d4fd3f4f1f677d836ea28430b8d01d419135f2c5d7bf04",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_0/minimum-emergency/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_0/minimum-emergency/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_emergency_quoted_primary_current": {
+      "bytes": 97,
+      "sha256": "4fb5a1ba04fc9f574042ed4b691965407806a8d2ead8fe29af6c78c8ec50e252",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_0/overflow/monitor-events.jsonl": {
+      "bytes": 46,
+      "sha256": "e6448e0a09394455a67c2353690bfc64f2aec97184c8ebc21ab593f5d56e4c34",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_0/overflow/monitor-evidence.jsonl": {
+      "bytes": 257,
+      "sha256": "aa8961e8531ae12c79989c11a1413902210896aedf64feb8c97dcf7f7133c855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_0/overflow/monitor.json": {
+      "bytes": 4096,
+      "sha256": "7758ddcf6c9ee41103a02458744f37aa6abc002f8bdcab51c5fc1b0a05d53a26",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_0/overflow/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_0/overflow/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_f3_final_report_overflow_current": {
+      "bytes": 97,
+      "sha256": "b954a3b6a4e8e4f2ca728779a5549ad819646f5006ba9b5c4628f6c978d8792a",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/monitor-evidence.jsonl": {
+      "bytes": 1616,
+      "sha256": "18d0f66ad80a76a7cb55d12c86506d6d1d4303fb91c95fbedbf0f81d6981f4b4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/monitor.json": {
+      "bytes": 8192,
+      "sha256": "7bb21ce78a5804e39f0248028bfeeaa52ca4cd0466d811ff41409106b88ecdc1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializat0/metadata/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_final_metadata_serializatcurrent": {
+      "bytes": 97,
+      "sha256": "e83bcef4a5e4426e7641c671c2910445a3ff9d44a97de9e5398e95f1ae336ba2",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/monitor-evidence.jsonl": {
+      "bytes": 1616,
+      "sha256": "2f283ac27cfdb282ba7339174588bb01e4512aa8b28b66c1af03f42600ed7851",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/monitor.json": {
+      "bytes": 4096,
+      "sha256": "495b22324b18cbc8a9d7d74428e92e95d36431bbde4579a36116ab164680e205",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu0/serialization/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/finish": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/monitor-evidence.jsonl": {
+      "bytes": 1616,
+      "sha256": "70479bc56b751e87c4cddd725f8d9a8e6798d7973f43180e7b011b8098e248d0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/monitor.json": {
+      "bytes": 4096,
+      "sha256": "7770bb7570b2a1c0e8c21508ee0c06217d210737e1891f93005836260692ee56",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retu1/write/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_finalization_failure_retucurrent": {
+      "bytes": 97,
+      "sha256": "72eef71d1cf2d524e67f45230bc7c4177072641ddb8988479384214fb175833d",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t0/helper-outcome.json": {
+      "bytes": 2513,
+      "sha256": "94e2f07963ee976d38ae8ae68089a189fb0c089a47d17e64a87efa185ab6b508",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t1/helper-outcome.json": {
+      "bytes": 2625,
+      "sha256": "659064b8a7d0e08f9ae868f41d767b3a3f243d793d1d1be019629a8c2afa6222",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t2/helper-outcome.json": {
+      "bytes": 2525,
+      "sha256": "1bbc7a5f3331fb0d0777606b953d6ad68fe20b3f93012deafef99dc22dd3ff1d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t3/helper-outcome.json": {
+      "bytes": 2618,
+      "sha256": "66d0a5585d5f063067f068397c71aaa7ac478f3a5e53a6a9286d007d3805c0df",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t4/helper-outcome.json": {
+      "bytes": 2414,
+      "sha256": "e7429abc8b03e674c95d3d8fc9311b5d50819a87f6ad8565b4b495f89a145a76",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_t5/helper-outcome.json": {
+      "bytes": 2452,
+      "sha256": "23ea63f40b6201ad4ab14e7296aa6ff474b6eae6afecec3be58d05e1baeb55bc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_helper_eof_wait_failure_tcurrent": {
+      "bytes": 97,
+      "sha256": "04ea6866fdf30bde37dd2ae65d6bb9821f635108d50e1653e33bca1519a4174d",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece0/monitor/monitor-events.jsonl": {
+      "bytes": 84,
+      "sha256": "d703ddde9fa5f919ec78887c4d627d0f3fc3bcb7aa712465e1b35ca7480e25d4",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece0/monitor/monitor-evidence.jsonl": {
+      "bytes": 4237,
+      "sha256": "9880a4d2a9d8940bce0270eeedaf552c8e99183b1847db826412220cff2fde6e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "0d3c8e3031a28ac4ac0a5a2ec7dc7bbe7e98b46029d78c0b930c0458fc05f388",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece1/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "d32317729cc1bcc4ef64dec31a4a3b9b940960c7379540286a970f1ab501edf1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece1/monitor/monitor-evidence.jsonl": {
+      "bytes": 4222,
+      "sha256": "97412e9c92a559650981e8648511e7d418daa6c2d097ced0624c6b9a504a9f93",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece1/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "b137ce57de1b6d10408c925eac5cd409ec9f9bc106845f4374e7f6594fea110d",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece1/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prece1/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_membership_decision_prececurrent": {
+      "bytes": 97,
+      "sha256": "66676eb2957da49e9650772e6e3ba9eb88159ce0f499321a603bce5a4bfac1c4",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_st0/minimum/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_st0/minimum/monitor-evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_st0/minimum/monitor.json": {
+      "bytes": 512,
+      "sha256": "6047859c3925f421a42dcb1b731097f565d12ee8ec08c156807081d650ae0ca7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_st0/minimum/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_st0/minimum/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_minimum_failure_budget_stcurrent": {
+      "bytes": 97,
+      "sha256": "d6e47a350ad0b47c2f3acc50502260ed41048964daecdcfc056f3a8244e01933",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_0/monitor/monitor-events.jsonl": {
+      "bytes": 83,
+      "sha256": "336a14cda23c3ee9309971e1f98d4ed4d02a03f533ea8d649fae4ae4b780da60",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3012,
+      "sha256": "f88e918291343e92b6c4faaca0d9837205bb3bb87d7ed51eb421ba716dfe164e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "b5ee94882d8007e9bdf492e9f52f8df64b7ed0bb07ab80b345e2b6267a19cd9f",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_never_proved_root_cannot_current": {
+      "bytes": 97,
+      "sha256": "eb436def0744dee7415cbc0eef4ba2e629aea5580a8c0d832bd6fcd4e47f0f26",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_ke0/partial/monitor-events.jsonl": {
+      "bytes": 156,
+      "sha256": "6789f9abc701183d376b5a902f2ea8a22f90ed1b9d9f9894e31d7f162ce623ac",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_ke0/partial/monitor-evidence.jsonl": {
+      "bytes": 1884,
+      "sha256": "6851025333af1ce8ebdafec75184dc03e6e126edcf2b18ee382fc0456f27164b",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_ke0/partial/monitor.json": {
+      "bytes": 8192,
+      "sha256": "1b6c59121976c8411e4c0291829bcdb355b502bd0209a1f5422ea2a148c1cc0a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_ke0/partial/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_ke0/partial/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_partial_evidence_write_kecurrent": {
+      "bytes": 97,
+      "sha256": "5cb21f2ec71b767ca3b63010a1375d4665c6c77859472dbfa9f2dffbec6e7789",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "9d32727f321d2f16551150483e6db60a1d2b08b12b94d60adbf96ddec36a81a7",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_0/monitor/monitor-evidence.jsonl": {
+      "bytes": 3072,
+      "sha256": "1b34ed79d1fabc26646aa6f4d3955137429868237eae4f018d5c49cda55cce94",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "d1eef7f1d56a44836e219297a64d685f2022f25c3aa2e3b32882b5ec7dd64d7c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_real_prior_cap_cannot_be_current": {
+      "bytes": 97,
+      "sha256": "fd5e84ffbbb065dc9d431c854b05a75c204c92194c97f337d37942ab6453f5d6",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recor0/monitor/monitor-events.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recor0/monitor/monitor-evidence.jsonl": {
+      "bytes": 1026,
+      "sha256": "930298c271b9c55228e9437a21878085cbd31988cf1d6decd4d48f70530d2199",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recor0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "9fb82860e13fda48802e495cdef5de15bb15593522cde3570e9eaac0595aa7e9",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recor0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recor0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_refused_root_launch_recorcurrent": {
+      "bytes": 97,
+      "sha256": "2eca91d40cdce6624b4d63dfc5222bb9f80758bfa3d7ef6c41bb996dad56c81f",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_es0/monitor/monitor-events.jsonl": {
+      "bytes": 86,
+      "sha256": "aefb1ab94351bb145502deb0cbace996d3d87b37126ec35e8a142ba34ed5819c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_es0/monitor/monitor-evidence.jsonl": {
+      "bytes": 4173,
+      "sha256": "20785000b528c497c7acadccd4f450833fb6fd5d82c1d088b4e9165892584196",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_es0/monitor/monitor.json": {
+      "bytes": 8192,
+      "sha256": "c3f49866d51f2ff14961f7e66a33d5a1bb822e61a83a5e111453ba92c07fe3f9",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_es0/monitor/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_es0/monitor/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_terminal_high_baseline_escurrent": {
+      "bytes": 97,
+      "sha256": "ae9ecd6af2e8780a7b66a580464051907f87536b20ac82dc12f02e82b5bed82d",
+      "kind": "symlink payload"
+    },
+    "docs/research/task18-terminal-lifecycle-fix1-evidence/task18-terminal-fix1-scoped-cover-evy_hhso/specimens/test_worker_cannot_admit_numercurrent": {
+      "bytes": 97,
+      "sha256": "2d1851ae0ab7401341698838c583b6b2b23cc6bf4f2795f07f2dca5871edaf21",
+      "kind": "symlink payload"
+    }
+  },
+  "reports": {
+    ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-fix1-report.md": {
+      "bytes": 22014,
+      "sha256": "d6bfa9bca3ea250c294d6cd5f9ad520385cbdf94f3a4896500a239801780cd53"
+    },
+    "docs/research/task18-kernel-stage-a-terminal-lifecycle-fix1-report.md": {
+      "bytes": 22014,
+      "sha256": "d6bfa9bca3ea250c294d6cd5f9ad520385cbdf94f3a4896500a239801780cd53"
+    }
+  },
+  "file_count": 433,
+  "bytes": 4323447
+}

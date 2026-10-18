@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 55 items
+
+tests/test_kernel_stage_a_terminal_lifecycle.py ........................ [ 43%]
+......................                                                   [ 83%]
+tests/test_kernel_stage_a_native_process_fix1.py ........                [ 98%]
+tests/test_kernel_stage_a_preflight_fix1.py .                            [100%]
+
+============================== 55 passed in 0.64s ==============================

@@ -1,0 +1,22 @@
+{
+  "base_git": "4815000fef3060f88518a8577713a0085aebb1f4",
+  "source_git": "75c0d0f4913388668e71444156ae3e63bee032db",
+  "prior_artifact_entries": 4615,
+  "prior_artifact_bytes": 62606889,
+  "prior_mismatches": [],
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "identity_ast_unchanged": {
+    "PythonLifetimes": true,
+    "classify": true,
+    "_synthetic_classify": true,
+    "process_tree": true
+  },
+  "source_paths": [
+    "tests/test_kernel_stage_a_native_process_fix1.py",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py",
+    "validation/kernel_stage_a/monitor.py"
+  ],
+  "native_attempts_this_round": 0,
+  "scientific_operations_this_round": 0,
+  "status": "PASS preservation/source boundary only; native gate remains unfulfilled"
+}

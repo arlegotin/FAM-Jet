@@ -1,0 +1,305 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 6 items
+
+tests/test_kernel_stage_a_terminal_lifecycle.py FFFFFF                   [100%]
+
+=================================== FAILURES ===================================
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[remaining] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c64e90>
+case = 'remaining'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[exhausted] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c64b00>
+case = 'exhausted'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[kill_denied] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c5d250>
+case = 'kill_denied'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[reap_failed] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106bcf790>
+case = 'reap_failed'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[already_reaped] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106bcfce0>
+case = 'already_reaped'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+_ test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[read_error] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens/test_helper_eof_wait_failure_t5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c9de50>
+case = 'read_error'
+
+    @pytest.mark.parametrize('case',['remaining','exhausted','kill_denied','reap_failed','already_reaped','read_error'])
+    def test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder(tmp_path,monkeypatch,case):
+        """EOF cannot waive owning termination/reap after its first wait fails."""
+        runtime=identity(); clock=[100.]; calls=[]; pid=480001
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        monkeypatch.setattr(a,'helper_artifact',lambda path:runtime['helpers']['ps'])
+        monkeypatch.setattr(a,'process_image',lambda queried:dict(status='ok',path='/bin/ps',sha256='c'*64,
+            lookup_start=100.,lookup_end=100.))
+        class Probe:
+            returncode=None
+            def __init__(self):
+                self.pid=pid
+                for name,raw in [('stdout',b'480001 '+str(os.getpid()).encode()+b' 999 2\n'),('stderr',b'')]:
+                    read,write=os.pipe(); os.write(write,raw); os.close(write)
+                    setattr(self,name,os.fdopen(read,'rb',buffering=0))
+            def kill(self):
+                assert self.returncode is None,'never signal an already-reaped numeric PID'
+                calls.append(dict(operation='kill',time=clock[0]))
+                if case=='kill_denied': raise PermissionError(errno.EPERM,'controlled helper kill denial')
+            def wait(self,timeout):
+                calls.append(dict(operation='wait',time=clock[0],timeout=timeout))
+                assert 0<=timeout<=max(0,100.5-clock[0])
+                if len([row for row in calls if row['operation']=='wait'])==1:
+                    clock[0]=100.5 if case=='exhausted' else 100.1
+                    if case=='already_reaped': self.returncode=0
+                    raise subprocess.TimeoutExpired('initial helper wait',timeout)
+                clock[0]+=.01
+                if case in ('exhausted','reap_failed'): raise TimeoutError('controlled helper reap failure')
+                self.returncode=0 if case in ('kill_denied','already_reaped') else -9
+                return self.returncode
+        probe=Probe(); monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:probe)
+        if case=='read_error':
+            def denied_read(fd,count): raise OSError('controlled helper read failure')
+            monkeypatch.setattr(m.os,'read',denied_read)
+        observed=m._cleanup_observation(470001,runtime,deadline=100.5,output_limit=1024)
+        (tmp_path/'helper-outcome.json').write_text(json.dumps(dict(case=case,calls=calls,observation=observed),indent=2)+'\n')
+        assert observed['complete'] is False and 'initial helper wait' in observed['error']
+>       assert len([row for row in calls if row['operation']=='wait'])==2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'operation': 'wait', 'time': 100.0, 'timeout': 0.5}])
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:282: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[remaining]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[exhausted]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[kill_denied]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[reap_failed]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[already_reaped]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder[read_error]
+============================== 6 failed in 0.09s ===============================

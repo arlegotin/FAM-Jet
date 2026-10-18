@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py::test_emergency_quoted_primary_and_long_secondary_fit_minimum_reservation",
+    "--basetemp=/private/tmp/task18-terminal-fix1-r2-minimum-red-tczm5mhg/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792316969.6814342,
+  "end_epoch": 1792316969.866213,
+  "owned_base": "/private/tmp/task18-terminal-fix1-r2-minimum-red-tczm5mhg",
+  "source_git": "4815000fef3060f88518a8577713a0085aebb1f4"
+}

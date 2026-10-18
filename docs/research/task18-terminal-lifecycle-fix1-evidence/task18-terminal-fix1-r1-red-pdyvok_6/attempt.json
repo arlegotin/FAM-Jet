@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py::test_helper_eof_wait_failure_terminates_and_reaps_only_with_original_remainder",
+    "--basetemp=/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792316801.610822,
+  "end_epoch": 1792316801.8698492,
+  "owned_base": "/private/tmp/task18-terminal-fix1-r1-red-pdyvok_6",
+  "source_git": "4815000fef3060f88518a8577713a0085aebb1f4"
+}
