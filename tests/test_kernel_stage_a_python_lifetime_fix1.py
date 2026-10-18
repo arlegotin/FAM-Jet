@@ -33,7 +33,9 @@ def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
                   reaped=True,returncode=0,completion_end=time.monotonic(),monotonic=time.monotonic()))
     class Owner:
         pid=owner_pid; returncode=None
-        def poll(self): return self.returncode
+        def poll(self):
+            if len(calls)>=2: self.returncode=0
+            return self.returncode
         def wait(self,timeout):
             if failure in ('cap','identity'): late_events()
             if self.returncode is None: self.returncode=0
@@ -45,10 +47,29 @@ def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
         if owner.returncode is None: owner.returncode=-9
     monkeypatch.setattr(m.os,'killpg',killpg)
     monkeypatch.setattr(m.time,'sleep',lambda seconds:None)
+    # The lifecycle now treats a missing native root as terminal. Keep this
+    # reader-only seam's owner explicitly live until its second sampling turn,
+    # and make the native membership seam explicit rather than launching ps for
+    # an intentionally fake PID/artifact.
+    def membership(pid,runtime_identity,*,deadline,output_limit):
+        now=time.monotonic()
+        return dict(start=now,end=now,stdout='',stderr='',rows=[],helper=None,complete=True,error=None)
+    monkeypatch.setattr(m,'_cleanup_observation',membership)
     def sampler(pid,**kwargs):
         assert pid==owner_pid
         calls.append(pid)
+        now=time.monotonic(); lookup=time.monotonic()
+        root=dict(pid=pid,parent=os.getpid(),rss_bytes=0,sample_start=now,sample_end=now,
+                  raw_args=c.native_display(stage,runtime),raw_comm='/truncated/Python',
+                  image=(dict(status='ok',**runtime['process_image'],lookup_start=lookup,lookup_end=lookup)
+                         if len(calls)==1 else dict(status='error',method='macos.proc_pidpath',
+                         reason='native_lookup_failed',errno=errno.ESRCH,lookup_start=lookup,lookup_end=lookup)))
+        def readings(reader=None):
+            entries={pid:root}
+            if reader is not None: entries[reader_pid]=reader
+            return m.ResidentTree({key:entry['rss_bytes'] for key,entry in entries.items()},entries)
         if len(calls)==1:
+            emit(dict(event='baseline',pid=pid,rss=0,monotonic=time.monotonic()))
             emit(dict(event='candidate_start',monotonic=time.monotonic()))
             launch_start=time.monotonic(); vector=c.reader_command(tmp_path,events,launch_start+.1)
             launch=dict(event='python_worker_launch',pid=reader_pid,parent=owner_pid,role='reader',argv=vector,
@@ -70,19 +91,19 @@ def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
             if failure=='cap':
                 gone=dict(live,image=dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',
                                          errno=errno.ESRCH,lookup_start=time.monotonic(),lookup_end=time.monotonic()))
-                return m.ResidentTree({reader_pid:100},{reader_pid:gone})
+                return readings(gone)
             if failure=='identity':
-                return m.ResidentTree({reader_pid:100},{reader_pid:dict(live,raw_args=live['raw_args']+' extra')})
+                return readings(dict(live,raw_args=live['raw_args']+' extra'))
             if join=='self':
-                return m.ResidentTree({reader_pid:100},{reader_pid:live})
+                return readings(live)
         else:
             assert len(calls)==2,'no later reader sample is needed'
             # Verify the real supervisor already settled the earlier live row.
             before=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
             settled=[record for record in before if record['kind']=='resolution' and str(reader_pid) in record['roles']]
             assert len(settled)==1 and settled[0]['roles'][str(reader_pid)]=='pending_baseline'
-            late_events(); owner.returncode=0
-        return m.ResidentTree({},{})
+            late_events()
+        return readings()
     monkeypatch.setattr(m,'process_tree',sampler)
     result=m.supervise(stage,out,sampler=sampler,authority_root=tmp_path,outer_seconds=.5,
                        free_disk_bytes=0,incremental_bytes=50 if failure=='cap' else 1000)
@@ -91,7 +112,8 @@ def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
     samples=[record for record in records if record['kind']=='sample' and str(reader_pid) in record['rss']]
     assert len(samples)==(2 if join=='self' or failure in ('cap','identity') else 1)
     assert len([event for event in source if event['event']=='observer_sample'])==1
-    assert all(not record['processes'] for record in records if record['kind']=='sample' and str(reader_pid) not in record['rss'])
+    assert all({entry['pid'] for entry in record['processes']}<={owner_pid}
+               for record in records if record['kind']=='sample' and str(reader_pid) not in record['rss'])
     assert result['workers'][str(reader_pid)]['absolute_peak_bytes']==100
     assert result['source_event_accounting']['complete'] is True
     assert json.loads((out/'monitor.json').read_text())==result
@@ -137,5 +159,5 @@ def test_late_reader_join_retains_previously_established_full_rss_cap(tmp_path,m
     # A cap stop may stop reconciliation with other samples still pending.
     # Late valid evidence must be retained without promising resolved status.
     joined=[row['value'] for row in records if row['kind']=='event']
-    assert next(row for row in joined if row['event']=='baseline')['rss']==100
+    assert next(row for row in joined if row['event']=='baseline' and row['pid']==400002)['rss']==100
     assert next(row for row in joined if row['event']=='python_worker_end')['reaped'] is True

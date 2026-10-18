@@ -13,6 +13,7 @@ from . import authority,commands
 
 PS='/bin/ps'
 PS_ARGV=[PS,'-axo','pid=,ppid=,rss=,comm=,args=']
+_CLEANUP_ARGV=[PS,'-axo','pid=,ppid=,pgid=,rss=']
 
 
 class ObserverFailure(RuntimeError):
@@ -302,6 +303,107 @@ def process_tree(pid,*,observer_log=None,authority_root=None,deadline=None,runti
     return ResidentTree(readings,identities,{probe.pid:own_observer})
 
 
+def _parse_cleanup_numeric(raw):
+    """Validate the entire numeric table before any absence decision.
+
+    Failed parses retain every readable numerical row for conservative charging.
+    They can never establish complete membership.
+    """
+    rows=[]; seen=set(); error='truncated numeric output' if raw and not raw.endswith(b'\n') else None
+    for line in raw.splitlines():
+        fields=line.split()
+        if len(fields)!=4 or any(not field.isdigit() for field in fields):
+            error=error or 'malformed numeric output'; continue
+        pid,parent,pgid,rss=map(int,fields)
+        if pid<=0:
+            error=error or 'malformed numeric output'; continue
+        if pid in seen: error=error or 'duplicate numeric PID'
+        seen.add(pid); rows.append(dict(pid=pid,parent=parent,pgid=pgid,rss_bytes=rss*1024))
+    if error:
+        exc=ValueError(error); exc.rows=rows; raise exc
+    return rows
+
+
+def _cleanup_observation(root_pid,runtime_identity,*,deadline,output_limit):
+    """Private supervisor cleanup query; numeric membership supplies no image proof.
+
+    The source launch vector is retained only as a launch fact. Native helper
+    image evidence is recorded separately; no comm/args are invented from it.
+    """
+    started=time.monotonic(); bound=min(deadline,started+1); limit=min(1048576,max(0,output_limit))
+    result=dict(start=started,end=started,stdout='',stderr='',rows=[],helper=None,complete=False,error=None)
+    probe=None; witness=None; launch=None; image=None; captured={'stdout':bytearray(),'stderr':bytearray()}; used=0; read_bytes=0
+    errors=[]
+    try:
+        if bound<=started: raise _MonitorStop('cleanup observer timeout')
+        if not limit: raise _MonitorStop('output cap')
+        witness=authority.helper_launch(_CLEANUP_ARGV,runtime_identity['helpers']['ps'])
+        probe=subprocess.Popen(_CLEANUP_ARGV,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
+        witness['pid']=probe.pid
+        launch=dict(witness)
+        image=authority.process_image(probe.pid)
+        with selectors.DefaultSelector() as selector:
+            for name in captured:
+                stream=getattr(probe,name); os.set_blocking(stream.fileno(),False)
+                selector.register(stream,selectors.EVENT_READ,name)
+            while selector.get_map():
+                remaining=bound-time.monotonic()
+                if remaining<=0: raise _MonitorStop('cleanup observer timeout')
+                ready=selector.select(remaining)
+                if not ready: raise _MonitorStop('cleanup observer timeout')
+                for key,_ in ready:
+                    # One extra byte detects overflow without unbounded draining.
+                    raw=os.read(key.fd,min(65536,limit-used+1))
+                    if not raw: selector.unregister(key.fileobj); continue
+                    read_bytes+=len(raw)
+                    available=limit-used; captured[key.data].extend(raw[:available]); used+=min(len(raw),available)
+                    if len(raw)>available: raise _MonitorStop('cleanup observer output overflow')
+        result['end']=time.monotonic()
+    except Exception as exc:
+        errors.append(str(exc)[:160])
+    finally:
+        if probe is not None:
+            try:
+                if errors: probe.kill()
+            except Exception as exc: errors.append('helper kill: '+str(exc)[:120])
+            finally:
+                try: probe.wait(timeout=max(0,bound-time.monotonic()))
+                except Exception as exc: errors.append('helper wait: '+str(exc)[:120])
+                finally:
+                    witness.update(completion_end=time.monotonic(),reaped=type(probe.returncode) is int,
+                                   returncode=probe.returncode)
+                    result['helper']=dict(launch=launch,witness=witness,
+                        completion={key:witness[key] for key in ('pid','parent','launch_id','completion_end','reaped','returncode')},
+                        image=image,image_evidence='unresolved')
+                    for name in captured:
+                        stream=getattr(probe,name)
+                        if stream is not None: stream.close()
+        result.update(stdout=bytes(captured['stdout']).decode('latin1'),stderr=bytes(captured['stderr']).decode('latin1'),
+                      captured_bytes=used,read_bytes=read_bytes)
+        result['end']=max(result['end'],time.monotonic())
+    try:
+        rows=_parse_cleanup_numeric(bytes(captured['stdout']))
+    except ValueError as exc:
+        rows=exc.rows; errors.append(str(exc))
+    result['rows']=[row for row in rows if row['pgid']==root_pid or (probe is not None and row['pid']==probe.pid)]
+    if probe is not None:
+        if probe.returncode!=0: errors.append('cleanup observer unsuccessful returncode')
+        image=image or {}; artifact=runtime_identity['helpers']['ps']
+        kernel=image.get('status')=='ok' and all(image.get(k)==artifact[k] for k in ('path','sha256'))
+        exited=(image.get('status')=='error' and image.get('reason')=='native_lookup_failed' and
+                image.get('errno')==errno.ESRCH and image.get('method')=='macos.proc_pidpath')
+        timed=(witness['launch_start']<=image.get('lookup_start',float('-inf'))<=
+               image.get('lookup_end',float('inf'))<witness['completion_end'])
+        helper_rows=[row for row in result['rows'] if row['pid']==probe.pid]
+        if (not witness['reaped'] or not timed or not (kernel or exited) or
+            len(helper_rows)!=1 or any(row['parent']!=os.getpid() for row in helper_rows)):
+            errors.append('cleanup helper identity/lifetime unavailable')
+        else: result['helper']['image_evidence']='kernel_image' if kernel else 'unavailable_exited'
+    if time.monotonic()>=bound: errors.append('cleanup observer timeout')
+    result.update(complete=not errors,error='; '.join(errors)[:600] if errors else None)
+    return result
+
+
 def directory_bytes(path):
     # Include logs, incomplete files, failure artifacts, baseline events and temps.
     return sum(p.stat().st_size for p in Path(path).rglob('*') if p.is_file())
@@ -353,6 +455,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
     work_deadline=deadline-min(.1,max(0,(deadline-start)*.1))
     reserve=min(8192,max(512,output_bytes//2)); verdict=output/'monitor.json'; evidence_path=output/'monitor-evidence.jsonl'
     process=None; reason=None; monitor_failure=None; native_runtime=None; conservative=False; python_lifetimes=None; root_witness=None
+    native_supervision=sampler is process_tree; root_end_published=False; cleanup_diagnostics=[]
     peak=0; incremental_peak=0; overhead_peak=0; authority_peak=0; rss_peak_sum=0
     worker_peak=0; outer_observer=0; inner_observer=0; git_peak=0; authority_worker=0; unresolved_sum=0; unresolved_root=0
     baselines={}; per_worker={}; declarations={}; last_roles={}; failed=set(); native_pids=set(); unresolved_pids=set()
@@ -482,6 +585,12 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         evidence['accepted_samples']+=1
         pending[sequence]=dict(entries=entries,before=before,after=after,root_rss=readings.get(process.pid,0),roles={},context=None,owner_unreaped=process.returncode is None)
         dirty.add(sequence)
+        # Preserve a genuine current image proof before any owning poll/reap.
+        # Reconciliation after reap cannot establish new image proof.
+        if python_lifetimes is not None and source_accounting['identity_complete'] and process.pid not in failed:
+            root_row=entries.get(process.pid)
+            if root_row is not None and root_row.get('image',{}).get('status')=='ok':
+                python_lifetimes.root_sample(root_row,owner_unreaped=process.returncode is None)
         check(final=final)
     def numeric_events(*,final=False):
         """One bounded pass over new source bytes, independent of copied proof/admission."""
@@ -604,10 +713,6 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             live={pid for pid in entries if phase['ends'].get(pid,float('-inf'))<before}
             context=reader_context(before,after)
             if source_accounting['identity_complete']:
-                if python_lifetimes is not None:
-                    root_row=entries.get(process.pid)
-                    if root_row is not None and root_row.get('image',{}).get('status')=='ok':
-                        python_lifetimes.root_sample(root_row,owner_unreaped=batch['owner_unreaped'])
                 resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
                                   stage_vector=command,reader_context=context,runtime_identity=native_runtime,python_lifetimes=python_lifetimes)
             else:
@@ -652,11 +757,116 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
             # cannot supply phase attribution or proof. Charge the full known cost.
             conservative=True; incremental_peak=max(incremental_peak,rss_peak_sum)
         if isinstance(exc,_MonitorStop):
-            if reason is None or str(exc)=='outer timeout': reason=str(exc)
-        elif isinstance(exc,ObserverFailure): reason=str(exc); monitor_failure=exc.evidence
+            if reason is None: reason=str(exc)
+        elif isinstance(exc,ObserverFailure):
+            if reason is None: reason=str(exc); monitor_failure=exc.evidence
         else:
-            reason='monitor common failure'; monitor_failure=dict(type=type(exc).__name__,message=str(exc)[:300]); conservative=True
+            if reason is None:
+                reason='monitor common failure'; monitor_failure=dict(type=type(exc).__name__,message=str(exc)[:300])
+            conservative=True
             incremental_peak=max(incremental_peak,rss_peak_sum)
+    def cleanup_error(operation,exc):
+        # Finite operations, bounded inline diagnostics; full witnesses use the
+        # existing charged journal. Preserve the first established violation.
+        cleanup_diagnostics.append(dict(operation=operation,type=type(exc).__name__,message=str(exc)[:160],errno=getattr(exc,'errno',None)))
+        failure(exc)
+    def root_end():
+        nonlocal root_end_published
+        if root_end_published or python_lifetimes is None or type(process.returncode) is not int: return
+        end=dict(pid=process.pid,parent=os.getpid(),launch_id=root_witness['launch_id'],reaped=True,
+                 returncode=process.returncode,completion_end=time.monotonic())
+        python_lifetimes.end(end); root_end_published=True
+        append(dict(kind='python_root_end',value=end),final=True); wake(process.pid)
+    def cleanup(*,terminal=False):
+        """Observe and decide while the owner PID is reserved, then always wait.
+
+        No signal is authorized from a numeric identifier after owning reap.
+        A root-only poll returning None leaves conservative reconciliation and
+        cancellation in place; it grants no extra wait-for-favorable-evidence.
+        """
+        cancellation=reason is not None or not terminal; signal_attempted=False
+        def terminal_poll():
+            observed_start=time.monotonic(); value=process.poll()
+            root_end()
+            append(dict(kind='cleanup_owner_poll',start=observed_start,end=time.monotonic(),returncode=value),final=True)
+            if process.returncode is None:
+                # Own poll is nonblocking. Resolve/charge pending terminal rows
+                # before a later mandatory wait can supply completion.
+                try: reconcile(final=True)
+                except Exception as exc: cleanup_error('terminal reconciliation',exc)
+                cleanup_error('terminal poll',_MonitorStop('root terminal status not waitable'))
+        def signal_group():
+            nonlocal signal_attempted
+            if signal_attempted or process.returncode is not None: return
+            signal_attempted=True
+            try:
+                # Required cancellation is an immediate syscall even if a prior
+                # operation exhausted the allocation. It grants no extra wait
+                # allowance or successful status after that deadline.
+                os.killpg(process.pid,signal.SIGKILL)
+                append(dict(kind='cleanup_signal',pid=process.pid,signal=signal.SIGKILL,success=True,owner_unreaped=True),final=True)
+            except ProcessLookupError:
+                append(dict(kind='cleanup_signal',pid=process.pid,signal=signal.SIGKILL,success=True,absent=True,owner_unreaped=True),final=True)
+            except Exception as exc: cleanup_error('signal',exc)
+        try:
+            if native_supervision:
+                if process.returncode is not None:
+                    raise _MonitorStop('root ownership released before group observation')
+                observed=_cleanup_observation(process.pid,native_runtime,deadline=deadline,
+                                              output_limit=min(1048576,max(0,output_bytes-charged_bytes())))
+                selected=observed['rows']; readings={}; entries={}
+                for row in selected:
+                    pid=row['pid']; readings[pid]=max(readings.get(pid,0),row['rss_bytes']); entries[pid]=row
+                    native_pids.add(pid)
+                numeric(readings,entries)
+                try: append(dict(kind='cleanup_membership',owner_pid=process.pid,owner_unreaped=True,value=observed),final=True)
+                except BaseException as exc:
+                    refused(readings,exc); raise
+                helper=observed['helper']
+                if helper is not None:
+                    witness=helper['witness']; helper_pid=witness['pid']
+                    if helper['image_evidence'] in ('kernel_image','unavailable_exited'):
+                        last_roles[helper_pid]='observer_helper'
+                    else: failed.add(helper_pid)
+                members=[row for row in selected if row['pgid']==process.pid]
+                survivors=any(row['pid']!=process.pid for row in members)
+                if not observed['complete']:
+                    cleanup_error('query',ObserverFailure(observed['error'] or 'incomplete cleanup membership'))
+                    cancellation=True
+                elif not members:
+                    # A complete empty observation is the only group-absence claim.
+                    cancellation=False
+                elif survivors:
+                    cancellation=True
+                elif terminal and not cancellation:
+                    terminal_poll()
+                    if process.returncode is None:
+                        cancellation=True
+                if survivors:
+                    # Numeric membership alone never authorizes a Python worker.
+                    for row in members:
+                        if row['pid']!=process.pid: failed.add(row['pid'])
+                if not members and observed['complete']:
+                    terminal_poll()
+                for pid in readings:
+                    if pid!=process.pid: charge(pid,final=True)
+                if incremental_peak>incremental_bytes:
+                    cleanup_error('membership accounting',_MonitorStop('incremental worker memory cap'))
+            if cancellation and process.returncode is None:
+                signal_group()
+        except Exception as exc:
+            cleanup_error('observation',exc)
+            # Failure to observe cannot waive the original owned cancellation.
+            if process.returncode is None: signal_group()
+        finally:
+            try:
+                wait_start=time.monotonic(); waited=process.wait(timeout=max(0,min(1,deadline-wait_start)))
+                append(dict(kind='cleanup_owner_wait',start=wait_start,end=time.monotonic(),returncode=waited,
+                            reaped=type(process.returncode) is int),final=True)
+            except Exception as exc: cleanup_error('wait',exc)
+            finally:
+                try: root_end()
+                except Exception as exc: cleanup_error('end',exc)
     def emergency(why):
         # Independent of the normal JSON encoder and Path write boundary.
         body=('{"status":"'+stopped_status()+'","reason":"'+why+'","returncode":'+str(process.returncode if process is not None and process.returncode is not None else 'null')+
@@ -673,22 +883,23 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         check()
         if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
         with (output/'stdout.log').open('wb') as stdout,(output/'stderr.log').open('wb') as stderr:
-            if sampler is process_tree:
+            if native_supervision:
                 native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
                 root_witness=authority.python_launch(command,native_runtime,'owned_root')
             process=subprocess.Popen(command,cwd=output,stdout=stdout,stderr=stderr,start_new_session=True,close_fds=True)
+            terminal=False
             try:
                 if root_witness is not None:
                     root_witness['pid']=process.pid
                     python_lifetimes=PythonLifetimes(process.pid,command,native_runtime)
                     python_lifetimes.launch(root_witness,None); append(dict(kind='python_root_launch',value=root_witness))
-                while process.poll() is None:
+                while process.returncode is None if native_supervision else process.poll() is None:
                     check()
                     if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
                     if shutil.disk_usage(output).free<free_disk_bytes: raise _MonitorStop('disk free prerequisite')
                     read_events(); reconcile()
                     before=time.monotonic(); applicable=min(work_deadline,candidate_start+90 if candidate_start is not None else work_deadline)
-                    if sampler is process_tree:
+                    if native_supervision:
                         if native_runtime is None:
                             native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
                         readings=sampler(process.pid,authority_root=authority_root,deadline=applicable,runtime_identity=native_runtime)
@@ -698,17 +909,16 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     if any('raw_args' in entry for entry in entries.values()) and native_runtime is None:
                         native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
                     for entry in getattr(readings,'declarations',{}).values(): declaration(declarations,entry)
-                    read_events(); reconcile(); check()
+                    read_events()
+                    root_row=entries.get(process.pid)
+                    terminal=native_supervision and (root_row is None or
+                        (root_row.get('image',{}).get('status')=='error' and root_row['image'].get('errno')==errno.ESRCH))
+                    if terminal: break
+                    reconcile(); check()
                     time.sleep(.02)
             except (Exception,) as exc: failure(exc)
             finally:
-                try: os.killpg(process.pid,signal.SIGKILL)
-                except ProcessLookupError: pass
-                process.wait(timeout=1)
-                if python_lifetimes is not None:
-                    end=dict(pid=process.pid,parent=os.getpid(),launch_id=root_witness['launch_id'],reaped=True,
-                             returncode=process.returncode,completion_end=time.monotonic())
-                    python_lifetimes.end(end); append(dict(kind='python_root_end',value=end),final=True); wake(process.pid)
+                cleanup(terminal=terminal)
     except Exception as exc: failure(exc)
     finalization_start=time.monotonic()
     try:
@@ -718,6 +928,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         if python_lifetimes is not None and python_lifetimes.unsettled(): raise ValueError('unmatched Python generation evidence')
         for pid_text in per_worker:
             check(final=True); charge(int(pid_text),final=True)
+        if failed and reason is None: reason='foreign process identity'
         if incremental_peak>incremental_bytes and reason is None: reason='incremental worker memory cap'
     except Exception as exc:
         failure(exc)
@@ -743,7 +954,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                            declarations=phase['declarations'] if phase_complete else {},
                            ends=phase['ends'] if phase_complete else {},
                            details_complete_inline=phase_complete,helper_count=len(phase['declarations']),completed_count=len(phase['completed']))
-        result=dict(status=stopped_status() if reason or process is None or process.returncode or not source_accounting['complete'] else 'COMPLETED',reason=reason,monitor_failure=monitor_failure,
+        result=dict(status=stopped_status() if reason or process is None or type(process.returncode) is not int or process.returncode or not source_accounting['complete'] else 'COMPLETED',reason=reason,monitor_failure=monitor_failure,
+                    cleanup_diagnostics=cleanup_diagnostics,
                     stage_launch_vector_sha256=commands.vector_hash(command),returncode=process.returncode if process is not None else None,
                     outer_seconds=time.monotonic()-start,utc_start_epoch=utc,utc_end_epoch=time.time(),
                     timing_boundary='before bounded final commit; caller must measure full elapsed including commit',
@@ -763,10 +975,10 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         # Includes the completed bounded summary traversal/first encoding.
         result['outer_seconds']=time.monotonic()-start
         result['output_bytes_before_monitor_report']=charged_bytes()
-        if time.monotonic()>=deadline: result.update(status=stopped_status(),reason='outer timeout')
+        if time.monotonic()>=deadline: result.update(status=stopped_status(),reason=result['reason'] or 'outer timeout')
         raw=_bounded_json(result,reserve)
         if time.monotonic()>=deadline:
-            result.update(status=stopped_status(),reason='outer timeout',outer_seconds=time.monotonic()-start)
+            result.update(status=stopped_status(),reason=result['reason'] or 'outer timeout',outer_seconds=time.monotonic()-start)
             # One bounded last encoding, never a size/timestamp fixed point.
             raw=_bounded_json(result,reserve)
         _commit_monitor(verdict,raw,reserve)

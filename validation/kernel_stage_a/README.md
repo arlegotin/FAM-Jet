@@ -116,7 +116,7 @@ reported RSS is sampled resident memory, not allocator peak or a proof that no
 between-sample spike occurred. Timings are descriptive heterogeneous call/group
 boundaries, with no extra timing reads, warmup, stable-p95 or throughput claim.
 
-Only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=` process,
+For ordinary samples, only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=` process,
 matching its PID, executable, arguments and expected parent, is an observer
 helper. Every other worker requires its post-import baseline; an unresolved
 descendant blocks completion. Observer RSS remains in absolute totals and is
@@ -129,6 +129,32 @@ not rescanned every poll. Every new Python sample still needs its own actual
 image proof; this does not carry proof forward by PID. A helper launch instance
 keeps only negative lifetime-consistency bounds, so a later contradictory end
 still invalidates that admission without rescanning its raw history.
+
+Terminal native rows and cancellation enter a private supervisor cleanup phase
+before the owning root PID is reaped. Its sole extra vector is
+`/bin/ps -axo pid=,ppid=,pgid=,rss=`. The numeric query selects all members of the
+original group regardless of parent, plus its actual helper. It retains bounded
+raw stdout/stderr, a complete parse outcome, observation interval, actual helper
+image outcome and exact source launch/reap witnesses in the charged journal.
+The source vector is a launch fact; numeric membership supplies no Python image
+proof and grants no worker-controlled helper admission. Capture is bounded by
+the remaining output allowance (at most 1 MiB) and original deadline (at most
+one second). Malformed, duplicate, truncated, denied or incomplete output cannot
+establish group absence; known selected RSS and failures remain charged.
+
+A complete empty group skips signaling. Remaining non-root members require a
+group kill while root ownership is held; cancellation of a live owned group
+also requires termination. A root-only terminal observation permits one
+nonblocking owning poll. If it is not waitable, pending RSS remains conservative
+and cancellation stays unsuccessful. Current valid root image proof is retained
+before release; exactly one matching root end is published only after an actual
+integer owning returncode, before terminal row reconciliation. No signal uses a
+released numeric group identifier. Nested cleanup always attempts a bounded own
+wait and then truthful end publication despite observation or signal errors.
+The first violation stays primary; separately bounded cleanup diagnostics cannot
+clear a cap or turn denied cleanup into completion. These controls do not prove
+native full scientific resource feasibility; the original failed setup remains
+failed and cannot be reused as accepted setup evidence.
 
 `monitor-evidence.jsonl` durably appends complete accepted raw sample batches,
 source witnesses/completions, runtime, source events and separate resolutions

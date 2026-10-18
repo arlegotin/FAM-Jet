@@ -170,14 +170,18 @@ def test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure
         return m.ResidentTree({pid:70},{pid:entry})
     monkeypatch.setattr(m,'process_tree',sampler)
     result=m.supervise(command,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
-    assert result['status']!='COMPLETED' and result['returncode']==3 and result['reason'] is None,result
+    # This seam deliberately reaps behind the supervisor's back. It may still
+    # join truthful exit evidence, but cannot certify group cleanup after losing
+    # its ownership boundary.
+    assert result['status']=='STOPPED' and result['returncode']==3,result
+    assert result['reason']=='root ownership released before group observation',result
     records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
     resolutions=[x for x in records if x['kind']=='resolution']
     final=resolutions[-1]['identities'][str(children[0].pid)]
     assert final['launch_evidence']=='source_owned_python_lifetime'
     assert final['image_evidence']=='unavailable_exited'
     assert result['workers'][str(children[0].pid)]['absolute_peak_bytes']==70
-    assert result['incremental_worker_peak_bytes']>=70
+    assert result['incremental_worker_peak_bytes']==60
 
 
 def test_completion_cannot_precede_later_owned_image_proof(tmp_path):

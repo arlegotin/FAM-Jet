@@ -84,7 +84,11 @@ def test_deadline_crossed_during_classification_stops_and_counts_work(tmp_path,m
     assert result['status']=='STOPPED' and result['reason']=='outer timeout'
     assert result['outer_seconds']>=2
     assert result['absolute_process_tree_peak_bytes']==70
-    assert result['returncode'] is not None
+    # The injected clock jump has consumed the original finalization allowance.
+    # Cancellation remains required, but an unreaped wait(0) cannot invent end.
+    if result['returncode'] is None:
+        assert any(row['operation']=='wait' for row in result['cleanup_diagnostics'])
+        assert not any(row['kind']=='python_root_end' for row in rows(out))
     assert json.loads((out/'monitor.json').read_text())==result
 
 
