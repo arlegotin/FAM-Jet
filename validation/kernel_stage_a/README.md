@@ -269,3 +269,51 @@ Focused verification:
 ```sh
 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py
 ```
+
+Adopted source-owned terminal attribution (18 October 2026)
+---------------------------------------------------------
+
+The dated terminal-attribution amendment adds four finite literal-terminal
+families: owned root Python, the exact owned reader, declared authority Git,
+and normal PS_ARGV observers. Both raw display fields must be exactly
+`<defunct>` with integer RSS0 and an actual ordered macOS proc_pidpath ESRCH
+lookup. Attribution needs a unique valid source launch/vector/artifact and
+matching reaped completion. Python additionally needs its historical exact
+live/native proof before the terminal sample; the reader needs its genuine
+emitter=self SELF row joined to the post-import/pre-allocation baseline.
+Launch-only Python and failed/conflicting generations cannot qualify.
+
+A terminal inner ps helper binds to one accepted root/reader generation with
+matching source/raw parent and compatible launch lifetimes. A historical parent
+proof may qualify a live or absent parent; a terminal parent needs its complete
+terminal attribution. The narrow first-SELF exception uses a live parent row in
+the very same retained sample, including actual row object and sample reference,
+with the owning-supervisor origin or genuine reader SELF/baseline join. Copied
+rows, coincident timestamps, other emitters and unrelated later samples do not
+supply this proof. Python's own terminal cutoff remains unchanged. Pending
+batches index own and parent launch generations; missing launches use a PID
+index only for discovery. Actual source/proof/baseline/end changes wake affected
+batches, without rescanning settled history or introducing a grace period.
+
+Root proof is collected only on the actual supervisor sampling path while its
+owner remains unreaped. Forwarded emitter samples cannot establish it. The
+journal retains raw sample origin/event references separately from source-only
+resolutions: unavailable current image, family, launch ID, proof sample ID,
+completion and directly observed versus parent-witnessed ownership.
+
+Literal root-only cleanup eligibility is checked before poll, using the current
+retained terminal row and complete zero-RSS root-only membership. Actual own
+poll0 and truthful end finish qualification before reconciliation. The separate
+`cleanup_terminal_qualification` record says `qualified_terminal_root_only:true`
+and `membership_empty:false`. The existing exact-display/ESRCH attribution path
+is preserved and labeled `exact_display_esrch`; it does not need a fabricated
+literal marker. A complete empty query remains a distinct recorded fact.
+Nonroot survivors still require owned group cancellation even if a terminal
+zero-RSS root is present. Prior failures, missing prerequisites and poll=None
+cannot qualify; signals never use a released owner identifier.
+
+This is sampled trusted-source lifetime attribution, not a current OS image,
+exact death instant, birth-token identity, continuous exec/reuse exclusion,
+security containment or unsampled RSS bound. The newly frozen future native
+control is an input only and requires its own separate allocation. Synthetic
+source controls confer neither native compatibility nor scientific readiness.
