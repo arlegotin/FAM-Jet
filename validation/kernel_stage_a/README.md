@@ -338,7 +338,9 @@ cannot borrow it. Pending completion grants no identity or baseline credit.
 The legacy literal, exact-display, reader and helper routes keep their existing
 contracts. Earlier failures remain sticky; survivors require cancellation before
 owning release. No query family, grace period or budget is added. The new frozen
-`task18-owned-root-lifecycle-native-{control,worker}.py` inputs import the normal
-local torch/famjet runtime and call real `record_baseline`; they are statically
-reviewed inputs only and require a separate native allocation before execution.
+`task18-owned-root-asynchronous-rss-native-control.py` parent reuses the unchanged
+`task18-owned-root-lifecycle-native-worker.py`, which imports the normal local
+torch/famjet runtime and calls real `record_baseline`. The earlier lifecycle
+parent is a consumed historical input. The new parent is statically reviewed
+only and requires a separate native allocation before execution.
 Scientific gates remain OPEN and protected work CLOSED.
