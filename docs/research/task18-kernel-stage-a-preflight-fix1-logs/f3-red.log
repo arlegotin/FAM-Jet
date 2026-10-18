@@ -1,0 +1,102 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_____ test_f3_final_reconciliation_charges_all_retained_late_peaks[worker] _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4302/test_f3_final_reconciliation_c0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a713100>
+late = 'worker'
+
+    @pytest.mark.parametrize('late',['worker','observer'])
+    def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkeypatch,late):
+        from validation.kernel_stage_a import monitor as m
+        out=tmp_path/late; sampled=[]; original_sleep=time.sleep
+        code='from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)'
+        def sample(pid):
+            sampled.append(pid)
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[])}
+            if late=='worker': return m.ResidentTree({pid:100},identities)
+            (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            identities[helper['pid']]=helper
+            return m.ResidentTree({pid:20,helper['pid']:100},identities)
+        finished=[False]
+        def finish_after_last_sample(seconds):
+            if seconds==.02 and sampled and not finished[0]:
+                pid=sampled[-1]
+                entry=(dict(event='baseline',pid=pid,rss=10) if late=='worker' else
+                       dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV))
+                with (out/'monitor-events.jsonl').open('a') as stream: stream.write(json.dumps(entry)+'\n')
+                (out/'finish').touch(); finished[0]=True; original_sleep(.08)
+            else: original_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish_after_last_sample)
+        result=m.supervise([sys.executable,'-c',code],out,outer_seconds=1,free_disk_bytes=0,
+                           incremental_bytes=50,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert None == 'incremental worker memory cap'
+
+tests/test_kernel_stage_a_preflight_fix1.py:171: AssertionError
+____ test_f3_final_reconciliation_charges_all_retained_late_peaks[observer] ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4302/test_f3_final_reconciliation_c1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a712d70>
+late = 'observer'
+
+    @pytest.mark.parametrize('late',['worker','observer'])
+    def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkeypatch,late):
+        from validation.kernel_stage_a import monitor as m
+        out=tmp_path/late; sampled=[]; original_sleep=time.sleep
+        code='from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)'
+        def sample(pid):
+            sampled.append(pid)
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[])}
+            if late=='worker': return m.ResidentTree({pid:100},identities)
+            (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            identities[helper['pid']]=helper
+            return m.ResidentTree({pid:20,helper['pid']:100},identities)
+        finished=[False]
+        def finish_after_last_sample(seconds):
+            if seconds==.02 and sampled and not finished[0]:
+                pid=sampled[-1]
+                entry=(dict(event='baseline',pid=pid,rss=10) if late=='worker' else
+                       dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV))
+                with (out/'monitor-events.jsonl').open('a') as stream: stream.write(json.dumps(entry)+'\n')
+                (out/'finish').touch(); finished[0]=True; original_sleep(.08)
+            else: original_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish_after_last_sample)
+        result=m.supervise([sys.executable,'-c',code],out,outer_seconds=1,free_disk_bytes=0,
+                           incremental_bytes=50,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert None == 'incremental worker memory cap'
+
+tests/test_kernel_stage_a_preflight_fix1.py:171: AssertionError
+________ test_f3_final_report_overflow_has_one_durable_returned_verdict ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4302/test_f3_final_report_overflow_0')
+
+    def test_f3_final_report_overflow_has_one_durable_returned_verdict(tmp_path):
+        from validation.kernel_stage_a import monitor as m
+        out=tmp_path/'overflow'
+        def sample(pid):
+            (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=1))+'\n')
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[])}
+            declarations={pid+i:dict(pid=pid+i,parent=os.getpid(),executable=m.PS,argv=m.PS_ARGV) for i in range(100000,100064)}
+            return m.ResidentTree({pid:1,**{p:1 for p in declarations}},dict(identities,**{} )|declarations,declarations)
+        result=m.supervise([sys.executable,'-c','import time; time.sleep(.04)'],out,outer_seconds=1,
+                           output_bytes=8192,free_disk_bytes=0,sampler=sample)
+        assert result['status']=='STOPPED' and result['reason']=='output cap including final monitor report'
+>       assert json.loads((out/'monitor.json').read_text())==result
+E       AssertionError: assert {'status': 'C...99756479, ...} == {'status': 'S...99756479, ...}
+E         
+E         Omitting 16 identical items, use -vv to show
+E         Differing items:
+E         {'reason': None} != {'reason': 'output cap including final monitor report'}
+E         {'status': 'COMPLETED'} != {'status': 'STOPPED'}
+E         Use -v to get more diff
+
+tests/test_kernel_stage_a_preflight_fix1.py:187: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks[worker]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks[observer]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_report_overflow_has_one_durable_returned_verdict
+3 failed, 12 deselected in 0.32s

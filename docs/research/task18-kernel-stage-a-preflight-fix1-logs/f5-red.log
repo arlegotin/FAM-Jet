@@ -1,0 +1,44 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4304/test_f5_hung_observer_is_bound0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x105fc3100>
+
+    def test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker(tmp_path,monkeypatch):
+        from validation.kernel_stage_a import monitor as m
+        real_popen=m.subprocess.Popen; processes=[]
+        def capture(*args,**kwargs):
+            process=real_popen(*args,**kwargs); processes.append(process); return process
+        monkeypatch.setattr(m.subprocess,'Popen',capture)
+        monkeypatch.setattr(m,'PS_ARGV',[sys.executable,'-c','import time; time.sleep(10)'])
+        started=time.monotonic()
+        result=m.supervise([sys.executable,'-c','import time; time.sleep(10)'],tmp_path/'hung',
+                           outer_seconds=.15,free_disk_bytes=0)
+>       assert result['status']=='STOPPED' and result['reason']=='observer timeout'
+E       AssertionError: assert ('COMPLETED' == 'STOPPED'
+E         
+E         - STOPPED
+E         + COMPLETED)
+
+tests/test_kernel_stage_a_preflight_fix1.py:200: AssertionError
+______ test_f5_baseline_observation_receives_original_remaining_deadline _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4304/test_f5_baseline_observation_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x105fc2ea0>
+
+    def test_f5_baseline_observation_receives_original_remaining_deadline(tmp_path,monkeypatch):
+        from validation.kernel_stage_a import monitor as m
+        deadline=time.monotonic()+.1; observed=[]
+        def sample(pid,**kwargs): observed.append(kwargs); return {pid:10}
+        monkeypatch.setattr(m,'process_tree',sample)
+        m.record_baseline(tmp_path/'events',deadline=deadline)
+>       assert observed[0]['deadline']==deadline
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'deadline'
+
+tests/test_kernel_stage_a_preflight_fix1.py:213: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f5_baseline_observation_receives_original_remaining_deadline
+2 failed, 15 deselected in 10.12s

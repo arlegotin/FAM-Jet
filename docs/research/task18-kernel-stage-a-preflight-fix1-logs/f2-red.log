@@ -1,0 +1,47 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_f2_real_worker_authority_phase_finishes_before_backend_and_refusal_blocks_it _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4300/test_f2_real_worker_authority_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108c06ea0>
+
+    def test_f2_real_worker_authority_phase_finishes_before_backend_and_refusal_blocks_it(tmp_path,monkeypatch):
+        from validation.kernel_stage_a import authority, __main__ as launch
+        out=tmp_path/'out'; out.mkdir()
+        (out/'stdout.log').touch(); (out/'stderr.log').touch()
+        pending=dict(output_directory=str(out),resource_measurement_boundary_seal=dict(deadline_monotonic=time.monotonic()+2))
+        seal=dict(pending=pending); order=[]
+        def checked(seal,root,**kwargs):
+            events=[json.loads(line) for line in (out/'monitor-events.jsonl').read_text().splitlines()]
+            assert events[-1]['event']=='authority_start'
+            assert kwargs['deadline']==pending['resource_measurement_boundary_seal']['deadline_monotonic']
+            assert kwargs['event_path']==out/'monitor-events.jsonl'
+            order.extend(['live_HEAD','clean_status','package_runtime_helpers'])
+            return pending
+        monkeypatch.setattr(authority,'verify',checked)
+        def backend(*args):
+            events=[json.loads(line) for line in (out/'monitor-events.jsonl').read_text().splitlines()]
+            assert events[-1]['event']=='authority_end' and events[-1]['success'] is True
+            order.append('backend'); return 7
+>       assert launch.verified_worker(seal,tmp_path,backend_entry=backend)==7
+               ^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.__main__' has no attribute 'verified_worker'
+
+tests/test_kernel_stage_a_preflight_fix1.py:117: AttributeError
+_ test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4300/test_f2_exact_git_authority_id0')
+
+    def test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately(tmp_path):
+        from validation.kernel_stage_a import authority,monitor as m
+        root_pid=100; git_pid=101
+>       entry=dict(pid=git_pid,parent=root_pid,executable=authority.GIT,
+                                                          ^^^^^^^^^^^^^
+                   argv=authority.git_commands(tmp_path)[0])
+E       AttributeError: module 'validation.kernel_stage_a.authority' has no attribute 'GIT'. Did you mean: 'git'?
+
+tests/test_kernel_stage_a_preflight_fix1.py:126: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f2_real_worker_authority_phase_finishes_before_backend_and_refusal_blocks_it
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately
+2 failed, 10 deselected in 0.03s

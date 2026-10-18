@@ -119,3 +119,8 @@ VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
 ```
 
 The checked-in prospective seal is deliberately refused with exit2 before backend construction. Output layout is `monitor.json`, final-or-partial `stage-a.json`, baseline/candidate events, outer and per-reader logs, immutable canonical/input snapshots, static ownership/transport ledgers and compact P/A/B records. Partial artifacts remain failed/charged. The scientific execution nulls, source/end-to-end applicability, timing/RSS applicability, Stage B and all later Task18 obligations remain open.
+
+
+## Review fix1 — 18 October 2026
+
+The original source review required six Important changes. Their implementation, controller-selected authority phase, exact identities, focused RED/GREEN evidence and pending execution fields are recorded in [the dedicated fix1 report](task-18-kernel-stage-a-preflight-fix1-report.md). Source commit `1430d29418575abbf137ad2f7573b5cee630ed95`; final focused40pass. Independent re-review and all scientific execution remain pending. The earlier sections and original evidence are preserved as historical observations.

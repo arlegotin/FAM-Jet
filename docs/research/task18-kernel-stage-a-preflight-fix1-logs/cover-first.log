@@ -1,0 +1,49 @@
+..............F...F..................                                    [100%]
+=================================== FAILURES ===================================
+_________ test_monitor_memory_cap_requires_actual_post_import_baseline _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4306/test_monitor_memory_cap_requir0')
+
+    def test_monitor_memory_cap_requires_actual_post_import_baseline(tmp_path):
+        m=module('monitor'); import sys
+        code='''
+    import json,os,time
+    from pathlib import Path
+    Path('monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
+    time.sleep(10)
+    '''
+        result=m.supervise([sys.executable,'-c',code],tmp_path/'memory',outer_seconds=2,
+                           incremental_bytes=50,free_disk_bytes=0,sampler=lambda pid:{pid:100})
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'outer timeout' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + outer timeout
+
+tests/test_kernel_stage_a_preflight.py:295: AssertionError
+_ test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv __
+
+    def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv():
+        m=module('monitor'); import os,sys
+        entry=dict(pid=30,parent=20,executable=m.PS,argv=m.PS_ARGV)
+        declared={30:entry}
+        processes={10:dict(parent=os.getpid(),executable=sys.executable,argv=[]),
+                   20:dict(parent=10,executable=sys.executable,argv=[]),30:entry}
+        roles=m.classify(10,processes,{10:100,20:100},declared)
+        assert roles=={10:'worker',20:'worker',30:'observer_helper'}
+        assert m.classify(10,processes,{10:100},declared)[30]=='observer_helper'
+        for change in (dict(parent=99),dict(executable='/tmp/ps'),dict(argv=[m.PS,'different'])):
+            altered=dict(processes,**{})
+            altered[30]=dict(entry,**change)
+            assert m.classify(10,altered,{10:100,20:100},declared)[30]=='unaccounted'
+>       assert m.classify(10,processes,{10:100,20:100},{})[30]=='unaccounted'
+E       AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_observer_declaration
+
+tests/test_kernel_stage_a_preflight.py:348: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_monitor_memory_cap_requires_actual_post_import_baseline
+FAILED tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv
+2 failed, 35 passed in 3.56s

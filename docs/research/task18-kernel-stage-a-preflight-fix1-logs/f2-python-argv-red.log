@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4310/test_f2_same_interpreter_wrong0')
+
+    def test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline(tmp_path):
+        from validation.kernel_stage_a import monitor as m
+        root_pid=100
+        wrong={root_pid:dict(pid=root_pid,parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c','foreign'])}
+>       assert m.classify(root_pid,wrong,{root_pid:10},{})[root_pid]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_preflight_fix1.py:300: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline
+1 failed, 19 deselected in 0.04s

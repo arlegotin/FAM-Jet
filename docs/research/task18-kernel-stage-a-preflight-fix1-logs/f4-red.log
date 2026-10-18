@@ -1,0 +1,126 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+_________ test_f4_missing_eligible_evidence_fails_closed[coefficients] _________
+
+field = 'coefficients'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+___________ test_f4_missing_eligible_evidence_fails_closed[windows] ____________
+
+field = 'windows'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+________ test_f4_missing_eligible_evidence_fails_closed[window_vectors] ________
+
+field = 'window_vectors'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+__________ test_f4_missing_eligible_evidence_fails_closed[prediction] __________
+
+field = 'prediction'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+_____________ test_f4_missing_eligible_evidence_fails_closed[mass] _____________
+
+field = 'mass'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+_____________ test_f4_missing_eligible_evidence_fails_closed[raw] ______________
+
+field = 'raw'
+
+    @pytest.mark.parametrize('field', ['coefficients','windows','window_vectors','prediction','mass','raw'])
+    def test_f4_missing_eligible_evidence_fails_closed(field):
+        good=eligible_record(); broken=deepcopy(good)
+        if field in ('mass','raw'): broken['windows'][0][field]=None
+        elif field=='prediction': broken[field]=None
+        else: broken[field]=[]
+>       assert r.compare(broken,good)['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:55: AssertionError
+_____ test_f4_outer_lengths_truncated_vectors_and_explicit_unreached_paths _____
+
+    def test_f4_outer_lengths_truncated_vectors_and_explicit_unreached_paths():
+        good=eligible_record('contrast')
+        for field in ('coefficients','windows','window_vectors'):
+            broken=deepcopy(good); broken[field]=broken[field][:1]
+>           assert r.compare(broken,good)['status']=='FAILED'
+E           AssertionError: assert 'PASS' == 'FAILED'
+E             
+E             - FAILED
+E             + PASS
+
+tests/test_kernel_stage_a_preflight_fix1.py:62: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[coefficients]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[windows]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[window_vectors]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[prediction]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[mass]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_missing_eligible_evidence_fails_closed[raw]
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f4_outer_lengths_truncated_vectors_and_explicit_unreached_paths
+7 failed, 2 deselected in 0.03s

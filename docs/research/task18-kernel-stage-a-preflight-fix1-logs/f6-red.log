@@ -1,0 +1,26 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_f6_candidate_gram_arithmetic_continues_fixed_candidates_but_reference_stops_all _
+
+    def test_f6_candidate_gram_arithmetic_continues_fixed_candidates_but_reference_stops_all():
+        from validation.kernel_stage_a import driver,production,descriptors
+        calls=[]
+        comparison=dict(status='FAILED',failed_fields=['prediction[0]'],production_gram=[[1.]],reference_gram=[[2.]])
+        class Controlled:
+            def setup(self,candidate,ledger):
+                calls.append(candidate)
+                if len(calls)==1: production.gram_gate(candidate,comparison,ledger)
+            def slot(self,candidate,slot,ledger):
+                ledger.call('read',lambda:None)
+                return dict(reader_arithmetic='PASS',source_state_fidelity='PASS',end_to_end_gate='PASS',stop='continue')
+        result=driver.execute(Controlled(),checkpoint=lambda:None)
+>       assert result['status']=='FAILED'
+E       AssertionError: assert 'STOPPED' == 'FAILED'
+E         
+E         - FAILED
+E         + STOPPED
+
+tests/test_kernel_stage_a_preflight_fix1.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f6_candidate_gram_arithmetic_continues_fixed_candidates_but_reference_stops_all
+1 failed, 9 deselected in 0.59s
