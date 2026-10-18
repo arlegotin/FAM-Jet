@@ -1,0 +1,30 @@
+{
+  "scope": "Task18 source component only; not Stage A or whole-task completion",
+  "date": "2026-10-18",
+  "reviewed_base": "53c20803d5cbeca8f40da8d6b59b19f1d4b4a0c7",
+  "reviewed_head": "ff05c9ed2081e2e47ce25988fdcca74841d7e4fe",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "independent_review": "docs/research/task18-kernel-projection-source-review.md",
+  "independent_review_sha256": "630b50c98c05b1adaaa5d5b706b101dd860d5c2983b77e03cf1a5f1b25dacc42",
+  "verdicts": {
+    "spec": "approved",
+    "quality": "approved"
+  },
+  "root_verification": {
+    "files_with_verified_hashes": 20,
+    "unchanged_memory_components": 15,
+    "verification_record": "docs/research/task18-kernel-projection-source-verification.json",
+    "verification_record_sha256": "148ac7093c5890d71ede303f7bd737a15b25d4aa628beaf5e820e63098ab6f35",
+    "base_and_current_package_hashes_reconstructed": true,
+    "production_paths": [
+      "famjet/readers/kernel_projection.py",
+      "famjet/models/kernel_read_model.py",
+      "famjet/eval/isolation.py"
+    ]
+  },
+  "ruling": "Accept the independently reviewed source component. Release a separate external Stage A preflight implementation after this metadata commit; do not run scientific fixtures or references before its independent review and explicit bounded execution seal.",
+  "scientific_execution_released": false,
+  "stage_b_released": false,
+  "protected_access_released": false,
+  "tests_not_repeated": "Existing covering74pass/1skip before1322330 and final focused28pass after1322330 retained with exact chronology. No root test repetition."
+}
