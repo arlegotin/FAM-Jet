@@ -37,9 +37,9 @@
       "seconds": 5.78,
       "source_log": "artifacts/task18-evidence/structured-epsilon-source-red.txt",
       "promoted_log": "docs/research/task18-structured-epsilon-source-red.txt",
-      "sha256": "eef9b905ad3b617c9ae0e0cb9fadb84b1e25cdab19e08b56a14ddc2ece2dd9cf",
       "promoted_sha256": "cbba0dc55da04d8c1e3bfaba42a4477749830b5adc951df0962fe8dd3ad8bfd4",
-      "promotion_transform": "trailing whitespace removed; raw log and raw SHA preserved"
+      "promotion_transform": "trailing whitespace removed; raw log and raw SHA preserved",
+      "original_sha256": "eef9b905ad3b617c9ae0e0cb9fadb84b1e25cdab19e08b56a14ddc2ece2dd9cf"
     },
     {
       "label": "green",
@@ -49,9 +49,9 @@
       "seconds": 26.62,
       "source_log": "artifacts/task18-evidence/structured-epsilon-source-green.txt",
       "promoted_log": "docs/research/task18-structured-epsilon-source-green.txt",
-      "sha256": "dbbee298b362aa0b8c76842ffe30c6e6aa7b10076e538a4908506727ffb9bcc2",
       "promoted_sha256": "dbbee298b362aa0b8c76842ffe30c6e6aa7b10076e538a4908506727ffb9bcc2",
-      "promotion_transform": "exact bytes"
+      "promotion_transform": "exact bytes",
+      "original_sha256": "dbbee298b362aa0b8c76842ffe30c6e6aa7b10076e538a4908506727ffb9bcc2"
     },
     {
       "label": "cover",
@@ -61,9 +61,9 @@
       "seconds": 26.99,
       "source_log": "artifacts/task18-evidence/structured-epsilon-source-cover.txt",
       "promoted_log": "docs/research/task18-structured-epsilon-source-cover.txt",
-      "sha256": "a65edf277ba28b55fc1e0a1a0e6b68f3c177f57d8896b6ccb50f6b0db64563b5",
       "promoted_sha256": "a65edf277ba28b55fc1e0a1a0e6b68f3c177f57d8896b6ccb50f6b0db64563b5",
-      "promotion_transform": "exact bytes"
+      "promotion_transform": "exact bytes",
+      "original_sha256": "a65edf277ba28b55fc1e0a1a0e6b68f3c177f57d8896b6ccb50f6b0db64563b5"
     }
   ],
   "old_numerical_gate": "FAILED_retained",
