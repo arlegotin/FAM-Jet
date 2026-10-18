@@ -1,0 +1,52 @@
+{
+  "time_utc": "2026-10-18T13:42:21.252192+00:00",
+  "scope": "read-only admission; no setup launched",
+  "commands": [
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit": 0,
+      "stdout": "38654705664\n",
+      "stderr": "",
+      "elapsed": 0.0031195420306175947
+    },
+    {
+      "command": [
+        "/usr/bin/vm_stat"
+      ],
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    50717.\nPages active:                                 616048.\nPages inactive:                               588207.\nPages speculative:                             36660.\nPages throttled:                                   0.\nPages wired down:                             253775.\nPages purgeable:                               16476.\n\"Translation faults\":                     6368681569.\nPages copy-on-write:                       514233929.\nPages zero filled:                        5831932332.\nPages reactivated:                         154974366.\nPages purged:                               50740568.\nFile-backed pages:                            415669.\nAnonymous pages:                              825246.\nPages stored in compressor:                  1795402.\nPages occupied by compressor:                 755309.\nDecompressions:                            164804033.\nCompressions:                              216390312.\nPageins:                                   162748835.\nPageouts:                                     721946.\nSwapins:                                     2920088.\nSwapouts:                                    5000617.\n",
+      "stderr": "",
+      "elapsed": 0.0021499169524759054
+    },
+    {
+      "command": [
+        "/usr/sbin/sysctl",
+        "vm.swapusage"
+      ],
+      "exit": 0,
+      "stdout": "vm.swapusage: total = 6144.00M  used = 5094.81M  free = 1049.19M  (encrypted)\n",
+      "stderr": "",
+      "elapsed": 0.0018313330365344882
+    },
+    {
+      "command": [
+        "/usr/bin/pmset",
+        "-g",
+        "batt"
+      ],
+      "exit": 0,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+      "stderr": "",
+      "elapsed": 0.007793750031851232
+    }
+  ],
+  "genuinely_free_page_bytes": 830947328,
+  "free_disk_bytes": 20054974464,
+  "admission": false,
+  "elapsed": 0.015319791971705854,
+  "prior_observation": "Previous read-only preparation script asserted before saving raw capacity. No setup/parent/clock/allocation created; exact earlier failed value not retained. This corrected metadata observation saves before deciding."
+}

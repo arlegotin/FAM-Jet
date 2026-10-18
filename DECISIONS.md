@@ -397,3 +397,8 @@ Accept the independently reviewed source lifecycle implementation and scoped fix
 ## 18 October 2026 — explicit execution-memory allowance, source accepted
 
 Ruling: adopt a common384MiB conservative execution-charge allowance after stopped04 and independent assessment, preserving all accounting/identity rules,9345B scientific state, math, tolerances and original failed statuses. Reason: the measured272.89MiB pending-identity charge exceeds the earlier192MiB allowance; current free-page headroom supports a bounded prospective allocation. Cost if wrong: a larger but still bounded stopped diagnostic, with no adequacy or accuracy claim. Fresh admission and successful setup inspection remain mandatory. Source and controlled propagation checks are accepted after independent review; the Low real-clock test wording/timing finding remains recorded for final triage. One fresh setup05 is adopted, with no Stage B or protected permission.
+
+
+## 18 October 2026 — capacity-admission accounting
+
+Ruling: prospectively replace raw-free-only admission with same-snapshot printed free+speculative pages,1GiB before25% reserve, with complete pressure/disk/power records. Reason: independent inspection of Apple source confirms these printed counters are disjoint, and this matches the established doctor accounting convention. Cost if wrong: the availability estimate overstates headroom; retain sampled-resource limits and stop honestly. The original refused admission remains refused; no allocation or clock existed. Current source and all scientific requirements are unchanged.
