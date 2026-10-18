@@ -1,0 +1,260 @@
+FFFFFFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+______ test_read_order_delay_separate_normalization_and_no_mutation[jet] _______
+
+family = 'jet'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_read_order_delay_separate_normalization_and_no_mutation(family):
+>       m=model(family); e,q=inputs(); s=m.encode(e); before=snapshot_hash(s)
+          ^^^^^^^^^^^^^
+
+tests/test_kernel_read_isolation.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+______ test_read_order_delay_separate_normalization_and_no_mutation[bank] ______
+
+family = 'bank'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_read_order_delay_separate_normalization_and_no_mutation(family):
+>       m=model(family); e,q=inputs(); s=m.encode(e); before=snapshot_hash(s)
+          ^^^^^^^^^^^^^
+
+tests/test_kernel_read_isolation.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'bank'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+__________ test_empty_absent_and_nonfinite_fallback_preserve_failures __________
+
+    def test_empty_absent_and_nonfinite_fallback_preserve_failures():
+>       m=model(); e,q=inputs(); s=m.init_state(1,device='cpu',dtype='float64')
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+_________ test_byte_exact_static_reconstruction_and_clean_worker[jet] __________
+
+family = 'jet'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_byte_exact_static_reconstruction_and_clean_worker(family):
+>       m=model(family); e,q=inputs(); s=inference_snapshot(m.encode(e)); spec=export_method(m)
+          ^^^^^^^^^^^^^
+
+tests/test_kernel_read_isolation.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+_________ test_byte_exact_static_reconstruction_and_clean_worker[bank] _________
+
+family = 'bank'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_byte_exact_static_reconstruction_and_clean_worker(family):
+>       m=model(family); e,q=inputs(); s=inference_snapshot(m.encode(e)); spec=export_method(m)
+          ^^^^^^^^^^^^^
+
+tests/test_kernel_read_isolation.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'bank'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+________________ test_export_rejects_hidden_ownership[history] _________________
+
+bad = 'history'
+
+    @pytest.mark.parametrize('bad', ['history','array','callable','hook'])
+    def test_export_rejects_hidden_ownership(bad):
+>       m=model()
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+_________________ test_export_rejects_hidden_ownership[array] __________________
+
+bad = 'array'
+
+    @pytest.mark.parametrize('bad', ['history','array','callable','hook'])
+    def test_export_rejects_hidden_ownership(bad):
+>       m=model()
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+________________ test_export_rejects_hidden_ownership[callable] ________________
+
+bad = 'callable'
+
+    @pytest.mark.parametrize('bad', ['history','array','callable','hook'])
+    def test_export_rejects_hidden_ownership(bad):
+>       m=model()
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+__________________ test_export_rejects_hidden_ownership[hook] __________________
+
+bad = 'hook'
+
+    @pytest.mark.parametrize('bad', ['history','array','callable','hook'])
+    def test_export_rejects_hidden_ownership(bad):
+>       m=model()
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+_________________ test_closed_wire_and_direct_input_validation _________________
+
+    def test_closed_wire_and_direct_input_validation():
+>       m=model(); e,q=inputs(); s=m.encode(e)
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+____ test_accounting_includes_python_ownership_and_serialization_separately ____
+
+    def test_accounting_includes_python_ownership_and_serialization_separately():
+        from famjet.eval.budgets import budget_report
+>       m=model(); e,q=inputs(); s=inference_snapshot(m.encode(e))
+          ^^^^^^^
+
+tests/test_kernel_read_isolation.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = 'jet'
+
+    def model(family='jet'):
+>       assert importlib.util.find_spec('famjet.models.kernel_read_model'), 'kernel wrapper missing'
+E       AssertionError: kernel wrapper missing
+E       assert None
+E        +  where None = <function find_spec at 0x1094bca40>('famjet.models.kernel_read_model')
+E        +    where <function find_spec at 0x1094bca40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_read_isolation.py:17: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_read_isolation.py::test_read_order_delay_separate_normalization_and_no_mutation[jet]
+FAILED tests/test_kernel_read_isolation.py::test_read_order_delay_separate_normalization_and_no_mutation[bank]
+FAILED tests/test_kernel_read_isolation.py::test_empty_absent_and_nonfinite_fallback_preserve_failures
+FAILED tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[jet]
+FAILED tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[bank]
+FAILED tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[history]
+FAILED tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[array]
+FAILED tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[callable]
+FAILED tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[hook]
+FAILED tests/test_kernel_read_isolation.py::test_closed_wire_and_direct_input_validation
+FAILED tests/test_kernel_read_isolation.py::test_accounting_includes_python_ownership_and_serialization_separately
+11 failed in 0.62s

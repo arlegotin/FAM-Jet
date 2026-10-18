@@ -1,0 +1,48 @@
+............FF......                                                     [100%]
+=================================== FAILURES ===================================
+_________ test_byte_exact_static_reconstruction_and_clean_worker[jet] __________
+
+family = 'jet'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_byte_exact_static_reconstruction_and_clean_worker(family):
+        m=model(family); e,q=inputs(); s=inference_snapshot(m.encode(e)); spec=export_method(m)
+        restored=_reconstruct(spec)
+        assert export_method(restored)==spec
+        assert model_identity(restored)==model_identity(m)
+        for name,value in m.state_dict().items():
+            assert tensor_record(value)==tensor_record(restored.state_dict()[name])
+        direct=m.read(s,q); isolated=isolated_read(m,s,q,timeout=15)
+>       torch.testing.assert_close(direct.prediction,isolated.prediction,atol=0,rtol=0)
+E       AssertionError: Tensor-likes are not equal!
+E       
+E       Mismatched elements: 16 / 16 (100.0%)
+E       Greatest absolute difference: 1.7763568394002505e-15 at index (0, 0, 0)
+E       Greatest relative difference: 4.2714895544252586e-16 at index (0, 0, 0)
+
+tests/test_kernel_read_isolation.py:94: AssertionError
+_________ test_byte_exact_static_reconstruction_and_clean_worker[bank] _________
+
+family = 'bank'
+
+    @pytest.mark.parametrize('family',['jet','bank'])
+    def test_byte_exact_static_reconstruction_and_clean_worker(family):
+        m=model(family); e,q=inputs(); s=inference_snapshot(m.encode(e)); spec=export_method(m)
+        restored=_reconstruct(spec)
+        assert export_method(restored)==spec
+        assert model_identity(restored)==model_identity(m)
+        for name,value in m.state_dict().items():
+            assert tensor_record(value)==tensor_record(restored.state_dict()[name])
+        direct=m.read(s,q); isolated=isolated_read(m,s,q,timeout=15)
+>       torch.testing.assert_close(direct.prediction,isolated.prediction,atol=0,rtol=0)
+E       AssertionError: Tensor-likes are not equal!
+E       
+E       Mismatched elements: 16 / 16 (100.0%)
+E       Greatest absolute difference: 8.881784197001252e-16 at index (0, 0, 0)
+E       Greatest relative difference: 6.580280526294786e-16 at index (0, 1, 0)
+
+tests/test_kernel_read_isolation.py:94: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[jet]
+FAILED tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[bank]
+2 failed, 18 passed in 2.16s

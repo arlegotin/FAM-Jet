@@ -1,0 +1,37 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_static_factor_condition_and_residual_are_reported_without_cache _____
+
+    def test_static_factor_condition_and_residual_are_reported_without_cache():
+        r=reader_class()(torch.tensor([2.],dtype=torch.float64),'bank',1.,prior_scale=1.,ridge=1e-2)
+        before={name:value.clone() for name,value in r.state_dict().items()}
+>       diagnostic=r.factor_diagnostics()
+                   ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = KernelProjection(), name = 'factor_diagnostics'
+
+    def __getattr__(self, name: str) -> Union[Tensor, "Module"]:
+        if "_parameters" in self.__dict__:
+            _parameters = self.__dict__["_parameters"]
+            if name in _parameters:
+                return _parameters[name]
+        if "_buffers" in self.__dict__:
+            _buffers = self.__dict__["_buffers"]
+            if name in _buffers:
+                return _buffers[name]
+        if "_modules" in self.__dict__:
+            modules = self.__dict__["_modules"]
+            if name in modules:
+                return modules[name]
+>       raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
+E       AttributeError: 'KernelProjection' object has no attribute 'factor_diagnostics'
+
+.venv/lib/python3.13/site-packages/torch/nn/modules/module.py:1972: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_projection.py::test_static_factor_condition_and_residual_are_reported_without_cache
+1 failed in 0.48s

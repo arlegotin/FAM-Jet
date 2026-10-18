@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_wire_binds_numerical_policy_and_prior_provenance _____________
+
+    def test_wire_binds_numerical_policy_and_prior_provenance():
+        spec=export_method(model())
+        config=spec['schema']['reader']['config']
+>       assert config['epsilon']==1e-8 and config['mass_floor']==1e-8
+               ^^^^^^^^^^^^^^^^^
+E       KeyError: 'epsilon'
+
+tests/test_kernel_read_isolation.py:158: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_read_isolation.py::test_wire_binds_numerical_policy_and_prior_provenance
+1 failed in 0.59s

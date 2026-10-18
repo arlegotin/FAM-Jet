@@ -1,0 +1,212 @@
+{
+  "scope": "source-only; no Stage A acceptance",
+  "identities": {
+    "base": "53c20803d5cbeca8f40da8d6b59b19f1d4b4a0c7",
+    "source_commit": "514f4c76726ff90662ef1d204c252d0d7352bde4",
+    "base_package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+    "current_package_hash": "7ac9d549f7fcad56901ea614795f7be6933dbd4a84d661f5ad4444b5f3cdad19",
+    "memory_components": {
+      "famjet/memory/__init__.py": {
+        "base_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+        "current_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe"
+      },
+      "famjet/memory/_coefficient.py": {
+        "base_sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+        "current_sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5"
+      },
+      "famjet/memory/_fixed_writer.py": {
+        "base_sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+        "current_sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2"
+      },
+      "famjet/memory/associative_hippo.py": {
+        "base_sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+        "current_sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b"
+      },
+      "famjet/memory/buckets.py": {
+        "base_sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+        "current_sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75"
+      },
+      "famjet/memory/coordinates.py": {
+        "base_sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+        "current_sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1"
+      },
+      "famjet/memory/delta.py": {
+        "base_sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+        "current_sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784"
+      },
+      "famjet/memory/exact_store.py": {
+        "base_sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+        "current_sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17"
+      },
+      "famjet/memory/expbank.py": {
+        "base_sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+        "current_sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d"
+      },
+      "famjet/memory/gaver.py": {
+        "base_sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+        "current_sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65"
+      },
+      "famjet/memory/hippo.py": {
+        "base_sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+        "current_sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3"
+      },
+      "famjet/memory/jet.py": {
+        "base_sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+        "current_sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1"
+      },
+      "famjet/memory/multiscale.py": {
+        "base_sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+        "current_sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a"
+      },
+      "famjet/memory/oracle.py": {
+        "base_sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+        "current_sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c"
+      },
+      "famjet/memory/reservoir.py": {
+        "base_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+        "current_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12"
+      }
+    }
+  },
+  "source_files": {
+    "famjet/readers/kernel_projection.py": "364fe89d03756d74890116a093f4f927ffca5826bb01af78605ddf60cb74f593",
+    "famjet/models/kernel_read_model.py": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
+    "famjet/eval/isolation.py": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf"
+  },
+  "dependency_locks": {
+    "requirements.lock": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+  },
+  "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+  "logs": {
+    "docs/research/task18-kernel-projection-source-logs/task18-behavior-red.log": {
+      "sha256": "ec24d89640cd3eaf8886393d53d45eb0ffe5b8a22f37310eea0b09b876490bff",
+      "bytes": 3219
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-covering-final.log": {
+      "sha256": "86af5864fd169ee81be50621323a43b03a07783ac311838bb6ec24fcc60ebbcb",
+      "bytes": 191
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-covering-focused.log": {
+      "sha256": "c372b2be462970b297f842d6352a545ad69743577a5c83404e7610c3979c8957",
+      "bytes": 191
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-covering.log": {
+      "sha256": "2062940a8184684ea52beba112a530fbc58efa10e19cfe61333a17660b8f6f2a",
+      "bytes": 345
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-factor-red.log": {
+      "sha256": "167a24f4179f88fec04d49d55f6f359ffb00e203a1763525e944874ce3870f20",
+      "bytes": 1809
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-kernel-green1.log": {
+      "sha256": "8acc35ac78c82d826177b91e4fbaea659d4086ba858206733c2b4d4397e0eb42",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-kernel-green2.log": {
+      "sha256": "915890f644fbd4c748969639fcfebb286515962c1c73e784ad5dd20908be714d",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-kernel-green3.log": {
+      "sha256": "04240baf9991fc8874bc7795dfeb6c494910a3d55320a5a095a57085cc086c45",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-kernel-red.log": {
+      "sha256": "7d3438856894aa2e2e58f70347d08a435cdcdadfbbce9f1350c9e9a739d3d72c",
+      "bytes": 9805
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-mutation-gram.log": {
+      "sha256": "4afbd5b4b85ab3cd91d4ce0eda3ec78bd463f9c9082f939256fee4404f8bec0f",
+      "bytes": 1085
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-mutation-guard.log": {
+      "sha256": "666e080bd3781713af58a0485c3e5bc6409fe043a9a9c4501edfcb0da38859d0",
+      "bytes": 1560
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-policy-red.log": {
+      "sha256": "7c204d0a6a45089b4cb2c85772571d405bd7c46457eb463f94757bc86f5c5587",
+      "bytes": 773
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-wrapper-green1.log": {
+      "sha256": "131d454836779a3dd225b13373321dfdeac4c654ea97bb28bf9022c095fabfdf",
+      "bytes": 2627
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-wrapper-red.log": {
+      "sha256": "b98a6dc142231f7e6b87c62e243435067fd9663532498181b84dceca51a68062",
+      "bytes": 11838
+    }
+  },
+  "interrupted_broad_run": {
+    "command": ".venv/bin/python -m pytest -q tests/test_kernel_projection.py tests/test_kernel_read_isolation.py tests/test_no_leakage.py tests/test_budgets.py tests/test_state_io.py",
+    "result": "KeyboardInterrupt; 45 passed in 42.20s; not complete",
+    "completed_nodes_in_collection_order": [
+      "tests/test_kernel_projection.py::test_single_exponential_closed_solution_and_epsilon_shrinkage",
+      "tests/test_kernel_projection.py::test_jet_moment_gram_and_window_include_alpha_factor",
+      "tests/test_kernel_projection.py::test_adjacent_endpoint_integral_survives_cancellation",
+      "tests/test_kernel_projection.py::test_tail_integrals_and_overflow_products_are_finite",
+      "tests/test_kernel_projection.py::test_guard_short_circuit_codes_and_no_clipping",
+      "tests/test_kernel_projection.py::test_malformed_window_rejected[-1.0-2.0]",
+      "tests/test_kernel_projection.py::test_malformed_window_rejected[1.0-1.0]",
+      "tests/test_kernel_projection.py::test_malformed_window_rejected[0.0-inf]",
+      "tests/test_kernel_projection.py::test_malformed_window_rejected[0.0-nan]",
+      "tests/test_kernel_projection.py::test_two_channel_scaled_ridge_against_decimal_defining_solve",
+      "tests/test_kernel_projection.py::test_static_reconstruction_rejects_invalid_alpha_even_with_consistent_gram",
+      "tests/test_kernel_projection.py::test_mass_scaling_changes_shrinkage_and_floor_without_rescue",
+      "tests/test_kernel_read_isolation.py::test_read_order_delay_separate_normalization_and_no_mutation[jet]",
+      "tests/test_kernel_read_isolation.py::test_read_order_delay_separate_normalization_and_no_mutation[bank]",
+      "tests/test_kernel_read_isolation.py::test_empty_absent_and_nonfinite_fallback_preserve_failures",
+      "tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[jet]",
+      "tests/test_kernel_read_isolation.py::test_byte_exact_static_reconstruction_and_clean_worker[bank]",
+      "tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[history]",
+      "tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[array]",
+      "tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[callable]",
+      "tests/test_kernel_read_isolation.py::test_export_rejects_hidden_ownership[hook]",
+      "tests/test_kernel_read_isolation.py::test_closed_wire_and_direct_input_validation",
+      "tests/test_kernel_read_isolation.py::test_accounting_includes_python_ownership_and_serialization_separately",
+      "tests/test_kernel_read_isolation.py::test_worker_transport_rejects_extra_query_metadata_before_stripping",
+      "tests/test_kernel_read_isolation.py::test_empty_query_batch_and_units_are_read_only",
+      "tests/test_kernel_read_isolation.py::test_wire_binds_numerical_policy",
+      "tests/test_no_leakage.py::test_history_hash_independent_of_query_seed",
+      "tests/test_no_leakage.py::test_delayed_query_does_not_change_history",
+      "tests/test_no_leakage.py::test_split_namespaces_disjoint",
+      "tests/test_no_leakage.py::test_dense_split_ids_disjoint",
+      "tests/test_no_leakage.py::test_exploratory_generator_rejects_protected_namespace[pilot]",
+      "tests/test_no_leakage.py::test_exploratory_generator_rejects_protected_namespace[confirmation]",
+      "tests/test_no_leakage.py::test_exploratory_generator_rejects_protected_namespace[replication]",
+      "tests/test_no_leakage.py::test_key_load_varies_independently_of_history_span",
+      "tests/test_no_leakage.py::test_manifest_verifier_rejects_incomplete_resealed_inventory",
+      "tests/test_no_leakage.py::test_boundary_query_ids_do_not_encode_support",
+      "tests/test_no_leakage.py::test_manifest_roundtrip_accepts_direct_integer_delay_config",
+      "tests/test_no_leakage.py::test_hidden_cache_rejected",
+      "tests/test_no_leakage.py::test_disk_history_accessor_rejected",
+      "tests/test_no_leakage.py::test_read_order_preserves_state_hash",
+      "tests/test_no_leakage.py::test_later_query_then_resume",
+      "tests/test_no_leakage.py::test_old_query_rejected",
+      "tests/test_no_leakage.py::test_stale_rate_state_rejected",
+      "tests/test_no_leakage.py::test_kernel_features_keep_diagnostics_without_fabricated_predictions",
+      "tests/test_no_leakage.py::test_worker_denies_disk_io_and_times_out"
+    ],
+    "interrupted_node": "tests/test_no_leakage.py::test_registered_summary_and_learned_rate_roundtrips[reservoir]",
+    "identification_command": "pgrep -f 'pytest -q tests/test_kernel_projection.py tests/test_kernel_read_isolation.py tests/test_no_leakage.py'",
+    "identified_pids": [
+      3303,
+      3316
+    ],
+    "termination_command": "kill -INT 3316",
+    "termination_exit": 0,
+    "after_termination_command": "pgrep -lf 'pytest -q tests/test_kernel_projection.py tests/test_kernel_read_isolation.py tests/test_no_leakage.py tests/test_budgets.py tests/test_state_io.py'",
+    "after_termination_exit": 1,
+    "final_process_audit_command": "pgrep -lf 'pytest|famjet.eval.isolation|famjet.data.synthetic'",
+    "final_process_audit_exit": 1,
+    "note": "Unrelated existing exploratory unit smoke generation was inadvertently included; no scientific fixture/corpus/panel/fit/training run. Temporary pytest artifacts not adopted."
+  },
+  "unverified": [
+    "independent source acceptance",
+    "actual accepted fallback export/seal",
+    "actual represented production-rate seal",
+    "full Stage A fixtures and 80/160 reference comparisons",
+    "source/end-to-end numerical applicability",
+    "profiling/RSS/peak workspace",
+    "Stage B or any panel/fitting/corpus/training",
+    "whole Task18"
+  ]
+}

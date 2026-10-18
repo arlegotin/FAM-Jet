@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_jet_moment_gram_and_window_include_alpha_factor _____________
+
+    def test_jet_moment_gram_and_window_include_alpha_factor():
+        r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'jet', 1., prior_scale=1., ridge=1e-2)
+>       torch.testing.assert_close(r.gram, torch.tensor([[1/5, 2/25], [2/25, 8/125]], dtype=torch.float64), atol=1e-16, rtol=1e-16)
+E       AssertionError: Tensor-likes are not close!
+E       
+E       Mismatched elements: 3 / 4 (75.0%)
+E       Greatest absolute difference: 0.04799999999999999 at index (1, 1) (up to 1e-16 allowed)
+E       Greatest relative difference: 0.7499999999999998 at index (1, 1) (up to 1e-16 allowed)
+
+tests/test_kernel_projection.py:30: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_projection.py::test_jet_moment_gram_and_window_include_alpha_factor
+1 failed in 0.65s

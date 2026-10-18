@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_guard_short_circuit_codes_and_no_clipping ________________
+
+    def test_guard_short_circuit_codes_and_no_clipping():
+        r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+        n = torch.tensor([1.], dtype=torch.float64); u = n[:, None]*7
+        assert r.window(-n, u, 0., 1.)[1]['code'] == 3
+        assert r.window(n*0, u, 0., 1.)[1]['code'] == 5
+        assert r.window(n, u*float('inf'), 0., 1.)[1]['code'] == 2
+        assert r.window(n, u, 0., 1., quarantined=True)[1]['code'] == 1
+        # Reached cancellation guard: signed coefficients almost cancel positive N.
+        m = reader_class()(torch.tensor([.1, 1.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+        c = m.coefficients(3., 4.)
+        assert c[0] > 0 > c[1]
+        n = torch.tensor([1e12, -c[0].item()/c[1].item()*1e12], dtype=torch.float64)
+        # Strict guard must reject even when rounded mass is positive and above floor.
+        n[1] = math.nextafter(n[1].item(), 0.)
+>       assert m.window(n, torch.ones(2, 1, dtype=torch.float64), 3., 4.)[1]['code'] == 6
+E       assert 0 == 6
+
+tests/test_kernel_projection.py:62: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_projection.py::test_guard_short_circuit_codes_and_no_clipping
+1 failed in 0.46s

@@ -1,0 +1,188 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+________ test_single_exponential_closed_solution_and_epsilon_shrinkage _________
+
+    def test_single_exponential_closed_solution_and_epsilon_shrinkage():
+        # pi=e^-x and phi=e^-2x: G=1/5, b=(e^-3a-e^-3b)/3.
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+_____________ test_jet_moment_gram_and_window_include_alpha_factor _____________
+
+    def test_jet_moment_gram_and_window_include_alpha_factor():
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'jet', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+____________ test_adjacent_endpoint_integral_survives_cancellation _____________
+
+    def test_adjacent_endpoint_integral_survives_cancellation():
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'jet', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+_____________ test_tail_integrals_and_overflow_products_are_finite _____________
+
+    def test_tail_integrals_and_overflow_products_are_finite():
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'jet', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+________________ test_guard_short_circuit_codes_and_no_clipping ________________
+
+    def test_guard_short_circuit_codes_and_no_clipping():
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+___________________ test_malformed_window_rejected[-1.0-2.0] ___________________
+
+a = -1.0, b = 2.0
+
+    @pytest.mark.parametrize('a,b', [(-1., 2.), (1., 1.), (0., math.inf), (0., math.nan)])
+    def test_malformed_window_rejected(a,b):
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+___________________ test_malformed_window_rejected[1.0-1.0] ____________________
+
+a = 1.0, b = 1.0
+
+    @pytest.mark.parametrize('a,b', [(-1., 2.), (1., 1.), (0., math.inf), (0., math.nan)])
+    def test_malformed_window_rejected(a,b):
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+___________________ test_malformed_window_rejected[0.0-inf] ____________________
+
+a = 0.0, b = inf
+
+    @pytest.mark.parametrize('a,b', [(-1., 2.), (1., 1.), (0., math.inf), (0., math.nan)])
+    def test_malformed_window_rejected(a,b):
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+___________________ test_malformed_window_rejected[0.0-nan] ____________________
+
+a = 0.0, b = nan
+
+    @pytest.mark.parametrize('a,b', [(-1., 2.), (1., 1.), (0., math.inf), (0., math.nan)])
+    def test_malformed_window_rejected(a,b):
+>       r = reader_class()(torch.tensor([2.], dtype=torch.float64), 'bank', 1., prior_scale=1., ridge=1e-2)
+            ^^^^^^^^^^^^^^
+
+tests/test_kernel_projection.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reader_class():
+>       assert importlib.util.find_spec('famjet.readers.kernel_projection'), 'projection reader missing'
+E       AssertionError: projection reader missing
+E       assert None
+E        +  where None = <function find_spec at 0x104674a40>('famjet.readers.kernel_projection')
+E        +    where <function find_spec at 0x104674a40> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_kernel_projection.py:10: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_projection.py::test_single_exponential_closed_solution_and_epsilon_shrinkage
+FAILED tests/test_kernel_projection.py::test_jet_moment_gram_and_window_include_alpha_factor
+FAILED tests/test_kernel_projection.py::test_adjacent_endpoint_integral_survives_cancellation
+FAILED tests/test_kernel_projection.py::test_tail_integrals_and_overflow_products_are_finite
+FAILED tests/test_kernel_projection.py::test_guard_short_circuit_codes_and_no_clipping
+FAILED tests/test_kernel_projection.py::test_malformed_window_rejected[-1.0-2.0]
+FAILED tests/test_kernel_projection.py::test_malformed_window_rejected[1.0-1.0]
+FAILED tests/test_kernel_projection.py::test_malformed_window_rejected[0.0-inf]
+FAILED tests/test_kernel_projection.py::test_malformed_window_rejected[0.0-nan]
+9 failed in 0.48s
