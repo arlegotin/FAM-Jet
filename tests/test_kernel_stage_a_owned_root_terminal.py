@@ -12,7 +12,8 @@ from validation.kernel_stage_a import authority as a, commands as c, monitor as 
 from test_kernel_stage_a_native_process import identity
 
 
-def exercise(tmp_path, monkeypatch, *, display='(Python)', fault=None):
+def exercise(tmp_path, monkeypatch, *, display='(Python)', fault=None, terminal_rss=0,
+             membership_rss=0, incremental_bytes=201326592):
     runtime=identity(); runtime.update(executable=str(Path(sys.executable).resolve()),
         executable_sha256=a.file_hash(Path(sys.executable).resolve()))
     monkeypatch.setattr(a,'runtime',lambda:runtime)
@@ -101,8 +102,10 @@ def exercise(tmp_path, monkeypatch, *, display='(Python)', fault=None):
             live=row(500000000 if fault=='earlier_cap' else 232079360)
             return m.ResidentTree({pid:live['rss_bytes']},{pid:live})
         assert count==3
-        terminal=row(0,True)
-        changes={'parent':{'parent':99},'rss':{'rss_bytes':1},'float_rss':{'rss_bytes':0.0},
+        terminal=row(terminal_rss,True)
+        changes={'parent':{'parent':99},'negative_rss':{'rss_bytes':-1},
+                 'float_rss':{'rss_bytes':0.0},'bool_rss':{'rss_bytes':True},
+                 'missing_rss':{'rss_bytes':None},
                  'ambiguous':{'ambiguous':True},'time':{'sample_start':saved['live']['sample_start']-1}}
         terminal.update(changes.get(fault,{}))
         if fault=='error': terminal['image']['errno']=errno.EPERM
@@ -116,14 +119,19 @@ def exercise(tmp_path, monkeypatch, *, display='(Python)', fault=None):
         calls.append('membership'); assert owner.returncode is None
         start=time.monotonic()
         rows=[dict(pid=pid,parent=os.getpid(),pgid=pid,rss_bytes=0)]
-        if fault=='member_rss': rows[0]['rss_bytes']=1
+        rows[0]['rss_bytes']=membership_rss
+        if fault=='member_negative_rss': rows[0]['rss_bytes']=-1
+        if fault=='member_float_rss': rows[0]['rss_bytes']=1.0
+        if fault=='member_bool_rss': rows[0]['rss_bytes']=True
+        if fault=='member_missing_rss': rows[0]['rss_bytes']=None
         if fault=='member_parent': rows[0]['parent']=99
         if fault=='empty': rows=[]
         if fault=='survivor': rows.append(dict(pid=570002,parent=1,pgid=pid,rss_bytes=1024))
         if fault=='duplicate_member': rows.append(dict(rows[0]))
         return dict(start=start,end=time.monotonic(),rows=rows,helper=None,stdout='',stderr='',complete=fault!='membership',error='incomplete' if fault=='membership' else None)
     monkeypatch.setattr(m,'_cleanup_observation',observation)
-    result=m.supervise(vector,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+    result=m.supervise(vector,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,
+                       incremental_bytes=incremental_bytes)
     records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
     (out/'control.json').write_text(json.dumps(dict(fault=fault,calls=calls,result=result),indent=2)+'\n')
     return result,records,calls,saved
@@ -148,9 +156,47 @@ def test_root_ownership_replaces_display_spelling_after_actual_completion(tmp_pa
     assert calls.index('membership')<calls.index('poll')<calls.index('end') and 'kill' not in calls
 
 
+@pytest.mark.parametrize(('terminal_rss','membership_rss','absolute_peak','incremental_peak'),[
+    (214876160,0,232079360,5357568),
+    (0,238000000,238000000,11278208),
+    (236000000,240000000,240000000,13278208),
+])
+def test_asynchronous_root_rss_qualifies_and_retains_larger_numeric_peak(
+        tmp_path,monkeypatch,terminal_rss,membership_rss,absolute_peak,incremental_peak):
+    result,records,calls,saved=exercise(tmp_path,monkeypatch,
+        terminal_rss=terminal_rss,membership_rss=membership_rss)
+    assert result['status']=='COMPLETED',result
+    assert result['workers']['570001']['absolute_peak_bytes']==absolute_peak
+    assert result['workers']['570001']['incremental_peak_bytes']==incremental_peak
+    assert any(r['kind']=='cleanup_terminal_qualification' and
+               r['route']=='source_owned_root_lifecycle' for r in records)
+    assert saved['raw']['rss_bytes']==terminal_rss
+    membership=next(r for r in records if r['kind']=='cleanup_membership')
+    assert membership['value']['rows'][0]['rss_bytes']==membership_rss
+
+
+def test_positive_root_rss_with_missing_owning_completion_is_cancelled(tmp_path,monkeypatch):
+    result,records,calls,saved=exercise(tmp_path,monkeypatch,fault='poll_none',
+        terminal_rss=236000000,membership_rss=240000000)
+    assert result['status']!='COMPLETED'
+    assert not any(r['kind']=='cleanup_terminal_qualification' for r in records)
+    assert calls.index('membership')<calls.index('poll')<calls.index('kill')<calls.index('wait')
+    assert result['workers']['570001']['absolute_peak_bytes']==240000000
+
+
+def test_positive_root_rss_over_cap_stops_after_valid_attribution(tmp_path,monkeypatch):
+    result,records,calls,saved=exercise(tmp_path,monkeypatch,
+        terminal_rss=236000000,membership_rss=240000000,incremental_bytes=6000000)
+    assert any(r['kind']=='cleanup_terminal_qualification' and
+               r['route']=='source_owned_root_lifecycle' for r in records)
+    assert result['status']!='COMPLETED' and result['reason']=='incremental worker memory cap'
+    assert result['workers']['570001']['absolute_peak_bytes']==240000000
+    assert result['workers']['570001']['incremental_peak_bytes']==13278208
+
+
 @pytest.mark.parametrize('fault',['proof','self','baseline','stale_baseline','baseline_rss','duplicate_baseline',
-    'parent','rss','float_rss','ambiguous','time','error','image','lookup_time','provenance',
-    'member_rss','member_parent','empty','survivor','duplicate_member','membership',
+    'parent','negative_rss','float_rss','bool_rss','missing_rss','ambiguous','time','error','image','lookup_time','provenance',
+    'member_negative_rss','member_float_rss','member_bool_rss','member_missing_rss','member_parent','empty','survivor','duplicate_member','membership',
     'poll_none','nonzero','missing_end','wrong_end','earlier_cap',
     'launch_parent','launch_vector','launch_artifact','launch_image','duplicate_generation',
     'ownership','forwarded_proof','copied_proof_sample','copied_current_sample','copied_self','copied_generation','forwarded_current','member_time'])

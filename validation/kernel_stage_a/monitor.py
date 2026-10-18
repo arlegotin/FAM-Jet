@@ -164,7 +164,7 @@ class PythonLifetimes:
             return False
         image=row.get('image',{}); own_image=own.get('image',{})
         return (not row.get('ambiguous') and row['parent']==entry['parent'] and
-                type(row.get('rss_bytes')) is int and row['rss_bytes']==0 and
+                type(row.get('rss_bytes')) is int and row['rss_bytes']>=0 and
                 image.get('status')=='error' and image.get('errno')==errno.ESRCH and
                 image.get('method')=='macos.proc_pidpath' and image.get('reason')=='native_lookup_failed' and
                 own_image.get('status')=='ok' and all(own_image.get(k)==entry['expected_image'][k] for k in ('path','sha256')) and
@@ -182,7 +182,7 @@ class PythonLifetimes:
         members=[member for member in observation['rows'] if member['pgid']==self.root_pid]
         if (row is None or not self.owned_candidate(row,context) or not observation['complete'] or
                 len(members)!=1 or members[0]['pid']!=self.root_pid or members[0]['parent']!=entry['parent'] or
-                type(members[0]['rss_bytes']) is not int or members[0]['rss_bytes']!=0 or
+                type(members[0]['rss_bytes']) is not int or members[0]['rss_bytes']<0 or
                 type(poll_value) is not int or poll_value!=0 or end is None or
                 end.get('returncode')!=0 or end.get('reaped') is not True or
                 end.get('launch_id')!=entry['launch_id'] or end.get('parent')!=entry['parent'] or
@@ -1117,7 +1117,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     if (current is not None and source_accounting['identity_complete'] and source_accounting['complete'] and
                             process.pid in baselines and python_lifetimes.owned_candidate(current,latest_owned) and
                             len(members)==1 and members[0]['parent']==os.getpid() and
-                            type(members[0]['rss_bytes']) is int and members[0]['rss_bytes']==0):
+                            type(members[0]['rss_bytes']) is int and members[0]['rss_bytes']>=0):
                         route='source_owned_root_lifecycle'
                     elif literal:
                         provisional=dict(current,identity={})

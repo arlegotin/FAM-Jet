@@ -325,9 +325,11 @@ Directly owned root lifecycle receipt (18 October 2026)
 The owned-root amendment adds `source_owned_root_lifecycle` for the directly
 held root only. Display strings remain raw evidence. Eligibility requires the
 actual latest unreaped supervisor sample, unique exact launch, earlier retained
-supervisor image proof, genuine retained SELF/post-import baseline, zero integer
-RSS and ordered native ESRCH. Complete numeric membership must contain exactly
-the original root with zero integer RSS; membership remains nonempty. Actual
+supervisor image proof, genuine retained SELF/post-import baseline, actual
+nonnegative integer RSS and ordered native ESRCH. Complete numeric membership
+must contain exactly the original root with actual nonnegative integer RSS;
+membership remains nonempty. The root peak retains the larger of both RSS
+observations and all existing memory caps still apply. Actual
 owning poll0 and matching end create a single receipt retaining those original
 objects. Cleanup and final classification consume that same receipt; copied rows,
 coincident sample times, fabricated identity dictionaries, readers and helpers
