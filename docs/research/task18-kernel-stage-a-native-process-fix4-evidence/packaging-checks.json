@@ -1,0 +1,16 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check",
+    "--",
+    "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/audit.py",
+    "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/run_attempt.py",
+    "docs/research/task18-kernel-stage-a-native-process-fix4-report.md",
+    "docs/research/task18-kernel-stage-a-native-process-fix4-verification.json"
+  ],
+  "exit_code": 0,
+  "raw_output": "",
+  "note": "Authored evidence/report checks only. Raw pytest transcripts, archived sources and fixed-reservation verdict padding remain byte-exact."
+}

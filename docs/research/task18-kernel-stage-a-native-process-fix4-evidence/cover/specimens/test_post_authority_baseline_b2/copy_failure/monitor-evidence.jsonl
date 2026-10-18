@@ -1,0 +1,8 @@
+{"kind":"sample","sample_id":1,"rss":{},"processes":[],"before":546663.678042375,"after":546663.678175166}
+{"kind":"event","value":{"event":"authority_start","monotonic":546663.678093666,"pid":14260}}
+{"kind":"resolution","sample_id":1,"roles":{},"identities":{}}
+{"kind":"sample","sample_id":2,"rss":{},"processes":[],"before":546663.708959541,"after":546663.709240208}
+{"kind":"sample","sample_id":3,"rss":{"14260":500},"processes":[{"pid":14260,"parent":14252,"rss_bytes":500,"sample_start":546663.709043041,"sample_end":546663.709043041,"raw_comm":"/opt/homebrew/C","raw_args":"/long/framework/Python.app/Contents/MacOS/Python -c from pathlib import Path; import time\nwhile not Path(\"finish\").exists(): time.sleep(.005)","image":{"status":"ok","method":"macos.proc_pidpath","path":"/long/framework/Python.app/Contents/MacOS/Python","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}}],"before":546663.709043041,"after":546663.709043041}
+{"kind":"event","value":{"event":"baseline","monotonic":546663.709137541,"pid":14260,"rss":500}}
+{"kind":"resolution","sample_id":2,"roles":{},"identities":{}}
+{"kind":"resolution","sample_id":3,"roles":{"14260":"unaccounted"},"identities":{"14260":null}}

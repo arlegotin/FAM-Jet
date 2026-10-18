@@ -1,0 +1,11 @@
+commit daa89fcd7986e9a4c600869d256451fbba65c927
+Author:     Artem Legotin <arlegotin@gmail.com>
+AuthorDate: Sun Oct 18 10:10:16 2026 +0200
+Commit:     Artem Legotin <arlegotin@gmail.com>
+CommitDate: Sun Oct 18 10:10:16 2026 +0200
+
+    fix: refuse phase attribution after source provenance failure
+
+ tests/test_kernel_stage_a_native_process_fix3.py | 16 +++++++++++++---
+ validation/kernel_stage_a/monitor.py             |  9 +++++++--
+ 2 files changed, 20 insertions(+), 5 deletions(-)

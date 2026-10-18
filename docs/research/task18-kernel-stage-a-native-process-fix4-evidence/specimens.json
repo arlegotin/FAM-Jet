@@ -1,0 +1,1072 @@
+[
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 821
+    },
+    "attempt": "red",
+    "authority_rss": 500,
+    "directory_bytes": 10479,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/red/specimens/test_post_authority_baseline_b0/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "1709f8c86530c918e2bf4b21c7f55393d575a5e9fd7e440ec28c4f43970d30f0"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 822
+    },
+    "attempt": "red",
+    "authority_rss": 500,
+    "directory_bytes": 11813,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/red/specimens/test_post_authority_baseline_b1/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "172f77af2c7d3fafe2177b4eac31fdc1aae55e585228e9269a70fec308e878b9"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 820
+    },
+    "attempt": "green",
+    "authority_rss": 0,
+    "directory_bytes": 10234,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/green/specimens/test_post_authority_baseline_b0/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "95060d89fda72ed7f61c908fc2c86d53fadd2b5a86bfc10469faacef3ff3d7d0"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 822
+    },
+    "attempt": "green",
+    "authority_rss": 60,
+    "directory_bytes": 11575,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/green/specimens/test_post_authority_baseline_b1/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "32d9df8449abfc64efbe6f6ad32b8ed761670d76b9b3a3943083440ad05e81dd"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 78
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9862,
+    "incremental_rss": 60,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_commit_cost_is_visible_to0/caller-time/monitor.json",
+    "raw_peak": 70,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "c3ffc49123e771526d2b9a8a1f139c6027baf91607511b538924c91ec870fd53"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9320,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_deadline_crossed_during_c0/deadline/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "2a378f6b2dd3a96637482c8ba6379dbea200c1965d0d39d76057ee23e8b6c95a"
+    }
+  },
+  {
+    "accounting": null,
+    "attempt": "cover",
+    "authority_rss": null,
+    "directory_bytes": 9798,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_deadline_crossed_in_commi0/commit-time/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "STOPPED",
+    "unresolved_count": null,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "52d84e1bc11045427748a3d040705885cfe1fc41ddb8eb7b3b9d9186ba0b2a31"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 67
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9798,
+    "incremental_rss": 60,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_deadline_crossed_in_final0/final-time/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b158b4cd725f649e723b57eddf34b50c3dda7dafa68cdb845af08d90ce9a272c"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 20
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9436,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_event_failure_after_nativ0/bad-event/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor common failure",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "7d5047a844c859984a717bb240f88ccab657ff7938f5bab36d946f420feb8dfc"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 8714,
+    "incremental_rss": 0,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f2_exact_git_authority_id0/foreign/monitor.json",
+    "raw_peak": 20,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 2,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "e70609d1d75bb899213d2449bdd1d0a0e97ac4066e63762e0e11deaf0d316e6f"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 2318
+    },
+    "attempt": "cover",
+    "authority_rss": 120,
+    "directory_bytes": 29703,
+    "incremental_rss": 120,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f2_real_full_authority_la0/launch/monitor.json",
+    "raw_peak": 120,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "9e83a727780c118a331399a0cfca9516121421effcf5d1437789efdcbb54f4a9"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 8592,
+    "incremental_rss": 0,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f2_same_interpreter_wrong0/wrong-python/monitor.json",
+    "raw_peak": 10,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "5cedb525e8ffed16ddfaeba310b3a456f44f68dc2818d1417cd434434cff81de"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 47
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 8873,
+    "incremental_rss": 90,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f3_final_reconciliation_c0/worker/monitor.json",
+    "raw_peak": 100,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "d0f4468c854eff7b0937126a79cc6fe0ca67a1c4298e2ca16d1515eb7b9a484c"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 193
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9336,
+    "incremental_rss": 110,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f3_final_reconciliation_c1/observer/monitor.json",
+    "raw_peak": 120,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b08d1e6d444aafe4304ab998fca698872f99b85eb2d326f4c3da4cb77777aa12"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 46
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 4208,
+    "incremental_rss": 65,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f3_final_report_overflow_0/overflow/monitor.json",
+    "raw_peak": 65,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 64,
+    "verdict": {
+      "bytes": 4096,
+      "sha256": "c37327a695f5f4295eb831e3ecd6efc0410719da3b722dac54bdc0f43d0075be"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9582,
+    "incremental_rss": 0,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_f5_hung_observer_is_bound0/hung/monitor.json",
+    "raw_peak": 0,
+    "reason": "observer timeout",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "37af45533613acf0de4f6c3af17f25211d2b1f51f870caf46f1da82cb14555e0"
+    }
+  },
+  {
+    "accounting": null,
+    "attempt": "cover",
+    "authority_rss": null,
+    "directory_bytes": 9701,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_final_metadata_serializat0/metadata/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor serialization/write failure",
+    "status": "STOPPED",
+    "unresolved_count": null,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "77f3be002853f2d14aa76c733a2de0a43ab5d145fd73e3a2b8a883a80347f947"
+    }
+  },
+  {
+    "accounting": null,
+    "attempt": "cover",
+    "authority_rss": null,
+    "directory_bytes": 5605,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_finalization_failure_retu0/serialization/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor serialization/write failure",
+    "status": "STOPPED",
+    "unresolved_count": null,
+    "verdict": {
+      "bytes": 4096,
+      "sha256": "7ddd5e405fa85cc781ac3d633fa51ffc8408ce901d97aa542e134495cf665e95"
+    }
+  },
+  {
+    "accounting": null,
+    "attempt": "cover",
+    "authority_rss": null,
+    "directory_bytes": 5601,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_finalization_failure_retu1/write/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor serialization/write failure",
+    "status": "STOPPED",
+    "unresolved_count": null,
+    "verdict": {
+      "bytes": 4096,
+      "sha256": "c92b1d9376f3bbb3a3318b148560d9644e66cb7a31f564b9ebd7f3eee97ea2c3"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 599
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 24666,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_genuinely_pending_samples0/pending/monitor.json",
+    "raw_peak": 140,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "f5d78b5505438711f50eeca4f49177be5a6ce64f274de6aa44f15242c6a5c53b"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 1356
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 12886,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_inner_baseline_sample_ret0/inner/monitor.json",
+    "raw_peak": 140,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b5d65faa60da436b0e954a3292624e8d9671cadaacf77b87ed0322a0bd970b72"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 1563
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 16368,
+    "incremental_rss": 980,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_late_inner_rss_survives_f0/declaration_cap/monitor.json",
+    "raw_peak": 980,
+    "reason": "monitor common failure",
+    "status": "STOPPED",
+    "unresolved_count": 2,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "85c3ff0b926e9d26108413e85a8159620fef447e8884e1307f5ca5ae91d7f825"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 1565
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 16368,
+    "incremental_rss": 980,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_late_inner_rss_survives_f1/completion_cap/monitor.json",
+    "raw_peak": 980,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 2,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "3aba7b56116e7060f642185eaaa6ab7eef96a8946a736c8e53a4213d7c482025"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 1563
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10926,
+    "incremental_rss": 980,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_late_inner_rss_survives_f2/serialization/monitor.json",
+    "raw_peak": 980,
+    "reason": "monitor common failure",
+    "status": "STOPPED",
+    "unresolved_count": 2,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "a0a758017ecaa119041d53b8ac9f8437691d2f347ef7e50aa58daeff7aee861e"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 598
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 11767,
+    "incremental_rss": 110,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_late_native_witness_recon0/late/monitor.json",
+    "raw_peak": 120,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b8a69c263c560a55cbd7ce76f03fb501cf5450328f079748d03e3d1ab9a5aa63"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 1128
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 12208,
+    "incremental_rss": 120,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_late_native_witness_recon1/late/monitor.json",
+    "raw_peak": 120,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "262345a2c2bc8368954bb5e5935962b98cb0a4ef9a80b6143b7b22e7684220d1"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 380
+    },
+    "attempt": "cover",
+    "authority_rss": 130,
+    "directory_bytes": 9952,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_live_authority_helper_is_0/cap/monitor.json",
+    "raw_peak": 130,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "1a2c420402b1c092d39f39a14397b2d9e6ad06a4ed080c4885c85fc3082dbb3d"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 384
+    },
+    "attempt": "cover",
+    "authority_rss": 130,
+    "directory_bytes": 10067,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_live_authority_helper_is_1/foreign/monitor.json",
+    "raw_peak": 137,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 2,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "e0539c75be10e498398605824b94b9e3ea1b997daccbeb4d154fad6ca9e54423"
+    }
+  },
+  {
+    "accounting": null,
+    "attempt": "cover",
+    "authority_rss": null,
+    "directory_bytes": 512,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_minimum_failure_budget_st0/minimum/monitor.json",
+    "raw_peak": 70,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": null,
+    "verdict": {
+      "bytes": 512,
+      "sha256": "ba0b209958605bab99eea760d7e6c566793deb8a84973abb74e62c02c6c87763"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 47
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 8955,
+    "incremental_rss": 90,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_monitor_memory_cap_requir0/memory/monitor.json",
+    "raw_peak": 100,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "a2330a5fce0d172e1a27fdae02b29e4122cdd6ff9a32a3a37719a3b070ad443a"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 4816,
+    "incremental_rss": 10,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_monitor_stops_whole_proce0/out/monitor.json",
+    "raw_peak": 10,
+    "reason": "outer timeout",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 4096,
+      "sha256": "27204667971a4aa94407f379c4d7ccea42a0854713af3f91a277d03639c539a8"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 12468,
+    "incremental_rss": 0,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_monitor_stops_whole_proce0/out2/monitor.json",
+    "raw_peak": 10,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 4096,
+      "sha256": "42033ff99a7e82fd5abcf275dcf234ef1148258f79161793855a85d0436caa49"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10502,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_native_final_missing_base0/missing-baseline/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "56c45e119dea9c7290fdb402f9db0a5483fdb7bb1f6b617f5bfd00fcef469188"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 725
+    },
+    "attempt": "cover",
+    "authority_rss": 130,
+    "directory_bytes": 12415,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_native_live_authority_cha0/live-native/monitor.json",
+    "raw_peak": 130,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b4a887c1004748e05344716d799a4cbe97347bbf4870395806e92175d84acd4d"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9267,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_native_unresolved_python_0/unresolved/monitor.json",
+    "raw_peak": 70,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "f8d93afd9e3aff34ec6c4cbca384c2014b702c3017b22482c92c5e18b8317396"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 155
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10036,
+    "incremental_rss": 72,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_partial_evidence_write_ke0/partial/monitor.json",
+    "raw_peak": 72,
+    "reason": "monitor common failure",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b5123e8040705bc56b5be17a49b26b4b7a486b65a026db845af236fa39e3974a"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 822
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10576,
+    "incremental_rss": 0,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_post_authority_baseline_b0/complete/monitor.json",
+    "raw_peak": 500,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "8c339501a7f491e402493b91afaf95ecc1a809573f00f4c68c3cd9a48f449484"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 822
+    },
+    "attempt": "cover",
+    "authority_rss": 60,
+    "directory_bytes": 11915,
+    "incremental_rss": 60,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_post_authority_baseline_b1/complete/monitor.json",
+    "raw_peak": 500,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "c46c0d28d0fa887d46f3f87bf8fbe6cfcbb086c88521e1e59b0286ecd97ee1a2"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 820
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10238,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_post_authority_baseline_b2/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "21d5e5e878ddd3e229b4eea0ed314b2c8548487fb9b8aa823b9a531822259fa4"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 819
+    },
+    "attempt": "cover",
+    "authority_rss": 60,
+    "directory_bytes": 11570,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_post_authority_baseline_b3/copy_failure/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "5a529ffa16fd49ef96988a72bf753860d99252f44b20b672901eb64bf2f9f5bc"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 155
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10497,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_python_success_and_later_0/history/monitor.json",
+    "raw_peak": 70,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "d2d4a503238ff7c0a66ec8989e678fc7791649d44bb95d3df5dac2c236129759"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 252
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 11274,
+    "incremental_rss": 200,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_settled_helper_late_contr0/end-conflict/monitor.json",
+    "raw_peak": 140,
+    "reason": "foreign process identity",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "fb7250eb86c13b1a582c8d1df25c905942931850ab52a594a4ebacb883c14175"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 78
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 23909,
+    "incremental_rss": 130,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_settled_native_samples_ar0/linear/monitor.json",
+    "raw_peak": 140,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "96c23bd76725f13a11b5e8b8922a245570f4ad27eab3e8f40a5b3e7f59e03c55"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 0,
+      "status": "COMPLETE",
+      "through_bytes": 234
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 13034,
+    "incremental_rss": 640,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_small_budget_retains_acce0/bounded/monitor.json",
+    "raw_peak": 500,
+    "reason": "output cap",
+    "status": "STOPPED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "4cd7355c9f1148e16d939f085a7e41c0f68ba6ad497920246609c346cee7ddd1"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 1,
+      "status": "COMPLETE",
+      "through_bytes": 817
+    },
+    "attempt": "cover",
+    "authority_rss": 80,
+    "directory_bytes": 10576,
+    "incremental_rss": 80,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_source_sample_overlapping0/overlap/monitor.json",
+    "raw_peak": 80,
+    "reason": null,
+    "status": "COMPLETED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b6883c0c17ded86be5937225c020c870029c910a0e6234acf17f7a5e728c2edf"
+    }
+  },
+  {
+    "accounting": {
+      "complete": true,
+      "identity_complete": true,
+      "samples": 2,
+      "status": "COMPLETE",
+      "through_bytes": 1322
+    },
+    "attempt": "cover",
+    "authority_rss": 80,
+    "directory_bytes": 11922,
+    "incremental_rss": 500,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_source_sample_overlapping1/overlap/monitor.json",
+    "raw_peak": 500,
+    "reason": "incremental worker memory cap",
+    "status": "STOPPED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "a5d4a016204bbe658917b74ff67a3995da184803097b2bfd2534569b334907a3"
+    }
+  },
+  {
+    "accounting": {
+      "complete": false,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "FAILED",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9944,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_unrecoverable_source_jour0/storage/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor common failure",
+    "status": "FAILED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "515e524b6ed121f547ae1a5577d090fe7c2a1ba7ab479a993b59f88e78c878e4"
+    }
+  },
+  {
+    "accounting": {
+      "complete": false,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "FAILED",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 11603,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_unrecoverable_source_jour1/partial/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "FAILED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "11e15dca5e2756b4810e43691df6d61b8e85b0e4bd809d814416557f16aa2309"
+    }
+  },
+  {
+    "accounting": {
+      "complete": false,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "FAILED",
+      "through_bytes": 78
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 10382,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_unrecoverable_source_jour2/truncated/monitor.json",
+    "raw_peak": 70,
+    "reason": "monitor common failure",
+    "status": "FAILED",
+    "unresolved_count": 0,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "b3c3811fa8f7bd39f2e27cf6ece8951ab8c0170e51f485600f266031cf91ca5f"
+    }
+  },
+  {
+    "accounting": {
+      "complete": false,
+      "identity_complete": false,
+      "samples": 0,
+      "status": "FAILED",
+      "through_bytes": 0
+    },
+    "attempt": "cover",
+    "authority_rss": 0,
+    "directory_bytes": 9867,
+    "incremental_rss": 70,
+    "path": "docs/research/task18-kernel-stage-a-native-process-fix4-evidence/cover/specimens/test_unscanned_complete_source0/deadline/monitor.json",
+    "raw_peak": 70,
+    "reason": "outer timeout",
+    "status": "FAILED",
+    "unresolved_count": 1,
+    "verdict": {
+      "bytes": 8192,
+      "sha256": "256aa33437ab739935685c4ee58f992428d15b0e6ee65647467612f6fc5096d1"
+    }
+  }
+]

@@ -1,0 +1,54 @@
+diff --git a/tests/test_kernel_stage_a_native_process_fix3.py b/tests/test_kernel_stage_a_native_process_fix3.py
+index 25dec38..6be9b88 100644
+--- a/tests/test_kernel_stage_a_native_process_fix3.py
++++ b/tests/test_kernel_stage_a_native_process_fix3.py
+@@ -36,7 +36,10 @@ def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,mo
+             a.event(path,'baseline',pid=pid,rss=500)
+             (out/'finish').touch()
+         return m.ResidentTree({},{})
+-    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,incremental_bytes=100)
++    # Failure recovery must reach the post-end sample, past the preceding empty
++    # batch: a cap below the retained500 would mask stale-phase attribution.
++    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0,
++                       incremental_bytes=1000 if copy_failure else 100)
+     assert result['authority_full_rss_peak_bytes']==prior_authority_rss
+     assert result['absolute_process_tree_peak_bytes']==500
+     assert result['observed_pid_peak_sum_bytes']==500
+@@ -44,8 +47,15 @@ def test_post_authority_baseline_batch_cannot_inflate_authority_peak(tmp_path,mo
+     if copy_failure:
+         assert result['status']=='STOPPED' and result['reason']=='output cap'
+         assert result['source_event_accounting']['identity_complete'] is False
+-        assert result['incremental_worker_peak_bytes']>=500
+-        assert next(iter(result['workers'].values()))['baseline_bytes']==0
++        assert result['incremental_worker_peak_bytes']==500
++        worker=next(iter(result['workers'].values()))
++        assert worker['baseline_bytes']==0 and worker['incremental_peak_bytes']==500
++        assert worker.get('authority_phase_peak_bytes',0)==prior_authority_rss
++        assert worker['role']=='unaccounted' and result['unresolved_worker_count']==1
++        records=rows(out)
++        post_end=next(row for row in records if row['kind']=='sample' and list(row['rss'].values())==[500])
++        resolution=next(row for row in records if row['kind']=='resolution' and row['sample_id']==post_end['sample_id'])
++        assert list(resolution['roles'].values())==['unaccounted']
+     else:
+         assert result['status']=='COMPLETED' and result['reason'] is None
+         assert result['incremental_worker_peak_bytes']==prior_authority_rss
+diff --git a/validation/kernel_stage_a/monitor.py b/validation/kernel_stage_a/monitor.py
+index 778b70e..39c42a6 100644
+--- a/validation/kernel_stage_a/monitor.py
++++ b/validation/kernel_stage_a/monitor.py
+@@ -446,8 +446,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
+             sample_phase=dict(phase,active=phase['started'] and after>=phase.get('start',float('inf')) and before<=phase.get('end',float('inf')))
+             live={pid for pid in entries if phase['ends'].get(pid,float('-inf'))<before}
+             context=reader_context(before,after)
+-            resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
+-                              stage_vector=command,reader_context=context,runtime_identity=native_runtime)
++            if source_accounting['identity_complete']:
++                resolved=classify(process.pid,entries,baselines,declarations,authority_phase=sample_phase,current_pids=live,
++                                  stage_vector=command,reader_context=context,runtime_identity=native_runtime)
++            else:
++                # A skipped boundary can leave phase active after its actual end.
++                # Failed provenance cannot authorize new attribution or proof.
++                resolved={pid:'unaccounted' for pid in entries}
+             classified+=len(entries)
+             # Identity history is immutable evidence, never a per-PID proof cache.
+             for pid,role in resolved.items():

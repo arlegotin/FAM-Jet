@@ -1,0 +1,46 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "py_compile",
+      "validation/kernel_stage_a/monitor.py",
+      "tests/test_kernel_stage_a_native_process_fix3.py"
+    ],
+    "exit_code": 0,
+    "raw_output": "py-compile.txt"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "validation/kernel_stage_a/monitor.py",
+      "tests/test_kernel_stage_a_native_process_fix3.py"
+    ],
+    "exit_code": 0,
+    "raw_output": "source-whitespace.txt"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check"
+    ],
+    "exit_code": 0,
+    "raw_output": "",
+    "note": "Ran sequentially between staging the two source paths and source commit; empty output."
+  },
+  {
+    "command": [
+      "git",
+      "commit",
+      "-m",
+      "fix: refuse phase attribution after source provenance failure"
+    ],
+    "exit_code": 0,
+    "raw_output": "[main daa89fc] fix: refuse phase attribution after source provenance failure\n 2 files changed, 20 insertions(+), 5 deletions(-)\n"
+  }
+]
