@@ -1,0 +1,25 @@
+..........................F...................                           [100%]
+=================================== FAILURES ===================================
+____________ test_native_final_missing_baseline_is_charged_in_full _____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4343/test_native_final_missing_base0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ac48250>
+
+    def test_native_final_missing_baseline_is_charged_in_full(tmp_path,monkeypatch):
+        import time
+        monkeypatch.setattr(a,'runtime',identity)
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        def sampler(pid):
+            now=time.monotonic()
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),command,start=now,end=now+.001)})
+        result=m.supervise(command,tmp_path/'missing-baseline',sampler=sampler,outer_seconds=.04,free_disk_bytes=0)
+        assert result['status']=='STOPPED'
+        assert result['incremental_worker_peak_bytes']>=70
+>       assert next(iter(result['workers'].values()))['baseline_bytes']==0
+                         ^^^^^^^^^^^^^^^^^
+E       KeyError: 'workers'
+
+tests/test_kernel_stage_a_native_process.py:308: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process.py::test_native_final_missing_baseline_is_charged_in_full
+1 failed, 45 passed, 24 deselected in 2.24s

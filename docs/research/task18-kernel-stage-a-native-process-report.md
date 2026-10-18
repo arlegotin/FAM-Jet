@@ -123,3 +123,7 @@ Production package independently rehashed to unchanged `15cf84c28136d4f5ec34c173
 - Existing preflight source acceptance: `a843920bbf5dd7e1dbe792da2b2d404e1a8648ea288fba58e64e1a2aa72d38f5`.
 
 Remaining scientific nulls are unchanged: `implementation_review`, `represented_rate_records`, `static_exports`, `resource_measurement_boundary_seal`, `fresh_launch_snapshot`, `output_directory`, and `root_stage_A_release`. Source-owned launch attribution assumes trusted exact direct helper launch; path-file hashes do not certify all mapped bytes, observations do not certify arbitrary argv byte boundaries or continuous/adversarial image identity, and RSS sampling does not establish allocator peaks. Other-platform native binding, missing proof, unknown processes and ambiguous reuse fail closed. Root owns review, source acceptance, fresh seal and any later scientific release.
+
+## Subsequent scoped I1 fix
+
+The bounded evidence/reconciliation/finalization correction is recorded in [the fix round1 report](task18-kernel-stage-a-native-process-fix1-report.md). The original report body and native evidence above retain their original scope; this link does not reinterpret the native check or release scientific work.

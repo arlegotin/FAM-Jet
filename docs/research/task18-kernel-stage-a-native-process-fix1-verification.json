@@ -1,0 +1,788 @@
+{
+  "version": 1,
+  "scope": "Task18 native adapter I1 bounded evidence/reconciliation/finalization source fix only",
+  "base": "a0353ba6cb51b453e49929aa7c7d0a48b3f86ace",
+  "source_commit": "2f3189b0c066d2571a7e50983fced1e13de6e5c3",
+  "source_files": {
+    "tests/test_kernel_stage_a_native_process.py": "1e0a30e835eaa4a0a3da988995c802bccb96f6b8d970400efa1940e887585e54",
+    "tests/test_kernel_stage_a_native_process_fix1.py": "c23e4d63313be361f92835a56c4621d313c66927c75b3e212df26022b526757a",
+    "tests/test_kernel_stage_a_preflight_fix1.py": "14e332508531414e3d4fac87ac41788b2d01ee86ccdfe72b3632e1fd96b3ac82",
+    "validation/kernel_stage_a/README.md": "f711c1b48b6fa989b6277a9e69a227746ace3da7bba9890be231004ae8cd4f64",
+    "validation/kernel_stage_a/authority.py": "7777ed3a637e16be381bc100811b89e1fc58c5ba6a2a4464cf4d94a628ef0d2a",
+    "validation/kernel_stage_a/monitor.py": "b881f440a986d70d13016d44d0a3cb97c23102027f5616a0a1013cbcec4f68e4"
+  },
+  "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "native_functional_attempts": 0,
+  "scientific_factor_constructions": 0,
+  "scientific_reads": 0,
+  "full_stage_a_pass": false,
+  "source_self_accepted": false,
+  "scientific_release": false,
+  "focused_test_command": ".venv/bin/python -m pytest -q tests/test_kernel_stage_a_native_process_fix1.py tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py tests/test_kernel_stage_a_preflight_fix1.py -k 'native or monitor or authority or observer or baseline or f3 or f5 or same_interpreter or prospective'",
+  "focused_test_exit_code": 0,
+  "focused_test_output": "...................................................                      [100%]\n51 passed, 24 deselected in 2.47s\n",
+  "full_suite_run": false,
+  "operation_model": {
+    "settled_history_rescanned": false,
+    "new_sample_image_proof_required": true,
+    "pending_reconciled_on_affected_events": true,
+    "positive_python_pid_proof_cache": false,
+    "helper_metadata": "source launch ID keyed negative sample/lookup lifetime bounds only"
+  },
+  "resource_model": {
+    "output_cap": 67108864,
+    "worker_incremental_cap": 201326592,
+    "outer_seconds": 600,
+    "candidate_seconds": 90,
+    "verdict_reserve": "min(8192,max(512,output_bytes//2)), inside original cap",
+    "finalizer_time_reserve": "min(0.1,10% original remaining control allowance), inside original deadline",
+    "raw_evidence": "complete accepted JSONL records charged and flushed on collection; partial current row rolled back",
+    "rejected_raw": "explicit incomplete refusal with process count/RSS totals; full conservative numerical RSS charge",
+    "final_inline_workers_limit": 16,
+    "inline_completeness_flags": true,
+    "timing": "outer_seconds through completed reconciliation/first bounded encoding, before bounded final commit; caller elapsed includes write"
+  },
+  "authorized_inventory": [
+    "stdout.log",
+    "stderr.log",
+    "monitor-events.jsonl",
+    "monitor-evidence.jsonl",
+    "monitor.json"
+  ],
+  "controlled_specimens": {
+    "bounded": {
+      "directory_bytes": 13031,
+      "verdict_bytes": 8192,
+      "summary": {
+        "status": "STOPPED",
+        "reason": "output cap",
+        "monitor_failure": null,
+        "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+        "returncode": -9,
+        "outer_seconds": 0.06762445799540728,
+        "utc_start_epoch": 1792307374.298348,
+        "utc_end_epoch": 1792307374.365875,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.0671535829314962,
+        "absolute_process_tree_peak_bytes": 500,
+        "incremental_worker_peak_bytes": 640,
+        "observed_pid_peak_sum_bytes": 640,
+        "workers": {
+          "10855": {
+            "absolute_peak_bytes": 500,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 500,
+            "parent": 10854,
+            "role": "worker"
+          },
+          "110856": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110857": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 3,
+        "observer_helper_peak_bytes": 70,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [],
+        "unresolved_worker_count": 0,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 10,
+          "accepted_samples": 2,
+          "bytes": 4606,
+          "rejected_observations": 1,
+          "rejected_rss_bytes": 500,
+          "rejected_raw_complete": false,
+          "last_refusal": {
+            "kind": "refused_observation",
+            "reason": "output cap",
+            "raw_identity_complete": false,
+            "sampled_process_count": 1,
+            "rss_bytes": 500
+          }
+        },
+        "classified_process_observations": 4,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 13031
+      }
+    },
+    "linear": {
+      "directory_bytes": 23901,
+      "verdict_bytes": 8192,
+      "summary": {
+        "status": "COMPLETED",
+        "reason": null,
+        "monitor_failure": null,
+        "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+        "returncode": 0,
+        "outer_seconds": 0.09652650007046759,
+        "utc_start_epoch": 1792307374.367826,
+        "utc_end_epoch": 1792307374.4641511,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.09598283306695521,
+        "absolute_process_tree_peak_bytes": 140,
+        "incremental_worker_peak_bytes": 130,
+        "observed_pid_peak_sum_bytes": 630,
+        "workers": {
+          "10860": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 10,
+            "incremental_peak_bytes": 60,
+            "parent": 10854,
+            "role": "worker"
+          },
+          "110861": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110862": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110863": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110864": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110865": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110866": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110867": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          },
+          "110868": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 9,
+        "observer_helper_peak_bytes": 70,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [],
+        "unresolved_worker_count": 0,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 26,
+          "accepted_samples": 8,
+          "bytes": 15631,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "classified_process_observations": 16,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 23901
+      }
+    },
+    "pending": {
+      "directory_bytes": 24678,
+      "verdict_bytes": 8192,
+      "summary": {
+        "status": "COMPLETED",
+        "reason": null,
+        "monitor_failure": null,
+        "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+        "returncode": 0,
+        "outer_seconds": 0.10301666590385139,
+        "utc_start_epoch": 1792307374.890975,
+        "utc_end_epoch": 1792307374.9938822,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.09995874995365739,
+        "absolute_process_tree_peak_bytes": 140,
+        "incremental_worker_peak_bytes": 130,
+        "observed_pid_peak_sum_bytes": 140,
+        "workers": {
+          "10867": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 10,
+            "incremental_peak_bytes": 60,
+            "parent": 10854,
+            "role": "worker"
+          },
+          "110867": {
+            "absolute_peak_bytes": 70,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 70,
+            "parent": 10854,
+            "role": "observer_helper"
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 2,
+        "observer_helper_peak_bytes": 70,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [],
+        "unresolved_worker_count": 0,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 27,
+          "accepted_samples": 8,
+          "bytes": 15886,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "classified_process_observations": 32,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 24678
+      }
+    },
+    "partial": {
+      "directory_bytes": 10036,
+      "verdict_bytes": 8192,
+      "summary": {
+        "status": "STOPPED",
+        "reason": "monitor common failure",
+        "monitor_failure": {
+          "type": "OSError",
+          "message": "controlled short evidence write"
+        },
+        "stage_launch_vector_sha256": "0ea9fe14abc946ccf7ad2f15213dbb1417e6fd1a488828a20d109464b08593c8",
+        "returncode": -9,
+        "outer_seconds": 0.03675824997480959,
+        "utc_start_epoch": 1792307374.996014,
+        "utc_end_epoch": 1792307375.0326788,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.0361793750198558,
+        "absolute_process_tree_peak_bytes": 72,
+        "incremental_worker_peak_bytes": 72,
+        "observed_pid_peak_sum_bytes": 72,
+        "workers": {
+          "10868": {
+            "absolute_peak_bytes": 72,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 72,
+            "parent": 10854,
+            "role": "worker"
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 1,
+        "observer_helper_peak_bytes": 0,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [],
+        "unresolved_worker_count": 0,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 5,
+          "accepted_samples": 1,
+          "bytes": 1688,
+          "rejected_observations": 1,
+          "rejected_rss_bytes": 72,
+          "rejected_raw_complete": false,
+          "last_refusal": {
+            "kind": "refused_observation",
+            "reason": "controlled short evidence write",
+            "raw_identity_complete": false,
+            "sampled_process_count": 1,
+            "rss_bytes": 72
+          }
+        },
+        "classified_process_observations": 1,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 10036
+      }
+    },
+    "minimum": {
+      "directory_bytes": 512,
+      "verdict_bytes": 512,
+      "summary": {
+        "status": "STOPPED",
+        "reason": "output cap",
+        "returncode": -9,
+        "absolute_process_tree_peak_bytes": 70,
+        "incremental_worker_peak_bytes": 70,
+        "outer_seconds": 0.004689291003160179,
+        "timing_boundary": "before bounded emergency commit; caller measures full elapsed"
+      }
+    }
+  },
+  "durable_evidence_mapping": [
+    {
+      "original": "/tmp/task18-native-fix1/cover-attempt1.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt1.txt",
+      "sha256": "da01ad5734788084448ab571c94da1e538936bcaa4de07357710ab1394feb647"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/cover-attempt2.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt2.txt",
+      "sha256": "d53591f8ee008391e999d2ac776e1ae4688a88f41e110927c88be84eb598e13a"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/cover-attempt3.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt3.txt",
+      "sha256": "15cbdfbbadba151798046d2a7a45f3017b95a87af8fb268427a2f3931b7b327c"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/cover-attempt4.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt4.txt",
+      "sha256": "3642f5168b582e8d1a8cbd64304526065ad94b9281c902fe43077cf53d24ea50"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/final-focused.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/final-focused.txt",
+      "sha256": "5efb3fe89a916ee792e3215afe59db4d083584cd7c21c0413226bf919c6849fa"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/green-attempt1.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt1.txt",
+      "sha256": "9c2bc789bf2cba75cc5ed822cd3fccab9cf3d7a226611daf566ceea5ed0c55b1"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/green-attempt2.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt2.txt",
+      "sha256": "fcae3a17c00314b543399c60ea5d11767e786b36981cd109a979aea2b13e5838"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/red.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red.txt",
+      "sha256": "53abcc1422f2027aa6c5aa6f14637a1e3475deaa068b90504f9415f8d967966c"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/red2.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red2.txt",
+      "sha256": "0c5ffc28ae62e527e3dcfe966988d56b9b5d1189a059fda1148724d08fbf6a76"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/red3.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red3.txt",
+      "sha256": "aa07aa56dd90f987f5f27a63d7d4235f3b8457aa144408668e5d6f675db3f7fb"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/red4.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red4.txt",
+      "sha256": "5646b5e29c2f5c6432dc6736a8ae1b648137a88272983fd1e16b4c3d4eb56bf0"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_small_budget_retains_acce0/bounded/monitor-events.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-events.jsonl",
+      "sha256": "c6b7719884d69dc7dc186ef9cd093897881de61307a37b3e3ff29706acf82ab9"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_small_budget_retains_acce0/bounded/monitor-evidence.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-evidence.jsonl",
+      "sha256": "f9e353922f84f34a8744e26e6dfb6c0617b71dbad7912724a8432f91dfe7aa85"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_small_budget_retains_acce0/bounded/monitor.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor.json",
+      "sha256": "5dc0351f281592278d41cf9dcc89efa677ac96a6720189fe29b572fb344e5e65"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_small_budget_retains_acce0/bounded/stderr.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_small_budget_retains_acce0/bounded/stdout.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/finish",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/finish",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/monitor-events.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-events.jsonl",
+      "sha256": "f3032cdc698b78bce1378c2ced1b259e578fee76f91c6eef7317d56b31b50c12"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/monitor-evidence.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-evidence.jsonl",
+      "sha256": "2fa505323c1b7d089f8bc4f482ef55dbe9bb213e3636faad52a64f43a9420b43"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/monitor.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor.json",
+      "sha256": "4fff718a3ea08fcb20f9d07ad3251788978b4eac266a360a6ce339aa7aff2481"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/stderr.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_settled_native_samples_ar0/linear/stdout.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/finish",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/finish",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/monitor-events.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-events.jsonl",
+      "sha256": "4f9444fd4897e80529351faec1976f75d6587dce186bd370fae236bb86f93c33"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/monitor-evidence.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-evidence.jsonl",
+      "sha256": "172c05f8e15572fe73375020ec3bdb7ee310f7a35cd044f2e439edc869baf674"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/monitor.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor.json",
+      "sha256": "4827bc5bccd52bf456b89643480ccad17f718c06ac94f8b113af24adef0f8a73"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/stderr.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_genuinely_pending_samples0/pending/stdout.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_partial_evidence_write_ke0/partial/monitor-events.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-events.jsonl",
+      "sha256": "1f6da6112ccb3137f06c80acd21206aeaee1d5bced5bacffd5c2412bf4f9d464"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_partial_evidence_write_ke0/partial/monitor-evidence.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-evidence.jsonl",
+      "sha256": "c2de514bfbb7b4f3aee680ce9ce7c97add9f809064f01296354871241cffc3f9"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_partial_evidence_write_ke0/partial/monitor.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor.json",
+      "sha256": "cce7e4e1ed9eca6b468e4cdfa17b875ac12bd0f93e97ca4f9f7ef28874d322fa"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_partial_evidence_write_ke0/partial/stderr.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_partial_evidence_write_ke0/partial/stdout.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_minimum_failure_budget_st0/minimum/monitor-events.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_minimum_failure_budget_st0/minimum/monitor-evidence.jsonl",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-evidence.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_minimum_failure_budget_st0/minimum/monitor.json",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor.json",
+      "sha256": "c4ff095383fcf870265e192fa530564c42e6bc35b95fded1a141c6a68dfae581"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_minimum_failure_budget_st0/minimum/stderr.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4348/test_minimum_failure_budget_st0/minimum/stdout.log",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/task18-native-fix1/packaging-whitespace.txt",
+      "durable": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/packaging-whitespace.txt",
+      "sha256": "cb6d77587a9a7cbc2e05d72f0494ff5dcedc465a1256fb5476bca94633810885"
+    }
+  ],
+  "artifacts": {
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-events.jsonl": {
+      "sha256": "c6b7719884d69dc7dc186ef9cd093897881de61307a37b3e3ff29706acf82ab9",
+      "bytes": 233
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor-evidence.jsonl": {
+      "sha256": "f9e353922f84f34a8744e26e6dfb6c0617b71dbad7912724a8432f91dfe7aa85",
+      "bytes": 4606
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/monitor.json": {
+      "sha256": "5dc0351f281592278d41cf9dcc89efa677ac96a6720189fe29b572fb344e5e65",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/bounded/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt1.txt": {
+      "sha256": "da01ad5734788084448ab571c94da1e538936bcaa4de07357710ab1394feb647",
+      "bytes": 11704
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt2.txt": {
+      "sha256": "d53591f8ee008391e999d2ac776e1ae4688a88f41e110927c88be84eb598e13a",
+      "bytes": 5173
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt3.txt": {
+      "sha256": "15cbdfbbadba151798046d2a7a45f3017b95a87af8fb268427a2f3931b7b327c",
+      "bytes": 1503
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/cover-attempt4.txt": {
+      "sha256": "3642f5168b582e8d1a8cbd64304526065ad94b9281c902fe43077cf53d24ea50",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/final-focused.txt": {
+      "sha256": "5efb3fe89a916ee792e3215afe59db4d083584cd7c21c0413226bf919c6849fa",
+      "bytes": 114
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt1.txt": {
+      "sha256": "9c2bc789bf2cba75cc5ed822cd3fccab9cf3d7a226611daf566ceea5ed0c55b1",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/green-attempt2.txt": {
+      "sha256": "fcae3a17c00314b543399c60ea5d11767e786b36981cd109a979aea2b13e5838",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-events.jsonl": {
+      "sha256": "f3032cdc698b78bce1378c2ced1b259e578fee76f91c6eef7317d56b31b50c12",
+      "bytes": 78
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor-evidence.jsonl": {
+      "sha256": "2fa505323c1b7d089f8bc4f482ef55dbe9bb213e3636faad52a64f43a9420b43",
+      "bytes": 15631
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/monitor.json": {
+      "sha256": "4fff718a3ea08fcb20f9d07ad3251788978b4eac266a360a6ce339aa7aff2481",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/linear/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-events.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor-evidence.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/monitor.json": {
+      "sha256": "c4ff095383fcf870265e192fa530564c42e6bc35b95fded1a141c6a68dfae581",
+      "bytes": 512
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/minimum/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-events.jsonl": {
+      "sha256": "1f6da6112ccb3137f06c80acd21206aeaee1d5bced5bacffd5c2412bf4f9d464",
+      "bytes": 156
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor-evidence.jsonl": {
+      "sha256": "c2de514bfbb7b4f3aee680ce9ce7c97add9f809064f01296354871241cffc3f9",
+      "bytes": 1688
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/monitor.json": {
+      "sha256": "cce7e4e1ed9eca6b468e4cdfa17b875ac12bd0f93e97ca4f9f7ef28874d322fa",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/partial/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/finish": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-events.jsonl": {
+      "sha256": "4f9444fd4897e80529351faec1976f75d6587dce186bd370fae236bb86f93c33",
+      "bytes": 600
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor-evidence.jsonl": {
+      "sha256": "172c05f8e15572fe73375020ec3bdb7ee310f7a35cd044f2e439edc869baf674",
+      "bytes": 15886
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/monitor.json": {
+      "sha256": "4827bc5bccd52bf456b89643480ccad17f718c06ac94f8b113af24adef0f8a73",
+      "bytes": 8192
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/pending/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red.txt": {
+      "sha256": "53abcc1422f2027aa6c5aa6f14637a1e3475deaa068b90504f9415f8d967966c",
+      "bytes": 6333
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red2.txt": {
+      "sha256": "0c5ffc28ae62e527e3dcfe966988d56b9b5d1189a059fda1148724d08fbf6a76",
+      "bytes": 7962
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red3.txt": {
+      "sha256": "aa07aa56dd90f987f5f27a63d7d4235f3b8457aa144408668e5d6f675db3f7fb",
+      "bytes": 4008
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/red4.txt": {
+      "sha256": "5646b5e29c2f5c6432dc6736a8ae1b648137a88272983fd1e16b4c3d4eb56bf0",
+      "bytes": 2326
+    },
+    "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/packaging-whitespace.txt": {
+      "sha256": "cb6d77587a9a7cbc2e05d72f0494ff5dcedc465a1256fb5476bca94633810885",
+      "bytes": 28305
+    }
+  },
+  "unchanged": {
+    "requirements.lock": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+    "validation/kernel_stage_a/fixture-descriptors.json": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0",
+    "validation/kernel_stage_a/frozen-training-metadata.json": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c",
+    "validation/kernel_stage_a/prospective-seal.json": "6d331f63a24415b2675ef9aeb6ee9f3e54c6f1b214b44a977b0c228bbdfa3230",
+    "docs/research/task18-kernel-stage-a-preflight-source-acceptance.json": "a843920bbf5dd7e1dbe792da2b2d404e1a8648ea288fba58e64e1a2aa72d38f5",
+    "docs/research/task18-kernel-stage-a-native-process-verification.json": "17b937747c1a865fe108b1e5629e4838759d60b17bc8d0c4b1ce9881ccdca440"
+  },
+  "scientific_nulls": {
+    "pending": {
+      "implementation_review": null,
+      "represented_rate_records": null,
+      "static_exports": null,
+      "resource_measurement_boundary_seal": null,
+      "fresh_launch_snapshot": null,
+      "output_directory": null
+    },
+    "root_stage_A_release": null
+  },
+  "conservative_python_esrch_policy_retained": true,
+  "limitations": [
+    "No native functional or scientific rerun; source review remains required.",
+    "Legitimate reader exit before image lookup can still stop unresolved even after earlier proof, as mandated.",
+    "Path-file hash and sampled RSS limitations remain.",
+    "If storage refuses both normal and emergency writes, no durable final artifact can be guaranteed; no passing verdict is returned."
+  ],
+  "original_report_link": {
+    "path": "docs/research/task18-kernel-stage-a-native-process-report.md",
+    "original_body_sha256": "4f3af526048d43fe38453bd5149c139905bcbfd0df5f4efb3fd4d0ea3b52023f",
+    "current_sha256": "659dae1b0dccb50cf48856d90cd38ec26bfe12779936047fc58e92d370354d26",
+    "original_body_byte_prefix_preserved": true
+  },
+  "report_path": "docs/research/task18-kernel-stage-a-native-process-fix1-report.md",
+  "report_sha256": "edb06ac8b0a0c5fc7cc4203ab0fb876a0fdd5762dd43eced6ebebe033f33bf7f",
+  "packaging_checks": {
+    "source_diff_check_exit_code": 0,
+    "raw_pytest_and_reserved_json_padding_whitespace_expected": true,
+    "raw_evidence_diff_check_exit_code": 2,
+    "diagnostic_path": "docs/research/task18-kernel-stage-a-native-process-fix1-evidence/packaging-whitespace.txt"
+  }
+}

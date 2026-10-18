@@ -1,0 +1,99 @@
+FF.FFF                                                                   [100%]
+=================================== FAILURES ===================================
+_____ test_small_budget_retains_accepted_raw_and_charges_rejected_oversize _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4337/test_small_budget_retains_acce0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a43b360>
+
+    def test_small_budget_retains_accepted_raw_and_charges_rejected_oversize(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'bounded'; polls=[]
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic()
+            entry=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            if len(polls)==3: entry['raw_args']='x'*20000; entry['rss_bytes']=500
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:entry['rss_bytes']},{pid:entry})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,output_bytes=8192,free_disk_bytes=0)
+>       assert result['status']=='STOPPED' and 'output cap' in result['reason']
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'output cap' in 'foreign process identity')
+
+tests/test_kernel_stage_a_native_process_fix1.py:30: AssertionError
+__________ test_settled_native_samples_are_not_reclassified_each_poll __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4337/test_settled_native_samples_ar0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a43afd0>
+
+    def test_settled_native_samples_are_not_reclassified_each_poll(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'linear'; polls=[]; classified=[]
+        real_classify=m.classify; real_sleep=time.sleep
+        def classify(*args,**kwargs):
+            classified.append(len(args[1])); return real_classify(*args,**kwargs)
+        monkeypatch.setattr(m,'classify',classify)
+        def sampler(pid):
+            polls.append(pid); now=time.monotonic(); helper=pid+100000+len(polls)
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            entry=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='error',errno=errno.ESRCH),start=now,end=now+.001)
+            entry['raw_args']=' '.join(m.PS_ARGV)
+            declared=witness(helper,os.getpid(),m.PS_ARGV); declared.update(launch_id=str(helper),launch_start=now-.01,completion_end=now+.002)
+            if len(polls)==1: a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:70,helper:70},{pid:root,helper:entry},{helper:declared})
+        def sleep(seconds):
+            if seconds==.02 and len(polls)>=8: (out/'finish').touch(); real_sleep(.08)
+            elif seconds!=.02: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+        assert result['status']=='COMPLETED',result
+        assert len(polls)==8
+>       assert sum(classified)<=len(polls)*4
+E       assert 160 <= (8 * 4)
+E        +  where 160 = sum([0, 2, 0, 2, 0, 2, ...])
+E        +  and   8 = len([10263, 10263, 10263, 10263, 10263, 10263, ...])
+
+tests/test_kernel_stage_a_native_process_fix1.py:64: AssertionError
+_ test_finalization_failure_returns_bounded_durable_failure_and_reaps[serialization] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4337/test_finalization_failure_retu0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a566470>
+failure = 'serialization'
+
+    @pytest.mark.parametrize('failure',['serialization','write'])
+    def test_finalization_failure_returns_bounded_durable_failure_and_reaps(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure
+>       assert hasattr(m,'_commit_monitor')
+E       AssertionError: assert False
+E        +  where False = hasattr(m, '_commit_monitor')
+
+tests/test_kernel_stage_a_native_process_fix1.py:88: AssertionError
+__ test_finalization_failure_returns_bounded_durable_failure_and_reaps[write] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4337/test_finalization_failure_retu1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a566690>
+failure = 'write'
+
+    @pytest.mark.parametrize('failure',['serialization','write'])
+    def test_finalization_failure_returns_bounded_durable_failure_and_reaps(tmp_path,monkeypatch,failure):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/failure
+>       assert hasattr(m,'_commit_monitor')
+E       AssertionError: assert False
+E        +  where False = hasattr(m, '_commit_monitor')
+
+tests/test_kernel_stage_a_native_process_fix1.py:88: AssertionError
+___ test_initialized_authority_inventory_is_closed_over_exact_monitor_files ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4337/test_initialized_authority_inv0')
+
+    def test_initialized_authority_inventory_is_closed_over_exact_monitor_files(tmp_path):
+>       assert hasattr(a,'_check_initialized_output')
+E       AssertionError: assert False
+E        +  where False = hasattr(a, '_check_initialized_output')
+
+tests/test_kernel_stage_a_native_process_fix1.py:113: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_small_budget_retains_accepted_raw_and_charges_rejected_oversize
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_settled_native_samples_are_not_reclassified_each_poll
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_finalization_failure_returns_bounded_durable_failure_and_reaps[serialization]
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_finalization_failure_returns_bounded_durable_failure_and_reaps[write]
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_initialized_authority_inventory_is_closed_over_exact_monitor_files
+5 failed, 1 passed in 0.24s

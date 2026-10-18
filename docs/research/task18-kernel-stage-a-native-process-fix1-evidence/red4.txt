@@ -1,0 +1,34 @@
+.............F                                                           [100%]
+=================================== FAILURES ===================================
+_______ test_final_metadata_serialization_error_uses_same_failure_commit _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4347/test_final_metadata_serializat0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a16a510>
+
+    def test_final_metadata_serialization_error_uses_same_failure_commit(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'metadata'
+        def broken_hash(vector): raise OSError('controlled metadata serialization failure')
+        monkeypatch.setattr(m.commands,'vector_hash',broken_hash)
+        def sampler(pid):
+            now=time.monotonic(); (out/'finish').touch()
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
+>       result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.3,free_disk_bytes=0)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_native_process_fix1.py:278: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_a/monitor.py:508: in supervise
+    stage_launch_vector_sha256=commands.vector_hash(command),returncode=process.returncode if process is not None else None,
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+vector = ['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', 'from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)']
+
+>   def broken_hash(vector): raise OSError('controlled metadata serialization failure')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: controlled metadata serialization failure
+
+tests/test_kernel_stage_a_native_process_fix1.py:273: OSError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_final_metadata_serialization_error_uses_same_failure_commit
+1 failed, 13 passed in 0.89s

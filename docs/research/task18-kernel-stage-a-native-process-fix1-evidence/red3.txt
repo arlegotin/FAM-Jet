@@ -1,0 +1,61 @@
+.......FF                                                                [100%]
+=================================== FAILURES ===================================
+_ test_settled_helper_late_contradictory_end_invalidates_without_history_scan __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4342/test_settled_helper_late_contr0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108813250>
+
+    def test_settled_helper_late_contradictory_end_invalidates_without_history_scan(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); out=tmp_path/'end-conflict'; real_sleep=time.sleep; launches=[]
+        def sampler(pid):
+            now=time.monotonic(); helper=pid+100000
+            declared=witness(helper,os.getpid(),m.PS_ARGV); declared.update(launch_start=now-.01,reaped=False); declared.pop('completion_end')
+            launches.append(declared)
+            root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)
+            entry=sample(helper,os.getpid(),m.PS_ARGV,image=dict(status='ok',**identity()['helpers']['ps'],lookup_start=now,lookup_end=now+.001),start=now,end=now+.001)
+            entry['raw_args']=' '.join(m.PS_ARGV)
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:70,helper:70},{pid:root,helper:entry},{helper:declared})
+        def sleep(seconds):
+            if seconds==.02 and launches:
+                declared=launches[0]
+                a.event(out/'monitor-events.jsonl','observer_helper_end',pid=declared['pid'],parent=os.getpid(),launch_id=declared['launch_id'],completion_end=declared['launch_start']-1,reaped=True)
+                (out/'finish').touch(); real_sleep(.08)
+            else: real_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+>       assert result['status']=='STOPPED' and result['reason']=='foreign process identity'
+E       AssertionError: assert ('COMPLETED' == 'STOPPED'
+E         
+E         - STOPPED
+E         + COMPLETED)
+
+tests/test_kernel_stage_a_native_process_fix1.py:159: AssertionError
+___________ test_deadline_crossed_in_commit_cannot_persist_completed ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4342/test_deadline_crossed_in_commi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1088924e0>
+
+    def test_deadline_crossed_in_commit_cannot_persist_completed(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); clock=[100.]; out=tmp_path/'commit-time'; real_sleep=time.sleep
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0]); original=m._commit_monitor
+        def commit(path,payload,reserve):
+            result=original(path,payload,reserve)
+            if b'stage_launch_vector_sha256' in payload: clock[0]+=2
+            return result
+        monkeypatch.setattr(m,'_commit_monitor',commit)
+        def sampler(pid):
+            a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10); (out/'finish').touch(); real_sleep(.08)
+            return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=100.,end=100.)})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=1,free_disk_bytes=0)
+>       assert result['status']=='STOPPED' and result['reason']=='outer timeout'
+E       AssertionError: assert ('COMPLETED' == 'STOPPED'
+E         
+E         - STOPPED
+E         + COMPLETED)
+
+tests/test_kernel_stage_a_native_process_fix1.py:175: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_settled_helper_late_contradictory_end_invalidates_without_history_scan
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_deadline_crossed_in_commit_cannot_persist_completed
+2 failed, 7 passed in 0.62s
