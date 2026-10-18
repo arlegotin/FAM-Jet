@@ -1,0 +1,25 @@
+{
+  "base_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+  "source_git": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "source": {
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 83322,
+      "sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e",
+      "final_test_equal_source_commit": true
+    },
+    "tests/test_kernel_stage_a_terminal_attribution.py": {
+      "bytes": 39770,
+      "sha256": "ebac870e61112f8d9e8255e05bf9376ce24fa6ae6e860f4062c79155f6beea83",
+      "final_test_equal_source_commit": true
+    }
+  },
+  "original_attempt_manifests_verified": 9,
+  "original_attempt_file_hashes_verified": 1447,
+  "specimen_mappings_verified": 1444,
+  "all_old_frozen_inputs_equal": true,
+  "original_SDD_report_equal_durable": true,
+  "git_diff_check_exit": 0,
+  "compilation": "compile(bytes,path,exec) only: monitor and attribution test PASS",
+  "native_execution": false,
+  "scientific_execution": false
+}

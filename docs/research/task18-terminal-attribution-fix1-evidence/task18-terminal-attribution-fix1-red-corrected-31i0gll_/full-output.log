@@ -1,0 +1,116 @@
+FFFFFF...                                                                [100%]
+=================================== FAILURES ===================================
+_ test_cross_family_terminal_conflict_cannot_select_old_python_generation[observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_terminal_con0')
+helper_family = 'observer'
+
+    @pytest.mark.parametrize('helper_family',['observer','authority'])
+    def test_cross_family_terminal_conflict_cannot_select_old_python_generation(tmp_path,helper_family):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader')
+        row.update(sample_start=14.,sample_end=15.)
+        row['image'].update(lookup_start=15.,lookup_end=15.1)
+        vector=m.PS_ARGV if helper_family=='observer' else [a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(20,10,vector,'ps' if helper_family=='observer' else 'git')
+        declared.update(launch_id='replacement',launch_start=14.6,completion_end=14.9)
+        phase=None; declarations={20:declared}
+        if helper_family=='authority':
+            phase=dict(active=True,started=True,start=10.,end=16.,commands=[vector],declarations=declarations,completed={20})
+            declarations={}
+>       assert classify(state,[row],context,declarations=declarations,phase=phase)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:473: AssertionError
+_ test_cross_family_terminal_conflict_cannot_select_old_python_generation[authority] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_terminal_con1')
+helper_family = 'authority'
+
+    @pytest.mark.parametrize('helper_family',['observer','authority'])
+    def test_cross_family_terminal_conflict_cannot_select_old_python_generation(tmp_path,helper_family):
+        state,launch,live,row,end,context=prepared(tmp_path,'reader')
+        row.update(sample_start=14.,sample_end=15.)
+        row['image'].update(lookup_start=15.,lookup_end=15.1)
+        vector=m.PS_ARGV if helper_family=='observer' else [a.GIT,'-C',str(tmp_path),'rev-parse','HEAD']
+        declared=witness(20,10,vector,'ps' if helper_family=='observer' else 'git')
+        declared.update(launch_id='replacement',launch_start=14.6,completion_end=14.9)
+        phase=None; declarations={20:declared}
+        if helper_family=='authority':
+            phase=dict(active=True,started=True,start=10.,end=16.,commands=[vector],declarations=declarations,completed={20})
+            declarations={}
+>       assert classify(state,[row],context,declarations=declarations,phase=phase)[20]=='unaccounted'
+E       AssertionError: assert 'worker' == 'unaccounted'
+E         
+E         - unaccounted
+E         + worker
+
+tests/test_kernel_stage_a_terminal_attribution.py:473: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_pid_reuse_is0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107f48b00>
+first = 'reader', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+>       assert result['status']!='COMPLETED'
+E       AssertionError: assert 'COMPLETED' != 'COMPLETED'
+
+tests/test_kernel_stage_a_terminal_attribution.py:601: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_pid_reuse_is1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107f48e90>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_pid_reuse_is2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082984d0>
+first = 'authority', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens/test_cross_family_pid_reuse_is3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108205480>
+first = 'observer', second = 'authority'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+>       assert result['monitor_failure'] is not None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'foreign process identity', 'monitor_failure': None, 'cleanup_diagnostics': [], ...}
+E       assert None is not None
+
+tests/test_kernel_stage_a_terminal_attribution.py:602: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_terminal_conflict_cannot_select_old_python_generation[observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_terminal_conflict_cannot_select_old_python_generation[authority]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority]
+6 failed, 3 passed, 84 deselected in 0.18s

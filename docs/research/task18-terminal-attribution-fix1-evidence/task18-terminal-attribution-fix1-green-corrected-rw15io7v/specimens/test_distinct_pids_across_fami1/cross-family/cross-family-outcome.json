@@ -1,0 +1,269 @@
+{
+  "result": {
+    "status": "COMPLETED",
+    "reason": null,
+    "monitor_failure": null,
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "8e0b1004382ad38c36a8a18b8efe7959533fe8c44c1e4c38d51f958acc0617ea",
+    "returncode": 0,
+    "outer_seconds": 0.0061079999431967735,
+    "utc_start_epoch": 1792319092.027912,
+    "utc_end_epoch": 1792319092.033952,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.004864874994382262,
+    "absolute_process_tree_peak_bytes": 100,
+    "incremental_worker_peak_bytes": 200,
+    "observed_pid_peak_sum_bytes": 200,
+    "workers": {
+      "630001": {
+        "absolute_peak_bytes": 0,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 0,
+        "role": "worker",
+        "parent": 81565
+      },
+      "630002": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "observer_helper",
+        "parent": 630001
+      },
+      "630003": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 100,
+        "incremental_peak_bytes": 0,
+        "role": "worker",
+        "parent": 630001
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 3,
+    "observer_helper_peak_bytes": 100,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": false,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1",
+          "rev-parse",
+          "HEAD"
+        ],
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1",
+          "status",
+          "--porcelain"
+        ]
+      ],
+      "started": false,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [],
+    "unresolved_worker_count": 0,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 25,
+      "accepted_samples": 5,
+      "bytes": 12582,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": true,
+      "through_bytes": 5048,
+      "samples": 3
+    },
+    "classified_process_observations": 7,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 25822
+  },
+  "source": [
+    {
+      "event": "baseline",
+      "pid": 630001,
+      "rss": 0,
+      "monotonic": 554782.498777625
+    },
+    {
+      "event": "candidate_start",
+      "monotonic": 554782.498824416
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/bin/ps",
+      "argv": [
+        "/bin/ps",
+        "-axo",
+        "pid=,ppid=,rss=,comm=,args="
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "first",
+      "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+      "artifact": {
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "launch_start": 554782.498863083,
+      "reaped": false,
+      "event": "observer_helper",
+      "monotonic": 554782.498863083
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554782.498905458,
+          "sample_end": 554782.4989055,
+          "raw_comm": "/observed",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "ok",
+            "path": "/bin/ps",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "lookup_start": 554782.498905541,
+            "lookup_end": 554782.498906291
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 81565,
+          "rss_bytes": 0,
+          "sample_start": 554782.498905458,
+          "sample_end": 554782.4989055,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554782.498905541,
+            "lookup_end": 554782.498906291
+          }
+        }
+      ],
+      "monotonic": 554782.498908583
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 0,
+          "raw_comm": "<defunct>",
+          "raw_args": "<defunct>",
+          "sample_start": 554782.498945166,
+          "sample_end": 554782.498997791,
+          "image": {
+            "status": "error",
+            "errno": 3,
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "lookup_start": 554782.498997833,
+            "lookup_end": 554782.498998041
+          }
+        }
+      ],
+      "monotonic": 554782.498998666
+    },
+    {
+      "event": "observer_helper_end",
+      "monotonic": 554782.498945291,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 554782.498945291
+    },
+    {
+      "event": "python_worker_launch",
+      "monotonic": 554782.498946083,
+      "pid": 630003,
+      "parent": 630001,
+      "role": "reader",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-c",
+        "import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1'); from validation.kernel_stage_a.reader_worker import main; main()",
+        "/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1/cross-family/monitor-events.jsonl",
+        "554782.698946083"
+      ],
+      "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "vector_sha256": "9bae4d333174e6db031ba4b1c1d5cfae5a281595bc4c86be13735d918959ade9",
+      "launch_id": "second",
+      "launch_start": 554782.498946083,
+      "provenance": "source_owned_python_launch",
+      "launcher": {
+        "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+      },
+      "expected_image": {
+        "path": "/long/framework/Python.app/Contents/MacOS/Python",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "method": "macos.proc_pidpath"
+      },
+      "reaped": false
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630003,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554782.498995666,
+          "sample_end": 554782.498995708,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1'); from validation.kernel_stage_a.reader_worker import main; main() /private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_distinct_pids_across_fami1/cross-family/monitor-events.jsonl 554782.698946083",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554782.49899575,
+            "lookup_end": 554782.498996541
+          }
+        }
+      ],
+      "monotonic": 554782.500728958,
+      "emitter_pid": 630003,
+      "self_pid": 630003
+    },
+    {
+      "event": "baseline",
+      "pid": 630003,
+      "rss": 100,
+      "boundary": "post-import/pre-allocation",
+      "monotonic": 554782.498997125
+    },
+    {
+      "event": "python_worker_end",
+      "monotonic": 554782.498997291,
+      "pid": 630003,
+      "parent": 630001,
+      "launch_id": "second",
+      "reaped": true,
+      "completion_end": 554782.498997291,
+      "returncode": 0
+    }
+  ]
+}

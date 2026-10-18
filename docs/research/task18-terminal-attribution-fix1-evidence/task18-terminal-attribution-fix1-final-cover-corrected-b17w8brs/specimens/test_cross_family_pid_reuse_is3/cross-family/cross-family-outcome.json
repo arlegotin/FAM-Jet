@@ -1,0 +1,264 @@
+{
+  "result": {
+    "status": "STOPPED",
+    "reason": "monitor common failure",
+    "monitor_failure": {
+      "type": "ValueError",
+      "message": "duplicate/reused source launch generation"
+    },
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "2dea2be5f2f0c5a74dfc07f1561f56330b80c72563bf0aad8a1550cd83e13310",
+    "returncode": 0,
+    "outer_seconds": 0.004236290929839015,
+    "utc_start_epoch": 1792319215.889152,
+    "utc_end_epoch": 1792319215.8933241,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.003786665969528258,
+    "absolute_process_tree_peak_bytes": 100,
+    "incremental_worker_peak_bytes": 200,
+    "observed_pid_peak_sum_bytes": 100,
+    "workers": {
+      "630001": {
+        "absolute_peak_bytes": 0,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 0,
+        "role": "authority_worker",
+        "parent": 82600,
+        "authority_phase_peak_bytes": 0
+      },
+      "630002": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "unaccounted",
+        "parent": 630001
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 2,
+    "observer_helper_peak_bytes": 100,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": true,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3",
+          "rev-parse",
+          "HEAD"
+        ],
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3",
+          "status",
+          "--porcelain"
+        ]
+      ],
+      "started": true,
+      "start": 554906.360770875,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [
+      "630001",
+      "630002"
+    ],
+    "unresolved_worker_count": 2,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 21,
+      "accepted_samples": 5,
+      "bytes": 11215,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": false,
+      "through_bytes": 4794,
+      "samples": 3
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 24201
+  },
+  "source": [
+    {
+      "event": "authority_start",
+      "pid": 630001,
+      "monotonic": 554906.360770875
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/bin/ps",
+      "argv": [
+        "/bin/ps",
+        "-axo",
+        "pid=,ppid=,rss=,comm=,args="
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "first",
+      "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+      "artifact": {
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "launch_start": 554906.360812166,
+      "reaped": false,
+      "event": "observer_helper",
+      "monotonic": 554906.360812166
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554906.360854541,
+          "sample_end": 554906.360854541,
+          "raw_comm": "/observed",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "ok",
+            "path": "/bin/ps",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "lookup_start": 554906.360854583,
+            "lookup_end": 554906.360855375
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 82600,
+          "rss_bytes": 0,
+          "sample_start": 554906.360854541,
+          "sample_end": 554906.360854541,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554906.360854583,
+            "lookup_end": 554906.360855375
+          }
+        }
+      ],
+      "monotonic": 554906.360857625
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 0,
+          "raw_comm": "<defunct>",
+          "raw_args": "<defunct>",
+          "sample_start": 554906.3608935,
+          "sample_end": 554906.360938791,
+          "image": {
+            "status": "error",
+            "errno": 3,
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "lookup_start": 554906.360938833,
+            "lookup_end": 554906.360939
+          }
+        }
+      ],
+      "monotonic": 554906.360939458
+    },
+    {
+      "event": "observer_helper_end",
+      "monotonic": 554906.360893625,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 554906.360893625
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+      "argv": [
+        "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "-C",
+        "/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3",
+        "rev-parse",
+        "HEAD"
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "second",
+      "vector_sha256": "c6dbd2e77cc18be86a535d8a5ef8d4fbe6a74642dd218357a93fe005458e2d9b",
+      "artifact": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "launch_start": 554906.360894375,
+      "reaped": false,
+      "event": "authority_helper",
+      "monotonic": 554906.360894375
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554906.360937083,
+          "sample_end": 554906.360937125,
+          "raw_comm": "/observed",
+          "raw_args": "/opt/homebrew/Cellar/git/2.49.0/bin/git -C /private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3 rev-parse HEAD",
+          "image": {
+            "status": "ok",
+            "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "lookup_start": 554906.360937166,
+            "lookup_end": 554906.360937708
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 82600,
+          "rss_bytes": 0,
+          "sample_start": 554906.360937083,
+          "sample_end": 554906.360937125,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens/test_cross_family_pid_reuse_is3/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554906.360937166,
+            "lookup_end": 554906.360937708
+          }
+        }
+      ],
+      "monotonic": 554906.362346083
+    },
+    {
+      "event": "authority_helper_end",
+      "monotonic": 554906.360938458,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "second",
+      "reaped": true,
+      "completion_end": 554906.360938458
+    }
+  ]
+}

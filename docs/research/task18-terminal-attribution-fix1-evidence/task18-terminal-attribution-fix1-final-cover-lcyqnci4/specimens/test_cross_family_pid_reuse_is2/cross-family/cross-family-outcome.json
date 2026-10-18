@@ -1,0 +1,292 @@
+{
+  "result": {
+    "status": "STOPPED",
+    "reason": "monitor common failure",
+    "monitor_failure": {
+      "type": "ValueError",
+      "message": "duplicate/reused source launch generation"
+    },
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "cbe6d27b85b8c1eb67f3181753a95a3c0dccf64378a525b302db29ce9041a67e",
+    "returncode": 0,
+    "outer_seconds": 0.00528050004504621,
+    "utc_start_epoch": 1792319140.537567,
+    "utc_end_epoch": 1792319140.542764,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.00489170802757144,
+    "absolute_process_tree_peak_bytes": 100,
+    "incremental_worker_peak_bytes": 100,
+    "observed_pid_peak_sum_bytes": 100,
+    "workers": {
+      "630001": {
+        "absolute_peak_bytes": 0,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 0,
+        "role": "authority_worker",
+        "parent": 81659,
+        "authority_phase_peak_bytes": 0
+      },
+      "630002": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "pending_observer_declaration",
+        "parent": 630001,
+        "sampled_authority_helper": true
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 2,
+    "observer_helper_peak_bytes": 0,
+    "authority_full_rss_peak_bytes": 100,
+    "authority_phase": {
+      "active": true,
+      "declarations": {
+        "630002": {
+          "pid": 630002,
+          "parent": 630001,
+          "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "argv": [
+            "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "-C",
+            "/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2",
+            "rev-parse",
+            "HEAD"
+          ],
+          "provenance": "source_owned_launch",
+          "launch_id": "first",
+          "vector_sha256": "38cfeac0cefcc079e72828f3ff7204eceddbd17b449aa5955c3a9cdfe3c17cdc",
+          "artifact": {
+            "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "launch_start": 554831.008708458,
+          "reaped": true,
+          "completion_end": 554831.008824625
+        }
+      },
+      "completed": [
+        630002
+      ],
+      "ends": {
+        "630002": 554831.008824625
+      },
+      "commands": [
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2",
+          "rev-parse",
+          "HEAD"
+        ],
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2",
+          "status",
+          "--porcelain"
+        ]
+      ],
+      "started": true,
+      "start": 554831.008667125,
+      "details_complete_inline": true,
+      "helper_count": 1,
+      "completed_count": 1
+    },
+    "missing_worker_baselines": [
+      "630001",
+      "630002"
+    ],
+    "unresolved_worker_count": 2,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 20,
+      "accepted_samples": 5,
+      "bytes": 10684,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": false,
+      "through_bytes": 4731,
+      "samples": 3
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 23607
+  },
+  "source": [
+    {
+      "event": "authority_start",
+      "pid": 630001,
+      "monotonic": 554831.008667125
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+      "argv": [
+        "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "-C",
+        "/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2",
+        "rev-parse",
+        "HEAD"
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "first",
+      "vector_sha256": "38cfeac0cefcc079e72828f3ff7204eceddbd17b449aa5955c3a9cdfe3c17cdc",
+      "artifact": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "launch_start": 554831.008708458,
+      "reaped": false,
+      "event": "authority_helper",
+      "monotonic": 554831.008708458
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554831.008784666,
+          "sample_end": 554831.008784666,
+          "raw_comm": "/observed",
+          "raw_args": "/opt/homebrew/Cellar/git/2.49.0/bin/git -C /private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2 rev-parse HEAD",
+          "image": {
+            "status": "ok",
+            "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "lookup_start": 554831.008784708,
+            "lookup_end": 554831.008785458
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 81659,
+          "rss_bytes": 0,
+          "sample_start": 554831.008784666,
+          "sample_end": 554831.008784666,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554831.008784708,
+            "lookup_end": 554831.008785458
+          }
+        }
+      ],
+      "monotonic": 554831.008791291
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 0,
+          "raw_comm": "<defunct>",
+          "raw_args": "<defunct>",
+          "sample_start": 554831.0088245,
+          "sample_end": 554831.008835416,
+          "image": {
+            "status": "error",
+            "errno": 3,
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "lookup_start": 554831.008835416,
+            "lookup_end": 554831.008835666
+          }
+        }
+      ],
+      "monotonic": 554831.008836083
+    },
+    {
+      "event": "authority_helper_end",
+      "monotonic": 554831.008824625,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 554831.008824625
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/bin/ps",
+      "argv": [
+        "/bin/ps",
+        "-axo",
+        "pid=,ppid=,rss=,comm=,args="
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "second",
+      "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+      "artifact": {
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "launch_start": 554831.008825416,
+      "reaped": false,
+      "event": "observer_helper",
+      "monotonic": 554831.008825416
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554831.008833958,
+          "sample_end": 554831.008834,
+          "raw_comm": "/observed",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "ok",
+            "path": "/bin/ps",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "lookup_start": 554831.008834041,
+            "lookup_end": 554831.008834416
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 81659,
+          "rss_bytes": 0,
+          "sample_start": 554831.008833958,
+          "sample_end": 554831.008834,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens/test_cross_family_pid_reuse_is2/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554831.008834041,
+            "lookup_end": 554831.008834416
+          }
+        }
+      ],
+      "monotonic": 554831.010835458
+    },
+    {
+      "event": "observer_helper_end",
+      "monotonic": 554831.008835041,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "second",
+      "reaped": true,
+      "completion_end": 554831.008835041
+    }
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "result": {
+    "status": "STOPPED",
+    "reason": "monitor common failure",
+    "monitor_failure": {
+      "type": "ValueError",
+      "message": "duplicate/reused source launch generation"
+    },
+    "cleanup_diagnostics": [],
+    "stage_launch_vector_sha256": "4cbde2d942508667bd1a0bd0d2f6e0055df9456d0ac7cadd988d8cbc46139f7d",
+    "returncode": 0,
+    "outer_seconds": 0.004260915913619101,
+    "utc_start_epoch": 1792319166.8170052,
+    "utc_end_epoch": 1792319166.821203,
+    "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+    "finalization_start_seconds": 0.003778000012971461,
+    "absolute_process_tree_peak_bytes": 100,
+    "incremental_worker_peak_bytes": 200,
+    "observed_pid_peak_sum_bytes": 100,
+    "workers": {
+      "630001": {
+        "absolute_peak_bytes": 0,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 0,
+        "role": "authority_worker",
+        "parent": 82493,
+        "authority_phase_peak_bytes": 0
+      },
+      "630002": {
+        "absolute_peak_bytes": 100,
+        "baseline_bytes": 0,
+        "incremental_peak_bytes": 100,
+        "role": "unaccounted",
+        "parent": 630001
+      }
+    },
+    "workers_complete_inline": true,
+    "worker_count": 2,
+    "observer_helper_peak_bytes": 100,
+    "authority_full_rss_peak_bytes": 0,
+    "authority_phase": {
+      "active": true,
+      "declarations": {},
+      "completed": [],
+      "ends": {},
+      "commands": [
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3",
+          "rev-parse",
+          "HEAD"
+        ],
+        [
+          "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+          "-C",
+          "/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3",
+          "status",
+          "--porcelain"
+        ]
+      ],
+      "started": true,
+      "start": 554857.288294416,
+      "details_complete_inline": true,
+      "helper_count": 0,
+      "completed_count": 0
+    },
+    "missing_worker_baselines": [
+      "630001",
+      "630002"
+    ],
+    "unresolved_worker_count": 2,
+    "evidence": {
+      "path": "monitor-evidence.jsonl",
+      "accepted_records": 20,
+      "accepted_samples": 5,
+      "bytes": 10552,
+      "rejected_observations": 0,
+      "rejected_rss_bytes": 0,
+      "rejected_raw_complete": true
+    },
+    "source_event_accounting": {
+      "complete": true,
+      "status": "COMPLETE",
+      "identity_complete": false,
+      "through_bytes": 4774,
+      "samples": 3
+    },
+    "classified_process_observations": 4,
+    "verdict_reserved_bytes": 8192,
+    "rss_scope": "sampled resident memory; not allocator peak",
+    "output_bytes_before_monitor_report": 23518
+  },
+  "source": [
+    {
+      "event": "authority_start",
+      "pid": 630001,
+      "monotonic": 554857.288294416
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/bin/ps",
+      "argv": [
+        "/bin/ps",
+        "-axo",
+        "pid=,ppid=,rss=,comm=,args="
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "first",
+      "vector_sha256": "4d041e755b006d729ccd0e7c44011fb00b74a715dd04dced66e4d4c96c823452",
+      "artifact": {
+        "path": "/bin/ps",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "launch_start": 554857.288332458,
+      "reaped": false,
+      "event": "observer_helper",
+      "monotonic": 554857.288332458
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554857.288371916,
+          "sample_end": 554857.288371958,
+          "raw_comm": "/observed",
+          "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+          "image": {
+            "status": "ok",
+            "path": "/bin/ps",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "lookup_start": 554857.288372,
+            "lookup_end": 554857.288372791
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 82493,
+          "rss_bytes": 0,
+          "sample_start": 554857.288371916,
+          "sample_end": 554857.288371958,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554857.288372,
+            "lookup_end": 554857.288372791
+          }
+        }
+      ],
+      "monotonic": 554857.288375291
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 0,
+          "raw_comm": "<defunct>",
+          "raw_args": "<defunct>",
+          "sample_start": 554857.288407208,
+          "sample_end": 554857.288448,
+          "image": {
+            "status": "error",
+            "errno": 3,
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "lookup_start": 554857.288448041,
+            "lookup_end": 554857.28844825
+          }
+        }
+      ],
+      "monotonic": 554857.288448791
+    },
+    {
+      "event": "observer_helper_end",
+      "monotonic": 554857.288407291,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "first",
+      "reaped": true,
+      "completion_end": 554857.288407291
+    },
+    {
+      "pid": 630002,
+      "parent": 630001,
+      "executable": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+      "argv": [
+        "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "-C",
+        "/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3",
+        "rev-parse",
+        "HEAD"
+      ],
+      "provenance": "source_owned_launch",
+      "launch_id": "second",
+      "vector_sha256": "d8a5b4fd779e0988081dc84d6f9c80f077ce7891b39e002832d80a22f64dee3b",
+      "artifact": {
+        "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "launch_start": 554857.288407958,
+      "reaped": false,
+      "event": "authority_helper",
+      "monotonic": 554857.288407958
+    },
+    {
+      "event": "observer_sample",
+      "processes": [
+        {
+          "pid": 630002,
+          "parent": 630001,
+          "rss_bytes": 100,
+          "sample_start": 554857.288446416,
+          "sample_end": 554857.288446458,
+          "raw_comm": "/observed",
+          "raw_args": "/opt/homebrew/Cellar/git/2.49.0/bin/git -C /private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3 rev-parse HEAD",
+          "image": {
+            "status": "ok",
+            "path": "/opt/homebrew/Cellar/git/2.49.0/bin/git",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "lookup_start": 554857.288446458,
+            "lookup_end": 554857.288447
+          }
+        },
+        {
+          "pid": 630001,
+          "parent": 82493,
+          "rss_bytes": 0,
+          "sample_start": 554857.288446416,
+          "sample_end": 554857.288446458,
+          "raw_comm": "/observed",
+          "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -I -c import sys; sys.path.insert(0,'/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3'); from validation.kernel_stage_a.__main__ import main; raise SystemExit(main()) --worker --seal /private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens/test_cross_family_pid_reuse_is3/seal",
+          "image": {
+            "status": "ok",
+            "path": "/long/framework/Python.app/Contents/MacOS/Python",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "method": "macos.proc_pidpath",
+            "lookup_start": 554857.288446458,
+            "lookup_end": 554857.288447
+          }
+        }
+      ],
+      "monotonic": 554857.289951
+    },
+    {
+      "event": "authority_helper_end",
+      "monotonic": 554857.288447625,
+      "pid": 630002,
+      "parent": 630001,
+      "launch_id": "second",
+      "reaped": true,
+      "completion_end": 554857.288447625
+    }
+  ]
+}

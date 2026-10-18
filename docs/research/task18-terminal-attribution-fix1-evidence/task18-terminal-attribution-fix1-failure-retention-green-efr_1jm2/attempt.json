@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_attribution.py",
+    "tests/test_kernel_stage_a_native_process.py::test_late_native_witness_reconciles_history_without_authorizing_reuse",
+    "-k",
+    "cross_family or distinct_pids_across or shared_launch_id_on or late_native_witness",
+    "-q",
+    "--basetemp=/private/tmp/task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792319190.1968489,
+  "end_epoch": 1792319190.582593,
+  "owned_base": "/private/tmp/task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2",
+  "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa"
+}

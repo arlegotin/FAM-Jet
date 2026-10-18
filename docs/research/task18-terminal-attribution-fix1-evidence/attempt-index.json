@@ -1,0 +1,210 @@
+{
+  "attempts": [
+    {
+      "directory": "task18-terminal-attribution-fix1-red-s383f7iy",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-red-s383f7iy/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319018.259804,
+      "end_epoch": 1792319018.627661,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-red-s383f7iy",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "8 failed, 1 passed, 84 deselected in 0.19s",
+      "wall_seconds": 0.3678569793701172
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-red-corrected-31i0gll_",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319044.594831,
+      "end_epoch": 1792319044.888151,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-red-corrected-31i0gll_",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "6 failed, 3 passed, 84 deselected in 0.18s",
+      "wall_seconds": 0.2933199405670166
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-green-oawu1es_",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-green-oawu1es_/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319057.7765388,
+      "end_epoch": 1792319058.0369248,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-green-oawu1es_",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "4 failed, 5 passed, 84 deselected in 0.13s",
+      "wall_seconds": 0.26038599014282227
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-green-corrected-rw15io7v",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319091.810011,
+      "end_epoch": 1792319092.0727239,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "4 failed, 5 passed, 84 deselected in 0.14s",
+      "wall_seconds": 0.2627129554748535
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-green-final-7c7ou3yn",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-green-final-7c7ou3yn/specimens",
+        "-ra"
+      ],
+      "exit": 0,
+      "started_epoch": 1792319112.26957,
+      "end_epoch": 1792319112.4816482,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-green-final-7c7ou3yn",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "9 passed, 84 deselected in 0.10s",
+      "wall_seconds": 0.21207809448242188
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-final-cover-lcyqnci4",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_terminal_lifecycle.py",
+        "tests/test_kernel_stage_a_python_lifetime.py",
+        "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+        "tests/test_kernel_stage_a_native_process.py",
+        "tests/test_kernel_stage_a_native_process_fix1.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py",
+        "tests/test_kernel_stage_a_native_process_fix3.py",
+        "-k",
+        "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319140.255025,
+      "end_epoch": 1792319142.4589288,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-final-cover-lcyqnci4",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "1 failed, 219 passed, 6 deselected in 1.94s",
+      "wall_seconds": 2.203903913497925
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-failure-charge-green-be9tw8et",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_native_process.py::test_late_native_witness_reconciles_history_without_authorizing_reuse",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on or late_native_witness",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et/specimens",
+        "-ra"
+      ],
+      "exit": 1,
+      "started_epoch": 1792319166.661128,
+      "end_epoch": 1792319167.084746,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-failure-charge-green-be9tw8et",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "1 failed, 10 passed, 84 deselected in 0.28s",
+      "wall_seconds": 0.4236178398132324
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_native_process.py::test_late_native_witness_reconciles_history_without_authorizing_reuse",
+        "-k",
+        "cross_family or distinct_pids_across or shared_launch_id_on or late_native_witness",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2/specimens",
+        "-ra"
+      ],
+      "exit": 0,
+      "started_epoch": 1792319190.1968489,
+      "end_epoch": 1792319190.582593,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-failure-retention-green-efr_1jm2",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "11 passed, 84 deselected in 0.26s",
+      "wall_seconds": 0.3857440948486328
+    },
+    {
+      "directory": "task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs",
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_kernel_stage_a_terminal_attribution.py",
+        "tests/test_kernel_stage_a_terminal_lifecycle.py",
+        "tests/test_kernel_stage_a_python_lifetime.py",
+        "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+        "tests/test_kernel_stage_a_native_process.py",
+        "tests/test_kernel_stage_a_native_process_fix1.py",
+        "tests/test_kernel_stage_a_native_process_fix2.py",
+        "tests/test_kernel_stage_a_native_process_fix3.py",
+        "-k",
+        "not python_launcher_is_rechecked and not owned_dispatch_once and not monitor_root_generation_reconciles and not git_launch_witness_write_failure",
+        "-q",
+        "--basetemp=/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs/specimens",
+        "-ra"
+      ],
+      "exit": 0,
+      "started_epoch": 1792319215.6232462,
+      "end_epoch": 1792319217.745236,
+      "owned_base": "/private/tmp/task18-terminal-attribution-fix1-final-cover-corrected-b17w8brs",
+      "source_git": "2fa298a5af3ed78b44f7ea50c56838e11498bffa",
+      "outcome": "220 passed, 6 deselected in 1.89s",
+      "wall_seconds": 2.1219897270202637
+    }
+  ],
+  "total_test_and_capture_wall_seconds": 6.531609535217285
+}

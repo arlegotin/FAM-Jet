@@ -1,0 +1,124 @@
+..FFFF...                                                                [100%]
+=================================== FAILURES ===================================
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_cross_family_pid_reuse_is0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106d903e0>
+first = 'reader', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+        assert result['monitor_failure'] is not None,result
+        assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+        stores=dict(reader=observed['python'].generations,observer=observed['declarations'],authority=observed['authority'])
+        assert 630002 in stores[first] and 630002 not in stores[second]
+        assert 630002 in observed['python'].failed
+        assert result['workers']['630002']['baseline_bytes']==0
+        assert result['workers']['630002']['incremental_peak_bytes']==100
+        pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
+        assert pending[0]['roles']['630002'].startswith('pending_')
+        # Later contradictory source completion can stop final reconciliation;
+        # the retained pending row must never gain favorable attribution anyway.
+        assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
+>       assert result['workers']['630002']['role']=='unaccounted'
+E       AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_observer_declaration
+
+tests/test_kernel_stage_a_terminal_attribution.py:614: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_cross_family_pid_reuse_is1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106d909d0>
+first = 'observer', second = 'reader'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+        assert result['monitor_failure'] is not None,result
+        assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+        stores=dict(reader=observed['python'].generations,observer=observed['declarations'],authority=observed['authority'])
+        assert 630002 in stores[first] and 630002 not in stores[second]
+        assert 630002 in observed['python'].failed
+        assert result['workers']['630002']['baseline_bytes']==0
+        assert result['workers']['630002']['incremental_peak_bytes']==100
+        pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
+        assert pending[0]['roles']['630002'].startswith('pending_')
+        # Later contradictory source completion can stop final reconciliation;
+        # the retained pending row must never gain favorable attribution anyway.
+        assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
+>       assert result['workers']['630002']['role']=='unaccounted'
+E       AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_observer_declaration
+
+tests/test_kernel_stage_a_terminal_attribution.py:614: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_cross_family_pid_reuse_is2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1070c4cb0>
+first = 'authority', second = 'observer'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+        assert result['monitor_failure'] is not None,result
+        assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+        stores=dict(reader=observed['python'].generations,observer=observed['declarations'],authority=observed['authority'])
+        assert 630002 in stores[first] and 630002 not in stores[second]
+        assert 630002 in observed['python'].failed
+        assert result['workers']['630002']['baseline_bytes']==0
+        assert result['workers']['630002']['incremental_peak_bytes']==100
+        pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
+        assert pending[0]['roles']['630002'].startswith('pending_')
+        # Later contradictory source completion can stop final reconciliation;
+        # the retained pending row must never gain favorable attribution anyway.
+        assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
+>       assert result['workers']['630002']['role']=='unaccounted'
+E       AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_observer_declaration
+
+tests/test_kernel_stage_a_terminal_attribution.py:614: AssertionError
+_ test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-attribution-fix1-green-corrected-rw15io7v/specimens/test_cross_family_pid_reuse_is3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10703cc00>
+first = 'observer', second = 'authority'
+
+    @pytest.mark.parametrize('first,second',[('reader','observer'),('observer','reader'),('authority','observer'),('observer','authority')])
+    def test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed(tmp_path,monkeypatch,first,second):
+        result,records,observed,source=run_cross_family_ingestion(tmp_path,monkeypatch,first,second)
+        assert result['status']!='COMPLETED'
+        assert result['monitor_failure'] is not None,result
+        assert result['monitor_failure']['message']=='duplicate/reused source launch generation',result
+        stores=dict(reader=observed['python'].generations,observer=observed['declarations'],authority=observed['authority'])
+        assert 630002 in stores[first] and 630002 not in stores[second]
+        assert 630002 in observed['python'].failed
+        assert result['workers']['630002']['baseline_bytes']==0
+        assert result['workers']['630002']['incremental_peak_bytes']==100
+        pending=[r for r in records if r['kind']=='resolution' and r['sample_id']==3]
+        assert pending[0]['roles']['630002'].startswith('pending_')
+        # Later contradictory source completion can stop final reconciliation;
+        # the retained pending row must never gain favorable attribution anyway.
+        assert all(r['roles']['630002'] not in ('worker','observer_helper','authority_helper') for r in pending)
+>       assert result['workers']['630002']['role']=='unaccounted'
+E       AssertionError: assert 'pending_observer_declaration' == 'unaccounted'
+E         
+E         - unaccounted
+E         + pending_observer_declaration
+
+tests/test_kernel_stage_a_terminal_attribution.py:614: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[reader-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-reader]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[authority-observer]
+FAILED tests/test_kernel_stage_a_terminal_attribution.py::test_cross_family_pid_reuse_is_rejected_before_insertion_and_stays_failed[observer-authority]
+4 failed, 5 passed, 84 deselected in 0.14s
