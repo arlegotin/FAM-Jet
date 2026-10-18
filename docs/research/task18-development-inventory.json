@@ -6973,5 +6973,24 @@
     "failed_attempts": 0,
     "old_costs_retained": true,
     "next": "fresh matched structured8192 pending root post-commit launchrelease"
+  },
+  "structured_fixed_stopped8192": {
+    "status": "FAILED_numerical_gate_incomplete_pair_unconverged",
+    "source": "14956dc26e882ad04ff92547e0980b9ef856151f",
+    "report": "docs/research/task18-structured-stopped8192-report.md",
+    "summary": "docs/research/task18-structured-stopped8192-summary.json",
+    "inventory": "docs/research/task18-structured-stopped8192-inventory.json",
+    "jet_updates": 8192,
+    "jet_recorded_dev_loss": 0.36564478457277944,
+    "bank": "not_run",
+    "endpoint": {
+      "passed": 10,
+      "failed": 1,
+      "unrun": 1
+    },
+    "frozen_train": "INVALID_interrupted_2243_histories_not_score",
+    "recorded_execution_seconds": 446.477893292089,
+    "guard_test_seconds_rounded": 0.006,
+    "next": "proposal only: exact fixedCPU64 structured epsilon1e-6 closed source policy; all experiments held"
   }
 }

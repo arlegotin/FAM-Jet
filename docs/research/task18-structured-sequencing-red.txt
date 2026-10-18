@@ -1,0 +1,77 @@
+FFFFFF.
+======================================================================
+FAIL: test_endpoint_failed_summary_blocks_risk_and_bank (__main__.SequenceTests.test_endpoint_failed_summary_blocks_risk_and_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 19, in test_endpoint_failed_summary_blocks_risk_and_bank
+    def test_endpoint_failed_summary_blocks_risk_and_bank(self):self.check_case('failed','endpoint',['endpoint'])
+                                                                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+======================================================================
+FAIL: test_endpoint_failure_blocks_risk_and_bank (__main__.SequenceTests.test_endpoint_failure_blocks_risk_and_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 17, in test_endpoint_failure_blocks_risk_and_bank
+    def test_endpoint_failure_blocks_risk_and_bank(self):self.check_case('nonzero','endpoint',['endpoint'])
+                                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+======================================================================
+FAIL: test_endpoint_missing_blocks_risk_and_bank (__main__.SequenceTests.test_endpoint_missing_blocks_risk_and_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 18, in test_endpoint_missing_blocks_risk_and_bank
+    def test_endpoint_missing_blocks_risk_and_bank(self):self.check_case('missing','endpoint',['endpoint'])
+                                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+======================================================================
+FAIL: test_risk_failed_summary_blocks_bank (__main__.SequenceTests.test_risk_failed_summary_blocks_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 22, in test_risk_failed_summary_blocks_bank
+    def test_risk_failed_summary_blocks_bank(self):self.check_case('failed','risk',['endpoint','risk'])
+                                                   ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+======================================================================
+FAIL: test_risk_failure_blocks_bank (__main__.SequenceTests.test_risk_failure_blocks_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 20, in test_risk_failure_blocks_bank
+    def test_risk_failure_blocks_bank(self):self.check_case('nonzero','risk',['endpoint','risk'])
+                                            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+======================================================================
+FAIL: test_risk_missing_blocks_bank (__main__.SequenceTests.test_risk_missing_blocks_bank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/task18_checked_sequence_test.py", line 21, in test_risk_missing_blocks_bank
+    def test_risk_missing_blocks_bank(self):self.check_case('missing','risk',['endpoint','risk'])
+                                            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/task18_checked_sequence_test.py", line 15, in check_case
+    with self.assertRaises((RuntimeError,FileNotFoundError)):run_sequence(phases,run)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'RuntimeError'>, <class 'FileNotFoundError'>) not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (failures=6)

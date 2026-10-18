@@ -1,0 +1,131 @@
+{
+  "bundle_sha256": "63694643a0c0d840bd119d6e0e5d9adcad3a9de8d3401bf6ef14997a93d2fbd7",
+  "bundled_records": 69,
+  "exact_copies": [
+    {
+      "promoted": "docs/research/task18-structured-stopped8192-summary.json",
+      "sha256": "d501173b019c43ac1589cb8f01da176532cdb2c8d0ebce8afe102ae773cc12ac",
+      "source": "artifacts/task18/structured-fixed-stopped8192-summary.json"
+    },
+    {
+      "promoted": "docs/research/task18-structured-stopped8192-inventory.json",
+      "sha256": "40a23a88f6c1bdf2c00bba34a51a9c2e503d335453a624c038ed22b154092282",
+      "source": "artifacts/task18/structured-fixed-stopped8192-inventory.json"
+    },
+    {
+      "promoted": "docs/research/task18-structured-keygrad-diagnosis.md",
+      "sha256": "a26fd783abe3c99ce1e878e47ed66a47ac042b536d13a522ea19531105714d63",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-structured-keygrad-diagnosis.md"
+    },
+    {
+      "promoted": "docs/research/task18-structured-decimal-adjudication.md",
+      "sha256": "5ab93a277686b4f1e9e9bde70ab23db19bea4a9b0e777e6738db0fa8c1b660be",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-structured-decimal-adjudication.md"
+    },
+    {
+      "promoted": "docs/research/task18-structured-epsilon-conditioning.md",
+      "sha256": "86e67a8cc10f3d57ec8301ff00709551c5144d225d5db476de40afd640527a03",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-structured-epsilon-conditioning.md"
+    },
+    {
+      "promoted": "docs/research/task18-numerical-adjudication-review.md",
+      "sha256": "f74be019b1f6c018c71f1f3d044403cb241d0f8f12a14af04d7d4828d0db5aac",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-numerical-adjudication-review.md"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_learn8192.py",
+      "sha256": "83bca8f0dd9117053011e5f5893bcdaf660d03cb2f64a538c0d98af0c134a42c",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_learn8192.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_endpoint8192_case.py",
+      "sha256": "c0c96c89251ba3d82d42711976c5d82064fdeb8a6d0566b3d4c1e109967c63b4",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_endpoint8192_case.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_endpoint8192_driver.py",
+      "sha256": "ce453667d25a8dc5984e8addc6dd76588ad383d47c136925d221554a3459b312",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_endpoint8192_driver.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_frozen_risk8192.py",
+      "sha256": "e65ceffc4d964ad302b79bb874a3276835c14ddae9e8968db1aca0e0e603d978",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_frozen_risk8192.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_keygrad_diagnosis.py",
+      "sha256": "09d939cdc8eaeb4e97c21405e27686a5e9a09b1fda2ef2df8191122d1f09324b",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_diagnosis.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_keygrad_scales.py",
+      "sha256": "2d586cbbdd8d8e5fc060ce0f41acca7ee50732eb8e6eb1e84de41d3b8b3618e5",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_scales.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_keygrad_scales_r2.py",
+      "sha256": "032e99e6e9abd32852f23f320532e0327edbb826ceb7f65367067f9878f918bc",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_scales_r2.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_checked_sequence.py",
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_checked_sequence.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_checked_sequence_test.py",
+      "sha256": "71ad803d285ed920a999925a3186c9222129d0b2b678694c80ba97afa7be0dc6",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_checked_sequence_test.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_decimal_adjudication.py",
+      "sha256": "52fbea4bb3abc3b204797934bcf30e52a1ce4558c6835aac1088ef459eaa4e5d",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_decimal_adjudication.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_decimal_adjudication_r2.py",
+      "sha256": "7012f4d1d8e4771d1de180662277630c955d3800ad998e6d615e0576fe3bf692",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_decimal_adjudication_r2.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_epsilon_conditioning.py",
+      "sha256": "c28d98359be6ca43b10ff1b2142446c349f6a47fec44d58050f0486084dc5321",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_epsilon_conditioning.py"
+    },
+    {
+      "promoted": "docs/research/task18-procedures/task18_structured_epsilon_conditioning_r2.py",
+      "sha256": "c0c4500d55c13ef3eea082cdb2b90148dea1cb4760c7c604ed3f6db912d1294d",
+      "source": "artifacts/task18-evidence/procedure-scripts/task18_structured_epsilon_conditioning_r2.py"
+    },
+    {
+      "promoted": "docs/research/task18-structured-sequencing-red.txt",
+      "sha256": "59e1d141a14b53e3e97feb2b096ce8b310c8309bda785b18e4f436a716198755",
+      "source": "artifacts/task18-evidence/structured-sequencing-red.txt"
+    },
+    {
+      "promoted": "docs/research/task18-structured-sequencing-green.txt",
+      "sha256": "74c03fc16fde9a2dfeff03db0ec8f472a5a8dfed04e9e982a912b4b7f64faee3",
+      "source": "artifacts/task18-evidence/structured-sequencing-green.txt"
+    },
+    {
+      "promoted": "docs/research/task18-structured-stopped8192-report.md",
+      "sha256": "8c3a5149589229d225f9587eb17b22531c73cea1ffdce8838bb4ecfddbbdda23",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-structured-stopped8192-report.md"
+    }
+  ],
+  "failed_gate_retained": true,
+  "guard_tests_seconds_rounded": 0.006,
+  "inventory_records": 133,
+  "measured_execution_seconds": 446.477893292089,
+  "metadata_only_verification": "git diff --check passes; actual modified/untracked paths confined to README/PROGRESS/DECISIONS/AUDIT/docs; no source/config/lock/pyproject delta; prior raw inventory already independently verified, no corpus scan or experiment rerun",
+  "next_source_stage": "proposed only: exact fixedCPU64 structured Jet125/Bank122 epsilon1e-6 closed predicate and lifecycle/cache identity tests; no numerical/prep/training allocation",
+  "no_binaries_corpora_promoted": true,
+  "root_verification": "full report/amendment/public-prose read; all30 draft files,22 exact copies,133 original raw mappings,69 bundled records and seven curve rows verified; metadata commit authorized, source stage not released",
+  "source": {
+    "commit": "14956dc26e882ad04ff92547e0980b9ef856151f",
+    "diff": "",
+    "package_hash": "18785561574bfb4d246f703bc1e2caff9f7764ff0b0d8d7f641bef978f4957e0",
+    "untracked_package_files": {}
+  },
+  "status": "VERIFIED_results_only_original_gate_failed"
+}

@@ -1,0 +1,677 @@
+{
+  "bytes": 83592231,
+  "records": [
+    {
+      "bytes": 1059510,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/development.json",
+      "sha256": "d08ce01b70ed9931ee1752078a29a03ca0b3fb548fa54ba0b4b66c71d75464ac"
+    },
+    {
+      "bytes": 56159,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/learning_curve.jsonl",
+      "sha256": "97830fe5a3f62077357899202c1d973c1a8d311329c1a0d1ee8a55a806759b8c"
+    },
+    {
+      "bytes": 37234,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/manifest.json",
+      "sha256": "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013"
+    },
+    {
+      "bytes": 5456813,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step0.jsonl",
+      "sha256": "03b7664039fca3f12deb3096e2ab47a2cc7e065264a585825e2d67c7d1bf0c96"
+    },
+    {
+      "bytes": 5451818,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step1024.jsonl",
+      "sha256": "5da6ff01c1ec146e938922d9632f670281ec86839f11f255c7ed6ea8cd7da9ce"
+    },
+    {
+      "bytes": 5453696,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step128.jsonl",
+      "sha256": "038363ab4df9204d65c664f3ddd3174601505bc473c92fffc958fc9355d8d4e8"
+    },
+    {
+      "bytes": 5451708,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step2048.jsonl",
+      "sha256": "6bb7af9b9f95c34c0fd48ac902343d1f5bf932fde8f9af2ec7ec525e82305f3c"
+    },
+    {
+      "bytes": 5450798,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step4096.jsonl",
+      "sha256": "4187ab910c25a86ecaf333b74cfacde20c5327fb7fc59f17ac02ff3d506d4179"
+    },
+    {
+      "bytes": 5451799,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step512.jsonl",
+      "sha256": "37d4aaedc3291b73109ac86f33baa412940f4a288778a87d52b6223cbe0409c0"
+    },
+    {
+      "bytes": 5451513,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/predictions-step8192.jsonl",
+      "sha256": "72fe23752f78e5bf97bbf172e6bc8e751d2deab317cf3cffa43a3f962cadde24"
+    },
+    {
+      "bytes": 3674017,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/attempts.jsonl",
+      "sha256": "e64166c9441964f384d64df6487cb9420ab089719f9bc5769719b4e988761635"
+    },
+    {
+      "bytes": 1768024,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/checkpoint.pt",
+      "sha256": "6ef2046e6e39d82379f1f521b60d2631175bf264498d930a42a5e30a7c20525c"
+    },
+    {
+      "bytes": 1423960,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/checkpoint.pt.previous",
+      "sha256": "032d8eeaf7e3eee04e649c4b0e1f9dfd9b61e104f9e3bef2905202f0917306dd"
+    },
+    {
+      "bytes": 11060809,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/draws.jsonl",
+      "sha256": "21354c8ad0f49a1f0a8c6405c950cd50ca20a482500da343c7f93498d65c733d"
+    },
+    {
+      "bytes": 18150,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/predictions.jsonl",
+      "sha256": "c04099b5406b356ae13bfe7ae7ef30e8076de92bebe5495f5678430964f2c942"
+    },
+    {
+      "bytes": 273472,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/preprocessing.jsonl",
+      "sha256": "597016201f57c094e35ee8b320d7b4198b07d819bc6b93dd15d12b9547d2948d"
+    },
+    {
+      "bytes": 278,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/progress.json",
+      "sha256": "558bd0f487e4bf6010ec9ee31ca50ea7a03ec6065996e6fe5384858808d01b9c"
+    },
+    {
+      "bytes": 4456,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/resolved_config.json",
+      "sha256": "2e12da65f13bbec467ff6aff8e602d6a8c63de7cf7ee0fa77595a2e243717be1"
+    },
+    {
+      "bytes": 1040985,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/run.json",
+      "sha256": "829fd3fe20b66c6ba541f7ba3e270360bda88ba1e6815f8b674eac2b695a431b"
+    },
+    {
+      "bytes": 9071320,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/timing.jsonl",
+      "sha256": "2267e2dd2cff9639f1ea6c0435176ae2f3bfc09aa90383b061835d79935fe56c"
+    },
+    {
+      "bytes": 3096827,
+      "path": "artifacts/task18/learning-jet-fixed-cpu64-structured-8192/training/training.jsonl",
+      "sha256": "4eab2e0fbe2852d33841235cf4ea6e1ac15d87be39f6e833b52aacf0b878eaf2"
+    },
+    {
+      "bytes": 267,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication/failure.json",
+      "sha256": "9101c6a12a215712a058d89b808dde7332d9dc57ba06bf959239f82a3c411bca"
+    },
+    {
+      "bytes": 121995,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication/presented-inputs.pt",
+      "sha256": "86064c8bc0215f9566cb2c1417a5b579a77ac30c8493c8ed2e4c15e4583c893c"
+    },
+    {
+      "bytes": 2956,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication/procedure.json",
+      "sha256": "f3f543d3314054fdd9565fd7e1c79c3e5f050c714a54b58e1be7258e7dc19ab7"
+    },
+    {
+      "bytes": 91038,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/decimal60.json",
+      "sha256": "e0652239923686c413baa7ccc91e49263b69efa0bf891c0bb871e56a4da7c18e"
+    },
+    {
+      "bytes": 113896,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/decimal80.json",
+      "sha256": "0bce44dbaae827a79eca891bdf298d5f78a5b99ad92b0242ec5113dfc7a4a06f"
+    },
+    {
+      "bytes": 121995,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/presented-inputs.pt",
+      "sha256": "86064c8bc0215f9566cb2c1417a5b579a77ac30c8493c8ed2e4c15e4583c893c"
+    },
+    {
+      "bytes": 3648,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/procedure.json",
+      "sha256": "6414af615b207f8aa180186b3165c93eee25ba8b698e410ba63b2e6db46f0138"
+    },
+    {
+      "bytes": 2185,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/result-inventory.json",
+      "sha256": "6710c1474560360a948eacbad8dee999282c307617699735cf593d2b650c4485"
+    },
+    {
+      "bytes": 2155,
+      "path": "artifacts/task18/structured-fixed-decimal-adjudication-r2/summary.json",
+      "sha256": "d3948e23e9c30b4be818068b4eeaa79406d92bf71d1ce28e23e83be7d732844a"
+    },
+    {
+      "bytes": 245,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/failure.json",
+      "sha256": "d0342c24e45b4101359696c4b14c08c0cb23a4172c1ed6f6b3dd7963cc40ac55"
+    },
+    {
+      "bytes": 580,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/procedure.json",
+      "sha256": "2f9d039e22ceea73708acc6f7e4bcd358069f393359f422e9cb7b9cf78535e1c"
+    },
+    {
+      "bytes": 2497,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/progress.json",
+      "sha256": "a44f0dfaaa614759c2a3d3f709ddee6769672f92a3639703615fecda369cc234"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-00/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-00/procedure.json",
+      "sha256": "da4fb12384e4edaae5dd781008a3cfd7b3ba0f6c48361d97b159079f1ae4a5ed"
+    },
+    {
+      "bytes": 13995,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-00/summary.json",
+      "sha256": "9fc766913b0c1ec80e43ce96be92a599950726ba1003702acad1f89dfe8c0be5"
+    },
+    {
+      "bytes": 537237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-00/task-gradients.pt",
+      "sha256": "4ec815588b73a421f018fd65c5dc79c6787234339b04d42009a301c8b28a8f37"
+    },
+    {
+      "bytes": 10673,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-00.txt",
+      "sha256": "7f2b235f401e9de9b4cd62076e1e0a60e95e1960caf8e95ec6cf8ef4dadd8941"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-01/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-01/procedure.json",
+      "sha256": "083b62ad286a86168b3fbbb63310360f7b999f5be3930099c2d9dca07404d3e3"
+    },
+    {
+      "bytes": 14004,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-01/summary.json",
+      "sha256": "4a21f504915669777bd7a4918ff4c8b6c284cd6d108323343b2ababa2e3f2024"
+    },
+    {
+      "bytes": 690837,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-01/task-gradients.pt",
+      "sha256": "ee60cf6c4fae4f83d937189033d0083b083ae4745e2fadad46e132c73d01f181"
+    },
+    {
+      "bytes": 10673,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-01.txt",
+      "sha256": "57d1f88acdeb7de8657e425c0d2ca122a93912e1cd299877c331adc7aca88e66"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-02/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-02/procedure.json",
+      "sha256": "1650d98602379be2526fa846d747a3d370031a518e8cac0f3e1e146d8d0c758d"
+    },
+    {
+      "bytes": 14050,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-02/summary.json",
+      "sha256": "4c4e89454954125907fe65ac83e3cdad55d27f53293a60e4443fc60b6ff9a1c6"
+    },
+    {
+      "bytes": 1305237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-02/task-gradients.pt",
+      "sha256": "8a05a37cf474e5916bfe39f11456af152af95778be6c728edc2dc20ae9fcd2bf"
+    },
+    {
+      "bytes": 10675,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-02.txt",
+      "sha256": "2cf64a6048f39e9b79544e53f645b75c35b828508ebf799189a11dfd07c79e55"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-03/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-03/procedure.json",
+      "sha256": "01d867cde26cff0d315000939e31f586e68146786fcb5d0dface449b005312bf"
+    },
+    {
+      "bytes": 14020,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-03/summary.json",
+      "sha256": "7d9b0049b27551bdaeceeea8033e90729b24cb96c80374a49a7f62469cf28993"
+    },
+    {
+      "bytes": 537237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-03/task-gradients.pt",
+      "sha256": "b532d2b2915c4ad4f38f1664be794196a9afd1b9e86250261681e91b7270556c"
+    },
+    {
+      "bytes": 10664,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-03.txt",
+      "sha256": "f93bd601c20a8af27465c90d3e7c888bf37832cb4dbe7daf50ecadebd2383647"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-04/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-04/procedure.json",
+      "sha256": "4f175b10738a41bb2efe0d71a568bfd6ca06883c7dacb1dfef08a207d69116bd"
+    },
+    {
+      "bytes": 14028,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-04/summary.json",
+      "sha256": "2527457eeaef27225abbb194509ca5b33c63e834dd6b1b69a7032fe76a383611"
+    },
+    {
+      "bytes": 690837,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-04/task-gradients.pt",
+      "sha256": "cf2e20bb060db14a6e9ed77e5c58fd91e8a4b37dd217700a4a8eb0d69cc9d196"
+    },
+    {
+      "bytes": 10664,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-04.txt",
+      "sha256": "104bebd9379d153a840c91b149bccd8c4083d935eac839ce66418c2c4d3791b5"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-05/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-05/procedure.json",
+      "sha256": "117f5a3d28131b946329d0cefda46fe85c5425fe92bdc1bca27ae144e30ba798"
+    },
+    {
+      "bytes": 13995,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-05/summary.json",
+      "sha256": "eba0b2d408a62c26e02e9e6c9f615b6b2486247e42463aae7ade2a7db6ce731d"
+    },
+    {
+      "bytes": 1305237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-05/task-gradients.pt",
+      "sha256": "4542c698c11e90fb890a38eded29ae4b84e28bbb1fc0ce7f3958957b170c779d"
+    },
+    {
+      "bytes": 10666,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-05.txt",
+      "sha256": "2f4e95e8dd9de1e5fe773bf481f99c0448b1d2a8d05e3eb13c87f788d5234aa5"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-06/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-06/procedure.json",
+      "sha256": "465be422ffe0aef387f223c0a77ed2637cc0d7f7d1cef958da7c9da7489ec191"
+    },
+    {
+      "bytes": 14039,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-06/summary.json",
+      "sha256": "946df87272834ec4a334fd10b400bacb54e0d6f574b66198d77653ad6f9f1328"
+    },
+    {
+      "bytes": 537237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-06/task-gradients.pt",
+      "sha256": "b65023cab232de658ed534cbff9ae55b9b7e513129dac7aac094b0353ac18b73"
+    },
+    {
+      "bytes": 10670,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-06.txt",
+      "sha256": "72ac2ade43a8af3e74fb95b8e8ff6c9b9f98bc75803efcf1518e24f2de5a4a40"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-07/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-07/procedure.json",
+      "sha256": "e8278ddf260cefdc910be9f5bb3ed2c43f21aca5330f49a04a70a36cb66af06c"
+    },
+    {
+      "bytes": 13983,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-07/summary.json",
+      "sha256": "03047ad28b2b5bfa169f746d62d5f4e1886e654d6a805e326d5a5bfe41b3fa32"
+    },
+    {
+      "bytes": 690837,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-07/task-gradients.pt",
+      "sha256": "a034e37c8d0c6b162c07ad1b0b3c29e967868ed6520403d40788aa0ea6148824"
+    },
+    {
+      "bytes": 10670,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-07.txt",
+      "sha256": "6e7b6373659bcb0648d197ed3a032ab6dd10b92ffa72c156a3141ee0069a55ce"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-08/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-08/procedure.json",
+      "sha256": "e1227b3c6a24f4e0f5eb388d01831034cf8c3ea5d52c1cd17e53748ed75938d2"
+    },
+    {
+      "bytes": 14001,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-08/summary.json",
+      "sha256": "0647f57984c5597b18c286182868bdd84f0426ba4055ab011070e886169dd409"
+    },
+    {
+      "bytes": 1305237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-08/task-gradients.pt",
+      "sha256": "bef35054048b09ede3bebfedcee1c218d478304a02a1033801e7612a1703e997"
+    },
+    {
+      "bytes": 10672,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-08.txt",
+      "sha256": "927d43752e6b8542ff288477a7779fadc1f2121f85fc90388065917c4b1820d5"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-09/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10387,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-09/procedure.json",
+      "sha256": "610919925e6ff82427224ab1a92278a16d53012eb094ab3efab29b7d29c065d7"
+    },
+    {
+      "bytes": 14000,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-09/summary.json",
+      "sha256": "6afb29da58ba8d39a8e87eff46f1d294721068cc6877234aa2787103ab8ad343"
+    },
+    {
+      "bytes": 537237,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-09/task-gradients.pt",
+      "sha256": "a5b48ffbb51a89766ec0c27aa4b4da5b860fa7ea733b0a0da4e4751812223f06"
+    },
+    {
+      "bytes": 10673,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-09.txt",
+      "sha256": "594a7020d37a9db05e5abb5ce22a0dd44dae8a98e7fde88733d14218252d9e28"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-10/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 10388,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-10/procedure.json",
+      "sha256": "7cf201b12a32541b0249ddda0e6e01dfe1ee251ceff1a76fe3e7eb4120c5b32c"
+    },
+    {
+      "bytes": 14005,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-10/summary.json",
+      "sha256": "165d3de740c1f42dfd49ce73e0bbd2604ec6441e1240f9add213eb6cc228d8e5"
+    },
+    {
+      "bytes": 690837,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-10/task-gradients.pt",
+      "sha256": "90fce80979c93ca1d87b19d67ae528b2b667d5b6bb9c08e75967e5ca0d6d3029"
+    },
+    {
+      "bytes": 10692,
+      "path": "artifacts/task18/structured-fixed-endpoint8192-jet/step8192-10.txt",
+      "sha256": "7002b3c223ea99538bfb756a207725f117259d1b4b15e1db34b6597467b70d9d"
+    },
+    {
+      "bytes": 7937,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/candidate-1e-6.json",
+      "sha256": "1013d665efee682b7e4d9a4881f643b037de7852423f5cf909b7e20777cf2203"
+    },
+    {
+      "bytes": 7917,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/candidate-1e-8.json",
+      "sha256": "03dbf455187d4cd48f58dd9a25cbae3915c6d484c8b250a8641b370fd1672a19"
+    },
+    {
+      "bytes": 91040,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/decimal60-1e-6.json",
+      "sha256": "4dfd63f8d280cfad852e97191649faa44dd197d759a15aaa39a761ce88e1d4aa"
+    },
+    {
+      "bytes": 91038,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/decimal60-1e-8.json",
+      "sha256": "9bb175b3e1c1965d613a85c7a9e546757031d3980963e13ec44284f8125c54a3"
+    },
+    {
+      "bytes": 113897,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/decimal80-1e-6.json",
+      "sha256": "719de8f1cc482f48b2f6826149b9a5f5585561d23e3587c122daafb1ce6e5ca0"
+    },
+    {
+      "bytes": 113896,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/decimal80-1e-8.json",
+      "sha256": "bd018eaa265f23677ea14dd015da5d3fa36465e8a00e972c9fc7e07ed8c77cb7"
+    },
+    {
+      "bytes": 3146,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/procedure.json",
+      "sha256": "e3ba0b80eb46dbd9f4eaf839fc112e4d7f84cefa7b0c968f8732fd9e50694984"
+    },
+    {
+      "bytes": 2659,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/result-inventory.json",
+      "sha256": "97d8056ed09ae15221d38339b7b3e91f0069a43c91a6be36bdf07117ebe05103"
+    },
+    {
+      "bytes": 10048,
+      "path": "artifacts/task18/structured-fixed-epsilon-conditioning/summary.json",
+      "sha256": "10c4188ce7d7d33b145b46bfb466759af8697d79f3ddf8895362e33ded03f8aa"
+    },
+    {
+      "bytes": 314,
+      "path": "artifacts/task18/structured-fixed-frozen-risk8192-jet/failure.json",
+      "sha256": "bf9edbc064719251363619563dee082088d029a9bc85bebc44693e137f82524b"
+    },
+    {
+      "bytes": 1275544,
+      "path": "artifacts/task18/structured-fixed-frozen-risk8192-jet/histories.jsonl",
+      "sha256": "920c5de9af90f5bf38760018048139fb41acbea9695070fc89c2e42c60281b9b"
+    },
+    {
+      "bytes": 1576,
+      "path": "artifacts/task18/structured-fixed-frozen-risk8192-jet/procedure.json",
+      "sha256": "f5bca3fe1804885249aad2710e5876da4c142e75084c42795cda9ad0255e5fa1"
+    },
+    {
+      "bytes": 468217,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/boundary-captures.pt",
+      "sha256": "61a6796cd0358a3cf97449220d861325e6c4f4a5ff69a45314e65b60ac66504d"
+    },
+    {
+      "bytes": 8753,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/checkpoint-verification.json",
+      "sha256": "6101d339a97ad74b65280fc34b50d40749d1b3effe4741ab04988e4ee7716d45"
+    },
+    {
+      "bytes": 4714,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/diagnosis.json",
+      "sha256": "539208799899914fd214211519a8d441ebb729486c753f35aaeacc0eedd32f66"
+    },
+    {
+      "bytes": 10636,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/procedure.json",
+      "sha256": "9362308d1d56ee0db981f7fa533414e11d960ece7301e0f330fa77d1410c413b"
+    },
+    {
+      "bytes": 6549,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/scale-and-conditioning-r2.json",
+      "sha256": "f2ab6824fef37c24ce7bbaa8960bf0eea2566ce93c551c6bba957650db0f9d65"
+    },
+    {
+      "bytes": 6366,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/scale-and-conditioning.json",
+      "sha256": "80c95eb0943e208b588bd71da06faabffab159205fe87ef2102980ad604361d6"
+    },
+    {
+      "bytes": 14006,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/summary.json",
+      "sha256": "7e9a8591b92209e84c802a8e134a618273d34a59be226dd27d0fb8cb3271f489"
+    },
+    {
+      "bytes": 690837,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/jet10/task-gradients.pt",
+      "sha256": "90fce80979c93ca1d87b19d67ae528b2b667d5b6bb9c08e75967e5ca0d6d3029"
+    },
+    {
+      "bytes": 2044,
+      "path": "artifacts/task18/structured-fixed-keygrad-diagnosis/phase1-inventory.json",
+      "sha256": "30d63085f02c07bc6278772858f333b06aafb21e1bba3620c3e1aed951a557bb"
+    },
+    {
+      "bytes": 2915,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_learn8192.py",
+      "sha256": "83bca8f0dd9117053011e5f5893bcdaf660d03cb2f64a538c0d98af0c134a42c"
+    },
+    {
+      "bytes": 9659,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_endpoint8192_case.py",
+      "sha256": "c0c96c89251ba3d82d42711976c5d82064fdeb8a6d0566b3d4c1e109967c63b4"
+    },
+    {
+      "bytes": 2649,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_endpoint8192_driver.py",
+      "sha256": "ce453667d25a8dc5984e8addc6dd76588ad383d47c136925d221554a3459b312"
+    },
+    {
+      "bytes": 6425,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_frozen_risk8192.py",
+      "sha256": "e65ceffc4d964ad302b79bb874a3276835c14ddae9e8968db1aca0e0e603d978"
+    },
+    {
+      "bytes": 13165,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_diagnosis.py",
+      "sha256": "09d939cdc8eaeb4e97c21405e27686a5e9a09b1fda2ef2df8191122d1f09324b"
+    },
+    {
+      "bytes": 3878,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_scales.py",
+      "sha256": "2d586cbbdd8d8e5fc060ce0f41acca7ee50732eb8e6eb1e84de41d3b8b3618e5"
+    },
+    {
+      "bytes": 4111,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_keygrad_scales_r2.py",
+      "sha256": "032e99e6e9abd32852f23f320532e0327edbb826ceb7f65367067f9878f918bc"
+    },
+    {
+      "bytes": 725,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_checked_sequence.py",
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d"
+    },
+    {
+      "bytes": 1883,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_checked_sequence_test.py",
+      "sha256": "71ad803d285ed920a999925a3186c9222129d0b2b678694c80ba97afa7be0dc6"
+    },
+    {
+      "bytes": 11249,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_decimal_adjudication.py",
+      "sha256": "52fbea4bb3abc3b204797934bcf30e52a1ce4558c6835aac1088ef459eaa4e5d"
+    },
+    {
+      "bytes": 12245,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_decimal_adjudication_r2.py",
+      "sha256": "7012f4d1d8e4771d1de180662277630c955d3800ad998e6d615e0576fe3bf692"
+    },
+    {
+      "bytes": 15603,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_epsilon_conditioning.py",
+      "sha256": "c28d98359be6ca43b10ff1b2142446c349f6a47fec44d58050f0486084dc5321"
+    },
+    {
+      "bytes": 15606,
+      "path": "artifacts/task18-evidence/procedure-scripts/task18_structured_epsilon_conditioning_r2.py",
+      "sha256": "c0c4500d55c13ef3eea082cdb2b90148dea1cb4760c7c604ed3f6db912d1294d"
+    },
+    {
+      "bytes": 1555,
+      "path": "artifacts/task18-evidence/structured-epsilon-conditioning-prepared-r2.json",
+      "sha256": "17102a40ad01b3036e592f85b046dad6a7cd9a7c0d2dbf340fcc353cb22a4bc9"
+    },
+    {
+      "bytes": 1112,
+      "path": "artifacts/task18-evidence/structured-epsilon-conditioning-prepared.json",
+      "sha256": "f3520b5397c05364fdc366d561bbe44510678c40a70bcbfe9eb053c661b821f3"
+    },
+    {
+      "bytes": 10441,
+      "path": "artifacts/task18-evidence/structured-epsilon-conditioning-r2.txt",
+      "sha256": "a283828adb267b92d7a78f479432616fa8cf0658b06084d0d64da1e537b1442c"
+    },
+    {
+      "bytes": 2236,
+      "path": "artifacts/task18-evidence/structured-fixed-decimal-adjudication-r2.txt",
+      "sha256": "bdc2c0e9064bdb94f1918968d9fa40d8d965116145d099989f05b5cde723f5c9"
+    },
+    {
+      "bytes": 825,
+      "path": "artifacts/task18-evidence/structured-fixed-decimal-adjudication.txt",
+      "sha256": "72f2f54f69cdd591acac666bae66eba556724bead1dbb9ff099e23d6d4521ad1"
+    },
+    {
+      "bytes": 10693,
+      "path": "artifacts/task18-evidence/structured-fixed-keygrad-diagnosis.txt",
+      "sha256": "51435aa8afe7d65d82b148d130a8a52bde844fafeafed688746ffa3b7d9477d4"
+    },
+    {
+      "bytes": 862,
+      "path": "artifacts/task18-evidence/structured-fixed-learning-jet-8192-allocation.json",
+      "sha256": "363b1dc0170b3c2fd3dc4036df87acf8cd9232b3431410b9533e4f80a065c0ce"
+    },
+    {
+      "bytes": 527,
+      "path": "artifacts/task18-evidence/structured-fixed-learning-jet-8192-clock.json",
+      "sha256": "52d9fdbf4d6315e84cb3c92701ca8853f09093a511ea529111bf6c1240aeb3ee"
+    },
+    {
+      "bytes": 288,
+      "path": "artifacts/task18-evidence/structured-fixed-learning-jet-8192.txt",
+      "sha256": "522068ec895452ae142df67aee6aa1de16f28d98b8bd0f72b2ff6295c714d6c6"
+    },
+    {
+      "bytes": 105,
+      "path": "artifacts/task18-evidence/structured-sequencing-green.txt",
+      "sha256": "74c03fc16fde9a2dfeff03db0ec8f472a5a8dfed04e9e982a912b4b7f64faee3"
+    },
+    {
+      "bytes": 5477,
+      "path": "artifacts/task18-evidence/structured-sequencing-red.txt",
+      "sha256": "59e1d141a14b53e3e97feb2b096ce8b310c8309bda785b18e4f436a716198755"
+    }
+  ],
+  "scope": "complete files in stopped learning/endpoint/partial-risk/diagnosis/Decimal/epsilon directories plus used helper attempts and external records; corpus/old setup retained by prior manifests, no repeat corpus scan",
+  "source": {
+    "commit": "14956dc26e882ad04ff92547e0980b9ef856151f",
+    "diff": "",
+    "package_hash": "18785561574bfb4d246f703bc1e2caff9f7764ff0b0d8d7f641bef978f4957e0",
+    "untracked_package_files": {}
+  }
+}
