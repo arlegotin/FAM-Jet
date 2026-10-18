@@ -1,0 +1,342 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+__________ test_descriptor_bits_marker_ties_skips_and_execution_order __________
+
+    def test_descriptor_bits_marker_ties_skips_and_execution_order():
+>       d = module('descriptors')
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_______ test_decimal_closed_integrals_scaled_solve_and_exact_float_input _______
+
+    def test_decimal_closed_integrals_scaled_solve_and_exact_float_input():
+>       r = module('reference')
+            ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+________ test_reference_guards_finite_comparisons_and_three_way_policy _________
+
+    def test_reference_guards_finite_comparisons_and_three_way_policy():
+>       r = module('reference')
+            ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_____ test_unit_metadata_transport_retains_original_and_changes_only_units _____
+
+    def test_unit_metadata_transport_retains_original_and_changes_only_units():
+>       a = module('authority')
+            ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_________ test_authority_refuses_null_unknown_mismatch_before_backend __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4283/test_authority_refuses_null_un0')
+
+    def test_authority_refuses_null_unknown_mismatch_before_backend(tmp_path):
+>       a = module('authority')
+            ^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_ test_bounded_sequential_orchestration_preserves_failure_attribution[source-744-FAILED] _
+
+failure = 'source', reads = 744, status = 'FAILED'
+
+    @pytest.mark.parametrize('failure, reads, status', [('source', 744, 'FAILED'),
+                                                      ('reader', 6, 'FAILED'), ('common', 1, 'STOPPED')])
+    def test_bounded_sequential_orchestration_preserves_failure_attribution(failure, reads, status):
+>       driver = module('driver')
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_ test_bounded_sequential_orchestration_preserves_failure_attribution[reader-6-FAILED] _
+
+failure = 'reader', reads = 6, status = 'FAILED'
+
+    @pytest.mark.parametrize('failure, reads, status', [('source', 744, 'FAILED'),
+                                                      ('reader', 6, 'FAILED'), ('common', 1, 'STOPPED')])
+    def test_bounded_sequential_orchestration_preserves_failure_attribution(failure, reads, status):
+>       driver = module('driver')
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_ test_bounded_sequential_orchestration_preserves_failure_attribution[common-1-STOPPED] _
+
+failure = 'common', reads = 1, status = 'STOPPED'
+
+    @pytest.mark.parametrize('failure, reads, status', [('source', 744, 'FAILED'),
+                                                      ('reader', 6, 'FAILED'), ('common', 1, 'STOPPED')])
+    def test_bounded_sequential_orchestration_preserves_failure_attribution(failure, reads, status):
+>       driver = module('driver')
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+________ test_budget_cancellation_and_unexpected_engine_error_stop_all _________
+
+    def test_budget_cancellation_and_unexpected_engine_error_stop_all():
+>       d = module('driver')
+            ^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a'
+import_ = <function _gcd_import at 0x1099004a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_descriptor_bits_marker_ties_skips_and_execution_order
+FAILED tests/test_kernel_stage_a_preflight.py::test_decimal_closed_integrals_scaled_solve_and_exact_float_input
+FAILED tests/test_kernel_stage_a_preflight.py::test_reference_guards_finite_comparisons_and_three_way_policy
+FAILED tests/test_kernel_stage_a_preflight.py::test_unit_metadata_transport_retains_original_and_changes_only_units
+FAILED tests/test_kernel_stage_a_preflight.py::test_authority_refuses_null_unknown_mismatch_before_backend
+FAILED tests/test_kernel_stage_a_preflight.py::test_bounded_sequential_orchestration_preserves_failure_attribution[source-744-FAILED]
+FAILED tests/test_kernel_stage_a_preflight.py::test_bounded_sequential_orchestration_preserves_failure_attribution[reader-6-FAILED]
+FAILED tests/test_kernel_stage_a_preflight.py::test_bounded_sequential_orchestration_preserves_failure_attribution[common-1-STOPPED]
+FAILED tests/test_kernel_stage_a_preflight.py::test_budget_cancellation_and_unexpected_engine_error_stop_all
+9 failed in 0.08s

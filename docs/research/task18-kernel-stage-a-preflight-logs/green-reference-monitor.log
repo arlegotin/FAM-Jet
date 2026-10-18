@@ -1,0 +1,47 @@
+.........FF                                                              [100%]
+=================================== FAILURES ===================================
+____ test_reference_event_sum_delay_contrast_and_stability_are_independent _____
+
+    def test_reference_event_sum_delay_contrast_and_stability_are_independent():
+        r = module('reference')
+        with r.context(80):
+            f = r.Factors('jet', [0.5], 1., 5224., 1e-6)
+            events = [dict(time=-2., values=[3.], key=0, observed=True)]
+            n,u = r.event_state(f,events,0.,1.,1.)
+            assert abs(n[0]-Decimal(-1).exp()) < Decimal('1e-78')
+            assert n[0] == n[1]
+            n2,u2 = r.advance(f,n,u,2.,1.)
+            assert abs(n2[0]-Decimal(-2).exp()) < Decimal('1e-78')
+            assert abs(n2[1]-2*Decimal(-2).exp()) < Decimal('1e-78')
+>           assert u2[1][0] == 3*n2[1]
+E           AssertionError: assert Decimal('0.81201169941967615136399696983490642044578927545745528880895323592444024460892612') == (3 * Decimal('0.27067056647322538378799898994496880681526309181915176293631774530814674820297537'))
+
+tests/test_kernel_stage_a_preflight.py:174: AssertionError
+_____ test_monitor_stops_whole_process_group_and_charges_temporary_outputs _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4286/test_monitor_stops_whole_proce0')
+
+    def test_monitor_stops_whole_process_group_and_charges_temporary_outputs(tmp_path):
+        m = module('monitor')
+        import sys
+        out = tmp_path/'out'
+        result = m.supervise([sys.executable,'-c','import time; time.sleep(10)'],out,
+                             outer_seconds=.1,output_bytes=8192,free_disk_bytes=0,sampler=lambda pid:{pid:10})
+        assert result['status'] == 'STOPPED'
+        assert result['reason'] == 'outer timeout'
+        assert result['returncode'] is not None
+        assert result['absolute_process_tree_peak_bytes'] >= 0
+        out2=tmp_path/'out2'
+        code='from pathlib import Path; import time; Path("temporary.bin").write_bytes(b"x"*8192); time.sleep(10)'
+        result=m.supervise([sys.executable,'-c',code],out2,outer_seconds=2,output_bytes=8192,free_disk_bytes=0,sampler=lambda pid:{pid:10})
+>       assert result['reason'] == 'output cap'
+E       AssertionError: assert 'output cap i...onitor report' == 'output cap'
+E         
+E         - output cap
+E         + output cap including final monitor report
+
+tests/test_kernel_stage_a_preflight.py:197: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_reference_event_sum_delay_contrast_and_stability_are_independent
+FAILED tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs
+2 failed, 9 passed in 0.21s

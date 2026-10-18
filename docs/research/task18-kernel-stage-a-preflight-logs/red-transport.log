@@ -1,0 +1,59 @@
+..........FF.                                                            [100%]
+=================================== FAILURES ===================================
+_____ test_monitor_stops_whole_process_group_and_charges_temporary_outputs _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4287/test_monitor_stops_whole_proce0')
+
+    def test_monitor_stops_whole_process_group_and_charges_temporary_outputs(tmp_path):
+        m = module('monitor')
+        import sys
+        out = tmp_path/'out'
+        result = m.supervise([sys.executable,'-c','import time; time.sleep(10)'],out,
+                             outer_seconds=.1,output_bytes=8192,free_disk_bytes=0,sampler=lambda pid:{pid:10})
+        assert result['status'] == 'STOPPED'
+        assert result['reason'] == 'outer timeout'
+        assert result['returncode'] is not None
+        assert result['absolute_process_tree_peak_bytes'] >= 0
+        out2=tmp_path/'out2'
+        code='from pathlib import Path; import time; Path("temporary.bin").write_bytes(b"x"*8192); time.sleep(10)'
+        result=m.supervise([sys.executable,'-c',code],out2,outer_seconds=2,output_bytes=8192,free_disk_bytes=0,sampler=lambda pid:{pid:10})
+>       assert result['reason'] == 'output cap'
+E       AssertionError: assert 'output cap i...onitor report' == 'output cap'
+E         
+E         - output cap
+E         + output cap including final monitor report
+
+tests/test_kernel_stage_a_preflight.py:197: AssertionError
+________ test_transport_snapshot_keeps_poison_bits_and_canonical_metric ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4287/test_transport_snapshot_keeps_0')
+
+    def test_transport_snapshot_keeps_poison_bits_and_canonical_metric(tmp_path):
+>       p=module('production')
+          ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_preflight.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_kernel_stage_a_preflight.py:11: in module
+    return importlib.import_module('validation.kernel_stage_a.' + name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'validation.kernel_stage_a.production'
+import_ = <function _gcd_import at 0x1094444a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'validation.kernel_stage_a.production'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs
+FAILED tests/test_kernel_stage_a_preflight.py::test_transport_snapshot_keeps_poison_bits_and_canonical_metric
+2 failed, 11 passed in 0.28s

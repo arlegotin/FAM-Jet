@@ -1,0 +1,33 @@
+..F..........                                                            [100%]
+=================================== FAILURES ===================================
+________ test_reference_guards_finite_comparisons_and_three_way_policy _________
+
+    def test_reference_guards_finite_comparisons_and_three_way_policy():
+        r = module('reference')
+        with r.context(80):
+            ok = r.decode([Decimal(1)], [[Decimal(2)]], [Decimal(1)], [0.])
+            assert ok['code'] == 0
+            assert abs(ok['prediction'][0]-Decimal(2)/(1+r.exact(1e-8))) < Decimal('1e-75')
+            tiny = r.decode([Decimal(0)], [[Decimal(0)]], [Decimal(1)], [3.])
+            assert tiny['code'] == 5 and tiny['prediction'] == [Decimal(3)]
+            assert r.decode([Decimal(-1)], [[Decimal(2)]], [Decimal(1)], [0.])['code'] == 3
+            assert r.decode([Decimal(1)], [[Decimal(2)]], [Decimal(1)], [0.], quarantined=True)['code'] == 1
+        p = dict(code=0, prediction=[1.], mass=2., bound=0., raw=[2.])
+        a = dict(p)
+        b = dict(p, prediction=[2.])
+        outcome = r.compare_three(p, a, b)
+        assert outcome['reader_arithmetic'] == 'PASS'
+        assert outcome['source_state_fidelity'] == 'FAILED'
+        assert outcome['end_to_end_gate'] == 'FAILED'
+        assert outcome['stop'] == 'continue'
+        assert r.compare_three(b, a, a)['stop'] == 'candidate'
+>       assert r.compare(dict(p,coefficients=[[1.]]),dict(a,coefficients=[[2.]]))['status']=='FAILED'
+E       AssertionError: assert 'PASS' == 'FAILED'
+E         
+E         - FAILED
+E         + PASS
+
+tests/test_kernel_stage_a_preflight.py:81: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_reference_guards_finite_comparisons_and_three_way_policy
+1 failed, 12 passed in 0.82s

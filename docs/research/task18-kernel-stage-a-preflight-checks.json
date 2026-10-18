@@ -1,0 +1,82 @@
+{
+  "initial_verified": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight.py"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/verified-0.log",
+      "sha256": "ff765c4a6524cacc624b4ce66b64c5faee870309b4beb10e02c88de354e6086a",
+      "bytes": 99
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "validation/kernel_stage_a",
+        "tests/test_kernel_stage_a_preflight.py"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/verified-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/verified-2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "final_verified": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight.py"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/final-verified-0.log",
+      "sha256": "29173821523d719720224e43822305d0e5d8b26502e41c91c28934d20efb1f3f",
+      "bytes": 99
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "validation/kernel_stage_a",
+        "tests/test_kernel_stage_a_preflight.py"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/final-verified-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "log": "docs/research/task18-kernel-stage-a-preflight-logs/final-verified-2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}

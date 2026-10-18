@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_read_worker_trace_counts_real_small_analytic_calls_without_factorization _
+
+    def test_read_worker_trace_counts_real_small_analytic_calls_without_factorization():
+        import torch
+        from famjet.readers.kernel_projection import KernelProjection
+>       trace=module('reader_worker').Trace()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_a.reader_worker' has no attribute 'Trace'
+
+tests/test_kernel_stage_a_preflight.py:305: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_read_worker_trace_counts_real_small_analytic_calls_without_factorization
+1 failed in 0.60s

@@ -1,0 +1,30 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv __
+
+    def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv():
+        m=module('monitor'); import os,sys
+        entry=dict(pid=30,parent=20,executable=m.PS,argv=m.PS_ARGV)
+        declared={30:entry}
+        processes={10:dict(parent=os.getpid(),executable=sys.executable,argv=[]),
+                   20:dict(parent=10,executable=sys.executable,argv=[]),30:entry}
+        roles=m.classify(10,processes,{10:100,20:100},declared)
+        assert roles=={10:'worker',20:'worker',30:'observer_helper'}
+        assert m.classify(10,processes,{10:100},declared)[30]=='unaccounted'
+        for change in (dict(parent=99),dict(executable='/tmp/ps'),dict(argv=[m.PS,'different'])):
+            altered=dict(processes,**{})
+            altered[30]=dict(entry,**change)
+            assert m.classify(10,altered,{10:100,20:100},declared)[30]=='unaccounted'
+        assert m.classify(10,processes,{10:100,20:100},{})[30]=='unaccounted'
+        for change in (dict(parent=99),dict(executable='/tmp/not-python')):
+            altered=dict(processes); altered[20]=dict(processes[20],**change)
+>           assert m.classify(10,altered,{10:100,20:100},declared)[20]=='unaccounted'
+E           AssertionError: assert 'worker' == 'unaccounted'
+E             
+E             - unaccounted
+E             + worker
+
+tests/test_kernel_stage_a_preflight.py:351: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv
+1 failed in 0.05s

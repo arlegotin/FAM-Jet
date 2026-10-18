@@ -1,0 +1,37 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4294/test_observed_helper_peak_is_c0')
+
+    def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
+        m=module('monitor'); import sys
+        code='''
+    import json,os,time
+    from pathlib import Path
+    p=Path('monitor-events.jsonl')
+    p.write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
+    time.sleep(.08)
+    with p.open('a') as f:
+     f.write(json.dumps(dict(event='observer_helper',pid=os.getpid()+100000,parent=os.getpid(),executable='/bin/ps',argv=['/bin/ps','-axo','pid=,ppid=,rss=,comm=,args=']))+'\\n')
+    time.sleep(10)
+    '''
+        polls=[0]
+        def sample(pid):
+            polls[0]+=1
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            readings={pid:100}
+            if polls[0]<3: readings[pid+100000]=20
+            return m.ResidentTree(readings,{pid:dict(parent=1,executable='/python',argv=[]),pid+100000:helper})
+        result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
+                            free_disk_bytes=0,incremental_bytes=100,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'outer timeout' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + outer timeout
+
+tests/test_kernel_stage_a_preflight.py:372: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit
+1 failed in 0.40s

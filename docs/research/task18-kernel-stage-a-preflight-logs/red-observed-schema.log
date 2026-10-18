@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_observed_schema_and_package_match_read_only_registered_interfaces ____
+
+    def test_observed_schema_and_package_match_read_only_registered_interfaces():
+        from famjet.eval.isolation import REGISTRY_VERSION,source_identity
+        from famjet.eval.state_io import FORMAT_VERSION
+        observed=module('authority').observe(Path.cwd())
+>       assert observed['snapshot_schema']['registry_version']==REGISTRY_VERSION
+E       assert 1 == 2
+
+tests/test_kernel_stage_a_preflight.py:324: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_observed_schema_and_package_match_read_only_registered_interfaces
+1 failed in 0.61s
