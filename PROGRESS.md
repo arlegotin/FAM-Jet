@@ -1,5 +1,11 @@
 # Progress
 
+Current state —18October2026: Tasks1–17 accepted; Task18 science remains OPEN and protected work CLOSED. The latest completed accuracy comparison remains Jet0.394466304 / Bank0.388818438 / buckets0.136494775 at similar state bytes, exploratory and unconverged. There is no demonstrated practical Jet advantage.
+
+Setup04 completed six fresh factors/exports, cumulative24. Its Stage A returned three individual numerical PASS results, then STOPPED at the original192MiB conservative execution charge. Root verified all59 original files701070B and25 sealed source hashes. The [resource assessment](docs/research/task18-stage-a-stopped04-resource-architecture.md) explains the exact temporary pending-identity charge; no same-contract bug is established. The explicit common384MiB execution allowance now has [accepted source/static review](docs/research/task18-stage-a-execution-budget-source-acceptance.json), with unchanged mathematical/identity mechanisms and a retained Low timing-test finding. Fresh setup05 is adopted but not run; it requires new capacity admission and successful setup inspection before any Stage A seal. No Stage B, training, calibration or protected release.
+
+The entries below preserve earlier progress snapshots and their historical statuses; this opening update states the current gate.
+
 **Updated:**18 October2026. **Branch:**`main`. Tasks1–17 accepted; Task18 development remains active. No neural family has passed credible-convergence acceptance; protected pilot/confirmation/replication remain closed.
 Current update — helper lifecycle accounting is accepted after independent source review, two scoped fixes and one native observation. The [native report](docs/research/task18-source-owned-helper-lifecycles-native-report.md) records normal helper completion, expected invalid-reader rejection with zero reads, and correct unknown-child cancellation; full external time4.732294s. Root verified all21 originals and37 delivery entries. A [fresh setup04](docs/amendments/2026-10-18-kernel-stage-a-setup04-restart.md) is adopted, with unchanged math/tolerances/fixtures and original budgets. It is not yet run. Only a genuinely completed setup inspected on its new shared600s clock can receive a concrete Stage A seal. There is still no usable fixed-reader numerical/accuracy result or protected evaluation.
 

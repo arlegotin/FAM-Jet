@@ -392,3 +392,8 @@ Ruling: accept the two-case native lifecycle diagnostic and adopt one separately
 ## 18 October 2026 — helper lifecycle qualification and one fresh setup04
 
 Accept the independently reviewed source lifecycle implementation and scoped fixes, then its separately allocated one-call native observation on a718a25. Root verified actual source joins, owning completion, expected invalid request rejection and unknown-child membership/SIGKILL/EOF, all original bytes and current protected package. This grants observed compatibility only. Adopt one fresh setup04, retaining all failed attempts and unchanged mathematical/fixture/resource gates. Ruling: the fixed-reader diagnostic may now proceed through fresh setup and controller inspection on one shared600s clock — the actual prerequisite is satisfied — cost if wrong is a stopped bounded diagnostic, never automatic accuracy/protected acceptance.
+
+
+## 18 October 2026 — explicit execution-memory allowance, source accepted
+
+Ruling: adopt a common384MiB conservative execution-charge allowance after stopped04 and independent assessment, preserving all accounting/identity rules,9345B scientific state, math, tolerances and original failed statuses. Reason: the measured272.89MiB pending-identity charge exceeds the earlier192MiB allowance; current free-page headroom supports a bounded prospective allocation. Cost if wrong: a larger but still bounded stopped diagnostic, with no adequacy or accuracy claim. Fresh admission and successful setup inspection remain mandatory. Source and controlled propagation checks are accepted after independent review; the Low real-clock test wording/timing finding remains recorded for final triage. One fresh setup05 is adopted, with no Stage B or protected permission.

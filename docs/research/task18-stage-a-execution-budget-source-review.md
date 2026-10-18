@@ -1,0 +1,17 @@
+# Independent task-scoped review: kernel Stage A execution-memory source
+
+Reviewed BASE `df22a467bfb3c9ab60bc872e1ee5a5f931b656cb` to HEAD `2de6e171d3b943cb717fc193d3fd5d1154c8e320` against the source brief, adopted 18 October amendment, exact authored diff, source report, and retained RED/GREEN/cover evidence. This review covers the new 384 MiB policy component only; prior lifecycle findings remain closed. No tests or project/template imports were run during review.
+
+## SPEC verdict: PASS for the source-only change
+
+No blocking SPEC findings. `validation/kernel_stage_a/authority.py:19` sets the closed `LIMITS` entry to exactly `402653184`; `authority.py:204-210` rejects an old-limit seal at entry. `validation/kernel_stage_a/__main__.py:53-56` passes that entry explicitly to `supervise`; `validation/kernel_stage_a/monitor.py:671-672` retains its generic `201326592` default. The new static parent `docs/research/task18-stage-a-setup-parent-384mib.py:163-165` changes the reviewed parent's explicit supervise argument to the same value. The authored diff and retained static comparison show no other template-body change; the embedded worker hash remains `f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0` (6621 bytes). The README at `validation/kernel_stage_a/README.md:117-123` correctly describes a conservative sampled charge and distinguishes absolute RSS/startup and the historical/default 192 MiB limit.
+
+The controlled threshold test at `tests/test_kernel_stage_a_execution_budget.py:21-63` exercises the recorded `286146560`-byte charge under old and new limits, equality at `402653184`, and one byte above. Lines 85-101 exercise old-seal refusal before supervise, new-seal acceptance, and explicit CLI propagation. Lines 104-122 compare template ASTs after only the intended literal substitution and check worker bytes. Retained `red5` is 2 expected failures/4 passes, `green2` is 6 passes, and the selected authority cover is 3 passes; all commands, outputs, exit codes and timings are present in the source evidence directory. The source report keeps execution on HOLD and does not conflate the 384 MiB allowance with the unchanged 9345-byte scientific budget.
+
+## QUALITY verdict: PASS with one low-severity finding
+
+- **Low — inaccurate test description and possible timing sensitivity.** `docs/research/task18-stage-a-execution-budget-source-report.md:7` says the tests use synthetic sampler/clock boundaries. The threshold test mocks `Popen`, `killpg`, and `sleep` at `tests/test_kernel_stage_a_execution_budget.py:47-49`, but uses real `time.monotonic()` through `supervise` with `outer_seconds=0.5` at line 58-59. Its charge observations are controlled, but its clock is not; a delayed CI run could fail for timeout rather than the memory boundary. Correct the report wording or inject a controlled clock before describing this as clock-controlled. This does not undermine the recorded passing run or the source policy propagation.
+
+## Limits and cannot-verify items
+
+This review cannot establish that a future native setup or Stage A run fits the allowance, that unsampled peaks or physical startup fit it, or that host admission criteria will hold at allocation time. The brief expressly excludes those operations. I did not independently rerun tests, execute the static template, or reproduce the root-owned Git/hash/capacity audit; those checks remain with the controller. This verdict grants no setup, science, or Stage B execution authority.

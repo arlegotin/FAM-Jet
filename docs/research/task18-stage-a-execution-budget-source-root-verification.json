@@ -1,0 +1,71 @@
+{
+  "time_utc": "2026-10-18T13:38:40.766143+00:00",
+  "base": "df22a467bfb3c9ab60bc872e1ee5a5f931b656cb",
+  "head": "2de6e171d3b943cb717fc193d3fd5d1154c8e320",
+  "changed_git_files": 36,
+  "changed_git_bytes": 209596,
+  "protected_native_helper_package_lock_files": 59,
+  "exact_authority_literal_only": true,
+  "exact_template_one_literal_only": true,
+  "embedded_worker_sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "report_full_read_sha256": "e36073e4a39370094d78464ad199af17ae1c5bd032952cb4d8135b2aa34c28f3",
+  "current_git_clean": true,
+  "attempts_captured": 8,
+  "initial_root_verification": "Stopped at missing ignored report mirror after Git/file/protected/template/authority checks; author copied unchanged durable report to ignored mirror only; no tracked change/test/native/science.",
+  "review": "PENDING",
+  "actual_native_or_scientific_or_test_rerun": false,
+  "scientific_release": false,
+  "protected_access": "CLOSED",
+  "verified_attempts": [
+    {
+      "label": "red",
+      "exit": 1,
+      "external_seconds": 0.24306187499314547,
+      "summary": "6 failed in 0.07s"
+    },
+    {
+      "label": "red2",
+      "exit": 1,
+      "external_seconds": 0.2848042920231819,
+      "summary": "4 failed, 2 passed in 0.10s"
+    },
+    {
+      "label": "red3",
+      "exit": 1,
+      "external_seconds": 0.18883416592143476,
+      "summary": "6 failed in 0.07s"
+    },
+    {
+      "label": "red4",
+      "exit": 1,
+      "external_seconds": 0.1691894169198349,
+      "summary": "4 failed, 2 passed in 0.06s"
+    },
+    {
+      "label": "red5",
+      "exit": 1,
+      "external_seconds": 0.16480229096487164,
+      "summary": "2 failed, 4 passed in 0.06s"
+    },
+    {
+      "label": "green",
+      "exit": 0,
+      "external_seconds": 0.13878395897336304,
+      "summary": "6 passed in 0.03s"
+    },
+    {
+      "label": "cover",
+      "exit": 0,
+      "external_seconds": 0.1330172090092674,
+      "summary": "3 passed in 0.03s"
+    },
+    {
+      "label": "green2",
+      "exit": 0,
+      "external_seconds": 0.14584591693710536,
+      "summary": "6 passed in 0.04s"
+    }
+  ],
+  "test_clock": "Actual monotonic clock; process creation/sampler/sleep mocked, not a fake clock. Reviewer Low finding preserved."
+}
