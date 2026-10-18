@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py",
+    "--basetemp=/private/tmp/task18-terminal-red02-t8rws67u/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792314884.277961,
+  "end_epoch": 1792314884.616319,
+  "owned_base": "/private/tmp/task18-terminal-red02-t8rws67u",
+  "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2"
+}

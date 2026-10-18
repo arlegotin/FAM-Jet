@@ -1,0 +1,50 @@
+{
+  "base_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+  "source_git": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+  "files": {
+    ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py": {
+      "bytes": 9495,
+      "sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917"
+    },
+    "tests/test_kernel_stage_a_native_process_fix1.py": {
+      "bytes": 16974,
+      "sha256": "2ef9f6dde450236f7a892823f494ee036ce069047bf67bc5c6221549172cbd42"
+    },
+    "tests/test_kernel_stage_a_python_lifetime.py": {
+      "bytes": 11890,
+      "sha256": "3ff1c7b47a40ccfac8596b8deba9e0886fc12693e1862cc2b7c5a0ba876997f3"
+    },
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py": {
+      "bytes": 10216,
+      "sha256": "75285f5406fe760ba887330a42ab4607f8049ce1903a34656378900da3834f9b"
+    },
+    "tests/test_kernel_stage_a_terminal_lifecycle.py": {
+      "bytes": 13872,
+      "sha256": "d67a78dca5ca2fa97eb77ad39072f5440015b307ccbab074662c65dd3a37b3a5"
+    },
+    "validation/kernel_stage_a/README.md": {
+      "bytes": 18246,
+      "sha256": "aa36509bec870262cc9659af8056a542431a2b82d19c2f52969e13be15a4d1aa"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 66485,
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566"
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4"
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0"
+    },
+    "requirements.lock": {
+      "bytes": 2658,
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "expected_package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "package_unchanged": true,
+  "authority_diff": ""
+}

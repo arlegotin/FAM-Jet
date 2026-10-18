@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py",
+    "tests/test_kernel_stage_a_native_process.py",
+    "tests/test_kernel_stage_a_native_process_fix1.py",
+    "tests/test_kernel_stage_a_native_process_fix2.py",
+    "tests/test_kernel_stage_a_native_process_fix3.py",
+    "tests/test_kernel_stage_a_python_lifetime.py",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+    "tests/test_kernel_stage_a_preflight_fix2.py",
+    "tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs",
+    "tests/test_kernel_stage_a_preflight.py::test_monitor_memory_cap_requires_actual_post_import_baseline",
+    "tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv",
+    "tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_report_overflow_has_one_durable_returned_verdict",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_baseline_observation_receives_original_remaining_deadline",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_exact_authority_git_wait_is_bounded_and_reaped",
+    "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline",
+    "--basetemp=/private/tmp/task18-terminal-final-cover-d_18wxom/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792315305.224551,
+  "end_epoch": 1792315309.805294,
+  "owned_base": "/private/tmp/task18-terminal-final-cover-d_18wxom",
+  "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2"
+}

@@ -1,0 +1,438 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 133 items
+
+tests/test_kernel_stage_a_terminal_lifecycle.py ........................ [ 18%]
+........                                                                 [ 24%]
+tests/test_kernel_stage_a_native_process.py ...................          [ 38%]
+tests/test_kernel_stage_a_native_process_fix1.py ..F...........          [ 48%]
+tests/test_kernel_stage_a_native_process_fix2.py .......                 [ 54%]
+tests/test_kernel_stage_a_native_process_fix3.py ......                  [ 58%]
+tests/test_kernel_stage_a_python_lifetime.py ..........................F [ 78%]
+.....                                                                    [ 82%]
+tests/test_kernel_stage_a_python_lifetime_fix1.py FFFFFFFFF              [ 89%]
+tests/test_kernel_stage_a_preflight_fix2.py ..                           [ 90%]
+tests/test_kernel_stage_a_preflight.py F...                              [ 93%]
+tests/test_kernel_stage_a_preflight_fix1.py ........                     [100%]
+
+=================================== FAILURES ===================================
+______ test_deadline_crossed_during_classification_stops_and_counts_work _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_deadline_crossed_during_c0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106eb4980>
+
+    def test_deadline_crossed_during_classification_stops_and_counts_work(tmp_path,monkeypatch):
+        monkeypatch.setattr(a,'runtime',identity); clock=[100.]; out=tmp_path/'deadline'; real_classify=m.classify
+        monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+        def classify(*args,**kwargs):
+            result=real_classify(*args,**kwargs)
+            if args[1]: clock[0]+=2
+            return result
+        monkeypatch.setattr(m,'classify',classify)
+        def sampler(pid): return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=100.,end=100.)})
+        result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=1,free_disk_bytes=0)
+        assert result['status']=='STOPPED' and result['reason']=='outer timeout'
+        assert result['outer_seconds']>=2
+        assert result['absolute_process_tree_peak_bytes']==70
+>       assert result['returncode'] is not None
+E       assert None is not None
+
+tests/test_kernel_stage_a_native_process_fix1.py:87: AssertionError
+_ test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_monitor_root_generation_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e01da0>
+
+    def test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure(tmp_path,monkeypatch):
+        runtime=a.runtime(); out=tmp_path/'monitor'; children=[]; original=subprocess.Popen
+        command=[sys.executable,'-c','from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.001)\nraise SystemExit(3)']
+        def capture(*args,**kwargs):
+            child=original(*args,**kwargs); children.append(child); return child
+        monkeypatch.setattr(subprocess,'Popen',capture)
+        count=0
+        def sampler(pid,**kwargs):
+            nonlocal count
+            count+=1; start=time.monotonic(); end=time.monotonic()
+            image=dict(status='ok',**runtime['process_image'],lookup_start=end,lookup_end=time.monotonic())
+            if count==2:
+                (out/'finish').touch(); children[0].wait(timeout=1)
+                image=dict(status='error',errno=errno.ESRCH,method='macos.proc_pidpath',reason='native_lookup_failed',lookup_start=time.monotonic(),lookup_end=time.monotonic())
+            entry=dict(pid=pid,parent=os.getpid(),rss_bytes=70,sample_start=start,sample_end=end,
+                       raw_args=c.native_display(command,runtime),image=image)
+            if count==1: a.event(out/'monitor-events.jsonl','baseline',pid=pid,rss=10)
+            return m.ResidentTree({pid:70},{pid:entry})
+        monkeypatch.setattr(m,'process_tree',sampler)
+        result=m.supervise(command,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+        # This seam deliberately reaps behind the supervisor's back. It may still
+        # join truthful exit evidence, but cannot certify group cleanup after losing
+        # its ownership boundary.
+        assert result['status']=='STOPPED' and result['returncode']==3,result
+        assert result['reason']=='root ownership released before group observation',result
+        records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+        resolutions=[x for x in records if x['kind']=='resolution']
+        final=resolutions[-1]['identities'][str(children[0].pid)]
+        assert final['launch_evidence']=='source_owned_python_lifetime'
+        assert final['image_evidence']=='unavailable_exited'
+        assert result['workers'][str(children[0].pid)]['absolute_peak_bytes']==70
+>       assert result['incremental_worker_peak_bytes']>=70
+E       assert 60 >= 70
+
+tests/test_kernel_stage_a_python_lifetime.py:184: AssertionError
+___ test_valid_reader_join_publishes_after_previous_sample_settles[baseline] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_valid_reader_join_publish0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dad38c0>
+join = 'baseline'
+
+    @pytest.mark.parametrize('join',['baseline','launch','self'])
+    def test_valid_reader_join_publishes_after_previous_sample_settles(tmp_path,monkeypatch,join):
+        result,records=run_reader_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED' and result['reason'] is None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'helper artifact changed before launch', 'monitor_failure': {'reason': 'helper artifac...eration': 'query', 'type': 'ObserverFailure', 'message': 'helper artifact changed before launch', 'errno': None}], ...}
+E       assert ('STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:104: AssertionError
+____ test_valid_reader_join_publishes_after_previous_sample_settles[launch] ____
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_valid_reader_join_publish1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db59320>
+join = 'launch'
+
+    @pytest.mark.parametrize('join',['baseline','launch','self'])
+    def test_valid_reader_join_publishes_after_previous_sample_settles(tmp_path,monkeypatch,join):
+        result,records=run_reader_join(tmp_path,monkeypatch,join)
+>       assert result['status']=='COMPLETED' and result['reason'] is None,result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'helper artifact changed before launch', 'monitor_failure': {'reason': 'helper artifac...eration': 'query', 'type': 'ObserverFailure', 'message': 'helper artifact changed before launch', 'errno': None}], ...}
+E       assert ('STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:104: AssertionError
+_____ test_valid_reader_join_publishes_after_previous_sample_settles[self] _____
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_valid_reader_join_publish2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db59c50>
+join = 'self'
+
+    @pytest.mark.parametrize('join',['baseline','launch','self'])
+    def test_valid_reader_join_publishes_after_previous_sample_settles(tmp_path,monkeypatch,join):
+>       result,records=run_reader_join(tmp_path,monkeypatch,join)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_valid_reader_join_publish2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db59c50>
+join = 'self', failure = None
+
+    def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
+        """Exercise actual journal ingestion/settlement/final charging with a fake owner."""
+        runtime=identity()
+        runtime.update(executable=str(Path(sys.executable).resolve()),
+                       executable_sha256=a.file_hash(Path(sys.executable).resolve()))
+        monkeypatch.setattr(a,'runtime',lambda:runtime)
+        out=tmp_path/'monitor'; events=out/'monitor-events.jsonl'
+        stage=c.stage_command(tmp_path,tmp_path/'seal')
+        owner_pid=400001; reader_pid=400002; calls=[]; state={}
+        def emit(record):
+            with events.open('a') as stream: stream.write(json.dumps(record)+'\n')
+        def late_events():
+            if state.get('late_sent'): return
+            state['late_sent']=True
+            if failure=='provenance': emit(dict(event='unknown',monotonic=time.monotonic()))
+            if join=='baseline': emit(dict(state['baseline'],rss=99 if failure=='baseline' else 100))
+            elif join=='launch': emit(state['launch'])
+            else: emit(state['self_event'])
+            emit(dict(event='python_worker_end',pid=reader_pid,parent=owner_pid,launch_id='reader-generation',
+                      reaped=True,returncode=0,completion_end=time.monotonic(),monotonic=time.monotonic()))
+        class Owner:
+            pid=owner_pid; returncode=None
+            def poll(self): return self.returncode
+            def wait(self,timeout):
+                if failure in ('cap','identity'): late_events()
+                if self.returncode is None: self.returncode=0
+                return self.returncode
+        owner=Owner()
+        monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kwargs:owner)
+        def killpg(pid,signum):
+            assert pid==owner_pid
+            if owner.returncode is None: owner.returncode=-9
+        monkeypatch.setattr(m.os,'killpg',killpg)
+        monkeypatch.setattr(m.time,'sleep',lambda seconds:None)
+        def sampler(pid,**kwargs):
+            assert pid==owner_pid
+            calls.append(pid)
+            if len(calls)==1:
+                emit(dict(event='candidate_start',monotonic=time.monotonic()))
+                launch_start=time.monotonic(); vector=c.reader_command(tmp_path,events,launch_start+.1)
+                launch=dict(event='python_worker_launch',pid=reader_pid,parent=owner_pid,role='reader',argv=vector,
+                            executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='reader-generation',
+                            launch_start=launch_start,monotonic=launch_start,provenance='source_owned_python_launch',
+                            launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                            expected_image=runtime['process_image'],reaped=False)
+                sampled=time.monotonic(); lookup=time.monotonic()
+                live=dict(pid=reader_pid,parent=owner_pid,rss_bytes=100,sample_start=sampled,sample_end=sampled,
+                          raw_args=c.native_display(vector,runtime),raw_comm='/truncated/Python',
+                          image=dict(status='ok',**runtime['process_image'],lookup_start=lookup,lookup_end=lookup))
+                state.update(launch=launch,self_event=dict(event='observer_sample',emitter_pid=reader_pid,self_pid=reader_pid,
+                             processes=[live],monotonic=time.monotonic()),
+                             baseline=dict(event='baseline',pid=reader_pid,rss=100,monotonic=time.monotonic(),
+                                           boundary='post-import/pre-allocation'))
+                if join!='launch': emit(launch)
+                if join!='self': emit(state['self_event'])
+                if join!='baseline': emit(state['baseline'])
+                if failure=='cap':
+                    gone=dict(live,image=dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',
+                                             errno=errno.ESRCH,lookup_start=time.monotonic(),lookup_end=time.monotonic()))
+                    return m.ResidentTree({reader_pid:100},{reader_pid:gone})
+                if failure=='identity':
+                    return m.ResidentTree({reader_pid:100},{reader_pid:dict(live,raw_args=live['raw_args']+' extra')})
+                if join=='self':
+                    return m.ResidentTree({reader_pid:100},{reader_pid:live})
+            else:
+                assert len(calls)==2,'no later reader sample is needed'
+                # Verify the real supervisor already settled the earlier live row.
+                before=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+                settled=[record for record in before if record['kind']=='resolution' and str(reader_pid) in record['roles']]
+                assert len(settled)==1 and settled[0]['roles'][str(reader_pid)]=='pending_baseline'
+                late_events(); owner.returncode=0
+            return m.ResidentTree({},{})
+        monkeypatch.setattr(m,'process_tree',sampler)
+        result=m.supervise(stage,out,sampler=sampler,authority_root=tmp_path,outer_seconds=.5,
+                           free_disk_bytes=0,incremental_bytes=50 if failure=='cap' else 1000)
+        records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+        source=[json.loads(line) for line in events.read_text().splitlines()]
+        samples=[record for record in records if record['kind']=='sample' and str(reader_pid) in record['rss']]
+>       assert len(samples)==(2 if join=='self' or failure in ('cap','identity') else 1)
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'kind': 'sample', 'sample_id': 1, 'rss': {'400002': 100}, 'processes': [{'pid': 400002, 'parent': 400001, 'rss_bytes': 100, 'sample_start': 550999.080137166, ...}], ...}])
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:92: AssertionError
+_ test_late_reader_join_never_bypasses_validation_or_failed_provenance[baseline-baseline] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_never_by0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db5aeb0>
+join = 'baseline', failure = 'baseline'
+
+    @pytest.mark.parametrize('join,failure',[('baseline','baseline'),('baseline','provenance'),
+                                          ('launch','provenance'),('self','provenance')])
+    def test_late_reader_join_never_bypasses_validation_or_failed_provenance(tmp_path,monkeypatch,join,failure):
+        result,_=run_reader_join(tmp_path,monkeypatch,join,failure=failure)
+>       assert result['status']=='STOPPED' and result['reason']=='monitor common failure'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'helper artif...before launch' == 'monitor common failure'
+E         
+E         - monitor common failure
+E         + helper artifact changed before launch)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:117: AssertionError
+_ test_late_reader_join_never_bypasses_validation_or_failed_provenance[baseline-provenance] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_never_by1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db5ba80>
+join = 'baseline', failure = 'provenance'
+
+    @pytest.mark.parametrize('join,failure',[('baseline','baseline'),('baseline','provenance'),
+                                          ('launch','provenance'),('self','provenance')])
+    def test_late_reader_join_never_bypasses_validation_or_failed_provenance(tmp_path,monkeypatch,join,failure):
+        result,_=run_reader_join(tmp_path,monkeypatch,join,failure=failure)
+>       assert result['status']=='STOPPED' and result['reason']=='monitor common failure'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'helper artif...before launch' == 'monitor common failure'
+E         
+E         - monitor common failure
+E         + helper artifact changed before launch)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:117: AssertionError
+_ test_late_reader_join_never_bypasses_validation_or_failed_provenance[launch-provenance] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_never_by2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10db5b930>
+join = 'launch', failure = 'provenance'
+
+    @pytest.mark.parametrize('join,failure',[('baseline','baseline'),('baseline','provenance'),
+                                          ('launch','provenance'),('self','provenance')])
+    def test_late_reader_join_never_bypasses_validation_or_failed_provenance(tmp_path,monkeypatch,join,failure):
+        result,_=run_reader_join(tmp_path,monkeypatch,join,failure=failure)
+>       assert result['status']=='STOPPED' and result['reason']=='monitor common failure'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'helper artif...before launch' == 'monitor common failure'
+E         
+E         - monitor common failure
+E         + helper artifact changed before launch)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:117: AssertionError
+_ test_late_reader_join_never_bypasses_validation_or_failed_provenance[self-provenance] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_never_by3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dbd4d00>
+join = 'self', failure = 'provenance'
+
+    @pytest.mark.parametrize('join,failure',[('baseline','baseline'),('baseline','provenance'),
+                                          ('launch','provenance'),('self','provenance')])
+    def test_late_reader_join_never_bypasses_validation_or_failed_provenance(tmp_path,monkeypatch,join,failure):
+>       result,_=run_reader_join(tmp_path,monkeypatch,join,failure=failure)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_never_by3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dbd4d00>
+join = 'self', failure = 'provenance'
+
+    def run_reader_join(tmp_path,monkeypatch,join,*,failure=None):
+        """Exercise actual journal ingestion/settlement/final charging with a fake owner."""
+        runtime=identity()
+        runtime.update(executable=str(Path(sys.executable).resolve()),
+                       executable_sha256=a.file_hash(Path(sys.executable).resolve()))
+        monkeypatch.setattr(a,'runtime',lambda:runtime)
+        out=tmp_path/'monitor'; events=out/'monitor-events.jsonl'
+        stage=c.stage_command(tmp_path,tmp_path/'seal')
+        owner_pid=400001; reader_pid=400002; calls=[]; state={}
+        def emit(record):
+            with events.open('a') as stream: stream.write(json.dumps(record)+'\n')
+        def late_events():
+            if state.get('late_sent'): return
+            state['late_sent']=True
+            if failure=='provenance': emit(dict(event='unknown',monotonic=time.monotonic()))
+            if join=='baseline': emit(dict(state['baseline'],rss=99 if failure=='baseline' else 100))
+            elif join=='launch': emit(state['launch'])
+            else: emit(state['self_event'])
+            emit(dict(event='python_worker_end',pid=reader_pid,parent=owner_pid,launch_id='reader-generation',
+                      reaped=True,returncode=0,completion_end=time.monotonic(),monotonic=time.monotonic()))
+        class Owner:
+            pid=owner_pid; returncode=None
+            def poll(self): return self.returncode
+            def wait(self,timeout):
+                if failure in ('cap','identity'): late_events()
+                if self.returncode is None: self.returncode=0
+                return self.returncode
+        owner=Owner()
+        monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kwargs:owner)
+        def killpg(pid,signum):
+            assert pid==owner_pid
+            if owner.returncode is None: owner.returncode=-9
+        monkeypatch.setattr(m.os,'killpg',killpg)
+        monkeypatch.setattr(m.time,'sleep',lambda seconds:None)
+        def sampler(pid,**kwargs):
+            assert pid==owner_pid
+            calls.append(pid)
+            if len(calls)==1:
+                emit(dict(event='candidate_start',monotonic=time.monotonic()))
+                launch_start=time.monotonic(); vector=c.reader_command(tmp_path,events,launch_start+.1)
+                launch=dict(event='python_worker_launch',pid=reader_pid,parent=owner_pid,role='reader',argv=vector,
+                            executable=vector[0],vector_sha256=c.vector_hash(vector),launch_id='reader-generation',
+                            launch_start=launch_start,monotonic=launch_start,provenance='source_owned_python_launch',
+                            launcher=dict(path=runtime['executable'],sha256=runtime['executable_sha256']),
+                            expected_image=runtime['process_image'],reaped=False)
+                sampled=time.monotonic(); lookup=time.monotonic()
+                live=dict(pid=reader_pid,parent=owner_pid,rss_bytes=100,sample_start=sampled,sample_end=sampled,
+                          raw_args=c.native_display(vector,runtime),raw_comm='/truncated/Python',
+                          image=dict(status='ok',**runtime['process_image'],lookup_start=lookup,lookup_end=lookup))
+                state.update(launch=launch,self_event=dict(event='observer_sample',emitter_pid=reader_pid,self_pid=reader_pid,
+                             processes=[live],monotonic=time.monotonic()),
+                             baseline=dict(event='baseline',pid=reader_pid,rss=100,monotonic=time.monotonic(),
+                                           boundary='post-import/pre-allocation'))
+                if join!='launch': emit(launch)
+                if join!='self': emit(state['self_event'])
+                if join!='baseline': emit(state['baseline'])
+                if failure=='cap':
+                    gone=dict(live,image=dict(status='error',method='macos.proc_pidpath',reason='native_lookup_failed',
+                                             errno=errno.ESRCH,lookup_start=time.monotonic(),lookup_end=time.monotonic()))
+                    return m.ResidentTree({reader_pid:100},{reader_pid:gone})
+                if failure=='identity':
+                    return m.ResidentTree({reader_pid:100},{reader_pid:dict(live,raw_args=live['raw_args']+' extra')})
+                if join=='self':
+                    return m.ResidentTree({reader_pid:100},{reader_pid:live})
+            else:
+                assert len(calls)==2,'no later reader sample is needed'
+                # Verify the real supervisor already settled the earlier live row.
+                before=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+                settled=[record for record in before if record['kind']=='resolution' and str(reader_pid) in record['roles']]
+                assert len(settled)==1 and settled[0]['roles'][str(reader_pid)]=='pending_baseline'
+                late_events(); owner.returncode=0
+            return m.ResidentTree({},{})
+        monkeypatch.setattr(m,'process_tree',sampler)
+        result=m.supervise(stage,out,sampler=sampler,authority_root=tmp_path,outer_seconds=.5,
+                           free_disk_bytes=0,incremental_bytes=50 if failure=='cap' else 1000)
+        records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+        source=[json.loads(line) for line in events.read_text().splitlines()]
+        samples=[record for record in records if record['kind']=='sample' and str(reader_pid) in record['rss']]
+>       assert len(samples)==(2 if join=='self' or failure in ('cap','identity') else 1)
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len([{'kind': 'sample', 'sample_id': 1, 'rss': {'400002': 100}, 'processes': [{'pid': 400002, 'parent': 400001, 'rss_bytes': 100, 'sample_start': 550999.113078375, ...}], ...}])
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:92: AssertionError
+_____ test_late_valid_reader_join_cannot_clear_previously_failed_identity ______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_valid_reader_join_ca0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dbd5b70>
+
+    def test_late_valid_reader_join_cannot_clear_previously_failed_identity(tmp_path,monkeypatch):
+        result,_=run_reader_join(tmp_path,monkeypatch,'baseline',failure='identity')
+>       assert result['status']=='STOPPED' and result['reason']=='foreign process identity'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'helper artif...before launch' == 'foreign process identity'
+E         
+E         - foreign process identity
+E         + helper artifact changed before launch)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:126: AssertionError
+______ test_late_reader_join_retains_previously_established_full_rss_cap _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_late_reader_join_retains_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dbd6350>
+
+    def test_late_reader_join_retains_previously_established_full_rss_cap(tmp_path,monkeypatch):
+        result,records=run_reader_join(tmp_path,monkeypatch,'baseline',failure='cap')
+>       assert result['status']=='STOPPED' and result['reason']=='incremental worker memory cap'
+E       AssertionError: assert ('STOPPED' == 'STOPPED'
+E         
+E           STOPPED and 'helper artif...before launch' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + helper artifact changed before launch)
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:135: AssertionError
+_____ test_monitor_stops_whole_process_group_and_charges_temporary_outputs _____
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-final-cover-d_18wxom/specimens/test_monitor_stops_whole_proce0')
+
+    def test_monitor_stops_whole_process_group_and_charges_temporary_outputs(tmp_path):
+        m = module('monitor')
+        import sys
+        out = tmp_path/'out'
+        result = m.supervise([sys.executable,'-c','import time; time.sleep(10)'],out,
+                             outer_seconds=.1,output_bytes=8192,free_disk_bytes=0,sampler=lambda pid:{pid:10})
+        assert result['status'] == 'STOPPED'
+        assert result['reason'] == 'outer timeout'
+>       assert result['returncode'] is not None
+E       assert None is not None
+
+tests/test_kernel_stage_a_preflight.py:196: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_native_process_fix1.py::test_deadline_crossed_during_classification_stops_and_counts_work
+FAILED tests/test_kernel_stage_a_python_lifetime.py::test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_valid_reader_join_publishes_after_previous_sample_settles[baseline]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_valid_reader_join_publishes_after_previous_sample_settles[launch]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_valid_reader_join_publishes_after_previous_sample_settles[self]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_never_bypasses_validation_or_failed_provenance[baseline-baseline]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_never_bypasses_validation_or_failed_provenance[baseline-provenance]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_never_bypasses_validation_or_failed_provenance[launch-provenance]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_never_bypasses_validation_or_failed_provenance[self-provenance]
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_valid_reader_join_cannot_clear_previously_failed_identity
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap
+FAILED tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs
+======================== 12 failed, 121 passed in 4.08s ========================

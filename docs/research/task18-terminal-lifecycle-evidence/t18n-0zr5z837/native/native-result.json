@@ -1,0 +1,129 @@
+{
+  "allocation_start": 551148.913802958,
+  "absolute_deadline": 551158.913802958,
+  "scope": "ONE stdlib native two-case terminal lifecycle integration; zero science",
+  "cases": [
+    {
+      "case": "empty",
+      "start": 551148.943668083,
+      "deadline": 551153.443668083,
+      "syscalls": [],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-S",
+        "-c",
+        "\nimport json, os, select, socket, sys, time\ncase,peer_path,deadline=sys.argv[1],sys.argv[2],float(sys.argv[3])\npid=os.getpid(); proof=None\nwhile time.monotonic()<deadline:\n    records=[]\n    with open('monitor-evidence.jsonl') as stream:\n        for line in stream:\n            if line.endswith('\\n'): records.append(json.loads(line))\n    samples={row['sample_id']:row for row in records if row['kind']=='sample'}\n    for row in records:\n        if row['kind']!='resolution': continue\n        native=row.get('identities',{}).get(str(pid),{})\n        if native.get('image_evidence')!='kernel_image': continue\n        sample=samples[row['sample_id']]\n        own=[entry for entry in sample['processes'] if entry['pid']==pid]\n        if len(own)==1 and own[0]['image']['status']=='ok': proof=own[0]; break\n    if proof is not None: break\n    time.sleep(min(.002,max(0,deadline-time.monotonic())))\nif proof is None: raise SystemExit('no actual supervisor proof within original bound')\nwith open('monitor-events.jsonl','a') as stream:\n    stream.write(json.dumps(dict(event='baseline',pid=pid,rss=proof['rss_bytes'],\n        monotonic=time.monotonic(),boundary='post-import/pre-allocation'))+'\\n'); stream.flush()\nchild=None\nif case=='survivor':\n    read,write=os.pipe(); child=os.fork()\n    if child==0:\n        os.close(read)\n        peer=socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)\n        peer.settimeout(max(0,deadline-time.monotonic()))\n        peer.connect(peer_path)\n        peer.sendall((json.dumps(dict(pid=os.getpid(),parent=os.getppid(),pgid=os.getpgrp()))+'\\n').encode())\n        peer.settimeout(None)\n        os.write(write,b'R'); os.close(write)\n        # Sole peer owner after parent exit. EOF from controller is fallback\n        # lifecycle cleanup only, never a successful native SIGKILL control.\n        peer.recv(1)\n        os._exit(0)\n    os.close(write)\n    ready=select.select([read],[],[],max(0,deadline-time.monotonic()))[0]\n    if not ready or os.read(read,1)!=b'R': raise SystemExit('survivor readiness failed')\n    os.close(read)\nprint(json.dumps(dict(root_pid=pid,child_pid=child,root_pgid=os.getpgrp(),proof_sample_end=proof['sample_end'])),flush=True)\n",
+        "empty",
+        "/private/tmp/t18n-0zr5z837/native/empty.socket",
+        "551153.443668083"
+      ],
+      "vector_sha256": "58c0315ceb9b91023d1d52ba8d0e5f88c50dd4fed5abc663b6358b45571300d6",
+      "execution_status": "STOPPED",
+      "verdict": {
+        "status": "STOPPED",
+        "reason": "monitor common failure",
+        "monitor_failure": {
+          "type": "ValueError",
+          "message": "invalid same-generation Python image proof"
+        },
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "58c0315ceb9b91023d1d52ba8d0e5f88c50dd4fed5abc663b6358b45571300d6",
+        "returncode": -9,
+        "outer_seconds": 0.06078325002454221,
+        "utc_start_epoch": 1792315458.488596,
+        "utc_end_epoch": 1792315458.549292,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.060266667045652866,
+        "absolute_process_tree_peak_bytes": 17825792,
+        "incremental_worker_peak_bytes": 19628032,
+        "observed_pid_peak_sum_bytes": 19628032,
+        "workers": {
+          "53546": {
+            "absolute_peak_bytes": 16023552,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 16023552,
+            "role": "unaccounted",
+            "parent": 53540
+          },
+          "53547": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "pending_observer_declaration",
+            "parent": 53540
+          },
+          "53548": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 53540
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 3,
+        "observer_helper_peak_bytes": 0,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [
+          "53546",
+          "53547"
+        ],
+        "unresolved_worker_count": 2,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 8,
+          "accepted_samples": 1,
+          "bytes": 25752,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 0,
+          "samples": 0
+        },
+        "classified_process_observations": 2,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 33944
+      },
+      "root_pid": 53546,
+      "member_rows": [
+        {
+          "pid": 53546,
+          "parent": 53540,
+          "pgid": 53546,
+          "rss_bytes": 16023552
+        }
+      ],
+      "compatibility": "NEEDS_CONTEXT",
+      "error": {
+        "type": "AssertionError",
+        "message": "{'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'ValueError', 'message': 'invalid same-generation Python image proof'}, 'cleanup_diagnostics': [], 'stage_launch_vector_sha256': '58c0315ceb9b91023d1d52ba8d0e5f88c50dd4fed5abc663b6358b45571300d6', 'returncode': -9, 'outer_seconds': 0.06078325002454221, 'utc_start_epoch': 1792315458.488596, 'utc_end_epoch': 1792315458.549292, 'timing_boundary': 'before bounded final commit; caller must measure full elapsed including commit', 'finalization_start_seconds': 0.060266667045652866, 'absolute_process_tree_peak_bytes'"
+      },
+      "end": 551149.004974708,
+      "elapsed": 0.061306624906137586
+    }
+  ],
+  "source_git": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+  "control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+  "end": 551149.004976333,
+  "elapsed": 0.09117337502539158,
+  "compatibility": "NEEDS_CONTEXT"
+}

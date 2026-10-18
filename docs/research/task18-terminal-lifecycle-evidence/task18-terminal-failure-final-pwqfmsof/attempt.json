@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap",
+    "--basetemp=/private/tmp/task18-terminal-failure-final-pwqfmsof/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792315378.330729,
+  "end_epoch": 1792315378.4907808,
+  "owned_base": "/private/tmp/task18-terminal-failure-final-pwqfmsof",
+  "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2"
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py",
+    "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+    "tests/test_kernel_stage_a_python_lifetime.py::test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure",
+    "tests/test_kernel_stage_a_native_process_fix1.py::test_deadline_crossed_during_classification_stops_and_counts_work",
+    "tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs",
+    "--basetemp=/private/tmp/task18-terminal-failure-followup-0wojll_l/specimens",
+    "-ra"
+  ],
+  "exit": 1,
+  "started_epoch": 1792315370.153842,
+  "end_epoch": 1792315370.767931,
+  "owned_base": "/private/tmp/task18-terminal-failure-followup-0wojll_l",
+  "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2"
+}

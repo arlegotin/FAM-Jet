@@ -1,0 +1,4 @@
+{"event": "authority_start", "monotonic": 550997.303912833, "pid": 49860}
+{"event": "authority_end", "monotonic": 550997.328182708, "pid": 49860, "success": true}
+{"event": "observer_sample", "monotonic": 550997.328263458, "processes": [{"pid": 49860, "parent": 49770, "rss_bytes": 500, "sample_start": 550997.328221333, "sample_end": 550997.328221333, "raw_comm": "/opt/homebrew/C", "raw_args": "/long/framework/Python.app/Contents/MacOS/Python -c from pathlib import Path; import time\nwhile not Path(\"finish\").exists(): time.sleep(.005)", "image": {"status": "ok", "method": "macos.proc_pidpath", "path": "/long/framework/Python.app/Contents/MacOS/Python", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}}]}
+{"event": "baseline", "monotonic": 550997.328316083, "pid": 49860, "rss": 500}

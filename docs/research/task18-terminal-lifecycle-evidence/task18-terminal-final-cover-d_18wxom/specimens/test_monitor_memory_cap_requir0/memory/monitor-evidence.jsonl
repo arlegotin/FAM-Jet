@@ -1,0 +1,6 @@
+{"kind":"sample","sample_id":1,"rss":{"49872":100},"processes":[{"pid":49872,"parent":49770,"executable":"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","argv":["/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","-c","\nimport json,os,time\nfrom pathlib import Path\nPath('monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')\ntime.sleep(10)\n"]}],"before":550999.283888833,"after":550999.283899125}
+{"kind":"resolution","sample_id":1,"roles":{"49872":"pending_baseline"},"identities":{}}
+{"kind":"event","value":{"event":"baseline","pid":49872,"rss":10}}
+{"kind":"resolution","sample_id":1,"roles":{"49872":"worker"},"identities":{}}
+{"kind":"cleanup_signal","pid":49872,"signal":9,"success":true,"owner_unreaped":true}
+{"kind":"cleanup_owner_wait","start":550999.310546375,"end":550999.311826333,"returncode":-9,"reaped":true}

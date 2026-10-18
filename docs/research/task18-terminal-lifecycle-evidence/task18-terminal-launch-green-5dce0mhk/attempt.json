@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_a_terminal_lifecycle.py::test_refused_root_launch_record_still_runs_mandatory_own_wait",
+    "--basetemp=/private/tmp/task18-terminal-launch-green-5dce0mhk/specimens",
+    "-ra"
+  ],
+  "exit": 0,
+  "started_epoch": 1792315413.685289,
+  "end_epoch": 1792315413.9618921,
+  "owned_base": "/private/tmp/task18-terminal-launch-green-5dce0mhk",
+  "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2"
+}

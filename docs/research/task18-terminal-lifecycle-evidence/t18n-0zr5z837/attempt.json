@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py",
+    "/private/tmp/t18n-0zr5z837/native"
+  ],
+  "exit": 1,
+  "owned_base": "/private/tmp/t18n-0zr5z837",
+  "source_git": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+  "command_elapsed_including_interpreter_start": 0.11512133304495364,
+  "control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+  "thread_limits": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "VECLIB_MAXIMUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4"
+  },
+  "cpu_count": 14
+}

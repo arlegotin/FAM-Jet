@@ -1,0 +1,139 @@
+# Terminal lifecycle integration report — 18 October 2026
+
+Disposition: **NEEDS_CONTEXT.** Source and frozen native control body are committed as `3044f3ca0cd935b4e3e53863cbe259fdcacd4c38` on current `main`, starting from `1bc005abe7b323c7cc76358adecc6e71346296d2`. Deterministic lifecycle/helper controls passed in focused runs, with one failed external covering run and its targeted repairs preserved honestly below. The single authorized native attempt **failed** its first case because the committed multiline `-c` control vector does not match macOS ps's escaped display. The strict display guard correctly refused proof; the intended empty natural-exit scenario was therefore not established. **Survivor native case NOT RUN.** No native retry, production edit after this result, source-guard normalization, scientific allocation or setup restart occurred. No self-acceptance or native scientific feasibility claim is made.
+
+## Authority and immutable boundaries
+
+The original brief was read first, followed by root lifecycle adoption, stopped01 diagnosis, initial/addendum designs and the systematic-debugging/TDD instructions. Root's numeric-only adoption overrides the addendum's full-arguments cleanup vector. The original and clarified briefs plus the subsequent native-socket and deadline rulings are copied byte-for-byte into `docs/research/task18-terminal-lifecycle-evidence/provenance/`; they remain independently hashed by the evidence manifest. The native-socket ruling authorized sole-descendant socket EOF as termination evidence and explicitly unsuccessful peer-close fallback. The deadline ruling requires immediate cancellation of an already-owned group even after a previous operation exhausted its budget, without a renewed wait allowance or fabricated completion.
+
+The failed original setup remains STOPPED: exactly two grids, six factors, six exports and zero reads. Its last unresolved terminal charge was 239,714,304 B root plus 3,637,248 B observer = 243,351,552 B against the unchanged 201,326,592 B cap; the later conservative failure result was 296,091,648 B. Its 150,355 B output and all old failure work remain failed evidence. Nothing was reinterpreted as successful setup or reused as accepted output.
+
+The source diff changes only `validation/kernel_stage_a/monitor.py`, its README, narrowly affected existing test seams and the new focused test/control files. `authority.py`, `commands.py`, `famjet`, reference/production reader/vector protocol/schema/source guard, descriptors/config/data, dependencies/lock and scientific tolerances are unchanged. Package SHA256 is exactly `15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050`. No branch/worktree, subagent/reviewer or push was created by this implementer.
+
+Production limits remain 600 s outer, 90 s candidate, 201,326,592 B incremental, 67,108,864 B output and 4,294,967,296 B free disk, with original reservations and at most four configured numerical threads. No CPU policy or thread rule was changed. The native control observed `os.cpu_count()==14`; it is not a 64-CPU-host or scientific-resource equivalence certificate. Five numerical thread environment variables were explicitly set to `4`; no numerical backend was imported by the new controls. The fixed five initialized output files and append-only charged journal remain; sampled resident memory still excludes the supervisor/parent scope and is not allocator peak.
+
+## Root cause, implementation and ordering
+
+The retained historical failure showed a matching terminal native ESRCH row being reconciled and full-RSS cap-checked before the owning Popen obtained its actual completion. Unconditional group signaling could then raise EPERM, skip owning wait/end and overwrite that cap with a generic failure. Native loop-header polling could also release root PID ownership before group membership was established.
+
+The new native lifecycle retains numerical/sample rows, preserves valid current root image proof under the existing same-generation/identity-complete/failed-PID guards while unreaped, and enters private cleanup on root absence/ESRCH or cancellation/failure. It observes the original PGID while the root PID is still reserved; complete empty membership skips signaling, non-root members require SIGKILL under ownership, and root-only terminal membership permits nonblocking own poll. Poll None retains pending conservative reconciliation and unsuccessful cancellation; it is not a grace period or end/absence proof. A truthful matching root end is published once only after actual integer Popen returncode, before terminal-row reconciliation. No proof is established after reap, and no new signal uses an already-released numeric PGID.
+
+Normal `PS_ARGV` is unchanged. The sole new private cleanup vector is exactly `['/bin/ps','-axo','pid=,ppid=,pgid=,rss=']`. Capture uses binary nonblocking bounded drains, at most min(1 MiB, remaining output allowance) combined stdout/stderr, and at most min(1 s, remaining original deadline). It retains raw Latin-1 byte-preserving strings, captured/read byte counts, interval, full parse outcome and selected numeric rows. PID must be positive; PPID/PGID/RSS nonnegative; RSS KiB is converted to bytes. The full table must parse uniquely and terminate completely before absence is claimed. PGID zero rows are allowed but irrelevant to the positive owned root group. Every row in the original PGID is selected regardless of PPID, together with the actual helper.
+
+The hashed executable is verified at source launch by existing authority utilities. Separate exact launch and actual completion/reap witnesses, unique launch ID, actual helper PID/parent, vector/hash and timed actual image outcome are retained. Matching image or the narrow native ESRCH plus source-owned/reaped-helper route may admit helper overhead; contradictions, other native errors, missing helper row and incomplete/malformed/nonzero/timeout/overflow remain unsuccessful. Expected source argv is a launch fact only: no OS `raw_args`/`raw_comm` is invented. Numeric membership does not supply Python identity or worker admission. Known selected numeric RSS is retained before journal refusal/identity decisions; non-root numeric members remain conservatively foreign, helper overhead is charged, and all logs/failures consume existing bounds.
+
+Nested finalization attempts bounded own wait despite query/signal errors and then independently attempts truthful end bookkeeping. It never invents an end on failed wait. First violations remain primary; bounded cleanup diagnostics retain operation, exception and errno separately. An initial version checked deadline before required cancellation: the covering run exposed that suppression. The root deadline ruling resolves it: attempt immediate nonblocking kill under ownership, retain timeout/incomplete actual wait, and grant no extra allowance. A separate RED/GREEN regression also found and fixed an uninitialized terminal flag that could skip cleanup if the root launch journal append was refused.
+
+## Verification, archives and exact commands
+
+Every pytest attempt used a unique owned `/private/tmp/task18-terminal-…` base. The runner copied all source inputs before execution, retained the complete stdout/stderr log and copied the full specimen tree immediately after the attempt, including failed artifacts and pytest symlink payloads. No pytest-default pruning base was reused. Full unabridged outputs are the `full-output.log` files listed below; exact commands, exit, original base mapping, times and source Git are retained in each `attempt.json`. Per-attempt manifests hash original source inputs/logs/specimens; the final evidence manifest also covers archive symlink payloads. Historical `monitor.json` reservation padding is preserved as raw bytes, not normalized or called authored whitespace.
+
+The first RED reproduced the unchanged-cap high-baseline terminal ESRCH defect, absent membership decision, skipped wait on signal denial and first-cap overwrite. The second RED added the private helper's bounded pipe controls. Focused GREEN01 passed 26 controls; focused02 passed 31. The one external cover ran 133 tests: **121 passed, 12 failed**. It is not claimed green. That run exposed one real cancellation-order defect plus stale synthetic/native-lifecycle seam assumptions. The narrow follow-up ran only the failed nodes and new lifecycle controls: 43 passed, 1 failed because a newly explicit owner baseline0 preceded the intended reader baseline100 in an assertion. PID-specific selection repaired that test assertion, and its one-node follow-up passed. The refused-launch regression then failed before its initializer fix and passed after it. No second broad covering run or routine full scientific suite was run. The latest focused test file has 33 controls; all controls were observed passing across the retained focused runs, not in a claimed final aggregate run.
+
+Minimal prior-test adaptation keeps the reader join seam explicitly synthetic: it now supplies its owning root's actual-shaped native rows, source-owned integer completion and an explicit synthetic membership seam rather than trying to launch real ps for a fake PID/artifact. Reader sample counts and the original baseline/failed-provenance/prior-cap assertions remain. The old deliberate behind-owner reap seam now truthfully fails ownership-supported cleanup while retaining its actual 70−10=60 B baseline delta. A clock-jump timeout test allows a genuinely unreaped wait(0), requiring a wait failure diagnostic and no invented end. No accepted I1/L1 source identity policy was redesigned.
+
+Load-bearing controls exercise raw proof before owning poll, end before terminal reconciliation, unchanged high baseline without artificial cap, no extra reader observations, never-proved/invalid provenance, missing/mismatched actual end, sticky real cap, signal denial plus successful wait/end and unsuccessful status, failed wait/no end, empty group normal exit, reparented non-root survivor kill before ownership release, root-only poll None conservative charging, malformed/denied/truncated/duplicate/overflow query, deadline/output refusal accounting and refusal of worker admission for the new vector. Existing timeout/output-cap and earlier negative-image cases were included in the external cover. These are explicit synthetic seams, not native compatibility evidence.
+
+### `t18n-0zr5z837`
+
+Exit `1`; {"compatibility": "NEEDS_CONTEXT", "elapsed": 0.09117337502539158, "destination": "/private/tmp/t18n-0zr5z837/native"}. Full output: `docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python /Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py /private/tmp/t18n-0zr5z837/native
+```
+
+### `task18-terminal-failure-final-pwqfmsof`
+
+Exit `0`; 1 passed in 0.04s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-final-pwqfmsof/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-final-pwqfmsof/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap --basetemp=/private/tmp/task18-terminal-failure-final-pwqfmsof/specimens -ra
+```
+
+### `task18-terminal-failure-followup-0wojll_l`
+
+Exit `1`; 1 failed, 43 passed in 0.41s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-followup-0wojll_l/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-followup-0wojll_l/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py tests/test_kernel_stage_a_python_lifetime_fix1.py tests/test_kernel_stage_a_python_lifetime.py::test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure tests/test_kernel_stage_a_native_process_fix1.py::test_deadline_crossed_during_classification_stops_and_counts_work tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs --basetemp=/private/tmp/task18-terminal-failure-followup-0wojll_l/specimens -ra
+```
+
+### `task18-terminal-final-cover-d_18wxom`
+
+Exit `1`; 12 failed, 121 passed in 4.08s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-final-cover-d_18wxom/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-final-cover-d_18wxom/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py tests/test_kernel_stage_a_native_process.py tests/test_kernel_stage_a_native_process_fix1.py tests/test_kernel_stage_a_native_process_fix2.py tests/test_kernel_stage_a_native_process_fix3.py tests/test_kernel_stage_a_python_lifetime.py tests/test_kernel_stage_a_python_lifetime_fix1.py tests/test_kernel_stage_a_preflight_fix2.py tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs tests/test_kernel_stage_a_preflight.py::test_monitor_memory_cap_requires_actual_post_import_baseline tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit tests/test_kernel_stage_a_preflight_fix1.py::test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_report_overflow_has_one_durable_returned_verdict tests/test_kernel_stage_a_preflight_fix1.py::test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker tests/test_kernel_stage_a_preflight_fix1.py::test_f5_baseline_observation_receives_original_remaining_deadline tests/test_kernel_stage_a_preflight_fix1.py::test_f5_exact_authority_git_wait_is_bounded_and_reaped tests/test_kernel_stage_a_preflight_fix1.py::test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline --basetemp=/private/tmp/task18-terminal-final-cover-d_18wxom/specimens -ra
+```
+
+### `task18-terminal-focused02-nhsa7wbs`
+
+Exit `0`; 31 passed in 0.13s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-focused02-nhsa7wbs/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-focused02-nhsa7wbs/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py --basetemp=/private/tmp/task18-terminal-focused02-nhsa7wbs/specimens -ra
+```
+
+### `task18-terminal-green01-tvg7h1rz`
+
+Exit `0`; 26 passed in 0.09s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-green01-tvg7h1rz/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-green01-tvg7h1rz/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py --basetemp=/private/tmp/task18-terminal-green01-tvg7h1rz/specimens -ra
+```
+
+### `task18-terminal-launch-green-5dce0mhk`
+
+Exit `0`; 1 passed in 0.06s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-green-5dce0mhk/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-green-5dce0mhk/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py::test_refused_root_launch_record_still_runs_mandatory_own_wait --basetemp=/private/tmp/task18-terminal-launch-green-5dce0mhk/specimens -ra
+```
+
+### `task18-terminal-launch-red-oltmvow4`
+
+Exit `1`; 1 failed in 0.06s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-red-oltmvow4/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-red-oltmvow4/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py::test_refused_root_launch_record_still_runs_mandatory_own_wait --basetemp=/private/tmp/task18-terminal-launch-red-oltmvow4/specimens -ra
+```
+
+### `task18-terminal-red01-co0__qex`
+
+Exit `1`; 12 failed, 5 passed in 0.14s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red01-co0__qex/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red01-co0__qex/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py --basetemp=/private/tmp/task18-terminal-red01-co0__qex/specimens -ra
+```
+
+### `task18-terminal-red02-t8rws67u`
+
+Exit `1`; 21 failed, 5 passed in 0.17s. Full output: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red02-t8rws67u/full-output.log`; complete mapping/input/specimen metadata: `docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red02-t8rws67u/attempt.json` and `manifest.json`.
+
+```sh
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m pytest tests/test_kernel_stage_a_terminal_lifecycle.py --basetemp=/private/tmp/task18-terminal-red02-t8rws67u/specimens -ra
+```
+
+## Single native attempt: failure retained, no retry
+
+The exact committed source/control body was run once, after source commit `3044f3ca0cd935b4e3e53863cbe259fdcacd4c38`, using the dedicated native runner with approved native execution context. The archive is `docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/`. `committed-native-control.py` and `committed-monitor.py` equal the source-commit blobs; the frozen control SHA256 is `8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917`. The exact command and dynamic frozen launch vector/hash are retained in `attempt.json` and `native/native-result.json`. The control's intended bound was a single absolute 10 s including imports, at most 4.5 s per case within the original allocation, with finalization/cleanup inside it. Actual native command elapsed including interpreter startup was 0.11512133304495364 s; the control's first clock to case completion was 0.09117337502539158 s. No timeout extension or watchdog rescue occurred.
+
+Only the first case was entered. The first actual root row had genuine matching native image/hash and parent, but its OS raw display differed from the exact committed vector: ps rendered embedded source newlines as literal `\012`. Expected display length was 2,387 bytes, observed 2,516 bytes; first difference offset 134. Read-only `native-argv-diagnosis.json` retains both complete strings, actual image/times and the comparison. The source guard correctly rejected this as `ValueError: invalid same-generation Python image proof`, and the source gate never released the root into natural exit. This is a control-construction limitation under the existing exact-vector policy, not a compatibility PASS or authority to broaden normalization. Root's subsequent instruction is to hold further native execution/production edits; a future corrected committed-file invocation requires an explicit new ruling after actual evidence inspection.
+
+The failed worker's actual cleanup still supplied useful bounded facts: original root PID 53546 remained owned; one complete numeric membership query selected live root 53546 (16,023,552 B) plus actual helper 53548 (1,802,240 B). It captured 14,775 stdout bytes, zero stderr, no overflow; helper launch `c84b753c7bbc4f53b167f15ae60dbbe0` had a genuine matching native `/bin/ps` image, actual parent 53540 and source-owned wait returncode0/reaped completion. Actual group SIGKILL succeeded before ownership release; owning root wait actually returned −9, and exactly one matching root end was retained. These raw query bytes, complete witnesses and actual outcomes remain in `native/empty-output/monitor-evidence.jsonl`. This was cancellation of the failed case, not empty-group natural-exit validation.
+
+Execution status was **STOPPED**, primary reason `monitor common failure`, with the above ValueError; compatibility is **NEEDS_CONTEXT**. Actual output total was 33,944 B; sampled process-tree peak 17,825,792 B; known per-PID peak sum and conservative incremental failure result 19,628,032 B; source-event accounting complete, identity source complete, no refused raw observations. The generic failure's full RSS includes the old ordinary helper (1,802,240 B) whose declaration was not copied because proof preservation failed first. No cost was dropped or relabeled as an incremental-resource pass.
+
+The genuine same-group survivor case was **NOT RUN** because the frozen controller stops after its first failed case. No descendant was created; no survivor socket/EOF/kill/wait/reap claim exists, and no fallback cleanup was used. The committed approved socket mechanism therefore has no native validation from this attempt. The control's requested two-case objective remains unfulfilled, and no renewed native or scientific allocation is implied.
+
+## Audit, byte equivalence and limits
+
+`prior-artifacts-audit.json` verifies all 3,471 BASE Task18 research artifact entries, 52,688,051 bytes, against their original Git blob bytes; mismatches: **zero**. Historical symlinks are compared by their raw link payloads. The first audit incorrectly treated pytest `current` symlinks as ordinary files; its full diagnostic is preserved as `prior-artifacts-audit-initial-symlink-error.json`. The corrected auditor and full output are retained; this was an audit-tool error, not a change to prior evidence. Original setup/failed native/review archives remain byte-exact.
+
+`source-audit.json` records source/control/README/test/helper/lock byte counts and SHA256 values, exact source Git, unchanged protected-source diff and package digest. `evidence-manifest.json` records every new evidence file/link payload with bytes/SHA256; each raw attempt additionally retains its own manifest. The equal report copies are checked byte-for-byte. New authored source passes `git diff --check`; raw fixed-size verdict padding is separately preserved in specimens and excluded from authored-whitespace assertions. `py_compile` passed for monitor and the frozen control, without executing that control. No test/observation was silently retried or replaced; failures remain in their original uniquely mapped archives.
+
+The source scope is sampled trusted-source process supervision. Successful synthetic joins do not certify native argv compatibility, continuous exec identity, OS birth tokens, process security containment, allocator peak, unobserved between-sample peaks, parent/supervisor RSS or full scientific resource feasibility. The single failed native integration cannot establish empty normal exit or descendant termination. Original stopped01 remains failed; Stage A release/science/Stage B/calibration remain closed. Root must read the complete report and raw evidence, then decide further context/review; no acceptance is asserted here.
+
+## Delivery state
+
+Source/control commit: `3044f3ca0cd935b4e3e53863cbe259fdcacd4c38`. Evidence/report commit is the subsequent commit containing this report and complete retained archives; its ID is reported to root after commitment rather than creating a self-referential report hash. This report exists equally at `.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-report.md` and `docs/research/task18-kernel-stage-a-terminal-lifecycle-report.md`.

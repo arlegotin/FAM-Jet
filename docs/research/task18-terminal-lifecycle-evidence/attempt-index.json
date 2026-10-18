@@ -1,0 +1,199 @@
+[
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py",
+      "/private/tmp/t18n-0zr5z837/native"
+    ],
+    "exit": 1,
+    "owned_base": "/private/tmp/t18n-0zr5z837",
+    "source_git": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+    "command_elapsed_including_interpreter_start": 0.11512133304495364,
+    "control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+    "thread_limits": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4",
+      "VECLIB_MAXIMUM_THREADS": "4",
+      "NUMEXPR_NUM_THREADS": "4"
+    },
+    "cpu_count": 14,
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837",
+    "summary": "{\"compatibility\": \"NEEDS_CONTEXT\", \"elapsed\": 0.09117337502539158, \"destination\": \"/private/tmp/t18n-0zr5z837/native\"}"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap",
+      "--basetemp=/private/tmp/task18-terminal-failure-final-pwqfmsof/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792315378.330729,
+    "end_epoch": 1792315378.4907808,
+    "owned_base": "/private/tmp/task18-terminal-failure-final-pwqfmsof",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-final-pwqfmsof",
+    "summary": "1 passed in 0.04s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+      "tests/test_kernel_stage_a_python_lifetime.py::test_monitor_root_generation_reconciles_natural_reap_without_erasing_failure",
+      "tests/test_kernel_stage_a_native_process_fix1.py::test_deadline_crossed_during_classification_stops_and_counts_work",
+      "tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs",
+      "--basetemp=/private/tmp/task18-terminal-failure-followup-0wojll_l/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792315370.153842,
+    "end_epoch": 1792315370.767931,
+    "owned_base": "/private/tmp/task18-terminal-failure-followup-0wojll_l",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-followup-0wojll_l",
+    "summary": "1 failed, 43 passed in 0.41s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "tests/test_kernel_stage_a_native_process.py",
+      "tests/test_kernel_stage_a_native_process_fix1.py",
+      "tests/test_kernel_stage_a_native_process_fix2.py",
+      "tests/test_kernel_stage_a_native_process_fix3.py",
+      "tests/test_kernel_stage_a_python_lifetime.py",
+      "tests/test_kernel_stage_a_python_lifetime_fix1.py",
+      "tests/test_kernel_stage_a_preflight_fix2.py",
+      "tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs",
+      "tests/test_kernel_stage_a_preflight.py::test_monitor_memory_cap_requires_actual_post_import_baseline",
+      "tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv",
+      "tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_report_overflow_has_one_durable_returned_verdict",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_baseline_observation_receives_original_remaining_deadline",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_exact_authority_git_wait_is_bounded_and_reaped",
+      "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline",
+      "--basetemp=/private/tmp/task18-terminal-final-cover-d_18wxom/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792315305.224551,
+    "end_epoch": 1792315309.805294,
+    "owned_base": "/private/tmp/task18-terminal-final-cover-d_18wxom",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-final-cover-d_18wxom",
+    "summary": "12 failed, 121 passed in 4.08s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "--basetemp=/private/tmp/task18-terminal-focused02-nhsa7wbs/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792315123.4567628,
+    "end_epoch": 1792315123.7601228,
+    "owned_base": "/private/tmp/task18-terminal-focused02-nhsa7wbs",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-focused02-nhsa7wbs",
+    "summary": "31 passed in 0.13s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "--basetemp=/private/tmp/task18-terminal-green01-tvg7h1rz/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792314991.586192,
+    "end_epoch": 1792314991.8598661,
+    "owned_base": "/private/tmp/task18-terminal-green01-tvg7h1rz",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-green01-tvg7h1rz",
+    "summary": "26 passed in 0.09s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py::test_refused_root_launch_record_still_runs_mandatory_own_wait",
+      "--basetemp=/private/tmp/task18-terminal-launch-green-5dce0mhk/specimens",
+      "-ra"
+    ],
+    "exit": 0,
+    "started_epoch": 1792315413.685289,
+    "end_epoch": 1792315413.9618921,
+    "owned_base": "/private/tmp/task18-terminal-launch-green-5dce0mhk",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-green-5dce0mhk",
+    "summary": "1 passed in 0.06s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py::test_refused_root_launch_record_still_runs_mandatory_own_wait",
+      "--basetemp=/private/tmp/task18-terminal-launch-red-oltmvow4/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792315403.761002,
+    "end_epoch": 1792315403.9450722,
+    "owned_base": "/private/tmp/task18-terminal-launch-red-oltmvow4",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-red-oltmvow4",
+    "summary": "1 failed in 0.06s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "--basetemp=/private/tmp/task18-terminal-red01-co0__qex/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792314858.3194728,
+    "end_epoch": 1792314858.656214,
+    "owned_base": "/private/tmp/task18-terminal-red01-co0__qex",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red01-co0__qex",
+    "summary": "12 failed, 5 passed in 0.14s"
+  },
+  {
+    "command": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_a_terminal_lifecycle.py",
+      "--basetemp=/private/tmp/task18-terminal-red02-t8rws67u/specimens",
+      "-ra"
+    ],
+    "exit": 1,
+    "started_epoch": 1792314884.277961,
+    "end_epoch": 1792314884.616319,
+    "owned_base": "/private/tmp/task18-terminal-red02-t8rws67u",
+    "source_git": "1bc005abe7b323c7cc76358adecc6e71346296d2",
+    "archive": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red02-t8rws67u",
+    "summary": "21 failed, 5 passed in 0.17s"
+  }
+]

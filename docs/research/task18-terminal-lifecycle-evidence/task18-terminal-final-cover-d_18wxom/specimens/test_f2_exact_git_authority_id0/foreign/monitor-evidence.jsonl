@@ -1,0 +1,4 @@
+{"kind":"sample","sample_id":1,"rss":{"49874":10,"50873":10},"processes":[{"pid":49874,"parent":49770,"executable":"/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","argv":["/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python","-c","import time; time.sleep(10)"]},{"pid":50873,"parent":49874,"executable":"/tmp/foreign","argv":[]}],"before":550999.438041708,"after":550999.438053166}
+{"kind":"resolution","sample_id":1,"roles":{"49874":"pending_baseline","50873":"unaccounted"},"identities":{}}
+{"kind":"cleanup_signal","pid":49874,"signal":9,"success":true,"owner_unreaped":true}
+{"kind":"cleanup_owner_wait","start":550999.4389,"end":550999.438909875,"returncode":-9,"reaped":true}

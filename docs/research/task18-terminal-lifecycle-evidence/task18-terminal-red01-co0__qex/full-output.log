@@ -1,0 +1,209 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 17 items
+
+tests/test_kernel_stage_a_terminal_lifecycle.py FFFF....F.FFFFFFF        [100%]
+
+=================================== FAILURES ===================================
+________ test_terminal_high_baseline_esrch_reaps_before_reconciliation _________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-red01-co0__qex/specimens/test_terminal_high_baseline_es0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106a34640>
+
+    def test_terminal_high_baseline_esrch_reaps_before_reconciliation(tmp_path,monkeypatch):
+        result,records,order=exercise(tmp_path,monkeypatch)
+>       assert result['status']=='COMPLETED',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'incremental worker memory cap', 'monitor_failure': None, 'stage_launch_vector_sha256': '6007a3f6e578933468b41254ca83534833606fb27c536e4c554d1c1288b48510', ...}
+E       assert 'STOPPED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + STOPPED
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:83: AssertionError
+__ test_membership_decision_precedes_release_and_survivor_requires_kill[root] __
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-red01-co0__qex/specimens/test_membership_decision_prece0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106a343e0>
+group = 'root'
+
+    @pytest.mark.parametrize('group',['root','survivor'])
+    def test_membership_decision_precedes_release_and_survivor_requires_kill(tmp_path,monkeypatch,group):
+        result,records,order=exercise(tmp_path,monkeypatch,group=group)
+>       assert order.index('membership')<order.index('poll' if group=='root' else 'kill')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: 'membership' is not in list
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:97: ValueError
+_ test_membership_decision_precedes_release_and_survivor_requires_kill[survivor] _
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-red01-co0__qex/specimens/test_membership_decision_prece1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1069956d0>
+group = 'survivor'
+
+    @pytest.mark.parametrize('group',['root','survivor'])
+    def test_membership_decision_precedes_release_and_survivor_requires_kill(tmp_path,monkeypatch,group):
+        result,records,order=exercise(tmp_path,monkeypatch,group=group)
+>       assert order.index('membership')<order.index('poll' if group=='root' else 'kill')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: 'membership' is not in list
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:97: ValueError
+__ test_cleanup_failure_is_unsuccessful_and_wait_end_are_independent[signal] ___
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-red01-co0__qex/specimens/test_cleanup_failure_is_unsucc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10690acf0>
+failure = 'signal'
+
+    @pytest.mark.parametrize('failure',['signal','wait','query','poll_none','provenance'])
+    def test_cleanup_failure_is_unsuccessful_and_wait_end_are_independent(tmp_path,monkeypatch,failure):
+        group='survivor' if failure=='signal' else 'root'
+        result,records,order=exercise(tmp_path,monkeypatch,group=group,failure=failure)
+        assert result['status']!='COMPLETED',result
+>       assert 'wait' in order
+E       AssertionError: assert 'wait' in ['poll', 'sample', 'poll', 'sample', 'kill']
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:110: AssertionError
+____________ test_real_prior_cap_cannot_be_cleared_by_cleanup_reap _____________
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-red01-co0__qex/specimens/test_real_prior_cap_cannot_be_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106b0a3f0>
+
+    def test_real_prior_cap_cannot_be_cleared_by_cleanup_reap(tmp_path,monkeypatch):
+        result,records,order=exercise(tmp_path,monkeypatch,cap=True,failure='signal',group='survivor')
+>       assert result['reason']=='incremental worker memory cap',result
+E       AssertionError: {'status': 'STOPPED', 'reason': 'monitor common failure', 'monitor_failure': {'type': 'PermissionError', 'message': '[...rolled denial'}, 'stage_launch_vector_sha256': '6007a3f6e578933468b41254ca83534833606fb27c536e4c554d1c1288b48510', ...}
+E       assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:120: AssertionError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2\n-success] _
+
+raw = b'1 0 1 2\n', error = 'success'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+>           rows=m._parse_cleanup_numeric(raw)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:137: AttributeError
+__ test_numeric_cleanup_requires_complete_unique_four_integer_parse[-success] __
+
+raw = b'', error = 'success'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+>           rows=m._parse_cleanup_numeric(raw)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:137: AttributeError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2-truncated] _
+
+raw = b'1 0 1 2', error = 'truncated'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+            rows=m._parse_cleanup_numeric(raw)
+            assert rows==([] if not raw else [dict(pid=1,parent=0,pgid=1,rss_bytes=2048)])
+        else:
+>           with pytest.raises(ValueError,match=error): m._parse_cleanup_numeric(raw)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:140: AttributeError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2\n1 0 1 2\n-duplicate] _
+
+raw = b'1 0 1 2\n1 0 1 2\n', error = 'duplicate'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+            rows=m._parse_cleanup_numeric(raw)
+            assert rows==([] if not raw else [dict(pid=1,parent=0,pgid=1,rss_bytes=2048)])
+        else:
+>           with pytest.raises(ValueError,match=error): m._parse_cleanup_numeric(raw)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:140: AttributeError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 x\n-malformed] _
+
+raw = b'1 0 1 x\n', error = 'malformed'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+            rows=m._parse_cleanup_numeric(raw)
+            assert rows==([] if not raw else [dict(pid=1,parent=0,pgid=1,rss_bytes=2048)])
+        else:
+>           with pytest.raises(ValueError,match=error): m._parse_cleanup_numeric(raw)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:140: AttributeError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2 3\n-malformed] _
+
+raw = b'1 0 1 2 3\n', error = 'malformed'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+            rows=m._parse_cleanup_numeric(raw)
+            assert rows==([] if not raw else [dict(pid=1,parent=0,pgid=1,rss_bytes=2048)])
+        else:
+>           with pytest.raises(ValueError,match=error): m._parse_cleanup_numeric(raw)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:140: AttributeError
+_ test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 -1 1 2\n-malformed] _
+
+raw = b'1 -1 1 2\n', error = 'malformed'
+
+    @pytest.mark.parametrize('raw,error',[(b'1 0 1 2\n','success'),(b'','success'),
+        (b'1 0 1 2','truncated'),(b'1 0 1 2\n1 0 1 2\n','duplicate'),
+        (b'1 0 1 x\n','malformed'),(b'1 0 1 2 3\n','malformed'),(b'1 -1 1 2\n','malformed')])
+    def test_numeric_cleanup_requires_complete_unique_four_integer_parse(raw,error):
+        if error=='success':
+            rows=m._parse_cleanup_numeric(raw)
+            assert rows==([] if not raw else [dict(pid=1,parent=0,pgid=1,rss_bytes=2048)])
+        else:
+>           with pytest.raises(ValueError,match=error): m._parse_cleanup_numeric(raw)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_a.monitor' has no attribute '_parse_cleanup_numeric'
+
+tests/test_kernel_stage_a_terminal_lifecycle.py:140: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_terminal_high_baseline_esrch_reaps_before_reconciliation
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_membership_decision_precedes_release_and_survivor_requires_kill[root]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_membership_decision_precedes_release_and_survivor_requires_kill[survivor]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_cleanup_failure_is_unsuccessful_and_wait_end_are_independent[signal]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_real_prior_cap_cannot_be_cleared_by_cleanup_reap
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2\n-success]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[-success]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2-truncated]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2\n1 0 1 2\n-duplicate]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 x\n-malformed]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 0 1 2 3\n-malformed]
+FAILED tests/test_kernel_stage_a_terminal_lifecycle.py::test_numeric_cleanup_requires_complete_unique_four_integer_parse[1 -1 1 2\n-malformed]
+========================= 12 failed, 5 passed in 0.14s =========================

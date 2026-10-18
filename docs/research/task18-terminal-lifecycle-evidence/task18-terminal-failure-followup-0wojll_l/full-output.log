@@ -1,0 +1,33 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0
+rootdir: /Users/artemlegotin/Documents/git_alter/FAM-Jet
+configfile: pyproject.toml
+collected 44 items
+
+tests/test_kernel_stage_a_terminal_lifecycle.py ........................ [ 54%]
+........                                                                 [ 72%]
+tests/test_kernel_stage_a_python_lifetime_fix1.py ........F              [ 93%]
+tests/test_kernel_stage_a_python_lifetime.py .                           [ 95%]
+tests/test_kernel_stage_a_native_process_fix1.py .                       [ 97%]
+tests/test_kernel_stage_a_preflight.py .                                 [100%]
+
+=================================== FAILURES ===================================
+______ test_late_reader_join_retains_previously_established_full_rss_cap _______
+
+tmp_path = PosixPath('/private/tmp/task18-terminal-failure-followup-0wojll_l/specimens/test_late_reader_join_retains_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a8ee9e0>
+
+    def test_late_reader_join_retains_previously_established_full_rss_cap(tmp_path,monkeypatch):
+        result,records=run_reader_join(tmp_path,monkeypatch,'baseline',failure='cap')
+        assert result['status']=='STOPPED' and result['reason']=='incremental worker memory cap'
+        assert result['incremental_worker_peak_bytes']>=100
+        # A cap stop may stop reconciliation with other samples still pending.
+        # Late valid evidence must be retained without promising resolved status.
+        joined=[row['value'] for row in records if row['kind']=='event']
+>       assert next(row for row in joined if row['event']=='baseline')['rss']==100
+E       assert 0 == 100
+
+tests/test_kernel_stage_a_python_lifetime_fix1.py:162: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_python_lifetime_fix1.py::test_late_reader_join_retains_previously_established_full_rss_cap
+========================= 1 failed, 43 passed in 0.41s =========================

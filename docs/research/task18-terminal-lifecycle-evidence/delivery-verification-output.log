@@ -1,0 +1,110 @@
+{
+  "source_git": "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38",
+  "checks": [
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/manifest.json",
+      "entries": 10,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-final-pwqfmsof/manifest.json",
+      "entries": 27,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-failure-followup-0wojll_l/manifest.json",
+      "entries": 159,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-final-cover-d_18wxom/manifest.json",
+      "entries": 406,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-focused02-nhsa7wbs/manifest.json",
+      "entries": 92,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-green01-tvg7h1rz/manifest.json",
+      "entries": 72,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-green-5dce0mhk/manifest.json",
+      "entries": 27,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-launch-red-oltmvow4/manifest.json",
+      "entries": 27,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red01-co0__qex/manifest.json",
+      "entries": 72,
+      "pass_check": true
+    },
+    {
+      "check": "archived attempt byte hashes",
+      "path": "docs/research/task18-terminal-lifecycle-evidence/task18-terminal-red02-t8rws67u/manifest.json",
+      "entries": 72,
+      "pass_check": true
+    },
+    {
+      "check": "native executed exact source commit blob",
+      "path": ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py",
+      "sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+      "pass_check": true
+    },
+    {
+      "check": "native executed exact source commit blob",
+      "path": "validation/kernel_stage_a/monitor.py",
+      "sha256": "d26f03023ac6345ea722ddb73deacdb96f63b6cbfa277af63b05ed386c705566",
+      "pass_check": true
+    },
+    {
+      "check": "report copies byte equal",
+      "bytes": 24517,
+      "sha256": "8559b3b530f082e34bbc0d4b7a328c332ef2e430c53f0246da16c238c42058b4",
+      "pass_check": true
+    },
+    {
+      "check": "source verification",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "1bc005abe7b323c7cc76358adecc6e71346296d2",
+        "3044f3ca0cd935b4e3e53863cbe259fdcacd4c38"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "check": "source verification",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "py_compile",
+        "validation/kernel_stage_a/monitor.py",
+        ".superpowers/sdd/2026-10-16-famjet/task-18-terminal-lifecycle-native-control.py"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "status": "byte/hash/whitespace/compile verification PASS; native compatibility remains NEEDS_CONTEXT"
+}
