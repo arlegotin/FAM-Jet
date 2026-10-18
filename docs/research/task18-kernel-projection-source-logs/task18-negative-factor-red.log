@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_negative_eigenvalue_failure_retains_sign_and_residual __________
+
+    def test_negative_eigenvalue_failure_retains_sign_and_residual():
+        r=reader_class()(torch.tensor([2.],dtype=torch.float64),'bank',1.,prior_scale=1.,ridge=1e-2)
+        r.eigenvalues[0]=-2**-53
+        with pytest.raises(ValueError) as caught: r.validate_statics()
+>       assert caught.value.diagnostics['minimum_eigenvalue']==-2**-53
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ValueError' object has no attribute 'diagnostics'
+
+tests/test_kernel_projection.py:120: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_projection.py::test_negative_eigenvalue_failure_retains_sign_and_residual
+1 failed in 0.46s

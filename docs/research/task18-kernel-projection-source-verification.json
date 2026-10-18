@@ -2,9 +2,9 @@
   "scope": "source-only; no Stage A acceptance",
   "identities": {
     "base": "53c20803d5cbeca8f40da8d6b59b19f1d4b4a0c7",
-    "source_commit": "514f4c76726ff90662ef1d204c252d0d7352bde4",
+    "source_commit": "13223303d5606e0a203a6c7af5c59ad5e186239f",
     "base_package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
-    "current_package_hash": "7ac9d549f7fcad56901ea614795f7be6933dbd4a84d661f5ad4444b5f3cdad19",
+    "current_package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
     "memory_components": {
       "famjet/memory/__init__.py": {
         "base_sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
@@ -66,10 +66,12 @@
         "base_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
         "current_sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12"
       }
-    }
+    },
+    "initial_source_commit": "514f4c76726ff90662ef1d204c252d0d7352bde4",
+    "initial_package_hash": "7ac9d549f7fcad56901ea614795f7be6933dbd4a84d661f5ad4444b5f3cdad19"
   },
   "source_files": {
-    "famjet/readers/kernel_projection.py": "364fe89d03756d74890116a093f4f927ffca5826bb01af78605ddf60cb74f593",
+    "famjet/readers/kernel_projection.py": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e",
     "famjet/models/kernel_read_model.py": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7",
     "famjet/eval/isolation.py": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf"
   },
@@ -121,6 +123,14 @@
     "docs/research/task18-kernel-projection-source-logs/task18-mutation-guard.log": {
       "sha256": "666e080bd3781713af58a0485c3e5bc6409fe043a9a9c4501edfcb0da38859d0",
       "bytes": 1560
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-negative-factor-green.log": {
+      "sha256": "129f31516b3a8a39c2e35293b5fa30e59918a4eed03273c734669e446a4820b7",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-projection-source-logs/task18-negative-factor-red.log": {
+      "sha256": "38b494ad5ed6f320dcf1c5b9018e002980ea1030d95021d4869d70fe934e2e89",
+      "bytes": 955
     },
     "docs/research/task18-kernel-projection-source-logs/task18-policy-red.log": {
       "sha256": "7c204d0a6a45089b4cb2c85772571d405bd7c46457eb463f94757bc86f5c5587",
@@ -208,5 +218,11 @@
     "profiling/RSS/peak workspace",
     "Stage B or any panel/fitting/corpus/training",
     "whole Task18"
-  ]
+  ],
+  "followup": {
+    "reason": "Retain factor sign/residual/condition in negative-eigenvalue rejection exception without repairing factor",
+    "red": "1 failed in 0.46s",
+    "green": "28 passed in 2.16s",
+    "command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q tests/test_kernel_projection.py tests/test_kernel_read_isolation.py"
+  }
 }
