@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import socket
+import signal
 import sys
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -27,10 +28,76 @@ def records(path):
     return [json.loads(line) for line in raw.splitlines()]
 
 
+def validate_owned_kill(raw,root):
+    ends=[(i,e['value']) for i,e in enumerate(raw) if e['kind']=='python_root_end']
+    assert len(ends)==1 and ends[0][1]['pid']==root
+    assert ends[0][1]['reaped'] is True and type(ends[0][1]['returncode']) is int
+    signals=[(i,e) for i,e in enumerate(raw) if e['kind']=='cleanup_signal']
+    assert signals and all(i<ends[0][0] and e.get('pid')==root and
+        e.get('signal')==signal.SIGKILL and e.get('success') is True and
+        not e.get('absent',False) and e.get('owner_unreaped') is True for i,e in signals)
+
+
+def reserve_parent_artifacts(destination,output_bytes,*,report_bytes=1048576,timing_bytes=2048):
+    # Both placeholders are charged before any monitor allocation. In-place
+    # overwrites avoid a temporary duplicate of the final serialized artifact.
+    if min(report_bytes,timing_bytes)<512 or monitor.directory_bytes(destination)+report_bytes+timing_bytes>output_bytes:
+        raise ValueError('aggregate output cap including parent reservations')
+    initial=b'{"compatibility":"NEEDS_CONTEXT","reason":"parent commitment incomplete"}\n'
+    for name,size in (('native-result.json',report_bytes),('native-commit-timing.json',timing_bytes)):
+        with (destination/name).open('xb') as stream:
+            if stream.write(initial+b' '*(size-len(initial)))!=size: raise OSError('short parent reservation')
+
+
+def commit_result(result,destination,allocation_start,deadline,output_bytes):
+    report=destination/'native-result.json'; receipt=destination/'native-commit-timing.json'
+    report_bytes=report.stat().st_size; receipt_bytes=receipt.stat().st_size
+    result.update(end=time.monotonic(),utc_end_epoch=time.time(),timing_boundary='before report commit')
+    result['elapsed']=result['end']-allocation_start
+    result['compatibility']='PASS' if len(result['cases'])==2 and all(r['compatibility']=='PASS' for r in result['cases']) else 'NEEDS_CONTEXT'
+    def check():
+        if monitor.directory_bytes(destination)>output_bytes: raise ValueError('original aggregate output cap')
+        if time.monotonic()>=deadline: raise TimeoutError('original parent allocation exhausted')
+    def failed(error):
+        end=time.monotonic()
+        return dict(compatibility='NEEDS_CONTEXT',error=str(error)[:300],end=end,
+            elapsed=end-allocation_start,timing_boundary='before report commit',
+            details='original per-case logs retained; parent summary could not be committed within limits')
+    try:
+        payload=monitor._bounded_json(result,report_bytes,check)
+    except Exception as exc:
+        result=failed(exc); payload=monitor._bounded_json(result,report_bytes)
+    monitor._commit_monitor(report,payload,report_bytes)
+    report_end=time.monotonic()
+    try: check()
+    except Exception as exc:
+        result=failed(exc)
+        monitor._commit_monitor(report,monitor._bounded_json(result,report_bytes),report_bytes)
+        report_end=time.monotonic()
+    timing=dict(compatibility=result['compatibility'],report_commit_end=report_end,
+        report_elapsed=report_end-allocation_start,utc_report_commit_end_epoch=time.time(),
+        timing_boundary='after report commit; before timing receipt commit')
+    monitor._commit_monitor(receipt,monitor._bounded_json(timing,receipt_bytes),receipt_bytes)
+    try: check()
+    except Exception as exc:
+        # Bounded failure commitment uses only already allocated bytes; it grants
+        # no extended deadline or successful timing claim after an overrun.
+        result=failed(exc)
+        monitor._commit_monitor(report,monitor._bounded_json(result,report_bytes),report_bytes)
+        timing.update(compatibility='NEEDS_CONTEXT',report_commit_end=time.monotonic(),utc_report_commit_end_epoch=time.time())
+        timing['report_elapsed']=timing['report_commit_end']-allocation_start
+        monitor._commit_monitor(receipt,monitor._bounded_json(timing,receipt_bytes),receipt_bytes)
+    caller_end=time.monotonic()
+    print(json.dumps(dict(compatibility=result['compatibility'],elapsed=caller_end-allocation_start,
+        caller_end=caller_end,timing_boundary='after all artifact writes; before stdout',destination=str(destination))))
+    return 0 if result['compatibility']=='PASS' else 1
+
+
 def main():
     destination=Path(sys.argv[1]).resolve()
     if destination.is_relative_to(ROOT): raise ValueError('native output must be outside allocated clean source')
     destination.mkdir(exist_ok=False)
+    reserve_parent_artifacts(destination,67108864)
     for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','VECLIB_MAXIMUM_THREADS','NUMEXPR_NUM_THREADS'):
         os.environ[key]='1'
     worker=ROOT/'docs/research/task18-source-owned-helper-native-worker.py'
@@ -106,9 +173,7 @@ def main():
                 row['observed_helper_pids']=[pid for pid,item in verdict['workers'].items() if item['role'] in ('observer_helper','authority_helper')]
             else:
                 assert verdict['status']!='COMPLETED' and ends[0]['returncode'] in (0,-9)
-                assert signals and all(e['success'] and e['owner_unreaped'] for e in signals)
-                end_index=next(i for i,e in enumerate(raw) if e['kind']=='python_root_end')
-                assert all(raw.index(e)<end_index for e in signals)
+                validate_owned_kill(raw,root)
                 listener.settimeout(max(0,deadline-time.monotonic())); peer,_=listener.accept()
                 peer.settimeout(max(0,deadline-time.monotonic())); payload=bytearray(); eof=False
                 read_start=time.monotonic()
@@ -141,16 +206,7 @@ def main():
             if peer_path.exists(): peer_path.unlink()
             row.update(end=time.monotonic(),utc_end_epoch=time.time()); row['elapsed']=row['end']-start
         if row['compatibility']!='PASS': break
-    result.update(end=time.monotonic(),utc_end_epoch=time.time())
-    result['elapsed']=result['end']-ALLOCATION_START
-    result['compatibility']='PASS' if len(result['cases'])==2 and all(r['compatibility']=='PASS' for r in result['cases']) and result['end']<ABSOLUTE_DEADLINE else 'NEEDS_CONTEXT'
-    (destination/'native-result.json').write_text(json.dumps(result,indent=2)+'\n')
-    result['artifact_commit_end']=time.monotonic()
-    if result['artifact_commit_end']>=ABSOLUTE_DEADLINE:
-        result.update(compatibility='NEEDS_CONTEXT',overrun=True)
-        (destination/'native-result.json').write_text(json.dumps(result,indent=2)+'\n')
-    print(json.dumps(dict(compatibility=result['compatibility'],elapsed=result['elapsed'],destination=str(destination))))
-    return 0 if result['compatibility']=='PASS' else 1
+    return commit_result(result,destination,ALLOCATION_START,ABSOLUTE_DEADLINE,67108864)
 
 
 if __name__=='__main__': raise SystemExit(main())

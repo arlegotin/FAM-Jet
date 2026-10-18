@@ -289,7 +289,9 @@ class PythonLifetimes:
         if pid in self.failed: return 'unaccounted',None
         if entry is None: return 'pending_terminal_parent',None
         if (entry['launch_start']>declared['launch_start'] or
-                declared['launch_start']>=entry.get('completion_end',float('inf'))): return 'unaccounted',None
+                declared['launch_start']>=entry.get('completion_end',float('inf')) or
+                declared.get('completion_end',float('-inf'))>entry.get('completion_end',float('inf'))):
+            self.failed.add(declared['pid']); return 'unaccounted',None
         parent=processes.get(pid)
         if parent is not None and parent.get('image',{}).get('status')=='ok':
             image=parent['image']
@@ -314,6 +316,15 @@ def _literal_terminal(row):
             image.get('status')=='error' and image.get('errno')==errno.ESRCH and
             image.get('method')=='macos.proc_pidpath' and image.get('reason')=='native_lookup_failed' and
             row['sample_start']<=row['sample_end']<=image.get('lookup_start',float('-inf'))<=image.get('lookup_end',float('-inf')))
+
+
+def _git_phase_valid(entry,phase,root_pid):
+    """Source phase constraints apply equally to sampled and missed helpers."""
+    return (entry.get('parent')==root_pid and entry.get('argv') in phase['commands'] and
+            phase.get('started',phase['active']) and
+            entry.get('launch_start',float('-inf'))>=phase.get('start',float('-inf')) and
+            entry.get('launch_start',float('inf'))<=phase.get('end',float('inf')) and
+            entry.get('completion_end',float('-inf'))<=phase.get('end',float('inf')))
 
 
 def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,current_pids=None,
@@ -353,10 +364,7 @@ def classify(root_pid,processes,baselines,declarations,*,authority_phase=None,cu
                 declared.get('artifact')!=runtime_identity['helpers'][family] or
                 (row.get('image',{}).get('status')=='ok' and row.get('raw_args')!=commands.display(vector))):
             registry.failed.add(pid); return 'unaccounted'
-        if family=='git' and (row['parent']!=root_pid or vector not in phase['commands'] or
-                not phase.get('started',phase['active']) or
-                declared.get('launch_start',float('-inf'))<phase.get('start',float('-inf')) or
-                declared.get('completion_end',float('-inf'))>phase.get('end',float('inf')) or
+        if family=='git' and (not _git_phase_valid(declared,phase,root_pid) or
                 row['sample_end']<phase.get('start',float('-inf')) or row['sample_start']>phase.get('end',float('inf'))):
             registry.failed.add(pid); return 'unaccounted'
         try:
@@ -789,6 +797,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         if source is not None and source.get('kind')=='owned_supervisor': source=dict(source,path=evidence_path.name,offset=offset)
         family='git' if target is phase['declarations'] else 'ps'
         vector=entry.get('argv')
+        if family=='git' and not _git_phase_valid(entry,phase,process.pid):
+            failed.add(entry['pid']); raise ValueError('invalid authority helper phase')
         if ('raw_args' not in entry and native_supervision and
                 (entry.get('provenance')!='source_owned_launch' or
                  vector not in (phase['commands'] if family=='git' else [PS_ARGV]) or
@@ -811,6 +821,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         registry.complete(event)
         registry.generations[event['pid']]['completion_source']=dict(path=evidence_path.name,offset=offset)
         entry.update(completion_end=event['completion_end'],reaped=event['reaped'],returncode=event['returncode'])
+        if target is phase['declarations'] and not _git_phase_valid(entry,phase,process.pid):
+            failed.add(entry['pid']); raise ValueError('invalid authority helper phase')
         wake(event['pid'])
     def reader_context(before,after):
         if authority_root is None: return None
@@ -943,7 +955,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                         if event['success'] and (any(entry.get('returncode')!=0 for entry in phase['declarations'].values()) or set(phase['declarations'])!=phase['completed'] or sorted(entry['argv'] for entry in phase['declarations'].values())!=sorted(phase['commands'])): raise ValueError('incomplete exact authority operations')
                         phase.update(active=False,end=event['monotonic'],success=event['success'])
                         for entry in phase['declarations'].values():
-                            if entry.get('completion_end',event['monotonic'])>event['monotonic']:
+                            if not _git_phase_valid(entry,phase,process.pid):
                                 failed.add(entry['pid'])
                                 if str(entry['pid']) in per_worker: charge(entry['pid'])
                                 raise _MonitorStop('foreign process identity')
@@ -1234,7 +1246,8 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                         (root_row.get('image',{}).get('status')=='error' and root_row['image'].get('errno')==errno.ESRCH))
                     if terminal: break
                     reconcile(); check()
-                    time.sleep(.02)
+                    remaining=min(work_deadline,candidate_start+90 if candidate_start is not None else work_deadline)-time.monotonic()
+                    if remaining>0: time.sleep(min(.02,remaining))
             except (Exception,) as exc: failure(exc)
             finally:
                 cleanup(terminal=terminal)
@@ -1252,12 +1265,13 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                 entry=generation['entry']; family=generation['family']
                 if generation['source'] is None: raise ValueError('missing generation source reference')
                 if family=='owned_root': continue
+                if family=='git' and not _git_phase_valid(entry,phase,process.pid):
+                    failed.add(pid); raise ValueError('invalid authority helper phase')
                 if entry['parent']!=os.getpid():
-                    parent=python_lifetimes.generations.get(entry['parent'])
-                    if (parent is None or entry['parent'] in failed or
-                            not parent['launch_start']<=entry['launch_start']<parent.get('completion_end',float('inf'))):
+                    qualification,relation=python_lifetimes.helper_parent(entry,None,{},None)
+                    if qualification!='attributed':
                         failed.add(pid); raise ValueError('invalid helper parent generation')
-                    generation['parent_generation']=parent['launch_id']
+                    generation['parent_generation']=relation['launch_id']
                 elif family in ('reader','git'):
                     failed.add(pid); raise ValueError('invalid helper owner')
                 append(dict(kind='source_lifecycle',pid=pid,family=family,launch_id=entry['launch_id'],

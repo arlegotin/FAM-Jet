@@ -211,3 +211,208 @@ def test_cleanup_family_cannot_reuse_observed_source_pid(tmp_path):
     other=witness(30,os.getpid(),m._CLEANUP_ARGV); other.update(launch_id='cleanup',returncode=0)
     with pytest.raises(ValueError,match='duplicate/reused'): state.registry.declare(other,'cleanup_ps')
     assert resolve()=='unaccounted'
+
+
+@pytest.mark.parametrize('sampled',[False,True])
+@pytest.mark.parametrize('order',['parent_first','parent_end_late','parent_declaration_late'])
+def test_child_completion_cannot_outlive_owner_even_with_reordered_evidence(tmp_path,sampled,order):
+    parent=witness(10,os.getpid(),m.PS_ARGV); parent.update(launch_id='parent',launch_start=10.,completion_end=14.5,returncode=0)
+    child=witness(30,10,m.PS_ARGV); child.update(launch_id='child',launch_start=12.3,completion_end=16.,returncode=0)
+    registry=m.SourceLifecycles()
+    if order=='parent_first': registry.declare(parent,'owned_root')
+    elif order=='parent_end_late':
+        launch={k:v for k,v in parent.items() if k not in ('completion_end','returncode')}; launch['reaped']=False
+        registry.declare(launch,'owned_root')
+    with pytest.raises(ValueError,match='parent'):
+        registry.declare(child,'ps')
+        if sampled:
+            _,_,row,_=helper_case(tmp_path)
+            assert registry.attribute(row)=='attributed'
+        if order=='parent_end_late': registry.complete(parent)
+        elif order=='parent_declaration_late': registry.declare(parent,'owned_root')
+    assert 30 in registry.failed
+    _,_,row,_=helper_case(tmp_path)
+    assert registry.attribute(row)=='unaccounted'
+
+
+def test_sampled_helper_rejects_completion_after_retained_parent(tmp_path):
+    state,decl,row,resolve=helper_case(tmp_path); decl['completion_end']=16.
+    assert resolve()=='unaccounted'
+    assert 30 in state.failed
+
+
+@pytest.mark.parametrize('fault',[None,'early_launch','late_completion','unqualified_parent'])
+def test_unsampled_git_still_requires_exact_phase_and_qualified_parent(tmp_path,monkeypatch,fault):
+    import json,time
+    import sys
+    from pathlib import Path
+    runtime=identity(); runtime.update(executable=str(Path(sys.executable).resolve()),
+        executable_sha256=a.file_hash(Path(sys.executable).resolve()))
+    monkeypatch.setattr(a,'runtime',lambda:runtime)
+    pid=570001; vector=[sys.executable,'-c','pass']; out=tmp_path/'monitor'; state={}
+    class Owner:
+        returncode=None
+        def poll(self): self.returncode=0; return 0
+        def wait(self,timeout): self.returncode=0; return 0
+    owner=Owner(); owner.pid=pid
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+    monkeypatch.setattr(m.os,'killpg',lambda *args:None)
+    original=m.PythonLifetimes.launch
+    def launch(self,entry,context): original(self,entry,context); state['owner']=self
+    monkeypatch.setattr(m.PythonLifetimes,'launch',launch)
+    def sampler(root,**kw):
+        t0=time.monotonic(); t1=time.monotonic(); t2=time.monotonic(); t3=time.monotonic(); t4=time.monotonic()
+        if fault!='unqualified_parent':
+            row=dict(pid=pid,parent=os.getpid(),rss_bytes=1,raw_args=c.native_display(vector,runtime),
+                sample_start=t0,sample_end=t1,image=dict(status='ok',**runtime['process_image'],lookup_start=t1,lookup_end=t2))
+            context=dict(sample_id=1,entries={pid:row},proofs={},origin='owned_supervisor')
+            state['owner'].root_sample(row,owner_unreaped=True,sample_context=context)
+        events=[dict(event='authority_start',pid=pid,monotonic=t1)]
+        for number,argv in enumerate(a.git_commands(tmp_path)):
+            entry=witness(700010+number,pid,argv,'git')
+            entry.update(launch_id='git'+str(number),launch_start=t0 if fault=='early_launch' else t2,reaped=False)
+            entry.pop('completion_end'); entry.pop('returncode',None)
+            events.extend([dict(entry,event='authority_helper',monotonic=t2),dict(event='authority_helper_end',pid=entry['pid'],
+                parent=pid,launch_id=entry['launch_id'],completion_end=t3,monotonic=t3,reaped=True,returncode=0)])
+        events.append(dict(event='authority_end',pid=pid,success=True,monotonic=t2 if fault=='late_completion' else t4))
+        with (out/'monitor-events.jsonl').open('a') as stream:
+            for event in events: stream.write(json.dumps(event)+'\n')
+        return m.ResidentTree({}, {})
+    monkeypatch.setattr(m,'process_tree',sampler)
+    monkeypatch.setattr(m,'_cleanup_observation',lambda *args,**kw:dict(start=time.monotonic(),end=time.monotonic(),rows=[],helper=None,complete=True,error=None))
+    result=m.supervise(vector,out,sampler=sampler,authority_root=tmp_path,outer_seconds=.5,free_disk_bytes=0)
+    records=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+    assert (result['status']=='COMPLETED') is (fault is None),result
+    if fault is None:
+        joins=[r for r in records if r['kind']=='source_lifecycle' and r['family']=='git']
+        assert len(joins)==2 and all(r['measured_peak_bytes'] is None and r['parent_generation'] for r in joins)
+
+
+def test_poll_sleep_preserves_original_cleanup_reserve(tmp_path,monkeypatch):
+    now=[100.]; sleeps=[]; waits=[]
+    class Owner:
+        pid=570001; returncode=None
+        def poll(self): return self.returncode
+        def wait(self,timeout):
+            waits.append(timeout)
+            if timeout<=0: raise m.subprocess.TimeoutExpired('controlled owner',timeout)
+            self.returncode=-9; return -9
+    owner=Owner()
+    monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+    monkeypatch.setattr(m.os,'killpg',lambda *args:None)
+    monkeypatch.setattr(m.time,'monotonic',lambda:now[0])
+    def sleep(seconds): sleeps.append(seconds); now[0]+=seconds
+    monkeypatch.setattr(m.time,'sleep',sleep)
+    def sampler(pid): now[0]=100.071; return {}
+    result=m.supervise(['/fixture/python'],tmp_path/'monitor',sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+    assert sleeps and max(sleeps)<=.001000001
+    assert waits and waits[0]>0 and result['returncode']==-9
+    assert result['outer_seconds']<=.08
+
+
+def static_control_helpers():
+    """Compile only isolated pure guards/commit functions, never native imports/main.
+
+    The legacy AST slices preserve the pre-fix behavior for the RED control;
+    after extraction the same tests use the actual named helpers.
+    """
+    import ast,json,signal,time
+    from pathlib import Path
+    path=Path(__file__).parents[1]/'docs/research/task18-source-owned-helper-native-control.py'
+    tree=ast.parse(path.read_text()); functions={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
+    namespace=dict(json=json,time=time,signal=signal,monitor=m,Path=Path,print=lambda *args:None)
+    selected=[functions[n] for n in ('validate_owned_kill','reserve_parent_artifacts','commit_result') if n in functions]
+    if 'validate_owned_kill' not in functions:
+        main=functions['main']; branch=next(n for n in ast.walk(main) if isinstance(n,ast.If) and ast.unparse(n.test)=="case == 'families'")
+        body=branch.orelse[1:4]  # owned signal checks and actual end ordering, no socket code
+        header=ast.parse('def validate_owned_kill(raw, root):\n pass').body[0]
+        header.body=ast.parse("signals=[e for e in raw if e['kind']=='cleanup_signal']").body+body
+        selected.append(header)
+    if 'commit_result' not in functions:
+        body=functions['main'].body
+        index=next(i for i,n in enumerate(body) if isinstance(n,ast.Expr) and ast.unparse(n).startswith('result.update(end='))
+        header=ast.parse('def commit_result(result, destination, allocation_start, deadline, output_bytes):\n pass').body[0]
+        header.body=ast.parse('ALLOCATION_START=allocation_start\nABSOLUTE_DEADLINE=deadline').body+body[index:]
+        selected.append(header)
+    exec(compile(ast.fix_missing_locations(ast.Module(body=selected,type_ignores=[])),str(path)+'[pure helpers only]','exec'),namespace)
+    return namespace
+
+
+@pytest.mark.parametrize('change',[{}, {'absent':True},{'signal':15},{'pid':99},{'success':False},{'owner_unreaped':False},{'after_end':True}])
+def test_static_unknown_control_requires_nonabsent_owned_sigkill(change):
+    import signal
+    helpers=static_control_helpers()
+    event=dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True)
+    event.update({k:v for k,v in change.items() if k!='after_end'})
+    raw=[event,dict(kind='python_root_end',value=dict(pid=10,reaped=True,returncode=-9))]
+    if change.get('after_end'): raw.reverse()
+    if change:
+        with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)
+    else: helpers['validate_owned_kill'](raw,10)
+
+
+def test_static_parent_final_artifact_cannot_overrun_aggregate(tmp_path):
+    import json,time
+    helpers=static_control_helpers(); cap=8192
+    (tmp_path/'retained.log').write_bytes(b'L'*4096)
+    if 'reserve_parent_artifacts' in helpers: helpers['reserve_parent_artifacts'](tmp_path,cap,report_bytes=3072,timing_bytes=1024)
+    result=dict(cases=[dict(compatibility='PASS')]*2,payload='x'*10000)
+    start=time.monotonic()
+    status=helpers['commit_result'](result,tmp_path,start,start+1,cap)
+    saved=json.loads((tmp_path/'native-result.json').read_text())
+    assert status==1 and saved['compatibility']=='NEEDS_CONTEXT'
+    assert m.directory_bytes(tmp_path)<=cap
+    assert (tmp_path/'retained.log').read_bytes()==b'L'*4096
+
+
+def test_static_parent_retains_honest_post_report_boundary(tmp_path,monkeypatch):
+    import json
+    helpers=static_control_helpers(); clock=[1.]
+    monkeypatch.setattr(helpers['time'],'monotonic',lambda:clock[0])
+    if 'reserve_parent_artifacts' in helpers: helpers['reserve_parent_artifacts'](tmp_path,8192,report_bytes=6144,timing_bytes=2048)
+    original=m._commit_monitor
+    def commit(*args): original(*args); clock[0]+=.01
+    monkeypatch.setattr(m,'_commit_monitor',commit)
+    status=helpers['commit_result'](dict(cases=[dict(compatibility='PASS')]*2),tmp_path,0.,2.,8192)
+    saved=json.loads((tmp_path/'native-result.json').read_text())
+    receipt=tmp_path/'native-commit-timing.json'
+    assert receipt.exists()
+    timing=json.loads(receipt.read_text())
+    assert status==0 and timing['report_commit_end']>saved['end']
+    assert saved['timing_boundary']=='before report commit'
+    assert timing['timing_boundary']=='after report commit; before timing receipt commit'
+    assert m.directory_bytes(tmp_path)==8192
+
+
+@pytest.mark.parametrize('extra',['reservation','during_report','deadline'])
+def test_static_parent_cap_and_clock_failures_keep_failure_status(tmp_path,monkeypatch,extra):
+    import json
+    helpers=static_control_helpers(); clock=[1.]; cap=8192
+    monkeypatch.setattr(helpers['time'],'monotonic',lambda:clock[0])
+    if extra=='reservation':
+        (tmp_path/'existing.log').write_bytes(b'x')
+        with pytest.raises(ValueError,match='cap'):
+            helpers['reserve_parent_artifacts'](tmp_path,cap,report_bytes=6144,timing_bytes=2048)
+        assert list(tmp_path.iterdir())==[tmp_path/'existing.log']
+        return
+    helpers['reserve_parent_artifacts'](tmp_path,cap,report_bytes=6144,timing_bytes=2048)
+    sizes=[]; original=m._commit_monitor
+    def commit(path,payload,reserve):
+        original(path,payload,reserve); sizes.append(m.directory_bytes(tmp_path))
+        if len(sizes)==1:
+            if extra=='during_report': (tmp_path/'unexpected.log').write_bytes(b'x')
+            else: clock[0]=2.1
+    monkeypatch.setattr(m,'_commit_monitor',commit)
+    assert helpers['commit_result'](dict(cases=[dict(compatibility='PASS')]*2),tmp_path,0.,2.,cap)==1
+    assert all(size<=cap+(extra=='during_report') for size in sizes)
+    for name in ('native-result.json','native-commit-timing.json'):
+        assert json.loads((tmp_path/name).read_text())['compatibility']=='NEEDS_CONTEXT'
+    if extra=='during_report': assert (tmp_path/'unexpected.log').read_bytes()==b'x'
+
+
+def test_static_unknown_signal_must_precede_matching_actual_owner_end():
+    import signal
+    helpers=static_control_helpers()
+    raw=[dict(kind='cleanup_signal',pid=10,signal=signal.SIGKILL,success=True,owner_unreaped=True),
+        dict(kind='python_root_end',value=dict(pid=99,reaped=True,returncode=-9))]
+    with pytest.raises(AssertionError): helpers['validate_owned_kill'](raw,10)

@@ -38,6 +38,7 @@ class SourceLifecycles:
         self.generations[pid]=record; self.ids[identifier]=pid
         if pid in self.ends: self._end(record,self.ends[pid])
         elif 'completion_end' in entry: self.complete(entry)
+        self._relations(pid)
         return record
 
     def complete(self,event):
@@ -54,6 +55,18 @@ class SourceLifecycles:
                 end<=record['last_image_end']):
             self.reject(entry['pid'],'invalid source completion lifetime')
         entry.update(completion_end=end,reaped=True,returncode=event['returncode'])
+        self._relations(entry['pid'])
+
+    def _relations(self,pid):
+        # Either side may arrive last. Actual owning reap cannot postdate its
+        # parent's owning completion, even for a helper never caught in ps.
+        for child_pid,child in self.generations.items():
+            entry=child['entry']; parent=self.generations.get(entry['parent'])
+            if parent is None or (pid!=child_pid and pid!=entry['parent']): continue
+            owner=parent['entry']; end=owner.get('completion_end',float('inf'))
+            if (entry['launch_start']<owner['launch_start'] or entry['launch_start']>=end or
+                    entry.get('completion_end',float('-inf'))>end):
+                self.reject(child_pid,'invalid source parent lifetime')
 
     def image_evidence(self,pid,image,start,end,*,numeric=False):
         record=self.generations[pid]; entry=record['entry']
