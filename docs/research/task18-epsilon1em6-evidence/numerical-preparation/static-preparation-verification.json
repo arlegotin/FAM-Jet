@@ -1,0 +1,29 @@
+{
+  "status": "static_preparation_only",
+  "seal_sha256": "bb6b226e8ca5ebd23006573ca6b7f51cf272701a7d0ea0212e1da91c92cebf49",
+  "syntax": "AST parse only",
+  "helpers": {
+    "task18_checked_sequence.py": {
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d",
+      "execution_path": "/tmp/task18-epsilon-numerical-9aca1b/task18_checked_sequence.py",
+      "archive_path": "artifacts/task18-evidence/epsilon1em6-numerical-preparation-9aca1b/task18_checked_sequence.py"
+    },
+    "task18_epsilon_numeric_driver.py": {
+      "sha256": "83ea5b8a72f714ef342fd154a170bee1c11567a43bb28f2a936cc6c1d715dfc3",
+      "execution_path": "/tmp/task18-epsilon-numerical-9aca1b/task18_epsilon_numeric_driver.py",
+      "archive_path": "artifacts/task18-evidence/epsilon1em6-numerical-preparation-9aca1b/task18_epsilon_numeric_driver.py"
+    },
+    "task18_fixed_basis_numeric.py": {
+      "sha256": "d17130ff088cfed8f99f3d56073c27338bcb624038ef46e7a36f00cea653d5a1",
+      "execution_path": "/tmp/task18-epsilon-numerical-9aca1b/task18_fixed_basis_numeric.py",
+      "archive_path": "artifacts/task18-evidence/epsilon1em6-numerical-preparation-9aca1b/task18_fixed_basis_numeric.py"
+    },
+    "task18_structured_epsilon_numeric.py": {
+      "sha256": "59a8d27f219fea153ceaef69403c589923f2328afb6e932ff737276aa80e0146",
+      "execution_path": "/tmp/task18-epsilon-numerical-9aca1b/task18_structured_epsilon_numeric.py",
+      "archive_path": "artifacts/task18-evidence/epsilon1em6-numerical-preparation-9aca1b/task18_structured_epsilon_numeric.py"
+    }
+  },
+  "no_candidate_import_model_fixture_or_test_execution": true,
+  "formula_AST": "unchanged reference_structured; exact common metric/static helper and sequence guard copies"
+}

@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+  "classification": "complete_resource_only_not_calibration",
+  "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "file_count": 41,
+  "total_bytes": 1588192,
+  "files": [
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/baseline.json",
+      "bytes": 123,
+      "sha256": "e7becc5aeb2ee6ce21ff6368cbd2c17f8a91720cafa33a66713e6f86340168db"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/cost-accounting.json",
+      "bytes": 6642,
+      "sha256": "4931539c31395a5d5f0fdda9da74853df626974a4274d679cb4f69129863e9f7"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/journal.jsonl",
+      "bytes": 7366,
+      "sha256": "ed55443d880ca926801428bfc4754047590fdb4752b5e4d14ec78f1bee5eec88"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S16/effects.f64le",
+      "bytes": 16384,
+      "sha256": "e2d6fdce733d7c4b95d5fc27db0aac8410a5c6940d6ae40babf0aa2654e3ed72"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S16/input.json",
+      "bytes": 1293,
+      "sha256": "31283992e70438e54c54672dd5625cf1cff71afa36c601d20345a7702f7b6c60"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S16/result.json",
+      "bytes": 319080,
+      "sha256": "efda0e0d655f84a8c7ba8591cf5c9d4448e1d904049aca762b4e0eba2ab839e6"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S16/summary.json",
+      "bytes": 659,
+      "sha256": "4df41b9a65620e17fadcad70a256619b2edd4aecc823ddd1925c88b2d212241a"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S4/effects.f64le",
+      "bytes": 4096,
+      "sha256": "40bde05f74f0c960a118bf7a36c60b69fe7abba60b1fc0ddfc523feef7f418de"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S4/input.json",
+      "bytes": 1290,
+      "sha256": "71499a7824d546d953150fa70c4f34c4dc7036f3f39e3b76f02149dc11e54a51"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S4/result.json",
+      "bytes": 286077,
+      "sha256": "b432d4b23d890be6f62e82e8c306b78904f03f4fe416819be628facf41dc142f"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S4/summary.json",
+      "bytes": 654,
+      "sha256": "9e15e49e1dab68e3880d694dd27477e4785250e32ae522afeeac946b7dd06953"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S64/effects.f64le",
+      "bytes": 65536,
+      "sha256": "8847c2125827217585733e7a81a72010ecb7aa2d6287d013691a455d85a7da56"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S64/input.json",
+      "bytes": 1293,
+      "sha256": "628caa18e0ff750088e5a7a0e9b8c70e08b11431bece4f00a89e0be59096fb9b"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S64/result.json",
+      "bytes": 82750,
+      "sha256": "021fe9e654cb746f440cea5946f4e8a20f42663c056dbbf44b375b265f562123"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/one-S64/summary.json",
+      "bytes": 658,
+      "sha256": "4b238b07c168bb477d2d01391f3c1bafc643736ef472a75d9bb22808285e7997"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/epsilon-root-verified-aggregate.json",
+      "bytes": 9268,
+      "sha256": "da81372db557beb7a0b25c01ca1011b77e6ebce5511913b780b2992569f19a57"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-helper.py",
+      "bytes": 23381,
+      "sha256": "9422460bad3bb9a5872cb54026dcb9ea1965b0b7e670fd2bf96ad00f51c42413"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-preparation-report.md",
+      "bytes": 9120,
+      "sha256": "f40ce74cf1967b57fd0294c82285fa78be08a788b000b051cb7d70ffa843fc95"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-root-release.json",
+      "bytes": 2172,
+      "sha256": "d51bcd95f9597661a1683a997dd0052e3f7faddbf7c377955c77bc2d7c93d3ec"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-seal.json",
+      "bytes": 5698,
+      "sha256": "de3010811d985fcc793b09e614147489ab48a0344ae9802ada17a227028b9412"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-source-check.txt",
+      "bytes": 1425,
+      "sha256": "6c46f88ef1aacf7a9de1243d2171d5fafee26c9e5075d154fd86340d319ae314"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/provenance/task-19-resource-profile-source-files.sha256",
+      "bytes": 4587,
+      "sha256": "a62adea3514b048814cb50cbd87d7a805ff25791767d366581cbcfc2c3a37b1f"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/runtime.json",
+      "bytes": 467,
+      "sha256": "17012018659a796fe7aba653018c23b29336dde3437ec481f4fde261f277055a"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/start.json",
+      "bytes": 141,
+      "sha256": "373101d833e8d96678c44d6fa6ce1eb46068483ce03a1b2d2d1a91366b328389"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/summary.json",
+      "bytes": 8305,
+      "sha256": "16f318593fd2286a3887fd9e9fa6c107c2d29235ee3a4315360abecb52273fa7"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/telemetry.json",
+      "bytes": 197,
+      "sha256": "89076a5e9a36eb8abd2f9b207036c5f16a71b344023f8f29a75936e975d18671"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S16/effects.f64le",
+      "bytes": 16384,
+      "sha256": "8bd49464419ebe405810d3c857eea0a951cf952c2e09374c88074ab0001df4c0"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S16/input.json",
+      "bytes": 1318,
+      "sha256": "4d488b97d416ca3cd7ed67203e85d55d6df4b0f45b2ba004e817df40d12754e2"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S16/result.json",
+      "bytes": 320101,
+      "sha256": "8333460a91aabbb11e5532cdf3f4359ec7bdaf407926bb593e388e79d4d1eea2"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S16/summary.json",
+      "bytes": 684,
+      "sha256": "d5cffce6d14d6a32fdb4437315c7def94e58511b548ff316821efefc6aa9f647"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S4/effects.f64le",
+      "bytes": 4096,
+      "sha256": "a92e371d7560664f806431a5003f1971a38e219fe8fd80d90446bcb267b27f54"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S4/input.json",
+      "bytes": 1315,
+      "sha256": "d1bdbc0e84e07f1f70d39e0f8929043ec7680054001a8706e53037103b61bf78"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S4/result.json",
+      "bytes": 149894,
+      "sha256": "65b579a70bddd459b8d38fc91effd8ddc61ec7258e3ef093d841d907a8a9ba31"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S4/summary.json",
+      "bytes": 682,
+      "sha256": "895b796064e34e075ccb5227cb4910d4301a2325bbadd9f4a0512c3fea08013e"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S64/effects.f64le",
+      "bytes": 65536,
+      "sha256": "d8bfcd7e33166750fd710435377ad4c4c430a22c5a0eb8881d70f4ae3979403b"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S64/input.json",
+      "bytes": 1318,
+      "sha256": "252b8ea1e3bce9d7d55ebf125e5a105c58632b782d44a1116f698c18e0c47bdc"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S64/result.json",
+      "bytes": 163192,
+      "sha256": "77764bde162a167f7c734f526775268178dbda162918bc3be8880c15f505d12d"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/three-S64/summary.json",
+      "bytes": 683,
+      "sha256": "e5a679bb2b5586c7f4e6997154595826af9fbd2ba2dc5110a36ac783c7e0c086"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/worker-summary.json",
+      "bytes": 4327,
+      "sha256": "ba5451d11ea6a3b04f53ebb63407be6b460f827a61d714a09ab2129079338ea6"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/worker.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/task19/resource-six-9aca1b/worker.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "self_excluded": true
+}

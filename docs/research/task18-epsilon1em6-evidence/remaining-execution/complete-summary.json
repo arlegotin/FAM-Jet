@@ -1,0 +1,844 @@
+{
+  "case_count": 24,
+  "cases": [
+    {
+      "capture_sha256": "231cdb58ae9cc3f31901b108be5536e7d4b8e91da4f2499e1dab93d5abee77f1",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N128-piecewise_stationary-000000000000",
+      "length": 128,
+      "max_ratio": 0.006805115280675694,
+      "metric_count": 19,
+      "net_peak_bytes": 14876672,
+      "ordinal": 0,
+      "perf_seconds": 0.09147929097525775,
+      "procedure_sha256": "dd727ebe6d814f67bbe0151ecea203580681a13ba90ef74e9aafb437fd787f2b",
+      "raw_hashes": {
+        "events": "289b8fffd6c48246e3339394b23fa5af2af7bf8089301a5e6d3b3b3350da419e",
+        "oracle": "461ca14ba0bfce2ee2801f3eda1c97cadcc5fcfa4ce505e504c47ca949875556",
+        "queries": "15845d819fa7adb8909a928c10e9280fb8acf3ccdebf11c1d7414f9a62d815ab"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "6c2c39b8964243e38f5979b8c57890be",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-00/summary.json",
+      "summary_sha256": "52d8d12083002148cd6c41843024b35f912e4c53bbfc2cb6fb69f7b0dcb6d954",
+      "utc_seconds": 0.090436
+    },
+    {
+      "capture_sha256": "8bff0e4201b5fd0a16f8871fa5ff98a877168324441c192cbc6e7aa83846d044",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N512-piecewise_stationary-000000000001",
+      "length": 512,
+      "max_ratio": 0.04397554979556893,
+      "metric_count": 19,
+      "net_peak_bytes": 18890752,
+      "ordinal": 1,
+      "perf_seconds": 0.07328975002747029,
+      "procedure_sha256": "f96350fab3e8342e8266fa9ac930baf16a43806202c7f3f5c857e61556123e86",
+      "raw_hashes": {
+        "events": "6bc7679fb396c09bab08a7e9dc86d9adc4db9e1c0a7c89d9933dc54a5a489d48",
+        "oracle": "e553be72307919ebabc4e6538ee9cc9e1dc5fccca96e0eed28658b618e88c725",
+        "queries": "aaf1d1ed9ae013983d28ed1ddb5dba390f35e2d83be523b4bd8e0b7d1d826d07"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "8e6303482db94e0090e478d4fa1cc2b0",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-01/summary.json",
+      "summary_sha256": "87c5037f27f1cad8ec4a18c17fcc05e7557c875cd2a396ecf4f7cdf8e77e46e8",
+      "utc_seconds": 0.072432
+    },
+    {
+      "capture_sha256": "c9b0eeb9556fd465a5e130aabda69375a952d06b506168383a7178c482b079fc",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N2048-piecewise_stationary-000000000002",
+      "length": 2048,
+      "max_ratio": 0.007416124288060021,
+      "metric_count": 19,
+      "net_peak_bytes": 35815424,
+      "ordinal": 2,
+      "perf_seconds": 0.17178454098757356,
+      "procedure_sha256": "0aed0705d7b0fc916312493c9f923bf0afb68117cbf9b9cd7bba9e2c110862b1",
+      "raw_hashes": {
+        "events": "1770df224da5204adfd32e5b552c2aebfa66624efd2c22c165420c8e36f22e8c",
+        "oracle": "751e7fbfad3913f20dcc0a1ac9c1d35605ad5b398566aee56118d19fa77f7697",
+        "queries": "f439dce2773aa8773fc1bbcade33833977402f5c0b981be3d154a742a05ac8b2"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "1254094c393a4971931f0153bf502234",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-02/summary.json",
+      "summary_sha256": "ba0c78d9769818adf26f52955fd2c6681ff4d7a11e4be9b396e7363e8f3c1ae7",
+      "utc_seconds": 0.170351
+    },
+    {
+      "capture_sha256": "75457ff5b92de24bc4c514820248cea3e485d64b81948f49f882f69267497851",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N128-trend_reset-000000000003",
+      "length": 128,
+      "max_ratio": 0.012153499900879737,
+      "metric_count": 19,
+      "net_peak_bytes": 14893056,
+      "ordinal": 3,
+      "perf_seconds": 0.04745941702276468,
+      "procedure_sha256": "60487cf58333380acb478615fb7c9b6e2c2d4adf99a66bdf518bae388017af8b",
+      "raw_hashes": {
+        "events": "155630c54f05af294310f6bd593f58f6a77f5e2b2224ff6177fd362ba52a538c",
+        "oracle": "86174fb8bbadae8be745e499f7b1b9116e902994362bedf30cb86b94c3fde11d",
+        "queries": "7c893dce3d35fbdf02457de7c5dd99a0ac3b2e90e7aae11cdfb8fe35e70894a6"
+      },
+      "regime": "trend_reset",
+      "run_id": "0673bd00ccba4af5bccbeb7f49b26ff6",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-03/summary.json",
+      "summary_sha256": "e0c67a5b48edd039c0b336799b5976d0517edf492850b493ee865b14d7d0e50a",
+      "utc_seconds": 0.046637
+    },
+    {
+      "capture_sha256": "f7610a0301f914a38183fadccae87ab426bbb335d912a98004592c2c07e655c8",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N512-trend_reset-000000000004",
+      "length": 512,
+      "max_ratio": 0.029583739315341948,
+      "metric_count": 19,
+      "net_peak_bytes": 19152896,
+      "ordinal": 4,
+      "perf_seconds": 0.07309458404779434,
+      "procedure_sha256": "ed772cf15c2a23954b8fcef10b6774627b2e637d1cb2fcabb378f7147e1b177f",
+      "raw_hashes": {
+        "events": "873bc8fc9240dac8dbfccdfe1b2829514f771aec4e43151a6a5a4d252b444c5d",
+        "oracle": "a2a6fd3ba8fedc386ae5b2546939d8e40764aa150d96e14327442075c902411f",
+        "queries": "324f42a58dfb28d6a59ae8d2b84cd509b7378cc3fa256dab45dcfb85fc05d0a4"
+      },
+      "regime": "trend_reset",
+      "run_id": "afee7672d9d0469db329aea991a06f41",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-04/summary.json",
+      "summary_sha256": "ae3eabd17881697ee7902fa99c35ff47d16445ee596d7b6c730463f1b5a857b4",
+      "utc_seconds": 0.072189
+    },
+    {
+      "capture_sha256": "9a5b2ede72e6e0d3a8590f5fbdb462606d0d834042e46177cc9ee358c4d81ac2",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N2048-trend_reset-000000000005",
+      "length": 2048,
+      "max_ratio": 0.5740396475872214,
+      "metric_count": 19,
+      "net_peak_bytes": 35749888,
+      "ordinal": 5,
+      "perf_seconds": 0.17523637495469302,
+      "procedure_sha256": "c9269f19e54841be451b239afc6c828e1e4e72f2d514e92eedb9956e02bbc830",
+      "raw_hashes": {
+        "events": "e511be1622b3da0e6948b215ec645ac8a7e2985a37c6b04afa26263eea530e28",
+        "oracle": "c78380cb0583ed526ff58338d3f9785a8998fbdcd6858539fa07e86b125e3737",
+        "queries": "d1bd41cff2a5bcd089bac27935746a9cf504c2bff9b4fd5d04c218b4b22758b2"
+      },
+      "regime": "trend_reset",
+      "run_id": "19667d4b8139441daeb68b796e73feb9",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-05/summary.json",
+      "summary_sha256": "d2374ce315796e9c354fc16cba7688917f7913b33a95b0f89a93671a3f6fb808",
+      "utc_seconds": 0.173871
+    },
+    {
+      "capture_sha256": "79000223fbc6c4a9aaa22bf86f0c5ad8f58482e5daedb2cf4a8034f13676670c",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N128-periodic_impulses-000000000006",
+      "length": 128,
+      "max_ratio": 0.004141673372292142,
+      "metric_count": 19,
+      "net_peak_bytes": 14893056,
+      "ordinal": 6,
+      "perf_seconds": 0.047961374977603555,
+      "procedure_sha256": "d37650f44ab057661674eac490bcd894f3ec45dad5e01bab1c2032091d6f892c",
+      "raw_hashes": {
+        "events": "a2d77d4a5885fa40ace8f8a4edc8eca54c140b324018d56ef514ec9eccdfb367",
+        "oracle": "5a574fc2a1238c7511b73c904de72c42ca73e48902f52d3ee32f3b4c9b41a3b5",
+        "queries": "a4fe5282ba82096a0e4dae727ab824589ba1f7ac935d2bce23115f5347e4a5b5"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "00dbc1bbf6f3447db609cf9f4696d236",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-06/summary.json",
+      "summary_sha256": "163cc8c0091dcee99487dd752c44531870b51e7dc4b265a6a1cd4460c6ae6446",
+      "utc_seconds": 0.047202
+    },
+    {
+      "capture_sha256": "4f88f8264702d28bbd635990f8250deec402ce439741774eb1aadd48c640ae81",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N512-periodic_impulses-000000000007",
+      "length": 512,
+      "max_ratio": 0.003947873745894904,
+      "metric_count": 19,
+      "net_peak_bytes": 19038208,
+      "ordinal": 7,
+      "perf_seconds": 0.07515541592147201,
+      "procedure_sha256": "b242d7442e569156077e76de86571d69ce35fbd075e274da11b183f49b13a84b",
+      "raw_hashes": {
+        "events": "686026c9591e069a040772c23c17b9c4f2c814639bf39c285492ffdc72b8e2e8",
+        "oracle": "e611cea383a8106f99f86052df9ef8d4f92a24b639b9825ad28c52450913b530",
+        "queries": "522474335e868f93e50e787b80690d49e33191933ac929ef04e538032c7329e9"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "26976a37a4854d5c8338fe79972f44ac",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-07/summary.json",
+      "summary_sha256": "488e2514ca463d04184d17fb7ba79a40591480962db214f9108ded3fc707455f",
+      "utc_seconds": 0.074301
+    },
+    {
+      "capture_sha256": "ce4f6487edc7e0873c2b66c3dd710eca4eb75611caa3be7d2377e141a4dc8bc3",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N2048-periodic_impulses-000000000008",
+      "length": 2048,
+      "max_ratio": 0.0341751193992306,
+      "metric_count": 19,
+      "net_peak_bytes": 35913728,
+      "ordinal": 8,
+      "perf_seconds": 0.17579254193697125,
+      "procedure_sha256": "d4b78f40c915562ddc34e572054e9479f0a596dc5f8d7b97f6fc9f2ea52141e9",
+      "raw_hashes": {
+        "events": "ac0022ac2c33dac385d92bf031a76deb6eebc9849f94cbc6033fc029d5e99408",
+        "oracle": "29f3ce6ff7e51796a991216fda5c836de1c904fadb923622f584f10fdef6f200",
+        "queries": "94a5f16cddfecc055d2bc1c94d0ff17a1f7b9b9fb8d2b15e025f2f1defa3b8ac"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "e792e56f67714672bee66549f9908499",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-08/summary.json",
+      "summary_sha256": "a56af6d1afa4e2bd0312eb4a304afe15ae9ee6bafdc64cc8d4f4d6956753cacc",
+      "utc_seconds": 0.174411
+    },
+    {
+      "capture_sha256": "83def25a52d4c14a597e80b1367614ee7be335ff9856fb63b86427a6b3029922",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N128-irregular_revisions-000000000009",
+      "length": 128,
+      "max_ratio": 0.005861600498836227,
+      "metric_count": 19,
+      "net_peak_bytes": 14827520,
+      "ordinal": 9,
+      "perf_seconds": 0.04734312498476356,
+      "procedure_sha256": "a3dcdd3727b009ef815750d259b1f7ab14b549e3976318de1b53f4d7e0424331",
+      "raw_hashes": {
+        "events": "41cb5fbef59cdd7352e614a1a8d6c7bda80986e4bb0cdee91ac1d4799e1345e8",
+        "oracle": "41e3ca7705927e09b259ba2da9d4f501afeac2109683b9fdcac740e0097f44f8",
+        "queries": "8f1ff69bdb3cbcbe14916986e1e956f31acfe6a419a67a75727844529235946d"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "897b3f2610a94bc7b738cc70044ca3d2",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-09/summary.json",
+      "summary_sha256": "da714e472afab726d1fedb1117f9c1adff0108de7c33bc2f6b58602c851dbd91",
+      "utc_seconds": 0.046585
+    },
+    {
+      "capture_sha256": "e7b35210cfc6541920d2933c7c4581ddc440abb2c65b23afa7cfa4881b7d64c8",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N512-irregular_revisions-000000000010",
+      "length": 512,
+      "max_ratio": 0.04361451950699915,
+      "metric_count": 19,
+      "net_peak_bytes": 20168704,
+      "ordinal": 10,
+      "perf_seconds": 0.07430887501686811,
+      "procedure_sha256": "776f1ec2eaca3bcfbbd6ac3bdf852c77744c9d8b5f15081dac10984b970fa3fe",
+      "raw_hashes": {
+        "events": "b747fb36254f5732f92fc0fb1eaa3e86847e18c4a272b8ccb3efb8438c5ebae8",
+        "oracle": "1cf0e0c243c5102421dfff00f36f84cc00b4931fe226d1982ed1063c7426b360",
+        "queries": "364270e5efa70252e27f46fc317ee82ac7873c015dd2295e587748a2f793d89c"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "e3c97ee316e543f7875d0071b9115b4d",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-10/summary.json",
+      "summary_sha256": "2e835acf14094b94b3038e6166c53d765d2b85acee73fa0c62b73f64630d38c4",
+      "utc_seconds": 0.073396
+    },
+    {
+      "capture_sha256": "50aedd1267460bab262168a18be719565cd05b1ac5803389d15346c703e4c35f",
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8",
+      "family": "jet",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "history_id": "task18-train-N2048-irregular_revisions-000000000011",
+      "length": 2048,
+      "max_ratio": 0.0034022536178426963,
+      "metric_count": 19,
+      "net_peak_bytes": 35700736,
+      "ordinal": 11,
+      "perf_seconds": 0.17298625002149493,
+      "procedure_sha256": "289e9c693af0006e126ba791769286067f76579f6cea2e60488c099c11738727",
+      "raw_hashes": {
+        "events": "cdc6ad7c5e314fae8a9b96e5f08b20b3b1e4402bfdc3aaa8361501d35cac9dfb",
+        "oracle": "8b7b8d71e372d52c9b6ffb99f4e1a74de357948796237999dde8515a011f0601",
+        "queries": "dbf17423f06f086d6e07801c8c9bd374681c8bea4f371124eb832fd58f0d2d84"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "142bea8d9ea54b48aeae5c600a602d18",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-11/summary.json",
+      "summary_sha256": "40315d4dc717a03edb83f68ce8993c5d0d3bcdb22583ec36e2238af6dd92195d",
+      "utc_seconds": 0.171596
+    },
+    {
+      "capture_sha256": "dbbab6a8c33a7822b03b99b3490beed88b9e425a30177b02d3d306b709ceddd4",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N128-piecewise_stationary-000000000000",
+      "length": 128,
+      "max_ratio": 0.014591504862938224,
+      "metric_count": 17,
+      "net_peak_bytes": 15024128,
+      "ordinal": 0,
+      "perf_seconds": 0.046343208057805896,
+      "procedure_sha256": "2ac43ca01244b11cdb7b6e19528e09e20fd542a1b3de274793c05e40d7319b8c",
+      "raw_hashes": {
+        "events": "289b8fffd6c48246e3339394b23fa5af2af7bf8089301a5e6d3b3b3350da419e",
+        "oracle": "461ca14ba0bfce2ee2801f3eda1c97cadcc5fcfa4ce505e504c47ca949875556",
+        "queries": "15845d819fa7adb8909a928c10e9280fb8acf3ccdebf11c1d7414f9a62d815ab"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "81a8bd887c44452b97da47104ac51d63",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-00/summary.json",
+      "summary_sha256": "465376847c7d023170755e42918bb95f12b42704a5120360fe83e6d095dff438",
+      "utc_seconds": 0.045602
+    },
+    {
+      "capture_sha256": "21d2fc99a85dc5feb93cc3e2b042d2c95fe6600bf0845f544349f19b13cc6bd9",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N512-piecewise_stationary-000000000001",
+      "length": 512,
+      "max_ratio": 0.008677203082788472,
+      "metric_count": 17,
+      "net_peak_bytes": 18169856,
+      "ordinal": 1,
+      "perf_seconds": 0.07191641698591411,
+      "procedure_sha256": "48c92b546d4151bee27ae4815cec45d19a97420147dbf495ffc41d50e631a236",
+      "raw_hashes": {
+        "events": "6bc7679fb396c09bab08a7e9dc86d9adc4db9e1c0a7c89d9933dc54a5a489d48",
+        "oracle": "e553be72307919ebabc4e6538ee9cc9e1dc5fccca96e0eed28658b618e88c725",
+        "queries": "aaf1d1ed9ae013983d28ed1ddb5dba390f35e2d83be523b4bd8e0b7d1d826d07"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "b8528dfd03b14fadb926fce7459e00e5",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-01/summary.json",
+      "summary_sha256": "d5f99f9d16a7db9ffa30354e76b79650b21d3cc6999ce4c14037c1c881e988e7",
+      "utc_seconds": 0.071022
+    },
+    {
+      "capture_sha256": "7895fe57c482c54c8dd93e0d5ee2b5b1db98c0a1d5768484404b073084e85ba3",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N2048-piecewise_stationary-000000000002",
+      "length": 2048,
+      "max_ratio": 0.0245363612278332,
+      "metric_count": 17,
+      "net_peak_bytes": 34766848,
+      "ordinal": 2,
+      "perf_seconds": 0.16746379097457975,
+      "procedure_sha256": "2c1ff6a7c3c8a198b064a398d2daceefdbcbbd8168d38850e05bb9aab539671a",
+      "raw_hashes": {
+        "events": "1770df224da5204adfd32e5b552c2aebfa66624efd2c22c165420c8e36f22e8c",
+        "oracle": "751e7fbfad3913f20dcc0a1ac9c1d35605ad5b398566aee56118d19fa77f7697",
+        "queries": "f439dce2773aa8773fc1bbcade33833977402f5c0b981be3d154a742a05ac8b2"
+      },
+      "regime": "piecewise_stationary",
+      "run_id": "05c9c1c7f6e84a7f9e11d07f0032faa8",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-02/summary.json",
+      "summary_sha256": "bfd4b2d7f1f6df2cce5576d37f47af1d2e776bf27d395007c9a58099a87a8b65",
+      "utc_seconds": 0.166073
+    },
+    {
+      "capture_sha256": "cc57b23d1c635565609de4b7958c0bc080114b8c0a159e54ed8f015797aef8d4",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N128-trend_reset-000000000003",
+      "length": 128,
+      "max_ratio": 0.012701285670181871,
+      "metric_count": 17,
+      "net_peak_bytes": 14778368,
+      "ordinal": 3,
+      "perf_seconds": 0.04585799993947148,
+      "procedure_sha256": "9a84d985735a3679db6c15b3108b2d1420886823712ab1f574865512f519cd86",
+      "raw_hashes": {
+        "events": "155630c54f05af294310f6bd593f58f6a77f5e2b2224ff6177fd362ba52a538c",
+        "oracle": "86174fb8bbadae8be745e499f7b1b9116e902994362bedf30cb86b94c3fde11d",
+        "queries": "7c893dce3d35fbdf02457de7c5dd99a0ac3b2e90e7aae11cdfb8fe35e70894a6"
+      },
+      "regime": "trend_reset",
+      "run_id": "ee8f297b339f49c997ba46bc6391b083",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-03/summary.json",
+      "summary_sha256": "d2ec510568b8a55a0c9b67da363f672d6de5e59761310f6364e98ba0c710a4ec",
+      "utc_seconds": 0.045081
+    },
+    {
+      "capture_sha256": "b0d878181ac597cd03790c991434f3ffd8583edffb1f813fe29865c81f47ac1d",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N512-trend_reset-000000000004",
+      "length": 512,
+      "max_ratio": 0.025740778782833252,
+      "metric_count": 17,
+      "net_peak_bytes": 18350080,
+      "ordinal": 4,
+      "perf_seconds": 0.06897937506437302,
+      "procedure_sha256": "16baef0ab72a5642d4f53d49df87f0050a457ba674b2120d2cb8d7b4e379a34f",
+      "raw_hashes": {
+        "events": "873bc8fc9240dac8dbfccdfe1b2829514f771aec4e43151a6a5a4d252b444c5d",
+        "oracle": "a2a6fd3ba8fedc386ae5b2546939d8e40764aa150d96e14327442075c902411f",
+        "queries": "324f42a58dfb28d6a59ae8d2b84cd509b7378cc3fa256dab45dcfb85fc05d0a4"
+      },
+      "regime": "trend_reset",
+      "run_id": "6d132bc80ad0491db0bc56454e0fce06",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-04/summary.json",
+      "summary_sha256": "446e34370a752b9a3a9d176443506b41d55525fe3cb51b5a5516caf4676068ef",
+      "utc_seconds": 0.068119
+    },
+    {
+      "capture_sha256": "00ab87465d201d4bce0e0fe5eca78b796a589356afe6108bea73b14e89bd1c44",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N2048-trend_reset-000000000005",
+      "length": 2048,
+      "max_ratio": 0.11757806767666044,
+      "metric_count": 17,
+      "net_peak_bytes": 35225600,
+      "ordinal": 5,
+      "perf_seconds": 0.17056387499906123,
+      "procedure_sha256": "7efe68823214d83fd951ee24f2eb9f5b97af6741f321d461f78d1ba32571eba5",
+      "raw_hashes": {
+        "events": "e511be1622b3da0e6948b215ec645ac8a7e2985a37c6b04afa26263eea530e28",
+        "oracle": "c78380cb0583ed526ff58338d3f9785a8998fbdcd6858539fa07e86b125e3737",
+        "queries": "d1bd41cff2a5bcd089bac27935746a9cf504c2bff9b4fd5d04c218b4b22758b2"
+      },
+      "regime": "trend_reset",
+      "run_id": "d96257722e50423b8dec56f45563069e",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-05/summary.json",
+      "summary_sha256": "5f26237dfa4012f9337f53b0005ee115eb49f85da6413ed0a315aa741691f214",
+      "utc_seconds": 0.169157
+    },
+    {
+      "capture_sha256": "82af2b7753d89512f9004f4e252b13e5f3aa5bff88b2a43d4c9065c7d98e9316",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N128-periodic_impulses-000000000006",
+      "length": 128,
+      "max_ratio": 0.021713345227794972,
+      "metric_count": 17,
+      "net_peak_bytes": 14794752,
+      "ordinal": 6,
+      "perf_seconds": 0.04626866604667157,
+      "procedure_sha256": "91510b43bc77eaa209bb4e2bd0a2f3ccd219caa71b0ba13e5f0c7be6b236ce95",
+      "raw_hashes": {
+        "events": "a2d77d4a5885fa40ace8f8a4edc8eca54c140b324018d56ef514ec9eccdfb367",
+        "oracle": "5a574fc2a1238c7511b73c904de72c42ca73e48902f52d3ee32f3b4c9b41a3b5",
+        "queries": "a4fe5282ba82096a0e4dae727ab824589ba1f7ac935d2bce23115f5347e4a5b5"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "5b3a8724e61944efb4fb7156e16cad9c",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-06/summary.json",
+      "summary_sha256": "62e1164a8d1bcfb2aadff3b9d988c7a77a065310fa6c123b417fb1ef5a21a75f",
+      "utc_seconds": 0.045443
+    },
+    {
+      "capture_sha256": "553660811511f975fd19b5a7f777becc4f61e16c9a1238027392ef59e73b4f8a",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N512-periodic_impulses-000000000007",
+      "length": 512,
+      "max_ratio": 0.012484344038630179,
+      "metric_count": 17,
+      "net_peak_bytes": 18235392,
+      "ordinal": 7,
+      "perf_seconds": 0.0712659580167383,
+      "procedure_sha256": "53364d9428ba82adecd9efc3565071273786c254f41125d1ed2159cf34fb4057",
+      "raw_hashes": {
+        "events": "686026c9591e069a040772c23c17b9c4f2c814639bf39c285492ffdc72b8e2e8",
+        "oracle": "e611cea383a8106f99f86052df9ef8d4f92a24b639b9825ad28c52450913b530",
+        "queries": "522474335e868f93e50e787b80690d49e33191933ac929ef04e538032c7329e9"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "7db644f439364c0a9177c2fb2e34b992",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-07/summary.json",
+      "summary_sha256": "b3acf5f15408969f36131c304385f8e133be1023e55040dc82f702d91cfff298",
+      "utc_seconds": 0.070421
+    },
+    {
+      "capture_sha256": "6674eab0b3fb81207e47ce9d03f695478353fa177afb1fcb8362df0050f81d0c",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N2048-periodic_impulses-000000000008",
+      "length": 2048,
+      "max_ratio": 0.008010786839523729,
+      "metric_count": 17,
+      "net_peak_bytes": 34963456,
+      "ordinal": 8,
+      "perf_seconds": 0.17152029101271182,
+      "procedure_sha256": "6f211e9c8188e992d982a6cad9497dcfac66a2da1bdcae57de4595703cc4068c",
+      "raw_hashes": {
+        "events": "ac0022ac2c33dac385d92bf031a76deb6eebc9849f94cbc6033fc029d5e99408",
+        "oracle": "29f3ce6ff7e51796a991216fda5c836de1c904fadb923622f584f10fdef6f200",
+        "queries": "94a5f16cddfecc055d2bc1c94d0ff17a1f7b9b9fb8d2b15e025f2f1defa3b8ac"
+      },
+      "regime": "periodic_impulses",
+      "run_id": "65c2d2944cc847be99f50aa1caa9268d",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-08/summary.json",
+      "summary_sha256": "4de7dec71d8c47f545865b07ea6fdd2ed5172095f009b6dcee3818314bcffcb0",
+      "utc_seconds": 0.170165
+    },
+    {
+      "capture_sha256": "3bb1a6e55281826db33b2dfe6ec3bb98bd650c3eab1b4e094c709e45ce6fe4b5",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N128-irregular_revisions-000000000009",
+      "length": 128,
+      "max_ratio": 0.1407220892897025,
+      "metric_count": 17,
+      "net_peak_bytes": 14729216,
+      "ordinal": 9,
+      "perf_seconds": 0.045980249997228384,
+      "procedure_sha256": "cc3d723caf88ec13fb705e1716e787e7e7d371faeb5708b7cc3ef4561764f9af",
+      "raw_hashes": {
+        "events": "41cb5fbef59cdd7352e614a1a8d6c7bda80986e4bb0cdee91ac1d4799e1345e8",
+        "oracle": "41e3ca7705927e09b259ba2da9d4f501afeac2109683b9fdcac740e0097f44f8",
+        "queries": "8f1ff69bdb3cbcbe14916986e1e956f31acfe6a419a67a75727844529235946d"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "d64edb48d87441ae80d5e3e2f303d76b",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-09/summary.json",
+      "summary_sha256": "26a76ff55de84f321d0ea659b229afa2cb0b8845428382d4aff897b7ccd7ea10",
+      "utc_seconds": 0.045222
+    },
+    {
+      "capture_sha256": "94e913f8f0d1e494a7bea8524fe04b9bc55255c6fc8c82d467438b48571c22d2",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N512-irregular_revisions-000000000010",
+      "length": 512,
+      "max_ratio": 0.029414671667540766,
+      "metric_count": 17,
+      "net_peak_bytes": 18382848,
+      "ordinal": 10,
+      "perf_seconds": 0.07099108397960663,
+      "procedure_sha256": "941a6001d2b107559db6c76958170c7d966d31b5a2f094b33fbcab5760568d7d",
+      "raw_hashes": {
+        "events": "b747fb36254f5732f92fc0fb1eaa3e86847e18c4a272b8ccb3efb8438c5ebae8",
+        "oracle": "1cf0e0c243c5102421dfff00f36f84cc00b4931fe226d1982ed1063c7426b360",
+        "queries": "364270e5efa70252e27f46fc317ee82ac7873c015dd2295e587748a2f793d89c"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "9bf0e5e53efc4fb181e776bc2f60382c",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-10/summary.json",
+      "summary_sha256": "f6fdd7d04f532c94cd258e184792a2f22a310259d594f7cc0c060c051daf7b76",
+      "utc_seconds": 0.070032
+    },
+    {
+      "capture_sha256": "2dc338b959b4b42858825aa90776e9a2c0870d288ebdcf426cdcecde2db47b15",
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98",
+      "family": "bank",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "history_id": "task18-train-N2048-irregular_revisions-000000000011",
+      "length": 2048,
+      "max_ratio": 0.021868321030431556,
+      "metric_count": 17,
+      "net_peak_bytes": 34799616,
+      "ordinal": 11,
+      "perf_seconds": 0.16977970802690834,
+      "procedure_sha256": "03cf8cef1fc4cb353fb44fe04d3fd326f60af1e9f8cba3fb8e95b01ab73d1853",
+      "raw_hashes": {
+        "events": "cdc6ad7c5e314fae8a9b96e5f08b20b3b1e4402bfdc3aaa8361501d35cac9dfb",
+        "oracle": "8b7b8d71e372d52c9b6ffb99f4e1a74de357948796237999dde8515a011f0601",
+        "queries": "dbf17423f06f086d6e07801c8c9bd374681c8bea4f371124eb832fd58f0d2d84"
+      },
+      "regime": "irregular_revisions",
+      "run_id": "693c31cfcd4d4317b56039a82b2dcf81",
+      "status": "passed",
+      "summary_path": "artifacts/task18/epsilon1em6-initial-9aca1b/bank-11/summary.json",
+      "summary_sha256": "8079bfccb268a360757be47e3531e3e0dd1b73bab405e3a3f76c0ff43ffd66ea",
+      "utc_seconds": 0.168368
+    }
+  ],
+  "cost": {
+    "accounting": "Case and driver timers are nested inside disjoint outer stages; do not add them. Inventory/report I/O is untimed administrative work.",
+    "disjoint_outer_perf_seconds": 20.392547374940477,
+    "disjoint_outer_utc_seconds": 20.392406,
+    "first_driver": {
+      "cases": [
+        {
+          "family": "jet",
+          "ordinal": 0,
+          "run_id": "6c2c39b8964243e38f5979b8c57890be",
+          "summary_sha256": "52d8d12083002148cd6c41843024b35f912e4c53bbfc2cb6fb69f7b0dcb6d954"
+        }
+      ],
+      "completed": 1,
+      "next_stage": "held_pending_root_ruling",
+      "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "perf_seconds": 0.8506769579835236,
+      "power_after": {
+        "returncode": 0,
+        "scope": "read-only snapshot; no wake/power override",
+        "stderr": "",
+        "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n"
+      },
+      "seal_sha256": "bb6b226e8ca5ebd23006573ca6b7f51cf272701a7d0ea0212e1da91c92cebf49",
+      "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+      "stage": "first",
+      "status": "passed",
+      "utc_end": "2026-10-18T03:11:22.466067+00:00",
+      "utc_seconds": 0.850656,
+      "utc_start": "2026-10-18T03:11:21.615411+00:00"
+    },
+    "first_outer": {
+      "no_retry": true,
+      "perf_seconds": 0.9639129169518128,
+      "returncode": 0,
+      "status": "completed",
+      "timeout_seconds": 30,
+      "utc_end": "2026-10-18T03:11:22.530184+00:00",
+      "utc_seconds": 0.963894,
+      "utc_start": "2026-10-18T03:11:21.566290+00:00"
+    },
+    "internal_cases_seconds": 2.3728221639757976,
+    "remaining_driver": {
+      "cases": [
+        {
+          "family": "jet",
+          "ordinal": 1,
+          "run_id": "8e6303482db94e0090e478d4fa1cc2b0",
+          "summary_sha256": "87c5037f27f1cad8ec4a18c17fcc05e7557c875cd2a396ecf4f7cdf8e77e46e8"
+        },
+        {
+          "family": "jet",
+          "ordinal": 2,
+          "run_id": "1254094c393a4971931f0153bf502234",
+          "summary_sha256": "ba0c78d9769818adf26f52955fd2c6681ff4d7a11e4be9b396e7363e8f3c1ae7"
+        },
+        {
+          "family": "jet",
+          "ordinal": 3,
+          "run_id": "0673bd00ccba4af5bccbeb7f49b26ff6",
+          "summary_sha256": "e0c67a5b48edd039c0b336799b5976d0517edf492850b493ee865b14d7d0e50a"
+        },
+        {
+          "family": "jet",
+          "ordinal": 4,
+          "run_id": "afee7672d9d0469db329aea991a06f41",
+          "summary_sha256": "ae3eabd17881697ee7902fa99c35ff47d16445ee596d7b6c730463f1b5a857b4"
+        },
+        {
+          "family": "jet",
+          "ordinal": 5,
+          "run_id": "19667d4b8139441daeb68b796e73feb9",
+          "summary_sha256": "d2374ce315796e9c354fc16cba7688917f7913b33a95b0f89a93671a3f6fb808"
+        },
+        {
+          "family": "jet",
+          "ordinal": 6,
+          "run_id": "00dbc1bbf6f3447db609cf9f4696d236",
+          "summary_sha256": "163cc8c0091dcee99487dd752c44531870b51e7dc4b265a6a1cd4460c6ae6446"
+        },
+        {
+          "family": "jet",
+          "ordinal": 7,
+          "run_id": "26976a37a4854d5c8338fe79972f44ac",
+          "summary_sha256": "488e2514ca463d04184d17fb7ba79a40591480962db214f9108ded3fc707455f"
+        },
+        {
+          "family": "jet",
+          "ordinal": 8,
+          "run_id": "e792e56f67714672bee66549f9908499",
+          "summary_sha256": "a56af6d1afa4e2bd0312eb4a304afe15ae9ee6bafdc64cc8d4f4d6956753cacc"
+        },
+        {
+          "family": "jet",
+          "ordinal": 9,
+          "run_id": "897b3f2610a94bc7b738cc70044ca3d2",
+          "summary_sha256": "da714e472afab726d1fedb1117f9c1adff0108de7c33bc2f6b58602c851dbd91"
+        },
+        {
+          "family": "jet",
+          "ordinal": 10,
+          "run_id": "e3c97ee316e543f7875d0071b9115b4d",
+          "summary_sha256": "2e835acf14094b94b3038e6166c53d765d2b85acee73fa0c62b73f64630d38c4"
+        },
+        {
+          "family": "jet",
+          "ordinal": 11,
+          "run_id": "142bea8d9ea54b48aeae5c600a602d18",
+          "summary_sha256": "40315d4dc717a03edb83f68ce8993c5d0d3bcdb22583ec36e2238af6dd92195d"
+        },
+        {
+          "family": "bank",
+          "ordinal": 0,
+          "run_id": "81a8bd887c44452b97da47104ac51d63",
+          "summary_sha256": "465376847c7d023170755e42918bb95f12b42704a5120360fe83e6d095dff438"
+        },
+        {
+          "family": "bank",
+          "ordinal": 1,
+          "run_id": "b8528dfd03b14fadb926fce7459e00e5",
+          "summary_sha256": "d5f99f9d16a7db9ffa30354e76b79650b21d3cc6999ce4c14037c1c881e988e7"
+        },
+        {
+          "family": "bank",
+          "ordinal": 2,
+          "run_id": "05c9c1c7f6e84a7f9e11d07f0032faa8",
+          "summary_sha256": "bfd4b2d7f1f6df2cce5576d37f47af1d2e776bf27d395007c9a58099a87a8b65"
+        },
+        {
+          "family": "bank",
+          "ordinal": 3,
+          "run_id": "ee8f297b339f49c997ba46bc6391b083",
+          "summary_sha256": "d2ec510568b8a55a0c9b67da363f672d6de5e59761310f6364e98ba0c710a4ec"
+        },
+        {
+          "family": "bank",
+          "ordinal": 4,
+          "run_id": "6d132bc80ad0491db0bc56454e0fce06",
+          "summary_sha256": "446e34370a752b9a3a9d176443506b41d55525fe3cb51b5a5516caf4676068ef"
+        },
+        {
+          "family": "bank",
+          "ordinal": 5,
+          "run_id": "d96257722e50423b8dec56f45563069e",
+          "summary_sha256": "5f26237dfa4012f9337f53b0005ee115eb49f85da6413ed0a315aa741691f214"
+        },
+        {
+          "family": "bank",
+          "ordinal": 6,
+          "run_id": "5b3a8724e61944efb4fb7156e16cad9c",
+          "summary_sha256": "62e1164a8d1bcfb2aadff3b9d988c7a77a065310fa6c123b417fb1ef5a21a75f"
+        },
+        {
+          "family": "bank",
+          "ordinal": 7,
+          "run_id": "7db644f439364c0a9177c2fb2e34b992",
+          "summary_sha256": "b3acf5f15408969f36131c304385f8e133be1023e55040dc82f702d91cfff298"
+        },
+        {
+          "family": "bank",
+          "ordinal": 8,
+          "run_id": "65c2d2944cc847be99f50aa1caa9268d",
+          "summary_sha256": "4de7dec71d8c47f545865b07ea6fdd2ed5172095f009b6dcee3818314bcffcb0"
+        },
+        {
+          "family": "bank",
+          "ordinal": 9,
+          "run_id": "d64edb48d87441ae80d5e3e2f303d76b",
+          "summary_sha256": "26a76ff55de84f321d0ea659b229afa2cb0b8845428382d4aff897b7ccd7ea10"
+        },
+        {
+          "family": "bank",
+          "ordinal": 10,
+          "run_id": "9bf0e5e53efc4fb181e776bc2f60382c",
+          "summary_sha256": "f6fdd7d04f532c94cd258e184792a2f22a310259d594f7cc0c060c051daf7b76"
+        },
+        {
+          "family": "bank",
+          "ordinal": 11,
+          "run_id": "693c31cfcd4d4317b56039a82b2dcf81",
+          "summary_sha256": "8079bfccb268a360757be47e3531e3e0dd1b73bab405e3a3f76c0ff43ffd66ea"
+        }
+      ],
+      "completed": 23,
+      "next_stage": "held_pending_root_ruling",
+      "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "perf_seconds": 19.31892783299554,
+      "power_after": {
+        "returncode": 0,
+        "scope": "read-only snapshot; no wake/power override",
+        "stderr": "",
+        "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n"
+      },
+      "seal_sha256": "bb6b226e8ca5ebd23006573ca6b7f51cf272701a7d0ea0212e1da91c92cebf49",
+      "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+      "stage": "remaining",
+      "status": "passed",
+      "utc_end": "2026-10-18T03:12:41.748110+00:00",
+      "utc_seconds": 19.318802,
+      "utc_start": "2026-10-18T03:12:22.429308+00:00"
+    },
+    "remaining_outer": {
+      "no_retry": true,
+      "perf_seconds": 19.428634457988665,
+      "returncode": 0,
+      "status": "completed",
+      "timeout_seconds": 90,
+      "utc_end": "2026-10-18T03:12:41.812858+00:00",
+      "utc_seconds": 19.428512,
+      "utc_start": "2026-10-18T03:12:22.384346+00:00"
+    }
+  },
+  "failures": 0,
+  "families": {
+    "bank": {
+      "internal_case_seconds": 1.1469306231010705,
+      "max_ratio": 0.1407220892897025,
+      "net_peak_bytes": 35225600
+    },
+    "jet": {
+      "internal_case_seconds": 1.225891540874727,
+      "max_ratio": 0.5740396475872214,
+      "net_peak_bytes": 35913728
+    }
+  },
+  "inactive_support_entries": 48,
+  "limits": {
+    "atol": 1e-12,
+    "net_bytes": 201326592,
+    "rtol": 1e-12
+  },
+  "metric_entries": 432,
+  "next_stage": "HELD; proposal for preparation only; no probe helper prepared or executed",
+  "old_epsilon1em8_fitted_gate": "FAILED; unchanged",
+  "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "pointwise_metrics": 384,
+  "seal_sha256": "bb6b226e8ca5ebd23006573ca6b7f51cf272701a7d0ea0212e1da91c92cebf49",
+  "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "status": "passed_initial_unfitted_scope_only"
+}

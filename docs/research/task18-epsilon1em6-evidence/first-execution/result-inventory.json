@@ -1,0 +1,73 @@
+{
+  "status": "first_case_verified_only_remaining_held",
+  "source": {
+    "commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+    "diff": "",
+    "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+    "untracked_package_files": {}
+  },
+  "records": [
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/driver-first/allocation.json",
+      "bytes": 770,
+      "sha256": "3ab9fc51c0b4472ed3865aca5513a7262e33ab03e439c547fb89e53798f8f15d"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/driver-first/completed-01.json",
+      "bytes": 193,
+      "sha256": "03af906e01e420f80578cac9fb54810655a7ac2f91a754b9e0aae930e1b5019a"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/driver-first/jet-00.txt",
+      "bytes": 141,
+      "sha256": "d05128df1e0af6241b889ca2d9e55ab09e6669bf07beefd465f63e8b549446ac"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/driver-first/summary.json",
+      "bytes": 884,
+      "sha256": "3d726435e55971d87af7a48b85ea3356d92775fb22ec280be6adb3f2736cfda2"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-00/new-structured-capture.pt",
+      "bytes": 604405,
+      "sha256": "231cdb58ae9cc3f31901b108be5536e7d4b8e91da4f2499e1dab93d5abee77f1"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-00/procedure.json",
+      "bytes": 14222,
+      "sha256": "dd727ebe6d814f67bbe0151ecea203580681a13ba90ef74e9aafb437fd787f2b"
+    },
+    {
+      "path": "artifacts/task18/epsilon1em6-initial-9aca1b/jet-00/summary.json",
+      "bytes": 16090,
+      "sha256": "52d8d12083002148cd6c41843024b35f912e4c53bbfc2cb6fb69f7b0dcb6d954"
+    },
+    {
+      "path": "artifacts/task18-evidence/epsilon1em6-first-9aca1b/allocation.json",
+      "bytes": 512,
+      "sha256": "ff347c8e7b52564357caf54a61f9ae0ceb827f33547cefd388a89bd657158dd4"
+    },
+    {
+      "path": "artifacts/task18-evidence/epsilon1em6-first-9aca1b/process.json",
+      "bytes": 66,
+      "sha256": "f1795a5930bd03826441a66fa09ea7b0da0cdf24deb77cecd69e16fe2a9e2d8d"
+    },
+    {
+      "path": "artifacts/task18-evidence/epsilon1em6-first-9aca1b/stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/task18-evidence/epsilon1em6-first-9aca1b/summary.json",
+      "bytes": 239,
+      "sha256": "a0e9a3858d8ce8726d0810b7135bff0134fcda1b51668c028f7bceaa09eccb41"
+    },
+    {
+      "path": "artifacts/task18-evidence/epsilon1em6-first-9aca1b/task18_epsilon_first_timeout.py",
+      "bytes": 1753,
+      "sha256": "8fdd4c0f6f39a52a74f42cc48093bf0a85063e5045c884d547dd4a8c1a0f97bf"
+    }
+  ],
+  "count": 12,
+  "no_retry": true
+}

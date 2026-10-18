@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "classification": "deterministic_resource_only_not_population_calibration",
+  "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+  "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "execution_head": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "global_summary_seconds": 1.2262034999439493,
+  "final_journal_seconds": 1.2265230419579893,
+  "worker_summary_seconds": 1.1542026249226183,
+  "calls_seconds_sum": 0.36286491493228823,
+  "total_draws": 68000,
+  "cases": [
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.074824208044447,
+      "case": {
+        "case_id": "one-S4",
+        "seed": 1900,
+        "seeds": 4,
+        "units": [
+          128
+        ],
+        "weights": {
+          "g0": 1.0
+        }
+      },
+      "draws": 16000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 0.8374964999966323,
+      "incremental_peak_bytes": 75022336,
+      "input_hash": "71499a7824d546d953150fa70c4f34c4dc7036f3f39e3b76f02149dc11e54a51",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 99450880,
+      "result_sha256": "b432d4b23d890be6f62e82e8c306b78904f03f4fe416819be628facf41dc142f",
+      "schema_version": 1,
+      "scientific_qualification": false
+    },
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.08109308301936835,
+      "case": {
+        "case_id": "one-S16",
+        "seed": 1901,
+        "seeds": 16,
+        "units": [
+          128
+        ],
+        "weights": {
+          "g0": 1.0
+        }
+      },
+      "draws": 16000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 0.9249929590150714,
+      "incremental_peak_bytes": 75792384,
+      "input_hash": "31283992e70438e54c54672dd5625cf1cff71afa36c601d20345a7702f7b6c60",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 100220928,
+      "result_sha256": "efda0e0d655f84a8c7ba8591cf5c9d4448e1d904049aca762b4e0eba2ab839e6",
+      "schema_version": 1,
+      "scientific_qualification": false
+    },
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.02718220802489668,
+      "case": {
+        "case_id": "one-S64",
+        "seed": 1902,
+        "seeds": 64,
+        "units": [
+          128
+        ],
+        "weights": {
+          "g0": 1.0
+        }
+      },
+      "draws": 4000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 0.9570786249823868,
+      "incremental_peak_bytes": 75825152,
+      "input_hash": "628caa18e0ff750088e5a7a0e9b8c70e08b11431bece4f00a89e0be59096fb9b",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 100253696,
+      "result_sha256": "021fe9e654cb746f440cea5946f4e8a20f42663c056dbbf44b375b265f562123",
+      "schema_version": 1,
+      "scientific_qualification": false
+    },
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.038539790897630155,
+      "case": {
+        "case_id": "three-S4",
+        "seed": 1903,
+        "seeds": 4,
+        "units": [
+          32,
+          64,
+          32
+        ],
+        "weights": {
+          "g0": 0.2,
+          "g1": 0.3,
+          "g2": 0.5
+        }
+      },
+      "draws": 8000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 0.9988382919691503,
+      "incremental_peak_bytes": 75874304,
+      "input_hash": "d1bdbc0e84e07f1f70d39e0f8929043ec7680054001a8706e53037103b61bf78",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 100302848,
+      "result_sha256": "65b579a70bddd459b8d38fc91effd8ddc61ec7258e3ef093d841d907a8a9ba31",
+      "schema_version": 1,
+      "scientific_qualification": false
+    },
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.08544233301654458,
+      "case": {
+        "case_id": "three-S16",
+        "seed": 1904,
+        "seeds": 16,
+        "units": [
+          32,
+          64,
+          32
+        ],
+        "weights": {
+          "g0": 0.2,
+          "g1": 0.3,
+          "g2": 0.5
+        }
+      },
+      "draws": 16000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 1.0906391669996083,
+      "incremental_peak_bytes": 75972608,
+      "input_hash": "4d488b97d416ca3cd7ed67203e85d55d6df4b0f45b2ba004e817df40d12754e2",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 100401152,
+      "result_sha256": "8333460a91aabbb11e5532cdf3f4359ec7bdaf407926bb593e388e79d4d1eea2",
+      "schema_version": 1,
+      "scientific_qualification": false
+    },
+    {
+      "baseline_bytes": 24428544,
+      "call_seconds": 0.05578329192940146,
+      "case": {
+        "case_id": "three-S64",
+        "seed": 1905,
+        "seeds": 64,
+        "units": [
+          32,
+          64,
+          32
+        ],
+        "weights": {
+          "g0": 0.2,
+          "g1": 0.3,
+          "g2": 0.5
+        }
+      },
+      "draws": 8000,
+      "endpoint_mc": "met",
+      "execution_id": "root-20261018-analysis-resource-six-97333-1792293380088425000",
+      "global_seconds": 1.1516976249404252,
+      "incremental_peak_bytes": 75972608,
+      "input_hash": "252b8ea1e3bce9d7d55ebf125e5a105c58632b782d44a1116f698c18e0c47bdc",
+      "package_source_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+      "peak_bytes": 100401152,
+      "result_sha256": "77764bde162a167f7c734f526775268178dbda162918bc3be8880c15f505d12d",
+      "schema_version": 1,
+      "scientific_qualification": false
+    }
+  ],
+  "global_cap_seconds": 30,
+  "incremental_cap_bytes": 268435456,
+  "worker_baseline_bytes": 24428544,
+  "worker_max_peak_bytes": 100401152,
+  "worker_max_incremental_peak_bytes": 75972608,
+  "max_sampled_combined_incremental_bytes": 75972608,
+  "rss_samples": 36,
+  "errors": [],
+  "retry_count": 0,
+  "extra_case_count": 0,
+  "cap_unmet_count": 0,
+  "capped_128000_cost": "not_empirically_measured_none_reached_cap",
+  "scientific_qualification": false,
+  "confirmation_allowed": false,
+  "nuisance_only_allowed": false
+}

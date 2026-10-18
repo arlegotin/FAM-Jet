@@ -1,0 +1,1498 @@
+{
+  "status": "PREPARED_ONLY_no_execution_allocation",
+  "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "origin_source": "e7565155c07638ff0367e9a12062c5c69be95ad5",
+  "origin_package": "ad542defda704e06dc9c88819b95afd6f483a882c792e82bf8c85dc27a6f6641",
+  "package_files": {
+    "famjet/__init__.py": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9",
+    "famjet/analysis/development.py": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+    "famjet/analysis/statistics.py": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+    "famjet/artifacts.py": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f",
+    "famjet/checkpoint.py": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af",
+    "famjet/config.py": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241",
+    "famjet/data/__init__.py": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7",
+    "famjet/data/_processes.py": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4",
+    "famjet/data/beijing.py": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49",
+    "famjet/data/development_cache.py": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258",
+    "famjet/data/feature_cache.py": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+    "famjet/data/schema.py": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a",
+    "famjet/data/synthetic.py": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15",
+    "famjet/doctor.py": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d",
+    "famjet/eval/__init__.py": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5",
+    "famjet/eval/budgets.py": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790",
+    "famjet/eval/controls.py": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9",
+    "famjet/eval/isolation.py": "aa4094b8e4e4098e1c03d067813b79a916dc4911119b2123d4bb4242f67605b1",
+    "famjet/eval/metrics.py": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3",
+    "famjet/eval/oracle.py": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35",
+    "famjet/eval/runner.py": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836",
+    "famjet/eval/splits.py": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf",
+    "famjet/eval/state_io.py": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba",
+    "famjet/memory/__init__.py": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe",
+    "famjet/memory/_coefficient.py": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5",
+    "famjet/memory/_fixed_writer.py": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2",
+    "famjet/memory/associative_hippo.py": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b",
+    "famjet/memory/buckets.py": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75",
+    "famjet/memory/coordinates.py": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1",
+    "famjet/memory/delta.py": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784",
+    "famjet/memory/exact_store.py": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17",
+    "famjet/memory/expbank.py": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d",
+    "famjet/memory/gaver.py": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65",
+    "famjet/memory/hippo.py": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3",
+    "famjet/memory/jet.py": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1",
+    "famjet/memory/multiscale.py": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a",
+    "famjet/memory/oracle.py": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c",
+    "famjet/memory/reservoir.py": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12",
+    "famjet/models/__init__.py": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b",
+    "famjet/models/_schema.py": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a",
+    "famjet/models/task_model.py": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60",
+    "famjet/ops.py": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc",
+    "famjet/prepare.py": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3",
+    "famjet/provenance.py": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+    "famjet/readers/__init__.py": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513",
+    "famjet/readers/mlp.py": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e",
+    "famjet/readers/structured.py": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca",
+    "famjet/reproduce.py": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936",
+    "famjet/run.py": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd",
+    "famjet/train.py": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936",
+    "famjet/types.py": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f"
+  },
+  "source_component_proof": {
+    "famjet/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9"
+    },
+    "famjet/analysis/development.py": {
+      "classification": "reviewed_changed_definition_only",
+      "definition": "fixed_basis_cpu64",
+      "reviewed_commit": "6bed0cd17e853c135a570682b5931a1e89d11f0d",
+      "old_file_sha256": "7b94ff998c97500679a133c9369b60f599f9b64aa25ad2f6d06dca64f2868f80",
+      "current_file_sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561",
+      "unchanged_remainder_ast_sha256": "e50600a078e15d2922bfd10c54d31d17fd356dfc88ff1a35dcca52298320f642",
+      "old_definition_ast_sha256": "58b891a830863f3ba6cc52870d34f03e627a91e701d50de7327fb1ad0774eeaa",
+      "current_definition_ast_sha256": "a77e04ce23fb32c8b8826f102afdad5a23fdf7659455cedbf64ec37182f83714"
+    },
+    "famjet/artifacts.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f"
+    },
+    "famjet/checkpoint.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af"
+    },
+    "famjet/config.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241"
+    },
+    "famjet/data/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7"
+    },
+    "famjet/data/_processes.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4"
+    },
+    "famjet/data/beijing.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49"
+    },
+    "famjet/data/development_cache.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258"
+    },
+    "famjet/data/feature_cache.py": {
+      "classification": "reviewed_changed_definition_only",
+      "definition": "feature_identity",
+      "reviewed_commit": "6bed0cd17e853c135a570682b5931a1e89d11f0d",
+      "old_file_sha256": "1d4f406bc78c1ceea2291625b69cba9cddb44824d3ccfe25524d4366db59f031",
+      "current_file_sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a",
+      "unchanged_remainder_ast_sha256": "9eb11c75520dd728fe91ffa4e2cbdf5732d202204a051fdfb10f3455179da28b",
+      "old_definition_ast_sha256": "ab7f43273840bedacd8b41cd81d001d9b1d12c824b1210d6a0d11091dac92f93",
+      "current_definition_ast_sha256": "63ae2b26d6e70ff840bf2ce26c7afb877b60fd33f7a0fc0cd789caa5629e6f52"
+    },
+    "famjet/data/schema.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a"
+    },
+    "famjet/data/synthetic.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15"
+    },
+    "famjet/doctor.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d"
+    },
+    "famjet/eval/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5"
+    },
+    "famjet/eval/budgets.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790"
+    },
+    "famjet/eval/controls.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9"
+    },
+    "famjet/eval/isolation.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "aa4094b8e4e4098e1c03d067813b79a916dc4911119b2123d4bb4242f67605b1"
+    },
+    "famjet/eval/metrics.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3"
+    },
+    "famjet/eval/oracle.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35"
+    },
+    "famjet/eval/runner.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836"
+    },
+    "famjet/eval/splits.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf"
+    },
+    "famjet/eval/state_io.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba"
+    },
+    "famjet/memory/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe"
+    },
+    "famjet/memory/_coefficient.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5"
+    },
+    "famjet/memory/_fixed_writer.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2"
+    },
+    "famjet/memory/associative_hippo.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b"
+    },
+    "famjet/memory/buckets.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75"
+    },
+    "famjet/memory/coordinates.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1"
+    },
+    "famjet/memory/delta.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784"
+    },
+    "famjet/memory/exact_store.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17"
+    },
+    "famjet/memory/expbank.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d"
+    },
+    "famjet/memory/gaver.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65"
+    },
+    "famjet/memory/hippo.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3"
+    },
+    "famjet/memory/jet.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1"
+    },
+    "famjet/memory/multiscale.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a"
+    },
+    "famjet/memory/oracle.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c"
+    },
+    "famjet/memory/reservoir.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12"
+    },
+    "famjet/models/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b"
+    },
+    "famjet/models/_schema.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a"
+    },
+    "famjet/models/task_model.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60"
+    },
+    "famjet/ops.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc"
+    },
+    "famjet/prepare.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3"
+    },
+    "famjet/provenance.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59"
+    },
+    "famjet/readers/__init__.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513"
+    },
+    "famjet/readers/mlp.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e"
+    },
+    "famjet/readers/structured.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca"
+    },
+    "famjet/reproduce.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936"
+    },
+    "famjet/run.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd"
+    },
+    "famjet/train.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936"
+    },
+    "famjet/types.py": {
+      "classification": "byte_identical_numerical_or_package_dependency",
+      "sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f"
+    },
+    "famjet/analysis/statistics.py": {
+      "classification": "new_independent_Task19_module_not_imported_or_called_by_numerical_path",
+      "reviewed_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+      "sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9",
+      "required_runtime_absence": "famjet.analysis.statistics not in sys.modules before model allocation and before outcome seal"
+    }
+  },
+  "configs": {
+    "jet": {
+      "source_path": "configs/development/jet_fixed_cpu64_raw128_32768.yaml",
+      "source_sha256": "5171f2d7d5762238acefbd28766d6d29246c2a85e0cbb2a5fcc2a786e95ade7e",
+      "config": {
+        "schema_version": 1,
+        "phase": "development",
+        "seed": 20261013,
+        "data": {
+          "generator_version": "initial_spec_v2_targets",
+          "key_features": "one_hot",
+          "key_dim": 16,
+          "value_dim": 8,
+          "length": 128,
+          "queries_per_history": 8,
+          "generator": {
+            "namespace": "training",
+            "population": "primary",
+            "regime": "balanced",
+            "key_load": 16,
+            "feature_seed": 20261013,
+            "query_seed": 0,
+            "max_query_attempts": 4096,
+            "delay_multiplier": 0.0,
+            "robustness": "standard"
+          },
+          "beijing": null
+        },
+        "model": {
+          "method": "jet",
+          "heads": 1,
+          "J": 4,
+          "K": 16,
+          "precision": "float64",
+          "rates": {
+            "mode": "fixed",
+            "bounds": [
+              0.00019142419601837673,
+              1.0
+            ],
+            "spacing": "log"
+          },
+          "writer": "fixed",
+          "encode": "terminal",
+          "reader": {
+            "kind": "structured",
+            "width": 125,
+            "layers": 2,
+            "activation": "silu",
+            "rank": null,
+            "max_parameters": null,
+            "max_macs": null
+          },
+          "epsilon": 1e-06,
+          "numerical_support_floor": 1e-08,
+          "learned_abstention_threshold": null,
+          "interpolation": false,
+          "probes": 1,
+          "polynomial": null,
+          "multiscale": null,
+          "delta": null
+        },
+        "training": {
+          "microbatch": 1,
+          "effective_batch": 3,
+          "optimizer": "AdamW",
+          "learning_rate": 0.001,
+          "weight_decay": 0.0,
+          "optimizer_steps": 32768
+        },
+        "resources": {
+          "device": "cpu",
+          "cpu_threads": 4,
+          "reserved_fraction_of_derived_envelope": 0.25,
+          "training_envelope_bytes": null,
+          "smoke_additional_allocation_limit_bytes": 201326592,
+          "resource_provenance": "artifacts/environment/hardware.json",
+          "checkpoint_retention": 2,
+          "cache_limit_bytes": 0,
+          "asset_disk_budget_bytes": 0,
+          "policy": "smoke_only_until_full_training_peak_and_pressure_calibration"
+        },
+        "numerics": {
+          "reference": "cpu_float64",
+          "rtol": 1e-12,
+          "atol": 1e-12
+        },
+        "confirmation": {
+          "status": "blocking_until_pilot_freeze",
+          "populations": null,
+          "splits": null,
+          "lengths": null,
+          "task_regime_weights": null,
+          "primary_pair_budget": null,
+          "comparator_configurations": null,
+          "training_stopping_seeds": null,
+          "metrics": null,
+          "resampling": null,
+          "failure_policy": null,
+          "support_behavior": null,
+          "timing_boundaries": null,
+          "resource_envelopes": null,
+          "independent_histories": null,
+          "training_replicates": null,
+          "multiple_testing": null
+        },
+        "development": {
+          "mode": "calibration",
+          "lengths": [
+            128,
+            512,
+            2048
+          ],
+          "data_seed": 20261017018,
+          "fit_histories_per_cell": 64,
+          "eval_histories_per_cell": 8,
+          "milestones": [
+            0,
+            128,
+            512,
+            1024,
+            2048,
+            4096,
+            8192,
+            16384,
+            32768
+          ],
+          "calibration_path": null,
+          "calibration_hash": null,
+          "gradient_clip_norm": null,
+          "cache_manifest_path": null,
+          "cache_manifest_hash": null,
+          "corpus_histories": 6144,
+          "feature_cache_manifest_path": null,
+          "feature_cache_manifest_hash": null
+        }
+      },
+      "config_hash": "71b7975048384703546d2161d6eda2caa016757c4d98d1584138bba81ded5dc8"
+    },
+    "bank": {
+      "source_path": "configs/development/bank_fixed_cpu64_raw128_32768.yaml",
+      "source_sha256": "4cf22550611a12f3df9f45974e517f402d72a58ef490734e8b7b584ed33c2bad",
+      "config": {
+        "schema_version": 1,
+        "phase": "development",
+        "seed": 20261013,
+        "data": {
+          "generator_version": "initial_spec_v2_targets",
+          "key_features": "one_hot",
+          "key_dim": 16,
+          "value_dim": 8,
+          "length": 128,
+          "queries_per_history": 8,
+          "generator": {
+            "namespace": "training",
+            "population": "primary",
+            "regime": "balanced",
+            "key_load": 16,
+            "feature_seed": 20261013,
+            "query_seed": 0,
+            "max_query_attempts": 4096,
+            "delay_multiplier": 0.0,
+            "robustness": "standard"
+          },
+          "beijing": null
+        },
+        "model": {
+          "method": "bank",
+          "heads": 1,
+          "J": 8,
+          "K": 16,
+          "precision": "float64",
+          "rates": {
+            "mode": "fixed",
+            "bounds": [
+              0.00019142419601837673,
+              1.0
+            ],
+            "spacing": "log"
+          },
+          "writer": "fixed",
+          "encode": "terminal",
+          "reader": {
+            "kind": "structured",
+            "width": 122,
+            "layers": 2,
+            "activation": "silu",
+            "rank": null,
+            "max_parameters": null,
+            "max_macs": null
+          },
+          "epsilon": 1e-06,
+          "numerical_support_floor": 1e-08,
+          "learned_abstention_threshold": null,
+          "interpolation": false,
+          "probes": 1,
+          "polynomial": null,
+          "multiscale": null,
+          "delta": null
+        },
+        "training": {
+          "microbatch": 1,
+          "effective_batch": 3,
+          "optimizer": "AdamW",
+          "learning_rate": 0.001,
+          "weight_decay": 0.0,
+          "optimizer_steps": 32768
+        },
+        "resources": {
+          "device": "cpu",
+          "cpu_threads": 4,
+          "reserved_fraction_of_derived_envelope": 0.25,
+          "training_envelope_bytes": null,
+          "smoke_additional_allocation_limit_bytes": 201326592,
+          "resource_provenance": "artifacts/environment/hardware.json",
+          "checkpoint_retention": 2,
+          "cache_limit_bytes": 0,
+          "asset_disk_budget_bytes": 0,
+          "policy": "smoke_only_until_full_training_peak_and_pressure_calibration"
+        },
+        "numerics": {
+          "reference": "cpu_float64",
+          "rtol": 1e-12,
+          "atol": 1e-12
+        },
+        "confirmation": {
+          "status": "blocking_until_pilot_freeze",
+          "populations": null,
+          "splits": null,
+          "lengths": null,
+          "task_regime_weights": null,
+          "primary_pair_budget": null,
+          "comparator_configurations": null,
+          "training_stopping_seeds": null,
+          "metrics": null,
+          "resampling": null,
+          "failure_policy": null,
+          "support_behavior": null,
+          "timing_boundaries": null,
+          "resource_envelopes": null,
+          "independent_histories": null,
+          "training_replicates": null,
+          "multiple_testing": null
+        },
+        "development": {
+          "mode": "calibration",
+          "lengths": [
+            128,
+            512,
+            2048
+          ],
+          "data_seed": 20261017018,
+          "fit_histories_per_cell": 64,
+          "eval_histories_per_cell": 8,
+          "milestones": [
+            0,
+            128,
+            512,
+            1024,
+            2048,
+            4096,
+            8192,
+            16384,
+            32768
+          ],
+          "calibration_path": null,
+          "calibration_hash": null,
+          "gradient_clip_norm": null,
+          "cache_manifest_path": null,
+          "cache_manifest_hash": null,
+          "corpus_histories": 6144,
+          "feature_cache_manifest_path": null,
+          "feature_cache_manifest_hash": null
+        }
+      },
+      "config_hash": "e44d1b47ab6042fe7c83eff63027be9880a122dc16d41a665779f4fa7b133e98"
+    }
+  },
+  "cases": {
+    "jet-00": {
+      "family": "jet",
+      "ordinal": 0,
+      "history_id": "task18-train-N128-piecewise_stationary-000000000000",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-00/summary.json",
+      "origin_summary_sha256": "a921fd301ba0d004b657418eeacedcd3b57497cd636612ea6c55ec2984c61d9d",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-00/procedure.json",
+      "origin_procedure_sha256": "bfcf3dca0d4fed3f2ed7b768b94b262a1293f602846314d94320f419f9a80833",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-00/candidate.pt",
+      "origin_capture_recorded_sha256": "b1c4f4cdae325e643dec23d3b1db0f6dba766dd5b8f6d5e3320cf283971d8960",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-00/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "7a098dc2d522c999e68d341e27cd240728467ba1eee304628ba6d4055e708516",
+      "raw_hashes": {
+        "events": "289b8fffd6c48246e3339394b23fa5af2af7bf8089301a5e6d3b3b3350da419e",
+        "oracle": "461ca14ba0bfce2ee2801f3eda1c97cadcc5fcfa4ce505e504c47ca949875556",
+        "queries": "15845d819fa7adb8909a928c10e9280fb8acf3ccdebf11c1d7414f9a62d815ab"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-01": {
+      "family": "jet",
+      "ordinal": 1,
+      "history_id": "task18-train-N512-piecewise_stationary-000000000001",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-01/summary.json",
+      "origin_summary_sha256": "ac33da222bab2bd45d4ba8bfedffa14f7c893603b38a72cddb37a26c25b8453f",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-01/procedure.json",
+      "origin_procedure_sha256": "8dba09ac2fa7af4e9ed933d413884b8f31ca239a8fbdc90986f78e3650825f97",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-01/candidate.pt",
+      "origin_capture_recorded_sha256": "d37c72f974d8330c94552f3767e0ab83df292c4d78c2d808d9a10358f3b6edd7",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-01/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "f26b1adf879fdcd6993687b66bd7296f7c42e2a913fc9e3884caefc7c5bfd146",
+      "raw_hashes": {
+        "events": "6bc7679fb396c09bab08a7e9dc86d9adc4db9e1c0a7c89d9933dc54a5a489d48",
+        "oracle": "e553be72307919ebabc4e6538ee9cc9e1dc5fccca96e0eed28658b618e88c725",
+        "queries": "aaf1d1ed9ae013983d28ed1ddb5dba390f35e2d83be523b4bd8e0b7d1d826d07"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-02": {
+      "family": "jet",
+      "ordinal": 2,
+      "history_id": "task18-train-N2048-piecewise_stationary-000000000002",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-02/summary.json",
+      "origin_summary_sha256": "611be49fee691313bbd1113a7977df0ad9dae4147c08b592f2edbe703dd3c418",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-02/procedure.json",
+      "origin_procedure_sha256": "2d2f784247ecd73c67d2156e2868609ed507332c367411b0a72bf8ec8a4db41f",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-02/candidate.pt",
+      "origin_capture_recorded_sha256": "f8d54d9b9692b1e3db35a2204585137da30877817c1443021a9e71d5a843b1a3",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-02/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "f1e6cebf7d926970778137ffb38e0995b2fdffde069b4823cf449d0b4f5975c2",
+      "raw_hashes": {
+        "events": "1770df224da5204adfd32e5b552c2aebfa66624efd2c22c165420c8e36f22e8c",
+        "oracle": "751e7fbfad3913f20dcc0a1ac9c1d35605ad5b398566aee56118d19fa77f7697",
+        "queries": "f439dce2773aa8773fc1bbcade33833977402f5c0b981be3d154a742a05ac8b2"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-03": {
+      "family": "jet",
+      "ordinal": 3,
+      "history_id": "task18-train-N128-trend_reset-000000000003",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-03/summary.json",
+      "origin_summary_sha256": "0461ad538bbb8a52478f22fd37ee39007415e60170e475cb5e1fb3dd37ed654a",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-03/procedure.json",
+      "origin_procedure_sha256": "d9d700857c016ddc207e3548f12012b5d28bff67a156247747b07ced681ed6ed",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-03/candidate.pt",
+      "origin_capture_recorded_sha256": "45c8bce468c01a7442508d5b597fe52afd6080b7266a5c9e9ae88eb82a3b1743",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-03/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "66714373dac241d15e918858ab0db76cdd5fc7ca6b223551d491c5660716b687",
+      "raw_hashes": {
+        "events": "155630c54f05af294310f6bd593f58f6a77f5e2b2224ff6177fd362ba52a538c",
+        "oracle": "86174fb8bbadae8be745e499f7b1b9116e902994362bedf30cb86b94c3fde11d",
+        "queries": "7c893dce3d35fbdf02457de7c5dd99a0ac3b2e90e7aae11cdfb8fe35e70894a6"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-04": {
+      "family": "jet",
+      "ordinal": 4,
+      "history_id": "task18-train-N512-trend_reset-000000000004",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-04/summary.json",
+      "origin_summary_sha256": "739d1f47277fe8f4228c50d3ab7d52bb8174447367b571669c78fab4dff718d6",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-04/procedure.json",
+      "origin_procedure_sha256": "81c950bc9a5c8c6cb686a8f3e03a5af6dd9c237a962aa228804d48f035d84d19",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-04/candidate.pt",
+      "origin_capture_recorded_sha256": "478e13a4b4fec70a094b582f3f1c076e6526fa7bad65784118f93ca00d4a2fb4",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-04/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "f13a6084cb476a562b47b8d9ad53e01af46c3294d0377aed78effa3e9d3465fa",
+      "raw_hashes": {
+        "events": "873bc8fc9240dac8dbfccdfe1b2829514f771aec4e43151a6a5a4d252b444c5d",
+        "oracle": "a2a6fd3ba8fedc386ae5b2546939d8e40764aa150d96e14327442075c902411f",
+        "queries": "324f42a58dfb28d6a59ae8d2b84cd509b7378cc3fa256dab45dcfb85fc05d0a4"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-05": {
+      "family": "jet",
+      "ordinal": 5,
+      "history_id": "task18-train-N2048-trend_reset-000000000005",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-05/summary.json",
+      "origin_summary_sha256": "5c0d4f1f85f67aa5c6038ff1a473e23b8468dc7388c352be17c9cf9d6187bb2c",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-05/procedure.json",
+      "origin_procedure_sha256": "da56e24796bb56acd4e9e810987197ba6f3562b3d002fe05ae39daf436899982",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-05/candidate.pt",
+      "origin_capture_recorded_sha256": "b009a62e9d5849c9807719a9e070cd050e6a5ea4905695250240fa2c6ac82ae5",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-05/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "0c579316ef102a8e458ac789f26e86a4cdb1155feb9baac21c7fbceae762e93b",
+      "raw_hashes": {
+        "events": "e511be1622b3da0e6948b215ec645ac8a7e2985a37c6b04afa26263eea530e28",
+        "oracle": "c78380cb0583ed526ff58338d3f9785a8998fbdcd6858539fa07e86b125e3737",
+        "queries": "d1bd41cff2a5bcd089bac27935746a9cf504c2bff9b4fd5d04c218b4b22758b2"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-06": {
+      "family": "jet",
+      "ordinal": 6,
+      "history_id": "task18-train-N128-periodic_impulses-000000000006",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-06/summary.json",
+      "origin_summary_sha256": "fe4aa910db4daca00d071dc42000658288beac34937c0db1cb55ceec3bf5c6a3",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-06/procedure.json",
+      "origin_procedure_sha256": "932fa97ccb78cbf48848cd60f52991740151a64b4aa47274beca13cbfa78cfac",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-06/candidate.pt",
+      "origin_capture_recorded_sha256": "18edbe034e10acffc7c681d443402869d3b27e3c120e65b4464ae44c8cf36101",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-06/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "e1a63e75db35575dbdc2583232070c11dba9fdb1532ca09845c76bdedb274faa",
+      "raw_hashes": {
+        "events": "a2d77d4a5885fa40ace8f8a4edc8eca54c140b324018d56ef514ec9eccdfb367",
+        "oracle": "5a574fc2a1238c7511b73c904de72c42ca73e48902f52d3ee32f3b4c9b41a3b5",
+        "queries": "a4fe5282ba82096a0e4dae727ab824589ba1f7ac935d2bce23115f5347e4a5b5"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-07": {
+      "family": "jet",
+      "ordinal": 7,
+      "history_id": "task18-train-N512-periodic_impulses-000000000007",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-07/summary.json",
+      "origin_summary_sha256": "a2a234ca0dc12df95ce3d5f9e23850dc554a38958512321d710e17cc35b86e63",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-07/procedure.json",
+      "origin_procedure_sha256": "085605adb333d9e5d672156f1d9fdb7b65f73c407fbcd6fe35b73ca7365699d2",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-07/candidate.pt",
+      "origin_capture_recorded_sha256": "6058ac3370f98bd9a5e0a05052cbb8944a51b7ce91b6ef89dff5b5b490bb10b7",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-07/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "a6e7e7ebde0cbb1a95ca394be51cb3eb42193b47980ba9ef3e3b0bf5085f7dc9",
+      "raw_hashes": {
+        "events": "686026c9591e069a040772c23c17b9c4f2c814639bf39c285492ffdc72b8e2e8",
+        "oracle": "e611cea383a8106f99f86052df9ef8d4f92a24b639b9825ad28c52450913b530",
+        "queries": "522474335e868f93e50e787b80690d49e33191933ac929ef04e538032c7329e9"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-08": {
+      "family": "jet",
+      "ordinal": 8,
+      "history_id": "task18-train-N2048-periodic_impulses-000000000008",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-08/summary.json",
+      "origin_summary_sha256": "10ce0d8272bb7240178520dcadfea53a4321eb7c685acffce7f165b0a8fb6b0e",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-08/procedure.json",
+      "origin_procedure_sha256": "f3f4cebcd150b53cf3219711cb2767b72c06e94ec1e31f8e42f465f16e3bca70",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-08/candidate.pt",
+      "origin_capture_recorded_sha256": "1033fa6210fa465f637b0e2c1d2ac9d0d7b98cee9bbb34e887977b8bc3298fed",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-08/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "252e401b8a1eca86fdc526173d6a8591424bb7e84e96133550a53451040cee53",
+      "raw_hashes": {
+        "events": "ac0022ac2c33dac385d92bf031a76deb6eebc9849f94cbc6033fc029d5e99408",
+        "oracle": "29f3ce6ff7e51796a991216fda5c836de1c904fadb923622f584f10fdef6f200",
+        "queries": "94a5f16cddfecc055d2bc1c94d0ff17a1f7b9b9fb8d2b15e025f2f1defa3b8ac"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-09": {
+      "family": "jet",
+      "ordinal": 9,
+      "history_id": "task18-train-N128-irregular_revisions-000000000009",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-09/summary.json",
+      "origin_summary_sha256": "d811d29fa7449d13c87c27b79be706f740e632bac3f734d926919cd5d71f82d0",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-09/procedure.json",
+      "origin_procedure_sha256": "17dd762304c5c2eeb293006dbb40c18bb978f1b7839524cdc218dea9d9e572d1",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-09/candidate.pt",
+      "origin_capture_recorded_sha256": "20ba77bddbc13af8f0ca17f2d82e95d3955cf5eb5d586245bba856e7d90c4a85",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-09/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "4e7e8feeb818eb03241f642da8a9daae9ad242d191708b71f00e98c1abd3eeab",
+      "raw_hashes": {
+        "events": "41cb5fbef59cdd7352e614a1a8d6c7bda80986e4bb0cdee91ac1d4799e1345e8",
+        "oracle": "41e3ca7705927e09b259ba2da9d4f501afeac2109683b9fdcac740e0097f44f8",
+        "queries": "8f1ff69bdb3cbcbe14916986e1e956f31acfe6a419a67a75727844529235946d"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-10": {
+      "family": "jet",
+      "ordinal": 10,
+      "history_id": "task18-train-N512-irregular_revisions-000000000010",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-10/summary.json",
+      "origin_summary_sha256": "ac505fa41dbcc6ad8c9796fd434cb692ad78bb23efe78d46f3716da101085467",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-10/procedure.json",
+      "origin_procedure_sha256": "97c91fa042b09d6b4f3aa9d0d0d6bc8bcf0647810b72500064c13c90c497446e",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-10/candidate.pt",
+      "origin_capture_recorded_sha256": "c49095b63104b542ff143eff439cc768e1dba94358faf9a4791d607beec777bd",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-10/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "5461d9a92228b90fa2bc0859ad393ae59784eeec510c5fb4182f73da0e0f4099",
+      "raw_hashes": {
+        "events": "b747fb36254f5732f92fc0fb1eaa3e86847e18c4a272b8ccb3efb8438c5ebae8",
+        "oracle": "1cf0e0c243c5102421dfff00f36f84cc00b4931fe226d1982ed1063c7426b360",
+        "queries": "364270e5efa70252e27f46fc317ee82ac7873c015dd2295e587748a2f793d89c"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "jet-11": {
+      "family": "jet",
+      "ordinal": 11,
+      "history_id": "task18-train-N2048-irregular_revisions-000000000011",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/jet-11/summary.json",
+      "origin_summary_sha256": "324946c6646689f95c2843d0343aaa42dd6378d307087232762d69a100b97362",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/jet-11/procedure.json",
+      "origin_procedure_sha256": "ed91aed5e26467556966820cb66c017c70dcfb331d05a7535f30bf745f21bcd9",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/jet-11/candidate.pt",
+      "origin_capture_recorded_sha256": "50a0dea1e01a70a0e9b336362166ef133f55e00445210c1bb1bbda1c2f1a4283",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-jet/step0-11/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "9b2ad84fad7b37732fe5f5a2fe77651e35c1ed255ef62996d1052cb42be1474c",
+      "fixed_kernel_hash": "6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648",
+      "events_hash": "0e5db384a37b10ec599b5f911ca45f2507edd790cc42c1d43f4ac6d836902cbd",
+      "raw_hashes": {
+        "events": "cdc6ad7c5e314fae8a9b96e5f08b20b3b1e4402bfdc3aaa8361501d35cac9dfb",
+        "oracle": "8b7b8d71e372d52c9b6ffb99f4e1a74de357948796237999dde8515a011f0601",
+        "queries": "dbf17423f06f086d6e07801c8c9bd374681c8bea4f371124eb832fd58f0d2d84"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-00": {
+      "family": "bank",
+      "ordinal": 0,
+      "history_id": "task18-train-N128-piecewise_stationary-000000000000",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-00/summary.json",
+      "origin_summary_sha256": "05d28f3d8de5d4322c3a1105f8b48363d8e9023a78af82924d3c9cf9bf8d363a",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-00/procedure.json",
+      "origin_procedure_sha256": "1e11ab48e1e8aa00485f34f51f1f1e5b42f4cffef8e30368977baac565b38327",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-00/candidate.pt",
+      "origin_capture_recorded_sha256": "014be656471602e1e7110dded61599c63d3e87fb1f7c81e7001b784a08473f05",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-00/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "7a098dc2d522c999e68d341e27cd240728467ba1eee304628ba6d4055e708516",
+      "raw_hashes": {
+        "events": "289b8fffd6c48246e3339394b23fa5af2af7bf8089301a5e6d3b3b3350da419e",
+        "oracle": "461ca14ba0bfce2ee2801f3eda1c97cadcc5fcfa4ce505e504c47ca949875556",
+        "queries": "15845d819fa7adb8909a928c10e9280fb8acf3ccdebf11c1d7414f9a62d815ab"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-01": {
+      "family": "bank",
+      "ordinal": 1,
+      "history_id": "task18-train-N512-piecewise_stationary-000000000001",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-01/summary.json",
+      "origin_summary_sha256": "fb3f53420de7bdcb6e71134063c2d3e0efeb04a8d4c4bdb0058a1c7669596c6d",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-01/procedure.json",
+      "origin_procedure_sha256": "a2c897a346bfd58d957af633f1ffab0da55ad8d3fe2316acf43774a1fd7f6cc5",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-01/candidate.pt",
+      "origin_capture_recorded_sha256": "ada647bd86a9e0b0a51524c5bbaa8cfd468b6ec1a6e22ee50a8083d567d8172f",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-01/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "f26b1adf879fdcd6993687b66bd7296f7c42e2a913fc9e3884caefc7c5bfd146",
+      "raw_hashes": {
+        "events": "6bc7679fb396c09bab08a7e9dc86d9adc4db9e1c0a7c89d9933dc54a5a489d48",
+        "oracle": "e553be72307919ebabc4e6538ee9cc9e1dc5fccca96e0eed28658b618e88c725",
+        "queries": "aaf1d1ed9ae013983d28ed1ddb5dba390f35e2d83be523b4bd8e0b7d1d826d07"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-02": {
+      "family": "bank",
+      "ordinal": 2,
+      "history_id": "task18-train-N2048-piecewise_stationary-000000000002",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-02/summary.json",
+      "origin_summary_sha256": "198275eccdc239ecd6f6047cff49ee0fbdedaa8d6b127f3c70544d39fb6df6b3",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-02/procedure.json",
+      "origin_procedure_sha256": "92d4330784852cc30ea2b4d6d49f9dab08401f3101b276e6551628f21c39a7ab",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-02/candidate.pt",
+      "origin_capture_recorded_sha256": "a0f5858f6af11509c711d70a3a9ea7a8d4f2e570f39c8c88834cf63382ae78be",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-02/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "f1e6cebf7d926970778137ffb38e0995b2fdffde069b4823cf449d0b4f5975c2",
+      "raw_hashes": {
+        "events": "1770df224da5204adfd32e5b552c2aebfa66624efd2c22c165420c8e36f22e8c",
+        "oracle": "751e7fbfad3913f20dcc0a1ac9c1d35605ad5b398566aee56118d19fa77f7697",
+        "queries": "f439dce2773aa8773fc1bbcade33833977402f5c0b981be3d154a742a05ac8b2"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-03": {
+      "family": "bank",
+      "ordinal": 3,
+      "history_id": "task18-train-N128-trend_reset-000000000003",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-03/summary.json",
+      "origin_summary_sha256": "b42597d98d079e017696d0295b613799185a03f238b2c07edda57cd833ce023c",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-03/procedure.json",
+      "origin_procedure_sha256": "459ccad44a7b76314832ba489f007cff980d03f6f234619f2face60a5681ac8f",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-03/candidate.pt",
+      "origin_capture_recorded_sha256": "29ccad3bae62bbab27bd04b520c860da3bace67695786b1ac7f0db4cb338481a",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-03/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "66714373dac241d15e918858ab0db76cdd5fc7ca6b223551d491c5660716b687",
+      "raw_hashes": {
+        "events": "155630c54f05af294310f6bd593f58f6a77f5e2b2224ff6177fd362ba52a538c",
+        "oracle": "86174fb8bbadae8be745e499f7b1b9116e902994362bedf30cb86b94c3fde11d",
+        "queries": "7c893dce3d35fbdf02457de7c5dd99a0ac3b2e90e7aae11cdfb8fe35e70894a6"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-04": {
+      "family": "bank",
+      "ordinal": 4,
+      "history_id": "task18-train-N512-trend_reset-000000000004",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-04/summary.json",
+      "origin_summary_sha256": "23b9d5c938fb00652ebded76b79fb1390a501b4b8905e82a9a71fce1713e427a",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-04/procedure.json",
+      "origin_procedure_sha256": "75723e8b8772a29ab09188f53885c9efb341b76076ddc1a50c3645d703440d2c",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-04/candidate.pt",
+      "origin_capture_recorded_sha256": "6f71e74c7f4d325e674a53a66cbc7c2216f67e1d85e2b8e82e957ab95c257528",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-04/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "f13a6084cb476a562b47b8d9ad53e01af46c3294d0377aed78effa3e9d3465fa",
+      "raw_hashes": {
+        "events": "873bc8fc9240dac8dbfccdfe1b2829514f771aec4e43151a6a5a4d252b444c5d",
+        "oracle": "a2a6fd3ba8fedc386ae5b2546939d8e40764aa150d96e14327442075c902411f",
+        "queries": "324f42a58dfb28d6a59ae8d2b84cd509b7378cc3fa256dab45dcfb85fc05d0a4"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-05": {
+      "family": "bank",
+      "ordinal": 5,
+      "history_id": "task18-train-N2048-trend_reset-000000000005",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-05/summary.json",
+      "origin_summary_sha256": "2a4ff7711554636f290b71ec8d5bdf6b922a5e70eaf63995034aee3d6cbcaaa8",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-05/procedure.json",
+      "origin_procedure_sha256": "19cc7ea14a91ba121f6787f41da5ae913a556dbff3ba3c464eae862c97068108",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-05/candidate.pt",
+      "origin_capture_recorded_sha256": "e64217b628918b4923a7a7f2477a2812e1b4ab7b3e0165c420fbee5be651da34",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-05/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "0c579316ef102a8e458ac789f26e86a4cdb1155feb9baac21c7fbceae762e93b",
+      "raw_hashes": {
+        "events": "e511be1622b3da0e6948b215ec645ac8a7e2985a37c6b04afa26263eea530e28",
+        "oracle": "c78380cb0583ed526ff58338d3f9785a8998fbdcd6858539fa07e86b125e3737",
+        "queries": "d1bd41cff2a5bcd089bac27935746a9cf504c2bff9b4fd5d04c218b4b22758b2"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-06": {
+      "family": "bank",
+      "ordinal": 6,
+      "history_id": "task18-train-N128-periodic_impulses-000000000006",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-06/summary.json",
+      "origin_summary_sha256": "f74f7c801cda57506f442607de2700e1840d970296f48337b5b0db667b911448",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-06/procedure.json",
+      "origin_procedure_sha256": "908e6eaab2b2d3f4dd2146fb99d61e7118fd0862d1c422373ac38c3d0625fda9",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-06/candidate.pt",
+      "origin_capture_recorded_sha256": "2c5c32ef4ab19c1805eaf3a4755976188251d756ef378c83ab42dc6bd8f55850",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-06/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "e1a63e75db35575dbdc2583232070c11dba9fdb1532ca09845c76bdedb274faa",
+      "raw_hashes": {
+        "events": "a2d77d4a5885fa40ace8f8a4edc8eca54c140b324018d56ef514ec9eccdfb367",
+        "oracle": "5a574fc2a1238c7511b73c904de72c42ca73e48902f52d3ee32f3b4c9b41a3b5",
+        "queries": "a4fe5282ba82096a0e4dae727ab824589ba1f7ac935d2bce23115f5347e4a5b5"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-07": {
+      "family": "bank",
+      "ordinal": 7,
+      "history_id": "task18-train-N512-periodic_impulses-000000000007",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-07/summary.json",
+      "origin_summary_sha256": "e6497d2c259af8233307ffab2be859b13301daee669536826ad1398c914175d6",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-07/procedure.json",
+      "origin_procedure_sha256": "bbd9fe851c5de3ca337d93a42bbcf7886061213826a415091c925f4d7f05a9c0",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-07/candidate.pt",
+      "origin_capture_recorded_sha256": "eacdfbf609d2a7cdd50fc1514ff6c3b3436db62de711ab5fdafc74a4d54247cb",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-07/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "a6e7e7ebde0cbb1a95ca394be51cb3eb42193b47980ba9ef3e3b0bf5085f7dc9",
+      "raw_hashes": {
+        "events": "686026c9591e069a040772c23c17b9c4f2c814639bf39c285492ffdc72b8e2e8",
+        "oracle": "e611cea383a8106f99f86052df9ef8d4f92a24b639b9825ad28c52450913b530",
+        "queries": "522474335e868f93e50e787b80690d49e33191933ac929ef04e538032c7329e9"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-08": {
+      "family": "bank",
+      "ordinal": 8,
+      "history_id": "task18-train-N2048-periodic_impulses-000000000008",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-08/summary.json",
+      "origin_summary_sha256": "9ac3ac39e008cd02dc5b1225a8ab2b0da917230077a746b5022cba4e9607aa27",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-08/procedure.json",
+      "origin_procedure_sha256": "5faaa0473fcc2a2c70a05ea06b815e230663bc0074ddae01f1c5805d3456eaf1",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-08/candidate.pt",
+      "origin_capture_recorded_sha256": "8907512ed7f214ea340f457ee04adc704684a8bf8f4251dfbc4e12aed1c37cd4",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-08/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "252e401b8a1eca86fdc526173d6a8591424bb7e84e96133550a53451040cee53",
+      "raw_hashes": {
+        "events": "ac0022ac2c33dac385d92bf031a76deb6eebc9849f94cbc6033fc029d5e99408",
+        "oracle": "29f3ce6ff7e51796a991216fda5c836de1c904fadb923622f584f10fdef6f200",
+        "queries": "94a5f16cddfecc055d2bc1c94d0ff17a1f7b9b9fb8d2b15e025f2f1defa3b8ac"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-09": {
+      "family": "bank",
+      "ordinal": 9,
+      "history_id": "task18-train-N128-irregular_revisions-000000000009",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-09/summary.json",
+      "origin_summary_sha256": "20b05ceaa3ace4276feadf456da042484a51a6957265f80c3db35332b44c05cc",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-09/procedure.json",
+      "origin_procedure_sha256": "6f13c2701619b8f76a9612137d21ba67dbcb3d91e78fe342f691873f396a39e3",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-09/candidate.pt",
+      "origin_capture_recorded_sha256": "f9f9dcdb133b9d1788e9a5413cdfd45a6c8780275e4dbb816796c0200953ed21",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-09/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "4e7e8feeb818eb03241f642da8a9daae9ad242d191708b71f00e98c1abd3eeab",
+      "raw_hashes": {
+        "events": "41cb5fbef59cdd7352e614a1a8d6c7bda80986e4bb0cdee91ac1d4799e1345e8",
+        "oracle": "41e3ca7705927e09b259ba2da9d4f501afeac2109683b9fdcac740e0097f44f8",
+        "queries": "8f1ff69bdb3cbcbe14916986e1e956f31acfe6a419a67a75727844529235946d"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-10": {
+      "family": "bank",
+      "ordinal": 10,
+      "history_id": "task18-train-N512-irregular_revisions-000000000010",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-10/summary.json",
+      "origin_summary_sha256": "b2eb209d178a0bcebd48a447a61a803c3b229d38340e669a4e92446e8611b775",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-10/procedure.json",
+      "origin_procedure_sha256": "c6e69a22e800fa6035088c6684a7f960835501606d1eaa24c6e4f40dc67ab19e",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-10/candidate.pt",
+      "origin_capture_recorded_sha256": "d060e08a16c8245666e12d1d6e6eef9b79432cfb0fc9e6c56b8b986dd79113f5",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-10/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "5461d9a92228b90fa2bc0859ad393ae59784eeec510c5fb4182f73da0e0f4099",
+      "raw_hashes": {
+        "events": "b747fb36254f5732f92fc0fb1eaa3e86847e18c4a272b8ccb3efb8438c5ebae8",
+        "oracle": "1cf0e0c243c5102421dfff00f36f84cc00b4931fe226d1982ed1063c7426b360",
+        "queries": "364270e5efa70252e27f46fc317ee82ac7873c015dd2295e587748a2f793d89c"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    },
+    "bank-11": {
+      "family": "bank",
+      "ordinal": 11,
+      "history_id": "task18-train-N2048-irregular_revisions-000000000011",
+      "origin_summary_path": "artifacts/task18/fixed-basis-initial/bank-11/summary.json",
+      "origin_summary_sha256": "747bdbe59ef3ca6a340fb92ae847942e082035ab0b602e35356a8fe56da2762e",
+      "origin_procedure_path": "artifacts/task18/fixed-basis-initial/bank-11/procedure.json",
+      "origin_procedure_sha256": "06e23da547a0c0091244d79f90651962b497e8d37104327ac6212b05f905969a",
+      "origin_capture_path": "artifacts/task18/fixed-basis-initial/bank-11/candidate.pt",
+      "origin_capture_recorded_sha256": "1e4e9c3dcbe36c7c8baca91498f094d518d17a30c1a4258e79421709a5c37945",
+      "origin_kernel_record_path": "artifacts/task18/fixed-basis-fitted-bank/step0-11/checkpoint-verification.json",
+      "origin_kernel_record_sha256": "8eb7160a838169a050b58f68b1bd7a1359fb7cd3ce05f56a2bbcc666375771a0",
+      "fixed_kernel_hash": "534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e",
+      "events_hash": "0e5db384a37b10ec599b5f911ca45f2507edd790cc42c1d43f4ac6d836902cbd",
+      "raw_hashes": {
+        "events": "cdc6ad7c5e314fae8a9b96e5f08b20b3b1e4402bfdc3aaa8361501d35cac9dfb",
+        "oracle": "8b7b8d71e372d52c9b6ffb99f4e1a74de357948796237999dde8515a011f0601",
+        "queries": "dbf17423f06f086d6e07801c8c9bd374681c8bea4f371124eb832fd58f0d2d84"
+      },
+      "reference_definitions": {
+        "decimal": {
+          "definitions": {
+            "compare": "5a86213f24bde82f833af8ef403859773749ef209ead7b1a441ab8ea582e0939",
+            "controls": "30404e07c62a9b3a2ffb0cdab0e804ebc4f1d111b827846d0dfcd7803eb86cbb",
+            "flatten": "ff76caaa382920c55fd47065bee7ace4de5a7dc38e919b1f0b97ba5956786801",
+            "oracle": "5ce32658d33c060fd33c996016a6a911b1b7260f643b183343992fbdebf03f25",
+            "tensor": "3553c5c10310aec90cc8b9f4aa26fca1deefa7fcb7750bf493f92ae278dd688b"
+          },
+          "file": "docs/research/task18-procedures/task18_decimal_checkpoint.py",
+          "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "requirements.lock": {
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    },
+    "pyproject.toml": {
+      "sha256": "c13e7b45ae93a911bd691b679800b20d321dfb1ab01339121849fd696ac22096"
+    },
+    "docs/research/task18-procedures/task18_structured_fixed_numeric.py": {
+      "sha256": "c544860015807f8c36e9a12fc871bbd6b4b9e123560914ac01e31c9519acc3c3"
+    },
+    "docs/research/task18-procedures/task18_fixed_basis_numeric.py": {
+      "sha256": "d17130ff088cfed8f99f3d56073c27338bcb624038ef46e7a36f00cea653d5a1"
+    },
+    "docs/research/task18-procedures/task18_checked_sequence.py": {
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d"
+    },
+    ".superpowers/sdd/2026-10-16-famjet/task-18-epsilon-source-review.md": {
+      "sha256": "a9f61fedae284cd00ebc431e9cfeba0b7dbf58b81a42a2081e307e63a095adcc"
+    },
+    ".superpowers/sdd/2026-10-16-famjet/task-19-fix1-review.md": {
+      "sha256": "bd24d7c2ff9c8e2bf8623e3a7452a7619739d9f1d86b3f4117ecf7d22429ede3"
+    },
+    "docs/research/task18-procedures/task18_decimal_checkpoint.py": {
+      "sha256": "dbcb91eb8e7f692d640cf77d9369b0d163be1bbdf9f9036b063a3dfe569ac717"
+    }
+  },
+  "helpers": {},
+  "output_root": "artifacts/task18/epsilon1em6-initial-9aca1b",
+  "scope": "24 proposed exact initial structured cases, no fitting/quality; one first-case allocation required separately, then remaining23 requires separate ruling",
+  "tolerances": {
+    "atol": 1e-12,
+    "rtol": 1e-12
+  },
+  "net_limit": 201326592,
+  "power_override": false,
+  "unchanged_independent_formula_ast_sha256": "ebb3bb7aec47fd405d41f88eb3d3653ef0050ae01f77ada00447ae1084f22ef0",
+  "historical_helper_sha256": "c544860015807f8c36e9a12fc871bbd6b4b9e123560914ac01e31c9519acc3c3",
+  "historical_cost_reference_seconds": 30.856312,
+  "forecast_initial_case_seconds": [
+    1,
+    5
+  ],
+  "forecast_remaining23_seconds": [
+    30,
+    60
+  ],
+  "forecast_scope": "historical order-of-magnitude only; no measured new-source runtime yet",
+  "first_case": [
+    "jet",
+    0
+  ],
+  "remaining_order": [
+    [
+      "jet",
+      1
+    ],
+    [
+      "jet",
+      2
+    ],
+    [
+      "jet",
+      3
+    ],
+    [
+      "jet",
+      4
+    ],
+    [
+      "jet",
+      5
+    ],
+    [
+      "jet",
+      6
+    ],
+    [
+      "jet",
+      7
+    ],
+    [
+      "jet",
+      8
+    ],
+    [
+      "jet",
+      9
+    ],
+    [
+      "jet",
+      10
+    ],
+    [
+      "jet",
+      11
+    ],
+    [
+      "bank",
+      0
+    ],
+    [
+      "bank",
+      1
+    ],
+    [
+      "bank",
+      2
+    ],
+    [
+      "bank",
+      3
+    ],
+    [
+      "bank",
+      4
+    ],
+    [
+      "bank",
+      5
+    ],
+    [
+      "bank",
+      6
+    ],
+    [
+      "bank",
+      7
+    ],
+    [
+      "bank",
+      8
+    ],
+    [
+      "bank",
+      9
+    ],
+    [
+      "bank",
+      10
+    ],
+    [
+      "bank",
+      11
+    ]
+  ],
+  "old_epsilon1e8_failed_gate": "retained; no old ordinal11/Bank/risk continuation"
+}

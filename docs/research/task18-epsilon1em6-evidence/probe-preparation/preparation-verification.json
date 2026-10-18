@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "bytes": 38024,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/preparation-seal.json",
+      "sha256": "8d63e88e6385e94980607b610ad161763e551f73b56e647dfa8ac50fd6ce1a19"
+    },
+    {
+      "bytes": 725,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_checked_sequence.py",
+      "sha256": "80557654d6ea4406fbb8d3e1d710fbb79bd902ba8829b6e0e60faa5b8a905c0d"
+    },
+    {
+      "bytes": 6543,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_epsilon_probe_driver.py",
+      "sha256": "814e928cabe07e9e2c887b8fcf5348f8bae4b6a0600bb9892c9c1b6398bae592"
+    },
+    {
+      "bytes": 15571,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_fixed_basis_numeric.py",
+      "sha256": "d17130ff088cfed8f99f3d56073c27338bcb624038ef46e7a36f00cea653d5a1"
+    },
+    {
+      "bytes": 1374,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_static_compare.py",
+      "sha256": "d25966b74227fab439b4242a104548b75861443e75dad9b22cc3b53d2c315447"
+    },
+    {
+      "bytes": 13809,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_structured_epsilon_numeric.py",
+      "sha256": "59a8d27f219fea153ceaef69403c589923f2328afb6e932ff737276aa80e0146"
+    },
+    {
+      "bytes": 10166,
+      "path": "artifacts/task18-evidence/epsilon1em6-probe-preparation-9aca1b/task18_structured_epsilon_probe.py",
+      "sha256": "d31069156da29db2a35316c6c4f01de4a6d930ff8204ec08bb28f1bae376cfa9"
+    }
+  ],
+  "helper_archive_equality": true,
+  "no_models_tests_generators_or_candidate_imports": true,
+  "output_absent": true,
+  "package_hash": "57c0920f360e47f2c3978f056437143c4262b8ab9653b753df1321402ade9717",
+  "report_path": ".superpowers/sdd/2026-10-16-famjet/task-18-epsilon-probe-preparation.md",
+  "report_sha256": "d67821fb8452e5a242dc59cf30d379ff7cf7505c5dc5134529bcf261bb8bf70f",
+  "seal_sha256": "8d63e88e6385e94980607b610ad161763e551f73b56e647dfa8ac50fd6ce1a19",
+  "source_commit": "9aca1b8514aea36d6da060fbd2db01c5a6b33bf7",
+  "static_ast_parse_only": true,
+  "status": "prepared_static_only_NOT_EXECUTED",
+  "tracked_git_clean": true
+}
