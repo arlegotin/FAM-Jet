@@ -1,0 +1,17 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--exit-code",
+    "dd0b33927cce8abe254adc06e652263d835d20bf",
+    "--",
+    "famjet/",
+    "requirements.lock",
+    "validation/kernel_stage_a/descriptors.py",
+    "validation/kernel_stage_a/fixture-descriptors.json",
+    "validation/kernel_stage_a/frozen-training-metadata.json"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

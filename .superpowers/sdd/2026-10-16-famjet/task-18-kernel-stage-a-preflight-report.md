@@ -124,3 +124,7 @@ The checked-in prospective seal is deliberately refused with exit2 before backen
 ## Review fix1 — 18 October 2026
 
 The original source review required six Important changes. Their implementation, controller-selected authority phase, exact identities, focused RED/GREEN evidence and pending execution fields are recorded in [the dedicated fix1 report](task-18-kernel-stage-a-preflight-fix1-report.md). Source commit `1430d29418575abbf137ad2f7573b5cee630ed95`; final focused40pass. Independent re-review and all scientific execution remain pending. The earlier sections and original evidence are preserved as historical observations.
+
+## Review fix2 — 18 October 2026
+
+The scoped fix1 review retained one Important F2/N1 live-helper RSS accounting defect. Source commit `288ffa33ac0477f65c19bde4b0138b8b4e9ccbf3` and its focused RED/GREEN/15-case covering evidence are documented in [the dedicated fix2 report](task-18-kernel-stage-a-preflight-fix2-report.md). Independent review, native identity integration and all scientific authority remain pending; prior records are preserved.

@@ -1,0 +1,100 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4316/test_live_authority_helper_is_0')
+stop_for = 'cap'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+        assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+        assert result['outer_seconds']<.2
+        assert result['authority_full_rss_peak_bytes']==130
+        assert result['incremental_worker_peak_bytes']==130
+        helper=result['workers'][str(helpers[0])]
+        assert helper['absolute_peak_bytes']==70
+        assert helper['baseline_bytes']==0 and helper['incremental_peak_bytes']==70
+        assert result['authority_phase']['completed']==[]
+        events=[json.loads(line) for line in (out/'monitor-events.jsonl').read_text().splitlines()]
+        assert not any(event['event']=='authority_helper_end' for event in events)
+        assert result['returncode']!=0
+>       assert json.loads((out/'monitor.json').read_text())==result
+E       AssertionError: assert {'status': 'S...8478aa4', ...} == {'status': 'S...8478aa4', ...}
+E         
+E         Omitting 20 identical items, use -vv to show
+E         Differing items:
+E         {'authority_phase': {'active': True, 'declarations': {'107436': {'pid': 107436, 'parent': 7436, 'executable': '/opt/ho...f-artemlegotin/pytest-4316/test_live_authority_helper_is_0', 'rev-parse', 'HEAD']}}, 'completed': [], 'ends': {}, ...}} != {'authority_phase': {'active': True, 'declarations': {107436: {'pid': 107436, 'parent': 7436, 'executable': '/opt/home...f-artemlegotin/pytest-4316/test_live_authority_helper_is_0', 'rev-parse', 'HEAD']}}, 'completed': [], 'ends': {}, ...}}
+E         Use -v to get more diff
+
+tests/test_kernel_stage_a_preflight_fix2.py:43: AssertionError
+_ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4316/test_live_authority_helper_is_1')
+stop_for = 'foreign'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+        assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+        assert result['outer_seconds']<.2
+        assert result['authority_full_rss_peak_bytes']==130
+        assert result['incremental_worker_peak_bytes']==130
+        helper=result['workers'][str(helpers[0])]
+        assert helper['absolute_peak_bytes']==70
+        assert helper['baseline_bytes']==0 and helper['incremental_peak_bytes']==70
+        assert result['authority_phase']['completed']==[]
+        events=[json.loads(line) for line in (out/'monitor-events.jsonl').read_text().splitlines()]
+        assert not any(event['event']=='authority_helper_end' for event in events)
+        assert result['returncode']!=0
+>       assert json.loads((out/'monitor.json').read_text())==result
+E       AssertionError: assert {'status': 'S...8478aa4', ...} == {'status': 'S...8478aa4', ...}
+E         
+E         Omitting 20 identical items, use -vv to show
+E         Differing items:
+E         {'authority_phase': {'active': True, 'declarations': {'107438': {'pid': 107438, 'parent': 7438, 'executable': '/opt/ho...f-artemlegotin/pytest-4316/test_live_authority_helper_is_1', 'rev-parse', 'HEAD']}}, 'completed': [], 'ends': {}, ...}} != {'authority_phase': {'active': True, 'declarations': {107438: {'pid': 107438, 'parent': 7438, 'executable': '/opt/home...f-artemlegotin/pytest-4316/test_live_authority_helper_is_1', 'rev-parse', 'HEAD']}}, 'completed': [], 'ends': {}, ...}}
+E         Use -v to get more diff
+
+tests/test_kernel_stage_a_preflight_fix2.py:43: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign]
+2 failed in 0.04s

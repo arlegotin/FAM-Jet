@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "compileall",
+    "-q",
+    "validation/kernel_stage_a/monitor.py",
+    "tests/test_kernel_stage_a_preflight_fix2.py"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

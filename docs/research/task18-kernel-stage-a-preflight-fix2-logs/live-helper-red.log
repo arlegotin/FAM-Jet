@@ -1,0 +1,73 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4315/test_live_authority_helper_is_0')
+stop_for = 'cap'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+>       assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+E       AssertionError: assert 'outer timeout' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + outer timeout
+
+tests/test_kernel_stage_a_preflight_fix2.py:32: AssertionError
+_ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4315/test_live_authority_helper_is_1')
+stop_for = 'foreign'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+        assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+        assert result['outer_seconds']<.2
+>       assert result['authority_full_rss_peak_bytes']==130
+E       assert 60 == 130
+
+tests/test_kernel_stage_a_preflight_fix2.py:34: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign]
+2 failed in 0.49s

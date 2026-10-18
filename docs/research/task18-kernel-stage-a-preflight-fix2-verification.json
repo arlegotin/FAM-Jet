@@ -1,0 +1,236 @@
+{
+  "scope": "F2/N1 external source accounting fix only; controlled RSS/process lifecycle, no native authority/monitor or scientific integration",
+  "base": "dd0b33927cce8abe254adc06e652263d835d20bf",
+  "source_commit": "288ffa33ac0477f65c19bde4b0138b8b4e9ccbf3",
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "dependency_lock_hash": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "review": {
+    "path": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix1-review.md",
+    "sha256": "4d009c291ca7acb5571fbb04b4cc2592a22a5d81c47f937e5160b16e027aa06a"
+  },
+  "fix_brief": {
+    "path": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-a-preflight-fix2-brief.md",
+    "sha256": "a160dfe5d3e4d9a3474fc5af7cb77cfcaab657c992bbfb2131df16203e9bc270"
+  },
+  "files": {
+    "validation/kernel_stage_a/README.md": "c8f1335e35c91205f7445b99feb9024217280c300c6ee47294eddf6a080c3ca4",
+    "validation/kernel_stage_a/__init__.py": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+    "validation/kernel_stage_a/__main__.py": "dde2be842cdb0d0b5c0757656c04116d58ac9bbca6c67d3a41c10862e0c58854",
+    "validation/kernel_stage_a/authority.py": "84beed96167dfa5704f12ea22a92ca7f5a24fa2c84affe59fda35750f89b87d3",
+    "validation/kernel_stage_a/commands.py": "55e9d2fb72b75e0c87ad06771351b5602566381d80c4f1598df4a0c508360c53",
+    "validation/kernel_stage_a/descriptors.py": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+    "validation/kernel_stage_a/driver.py": "aadc0a37d0a142cbffb03bfed42a33b8d38234382363d44d9be2b0b426eb7d89",
+    "validation/kernel_stage_a/fixture-descriptors.json": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0",
+    "validation/kernel_stage_a/frozen-training-metadata.json": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c",
+    "validation/kernel_stage_a/monitor.py": "6f30f22772777858791cc30ad2b72f908311591005a6a923f03ddc6257e049c5",
+    "validation/kernel_stage_a/production.py": "a8ff35fb86516be4c54806a7d0a8110287403ea8440fa41e2beb0bae11656ef3",
+    "validation/kernel_stage_a/prospective-seal.json": "6d331f63a24415b2675ef9aeb6ee9f3e54c6f1b214b44a977b0c228bbdfa3230",
+    "validation/kernel_stage_a/reader_worker.py": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+    "validation/kernel_stage_a/reference.py": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+    "tests/test_kernel_stage_a_preflight_fix2.py": "0e443963115cae25ad388eca465bd4dd6738511badeb4c91dcaff7f6050435ce"
+  },
+  "logs": {
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/compile.json": {
+      "sha256": "bd2dff467aeb6fc175ef5fb227719eb02cad55d15d41481fb22e92d4460df84e",
+      "bytes": 278
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/cover.log": {
+      "sha256": "c14a58c874335cdf5a2c5b3673f456c1ad4d0b7da65f61be9706a2b668cb7d34",
+      "bytes": 99
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/diff-check.json": {
+      "sha256": "b22f73cf147c14d535b6234e4f1410af1a43329b3f17d1945acb28adf46653db",
+      "bytes": 111
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-green-final.log": {
+      "sha256": "149e983c325e1215d8fe411fd58fb9c0fa38bc5dfa119c4a6a92d44ee61e3e10",
+      "bytes": 98
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-green.log": {
+      "sha256": "13373a39be01c47b5479b1a02d01d48959e926df1be0453a57024a20ee382b00",
+      "bytes": 7034
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-red.log": {
+      "sha256": "7fdf4d3501416fa4f7bedbbc9abaefac6b22cec05c076f570f5319117825dab2",
+      "bytes": 4499
+    },
+    "docs/research/task18-kernel-stage-a-preflight-fix2-logs/unchanged-inputs.json": {
+      "sha256": "53d3b0e3f6ef23a40fb18e71fc2fd9ea25a665dca9407e80136cf3b3144e6988",
+      "bytes": 382
+    }
+  },
+  "checks": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight_fix2.py"
+      ],
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "returncode": 1,
+      "summary": "2 failed in 0.49s; original cap timeout and missing helper charge",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-red.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight_fix2.py"
+      ],
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "returncode": 1,
+      "summary": "2 failed in 0.04s; resource assertions passed, direct dict/JSON PID-key shape assertion failed",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-green.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight_fix2.py"
+      ],
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "returncode": 0,
+      "summary": "2 passed in 0.03s; JSON-semantic durable equality",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/live-helper-green-final.log"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_kernel_stage_a_preflight_fix2.py",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediately",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_report_overflow_has_one_durable_returned_verdict",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_hung_observer_is_bounded_reaped_and_stops_owned_worker",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_baseline_observation_receives_original_remaining_deadline",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_real_full_authority_launch_is_accounted_and_gates_a_nonnumerical_backend",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f5_exact_authority_git_wait_is_bounded_and_reaped",
+        "tests/test_kernel_stage_a_preflight_fix1.py::test_f2_same_interpreter_wrong_argv_is_foreign_and_exact_commands_can_await_baseline",
+        "tests/test_kernel_stage_a_preflight.py::test_monitor_stops_whole_process_group_and_charges_temporary_outputs",
+        "tests/test_kernel_stage_a_preflight.py::test_monitor_memory_cap_requires_actual_post_import_baseline",
+        "tests/test_kernel_stage_a_preflight.py::test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv",
+        "tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit"
+      ],
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "returncode": 0,
+      "summary": "15 passed in 1.64s",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/cover.log"
+    },
+    {
+      "command": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "validation/kernel_stage_a/monitor.py",
+        "tests/test_kernel_stage_a_preflight_fix2.py"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/compile.json"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/diff-check.json"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "dd0b33927cce8abe254adc06e652263d835d20bf",
+        "--",
+        "famjet/",
+        "requirements.lock",
+        "validation/kernel_stage_a/descriptors.py",
+        "validation/kernel_stage_a/fixture-descriptors.json",
+        "validation/kernel_stage_a/frozen-training-metadata.json"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "log": "docs/research/task18-kernel-stage-a-preflight-fix2-logs/unchanged-inputs.json"
+    }
+  ],
+  "unchanged_native_policy_functions": {
+    "classify": "05690e8e77eecca2668023baf35d17373516ec6d4c0384494938ad9a4826775e",
+    "process_tree": "5387e6ddd97347528a6d7a796b98398dc46938712516669c3af71ced470844b6",
+    "record_baseline": "44626caa4ea30bcf122389f54510db056937a2d0acf65bbcdaf41684f030a22b"
+  },
+  "prior_monitor_sha256": "96ceaceeeea9e31e683b509101e7eaf36a50182e34b60a252f52090a96b28237",
+  "runtime": {
+    "python": "3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)]",
+    "executable": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+    "executable_sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5",
+    "decimal_version": "1.70",
+    "libmpdec_version": "4.0.1",
+    "machine": "arm64"
+  },
+  "authority_phase": {
+    "selected": "unchanged distinct monitored pre-backend full live verification in stage child; parent null/schema/deadline guard",
+    "charging": "full authority Python plus exact live declared helper RSS at baseline zero; sampled helper charge retained after completion/termination, independent of final identity verdict",
+    "identity": "unchanged exact executable,parent,argv,phase/lifetime classifier; no new exception; unresolved final identities fail",
+    "original_outer_seconds": 600,
+    "candidate_seconds": 90,
+    "incremental_bytes": 201326592,
+    "output_bytes": 67108864,
+    "free_disk_bytes": 4294967296
+  },
+  "controlled_result": {
+    "authority_python_bytes": 60,
+    "live_helper_bytes": 70,
+    "cap_bytes": 100,
+    "combined_retained_bytes": 130,
+    "cap_stop_before_helper_end": true,
+    "foreign_stop_retains_same_charge": true,
+    "helper_end_emitted": false,
+    "owned_process_terminated": true,
+    "durable_returned_json_semantics_equal": true
+  },
+  "scientific_execution": {
+    "fixture_snapshots": 0,
+    "production_factor_grid": 0,
+    "production_fixture_reads": 0,
+    "decimal_fixture_grid": 0,
+    "native_numerical_profile": 0,
+    "native_authority_monitor_integration": 0
+  },
+  "native_prerequisite": "PENDING: root separate own-Python truncated comm/framework launcher observation; native parser/display unchanged, no native-readiness claim",
+  "pending": {
+    "implementation_review": null,
+    "represented_rate_records": null,
+    "static_exports": null,
+    "resource_measurement_boundary_seal": null,
+    "fresh_launch_snapshot": null,
+    "output_directory": null
+  },
+  "root_stage_A_release": null
+}
