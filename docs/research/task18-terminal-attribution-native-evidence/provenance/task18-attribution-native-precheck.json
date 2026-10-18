@@ -1,0 +1,26 @@
+{
+  "head": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "clean_status": true,
+  "expected_hashes": {
+    "docs/research/task18-terminal-attribution-native-control.py": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+    "docs/research/task18-terminal-lifecycle-file-worker.py": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+    "validation/kernel_stage_a/monitor.py": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+  },
+  "free_disk_bytes": 15215648768,
+  "minimum_free_disk_bytes": 4294967296,
+  "wrapper_path": "/private/tmp/task18-attribution-native-once.py",
+  "wrapper_sha256": "56bce1b378cd5d64b64409811c1eedeed4995c24706434fdaa886019c9982f6e",
+  "original_wrapper_path": "docs/research/task18-terminal-lifecycle-file-control-evidence/native-attempt-runner.py",
+  "original_wrapper_sha256": "64bffd5460e5ddc997817bbf0c50b6d693c07628eacdefd5c2b2cbfead57158f",
+  "exact_replacements": {
+    "t18f-": "t18a-",
+    "docs/research/task18-terminal-lifecycle-file-control-evidence": "docs/research/task18-terminal-attribution-native-evidence",
+    "9550cf38f12915ff81a261ff5372febf26d294d4": "037b04484c6afe1b163c330cd10e1b593f43de62",
+    "docs/research/task18-terminal-lifecycle-file-control.py": "docs/research/task18-terminal-attribution-native-control.py",
+    "prior_seconds=.11512133304495364": "prior_seconds=.3026611660607159",
+    "one newly authorized corrected file invocation; no retry or science": "one separately authorized terminal-attribution invocation; no retry or science"
+  },
+  "constants_only_AST_equal": true,
+  "one_subprocess_run": true,
+  "precheck_epoch": 1792319777.191653
+}

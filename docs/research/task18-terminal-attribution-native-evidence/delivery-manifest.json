@@ -1,0 +1,148 @@
+{
+  "execution_head": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "scope": "new evidence and equal durable report only; this manifest excludes itself",
+  "files": {
+    "docs/research/task18-terminal-attribution-native-evidence/original-archive-verification.json": {
+      "bytes": 5500,
+      "sha256": "d79c0c0292f9e4641b3388a8a25c4cd747c9d8ae5ed5990884b892c08b059151",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/prior-artifacts-audit.json": {
+      "bytes": 3591310,
+      "sha256": "8b6a8b93fabc01a7f12020cf2ee84497f4081f594edfd8097053f92e562ced06",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/provenance/preservation-audit.py": {
+      "bytes": 2730,
+      "sha256": "f2b4e7f3fef2de1281d6cc4a608723f5a51285a36be828fe1e81cb76c9bd70c0",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/provenance/task-18-terminal-attribution-native-brief.md": {
+      "bytes": 4987,
+      "sha256": "ad4e31840aeceee704e80c96407a2b884ddd8be052ce08cb75947f1a2ff365ef",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/provenance/task18-attribution-native-once.py": {
+      "bytes": 2501,
+      "sha256": "56bce1b378cd5d64b64409811c1eedeed4995c24706434fdaa886019c9982f6e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/provenance/task18-attribution-native-precheck.json": {
+      "bytes": 1667,
+      "sha256": "3e9faa310e35bffc3428c28c2b7fa1c8a6f931eb9828e0c7e57ba9e4d19b10be",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/retained-witnesses.json": {
+      "bytes": 27437,
+      "sha256": "eaf113add26902599186f6b8bd156954192139caa351699be6b4a6fac2a175dc",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/source-audit.json": {
+      "bytes": 1221,
+      "sha256": "7bfbca54e6b0c5ef4b9b30e2e3592cb492d5a09c5b9aaeedd6cdcfb4c56f1244",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/attempt-before.json": {
+      "bytes": 1252,
+      "sha256": "98c46cb67e6ccaf944e34287718ae895491fc015214f161d43443bb560cabdc1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/attempt.json": {
+      "bytes": 1394,
+      "sha256": "1457cb339b889ab742e9dc0ed9029ac9f4aa40d125d21bb39b7077140ad218e2",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/committed-monitor.py": {
+      "bytes": 83322,
+      "sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/committed-parent.py": {
+      "bytes": 12851,
+      "sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/committed-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/full-output.log": {
+      "bytes": 110,
+      "sha256": "bc4645deb9fa02a6de45102f33a6806a0254050da4f9fa0e24dbb6e6b6cbd379",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/manifest.json": {
+      "bytes": 2408,
+      "sha256": "69e2c13fcb1c9bf931af1dd5f5d77c5bf20538728825560eb50d5ebf68d6aeb1",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/monitor-events.jsonl": {
+      "bytes": 125,
+      "sha256": "b7f266610cf1b9954dab1b03564bea6a664853034494c00a35f8567c9dc51e81",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/monitor-evidence.jsonl": {
+      "bytes": 25149,
+      "sha256": "92c1adbc7c02be78e69f106fe590a1df38a4f15f445ae2321d03c6029747182a",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/monitor.json": {
+      "bytes": 8192,
+      "sha256": "25d5167b01b9cd49d4f3a1d517a50ae1bcea69781d697826dec56c6933ae0c90",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/empty-output/stdout.log": {
+      "bytes": 97,
+      "sha256": "fe734a3328d5302343a1b7cdefb59de74a9f34fc6ee0f3cb32f2d2412eb7d7ac",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/native-result.json": {
+      "bytes": 13321,
+      "sha256": "9ef497d7059ecfd8e7485732f6582df236df27217eaa84ab15ff4e14de82cb80",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/monitor-events.jsonl": {
+      "bytes": 125,
+      "sha256": "e17d670446f0fa5f787657e6c46e555e5a1d92797675eb9f92337db87a531d16",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/monitor-evidence.jsonl": {
+      "bytes": 24958,
+      "sha256": "370411f8bb18ef2a222f3c70640d5b68d275bdd308cfee8fb5b2d56c8ba4ce4c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/monitor.json": {
+      "bytes": 8192,
+      "sha256": "40aa60efd1688b45968fc6099efe9c1a3f18c5ad682e24b6e39051a6df166482",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/t18a-32qideqn/native/survivor-output/stdout.log": {
+      "bytes": 98,
+      "sha256": "8dcf6744d31c82303ef9b01eed8151f1958acbc9e32ba3e683747db31dbca404",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-evidence/timing-boundaries.json": {
+      "bytes": 1145,
+      "sha256": "95f647be5a5a86aa5fa604bfa548bd27938f154c888e57aa9e81e3d373c3063c",
+      "kind": "file"
+    },
+    "docs/research/task18-terminal-attribution-native-report.md": {
+      "bytes": 7254,
+      "sha256": "980859dae34e5765d312f00259c73f2968d106dfc5a66ef82e0cdfa6c7ba174b",
+      "kind": "file"
+    }
+  },
+  "file_count": 28,
+  "bytes": 3829529
+}

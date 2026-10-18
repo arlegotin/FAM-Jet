@@ -1,0 +1,20 @@
+{
+  "native_parent_external_seconds": 0.31539287499617785,
+  "parent_internal_seconds": 0.29147862491663545,
+  "parent_startup_finalization_exit_difference_seconds": 0.0239142500795424,
+  "prior_failed_terminal_chain_seconds": 0.3026611660607159,
+  "terminal_chain_total_seconds": 0.6180540410568938,
+  "artifact_file_mtime_ns": {
+    "attempt_before": 1792319789120169247,
+    "parent_last_stdout": 1792319789430095299,
+    "original_native_result": 1792319789429687756,
+    "attempt_after_capture": 1792319789438072448,
+    "wrapper_manifest": 1792319789439171243
+  },
+  "result_write_to_archive_manifest_seconds": 0.009483487,
+  "last_stdout_to_attempt_capture_seconds": 0.007977149,
+  "last_stdout_to_archive_manifest_seconds": 0.009075944,
+  "artifact_timing_boundary": "filesystem mtime intervals: include parent exit and wrapper capture/hash/finalization; not an isolated monotonic copy benchmark",
+  "tool_reported_wrapper_wall_seconds": 0.278486292,
+  "tool_timing_note": "Tool field is shorter than measured parent run and is not used for elapsed or cumulative accounting; wrapper monotonic subprocess measurement is authoritative."
+}

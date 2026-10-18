@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-B",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-attribution-native-control.py",
+    "/private/tmp/t18a-32qideqn/native"
+  ],
+  "source_git": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "owned_base": "/private/tmp/t18a-32qideqn",
+  "inputs": {
+    "docs/research/task18-terminal-attribution-native-control.py": {
+      "bytes": 12851,
+      "sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52"
+    },
+    "docs/research/task18-terminal-lifecycle-file-worker.py": {
+      "bytes": 2183,
+      "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 83322,
+      "sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+    }
+  },
+  "thread_limits": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4",
+    "VECLIB_MAXIMUM_THREADS": "4",
+    "NUMEXPR_NUM_THREADS": "4"
+  },
+  "cpu_count": 14,
+  "prior_failed_native_command_seconds": 0.3026611660607159,
+  "scope": "one separately authorized terminal-attribution invocation; no retry or science"
+}

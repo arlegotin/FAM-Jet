@@ -1,0 +1,832 @@
+{
+  "indexing": "zero-based JSONL record indexes; extraction only, no new observation",
+  "cases": [
+    {
+      "case": "empty",
+      "root_pid": 84162,
+      "case_status": "PASS",
+      "worker_status": "COMPLETED",
+      "records": [
+        {
+          "index": 0,
+          "kind": "runtime",
+          "sample_id": null
+        },
+        {
+          "index": 1,
+          "kind": "python_root_launch",
+          "sample_id": null
+        },
+        {
+          "index": 2,
+          "kind": "sample",
+          "sample_id": 1
+        },
+        {
+          "index": 3,
+          "kind": "witness",
+          "sample_id": null
+        },
+        {
+          "index": 4,
+          "kind": "resolution",
+          "sample_id": 1
+        },
+        {
+          "index": 5,
+          "kind": "event",
+          "sample_id": null
+        },
+        {
+          "index": 6,
+          "kind": "sample",
+          "sample_id": 2
+        },
+        {
+          "index": 7,
+          "kind": "witness",
+          "sample_id": null
+        },
+        {
+          "index": 8,
+          "kind": "cleanup_membership",
+          "sample_id": null
+        },
+        {
+          "index": 9,
+          "kind": "cleanup_group_observation",
+          "sample_id": null
+        },
+        {
+          "index": 10,
+          "kind": "python_root_end",
+          "sample_id": null
+        },
+        {
+          "index": 11,
+          "kind": "cleanup_owner_poll",
+          "sample_id": null
+        },
+        {
+          "index": 12,
+          "kind": "cleanup_terminal_qualification",
+          "sample_id": 2
+        },
+        {
+          "index": 13,
+          "kind": "cleanup_owner_wait",
+          "sample_id": null
+        },
+        {
+          "index": 14,
+          "kind": "resolution",
+          "sample_id": 2
+        }
+      ],
+      "launch": {
+        "index": 1,
+        "value": {
+          "parent": 84160,
+          "role": "owned_root",
+          "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+          "argv": [
+            "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+            "-I",
+            "-B",
+            "-S",
+            "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+            "empty",
+            "/private/tmp/t18a-32qideqn/native/empty.socket",
+            "555484.138538333"
+          ],
+          "provenance": "source_owned_python_launch",
+          "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+          "vector_sha256": "33b9b7d6d1fffb26ce4306efe2924ee596635f89f8974eaaa655406add4db275",
+          "launcher": {
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+            "sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+          },
+          "expected_image": {
+            "method": "macos.proc_pidpath",
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+          },
+          "launch_start": 555479.6434105,
+          "reaped": false,
+          "pid": 84162
+        }
+      },
+      "end": {
+        "index": 10,
+        "value": {
+          "pid": 84162,
+          "parent": 84160,
+          "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+          "reaped": true,
+          "returncode": 0,
+          "completion_end": 555479.752453541
+        }
+      },
+      "samples": [
+        {
+          "index": 2,
+          "sample_id": 1,
+          "origin": "owned_supervisor",
+          "processes": [
+            {
+              "pid": 84162,
+              "parent": 84160,
+              "rss_bytes": 5242880,
+              "sample_start": 555479.645542916,
+              "sample_end": 555479.679529041,
+              "raw_comm": "/opt/homebrew/Ce",
+              "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B -S /Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py empty /private/tmp/t18a-32qideqn/native/empty.socket 555484.138538333",
+              "image": {
+                "status": "ok",
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+                "lookup_start": 555479.680091666,
+                "lookup_end": 555479.68172
+              },
+              "ambiguous": false
+            },
+            {
+              "pid": 84167,
+              "parent": 84160,
+              "rss_bytes": 1802240,
+              "sample_start": 555479.645542916,
+              "sample_end": 555479.679529041,
+              "raw_comm": "/bin/ps",
+              "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.68172225,
+                "lookup_end": 555479.681742416
+              },
+              "ambiguous": false
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "sample_id": 2,
+          "origin": "owned_supervisor",
+          "processes": [
+            {
+              "pid": 84169,
+              "parent": 84160,
+              "rss_bytes": 1785856,
+              "sample_start": 555479.704623208,
+              "sample_end": 555479.735865916,
+              "raw_comm": "/bin/ps",
+              "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.736412958,
+                "lookup_end": 555479.736500958
+              },
+              "ambiguous": false
+            },
+            {
+              "pid": 84162,
+              "parent": 84160,
+              "rss_bytes": 0,
+              "sample_start": 555479.704623208,
+              "sample_end": 555479.735865916,
+              "raw_comm": "<defunct>",
+              "raw_args": "<defunct>",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.736503375,
+                "lookup_end": 555479.736519083
+              },
+              "ambiguous": false
+            }
+          ]
+        }
+      ],
+      "membership": {
+        "index": 8,
+        "owner_unreaped": true,
+        "start": 555479.737194375,
+        "end": 555479.751358625,
+        "complete": true,
+        "rows": [
+          {
+            "pid": 84162,
+            "parent": 84160,
+            "pgid": 84162,
+            "rss_bytes": 0
+          },
+          {
+            "pid": 84170,
+            "parent": 84160,
+            "pgid": 84153,
+            "rss_bytes": 1785856
+          }
+        ],
+        "helper": {
+          "launch": {
+            "parent": 84160,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,pgid=,rss="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "abe04664d04d47b9b74224edd2a96414",
+            "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 555479.737385166,
+            "reaped": false,
+            "pid": 84170
+          },
+          "witness": {
+            "parent": 84160,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,pgid=,rss="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "abe04664d04d47b9b74224edd2a96414",
+            "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 555479.737385166,
+            "reaped": true,
+            "pid": 84170,
+            "completion_end": 555479.751337083,
+            "returncode": 0
+          },
+          "completion": {
+            "pid": 84170,
+            "parent": 84160,
+            "launch_id": "abe04664d04d47b9b74224edd2a96414",
+            "completion_end": 555479.751337083,
+            "reaped": true,
+            "returncode": 0
+          },
+          "image": {
+            "status": "ok",
+            "method": "macos.proc_pidpath",
+            "path": "/bin/ps",
+            "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083",
+            "lookup_start": 555479.738633583,
+            "lookup_end": 555479.73888675
+          },
+          "image_evidence": "kernel_image"
+        }
+      },
+      "qualifications": [
+        {
+          "index": 12,
+          "kind": "cleanup_terminal_qualification",
+          "qualified_terminal_root_only": true,
+          "membership_empty": false,
+          "route": "literal_terminal",
+          "sample_id": 2,
+          "completion": {
+            "pid": 84162,
+            "parent": 84160,
+            "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+            "reaped": true,
+            "returncode": 0,
+            "completion_end": 555479.752453541
+          }
+        }
+      ],
+      "signals": [],
+      "resolutions": [
+        {
+          "index": 4,
+          "kind": "resolution",
+          "sample_id": 1,
+          "roles": {
+            "84162": "pending_baseline",
+            "84167": "observer_helper"
+          },
+          "identities": {
+            "84162": {
+              "image_evidence": "kernel_image",
+              "launch_evidence": null,
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              }
+            },
+            "84167": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "c47a40d22e7b4a25b43161c2212f2a95",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            }
+          }
+        },
+        {
+          "index": 14,
+          "kind": "resolution",
+          "sample_id": 2,
+          "roles": {
+            "84162": "worker",
+            "84169": "observer_helper"
+          },
+          "identities": {
+            "84169": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "509af4fda3484e488505d3e214275028",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            },
+            "84162": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_python_lifetime",
+              "terminal_attribution": "source_only_terminal_attribution",
+              "raw_marker": "<defunct>",
+              "family": "owned_root",
+              "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+              "proof": {
+                "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+                "pid": 84162,
+                "origin": "unreaped_owned_root",
+                "lookup_start": 555479.680091666,
+                "lookup_end": 555479.68172,
+                "sample_id": 1
+              },
+              "completion": {
+                "pid": 84162,
+                "parent": 84160,
+                "launch_id": "c3cfcdd2d49d49d28e26027ea4091c61",
+                "reaped": true,
+                "returncode": 0,
+                "completion_end": 555479.752453541
+              },
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              },
+              "ownership_observability": "directly_observed_owner"
+            }
+          }
+        }
+      ],
+      "peer_read": null,
+      "syscalls": [],
+      "fallback": false
+    },
+    {
+      "case": "survivor",
+      "root_pid": 84171,
+      "case_status": "PASS",
+      "worker_status": "STOPPED",
+      "records": [
+        {
+          "index": 0,
+          "kind": "runtime",
+          "sample_id": null
+        },
+        {
+          "index": 1,
+          "kind": "python_root_launch",
+          "sample_id": null
+        },
+        {
+          "index": 2,
+          "kind": "sample",
+          "sample_id": 1
+        },
+        {
+          "index": 3,
+          "kind": "witness",
+          "sample_id": null
+        },
+        {
+          "index": 4,
+          "kind": "resolution",
+          "sample_id": 1
+        },
+        {
+          "index": 5,
+          "kind": "event",
+          "sample_id": null
+        },
+        {
+          "index": 6,
+          "kind": "sample",
+          "sample_id": 2
+        },
+        {
+          "index": 7,
+          "kind": "witness",
+          "sample_id": null
+        },
+        {
+          "index": 8,
+          "kind": "cleanup_membership",
+          "sample_id": null
+        },
+        {
+          "index": 9,
+          "kind": "cleanup_group_observation",
+          "sample_id": null
+        },
+        {
+          "index": 10,
+          "kind": "cleanup_signal",
+          "sample_id": null
+        },
+        {
+          "index": 11,
+          "kind": "cleanup_owner_wait",
+          "sample_id": null
+        },
+        {
+          "index": 12,
+          "kind": "python_root_end",
+          "sample_id": null
+        },
+        {
+          "index": 13,
+          "kind": "resolution",
+          "sample_id": 2
+        }
+      ],
+      "launch": {
+        "index": 1,
+        "value": {
+          "parent": 84160,
+          "role": "owned_root",
+          "executable": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+          "argv": [
+            "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+            "-I",
+            "-B",
+            "-S",
+            "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+            "survivor",
+            "/private/tmp/t18a-32qideqn/native/survivor.socket",
+            "555484.253678125"
+          ],
+          "provenance": "source_owned_python_launch",
+          "launch_id": "65556307038f4d72b25c5fb27150967c",
+          "vector_sha256": "5ad6611eef83635c152c6521e103ad1730dcfd5ba0b9ce9645f0a99701dfc278",
+          "launcher": {
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+            "sha256": "a1f6d9dc20d4787a84dc2fe782094a7bac5946f49a962aa0af48a02f0e8d5bc5"
+          },
+          "expected_image": {
+            "method": "macos.proc_pidpath",
+            "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+          },
+          "launch_start": 555479.756817083,
+          "reaped": false,
+          "pid": 84171
+        }
+      },
+      "end": {
+        "index": 12,
+        "value": {
+          "pid": 84171,
+          "parent": 84160,
+          "launch_id": "65556307038f4d72b25c5fb27150967c",
+          "reaped": true,
+          "returncode": 0,
+          "completion_end": 555479.867938791
+        }
+      },
+      "samples": [
+        {
+          "index": 2,
+          "sample_id": 1,
+          "origin": "owned_supervisor",
+          "processes": [
+            {
+              "pid": 84171,
+              "parent": 84160,
+              "rss_bytes": 4554752,
+              "sample_start": 555479.758573541,
+              "sample_end": 555479.791211916,
+              "raw_comm": "/opt/homebrew/Ce",
+              "raw_args": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -I -B -S /Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py survivor /private/tmp/t18a-32qideqn/native/survivor.socket 555484.253678125",
+              "image": {
+                "status": "ok",
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506",
+                "lookup_start": 555479.791810166,
+                "lookup_end": 555479.792116416
+              },
+              "ambiguous": false
+            },
+            {
+              "pid": 84172,
+              "parent": 84160,
+              "rss_bytes": 1785856,
+              "sample_start": 555479.758573541,
+              "sample_end": 555479.791211916,
+              "raw_comm": "/bin/ps",
+              "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.792120583,
+                "lookup_end": 555479.792142458
+              },
+              "ambiguous": false
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "sample_id": 2,
+          "origin": "owned_supervisor",
+          "processes": [
+            {
+              "pid": 84171,
+              "parent": 84160,
+              "rss_bytes": 0,
+              "sample_start": 555479.818811166,
+              "sample_end": 555479.850859416,
+              "raw_comm": "<defunct>",
+              "raw_args": "<defunct>",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.851451875,
+                "lookup_end": 555479.851543458
+              },
+              "ambiguous": false
+            },
+            {
+              "pid": 84174,
+              "parent": 84160,
+              "rss_bytes": 1785856,
+              "sample_start": 555479.818811166,
+              "sample_end": 555479.850859416,
+              "raw_comm": "/bin/ps",
+              "raw_args": "/bin/ps -axo pid=,ppid=,rss=,comm=,args=",
+              "image": {
+                "status": "error",
+                "method": "macos.proc_pidpath",
+                "reason": "native_lookup_failed",
+                "errno": 3,
+                "lookup_start": 555479.851546041,
+                "lookup_end": 555479.851561333
+              },
+              "ambiguous": false
+            }
+          ]
+        }
+      ],
+      "membership": {
+        "index": 8,
+        "owner_unreaped": true,
+        "start": 555479.852235958,
+        "end": 555479.866477541,
+        "complete": true,
+        "rows": [
+          {
+            "pid": 84171,
+            "parent": 84160,
+            "pgid": 84171,
+            "rss_bytes": 0
+          },
+          {
+            "pid": 84173,
+            "parent": 1,
+            "pgid": 84171,
+            "rss_bytes": 4325376
+          },
+          {
+            "pid": 84175,
+            "parent": 84160,
+            "pgid": 84153,
+            "rss_bytes": 1785856
+          }
+        ],
+        "helper": {
+          "launch": {
+            "parent": 84160,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,pgid=,rss="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "336037bdf37947b8ad6fd3b7e4cf4f8c",
+            "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 555479.852406791,
+            "reaped": false,
+            "pid": 84175
+          },
+          "witness": {
+            "parent": 84160,
+            "executable": "/bin/ps",
+            "argv": [
+              "/bin/ps",
+              "-axo",
+              "pid=,ppid=,pgid=,rss="
+            ],
+            "provenance": "source_owned_launch",
+            "launch_id": "336037bdf37947b8ad6fd3b7e4cf4f8c",
+            "vector_sha256": "164c12b4719dd160403ae32b71aacf46cd5209c61f721ef064c6289283a4a47a",
+            "artifact": {
+              "path": "/bin/ps",
+              "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+            },
+            "launch_start": 555479.852406791,
+            "reaped": true,
+            "pid": 84175,
+            "completion_end": 555479.866456375,
+            "returncode": 0
+          },
+          "completion": {
+            "pid": 84175,
+            "parent": 84160,
+            "launch_id": "336037bdf37947b8ad6fd3b7e4cf4f8c",
+            "completion_end": 555479.866456375,
+            "reaped": true,
+            "returncode": 0
+          },
+          "image": {
+            "status": "ok",
+            "method": "macos.proc_pidpath",
+            "path": "/bin/ps",
+            "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083",
+            "lookup_start": 555479.853595416,
+            "lookup_end": 555479.853854291
+          },
+          "image_evidence": "kernel_image"
+        }
+      },
+      "qualifications": [],
+      "signals": [
+        {
+          "index": 10,
+          "kind": "cleanup_signal",
+          "pid": 84171,
+          "signal": 9,
+          "success": true,
+          "owner_unreaped": true
+        }
+      ],
+      "resolutions": [
+        {
+          "index": 4,
+          "kind": "resolution",
+          "sample_id": 1,
+          "roles": {
+            "84171": "pending_baseline",
+            "84172": "observer_helper"
+          },
+          "identities": {
+            "84171": {
+              "image_evidence": "kernel_image",
+              "launch_evidence": null,
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              }
+            },
+            "84172": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "0c19705c74af4878a8b2e7faeeacc14b",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            }
+          }
+        },
+        {
+          "index": 13,
+          "kind": "resolution",
+          "sample_id": 2,
+          "roles": {
+            "84171": "worker",
+            "84174": "observer_helper"
+          },
+          "identities": {
+            "84171": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_python_lifetime",
+              "terminal_attribution": "source_only_terminal_attribution",
+              "raw_marker": "<defunct>",
+              "family": "owned_root",
+              "launch_id": "65556307038f4d72b25c5fb27150967c",
+              "proof": {
+                "launch_id": "65556307038f4d72b25c5fb27150967c",
+                "pid": 84171,
+                "origin": "unreaped_owned_root",
+                "lookup_start": 555479.791810166,
+                "lookup_end": 555479.792116416,
+                "sample_id": 1
+              },
+              "completion": {
+                "pid": 84171,
+                "parent": 84160,
+                "launch_id": "65556307038f4d72b25c5fb27150967c",
+                "reaped": true,
+                "returncode": 0,
+                "completion_end": 555479.867938791
+              },
+              "expected_image": {
+                "method": "macos.proc_pidpath",
+                "path": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+                "sha256": "619a54258d9057844c176bfb41b56501ee8d00966929c899c2aae73c7ddac506"
+              },
+              "ownership_observability": "directly_observed_owner"
+            },
+            "84174": {
+              "image_evidence": "unavailable_exited",
+              "launch_evidence": "source_owned_launch",
+              "launch_id": "0c2591355c3f488da9be232aeaab8a07",
+              "expected_image": {
+                "path": "/bin/ps",
+                "sha256": "16d273739778797145fd22cba76113d2aaa99c759313d56ef87ed56a16bca083"
+              }
+            }
+          }
+        }
+      ],
+      "peer_read": {
+        "start": 555479.869205416,
+        "end": 555479.869215875,
+        "raw": "{\"pid\": 84173, \"parent\": 84171, \"pgid\": 84171}\n",
+        "eof": true
+      },
+      "syscalls": [
+        {
+          "operation": "image",
+          "start": 555479.869226958,
+          "end": 555479.86927375,
+          "ok": true,
+          "value": {
+            "status": "error",
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "errno": 3,
+            "lookup_start": 555479.869227666,
+            "lookup_end": 555479.869272791
+          }
+        },
+        {
+          "operation": "getpgid",
+          "start": 555479.869274833,
+          "end": 555479.869284416,
+          "ok": false,
+          "type": "ProcessLookupError",
+          "errno": 3,
+          "message": "[Errno 3] No such process"
+        },
+        {
+          "operation": "nonowner_waitpid",
+          "start": 555479.869285208,
+          "end": 555479.869288166,
+          "ok": false,
+          "type": "ChildProcessError",
+          "errno": 10,
+          "message": "[Errno 10] No child processes"
+        }
+      ],
+      "fallback": false
+    }
+  ]
+}

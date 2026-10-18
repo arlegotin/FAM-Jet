@@ -1,0 +1,31 @@
+{
+  "base_git": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "source_git": "919caa9ecdddcc8674c446c8d3f59400bca14f0a",
+  "execution_head": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "files": {
+    "tests/test_kernel_stage_a_terminal_attribution.py": {
+      "bytes": 39770,
+      "sha256": "ebac870e61112f8d9e8255e05bf9376ce24fa6ae6e860f4062c79155f6beea83"
+    },
+    "validation/kernel_stage_a/monitor.py": {
+      "bytes": 83322,
+      "sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+    },
+    "validation/kernel_stage_a/authority.py": {
+      "bytes": 17718,
+      "sha256": "25d172f31df4ee70069f91840c5f48a2d12759d733744744fbb0ff30163af5d4"
+    },
+    "validation/kernel_stage_a/commands.py": {
+      "bytes": 2375,
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0"
+    },
+    "requirements.lock": {
+      "bytes": 2658,
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    }
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "expected_package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "package_unchanged": true,
+  "authority_diff": ""
+}

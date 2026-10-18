@@ -1,0 +1,70 @@
+{
+  "attempt-before.json": {
+    "bytes": 1252,
+    "sha256": "98c46cb67e6ccaf944e34287718ae895491fc015214f161d43443bb560cabdc1"
+  },
+  "attempt.json": {
+    "bytes": 1394,
+    "sha256": "1457cb339b889ab742e9dc0ed9029ac9f4aa40d125d21bb39b7077140ad218e2"
+  },
+  "committed-monitor.py": {
+    "bytes": 83322,
+    "sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+  },
+  "committed-parent.py": {
+    "bytes": 12851,
+    "sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52"
+  },
+  "committed-worker.py": {
+    "bytes": 2183,
+    "sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1"
+  },
+  "full-output.log": {
+    "bytes": 110,
+    "sha256": "bc4645deb9fa02a6de45102f33a6806a0254050da4f9fa0e24dbb6e6b6cbd379"
+  },
+  "native/empty-output/monitor-events.jsonl": {
+    "bytes": 125,
+    "sha256": "b7f266610cf1b9954dab1b03564bea6a664853034494c00a35f8567c9dc51e81"
+  },
+  "native/empty-output/monitor-evidence.jsonl": {
+    "bytes": 25149,
+    "sha256": "92c1adbc7c02be78e69f106fe590a1df38a4f15f445ae2321d03c6029747182a"
+  },
+  "native/empty-output/monitor.json": {
+    "bytes": 8192,
+    "sha256": "25d5167b01b9cd49d4f3a1d517a50ae1bcea69781d697826dec56c6933ae0c90"
+  },
+  "native/empty-output/stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/empty-output/stdout.log": {
+    "bytes": 97,
+    "sha256": "fe734a3328d5302343a1b7cdefb59de74a9f34fc6ee0f3cb32f2d2412eb7d7ac"
+  },
+  "native/native-result.json": {
+    "bytes": 13321,
+    "sha256": "9ef497d7059ecfd8e7485732f6582df236df27217eaa84ab15ff4e14de82cb80"
+  },
+  "native/survivor-output/monitor-events.jsonl": {
+    "bytes": 125,
+    "sha256": "e17d670446f0fa5f787657e6c46e555e5a1d92797675eb9f92337db87a531d16"
+  },
+  "native/survivor-output/monitor-evidence.jsonl": {
+    "bytes": 24958,
+    "sha256": "370411f8bb18ef2a222f3c70640d5b68d275bdd308cfee8fb5b2d56c8ba4ce4c"
+  },
+  "native/survivor-output/monitor.json": {
+    "bytes": 8192,
+    "sha256": "40aa60efd1688b45968fc6099efe9c1a3f18c5ad682e24b6e39051a6df166482"
+  },
+  "native/survivor-output/stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/survivor-output/stdout.log": {
+    "bytes": 98,
+    "sha256": "8dcf6744d31c82303ef9b01eed8151f1958acbc9e32ba3e683747db31dbca404"
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "allocation_start": 555479.57787925,
+  "absolute_deadline": 555489.57787925,
+  "scope": "ONE stdlib native two-case terminal lifecycle integration; zero science",
+  "cases": [
+    {
+      "case": "empty",
+      "start": 555479.638538333,
+      "deadline": 555484.138538333,
+      "syscalls": [],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "-S",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "empty",
+        "/private/tmp/t18a-32qideqn/native/empty.socket",
+        "555484.138538333"
+      ],
+      "vector_sha256": "33b9b7d6d1fffb26ce4306efe2924ee596635f89f8974eaaa655406add4db275",
+      "inputs": {
+        "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-attribution-native-control.py",
+        "parent_sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+        "parent_bytes": 12851,
+        "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+        "worker_bytes": 2183,
+        "original_control_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/committed-native-control.py",
+        "original_control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+        "worker_body_byte_equal": true,
+        "parent_ast_parse": true,
+        "worker_ast_parse": true,
+        "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+        "monitor_sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+      },
+      "execution_status": "COMPLETED",
+      "verdict": {
+        "status": "COMPLETED",
+        "reason": null,
+        "monitor_failure": null,
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "33b9b7d6d1fffb26ce4306efe2924ee596635f89f8974eaaa655406add4db275",
+        "returncode": 0,
+        "outer_seconds": 0.11473516700789332,
+        "utc_start_epoch": 1792319789.198543,
+        "utc_end_epoch": 1792319789.313204,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.11429329193197191,
+        "absolute_process_tree_peak_bytes": 7045120,
+        "incremental_worker_peak_bytes": 1802240,
+        "observed_pid_peak_sum_bytes": 10616832,
+        "workers": {
+          "84162": {
+            "absolute_peak_bytes": 5242880,
+            "baseline_bytes": 5242880,
+            "incremental_peak_bytes": 0,
+            "role": "worker",
+            "parent": 84160
+          },
+          "84167": {
+            "absolute_peak_bytes": 1802240,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1802240,
+            "role": "observer_helper",
+            "parent": 84160
+          },
+          "84169": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 84160
+          },
+          "84170": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 84160
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 4,
+        "observer_helper_peak_bytes": 1802240,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [],
+        "unresolved_worker_count": 0,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 15,
+          "accepted_samples": 2,
+          "bytes": 25149,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 125,
+          "samples": 0
+        },
+        "classified_process_observations": 4,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 33563
+      },
+      "root_pid": 84162,
+      "member_rows": [
+        {
+          "pid": 84162,
+          "parent": 84160,
+          "pgid": 84162,
+          "rss_bytes": 0
+        }
+      ],
+      "terminal_root_route": "literal_terminal",
+      "membership_distinction": "qualified_terminal_root_only",
+      "compatibility": "PASS",
+      "end": 555479.753676041,
+      "elapsed": 0.11513770802412182
+    },
+    {
+      "case": "survivor",
+      "start": 555479.753678125,
+      "deadline": 555484.253678125,
+      "syscalls": [
+        {
+          "operation": "image",
+          "start": 555479.869226958,
+          "end": 555479.86927375,
+          "ok": true,
+          "value": {
+            "status": "error",
+            "method": "macos.proc_pidpath",
+            "reason": "native_lookup_failed",
+            "errno": 3,
+            "lookup_start": 555479.869227666,
+            "lookup_end": 555479.869272791
+          }
+        },
+        {
+          "operation": "getpgid",
+          "start": 555479.869274833,
+          "end": 555479.869284416,
+          "ok": false,
+          "type": "ProcessLookupError",
+          "errno": 3,
+          "message": "[Errno 3] No such process"
+        },
+        {
+          "operation": "nonowner_waitpid",
+          "start": 555479.869285208,
+          "end": 555479.869288166,
+          "ok": false,
+          "type": "ChildProcessError",
+          "errno": 10,
+          "message": "[Errno 10] No child processes"
+        }
+      ],
+      "fallback_cleanup": false,
+      "vector": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-I",
+        "-B",
+        "-S",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "survivor",
+        "/private/tmp/t18a-32qideqn/native/survivor.socket",
+        "555484.253678125"
+      ],
+      "vector_sha256": "5ad6611eef83635c152c6521e103ad1730dcfd5ba0b9ce9645f0a99701dfc278",
+      "inputs": {
+        "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-attribution-native-control.py",
+        "parent_sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+        "parent_bytes": 12851,
+        "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+        "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+        "worker_bytes": 2183,
+        "original_control_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/committed-native-control.py",
+        "original_control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+        "worker_body_byte_equal": true,
+        "parent_ast_parse": true,
+        "worker_ast_parse": true,
+        "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+        "monitor_sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+      },
+      "execution_status": "STOPPED",
+      "verdict": {
+        "status": "STOPPED",
+        "reason": "foreign process identity",
+        "monitor_failure": null,
+        "cleanup_diagnostics": [],
+        "stage_launch_vector_sha256": "5ad6611eef83635c152c6521e103ad1730dcfd5ba0b9ce9645f0a99701dfc278",
+        "returncode": 0,
+        "outer_seconds": 0.11502920906059444,
+        "utc_start_epoch": 1792319789.31374,
+        "utc_end_epoch": 1792319789.4286919,
+        "timing_boundary": "before bounded final commit; caller must measure full elapsed including commit",
+        "finalization_start_seconds": 0.11452179204206914,
+        "absolute_process_tree_peak_bytes": 6340608,
+        "incremental_worker_peak_bytes": 6111232,
+        "observed_pid_peak_sum_bytes": 14237696,
+        "workers": {
+          "84171": {
+            "absolute_peak_bytes": 4554752,
+            "baseline_bytes": 4554752,
+            "incremental_peak_bytes": 0,
+            "role": "worker",
+            "parent": 84160
+          },
+          "84172": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 84160
+          },
+          "84174": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 84160
+          },
+          "84173": {
+            "absolute_peak_bytes": 4325376,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 4325376,
+            "role": "unaccounted",
+            "parent": 1
+          },
+          "84175": {
+            "absolute_peak_bytes": 1785856,
+            "baseline_bytes": 0,
+            "incremental_peak_bytes": 1785856,
+            "role": "observer_helper",
+            "parent": 84160
+          }
+        },
+        "workers_complete_inline": true,
+        "worker_count": 5,
+        "observer_helper_peak_bytes": 1785856,
+        "authority_full_rss_peak_bytes": 0,
+        "authority_phase": {
+          "active": false,
+          "declarations": {},
+          "completed": [],
+          "ends": {},
+          "commands": [],
+          "started": false,
+          "details_complete_inline": true,
+          "helper_count": 0,
+          "completed_count": 0
+        },
+        "missing_worker_baselines": [
+          "84173"
+        ],
+        "unresolved_worker_count": 1,
+        "evidence": {
+          "path": "monitor-evidence.jsonl",
+          "accepted_records": 14,
+          "accepted_samples": 2,
+          "bytes": 24958,
+          "rejected_observations": 0,
+          "rejected_rss_bytes": 0,
+          "rejected_raw_complete": true
+        },
+        "source_event_accounting": {
+          "complete": true,
+          "status": "COMPLETE",
+          "identity_complete": true,
+          "through_bytes": 125,
+          "samples": 0
+        },
+        "classified_process_observations": 4,
+        "verdict_reserved_bytes": 8192,
+        "rss_scope": "sampled resident memory; not allocator peak",
+        "output_bytes_before_monitor_report": 33373
+      },
+      "root_pid": 84171,
+      "member_rows": [
+        {
+          "pid": 84171,
+          "parent": 84160,
+          "pgid": 84171,
+          "rss_bytes": 0
+        },
+        {
+          "pid": 84173,
+          "parent": 1,
+          "pgid": 84171,
+          "rss_bytes": 4325376
+        }
+      ],
+      "terminal_root_route": "literal_terminal",
+      "peer_read": {
+        "start": 555479.869205416,
+        "end": 555479.869215875,
+        "raw": "{\"pid\": 84173, \"parent\": 84171, \"pgid\": 84171}\n",
+        "eof": true
+      },
+      "descendant": {
+        "pid": 84173,
+        "parent": 84171,
+        "pgid": 84171
+      },
+      "descendant_evidence": "actual same-group query + required group signal + sole descendant socket EOF; no owning orphan reap claimed",
+      "compatibility": "PASS",
+      "end": 555479.869352166,
+      "elapsed": 0.11567404097877443
+    }
+  ],
+  "source_git": "037b04484c6afe1b163c330cd10e1b593f43de62",
+  "control_sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+  "inputs": {
+    "parent_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-attribution-native-control.py",
+    "parent_sha256": "4409c30af45bddd05c00eed3a0cbb914a9c201dfc0667a5fce85bc0c558d8c52",
+    "parent_bytes": 12851,
+    "worker_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-file-worker.py",
+    "worker_sha256": "694a1269d8441594d3f119495b527eae63301eb34540d082b5539b45480ce1f1",
+    "worker_bytes": 2183,
+    "original_control_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/task18-terminal-lifecycle-evidence/t18n-0zr5z837/committed-native-control.py",
+    "original_control_sha256": "8ef48405e455c8985e8cd815a605ac537c2a819f355cf5f3d4973ee4b1934917",
+    "worker_body_byte_equal": true,
+    "parent_ast_parse": true,
+    "worker_ast_parse": true,
+    "monitor_path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_a/monitor.py",
+    "monitor_sha256": "e79baf213a39bf9b627086f4a039a0d8976037de21fae9028cc5c48b9bc0280e"
+  },
+  "end": 555479.869357875,
+  "elapsed": 0.29147862491663545,
+  "compatibility": "PASS"
+}
