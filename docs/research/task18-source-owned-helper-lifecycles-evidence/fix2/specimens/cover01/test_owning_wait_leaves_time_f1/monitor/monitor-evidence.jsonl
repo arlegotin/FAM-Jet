@@ -1,0 +1,5 @@
+{"kind":"sample","sample_id":1,"rss":{},"processes":[],"before":100.0,"after":100.0718,"origin":"owned_supervisor","event_reference":null}
+{"kind":"resolution","sample_id":1,"roles":{},"identities":{}}
+{"kind":"cleanup_signal","pid":570001,"signal":9,"success":true,"owner_unreaped":true}
+{"kind":"cleanup_owner_wait","pid":570001,"start":100.072,"timeout_seconds":0.003999999999997783,"error":{"type":"TimeoutExpired","message":"Command '['controlled owner']' timed out after 0.003999999999997783 seconds"},"end":100.076,"returncode":null,"reaped":false}
+{"kind":"cleanup_owner_end","pid":570001,"returncode":null,"reaped":false,"monotonic":100.07709999999999,"origin":"synthetic_sampler"}

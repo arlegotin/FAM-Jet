@@ -1,0 +1,63 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_owning_wait_leaves_time_for_actual_evidence_and_failed_source_commit[unknown] _
+
+tmp_path = PosixPath('/private/tmp/task18-source-lifecycle-fix2-red02-1u3e0rtc/test_owning_wait_leaves_time_f0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106a68c30>
+waitable_delay = None
+
+    @pytest.mark.parametrize('waitable_delay',[.0035,None],ids=['reaped','unknown'])
+    def test_owning_wait_leaves_time_for_actual_evidence_and_failed_source_commit(tmp_path,monkeypatch,waitable_delay):
+        """Run stdlib POSIX wait with controlled waitpid, clock and journal cost."""
+        import json,threading
+        now=[100.]; waitable=[float('inf')]; sleeps=[]; timeouts=[]; trace=[]
+        real_popen=m.subprocess.Popen
+        owner=real_popen.__new__(real_popen)
+        owner.pid=570001; owner.args=['controlled owner']; owner.returncode=None; owner._child_created=False
+        owner._waitpid_lock=threading.Lock()
+        owner.poll=lambda:owner.returncode
+        owner._try_wait=lambda options:(owner.pid,9) if now[0]>=waitable[0] else (0,0)
+        actual_wait=owner.wait
+        def wait(timeout):
+            timeouts.append(timeout); trace.append(dict(operation='wait_start',time=now[0],timeout=timeout))
+            value=actual_wait(timeout=timeout)
+            trace.append(dict(operation='wait_end',time=now[0],returncode=value))
+            return value
+        owner.wait=wait
+        monkeypatch.setattr(m.subprocess,'Popen',lambda *args,**kw:owner)
+        monkeypatch.setattr(m.subprocess,'_time',lambda:now[0])
+        monkeypatch.setattr(m.time,'monotonic',lambda:now[0])
+        def sleep(seconds): sleeps.append(seconds); now[0]+=seconds
+        monkeypatch.setattr(m.time,'sleep',sleep)
+        def kill(pid,signum):
+            assert pid==owner.pid and signum==9 and owner.returncode is None
+            waitable[0]=now[0]+waitable_delay if waitable_delay is not None else float('inf')
+            trace.append(dict(operation='signal',time=now[0]))
+        monkeypatch.setattr(m.os,'killpg',kill)
+        original_json=m._bounded_json
+        def encode(value,*args,**kwargs):
+            if value.get('kind')=='cleanup_owner_wait': now[0]+=.0011
+            if 'outer_seconds' in value: now[0]+=.0002
+            return original_json(value,*args,**kwargs)
+        monkeypatch.setattr(m,'_bounded_json',encode)
+        out=tmp_path/'monitor'
+        def sampler(pid):
+            now[0]=100.0718
+            (out/'monitor-events.jsonl').write_bytes(b'{"event":')
+            return {}
+        result=m.supervise(['/fixture/python'],out,sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+        raw=[json.loads(line) for line in (out/'monitor-evidence.jsonl').read_text().splitlines()]
+        (out/'controlled-timing.json').write_text(json.dumps(dict(trace=trace,sleeps=sleeps,timeouts=timeouts,end=now[0]),indent=2)+'\n')
+        assert result['status']=='FAILED' and result['source_event_accounting']['complete'] is False
+        expected=-9 if waitable_delay is not None else None
+        assert result['returncode']==expected
+        waited=[r for r in raw if r['kind']=='cleanup_owner_wait']
+        ended=[r for r in raw if r['kind']=='cleanup_owner_end']
+>       assert len(waited)==len(ended)==1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/test_kernel_stage_a_source_lifecycles.py:468: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_source_lifecycles.py::test_owning_wait_leaves_time_for_actual_evidence_and_failed_source_commit[unknown]
+1 failed, 77 deselected in 0.07s

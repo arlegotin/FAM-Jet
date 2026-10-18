@@ -91,3 +91,12 @@ red01/green01 selected `tests/test_kernel_stage_a_source_lifecycles.py -q -ra`; 
 `fix1/pre-fix-manifest.json` timestamps/hashes five actual pre-fix files. `fix1/specimen-manifest.json` preserves 40 selected files/117374 bytes: RED02 accepted bad Git lifetimes, final Git controls, deterministic reserve control and the actual partial-journal specimen. No shared historical tree was copied. Intermediate edits were not separately snapshotted. The static audit confirms protected files and root receipt AST unchanged; package/lock retain the full hashes above. No previous input/evidence, math, command, assertion or budget changed.
 
 Current static parent SHA256: `3275a093357ca2618973690e03c55f407d2219e60eb68572343b08dc20d42198`. Worker remains `14a1f41cd099fed3bfe553340e2cbdf174e2e4c005312a25fb6c5c9b976de254`. Current monitor/registry/test hashes are retained in `fix1/static-audit.json`. The new native control remains unobserved; scoped I1–I5/M1 rereview and any native/science allocation remain separate. HOLD.
+
+
+## Fix round 2 — I3 only
+
+**HOLD; source `8642b7c57c90b16ff4a2eab2f04759540e5a9962`.** The stdlib wait backoff could consume the whole cleanup remainder. Wait now receives half that existing remainder, leaving time for actual wait/error and diagnostic owner-status evidence; native root-end/receipt and budgets are unchanged. Unknown status stays unknown.
+
+Focused coverage increased 76→78 passing controls. RED01/02 each failed as intended. cover01: 362 passed/1 failed/6 deselected; root-authorized strictly ordered Git fixture timestamps corrected an equality artifact without changing its assertion or I2 source. cover02: **363 passed/6 deselected**. The original partial-journal operation remains **FAILED/source-incomplete/−9**, retaining signal→actual wait→diagnostic end without cleanup diagnostics, at **0.07480183301959187 s** before final commit.
+
+[Full fix2 audit](task18-source-owned-helper-lifecycles-evidence/fix2/audit-note.md) retains rationale, exact commands/output, failures, timing limitations, specimens and current hashes. No native/scientific run; earlier failures unchanged.
