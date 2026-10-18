@@ -333,11 +333,11 @@ def test_observed_schema_and_package_match_read_only_registered_interfaces():
 
 
 def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv():
-    m=module('monitor')
+    m=module('monitor'); import os,sys
     entry=dict(pid=30,parent=20,executable=m.PS,argv=m.PS_ARGV)
     declared={30:entry}
-    processes={10:dict(parent=1,executable='/python',argv=[]),
-               20:dict(parent=10,executable='/python',argv=[]),30:entry}
+    processes={10:dict(parent=os.getpid(),executable=sys.executable,argv=[]),
+               20:dict(parent=10,executable=sys.executable,argv=[]),30:entry}
     roles=m.classify(10,processes,{10:100,20:100},declared)
     assert roles=={10:'worker',20:'worker',30:'observer_helper'}
     assert m.classify(10,processes,{10:100},declared)[30]=='unaccounted'
@@ -346,10 +346,13 @@ def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv(
         altered[30]=dict(entry,**change)
         assert m.classify(10,altered,{10:100,20:100},declared)[30]=='unaccounted'
     assert m.classify(10,processes,{10:100,20:100},{})[30]=='unaccounted'
+    for change in (dict(parent=99),dict(executable='/tmp/not-python')):
+        altered=dict(processes); altered[20]=dict(processes[20],**change)
+        assert m.classify(10,altered,{10:100,20:100},declared)[20]=='unaccounted'
 
 
 def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
-    m=module('monitor'); import sys
+    m=module('monitor'); import os,sys
     code='''
 import json,os,time
 from pathlib import Path
@@ -366,7 +369,7 @@ time.sleep(10)
         helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
         readings={pid:100}
         if polls[0]<3: readings[pid+100000]=20
-        return m.ResidentTree(readings,{pid:dict(parent=1,executable='/python',argv=[]),pid+100000:helper})
+        return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[]),pid+100000:helper})
     result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
                         free_disk_bytes=0,incremental_bytes=100,sampler=sample)
     assert result['reason']=='incremental worker memory cap'

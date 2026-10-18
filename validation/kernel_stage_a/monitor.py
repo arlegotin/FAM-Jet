@@ -6,6 +6,7 @@ import selectors
 import shutil
 import signal
 import subprocess
+import sys
 import time
 
 PS='/bin/ps'
@@ -18,13 +19,16 @@ class ResidentTree(dict):
 
 
 def classify(root_pid,processes,baselines,declarations):
+    workers={pid for pid,entry in processes.items() if pid in baselines and
+             Path(entry['executable']).resolve()==Path(sys.executable).resolve() and
+             entry['parent']==(os.getpid() if pid==root_pid else root_pid)}
     roles={}
     for pid,entry in processes.items():
-        if pid in baselines: roles[pid]='worker'; continue
+        if pid in workers: roles[pid]='worker'; continue
         declared=declarations.get(pid)
         roles[pid]='observer_helper' if (declared is not None and entry==declared and
             entry['executable']==PS and entry['argv']==PS_ARGV and
-            (entry['parent']==os.getpid() or (entry['parent'] in baselines and
+            (entry['parent']==os.getpid() or (entry['parent'] in workers and
             (entry['parent']==root_pid or processes.get(entry['parent'],{}).get('parent')==root_pid)))) else 'unaccounted'
     return roles
 
@@ -150,8 +154,9 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                 observer_helper_peak_bytes=overhead_peak,observer_helper_charge='full RSS, baseline zero; conservative observed helper peak added to worker peak',
                 output_bytes_before_monitor_report=charged_bytes(),timer_resolution=time.get_clock_info('monotonic').resolution,
                 rss_poll_seconds=.02,rss_scope='sampled resident memory; not allocator peak',
-                missing_worker_baselines=[pid for pid,v in per_worker.items() if v['baseline_bytes'] is None and
-                     classify(process.pid,identities,baselines,declarations).get(int(pid))!='observer_helper'])
+                missing_worker_baselines=[pid for pid,v in per_worker.items()
+                     if ((int(pid) in identities and final_roles.get(int(pid))=='unaccounted') or
+                         (v['baseline_bytes'] is None and final_roles.get(int(pid))!='observer_helper'))])
     if result['missing_worker_baselines'] and not reason:
         result.update(status='STOPPED',reason='missing post-import worker baseline')
     (output/'monitor.json').write_text(json.dumps(result,indent=2)+'\n')
