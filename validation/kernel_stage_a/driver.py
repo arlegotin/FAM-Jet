@@ -45,8 +45,8 @@ def execute(backend,*,checkpoint):
                     row=inventory[ci*128+index]
                     if stopped: row['status']='UNEXECUTED_CANDIDATE_STOP'; continue
                     checkpoint()
-                    if time.monotonic()-candidate_start>=90: raise CommonFailure('candidate timeout')
-                    if time.monotonic()-stage_start>=600: raise CommonFailure('outer timeout')
+                    if time.monotonic()-candidate_start>=authority.LIMITS['candidate_seconds']: raise CommonFailure('candidate timeout')
+                    if time.monotonic()-stage_start>=authority.LIMITS['outer_seconds']: raise CommonFailure('outer timeout')
                     start=time.monotonic()
                     outcome=backend.slot(candidate,slot,ledger)
                     row.update(status='EXECUTED',outcome=outcome,seconds=time.monotonic()-start)

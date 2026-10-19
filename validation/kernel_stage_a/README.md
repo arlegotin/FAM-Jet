@@ -38,6 +38,8 @@ the exact payload hash. Its hash layers are: source/input files -> observed
 inventory -> seal payload -> root release. The seal never includes its own hash.
 The later root must regenerate observations at the final clean HEAD; an earlier
 prospective observation is not permission to bypass exact identity checks.
+The checked-in prospective seal remains null-blocking, and its historical
+observed hashes are not fresh authority after these source changes.
 
 The parent performs only seal/null/original-deadline entry checks. The monitored
 stage child completes full live verification in one pre-backend authority phase.
@@ -121,6 +123,14 @@ sampled worker and observer observations and phase maxima; it is not an absolute
 physical-memory or startup ceiling. Report sampled absolute tree RSS, startup,
 baselines and unresolved charges separately. The generic monitor default remains
 201326592 bytes (192 MiB), as do historical seals and their recorded limits.
+
+The adopted [19 October 2026 completion-resource amendment](../../docs/amendments/2026-10-19-kernel-stage-a-completion-resources.md)
+sets the active prospective common bounds to **1200 seconds shared from setup
+through inspection/sealing and Stage A**, **180 seconds per candidate**, and
+**201326592 bytes (192 MiB) aggregate output**, including setup, temporaries
+and finalization. The setup finalizer still reserves 1 MiB inside that total.
+All six candidates use the same bounds. Historical attempts retain their
+recorded 600/90-second and 64 MiB limits.
 
 For ordinary samples, only the exact declared `/bin/ps -axo pid=,ppid=,rss=,comm=,args=`
 launch is an observer helper. Its sampled display may differ after exit; it is
@@ -214,7 +224,7 @@ the smaller of the remaining applicable deadline and a conservative one-second
 observer bound. Timeout/failure kills and reaps the exact observer and owned
 worker group; bounded cleanup time remains failed/charged cost. Authority Git
 waits and reader baseline observers receive the original/candidate deadline;
-there is no extra600s or90s window.
+there is no extra outer or candidate window.
 
 Pending setup and exact invocation
 ----------------------------------
@@ -235,13 +245,13 @@ The setup ledger must contain `actual_factor_constructions:6`, `actual_reads:0`,
 `output_directory`, `output_peak_bytes` and `incremental_worker_peak_bytes`.
 Retain absolute/process-tree readings, baselines, failed setup work, times and
 serialization/copy counts in that same ledger. Files, logs and temporary overlap
-in the preparation directory remain charged to the 64MiB total. Static exports
+in the preparation directory remain charged to the 192MiB total. Static exports
 are exact existing closed method records; rates are JSON lists of binary64 hex
 strings, four for Jet and eight for Bank, in caller order. Do not regenerate a
 second grid. Setup files should remain outside the clean source checkout.
 
 Setup and the later driver share the **same original monotonic start and absolute
-start+600s deadline**. Root's verification gap consumes that allowance. The
+start+1200s deadline**. Root's verification gap consumes that allowance. The
 resource boundary has exactly the five constant fields checked in authority.py
 plus `allocation_start_monotonic`, `allocation_start_utc_epoch`,
 `deadline_monotonic`, `setup_ledger:{path,sha256}`. A fresh launch snapshot has

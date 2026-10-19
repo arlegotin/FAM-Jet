@@ -53,7 +53,10 @@ def main():
     result=supervise(commands.stage_command(root,args.seal),
              Path(pending['output_directory']),outer_seconds=boundary['deadline_monotonic']-time.monotonic(),
              preparation_output=Path(setup['output_directory']),authority_root=root,deadline=boundary['deadline_monotonic'],
-             incremental_bytes=authority.LIMITS['incremental_worker_bytes'])
+             incremental_bytes=authority.LIMITS['incremental_worker_bytes'],
+             output_bytes=authority.LIMITS['output_bytes'],
+             outer_ceiling_seconds=authority.LIMITS['outer_seconds'],
+             candidate_seconds=authority.LIMITS['candidate_seconds'])
     print(json.dumps(result,sort_keys=True)); return 0 if result['status']=='COMPLETED' else 1
 
 

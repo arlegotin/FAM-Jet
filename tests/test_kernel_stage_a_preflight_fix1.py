@@ -234,7 +234,7 @@ def test_f2_real_full_authority_launch_is_accounted_and_gates_a_nonnumerical_bac
           output_directory=str(setupdir),output_peak_bytes=0,incremental_worker_peak_bytes=0)))
     pending=dict(implementation_review=dict(ref,approved=True),represented_rate_records=rates,static_exports=statics,
         resource_measurement_boundary_seal=dict(baseline='post-import/pre-allocation per worker',absolute_rss=True,process_tree_rss=True,
-            sequential_workers=True,outputs_include_temporaries=True,allocation_start_monotonic=start,deadline_monotonic=start+600,
+            sequential_workers=True,outputs_include_temporaries=True,allocation_start_monotonic=start,deadline_monotonic=start+a.LIMITS['outer_seconds'],
             allocation_start_utc_epoch=time.time(),setup_ledger=dict(path=str(setup),sha256=a.file_hash(setup))),
         fresh_launch_snapshot=dict(utc_epoch=time.time(),free_disk_bytes=2**40,power_observation='synthetic control',host_identity=observed['host_identity']),
         output_directory=str(out))

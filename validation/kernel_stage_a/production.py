@@ -132,7 +132,7 @@ class Backend:
 
     def setup(self,candidate,ledger):
         family,rho=candidate; started=self.event('candidate_start')
-        self.candidate_deadline=min(started+90,self.seal['pending']['resource_measurement_boundary_seal']['deadline_monotonic'])
+        self.candidate_deadline=min(started+authority.LIMITS['candidate_seconds'],self.seal['pending']['resource_measurement_boundary_seal']['deadline_monotonic'])
         record=self.seal['pending']['static_exports'][f'{family}:{rho.hex()}']
         spec=json.loads((self.root/record['path']).read_bytes())
         if type(spec) is dict and set(spec)=={'candidate','status','factor_diagnostics'}:

@@ -76,7 +76,7 @@ def _seal(tmp_path, limit):
                         'output_directory': str(tmp_path / 'output'),
                         'resource_measurement_boundary_seal': {
                             'allocation_start_monotonic': started,
-                            'deadline_monotonic': started + 600,
+                            'deadline_monotonic': started + a.LIMITS['outer_seconds'],
                             'setup_ledger': {'path': str(setup)}}},
             'limits': dict(a.LIMITS, incremental_worker_bytes=limit),
             'root_stage_A_release': {'approved': True}}

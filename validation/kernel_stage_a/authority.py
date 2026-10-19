@@ -16,8 +16,8 @@ import uuid
 
 BASE='62456be3e6e6cbe3b2a058bd38ade744edc3c628'
 PACKAGE='15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050'
-LIMITS=dict(outer_seconds=600,candidate_seconds=90,incremental_worker_bytes=402653184,
-            output_bytes=67108864,free_disk_bytes=4294967296,numerical_threads=4,
+LIMITS=dict(outer_seconds=1200,candidate_seconds=180,incremental_worker_bytes=402653184,
+            output_bytes=201326592,free_disk_bytes=4294967296,numerical_threads=4,
             factors=6,reads=768)
 PENDING=('implementation_review','represented_rate_records','static_exports',
          'resource_measurement_boundary_seal','fresh_launch_snapshot','output_directory')
@@ -162,7 +162,8 @@ def observe(root,*,deadline=None,event_path=None):
            'docs/research/task18-kernel-projection-source-verification.json',
            'docs/research/task18-kernel-reader-fixture-manifest-fix1-review.md',
            'docs/research/task18-training-horizon-statistics.json','requirements.lock',
-           'famjet/readers/kernel_projection.py','famjet/models/kernel_read_model.py','famjet/eval/isolation.py']
+           'famjet/readers/kernel_projection.py','famjet/models/kernel_read_model.py','famjet/eval/isolation.py',
+           'docs/amendments/2026-10-19-kernel-stage-a-completion-resources.md']
     paths += [str(p.relative_to(root)) for p in sorted((root/'validation/kernel_stage_a').glob('*.py'))]
     paths += ['validation/kernel_stage_a/fixture-descriptors.json','validation/kernel_stage_a/frozen-training-metadata.json']
     package={str(p.relative_to(root)):file_hash(p) for p in sorted((root/'famjet').rglob('*.py'))}
@@ -214,8 +215,8 @@ def entry(seal):
     if type(boundary) is not dict or not {'deadline_monotonic','allocation_start_monotonic'}<=set(boundary):
         raise AuthorityError('original deadline missing')
     start,deadline=boundary['allocation_start_monotonic'],boundary['deadline_monotonic']
-    if type(start) not in (int,float) or type(deadline) not in (int,float) or deadline!=start+600 or not start<=time.monotonic()<deadline:
-        raise AuthorityError('original 600s allocation deadline expired/mismatched')
+    if type(start) not in (int,float) or type(deadline) not in (int,float) or deadline!=start+LIMITS['outer_seconds'] or not start<=time.monotonic()<deadline:
+        raise AuthorityError(f"original {LIMITS['outer_seconds']}s allocation deadline expired/mismatched")
     return deadline
 
 
@@ -249,8 +250,8 @@ def verify(seal,root,*,fresh=True,output_initialized=False,deadline=None,event_p
                        'sequential_workers':True,'outputs_include_temporaries':True}
     if type(boundary) is not dict or set(boundary)!=set(expected_boundary)|{'allocation_start_monotonic','deadline_monotonic','allocation_start_utc_epoch','setup_ledger'} or any(boundary[k]!=v for k,v in expected_boundary.items()):
         raise AuthorityError('resource boundary mismatch')
-    if boundary['deadline_monotonic']!=boundary['allocation_start_monotonic']+600 or not boundary['allocation_start_monotonic']<=time.monotonic()<boundary['deadline_monotonic']:
-        raise AuthorityError('original 600s allocation deadline expired/mismatched')
+    if boundary['deadline_monotonic']!=boundary['allocation_start_monotonic']+LIMITS['outer_seconds'] or not boundary['allocation_start_monotonic']<=time.monotonic()<boundary['deadline_monotonic']:
+        raise AuthorityError(f"original {LIMITS['outer_seconds']}s allocation deadline expired/mismatched")
     setup=boundary['setup_ledger']
     if type(setup) is not dict or set(setup)!={'path','sha256'} or file_hash(Path(root)/setup['path'])!=setup['sha256']:
         raise AuthorityError('setup ledger mismatch')

@@ -260,7 +260,7 @@ def test_exact_synthetic_authority_detects_identity_release_and_deadline_mutatio
            static_exports={f'{family}:{rho.hex()}':record_ref for family,rho in module('descriptors').candidates()},
            resource_measurement_boundary_seal=dict(baseline='post-import/pre-allocation per worker',absolute_rss=True,
                 process_tree_rss=True,sequential_workers=True,outputs_include_temporaries=True,
-                allocation_start_monotonic=started,deadline_monotonic=started+600,allocation_start_utc_epoch=time.time(),
+                allocation_start_monotonic=started,deadline_monotonic=started+a.LIMITS['outer_seconds'],allocation_start_utc_epoch=time.time(),
                 setup_ledger=dict(path=str(setup),sha256=a.file_hash(setup))),
            fresh_launch_snapshot=dict(utc_epoch=time.time(),free_disk_bytes=2**40,power_observation='synthetic only',host_identity=observed['host_identity']),
            output_directory=str(tmp_path/'output'))

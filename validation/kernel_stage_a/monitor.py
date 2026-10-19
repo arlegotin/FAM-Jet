@@ -669,14 +669,15 @@ def _commit_monitor(path,payload,reserve):
 
 
 def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk_bytes=4294967296,
-              incremental_bytes=201326592,sampler=process_tree,preparation_output=None,authority_root=None,deadline=None):
+              incremental_bytes=201326592,sampler=process_tree,preparation_output=None,authority_root=None,deadline=None,
+              outer_ceiling_seconds=600,candidate_seconds=90):
     """One owned group, charged append-only evidence and a bounded final commitment."""
     output=Path(output)
     if output.exists(): raise ValueError('output must be fresh')
     if shutil.disk_usage(output.parent).free<free_disk_bytes: raise ValueError('disk entry condition')
     if output_bytes<512: raise ValueError('at least 512 bytes for a bounded failure verdict')
     start=time.monotonic(); utc=time.time(); output.mkdir()
-    deadline=min(deadline if deadline is not None else start+outer_seconds,start+outer_seconds,start+600)
+    deadline=min(deadline if deadline is not None else start+outer_seconds,start+outer_seconds,start+outer_ceiling_seconds)
     # This time/space belongs to the original allocation, not an extension.
     work_deadline=deadline-min(.1,max(0,(deadline-start)*.1))
     reserve=min(8192,max(512,output_bytes//2)); verdict=output/'monitor.json'; evidence_path=output/'monitor-evidence.jsonl'
@@ -697,7 +698,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         return directory_bytes(output)+(directory_bytes(preparation_output) if preparation_output is not None else 0)
     def check(*,final=False):
         if time.monotonic()>=(deadline if final else work_deadline): raise _MonitorStop('outer timeout')
-        if not final and candidate_start is not None and time.monotonic()>=candidate_start+90: raise _MonitorStop('candidate timeout')
+        if not final and candidate_start is not None and time.monotonic()>=candidate_start+candidate_seconds: raise _MonitorStop('candidate timeout')
     def append(record,*,final=False):
         check(final=final)
         raw=_bounded_json(record,max(0,output_bytes-charged_bytes()),lambda:check(final=final))
@@ -826,7 +827,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
         wake(event['pid'])
     def reader_context(before,after):
         if authority_root is None: return None
-        bounds=[min(deadline,a+90) for a,b in candidate_ranges if after>=a and before<=(b if b is not None else float('inf'))]
+        bounds=[min(deadline,a+candidate_seconds) for a,b in candidate_ranges if after>=a and before<=(b if b is not None else float('inf'))]
         return dict(root=authority_root,event_path=output/'monitor-events.jsonl',deadline=max(bounds)) if bounds else None
     def collect(readings,entries,before,after,*,final=False,accounted=False,owned=False,event_reference=None):
         nonlocal sequence,latest_owned
@@ -1245,7 +1246,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                     if charged_bytes()>output_bytes: raise _MonitorStop('output cap')
                     if shutil.disk_usage(output).free<free_disk_bytes: raise _MonitorStop('disk free prerequisite')
                     read_events(); reconcile()
-                    before=time.monotonic(); applicable=min(work_deadline,candidate_start+90 if candidate_start is not None else work_deadline)
+                    before=time.monotonic(); applicable=min(work_deadline,candidate_start+candidate_seconds if candidate_start is not None else work_deadline)
                     if native_supervision:
                         if native_runtime is None:
                             native_runtime=authority.runtime(); append(dict(kind='runtime',value=native_runtime))
@@ -1262,7 +1263,7 @@ def supervise(command,output,*,outer_seconds=600,output_bytes=67108864,free_disk
                         (root_row.get('image',{}).get('status')=='error' and root_row['image'].get('errno')==errno.ESRCH))
                     if terminal: break
                     reconcile(); check()
-                    remaining=min(work_deadline,candidate_start+90 if candidate_start is not None else work_deadline)-time.monotonic()
+                    remaining=min(work_deadline,candidate_start+candidate_seconds if candidate_start is not None else work_deadline)-time.monotonic()
                     if remaining>0: time.sleep(min(.02,remaining))
             except (Exception,) as exc: failure(exc)
             finally:
