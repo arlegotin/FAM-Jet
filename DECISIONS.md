@@ -407,3 +407,8 @@ Ruling: prospectively replace raw-free-only admission with same-snapshot printed
 ## 18 October 2026 — hold numerical work for other jobs
 
 The fresh free-plus-speculative admission failed with293273600 bytes available before reserve; no setup05 allocation or clock was created. The user selected “Wait for other jobs to finish.” Leave all other processes alone and hold numerical execution. Preserve the qualifying template, source reviews, both refused admission records and all earlier results. Resume only with a fresh complete admission after external capacity changes; no threshold change, favorable polling or hidden retry.
+
+
+## 19 October2026 — preserve partial kernel diagnostic and its source failure
+
+Ruling: retain stopped05 as STOPPED and row30 source/end-to-end checks as FAILED; assess prospective common time/output limits before any fresh attempt. Reason: reader arithmetic passed the92 completed calls, while the original isolated-process time cap prevented full coverage; extreme cancellation separately exposes source loss. Cost if wrong: another bounded diagnostic may remain incomplete, and its costs/failures must stay visible. No retry or StageB is released by this record.
