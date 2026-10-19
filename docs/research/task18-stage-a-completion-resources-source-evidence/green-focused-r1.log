@@ -1,0 +1,35 @@
+......F..                                                                [100%]
+=================================== FAILURES ===================================
+____ test_monitor_ceiling_uses_adopted_override_and_retains_generic_default ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3459/test_monitor_ceiling_uses_adop0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1069e3550>
+
+    def test_monitor_ceiling_uses_adopted_override_and_retains_generic_default(tmp_path, monkeypatch):
+        # Fail before spawn, after the monitor computes its effective deadline.
+        clock=SimpleNamespace(now=100.0)
+        monkeypatch.setattr(monitor.time, 'monotonic', lambda: clock.now)
+        class NoProcess(Exception): pass
+        def refuse(*args, **kwargs):
+            clock.now=800.0
+            raise NoProcess('controlled no spawn')
+        monkeypatch.setattr(monitor.subprocess, 'Popen', refuse)
+        generic=monitor.supervise(['/controlled'], tmp_path/'generic', outer_seconds=1200,
+                                   free_disk_bytes=0, sampler=lambda pid: {})
+        clock.now=100.0
+        adapted=monitor.supervise(['/controlled'], tmp_path/'adapted', outer_seconds=1200,
+                                   outer_ceiling_seconds=1200, candidate_seconds=180,
+                                   free_disk_bytes=0, sampler=lambda pid: {})
+>       assert generic['reason']=='outer timeout'
+E       AssertionError: assert 'monitor common failure' == 'outer timeout'
+E         
+E         - outer timeout
+E         + monitor common failure
+
+tests/test_kernel_stage_a_completion_resources.py:93: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_monitor_ceiling_uses_adopted_override_and_retains_generic_default
+1 failed, 8 passed in 0.07s
+real 0.24
+user 0.13
+sys 0.03

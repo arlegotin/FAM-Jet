@@ -1,0 +1,195 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "red-focused.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 1,
+    "external_wall_seconds": 0.26,
+    "label": "red-focused"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "red-focused-r2.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 1,
+    "external_wall_seconds": 0.17,
+    "label": "red-focused-r2"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "green-focused-r1.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 1,
+    "external_wall_seconds": 0.24,
+    "label": "green-focused-r1"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "green-focused-r2.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 0,
+    "external_wall_seconds": 0.23,
+    "label": "green-focused-r2"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "green-focused-r3.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 1,
+    "external_wall_seconds": 0.34,
+    "label": "green-focused-r3"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "green-focused-r4.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 0,
+    "external_wall_seconds": 0.25,
+    "label": "green-focused-r4"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_completion_resources.py"
+    ],
+    "combined_stdout_stderr_log": "green-focused-final.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 0,
+    "external_wall_seconds": 0.24,
+    "label": "green-focused-final"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_preflight.py::test_exact_synthetic_authority_detects_identity_release_and_deadline_mutations",
+      "tests/test_kernel_stage_a_preflight.py::test_bounded_sequential_orchestration_preserves_failure_attribution",
+      "tests/test_kernel_stage_a_execution_budget.py::test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise"
+    ],
+    "combined_stdout_stderr_log": "cover-controlled.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 0,
+    "external_wall_seconds": 0.22,
+    "label": "cover-controlled"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_kernel_stage_a_preflight.py::test_exact_synthetic_authority_detects_identity_release_and_deadline_mutations",
+      "tests/test_kernel_stage_a_preflight.py::test_bounded_sequential_orchestration_preserves_failure_attribution",
+      "tests/test_kernel_stage_a_execution_budget.py::test_exact_new_seal_passes_entry_and_old_seal_fails_before_supervise"
+    ],
+    "combined_stdout_stderr_log": "cover-controlled-final.log",
+    "env": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "exit_code": 0,
+    "external_wall_seconds": 0.22,
+    "label": "cover-controlled-final"
+  }
+]

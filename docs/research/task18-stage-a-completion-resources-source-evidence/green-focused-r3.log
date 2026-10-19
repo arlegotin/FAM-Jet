@@ -1,0 +1,29 @@
+..........F                                                              [100%]
+=================================== FAILURES ===================================
+_ test_production_candidate_deadline_is_minimum_of_candidate_and_shared_allocation _
+
+    def test_production_candidate_deadline_is_minimum_of_candidate_and_shared_allocation():
+        tree=ast.parse(Path('validation/kernel_stage_a/production.py').read_text())
+        backend=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='Backend')
+        setup=next(n for n in backend.body if isinstance(n,ast.FunctionDef) and n.name=='setup')
+        controlled=deepcopy(setup)
+        controlled.body=controlled.body[:2]
+        code=compile(ast.fix_missing_locations(ast.Module(body=[controlled],type_ignores=[])),
+                     'validation/kernel_stage_a/production.py','exec')
+        scope={'authority':authority}
+        exec(code,scope)
+        for outer,want in ((250.0,190.0),(150.0,150.0)):
+            fake=SimpleNamespace(event=lambda kind:10.0,seal={'pending':{
+                'resource_measurement_boundary_seal':{'deadline_monotonic':outer}}})
+            scope['setup'](fake,('jet',1e-10),None)
+>           assert fake.candidate_deadline==want
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'types.SimpleNamespace' object has no attribute 'candidate_deadline'
+
+tests/test_kernel_stage_a_completion_resources.py:191: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_production_candidate_deadline_is_minimum_of_candidate_and_shared_allocation
+1 failed, 10 passed in 0.11s
+real 0.34
+user 0.19
+sys 0.05

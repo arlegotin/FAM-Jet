@@ -1,0 +1,221 @@
+FF.FFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_ test_shared_authority_deadline_accepts_exact_allocation_and_rejects_old_and_expired _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10839c510>
+
+    def test_shared_authority_deadline_accepts_exact_allocation_and_rejects_old_and_expired(monkeypatch):
+        clock=SimpleNamespace(now=100.0)
+        monkeypatch.setattr(authority.time, 'monotonic', lambda: clock.now)
+>       assert authority.entry(_seal(100.0)) == 1300.0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_completion_resources.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+seal = {'version': 1, 'scope': 'Task18 kernel Stage A only', 'observed': {}, 'pending': {'implementation_review': 'controlled..., 'resource_measurement_boundary_seal': {'allocation_start_monotonic': 100.0, 'deadline_monotonic': 1300.0}, ...}, ...}
+
+    def entry(seal):
+        """Parent launch gate: no Git, backend, scientific allocation or null waiver."""
+        if type(seal) is not dict or set(seal)!={'version','scope','observed','pending','limits','root_stage_A_release'}:
+            raise AuthorityError('closed seal schema mismatch')
+        if _null(seal): raise AuthorityError('null execution authority blocks work')
+        if seal['version']!=1 or seal['scope']!='Task18 kernel Stage A only' or seal['limits']!=LIMITS:
+            raise AuthorityError('seal scope/limits mismatch')
+        if type(seal['pending']) is not dict or set(seal['pending'])!=set(PENDING):
+            raise AuthorityError('pending authority schema mismatch')
+        boundary=seal['pending']['resource_measurement_boundary_seal']
+        if type(boundary) is not dict or not {'deadline_monotonic','allocation_start_monotonic'}<=set(boundary):
+            raise AuthorityError('original deadline missing')
+        start,deadline=boundary['allocation_start_monotonic'],boundary['deadline_monotonic']
+        if type(start) not in (int,float) or type(deadline) not in (int,float) or deadline!=start+600 or not start<=time.monotonic()<deadline:
+>           raise AuthorityError('original 600s allocation deadline expired/mismatched')
+E           validation.kernel_stage_a.authority.AuthorityError: original 600s allocation deadline expired/mismatched
+
+validation/kernel_stage_a/authority.py:218: AuthorityError
+______ test_driver_uses_adopted_candidate_and_outer_edges[0-179.999-None] ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10839c180>
+candidate_start = 0, elapsed = 179.999, expected = None
+
+    @pytest.mark.parametrize(('candidate_start', 'elapsed', 'expected'),
+                             [(0, 179.999, None), (0, 180.0, 'candidate timeout'),
+                              (1100, 1199.999, None), (1100, 1200.0, 'outer timeout')])
+    def test_driver_uses_adopted_candidate_and_outer_edges(monkeypatch, candidate_start, elapsed, expected):
+        # Controlled one-slot inventory keeps the real driver checks and ledger active.
+        candidate=('jet', 1e-10)
+        slot=SimpleNamespace(row=1, transform='I', applicable=True)
+        monkeypatch.setattr(driver, 'candidates', lambda: (candidate,))
+        monkeypatch.setattr(driver, 'slots', lambda: (slot,))
+        ticks=iter((100.0, *(100.0+candidate_start for _ in range(4)),
+                    100.0+elapsed, 100.0+elapsed))
+        monkeypatch.setattr(driver.time, 'monotonic', lambda: next(ticks, 100.0+elapsed))
+        class Backend:
+            def setup(self, candidate, ledger): pass
+            def slot(self, candidate, slot, ledger):
+                return {'stop': 'continue'}
+        result=driver.execute(Backend(), checkpoint=lambda: None)
+>       assert (result['failure'] or '').endswith(expected or '') if expected else result['status']=='PASS'
+E       assert False
+
+tests/test_kernel_stage_a_completion_resources.py:54: AssertionError
+____ test_driver_uses_adopted_candidate_and_outer_edges[1100-1199.999-None] ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082babe0>
+candidate_start = 1100, elapsed = 1199.999, expected = None
+
+    @pytest.mark.parametrize(('candidate_start', 'elapsed', 'expected'),
+                             [(0, 179.999, None), (0, 180.0, 'candidate timeout'),
+                              (1100, 1199.999, None), (1100, 1200.0, 'outer timeout')])
+    def test_driver_uses_adopted_candidate_and_outer_edges(monkeypatch, candidate_start, elapsed, expected):
+        # Controlled one-slot inventory keeps the real driver checks and ledger active.
+        candidate=('jet', 1e-10)
+        slot=SimpleNamespace(row=1, transform='I', applicable=True)
+        monkeypatch.setattr(driver, 'candidates', lambda: (candidate,))
+        monkeypatch.setattr(driver, 'slots', lambda: (slot,))
+        ticks=iter((100.0, *(100.0+candidate_start for _ in range(4)),
+                    100.0+elapsed, 100.0+elapsed))
+        monkeypatch.setattr(driver.time, 'monotonic', lambda: next(ticks, 100.0+elapsed))
+        class Backend:
+            def setup(self, candidate, ledger): pass
+            def slot(self, candidate, slot, ledger):
+                return {'stop': 'continue'}
+        result=driver.execute(Backend(), checkpoint=lambda: None)
+>       assert (result['failure'] or '').endswith(expected or '') if expected else result['status']=='PASS'
+E       assert False
+
+tests/test_kernel_stage_a_completion_resources.py:54: AssertionError
+_ test_driver_uses_adopted_candidate_and_outer_edges[1100-1200.0-outer timeout] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082bb350>
+candidate_start = 1100, elapsed = 1200.0, expected = 'outer timeout'
+
+    @pytest.mark.parametrize(('candidate_start', 'elapsed', 'expected'),
+                             [(0, 179.999, None), (0, 180.0, 'candidate timeout'),
+                              (1100, 1199.999, None), (1100, 1200.0, 'outer timeout')])
+    def test_driver_uses_adopted_candidate_and_outer_edges(monkeypatch, candidate_start, elapsed, expected):
+        # Controlled one-slot inventory keeps the real driver checks and ledger active.
+        candidate=('jet', 1e-10)
+        slot=SimpleNamespace(row=1, transform='I', applicable=True)
+        monkeypatch.setattr(driver, 'candidates', lambda: (candidate,))
+        monkeypatch.setattr(driver, 'slots', lambda: (slot,))
+        ticks=iter((100.0, *(100.0+candidate_start for _ in range(4)),
+                    100.0+elapsed, 100.0+elapsed))
+        monkeypatch.setattr(driver.time, 'monotonic', lambda: next(ticks, 100.0+elapsed))
+        class Backend:
+            def setup(self, candidate, ledger): pass
+            def slot(self, candidate, slot, ledger):
+                return {'stop': 'continue'}
+        result=driver.execute(Backend(), checkpoint=lambda: None)
+>       assert (result['failure'] or '').endswith(expected or '') if expected else result['status']=='PASS'
+E       assert False
+
+tests/test_kernel_stage_a_completion_resources.py:54: AssertionError
+_________ test_cli_passes_common_output_and_time_policy_to_supervisor __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3458/test_cli_passes_common_output_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10840c450>
+capsys = <_pytest.capture.CaptureFixture object at 0x10820f4d0>
+
+    def test_cli_passes_common_output_and_time_policy_to_supervisor(tmp_path, monkeypatch, capsys):
+        setup=tmp_path/'setup.json'
+        setup.write_text(json.dumps({'output_directory': str(tmp_path/'setup-output')}))
+        seal=_seal(100.0)
+        seal['pending']['resource_measurement_boundary_seal']['setup_ledger']={'path': str(setup)}
+        seal['pending']['output_directory']=str(tmp_path/'output')
+        path=tmp_path/'seal.json'; path.write_text(json.dumps(seal))
+        seen=[]
+        monkeypatch.setattr(authority.time, 'monotonic', lambda: 101.0)
+        monkeypatch.setattr(monitor, 'supervise', lambda command, output, **kw: seen.append(kw) or {'status':'COMPLETED'})
+        monkeypatch.setattr(cli.commands, 'stage_command', lambda root, seal: ['/controlled/worker'])
+        monkeypatch.setattr(sys, 'argv', ['stage-a', '--seal', str(path)])
+>       assert cli.main()==0
+E       assert 2 == 0
+E        +  where 2 = <function main at 0x1083a4cc0>()
+E        +    where <function main at 0x1083a4cc0> = cli.main
+
+tests/test_kernel_stage_a_completion_resources.py:69: AssertionError
+----------------------------- Captured stderr call -----------------------------
+REFUSED: original 600s allocation deadline expired/mismatched
+____ test_monitor_ceiling_uses_adopted_override_and_retains_generic_default ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3458/test_monitor_ceiling_uses_adop0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10840c750>
+
+    def test_monitor_ceiling_uses_adopted_override_and_retains_generic_default(tmp_path, monkeypatch):
+        # Fail before spawn, after the monitor computes its effective deadline.
+        clock=SimpleNamespace(now=100.0)
+        monkeypatch.setattr(monitor.time, 'monotonic', lambda: clock.now)
+        class NoProcess(Exception): pass
+        def refuse(*args, **kwargs):
+            clock.now=800.0
+            raise NoProcess('controlled no spawn')
+        monkeypatch.setattr(monitor.subprocess, 'Popen', refuse)
+        generic=monitor.supervise(['/controlled'], tmp_path/'generic', outer_seconds=1200,
+                                   free_disk_bytes=0, sampler=lambda pid: {})
+        clock.now=100.0
+>       adapted=monitor.supervise(['/controlled'], tmp_path/'adapted', outer_seconds=1200,
+                                   outer_ceiling_seconds=1200, candidate_seconds=180,
+                                   free_disk_bytes=0, sampler=lambda pid: {})
+E       TypeError: supervise() got an unexpected keyword argument 'outer_ceiling_seconds'
+
+tests/test_kernel_stage_a_completion_resources.py:90: TypeError
+________ test_prospective_seal_remains_null_blocking_at_adopted_limits _________
+
+    def test_prospective_seal_remains_null_blocking_at_adopted_limits():
+        seal=json.loads(Path('validation/kernel_stage_a/prospective-seal.json').read_text())
+>       assert seal['limits']==authority.LIMITS
+E       AssertionError: assert {'outer_secon...67108864, ...} == {'outer_secon...67108864, ...}
+E         
+E         Omitting 7 identical items, use -vv to show
+E         Differing items:
+E         {'incremental_worker_bytes': 201326592} != {'incremental_worker_bytes': 402653184}
+E         Use -v to get more diff
+
+tests/test_kernel_stage_a_completion_resources.py:99: AssertionError
+_ test_completion_setup_template_keeps_worker_and_only_changes_resource_policy _
+
+    def test_completion_setup_template_keeps_worker_and_only_changes_resource_policy():
+        old=ast.parse(Path('docs/research/task18-stage-a-setup-parent-384mib.py').read_text())
+>       new=ast.parse(Path('docs/research/task18-stage-a-setup-parent-completion.py').read_text())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_a_completion_resources.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('docs/research/task18-stage-a-setup-parent-completion.py')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'docs/research/task18-stage-a-setup-parent-completion.py'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_shared_authority_deadline_accepts_exact_allocation_and_rejects_old_and_expired
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_driver_uses_adopted_candidate_and_outer_edges[0-179.999-None]
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_driver_uses_adopted_candidate_and_outer_edges[1100-1199.999-None]
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_driver_uses_adopted_candidate_and_outer_edges[1100-1200.0-outer timeout]
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_cli_passes_common_output_and_time_policy_to_supervisor
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_monitor_ceiling_uses_adopted_override_and_retains_generic_default
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_prospective_seal_remains_null_blocking_at_adopted_limits
+FAILED tests/test_kernel_stage_a_completion_resources.py::test_completion_setup_template_keeps_worker_and_only_changes_resource_policy
+8 failed, 1 passed in 0.07s
+real 0.17
+user 0.14
+sys 0.03
