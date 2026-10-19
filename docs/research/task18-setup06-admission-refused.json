@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-19T13:27:04.450844+00:00",
+  "rule": "same-snapshot printed Pages free+Pages speculative; >=1GiB before25%reserve; remaining>384MiB; >=4GiB disk; all observations successful",
+  "raw": [
+    {
+      "argv": [
+        "/usr/sbin/sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit": 0,
+      "stdout": "38654705664\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/vm_stat"
+      ],
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    13343.\nPages active:                                 490189.\nPages inactive:                               462824.\nPages speculative:                             29643.\nPages throttled:                                   0.\nPages wired down:                             279549.\nPages purgeable:                               26456.\n\"Translation faults\":                     6790456245.\nPages copy-on-write:                       536086104.\nPages zero filled:                        6161807096.\nPages reactivated:                         166304046.\nPages purged:                               59969650.\nFile-backed pages:                            483216.\nAnonymous pages:                              499440.\nPages stored in compressor:                  2326404.\nPages occupied by compressor:                1024807.\nDecompressions:                            174189813.\nCompressions:                              229079102.\nPageins:                                   172659371.\nPageouts:                                     790729.\nSwapins:                                     2960558.\nSwapouts:                                    5124197.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/memory_pressure",
+        "-Q"
+      ],
+      "exit": 0,
+      "stdout": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 43%\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/sbin/sysctl",
+        "vm.swapusage"
+      ],
+      "exit": 0,
+      "stdout": "vm.swapusage: total = 7168.00M  used = 6401.06M  free = 766.94M  (encrypted)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/pmset",
+        "-g",
+        "batt"
+      ],
+      "exit": 0,
+      "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=36634723)\t44%; discharging; 1:28 remaining present: true\n",
+      "stderr": ""
+    }
+  ],
+  "free_disk_bytes": 7174823936,
+  "admission": false,
+  "page_size": 16384,
+  "printed_free_bytes": 218611712,
+  "printed_speculative_bytes": 485670912,
+  "available_bytes": 704282624,
+  "reserve_bytes": 176070656,
+  "planning_envelope_bytes": 528211968,
+  "installed_memory_bytes": 38654705664
+}

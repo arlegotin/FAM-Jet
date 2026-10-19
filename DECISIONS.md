@@ -417,3 +417,8 @@ Ruling: retain stopped05 as STOPPED and row30 source/end-to-end checks as FAILED
 ## 19 October2026 — accept prospective completion-resource source
 
 Ruling: accept the independently reviewed narrow time/output propagation and conditionally adopt one fresh setup06. Reason: actual partial-run time/log volume predicts censoring under the old limits, while unchanged math and failure policy preserve scientific interpretation. Cost if wrong: a larger bounded stopped run with all costs retained; no inferred accuracy or automatic StageB permission. Root verified source/package/template/evidence; fresh capacity and actual setup gates remain mandatory.
+
+
+## 19 October2026 — retain setup06 admission hold
+
+Ruling: do not allocate setup06 after its fresh available-page estimate704282624B fails the frozen1GiB minimum. Reason: the earlier admission policy remains binding; prior passing headroom is not a reservation. Cost: numerical completion waits for external capacity; continue independent source/design work, with no process termination, favorable polling or threshold amendment.

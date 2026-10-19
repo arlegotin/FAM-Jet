@@ -339,3 +339,8 @@ Setup05 completed six fresh factors/exports, cumulative30. Sealed StageA05 stopp
 ## 19 October2026 — completion-resource source accepted
 
 Sourceab704ad/evidencecbc38a1 independently SPEC PASS/QUALITY APPROVED; root read actual diff/report/logs and verified40 delivered files,59 protected source identities, exact template derivative/worker, package15cf84/lock2b1931. Final focused13passed/0.2109575s external; selected controlled cover5passed/0.191098709s external. Historical RED/failed attempts preserved. Common180s/candidate,1200s shared,192MiB aggregate output are prospective operational bounds; actual adequacy untested. [Acceptance](docs/research/task18-stage-a-completion-resources-source-acceptance.json), [conditional setup06](docs/amendments/2026-10-19-kernel-stage-a-setup06-restart.md). No allocation yet; fresh admission and completed setup inspection precede any seal. Task18 science remains OPEN, StageB/protected CLOSED.
+
+
+## 19 October2026 — setup06 capacity admission refused
+
+The first fresh [admission](docs/research/task18-setup06-admission-refused.json) under the unchanged rule measured704282624B printed-free-plus-speculative before reserve, below1GiB. No setup06 allocation, parent, clock, factors or reads were created. Leave other jobs alone; numerical execution waits for external headroom. Do not poll for a favorable snapshot or lower the threshold. Independently useful source/design work may continue without a scientific launch.
