@@ -1,0 +1,2667 @@
+{
+  "copied_utc": "2026-10-19T13:08:08.555874+00:00",
+  "files": [
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/parent-command.py",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/parent-command.py",
+      "bytes": 11135,
+      "sha256": "a92bfcd9f5e6b453d387d031ed6892999080e4037f5ce07a3052a320763bf82e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/parent-stderr.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/parent-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/parent-stdout.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/parent-stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/root-setup-inspection.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/root-setup-inspection.json",
+      "bytes": 815,
+      "sha256": "72df0dd0ebeb50acc77fd341ce4a4cd091363d91fffbb55b654b33a80f7985ee"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/root-stage-a-release.md",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/root-stage-a-release.md",
+      "bytes": 1064,
+      "sha256": "c43974665b5706a5744a88e3e56eeab59b666a49a74671b49d563885813140b3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/setup-command.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/setup-command.json",
+      "bytes": 785,
+      "sha256": "fb140e732b2fcba3d553fc2e259ec2f1cbd9abf99ee2354b35149ed350411725"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/setup-execute-once.py",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/setup-execute-once.py",
+      "bytes": 2105,
+      "sha256": "b9bb1ddc48944c926ed224b896fb1f222d17856707f7f882275db95d18c4c5dd"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/setup-external.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/setup-external.json",
+      "bytes": 522,
+      "sha256": "cd849b226aed90d7c1f3150cec13c90992968ccd51d07e510eec5d9e3e6247aa"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/setup-worker.py",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/setup-worker.py",
+      "bytes": 6621,
+      "sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/stage-a-external.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/stage-a-external.json",
+      "bytes": 538,
+      "sha256": "8cfbb12fb31871f9451d416bd44bf7f641ef32b31bfd6cf28dbe9e2970dea1a0"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/stage-a-invoked.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/stage-a-invoked.json",
+      "bytes": 293,
+      "sha256": "629fa5b4c30fc2a34b08da10de85c04a2c56268dbde7337d511bcd89337214b9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/stage-a-outer-stderr.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/stage-a-outer-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/stage-a-outer-stdout.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/stage-a-outer-stdout.log",
+      "bytes": 5590,
+      "sha256": "d3b94288a1261b07336b559f7c71dffcf18fe2335e13c9b3270bd8c706741307"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch/stage-a-seal.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch/stage-a-seal.json",
+      "bytes": 9810,
+      "sha256": "38de16caaec2da21245771ecf28bd833215304c196b70f36833b20e7c478345a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/setup-ledger.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/setup-ledger.json",
+      "bytes": 6424,
+      "sha256": "cdbc0103b7987971db8773b94ba8032420a7ab6ab0beb3f8f72f5e5e5d7b19ee"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-0.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-0.json",
+      "bytes": 4337,
+      "sha256": "6d7c3847fc69b0f2bcc8f17f69383057c324664776c114b851e00587dd492ecf"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-1.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-1.json",
+      "bytes": 4400,
+      "sha256": "35ab0a72b328ad62eadc68337691d69c3e94289d62a13a47edb27d1a026dd7d7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-2.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-2.json",
+      "bytes": 4400,
+      "sha256": "5e5365258547583142abd5a864f75276b4101e3454623abe32105ff0acdbee1a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-3.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-3.json",
+      "bytes": 4337,
+      "sha256": "c85e5e370009c6cd87d361fc3f1183935a48c0397bc8689df1577f6ef1a83443"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-4.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-4.json",
+      "bytes": 4336,
+      "sha256": "73d073e41f9234a23588315842c3defb07fb1c1a64b09e85850c3c9335592352"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/factor-5.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/factor-5.json",
+      "bytes": 4399,
+      "sha256": "7eff219d66578ed2221ae41442aa6355869a141c34112df2f6840af2697c4c50"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/monitor-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/monitor-events.jsonl",
+      "bytes": 2270,
+      "sha256": "617e3c04f4f76c44bfc88ae0ad78b92e35d2f2678ad4e29167396defeee814ee"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/monitor-evidence.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/monitor-evidence.jsonl",
+      "bytes": 149898,
+      "sha256": "ae6845b4a2fcd715ef7891ab58c708c1e57f9a8cdc5caa35cee8cfeaed35fa4e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/monitor.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/monitor.json",
+      "bytes": 8192,
+      "sha256": "11a7d5251743ae4989989410db5e4fba7a23c9d8c872c1f9342d3bc65e75a159"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/rates-bank.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/rates-bank.json",
+      "bytes": 187,
+      "sha256": "cb374d6be7c72999da674a24e3099e97208c29af275173c9fbfad78356723baf"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/rates-jet.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/rates-jet.json",
+      "bytes": 94,
+      "sha256": "007f3cdbc32407f1a905026bc5a5033c82ab0003e328cc8359b0674f4b167a2b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/setup-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/setup-events.jsonl",
+      "bytes": 10111,
+      "sha256": "231353a28b6348358c073bf704e4b9e27e372aafadd7967bb1a20ce5303678c6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/setup-worker.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/setup-worker.json",
+      "bytes": 2555,
+      "sha256": "2634af9516a0caaf3f9fc0df234e8acddcd1388fd7eb606c21381691c9a6db81"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/stderr.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output/stdout.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-01.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-01.json",
+      "bytes": 13101,
+      "sha256": "476132777291c18d049e02614fa15c64cbdc32eea28b4bde8c9bd2d4409ea05e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-02.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-02.json",
+      "bytes": 13103,
+      "sha256": "47a6005c6d6b0b9d781aeb607fe99bb7bf91a380ffb6d188ca9acbe4a697086b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-03.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-03.json",
+      "bytes": 13103,
+      "sha256": "dfadca2a7d40ef144a78eedc06825c61b98089be878ff9bef4d895d5edda0a00"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-04.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-04.json",
+      "bytes": 13103,
+      "sha256": "fe367d79df8f4edb86a34c2795ebe1dca35bfb174d89cf3e9f8ecd5cd270150d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-05.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-05.json",
+      "bytes": 13103,
+      "sha256": "dee30e51ddd96d4cc9146be6d716c7a8a87baa1649a9ace5e9b5f585dd18f270"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-06.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-06.json",
+      "bytes": 13103,
+      "sha256": "36086aec5a1f4dfa9f60be8c99fdce59f158a370adaf75ae8c879d05eb67c8c2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-07.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-07.json",
+      "bytes": 13103,
+      "sha256": "73449d8716b662a5b83bb57328bc79045b67859aec6f3c9b1b93dbb137943508"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-08.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-08.json",
+      "bytes": 13103,
+      "sha256": "caca7c8eab4e39a303da3cc483c95dc6e325346b2025d48d611c4155819d2e7e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-09.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-09.json",
+      "bytes": 13103,
+      "sha256": "c4ea73baf7fecc938a7d5e3319f029df6c471fb647c28a8c1f739f992f0c860e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-10.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-10.json",
+      "bytes": 13103,
+      "sha256": "60833da81773723f0234cfc8f727d2c48590bcc54eb7f3bb867a2dbe30f5a45f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-11.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-11.json",
+      "bytes": 13103,
+      "sha256": "4c9e816adb85314a78e16a9b68106f92f2fe3d206208ebe4b811638715fda0c8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-12.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-12.json",
+      "bytes": 13103,
+      "sha256": "ebba8875f0b8654ec314aaa6f958bd4db7b896a3c92425b0d7e58a54907a2dba"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-13.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-13.json",
+      "bytes": 13103,
+      "sha256": "82c463ecc1ebb623695185cea15fecf8aac8ffe9b7d84787399b280e63877c88"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-14.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-14.json",
+      "bytes": 13103,
+      "sha256": "9424979fa2034900cb36def70737cf042e424d99f928a70a3cbf2e120fc800b6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-15.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-15.json",
+      "bytes": 13103,
+      "sha256": "035e978cdfaa26f59c53d8de5ece5f825ee68213bfbf6e0636417360f03fbec3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-16.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-16.json",
+      "bytes": 13103,
+      "sha256": "d0591dbe33352b29e69974acf9560d76a8dbf51a80d1b86f9be3c5d0127b06e1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-17.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-17.json",
+      "bytes": 13103,
+      "sha256": "b6f0fd78d81b53ebbd4a7cee8ccb0df2955bafd335ac7f6503d8c9786d0a81fe"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-18.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-18.json",
+      "bytes": 13103,
+      "sha256": "70f4c92d17bdbfec3cdb347a300cb950198dfed02ddb9bc572486d2adee0e5f8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-19.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-19.json",
+      "bytes": 13103,
+      "sha256": "f4b13270d340ca84e0da7607e8e64fa85f36f4bf1e8dfb1da2d817420e233b2c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-20.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-20.json",
+      "bytes": 13103,
+      "sha256": "fcd97b14b6c345a1c5641513fe48dc5c6089c6fd6d48e0db36a1e038bd04175a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-21.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-21.json",
+      "bytes": 13103,
+      "sha256": "c5f82bdc1d2a5b88270b5a7aad246b816d53ccfe699a65dd92a7b948e8cbbe55"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-22.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-22.json",
+      "bytes": 13103,
+      "sha256": "fa135066e70e90e33064d0844ea2acd4e4a8a50a1ef46c7c99d5e94a05a45882"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-23.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-23.json",
+      "bytes": 13103,
+      "sha256": "7423293ce52b4ca6f9b59266b01c638f6619b630a46c1265309dfd0918dbccda"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-24.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-24.json",
+      "bytes": 13103,
+      "sha256": "03cc496d5de116dc72cac4c448a8e203c8971419b16af52a57b4ca883f1b090a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-25.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-25.json",
+      "bytes": 13103,
+      "sha256": "d693600930447b6194d6c86c73e1802f61c020742ac924bf790ade5eac682976"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-26.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-26.json",
+      "bytes": 13103,
+      "sha256": "89a53edcf3c1b57667448ed8d74f0cd6937c97ecd220ef7a3ee4993cb4043561"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-27.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-27.json",
+      "bytes": 13103,
+      "sha256": "3d994838d8a26b618b1f441ed1264876fabfbf7e3abd769453eb8bc6c1243988"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-28.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-28.json",
+      "bytes": 13103,
+      "sha256": "4c435a2e338979e027033c13676394a7f3e23e228a55d310a86e12024286a835"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-29.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-29.json",
+      "bytes": 13103,
+      "sha256": "73a75fe262da2013dda01d2089dcded8700e972c8fa02eef4dd4a702cf294c4e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-30.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-30.json",
+      "bytes": 13103,
+      "sha256": "3e02d9554b15c08ade83cdcbefb56d8750c6a2d1e8ab9ecbbb1fbef246e54c2c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-31.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-31.json",
+      "bytes": 13103,
+      "sha256": "17fa7daf95d95b80724467ae6271cde4eff240ccff535032ddae14e007756ef7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/canonical-jet-32.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/canonical-jet-32.json",
+      "bytes": 13103,
+      "sha256": "b35856c8d449ef919d0fb5734aef419517f56c06da99dea0684cb7766aff10dc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-01-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-01-I.json",
+      "bytes": 13101,
+      "sha256": "089909801dd72b3ec18fd38281ce18169c44efeebf88944a0a7b346f8c31203e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-01-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-01-O.json",
+      "bytes": 13101,
+      "sha256": "ea4295f0dad89a8442a96ad4ab472b8aa8b0125b1b69a2db72691cb35b90cb37"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-01-R.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-01-R.json",
+      "bytes": 13101,
+      "sha256": "4b02b5b30028b4a9430b6663cfedfadcc3ec39767aabf53b24881260ea1cad65"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-01-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-01-U.json",
+      "bytes": 13101,
+      "sha256": "413f90b63f18e4cb75dfa06dd5266661a261773c201366eb08137be3af9b853c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-02-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-02-I.json",
+      "bytes": 13103,
+      "sha256": "47a6005c6d6b0b9d781aeb607fe99bb7bf91a380ffb6d188ca9acbe4a697086b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-02-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-02-O.json",
+      "bytes": 13103,
+      "sha256": "53dbe69cfd316c4b77ddb7fdd692f9f91968344d14cc5cd1d2a37d683f965eee"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-02-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-02-U.json",
+      "bytes": 13103,
+      "sha256": "fabe1cef48b1d0845a470549703f48a305ca9dcef3bdc5d2b6e92272ef515ea4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-03-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-03-I.json",
+      "bytes": 13103,
+      "sha256": "dfadca2a7d40ef144a78eedc06825c61b98089be878ff9bef4d895d5edda0a00"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-03-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-03-O.json",
+      "bytes": 13103,
+      "sha256": "26cf8607352eb7df7494d4bff85079aa37900f04ea4de4b98d9d44f66720d92f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-03-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-03-U.json",
+      "bytes": 13103,
+      "sha256": "b2567cc2cc183b7149546dd4e8bfdd7565bf4cb103bdf7118092fde784e87890"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-04-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-04-I.json",
+      "bytes": 13103,
+      "sha256": "fe367d79df8f4edb86a34c2795ebe1dca35bfb174d89cf3e9f8ecd5cd270150d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-04-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-04-O.json",
+      "bytes": 13103,
+      "sha256": "a9b726be7acb71fadb9c492e9ef31c66c096c73e208c80a2d4055978845c60cd"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-04-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-04-U.json",
+      "bytes": 13103,
+      "sha256": "9d42da0792e86cd900a6d50e90af9ac535fb0b792fa28c88274fe290a1417011"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-05-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-05-I.json",
+      "bytes": 13103,
+      "sha256": "dee30e51ddd96d4cc9146be6d716c7a8a87baa1649a9ace5e9b5f585dd18f270"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-05-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-05-O.json",
+      "bytes": 13103,
+      "sha256": "3f753439a1191f399b62465c11c23d419d1e5833d1560d743dc7a0d019184ae2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-05-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-05-U.json",
+      "bytes": 13103,
+      "sha256": "cd15d4d914d99afd99d98d167c1c05c8b586536614305dd351181f4fd35fee86"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-06-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-06-I.json",
+      "bytes": 13103,
+      "sha256": "36086aec5a1f4dfa9f60be8c99fdce59f158a370adaf75ae8c879d05eb67c8c2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-06-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-06-O.json",
+      "bytes": 13103,
+      "sha256": "d76050215b6e58582125f2006d80a9a8638d0f3b9cd5c1c16dfae9ca1ebe869a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-06-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-06-U.json",
+      "bytes": 13103,
+      "sha256": "d81b48cd01784c51b16aac8618d17fc182782cbd497817f58d60415f5d261797"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-07-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-07-I.json",
+      "bytes": 13103,
+      "sha256": "73449d8716b662a5b83bb57328bc79045b67859aec6f3c9b1b93dbb137943508"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-07-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-07-O.json",
+      "bytes": 13103,
+      "sha256": "13ebf947ad4103812d66d0117d34d7c460688e51d00c07415ec58351b933536c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-07-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-07-U.json",
+      "bytes": 13103,
+      "sha256": "862ad2142574afc11c480b330d90293dba74bc04e5f5d9dcb94fe7ef4b4aac51"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-08-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-08-I.json",
+      "bytes": 13103,
+      "sha256": "caca7c8eab4e39a303da3cc483c95dc6e325346b2025d48d611c4155819d2e7e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-08-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-08-O.json",
+      "bytes": 13103,
+      "sha256": "0f0fb91a4d59c7b15294abb0f4bef5f868098ada17914b7abc6e8fb358450aab"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-08-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-08-U.json",
+      "bytes": 13103,
+      "sha256": "51bbc56ebfddcfac15ed434a40dffb756b995867aa17755ba056f67258e07e55"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-09-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-09-I.json",
+      "bytes": 13103,
+      "sha256": "c4ea73baf7fecc938a7d5e3319f029df6c471fb647c28a8c1f739f992f0c860e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-09-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-09-O.json",
+      "bytes": 13103,
+      "sha256": "11242d0c6b994187631c1383e717b962d258e64b9e4bd9ec9baa969bef8db815"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-09-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-09-U.json",
+      "bytes": 13103,
+      "sha256": "99b273fdd77cac14c86a6ba23619c0bc1be4c8845282db77d3d0dd6af5bc53ba"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-10-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-10-I.json",
+      "bytes": 13103,
+      "sha256": "60833da81773723f0234cfc8f727d2c48590bcc54eb7f3bb867a2dbe30f5a45f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-10-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-10-O.json",
+      "bytes": 13103,
+      "sha256": "656a3f47cf14fb85f4a509443a5fe71a8e72cd39e734cb0ed86ed949d3cca4a5"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-10-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-10-U.json",
+      "bytes": 13103,
+      "sha256": "6896c4c4828a01a744b7e6488fe6a7a687a3875f6304c9ee5462e3c19f2404ea"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-11-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-11-I.json",
+      "bytes": 13103,
+      "sha256": "4c9e816adb85314a78e16a9b68106f92f2fe3d206208ebe4b811638715fda0c8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-11-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-11-U.json",
+      "bytes": 13103,
+      "sha256": "49e558ff55a731188f3cf8717b083242b57fc472d9e82ba803a69efa8532436f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-12-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-12-I.json",
+      "bytes": 13103,
+      "sha256": "ebba8875f0b8654ec314aaa6f958bd4db7b896a3c92425b0d7e58a54907a2dba"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-12-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-12-U.json",
+      "bytes": 13103,
+      "sha256": "e8c8024da16f2f6ab3a2e1b4cccf22b5459e37f44602ba19c2ba5f183eda70a7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-13-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-13-I.json",
+      "bytes": 13103,
+      "sha256": "82c463ecc1ebb623695185cea15fecf8aac8ffe9b7d84787399b280e63877c88"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-13-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-13-U.json",
+      "bytes": 13103,
+      "sha256": "88219c2d044d302dffdf808529d7b222586af45a840f37b60216110935b8c4be"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-14-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-14-I.json",
+      "bytes": 13103,
+      "sha256": "9424979fa2034900cb36def70737cf042e424d99f928a70a3cbf2e120fc800b6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-14-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-14-O.json",
+      "bytes": 13103,
+      "sha256": "8bbb36c5e23cfe3b7cb81c589773e36fff27b1c08f74a716c99475f2dd293d64"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-14-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-14-U.json",
+      "bytes": 13103,
+      "sha256": "91bbb80fb628003fc323851f977bfb1ecba2b231f5459ab17d07b8623de41636"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-15-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-15-I.json",
+      "bytes": 13103,
+      "sha256": "035e978cdfaa26f59c53d8de5ece5f825ee68213bfbf6e0636417360f03fbec3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-15-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-15-U.json",
+      "bytes": 13103,
+      "sha256": "5d74abec1fce4c4837bf354513d2153e4ff879a97030d2ffa61b9540b5952d15"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-16-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-16-I.json",
+      "bytes": 13103,
+      "sha256": "d0591dbe33352b29e69974acf9560d76a8dbf51a80d1b86f9be3c5d0127b06e1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-16-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-16-O.json",
+      "bytes": 13103,
+      "sha256": "6d9a6804cd27f61bacb8727ca231df54d06d458b99a992ab443c8bdde515cdba"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-16-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-16-U.json",
+      "bytes": 13103,
+      "sha256": "c72ef362f956bfe8bdfbf82f6777b3fd9ec02ebc159cd702aea9869eca1b2078"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-17-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-17-I.json",
+      "bytes": 13103,
+      "sha256": "b6f0fd78d81b53ebbd4a7cee8ccb0df2955bafd335ac7f6503d8c9786d0a81fe"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-17-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-17-O.json",
+      "bytes": 13103,
+      "sha256": "48d24143f13cfb5306cf29cb9ab8586440f5f3569d029f9e74fa759f8bab623f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-17-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-17-U.json",
+      "bytes": 13103,
+      "sha256": "d3fea21b8c802c32cb172a6f424abaed282ecfe3315442426a0795f74bcb9249"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-18-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-18-I.json",
+      "bytes": 13103,
+      "sha256": "70f4c92d17bdbfec3cdb347a300cb950198dfed02ddb9bc572486d2adee0e5f8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-18-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-18-O.json",
+      "bytes": 13103,
+      "sha256": "25625b72a9f3f367211bf8998e5093c903936c5b708da2daa3916d5cd05341c9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-18-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-18-U.json",
+      "bytes": 13103,
+      "sha256": "7274b4790dec0c3f648f382577b3a4fe908666f3dddb76aa579bc88f8b3d4abd"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-19-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-19-I.json",
+      "bytes": 13103,
+      "sha256": "f4b13270d340ca84e0da7607e8e64fa85f36f4bf1e8dfb1da2d817420e233b2c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-19-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-19-O.json",
+      "bytes": 13103,
+      "sha256": "a11878e9523ec489d0686d23291e4b3e415c132bbfa80053704fe60212a89523"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-19-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-19-U.json",
+      "bytes": 13103,
+      "sha256": "9a1a4575a1380818ac6239ac107fe2455bed56fc548a094ed6110306d44e1c41"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-20-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-20-I.json",
+      "bytes": 13103,
+      "sha256": "fcd97b14b6c345a1c5641513fe48dc5c6089c6fd6d48e0db36a1e038bd04175a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-20-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-20-O.json",
+      "bytes": 13103,
+      "sha256": "3d59c8c2cefa0d2d7730c8737c98cbebe0316438ca4e89f258b247321e0b284f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-20-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-20-U.json",
+      "bytes": 13103,
+      "sha256": "26ddcf6ce70f72f7de28134641e0bd68ea02962447acad51aefe76815a46aa7b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-21-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-21-I.json",
+      "bytes": 13103,
+      "sha256": "c5f82bdc1d2a5b88270b5a7aad246b816d53ccfe699a65dd92a7b948e8cbbe55"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-21-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-21-O.json",
+      "bytes": 13103,
+      "sha256": "c63b703153c1c121360d3b1d4e22eb4a5d52447bfd6e190fed75b99c8d5bf788"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-21-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-21-U.json",
+      "bytes": 13103,
+      "sha256": "b225478376b4fa81f905cebad5d96500ee13b0420bdfacdf17b17a7d1354d642"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-22-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-22-I.json",
+      "bytes": 13103,
+      "sha256": "fa135066e70e90e33064d0844ea2acd4e4a8a50a1ef46c7c99d5e94a05a45882"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-22-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-22-O.json",
+      "bytes": 13103,
+      "sha256": "a536b874b8320d661a2900965f3df72f3f14438fa97604b9a2c4a5787e22d7b1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-22-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-22-U.json",
+      "bytes": 13103,
+      "sha256": "d373136c3d0d795f75512f0dd7893ca5f36fe9f4a521632e5efece75d5b137e1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-23-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-23-I.json",
+      "bytes": 13103,
+      "sha256": "7423293ce52b4ca6f9b59266b01c638f6619b630a46c1265309dfd0918dbccda"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-23-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-23-O.json",
+      "bytes": 13103,
+      "sha256": "983c4ed2bd3c6e12fabb05d14061e15302b1298ec43d216d7ac38ca3efdbf88e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-23-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-23-U.json",
+      "bytes": 13103,
+      "sha256": "f27d5bf66e6343857d1d0abcd7408c48cef14982e1f7b3aed5ffa3db4c3b7da8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-24-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-24-I.json",
+      "bytes": 13103,
+      "sha256": "03cc496d5de116dc72cac4c448a8e203c8971419b16af52a57b4ca883f1b090a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-24-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-24-O.json",
+      "bytes": 13103,
+      "sha256": "d2acc2142e4a5232fb5bd689eb977a66dee2857f89943298c5ba343bd2565d31"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-24-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-24-U.json",
+      "bytes": 13103,
+      "sha256": "54dea27f8420fd88440aae910256e16014c7851c70dacaa13ac7730bd5e49f8b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-25-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-25-I.json",
+      "bytes": 13103,
+      "sha256": "d693600930447b6194d6c86c73e1802f61c020742ac924bf790ade5eac682976"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-25-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-25-O.json",
+      "bytes": 13103,
+      "sha256": "af9d442fbab7a4f01baebe8ec91e1ebc60d8a83876d12f5003a6974744f70152"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-25-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-25-U.json",
+      "bytes": 13103,
+      "sha256": "9f6853af8f4a71cd03dd73cc4d3f1cb81ea0aec1de434a747cdba9e9307436ca"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-26-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-26-I.json",
+      "bytes": 13103,
+      "sha256": "89a53edcf3c1b57667448ed8d74f0cd6937c97ecd220ef7a3ee4993cb4043561"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-26-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-26-O.json",
+      "bytes": 13103,
+      "sha256": "8bdbe7adac4d2511b3c414a204f849b1b5ca5318e6a834e4abb4aecf3ace445e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-26-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-26-U.json",
+      "bytes": 13103,
+      "sha256": "8bf263e743151d88c65915e2651bd0b58aabcd71cc67b2ce9e85314ea5114b69"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-27-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-27-I.json",
+      "bytes": 13103,
+      "sha256": "3d994838d8a26b618b1f441ed1264876fabfbf7e3abd769453eb8bc6c1243988"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-27-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-27-O.json",
+      "bytes": 13103,
+      "sha256": "da772fa130935c24dc02545da6fcf48ae54b06730b2184d6ffeea9be036885e2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-27-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-27-U.json",
+      "bytes": 13103,
+      "sha256": "6b0b26d896049d92fc8af2d643c5a2798c94ade54f20545a739c46bbbdb82a9e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-28-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-28-I.json",
+      "bytes": 13103,
+      "sha256": "4c435a2e338979e027033c13676394a7f3e23e228a55d310a86e12024286a835"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-28-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-28-O.json",
+      "bytes": 13103,
+      "sha256": "5cc976e9cd1e1905f443a38b8d93f520e26d3683ac8c16eecf969b535df8f451"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-28-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-28-U.json",
+      "bytes": 13103,
+      "sha256": "a2f11b99d5d9bc4b5f4f7a6e1218f43bd6e8cd80999bf6529a6e3d391a1e0050"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-29-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-29-I.json",
+      "bytes": 13103,
+      "sha256": "73a75fe262da2013dda01d2089dcded8700e972c8fa02eef4dd4a702cf294c4e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-29-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-29-O.json",
+      "bytes": 13103,
+      "sha256": "a63aa2448eb41e4c1fa26ccf065367302115dcc81b204ac4df73d9d9a4a622df"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-29-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-29-U.json",
+      "bytes": 13103,
+      "sha256": "792543911c41e0f493e7b591dce56b9f9954f1301e793e279af97834f335e847"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-30-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-30-I.json",
+      "bytes": 13103,
+      "sha256": "3e02d9554b15c08ade83cdcbefb56d8750c6a2d1e8ab9ecbbb1fbef246e54c2c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-30-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-30-O.json",
+      "bytes": 13103,
+      "sha256": "c66039436b58dd74d6dd2d76adfba7e6b49ad2f8983e613036885425b6f1ea93"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-30-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-30-U.json",
+      "bytes": 13103,
+      "sha256": "ca9963178666badbdeb7b77b5d34ece6003b225bc47475b71ee281d6442bbf79"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-31-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-31-I.json",
+      "bytes": 13103,
+      "sha256": "17fa7daf95d95b80724467ae6271cde4eff240ccff535032ddae14e007756ef7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-31-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-31-O.json",
+      "bytes": 13103,
+      "sha256": "ae8e3f7355f8f830430dae2dbf4eb7077a10dd1229692a0a616164ac752ff0da"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-31-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-31-U.json",
+      "bytes": 13103,
+      "sha256": "1918f9d85bdb227756be9242424f0d9185eb92214d8912ed8d35ef7c0e0c704a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-32-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-32-I.json",
+      "bytes": 13103,
+      "sha256": "b35856c8d449ef919d0fb5734aef419517f56c06da99dea0684cb7766aff10dc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-32-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-32-O.json",
+      "bytes": 13103,
+      "sha256": "46449f93029e3ffe42a951d7248c1f756cf1ac3971c817ef973dfcbb16f03a29"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/input-jet-0x1.b7cdfd9d7bdbbp-34-32-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/input-jet-0x1.b7cdfd9d7bdbbp-34-32-U.json",
+      "bytes": 13103,
+      "sha256": "87440a68b76d32e0cad72b1f6f0fd600764f2f468c10becbea4325152c05e212"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/monitor-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/monitor-events.jsonl",
+      "bytes": 350647,
+      "sha256": "68ed64a0c7734ef142edd3146d686021b9546fe9f0ba31f93a317cd3c82f5060"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/monitor-evidence.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/monitor-evidence.jsonl",
+      "bytes": 7800585,
+      "sha256": "5d83c82a2f9a8deb30c3e8e1d09f56c09deba310a3bd1893c66010710e1daff3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/monitor.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/monitor.json",
+      "bytes": 8192,
+      "sha256": "bf9da3ed87b8034f2a4d899a8344cac801843cecd9103e8e2d5285a4016184e6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-000.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-000.jsonl",
+      "bytes": 6686,
+      "sha256": "da5c1d3fbc5e7a7cea813147373e4b037c6467c7e3844af0c68bda3f1b306fe2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-000.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-000.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-001.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-001.jsonl",
+      "bytes": 7304,
+      "sha256": "b3ed86b0d042f2c8701db83121fe36f60157551615f3c37586881ab5a10e0981"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-001.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-002.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-002.jsonl",
+      "bytes": 7646,
+      "sha256": "3f26c6cb3595e54cd353faced8ddec4827d4a878f8d7ec38da7f3096e73dc671"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-002.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-003.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-003.jsonl",
+      "bytes": 7024,
+      "sha256": "467b4a4155571e6ac303f6af010c04b5c3b83dce10942062d3bfd82cf109a6c4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-003.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-004.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-004.jsonl",
+      "bytes": 7634,
+      "sha256": "8e6773d38eb5bc92a6a9a3623666ff7789615e3fb040d5092ac49befbc83baf4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-004.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-005.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-005.jsonl",
+      "bytes": 8632,
+      "sha256": "730319cad9f5ee75db8d03ffde5aefea041f2c72bdd9f42aba2a16992f8dd858"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-005.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-006.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-006.jsonl",
+      "bytes": 7291,
+      "sha256": "f2082d8f0ca89a909fe9b1871e084dd17338c57361354013eed8b95db37e4028"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-006.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-007.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-007.jsonl",
+      "bytes": 7341,
+      "sha256": "ab7376913c6637bf395348b121d5c3f89ebda8d0f41fb5cba1e77a7e35c81075"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-007.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-007.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-008.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-008.jsonl",
+      "bytes": 7663,
+      "sha256": "ac453f4203d6125a955e77e6a2abce9c535cb7ba4783c63f9fc89edfd00124d6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-008.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-009.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-009.jsonl",
+      "bytes": 7656,
+      "sha256": "c17bc6aa4f5969ae4aaf3b510e10f81469101f205a500dae01b647e4b69fb51e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-009.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-010.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-010.jsonl",
+      "bytes": 7657,
+      "sha256": "810b1ca88d3242f369f3249be3bf798a746e76c13fb3f4f08e9fc8a20f6c4d61"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-010.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-011.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-011.jsonl",
+      "bytes": 7656,
+      "sha256": "3f713257baf1db8fa97db6b022206be7834ba7a3e971584a2dc1c452329619d8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-011.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-011.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-012.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-012.jsonl",
+      "bytes": 7638,
+      "sha256": "0ea29a4f2863f0dfd9732c484cdcd42e55f1a1563c5edeb39bde14cbcb68a983"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-012.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-013.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-013.jsonl",
+      "bytes": 7632,
+      "sha256": "df6c6aec19da3e4b5ba233089e1f50e5d2e4d73acac68e9535d33db1ab029c24"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-013.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-014.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-014.jsonl",
+      "bytes": 7638,
+      "sha256": "2292e6bd8fcec039ab5918320119f700650776a0edfe407a4ffa0fcb60c9cefe"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-014.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-015.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-015.jsonl",
+      "bytes": 7675,
+      "sha256": "1178b1093fb74e3a6c1eb3214634175df375b14ee3fc359f6f230e178707066d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-015.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-016.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-016.jsonl",
+      "bytes": 8592,
+      "sha256": "06e0b99c8c2ec24f54819cf3c9f079fc88af01e68a4d19033be68fd774cd1a92"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-016.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-017.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-017.jsonl",
+      "bytes": 8579,
+      "sha256": "b8342eed1eb922eb24f186c7e90dd26309ca79e0081d8738141eb83b0427dfaf"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-017.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-017.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-018.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-018.jsonl",
+      "bytes": 8622,
+      "sha256": "57d6986e77c9368c44abbde8227333e54fc66c1faabc0f3dc6e82fc5aa01b998"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-018.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-018.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-019.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-019.jsonl",
+      "bytes": 8283,
+      "sha256": "1390f324f0a95775e31615301236f5354f60842caff779f8850e6e93ee97a08d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-019.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-019.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-020.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-020.jsonl",
+      "bytes": 8538,
+      "sha256": "7a354632df40fbb4e13a68c8c3b8b849d9b3f2fab751c71189f0930f48a6612c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-020.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-020.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-021.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-021.jsonl",
+      "bytes": 7327,
+      "sha256": "5df4910df77e1e36f5d5346b3cae8fd1bb0dd63ee4f722b319e37161becc9a86"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-021.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-021.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-022.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-022.jsonl",
+      "bytes": 7654,
+      "sha256": "d036aa5f0b87e62c2e63a9226600179c284291768985271403157a9348c7f18f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-022.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-022.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-023.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-023.jsonl",
+      "bytes": 7280,
+      "sha256": "ee903ebe4a05f4b175091cadb450fa5521a505e04942c6d837c3df4e277c880f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-023.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-023.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-024.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-024.jsonl",
+      "bytes": 7667,
+      "sha256": "7bc58b5c5496961306f3ccceb142deae95446384a36a67cd74717ceeeff356c4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-024.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-024.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-025.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-025.jsonl",
+      "bytes": 7697,
+      "sha256": "ab2d317fdb5eb52eb13d67fb10b86e0c874d7d72198142de9a94c964af4ecebc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-025.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-025.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-026.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-026.jsonl",
+      "bytes": 7655,
+      "sha256": "d13dbdc854675e7806dc1b90b23c9c3203c5c32091cacf226729e3d7c7e8d56c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-026.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-026.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-027.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-027.jsonl",
+      "bytes": 7668,
+      "sha256": "f43678f505b579fb039bd2b948540757211de12490bcb82ecb5cb040f5db1980"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-027.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-027.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-028.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-028.jsonl",
+      "bytes": 7660,
+      "sha256": "2313cda0b3207b4df78dcab43d4ba6a03f7937d1e45cd955d6d1227a1d903498"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-028.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-028.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-029.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-029.jsonl",
+      "bytes": 7654,
+      "sha256": "d49d45dcc2cf343883be415542777414b8f56f8838472fce26d0055c3d4b941b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-029.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-029.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-030.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-030.jsonl",
+      "bytes": 7363,
+      "sha256": "cd7006d528746c68739ce80b9fd9f71290c53f5c93281f148c7105e0f60bd5e3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-030.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-030.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-031.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-031.jsonl",
+      "bytes": 6686,
+      "sha256": "3a553e76cffb2646066d4013e3c5f5285f2a1c8f46883a8671d8a6a31d105592"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-031.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-031.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-032.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-032.jsonl",
+      "bytes": 6686,
+      "sha256": "db6e2a59b3f7a0682dec4807a73a65af91f1fe1c7ca21510da4ab245943cf026"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-032.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-032.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-033.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-033.jsonl",
+      "bytes": 7363,
+      "sha256": "ef9ae5bcbe00ce7fd7ae4f8507797c93a0fe3fe049fda17e2c2b2b8400c7509b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-033.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-033.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-034.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-034.jsonl",
+      "bytes": 7653,
+      "sha256": "0ad20353ae5216db18b1262a8d1249c3d50e766520d0a0841042d6439d456160"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-034.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-034.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-035.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-035.jsonl",
+      "bytes": 7660,
+      "sha256": "5d194a88093c29dc4f29853929e11ab25cf0c3aa16741958c5260bf2e0129b05"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-035.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-035.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-036.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-036.jsonl",
+      "bytes": 7669,
+      "sha256": "b8c60a545bc1f60899349a4057e06a8e0bd4ef847244e4e09b355a334637de5b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-036.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-036.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-037.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-037.jsonl",
+      "bytes": 7655,
+      "sha256": "ec38c052a3ee0a3f999ec1e81333354f53fea84f4074b2847427ede6e626723b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-037.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-037.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-038.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-038.jsonl",
+      "bytes": 7696,
+      "sha256": "d75e7e6c9afa9dc0fbd089df840bbd6e0350fc528eedb82738ac16f916e98675"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-038.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-038.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-039.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-039.jsonl",
+      "bytes": 7667,
+      "sha256": "a1f754fd6ee873bcfcec7c39d9cd40cedfed6cf6bc6f297a3527af37ed6e862a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-039.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-039.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-040.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-040.jsonl",
+      "bytes": 7281,
+      "sha256": "88d23d1ef4292d84bcc99a29cd7eba2f0e06e54166285a7930f53830851a0182"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-040.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-040.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-041.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-041.jsonl",
+      "bytes": 7655,
+      "sha256": "4035c1bbfd31a80f3e808dc6ed2e2a909bdd416759736d9522ac9ad9c857ed05"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-041.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-041.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-042.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-042.jsonl",
+      "bytes": 7326,
+      "sha256": "524fd73ced7a205c3a732e04c97dff6f6352d34180c3a690ceff806c3f413914"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-042.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-042.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-043.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-043.jsonl",
+      "bytes": 8538,
+      "sha256": "4f7c0afcd827412b76f32c88544c03600bc7d1eda65cb652c4158e317a89a854"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-043.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-043.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-044.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-044.jsonl",
+      "bytes": 8282,
+      "sha256": "7c8ef79a386de2abc6cf5b7351009d655834c904a7af59384c23b88244c8b1d3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-044.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-044.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-045.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-045.jsonl",
+      "bytes": 8623,
+      "sha256": "7b8c57e3d6fd6be23c27b8e0f15a31c2ccb033c779635504abb080ac003cd5ee"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-045.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-045.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-046.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-046.jsonl",
+      "bytes": 8579,
+      "sha256": "a0cf45057e40d827e0a259be6bf2b34eb17f872c292422d4d8d8856cda50c085"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-046.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-046.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-047.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-047.jsonl",
+      "bytes": 8592,
+      "sha256": "dab435170774b9dc5d5cbf95262919b25992c8b8dcb88c382079b9c39ebcbaab"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-047.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-047.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-048.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-048.jsonl",
+      "bytes": 7674,
+      "sha256": "9d8bcabea9899d552156eaeb6c86c659797fbf2052366abeba9f80df1dfe35cd"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-048.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-048.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-049.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-049.jsonl",
+      "bytes": 7633,
+      "sha256": "cf0842485af13630271af9adc48f185e1001feed41553f865751482dc33be363"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-049.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-049.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-050.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-050.jsonl",
+      "bytes": 7656,
+      "sha256": "8bd6b4cd9e32b64c68e7587021d108a36e62a2257916dba61071b99620ad3798"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-050.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-050.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-051.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-051.jsonl",
+      "bytes": 7663,
+      "sha256": "85910871a45d6bdb6525fdd30ba3e0db166d0604c03aa19f37157150a899982d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-051.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-051.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-052.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-052.jsonl",
+      "bytes": 7341,
+      "sha256": "230c3ac22917dc878139187d148fc84b77eb4762b87a92e976472d4932ea7a2f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-052.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-052.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-053.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-053.jsonl",
+      "bytes": 7290,
+      "sha256": "a1967f3cd743a62502abe166f4e2b1f9a852cead38f596f2f10ba985d02a4be3"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-053.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-053.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-054.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-054.jsonl",
+      "bytes": 8633,
+      "sha256": "7b584eb130a03f840e532350dcefd2b496975217efe2ed0d1616eb589966d929"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-054.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-054.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-055.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-055.jsonl",
+      "bytes": 7634,
+      "sha256": "29ad0bbb6a5908aac7bd8a551627c985abb3aebce6587508648ba678d005d297"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-055.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-055.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-056.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-056.jsonl",
+      "bytes": 7025,
+      "sha256": "fda75624133946a8b693daf156487b9b29c2d0489200a3f251543b600dce2358"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-056.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-056.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-057.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-057.jsonl",
+      "bytes": 7646,
+      "sha256": "52a5c52dd7d25ca0ef43c53fa4fd23b0f6b003682e21dde0e96f0eeddfe5e752"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-057.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-057.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-058.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-058.jsonl",
+      "bytes": 7306,
+      "sha256": "570d8be0c0c2940654fbe741c6e2acd6da9ba64197de403e8c81aabe05d124c9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-058.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-058.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-059.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-059.jsonl",
+      "bytes": 6686,
+      "sha256": "e4138b7d69a3dce7511d2dd5152a5ab7675873b685667a425e4595e75e5d48c4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-059.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-059.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-060.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-060.jsonl",
+      "bytes": 6686,
+      "sha256": "cbfda8489ccf621cc155b6066c4f738848c9795a76ddfbda49c95acdd5842f7b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-060.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-060.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-061.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-061.jsonl",
+      "bytes": 7306,
+      "sha256": "7cf8ad2eafd018eeb5c90f81731cb1f32577bec3d25f053c42146772a776a858"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-061.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-061.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-062.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-062.jsonl",
+      "bytes": 7647,
+      "sha256": "a1e224abd2ba5fda86a1667cf9a599bb6f8179166a9f287ff35c37c3b29693e7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-062.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-062.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-063.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-063.jsonl",
+      "bytes": 7025,
+      "sha256": "56c058bc893733303f71de439c6c8b8ca32fc6290ebc0c17d0a54536db2a14b4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-063.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-063.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-064.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-064.jsonl",
+      "bytes": 7635,
+      "sha256": "b930e953207032805979a38fd16118f72c14204ebc1b702c26cd8f9983d5b12b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-064.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-064.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-065.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-065.jsonl",
+      "bytes": 8633,
+      "sha256": "398964a44c62c5b3e6ae9c21707cf23d1387eb065a1bf1787d9e734f9abbc774"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-065.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-065.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-066.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-066.jsonl",
+      "bytes": 7290,
+      "sha256": "2e8eb8fda8ae75efae5c8561831d713c21a13df81eac6941cf485172e5c4ac23"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-066.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-066.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-067.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-067.jsonl",
+      "bytes": 7342,
+      "sha256": "c5ce869ab871480d7d70d8eca4e23aff2a78daf11fe3444145b3d2318bc752cb"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-067.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-067.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-068.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-068.jsonl",
+      "bytes": 7663,
+      "sha256": "0261abf1cc292d1b162d0f47ff9f33e3c96200440db6c6e053e49778e32f0cf2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-068.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-068.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-069.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-069.jsonl",
+      "bytes": 7656,
+      "sha256": "17aa2e2bf25a6367f1d9664d0c5604e695733152767798d0ce8a0dc59201d090"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-069.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-069.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-070.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-070.jsonl",
+      "bytes": 7657,
+      "sha256": "15f9050efb0dff3de876494a74e636747fe42add9d254978064f5f96cd87bf27"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-070.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-070.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-071.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-071.jsonl",
+      "bytes": 7657,
+      "sha256": "fcec16bbbdf09c49b33a7315d8b1854668f057c9e09413324bead3ec96f40622"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-071.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-071.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-072.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-072.jsonl",
+      "bytes": 7639,
+      "sha256": "68bbd605752452e87b776c97f7755107f3a6bd81d10fda03be30b6672801ff0c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-072.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-072.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-073.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-073.jsonl",
+      "bytes": 7632,
+      "sha256": "f9349bc432e4197ffb0f5bdd074742bbee52c43bbbcbeacf0ad5f93bb1c8b2e8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-073.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-073.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-074.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-074.jsonl",
+      "bytes": 7639,
+      "sha256": "f77f6d9ce8f0103467779e91258f127f2d0057fd5b2de7ddcb3e773489da156a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-074.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-074.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-075.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-075.jsonl",
+      "bytes": 7674,
+      "sha256": "9d401e5991ba3815b5bbe4a7437526c50f2b33445a3467810717b3c01b6d77a9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-075.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-075.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-076.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-076.jsonl",
+      "bytes": 8592,
+      "sha256": "c3fc2b389df51fa1c726af4b2452d66f8c4b9f5f45ddae7e8a52401f41e01088"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-076.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-076.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-077.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-077.jsonl",
+      "bytes": 8578,
+      "sha256": "fc074bd6f8fcd2082d7f788903a9e128dbfd5d6ae8497644d3a863c00377c927"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-077.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-077.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-078.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-078.jsonl",
+      "bytes": 8622,
+      "sha256": "e36d8738f867561a7a13a76df5a3654c3357fe37e58414cb6f0f157d8b5b4daf"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-078.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-078.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-079.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-079.jsonl",
+      "bytes": 8284,
+      "sha256": "3e4140f080ae341e35307b6e8317307c4e65e9c51aa51364a4677d1d65b60f77"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-079.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-079.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-080.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-080.jsonl",
+      "bytes": 8538,
+      "sha256": "e6237746ed7d20b2cef37eff341d94fbdaac061dc885d087c6b2cfc9c69c5b3e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-080.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-080.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-081.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-081.jsonl",
+      "bytes": 7326,
+      "sha256": "bfb401a8ccdcb266ecc7aadbacbee69695b8593a70804760bc156b1b6053b5c5"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-081.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-081.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-082.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-082.jsonl",
+      "bytes": 7653,
+      "sha256": "97bd1f39c4dd3087e40048e020d4639c00eb94186bcbbc1e56963c31492a1ccc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-082.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-082.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-083.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-083.jsonl",
+      "bytes": 7280,
+      "sha256": "d85e273970ad3fd4352c6e40d46195a71e6ee579eb36971eac10412a89eddb58"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-083.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-083.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-084.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-084.jsonl",
+      "bytes": 7668,
+      "sha256": "21959f14fe9404b32fe6b4bcd49d38b57b4c2b0d88040e9ee1e546848d545d84"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-084.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-084.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-085.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-085.jsonl",
+      "bytes": 7697,
+      "sha256": "8baba740ac757472c041f00daaf4785dcf21cd18b71e0fb4d5644061e6ad32c4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-085.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-085.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-086.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-086.jsonl",
+      "bytes": 7654,
+      "sha256": "f51854a5e8afa3b7a82fbdaf46366eb5e0eeae5feb60ad8b4bd41379bb3eb33d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-086.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-086.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-087.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-087.jsonl",
+      "bytes": 7669,
+      "sha256": "16a27cfa9c0ab906a7d44d4564157a7cf1623bdef0c8c8b9fa3cd7a7811851f4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-087.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-087.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-088.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-088.jsonl",
+      "bytes": 7660,
+      "sha256": "cdd26198bbead638fcd01a48c636a8e5e3ac85e31d0484dfb14666ad073043a9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-088.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-088.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-089.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-089.jsonl",
+      "bytes": 7653,
+      "sha256": "e82300ea38ba128f2c9d52c896468a004c83398e91db86fccd816a154a4e6988"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-089.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-089.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-090.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-090.jsonl",
+      "bytes": 7364,
+      "sha256": "d8f80c38643951fe3865024e0e102e25ee85bdb04123e115d879bfdf8838266a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-090.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-090.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-091.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-091.jsonl",
+      "bytes": 6685,
+      "sha256": "210f53784b16e9a659d1363733fec54707b08f52639807f937b4796f5f3d4c0b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-091.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-091.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-092.jsonl",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-092.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/reader-092.stderr",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/reader-092.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-01-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-01-I.json",
+      "bytes": 2041,
+      "sha256": "f941612a6eacfebd2059975824fa783f1b363dd313fedc9f9b383b37636cc6be"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-01-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-01-O.json",
+      "bytes": 2173,
+      "sha256": "d8096df68cc898eb1c84947d3009ce75427da2ab893e6037a9d27d20bae4c8d5"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-01-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-01-U.json",
+      "bytes": 2173,
+      "sha256": "a3621c2fbe9436d7e24b40c97e7039741972c91942fd76c5ff7e6c0288c4fc42"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-02-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-02-I.json",
+      "bytes": 8639,
+      "sha256": "7b405aa2830541fbaa0f952ebdd619b97f770e89eca8f577cbcd30ca745b6025"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-02-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-02-O.json",
+      "bytes": 8771,
+      "sha256": "ce39bb749fa38d4b03f1256776e1f3404c25af6369b379cfa956765079e284c8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-02-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-02-U.json",
+      "bytes": 8771,
+      "sha256": "ba31f0dc4ea7d1ab8dca49d0b7aaf39c7bc5bd558b63be59125b10d8f225e562"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-03-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-03-I.json",
+      "bytes": 17239,
+      "sha256": "baaf2134b80ecb12f15c84153dca2cf04deaac82aeac564f4e413c2b54d696cb"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-03-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-03-O.json",
+      "bytes": 17371,
+      "sha256": "1790bc21063b969585ff860f994bc254114483d172c3e909d790e9020526ddf2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-03-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-03-U.json",
+      "bytes": 17371,
+      "sha256": "6e2362eb17f806ebb1d1d72a02c0e0dc4e94e0f0098abd29f9243808e2bdf070"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-04-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-04-I.json",
+      "bytes": 9149,
+      "sha256": "ec469046db8c47a38ccf8a3cf44b7a5306581bddf788a233e11215751d54d8c6"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-04-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-04-O.json",
+      "bytes": 9281,
+      "sha256": "efd98c687bda56035d4efa39437f33d9b5adca4a6e2d580a3b350388861a140b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-04-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-04-U.json",
+      "bytes": 9281,
+      "sha256": "289e4bd2ab35462f368f141a50982968879f603d3d3bf7a11bb351f8da1aa769"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-05-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-05-I.json",
+      "bytes": 17190,
+      "sha256": "2003a12e5bcb0ebf36f26394644881ee397188770bac724e4f596fd40ae1f2cc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-05-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-05-O.json",
+      "bytes": 17322,
+      "sha256": "38acc93f2a945204d2b3d7f13f853219ce0c71203d2f2552baa16859cf6d5bef"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-05-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-05-U.json",
+      "bytes": 17322,
+      "sha256": "60915018d7ffe971ecce0b6d706bb7ea83085ce9a61dd99349bcba0c5b58ffb1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-06-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-06-I.json",
+      "bytes": 30708,
+      "sha256": "810f5ad64a8e93da01a7922a307920efba455c91b7018283aa202043bdf4a33a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-06-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-06-O.json",
+      "bytes": 30840,
+      "sha256": "a607ab748434d453f819878b5b0866a628a1bf6dbef1778e12b6272cc02417c9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-06-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-06-U.json",
+      "bytes": 30840,
+      "sha256": "a39e347c03fdb3c9e762c730fb74c332d254e1e0dcd12e912fc3bbd604cedc6a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-07-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-07-I.json",
+      "bytes": 9381,
+      "sha256": "b31e9f5b4c5bbbc1ae9d6a6bda784e7cf61a0d67309cdfc66aa1ce3b29365634"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-07-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-07-O.json",
+      "bytes": 9513,
+      "sha256": "eb8658d7217e4ec08ab99d336453532e1f2fb0bd6986ff89762fc05f3248d245"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-07-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-07-U.json",
+      "bytes": 9513,
+      "sha256": "d736727a444175b7c465b5d854d95c0da70cbd35d349e6025d473235eccafb50"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-08-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-08-I.json",
+      "bytes": 9349,
+      "sha256": "00daf64c3aff8e15d737087deba9941442ced3e25f43b0d16ea18ae641958826"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-08-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-08-O.json",
+      "bytes": 9481,
+      "sha256": "dcce13e712a1dc088723c9775d94f16a68da59f47bb46a0460b9c8d06b31d82c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-08-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-08-U.json",
+      "bytes": 9481,
+      "sha256": "df2040fb6e1383b0b8d9881bafe12085427416da9a300bfc1bc2da5980ba7cd1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-09-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-09-I.json",
+      "bytes": 17254,
+      "sha256": "37a53437d723f4bbbe45d9740b403221468ce58d38f2fb0274449b542935145c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-09-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-09-O.json",
+      "bytes": 17386,
+      "sha256": "3d80aa9efb4f974f58613648276ab88d733b640b7d28afe22bf81e8e28efb740"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-09-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-09-U.json",
+      "bytes": 17386,
+      "sha256": "44846cbeb381ae4bd2e14ecc592a3fc2fcc3d57110f044e969db73bc6e7d677a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-10-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-10-I.json",
+      "bytes": 17257,
+      "sha256": "502952de2ddd1fe7ddce2e9b66523ee3b29201be3d8fd6a9f477217a9a97e858"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-10-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-10-O.json",
+      "bytes": 17389,
+      "sha256": "42861c31b97385cfc2e00b9e530ca7a96a7df455237fc509b0f8275bd00c0fa5"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-10-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-10-U.json",
+      "bytes": 17389,
+      "sha256": "0ccd2192cf4c8458e9f647653e5882f0850b87e23e68effdb39aef98a9c6d21c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-11-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-11-I.json",
+      "bytes": 17257,
+      "sha256": "a0b3401056f3b79084fd6f784583595939dc93b2fe904f4e189dddc946290f62"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-11-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-11-U.json",
+      "bytes": 17389,
+      "sha256": "1789bcd405ff384295b344357162a71abaee2259cec36d93ee7e6a33ab85f759"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-12-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-12-I.json",
+      "bytes": 17258,
+      "sha256": "19921b1d7d330f59b912092a21eef03753d5c64bf9eada9fc73eb576e4432b72"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-12-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-12-U.json",
+      "bytes": 17390,
+      "sha256": "7cbbc98f72c7008043606aafb0a0857ac7853c653073f5c3b865a1e7090eb2ff"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-13-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-13-I.json",
+      "bytes": 17238,
+      "sha256": "7fcbf086a1d15569bd4cb0914e7fbf68332ef65f116f0c2690b714bab7da5c58"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-13-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-13-U.json",
+      "bytes": 17370,
+      "sha256": "57c22fa9d62d1c115d6aeb08f9e0b5fc94791b354e3a1a3336cd4963910f7265"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-14-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-14-I.json",
+      "bytes": 17233,
+      "sha256": "c6d0c4dada61f59adf4c4d8fd320d065c5e59df6f5286dddd54b63df41a28547"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-14-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-14-O.json",
+      "bytes": 17365,
+      "sha256": "3e1685408b409f1a2e4752286ff4d8c97f0e1d564d471a0878903e842351e06f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-14-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-14-U.json",
+      "bytes": 17365,
+      "sha256": "1a3d43e59be9997217d29bea1eb140326cac26d0c5795a96b27e89e41f753430"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-15-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-15-I.json",
+      "bytes": 17238,
+      "sha256": "279084cfec77c0c0a5638e85ea2eabf757032f8ee4f8902d431d401f7a3128d8"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-15-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-15-U.json",
+      "bytes": 17370,
+      "sha256": "166e9feb8aaa364f3ff068efcb9c864b4b4cd8840c4d6e6ec5b289fdb163a2fb"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-16-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-16-I.json",
+      "bytes": 17301,
+      "sha256": "f8f5e2dd9a06911d52d404edd34d363064657e2899908faf2038e19f8f257bec"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-16-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-16-O.json",
+      "bytes": 17433,
+      "sha256": "a97365c8cfc2034f6d6f1a208a9f3ff8c06470be733ee99ca7dff77fb5c23f64"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-16-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-16-U.json",
+      "bytes": 17433,
+      "sha256": "4861c924a74b1c04c000d2e6da0e75e8759fb3634483d2b4650a38beeeb7d49f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-17-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-17-I.json",
+      "bytes": 30736,
+      "sha256": "15b9991641cc8522419d1e8c2223505cf48a3871a174c1d51987433a65286198"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-17-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-17-O.json",
+      "bytes": 30868,
+      "sha256": "cecff9bb1927d0a41c47e7601149ccf816cc88df9ef657e8cda0157192702863"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-17-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-17-U.json",
+      "bytes": 30868,
+      "sha256": "046ea910e69ec3be2e99688bab80e67e42ce457679030f5da9d28fa2d909982f"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-18-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-18-I.json",
+      "bytes": 30703,
+      "sha256": "e4b5e263317d18a6a5cfbcb2cd79fdb883fb123403118c24200be30ae527f3cb"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-18-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-18-O.json",
+      "bytes": 30835,
+      "sha256": "4ad66368c81cbeae25122a2e073154c22c2e8b6f2e36595191881bb2f6965840"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-18-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-18-U.json",
+      "bytes": 30835,
+      "sha256": "d7f5457c9212a148f689cc72ddb3ef78e6ae42655d94ee8f627fdfeae674db0b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-19-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-19-I.json",
+      "bytes": 30732,
+      "sha256": "61f0aff7d5e6f768aed3b99368703433398d27c93084a5602d93927243bb3e7a"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-19-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-19-O.json",
+      "bytes": 30864,
+      "sha256": "3cf0a212308d2e3aef8d75adba6c1ae7b82ca87ed9a4cda19bc3acb9f815aed9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-19-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-19-U.json",
+      "bytes": 30864,
+      "sha256": "61c1ccd8ac65353c9ab5272848f1ae8d9f04b652c9af3bfa2b523592125565d7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-20-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-20-I.json",
+      "bytes": 22539,
+      "sha256": "3c7fd4a10c262ee6a58c64d19393bfa0badb3415d0f5d20c33f1bd395f23cebd"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-20-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-20-O.json",
+      "bytes": 22671,
+      "sha256": "1c2336749d09c9688e42f493ee16eed693fd982bfc8d24ba79eafecc3a467e30"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-20-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-20-U.json",
+      "bytes": 22671,
+      "sha256": "bcf97ce50fad657b420ea50d2d14940e968c07eeb6ac6888aef1e7fd4e094d7b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-21-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-21-I.json",
+      "bytes": 30643,
+      "sha256": "e94e4b4a3a3c79529def0cbfb3e68b1e890dad9d40503cf863c48726b48e2cb0"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-21-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-21-O.json",
+      "bytes": 30775,
+      "sha256": "02f1dadd5420517b3598a740e819e1ca6f484dea566e3fe0c4ba17db0504db7e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-21-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-21-U.json",
+      "bytes": 30775,
+      "sha256": "b0ff3a83418687f37d3243d276390b9a61b6abf2df6176375f48b4e81be19ed1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-22-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-22-I.json",
+      "bytes": 9389,
+      "sha256": "db694e30234fbe505f4189a8cb2391a8fc8ede56ff198878dabe043b401440da"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-22-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-22-O.json",
+      "bytes": 9521,
+      "sha256": "3ca24fe5311ce7a57dae479c518f441541c8d0cc830af7681b9b1c347fb31f37"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-22-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-22-U.json",
+      "bytes": 9521,
+      "sha256": "7ad127e8e20becf99df51f2aafef3c77772e1c2d2884590242532c160a63332e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-23-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-23-I.json",
+      "bytes": 17401,
+      "sha256": "f2e01c70d7a94769b4755b7536ad44fd7f5dc86432191c19205ff9109576e6bf"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-23-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-23-O.json",
+      "bytes": 17533,
+      "sha256": "b895fb3cd00a3825e937fe0c99538fe2c1d1e79109aca610b16176e6a0d5d6e2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-23-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-23-U.json",
+      "bytes": 17533,
+      "sha256": "5f3d20b0a1219c76d2e186846679af3f662c58f86d32871956be9b4ae8faf09b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-24-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-24-I.json",
+      "bytes": 9327,
+      "sha256": "4ba817a351f8a34694b72a32df2b006e6d8219b4d11c80671a7cbc38022a5c43"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-24-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-24-O.json",
+      "bytes": 9459,
+      "sha256": "e45d4cd9fd70e1be4a79ab139b735a74f451f5d8713c26b743f6e512b15e93c5"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-24-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-24-U.json",
+      "bytes": 9459,
+      "sha256": "98166f50fc3b5861906d9e4a42ab514d10dc8b46d5389aea046258a78bfefecc"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-25-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-25-I.json",
+      "bytes": 17280,
+      "sha256": "dbd2fed402954692b099002071785b7635a8d3ec7c2224a32f19643d21b41de1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-25-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-25-O.json",
+      "bytes": 17412,
+      "sha256": "871f5322a860d9a83a010dde832236c10ff0ff3fac94946a561e453fe1e114b7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-25-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-25-U.json",
+      "bytes": 17412,
+      "sha256": "2e8be74988b1b9be59a0e965a76bd474280c3029786e247a200a5cd7912ec3f7"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-26-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-26-I.json",
+      "bytes": 17400,
+      "sha256": "1269f841d370beffc4d57d1f3134171d7dc6066430631ec14ec475c10b9b30da"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-26-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-26-O.json",
+      "bytes": 17532,
+      "sha256": "81290739de0d7b9428c05aedbaf9f5833b8f585d89d8067b4f00c76ee2622129"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-26-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-26-U.json",
+      "bytes": 17532,
+      "sha256": "360d7e189f497875655f58745619d5c6d24f94dacf018f651c0fd8a0c501c52c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-27-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-27-I.json",
+      "bytes": 17250,
+      "sha256": "01130b4bddd317ff86ee76e3165797c635a34cc2850d60143596b47430af2051"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-27-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-27-O.json",
+      "bytes": 17382,
+      "sha256": "b089dfe1706ca1099b0b8745f56a4b0de3b73b75bc2c2de416d18ee1b5722a25"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-27-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-27-U.json",
+      "bytes": 17382,
+      "sha256": "2f53c488fd37a2f9bc64817172ea8bfe3b66fa338e0d5309f641d29c105e72f2"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-28-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-28-I.json",
+      "bytes": 17278,
+      "sha256": "4a1ef2e889b16ad8da1e810d287829d7669917f7a5f880c5d035f5ecc5600ab1"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-28-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-28-O.json",
+      "bytes": 17410,
+      "sha256": "552e3f45b2f7048d5ac7e9f282e3bef88a81cc393e6be9355660719caf47e66e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-28-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-28-U.json",
+      "bytes": 17410,
+      "sha256": "8ea3a1209750ce369273679f8cfd4978347a3b285959f51a73f4e748b77b858c"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-29-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-29-I.json",
+      "bytes": 17265,
+      "sha256": "85a335088f07ffd0b87db098fed9d280e3298a6ce92509049e35f7cf619e4403"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-29-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-29-O.json",
+      "bytes": 17397,
+      "sha256": "e848249367f41e8f8f884ad5b9f856654b9e80e38fe0f2aaf86df3428a2d012e"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-29-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-29-U.json",
+      "bytes": 17397,
+      "sha256": "ba6cba3a1dd93326870bd83e4bad1b2edee395a18fd561aa473fc01dd389809b"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-30-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-30-I.json",
+      "bytes": 19328,
+      "sha256": "e81eb26c44dc83ab0b1e8d07a054253e34695726337f4aeaa64f5e82169d3d17"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-30-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-30-O.json",
+      "bytes": 19460,
+      "sha256": "bbc3d1d84056e690c2c87c77d767984d36086c3ff6cf9c50c08939904422b371"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-30-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-30-U.json",
+      "bytes": 19460,
+      "sha256": "fd06224c2c40d2e6db03aab6e102beec614c5ab11ac346d063afc1fd8a70405d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-31-I.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-31-I.json",
+      "bytes": 9404,
+      "sha256": "dce8960c2fae8465852a140bebe3b5ec31e8752fe42398f2e0fd852d887d538d"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-31-O.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-31-O.json",
+      "bytes": 9536,
+      "sha256": "bdcc450b289a4297b5152c487bda6a1ea58948895c2f7bc995e655886b7d62c9"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/result-jet-0x1.b7cdfd9d7bdbbp-34-31-U.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/result-jet-0x1.b7cdfd9d7bdbbp-34-31-U.json",
+      "bytes": 9536,
+      "sha256": "4b535710ec5b149b5bb46e4e1877d0b093933295878a886ccdd4c157603956e4"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/stage-a.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/stage-a.json",
+      "bytes": 144682,
+      "sha256": "4a024e61a785bc96fc8af28f062d3d81392cda9aae42b3bc7bbfb2442c8ed056"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/statics-jet-0x1.b7cdfd9d7bdbbp-34.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/statics-jet-0x1.b7cdfd9d7bdbbp-34.json",
+      "bytes": 15320,
+      "sha256": "fd876c6dc07615fd65e26852c4e5b800c306adc0b95c7cc71e8938cda155c023"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/stderr.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05-driver/stdout.log",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/stage-a/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-setup05-admission-2026-10-19-resume01.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/preallocation/task-18-setup05-admission-2026-10-19-resume01.json",
+      "bytes": 3050,
+      "sha256": "a0290dd25f1c52cc5da073a4bae90ab6e1c498747376ffad58a50f0e5fb35e09"
+    },
+    {
+      "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup05-allocation.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/preallocation/task-18-stage-a-setup05-allocation.json",
+      "bytes": 4902,
+      "sha256": "987d447054e623c373cccd1073875889f788c04104d15da1f2e85d15d46c8e13"
+    },
+    {
+      "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup05-launch.py",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/preallocation/task-18-stage-a-setup05-launch.py",
+      "bytes": 11135,
+      "sha256": "a92bfcd9f5e6b453d387d031ed6892999080e4037f5ce07a3052a320763bf82e"
+    },
+    {
+      "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup05-execute-once.py",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/preallocation/task-18-stage-a-setup05-execute-once.py",
+      "bytes": 2105,
+      "sha256": "b9bb1ddc48944c926ed224b896fb1f222d17856707f7f882275db95d18c4c5dd"
+    },
+    {
+      "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup05-invoked.json",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/preallocation/task-18-stage-a-setup05-invoked.json",
+      "bytes": 284,
+      "sha256": "5656e5dc4c079eb1e39bf2cf65838d0e29b3ec2da9298799678c8b09501b9995"
+    }
+  ],
+  "directories": [
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/prelaunch",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/prelaunch"
+    },
+    {
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source816bce2-05/worker-output",
+      "archive": "docs/research/task18-kernel-stage-a-stopped05-evidence/setup/worker-output"
+    }
+  ]
+}
