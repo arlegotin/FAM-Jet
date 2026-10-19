@@ -412,3 +412,8 @@ The fresh free-plus-speculative admission failed with293273600 bytes available b
 ## 19 October2026 — preserve partial kernel diagnostic and its source failure
 
 Ruling: retain stopped05 as STOPPED and row30 source/end-to-end checks as FAILED; assess prospective common time/output limits before any fresh attempt. Reason: reader arithmetic passed the92 completed calls, while the original isolated-process time cap prevented full coverage; extreme cancellation separately exposes source loss. Cost if wrong: another bounded diagnostic may remain incomplete, and its costs/failures must stay visible. No retry or StageB is released by this record.
+
+
+## 19 October2026 — accept prospective completion-resource source
+
+Ruling: accept the independently reviewed narrow time/output propagation and conditionally adopt one fresh setup06. Reason: actual partial-run time/log volume predicts censoring under the old limits, while unchanged math and failure policy preserve scientific interpretation. Cost if wrong: a larger bounded stopped run with all costs retained; no inferred accuracy or automatic StageB permission. Root verified source/package/template/evidence; fresh capacity and actual setup gates remain mandatory.
