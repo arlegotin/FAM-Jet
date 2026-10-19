@@ -422,3 +422,8 @@ Ruling: accept the independently reviewed narrow time/output propagation and con
 ## 19 October2026 — retain setup06 admission hold
 
 Ruling: do not allocate setup06 after its fresh available-page estimate704282624B fails the frozen1GiB minimum. Reason: the earlier admission policy remains binding; prior passing headroom is not a reservation. Cost: numerical completion waits for external capacity; continue independent source/design work, with no process termination, favorable polling or threshold amendment.
+
+
+## 19 October2026 — narrow future evaluation preparation honestly
+
+Ruling: preserve the reviewed future panel preparation, with corrected response/quarantine semantics, while deferring all nonnull production authority/runtime schema and implementation decisions until full StageA evidence. Reason: existing worker APIs support a bounded actual-state comparison, but an opaque evidence hash cannot establish numerical eligibility and current source-failure coverage is incomplete. Cost if wrong: future design work must change; no current scientific output or release is affected. Pure preparation acceptance grants no implementation or execution permission.
