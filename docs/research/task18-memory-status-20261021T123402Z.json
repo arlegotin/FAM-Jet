@@ -1,0 +1,49 @@
+{
+  "utc": "2026-10-21T12:34:02.159372+00:00",
+  "scope": "scheduled_read_only_status_not_allocation",
+  "collector_correction": "First collector aborted before persisting observations at optional sysctl swapusage EPERM. No memory result was computed or selected. Focused sysctl reproduced EPERM. This corrected collection retains each observation, treats optional swap refusal as metadata, and leaves all three required admission observations unchanged.",
+  "observations": {
+    "vm_stat": {
+      "argv": [
+        "/usr/bin/vm_stat"
+      ],
+      "returncode": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    36404.\nPages active:                                 803030.\nPages inactive:                               818201.\nPages speculative:                              5666.\nPages throttled:                                   0.\nPages wired down:                             264761.\nPages purgeable:                               37706.\n\"Translation faults\":                     9816826511.\nPages copy-on-write:                       665531471.\nPages zero filled:                        8470173530.\nPages reactivated:                         224389221.\nPages purged:                               91871334.\nFile-backed pages:                            506224.\nAnonymous pages:                             1120673.\nPages stored in compressor:                  1423635.\nPages occupied by compressor:                 372278.\nDecompressions:                            212987250.\nCompressions:                              276717753.\nPageins:                                   208908814.\nPageouts:                                    1204935.\nSwapins:                                     3699170.\nSwapouts:                                    6376605.\n",
+      "stderr": ""
+    },
+    "memory_pressure": {
+      "argv": [
+        "/usr/bin/memory_pressure",
+        "-Q"
+      ],
+      "returncode": 0,
+      "stdout": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 72%\n",
+      "stderr": ""
+    },
+    "power": {
+      "argv": [
+        "/usr/bin/pmset",
+        "-g",
+        "batt"
+      ],
+      "returncode": 0,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; charged; 0:00 remaining present: true\n",
+      "stderr": ""
+    },
+    "swap": {
+      "argv": [
+        "/usr/sbin/sysctl",
+        "vm.swapusage"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "sysctl: sysctl fmt -1 1024 1: Operation not permitted\n"
+    }
+  },
+  "scientific_work": 0,
+  "available_bytes": 689274880,
+  "reserve_bytes": 172318720,
+  "planning_envelope_bytes": 516956160,
+  "free_disk_bytes": 266778914816,
+  "ready_for_separate_fresh_admission": false
+}
