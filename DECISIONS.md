@@ -427,3 +427,8 @@ Ruling: do not allocate setup06 after its fresh available-page estimate704282624
 ## 19 October2026 — narrow future evaluation preparation honestly
 
 Ruling: preserve the reviewed future panel preparation, with corrected response/quarantine semantics, while deferring all nonnull production authority/runtime schema and implementation decisions until full StageA evidence. Reason: existing worker APIs support a bounded actual-state comparison, but an opaque evidence hash cannot establish numerical eligibility and current source-failure coverage is incomplete. Cost if wrong: future design work must change; no current scientific output or release is affected. Pure preparation acceptance grants no implementation or execution permission.
+
+
+## 21 October2026 — preserve admission after primary-source review
+
+Ruling: preserve the current capacity hold rather than reinterpret37% as allocatable memory or add inactive/file-backed/purgeable queues as independent free pools. Reason: Apple’s public non-Jetsam accounting includes active data, and the snapshot gives no guaranteed reclaimable subset or sustained swap/pressure rate. Cost if wrong: a conservative rule delays a run that might succeed after reclamation; it does not change the science or imply the M3Max cannot run the PoC. Prior refusals and all earlier numerical failures remain unchanged. Observe once again only after external capacity changes/resume; no polling, other-job disruption or threshold change.

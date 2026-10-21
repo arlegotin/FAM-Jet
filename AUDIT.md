@@ -425,3 +425,6 @@ Kernel source review found no Critical/Important or actionable Minor defect. Roo
 
 
 19 October2026: stopped05 custody independently checked (442 originals/12,484,385B;25 sealed source files, package/lock).92 completed reader outcomes include89 finite result files plus3 intentional sentinel returns; no missing result was silently counted as a finite pass. Row30 source/end-to-end failures and candidate timeout retained. Reviewed time/output propagation changed no mathematical package bytes; final13 focused and5 controlled covering checks pass. First setup06 admission failed; no allocation/run followed. Future-panel builder findings were corrected or explicitly deferred in reviewed preparation, with no production readiness claim.
+
+
+21 October2026: user resumed; new admission free+spec215760896B failed1GiB rule, before allocation. Independent primary-Apple-source assessment found37% memory_pressure output includes working data; exact installed-build identity remains unverified. No unsupported reclaimable-memory claim or favorable threshold was substituted. Package15cf84 unchanged; no new factors/reads/tests or other processes changed. Capacity refusal is operational, not negative model evidence.

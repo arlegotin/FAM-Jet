@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-21T07:47:00.794081+00:00",
+  "scope": "Assessment custody and unchanged source only; no numerical execution or hardware adequacy certification. Public Apple main sources are not an exact installed-build match.",
+  "root_ruling": "Preserve unchanged admission hold; no justified replacement threshold from this snapshot. Fresh observation only after external capacity change/resume.",
+  "assessment": {
+    "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-setup06-capacity-semantics-assessment.md",
+    "archive": "docs/research/task18-setup06-capacity-semantics-assessment.md",
+    "bytes": 6849,
+    "sha256": "52e0e0b9ca95312ae6bf2f82c27ad3f867cac4eb48e641cf7d796c0e71cdf3f1"
+  },
+  "admission": {
+    "original": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-setup06-admission-2026-10-21-resume01.json",
+    "archive": "docs/research/task18-setup06-admission-20261021-refused.json",
+    "sha256": "7d3a2fcd64c156f928022c9e83814e329032289398a9420a6545dfd779886868",
+    "admission": false
+  },
+  "package_hash": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "guard_sha256": "a391326b122b1126036b3e21b8e85c168e575f1a985191ade3f74b2caa3aa94b",
+  "setup06_allocated": false,
+  "setup06_clock_started": false
+}
