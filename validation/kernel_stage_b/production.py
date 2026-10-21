@@ -7,6 +7,10 @@ COUNTERS = {"coefficients", "window_vector", "snapshot_record", "snapshot_from_r
             "_advance_payload", "_reconstruct", "read", "tensor_clone", "factor"}
 
 
+class DecodeError(ValueError):
+    """The guarded reader returned a malformed or mismatched numeric record."""
+
+
 def panel_config_for_entry(base, entry):
     """Preserve the original resolved config except three closed substitutions."""
     if entry["length"] not in (128, 512, 2048) or entry["regime"] not in (
@@ -40,7 +44,7 @@ def decode_response(response):
     n = response["numeric"]
     _keys(n, ("prediction", "logits", "support", "failure", "diagnostics", "schema_version"),
           "numeric")
-    if n["schema_version"] != 1 or n["logits"] is not None:
+    if type(n["schema_version"]) is not int or n["schema_version"] != 1 or n["logits"] is not None:
         raise ValueError("numeric version/logits")
     nullable = lambda x: x is None or _number(x)
     boolean = lambda x: type(x) is bool
@@ -104,9 +108,15 @@ def validate_window_order(response, tasks, state_valid, intervals=None):
     position = 0
     for j, task in enumerate(tasks):
         codes = d["failure_code"][0][j]
+        def unused(k):
+            if (codes[k] != 0 or d["reconstructed_mass"][0][j][k] is not None or
+                    d["cancellation_bound"][0][j][k] is not None):
+                raise ValueError("unused diagnostic slot must retain producer null")
         if not state_valid:
             if codes != [5, 0] or d["quarantined"][0][j]:
                 raise ValueError("empty-state short circuit")
+            if d["reconstructed_mass"][0][j] != [None, None] or d["cancellation_bound"][0][j] != [None, None]:
+                raise ValueError("unused empty-state diagnostics")
             continue
         if d["quarantined"][0][j]:
             raise ValueError("unexpected reader quarantine after finite encoding")
@@ -131,8 +141,8 @@ def validate_window_order(response, tasks, state_valid, intervals=None):
                 raise ValueError("window diagnostic position")
             if window["code"] != 0:
                 break
-        if task == "mean" and codes[1] != 0:
-            raise ValueError("mean unused window code")
+        if task == "mean" or task == "contrast" and codes[0] != 0:
+            unused(1)
     if position != len(windows):
         raise ValueError("extra reader window")
 
@@ -177,6 +187,7 @@ class Backend:
 
     def __init__(self, plan, root):
         from pathlib import Path
+        from .authority import read_verified, strict_json
         self.plan = plan
         self.root = Path(root)
         self.out = Path(plan["execution"]["output"])
@@ -186,6 +197,9 @@ class Backend:
         self.policies = {}
         self.read_ordinal = 0
         self.candidate_deadline = None
+        source = strict_json(read_verified(self.root, plan["panel"]))
+        self.entries = [dict(entry, query_ids=list(range(8))) for entry in
+                        source["splits"]["development_fit"]["episodes"]]
 
     def prepare(self):
         from dataclasses import asdict
@@ -250,7 +264,10 @@ class Backend:
                 raise ValueError("rematerialized panel identity mismatch")
             if tuple(ep.queries.query_ids.shape) != (1, 8) or tuple(ep.labels.shape) != (1, 8, 8):
                 raise ValueError("full Q8 panel required")
-            entry = dict(source, query_ids=ep.queries.query_ids[0].cpu().tolist())
+            query_ids = ep.queries.query_ids[0].cpu().tolist()
+            if query_ids != list(range(8)):
+                raise ValueError("original stateless Q8 query IDs changed")
+            entry = dict(source, query_ids=query_ids)
             entries.append(entry)
             self.episodes[source["episode_id"]] = ep
         for length in (128, 512, 2048):
@@ -379,27 +396,30 @@ class Backend:
         self.read_ordinal += 1
         if result.returncode != 0 or stderr_path.read_bytes() != b"":
             raise ValueError("reader engine/transport failure")
-        lines = stdout_path.read_bytes().splitlines()
-        if not lines:
-            raise ValueError("missing reader result")
-        observed = {k: 0 for k in COUNTERS}
-        for line in lines[:-1]:
-            item = strict_json(line)
-            _keys(item, ("counter",), "reader counter")
-            if item["counter"] not in COUNTERS:
-                raise ValueError("unknown reader counter")
-            observed[item["counter"]] += 1
-        response = decode_response(strict_json(lines[-1]))
-        if any(response["counts"].get(k, 0) != count for k, count in observed.items()):
-            raise ValueError("reader emitted count mismatch")
-        model = self.models[candidate["id"]]
-        intervals = []
-        for j, task in enumerate(ep.queries.tasks[0]):
-            lower = ep.queries.age_start[0, j].item() / model.kernel.t_ref
-            upper = ep.queries.age_end[0, j].item() / model.kernel.t_ref
-            intervals.append([(lower, upper)] +
-                             ([(upper, upper + (upper - lower))] if task == "contrast" else []))
-        validate_window_order(response, ep.queries.tasks[0], bool(state.valid[0]), intervals)
+        try:
+            lines = stdout_path.read_bytes().splitlines()
+            if not lines:
+                raise ValueError("missing reader result")
+            observed = {k: 0 for k in COUNTERS}
+            for line in lines[:-1]:
+                item = strict_json(line)
+                _keys(item, ("counter",), "reader counter")
+                if item["counter"] not in COUNTERS:
+                    raise ValueError("unknown reader counter")
+                observed[item["counter"]] += 1
+            response = decode_response(strict_json(lines[-1]))
+            if any(response["counts"].get(k, 0) != count for k, count in observed.items()):
+                raise ValueError("reader emitted count mismatch")
+            model = self.models[candidate["id"]]
+            intervals = []
+            for j, task in enumerate(ep.queries.tasks[0]):
+                lower = ep.queries.age_start[0, j].item() / model.kernel.t_ref
+                upper = ep.queries.age_end[0, j].item() / model.kernel.t_ref
+                intervals.append([(lower, upper)] +
+                                 ([(upper, upper + (upper - lower))] if task == "contrast" else []))
+            validate_window_order(response, ep.queries.tasks[0], bool(state.valid[0]), intervals)
+        except ValueError as exc:
+            raise DecodeError(str(exc)) from exc
         if snapshot_hash(state) != before:
             raise ValueError("saved state mutated by read")
         return dict(numeric=response["numeric"], counts=response["counts"],

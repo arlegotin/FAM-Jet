@@ -1,0 +1,11 @@
+# Root adoption notes — terminal/cost correction
+
+PROPOSED ONLY / HOLD. Adopt the companion terminal-cost protocol before handing I2/I3 to the original implementer. It changes completion authority and cost scope, not science or native identity rules.
+
+The essential ruling is that worker/parent success is provisional. The root-owned one-use witness records actual Stage B parent wait/reap and invokes the stdlib finalizer after exit. Reusable qualification additionally requires root's publication acceptance, based on the witness's actual observed invocation outcome and a post-return same-host monotonic observation. This prevents surviving precheck PASS artifacts from qualifying after a late write/cap/deadline failure.
+
+The allocation-origin program interval ends after substantive scientific, monitor and Run commitment. Receipt construction/publication/verification is separately measured to root's publication verification observation, charged once to campaign and fully to each standalone configuration, and bounded by explicit future reserves plus the original deadline/output cap. Root acceptance bookkeeping after that observation is explicitly outside the claimed measured interval; it is not silently represented as zero. Its artifact bytes remain separately retained in external custody accounting. No numeric reserve, concrete path or clock is allocated here.
+
+Implementation remains in the existing modules: finalization in __main__, interval/cost recomposition in driver, completion admission in authority. Binding-report/schema consumers must require terminal plus publication records; legacy standalone PASS is inadmissible. Preserve monitor status and all failure evidence. Root already requires independent qualification acceptance, so the publication record formalizes that boundary rather than introducing another native control exercise.
+
+Only I2/I3 are covered. I1/I4/I5/I6 remain with their assigned implementer; the pinned unknown-child proof and actual A06 source/monitor preservation remain separate unchanged obligations. Controlled fake-clock/wait/writer tests suffice for this source correction. No native qualification, subprocess probe, backend import or numerical work is released.

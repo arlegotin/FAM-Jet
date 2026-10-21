@@ -49,6 +49,17 @@ def select_family(family, combined, costs, hashes):
                                        hashes[v["candidate"]]))["candidate"]
 
 
+def _recorded_partial(candidate, scores, complete):
+    """Retain observed score counts/exception flags without inventing a loss."""
+    flat = [score for length in (128, 512, 2048) for score in scores[length]]
+    return dict(candidate=candidate, status="incomplete", loss=None,
+                infinite_loss_count=sum(bool(row.get("infinite_loss")) for row in flat),
+                has_infinite=any(row.get("loss_status") == "infinite_loss" or
+                                 row.get("infinite_loss") for row in flat),
+                has_undefined=any(row.get("loss_status") == "undefined_loss" for row in flat),
+                query_count=len(flat), complete=complete)
+
+
 def _ref(path, root, kind):
     raw = path.read_bytes()
     return dict(kind=kind, path=str(path.relative_to(root)), sha256=hashlib.sha256(raw).hexdigest(),
@@ -88,6 +99,44 @@ def _costs(candidates, intervals, completed):
     return result
 
 
+def terminal_costs(candidates, intervals, completed):
+    """Recompute standalone charges from an exact contiguous allocation partition."""
+    if not intervals or type(intervals) is not list:
+        raise ValueError("terminal interval partition missing")
+    owners = {"common", "jet", "bank"} | {c["id"] for c in candidates}
+    previous = None
+    for row in intervals:
+        if (type(row) is not dict or set(row) != {"start", "end", "owner", "operation", "status"} or
+                type(row["start"]) not in (int, float) or type(row["end"]) not in (int, float) or
+                not math.isfinite(row["start"]) or not math.isfinite(row["end"]) or
+                row["end"] < row["start"] or
+                (previous is not None and row["start"] != previous) or
+                row["owner"] not in owners or type(row["operation"]) is not str or
+                not row["operation"] or row["status"] not in ("completed", "failed")):
+            raise ValueError("terminal interval partition malformed")
+        previous = row["end"]
+    return _costs(candidates, intervals, completed)
+
+
+def compose_terminal_intervals(allocation_start, program_end, worker_intervals, binding=False):
+    """Preserve attributed worker work and charge both wrapper tails as common."""
+    if binding:
+        return [dict(start=allocation_start, end=program_end, owner="common",
+                     operation="binding_program", status="completed")]
+    if not worker_intervals or worker_intervals[0]["start"] < allocation_start or \
+            worker_intervals[-1]["end"] > program_end:
+        raise ValueError("worker interval outside original allocation")
+    result = []
+    if allocation_start < worker_intervals[0]["start"]:
+        result.append(dict(start=allocation_start, end=worker_intervals[0]["start"],
+                           owner="common", operation="authority_import_startup", status="completed"))
+    result.extend(worker_intervals)
+    if worker_intervals[-1]["end"] < program_end:
+        result.append(dict(start=worker_intervals[-1]["end"], end=program_end,
+                           owner="common", operation="supervisor_run_commit", status="completed"))
+    return result
+
+
 def execute(plan, backend, checkpoint):
     """Run all fixed entries; preserve attempted work and stop on infrastructure error.
 
@@ -109,8 +158,10 @@ def execute(plan, backend, checkpoint):
     ordinal = 0
     completed = set()
     prepared = None
+    known_entries = getattr(backend, "entries", [])
     current_candidate = None
     current_entry = None
+    active_request_ordinal = None
     phase = "prepare"
     scored = set()
     from validation.kernel_stage_a import authority as a_authority
@@ -132,6 +183,7 @@ def execute(plan, backend, checkpoint):
         prepared = backend.prepare()
         _interval(intervals, "common", "prepare", t)
         entries = prepared["entries"]
+        known_entries = entries
         if len(entries) != 96:
             raise ValueError("full96 panel required")
         snapshots_by_family = {}
@@ -162,12 +214,14 @@ def execute(plan, backend, checkpoint):
                 snapshots_by_family[family] = snapshots
             for entry, snapshot in zip(entries, snapshots_by_family[family]):
                     current_entry = entry
+                    active_request_ordinal = None
                     check()
                     trigger = snapshot["record"]["trigger"]
                     if trigger is None:
                         if counts["requests_attempted"] >= 576:
                             raise ValueError("request ceiling")
                         phase = "transport"
+                        active_request_ordinal = ordinal
                         request = dict(version=1, ordinal=ordinal, candidate=cid,
                                        history_id=entry["episode_id"], query_ids=entry["query_ids"],
                                        request=None, stdout=None, stderr=None, returncode=None,
@@ -200,10 +254,10 @@ def execute(plan, backend, checkpoint):
                     for score in scores:
                         _append(files["scores"], dict(version=1, candidate=cid,
                                length=entry["length"], snapshot_hash=snapshot["record"]["snapshot_hash"],
-                               request_ordinal=ordinal - 1 if trigger is None else None, score=score))
-                    rows[cid][entry["length"]].extend(scores)
-                    counts["predictions_scored"] += 8
-                    counts["fallback_rows"] += sum(bool(s["fallback"]) for s in scores)
+                               request_ordinal=active_request_ordinal, score=score))
+                        rows[cid][entry["length"]].append(score)
+                        counts["predictions_scored"] += 1
+                        counts["fallback_rows"] += bool(score["fallback"])
                     scored.add((cid, entry["episode_id"]))
             check()
             a_authority.event(event_path, "candidate_end", candidate=cid)
@@ -218,6 +272,9 @@ def execute(plan, backend, checkpoint):
                for length in (128, 512, 2048)):
             raise ValueError("per-candidate full96/Q8 inventory mismatch")
     except Exception as exc:
+        from .production import DecodeError
+        if isinstance(exc, DecodeError):
+            phase = "decode"
         if "t" in locals() and (not intervals or intervals[-1]["end"] <= t):
             owner = ("common" if phase in ("prepare", "finalize") else
                      current_candidate["family"] if phase == "encode" and current_candidate else
@@ -225,13 +282,15 @@ def execute(plan, backend, checkpoint):
             _interval(intervals, owner, phase, t, "failed")
         remaining = ([dict(candidate=c["id"], history_id=e["episode_id"],
                            query_ids=e["query_ids"])
-                      for c in plan["candidates"] for e in (prepared["entries"] if prepared else [])
+                      for c in plan["candidates"] for e in known_entries
                       if (c["id"], e["episode_id"]) not in scored])
+        stopped_ordinal = active_request_ordinal if phase in ("transport", "decode", "score") else None
         failure = dict(phase=phase, candidate=current_candidate["id"] if current_candidate else None,
-                       history_id=current_entry["episode_id"] if current_entry else None, ordinal=ordinal,
+                       history_id=current_entry["episode_id"] if current_entry else None,
+                       ordinal=stopped_ordinal,
                        exception_type=type(exc).__name__, message=str(exc), monotonic=time.monotonic(),
                        raw=[], remaining=remaining)
-        if phase == "transport" and "request" in locals() and request["status"] == "attempted" and request["request"] is not None:
+        if phase in ("transport", "decode") and "request" in locals() and request["status"] == "attempted" and request["request"] is not None:
             request["status"] = "failed"
             # The request journal cannot include its own final byte hash.
             request["failure"] = dict(failure)
@@ -246,24 +305,26 @@ def execute(plan, backend, checkpoint):
         failure["raw"] = raw
     summaries = []
     combined = []
-    if failure is None:
-        try:
-            from famjet.eval.metrics import aggregate_scores
-            for candidate in plan["candidates"]:
-                cid = candidate["id"]
+    for candidate in plan["candidates"]:
+        cid = candidate["id"]
+        if cid in completed:
+            try:
+                from famjet.eval.metrics import aggregate_scores
                 length_summaries = []
                 for length in (128, 512, 2048):
                     summary = aggregate_scores(rows[cid][length])
                     summaries.append(dict(candidate=cid, length=length, summary=summary))
                     length_summaries.append((length, summary))
                 combined.append(combine_lengths(cid, length_summaries, True))
-        except Exception as exc:
-            failure = dict(phase="finalize", candidate=None, history_id=None, ordinal=ordinal,
-                           exception_type=type(exc).__name__, message=str(exc), monotonic=time.monotonic(),
-                           raw=[_ref(path, output, "bytes") for path in files.values()], remaining=[])
-            summaries = []
-    if failure is not None:
-        combined = [combine_lengths(c["id"], [], False) for c in plan["candidates"]]
+                continue
+            except Exception as exc:
+                if failure is None:
+                    failure = dict(phase="finalize", candidate=cid, history_id=None, ordinal=None,
+                                   exception_type=type(exc).__name__, message=str(exc),
+                                   monotonic=time.monotonic(),
+                                   raw=[_ref(path, output, "bytes") for path in files.values()],
+                                   remaining=[])
+        combined.append(_recorded_partial(cid, rows[cid], cid in completed))
     finalization = dict(start=intervals[-1]["end"], end=time.monotonic(), owner="common",
                         operation="finalize", status="completed" if failure is None else "failed")
     intervals.append(finalization)
@@ -276,9 +337,12 @@ def execute(plan, backend, checkpoint):
     end = time.monotonic()
     finalization["end"] = end
     costs = _costs(plan["candidates"], intervals, completed)
-    return dict(version=1, plan_sha256=digest(plan),
+    return dict(version=2, cost_scope="worker_provisional", completion="PENDING_TERMINAL",
+                plan_sha256=digest(plan),
                 status="INFRA_STOP" if failure is not None else "COMPLETED",
-                counts=dict(counts), resolved_panel_config=prepared.get("resolved_panel_config") if prepared else None,
+                counts=dict(counts), resolved_panel_config=(
+                    prepared.get("resolved_panel_config") if prepared else
+                    getattr(backend, "resolved_ref", None)),
                 snapshots=_ref(files["snapshots"], output, "jsonl"),
                 requests=_ref(files["requests"], output, "jsonl"),
                 scores=_ref(files["scores"], output, "jsonl"), failure=failure,

@@ -1,4 +1,5 @@
 """Standard-library authority for the fixed external Stage B panel."""
+import base64
 import hashlib
 import json
 import math
@@ -8,6 +9,7 @@ from pathlib import Path
 import platform
 import re
 import shutil
+import struct
 import time
 
 
@@ -28,6 +30,36 @@ FAMILIES = (("jet", "0x1.b7cdfd9d7bdbbp-34"),
             ("bank", "0x1.47ae147ae147bp-7"))
 CEILINGS = dict(histories=96, queries=8, snapshots=192, requests=576,
                 predictions=4608, factors=0)
+ARCHIVE_STAGE = "docs/research/task18-kernel-stage-a06-evidence/stage-a/"
+ORIGINAL_STAGE = "/private/tmp/famjet-task18-kernel-stage-a-source8120479-06-driver/"
+EXECUTED_A_SOURCE = "81204796ade55ce9e7202bc9253b1b61db6a65a3"
+PACKAGE_HASH = "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050"
+LOCK_HASH = "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+GUARD_PROOF = ("docs/research/task18-source-owned-helper-lifecycles-native-acceptance.json",
+               1933, "6a7ce119ff370431e532a27685e422ef3250e05c8aea1631b426701b9c0a6815")
+STAGE_A_HASHES = {
+    "README.md": "ebfd32d79bcee457bd4a7772bc56be00aaed884f21d1e8740aad7812e6e7b464",
+    "__init__.py": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92",
+    "__main__.py": "1c07a2a635bbe367bf176fc8b61e1a3e1c0c49e50c6b6118a5c90ed00f931d2a",
+    "authority.py": "e21d19a36a5ef8755a3c251b7fe75ede6cea9fc797e01e72a02860edf2ab62ce",
+    "commands.py": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0",
+    "descriptors.py": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415",
+    "driver.py": "4c09a18fe3d4144f0772a2e99e9f08c28478c0f342bc666c8baea88fbbe2d7d7",
+    "fixture-descriptors.json": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0",
+    "frozen-training-metadata.json": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c",
+    "monitor.py": "3c7e4aa237173895245444e1cb66a017275507398a6446133020ad509a00d30e",
+    "production.py": "20940f1e27702a04e857dc18187a782f223b4f64482a80a81d8c8f7fb2c1c5ab",
+    "prospective-seal.json": "1ec00a04f156c9c5ddeaaf807222a3ff7d863986143ed038b38827bd4d3314ce",
+    "reader_worker.py": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b",
+    "reference.py": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7",
+    "source_lifecycles.py": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004",
+}
+STAGE_COUNT_NAMES = {"artifact_write", "candidate_setup", "empty_snapshot", "encode",
+                     "event_materialization", "injection_copy", "read", "read_dispatch",
+                     "reference_setup", "reference_solve", "request_serialization",
+                     "result_serialization", "resume_ownership_copy", "state_deserialization",
+                     "state_record", "state_serialization", "static_reconstruction",
+                     "transform_copy", "unit_kernel_reconstruction", "unit_static_reconstruction"}
 PINS = {
     "panel": ("artifacts/task18/finite-nested96/manifest.json", 37234,
               "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013"),
@@ -130,6 +162,20 @@ def read_verified(root, ref):
     return raw
 
 
+def charged_bytes(output, preparation):
+    """Count retained output/preparation files once, even for overlapping roots."""
+    files = set()
+    for directory in (output, preparation):
+        if directory is None:
+            continue
+        base = Path(directory)
+        if base.is_file():
+            files.add(base.resolve())
+        elif base.is_dir():
+            files.update(path.resolve() for path in base.rglob("*") if path.is_file())
+    return sum(path.stat().st_size for path in files)
+
+
 def _candidate(record, expected):
     _keys(record, ("id", "family", "ridge_hex", "config_sha256", "writer_sha256", "static", "rates"), "candidate")
     family, ridge = expected
@@ -144,7 +190,7 @@ def _manifest(value):
     _keys(value, ("artifact_kind", "data", "feature_version", "generator_version",
                   "length_weights", "manifest_hash", "manifest_version", "regime_weights",
                   "seed_version", "splits", "target_semantics"), "panel manifest")
-    _need(value["manifest_version"] == 1 and
+    _need(type(value["manifest_version"]) is int and value["manifest_version"] == 1 and
           value["artifact_kind"] == "task18_pooled_development_inventory" and
           value["generator_version"] == "initial_spec_v2_targets" and
           value["target_semantics"] == "observed_event_targets_v2" and
@@ -179,6 +225,9 @@ def _manifest(value):
 
 TRACE_COUNTERS = {"coefficients", "window_vector", "snapshot_record", "snapshot_from_record",
                   "_advance_payload", "_reconstruct", "read", "tensor_clone", "factor"}
+STAGE_COUNT_NAMES.update("worker:" + name for name in TRACE_COUNTERS if name != "factor")
+STAGE_SECONDS_NAMES = STAGE_COUNT_NAMES - {"read"} - {
+    "worker:" + name for name in TRACE_COUNTERS}
 
 
 def parse_reader_stream(raw):
@@ -202,7 +251,8 @@ def parse_reader_stream(raw):
     n = response["numeric"]
     _keys(n, ("prediction", "logits", "support", "failure", "diagnostics", "schema_version"),
           "A numeric")
-    _need(n["schema_version"] == 1 and n["logits"] is None and
+    _need(type(n["schema_version"]) is int and n["schema_version"] == 1 and
+          n["logits"] is None and
           type(n["prediction"]) is list and len(n["prediction"]) == 1 and
           type(n["prediction"][0]) is list and len(n["prediction"][0]) == 1 and
           type(n["prediction"][0][0]) is list and len(n["prediction"][0][0]) == 8 and
@@ -312,7 +362,8 @@ def validate_plan(plan):
     for disposition in approval["failures"]:
         _keys(disposition, ("candidate", "row", "transform", "source_status", "strict_status",
                             "failed_fields", "contraction_indices", "decision", "ruling"), "disposition")
-        _need(disposition["row"] == 30 and disposition["transform"] in ("I", "O", "U", "R") and
+        _need(type(disposition["row"]) is int and disposition["row"] == 30 and
+              disposition["transform"] in ("I", "O", "U", "R") and
               disposition["source_status"] == disposition["strict_status"] == "FAILED" and
               disposition["decision"] == "retain_and_score_actual_state" and
               type(disposition["failed_fields"]) is list and
@@ -331,7 +382,8 @@ def _observation(value):
 
 def _execution_shape(execution, scope):
     _keys(execution, ("source_full_git", "source_manifest", "runtime", "host", "admission", "limits",
-                      "boundary", "launch", "qualification", "preparation_output", "output"), "execution")
+                      "boundary", "launch", "terminal", "qualification", "preparation_output", "output"),
+          "execution")
     _need(_hash(execution["source_full_git"], G), "source Git identity")
     _ref(execution["source_manifest"], "source_manifest")
     _keys(execution["host"], ("node", "system", "release", "machine"), "host")
@@ -384,13 +436,25 @@ def _execution_shape(execution, scope):
                                    "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS")}
     expected_env.update(PYTORCH_ENABLE_MPS_FALLBACK="0", PYTORCH_MPS_FAST_MATH="0")
     _need(launch["environment"] == expected_env, "numerical environment")
+    terminal = execution["terminal"]
+    _keys(terminal, ("witness", "parent_argv", "parent_argv_sha256", "publication_seconds",
+                     "publication_bytes"), "terminal allocation")
+    _ref(terminal["witness"], "python_source")
+    _need(type(terminal["parent_argv"]) is list and len(terminal["parent_argv"]) == 5 and
+          all(_str(value) for value in terminal["parent_argv"]) and
+          _hash(terminal["parent_argv_sha256"]) and
+          _finite(terminal["publication_seconds"]) and terminal["publication_seconds"] > 0 and
+          _integer(terminal["publication_bytes"]) and terminal["publication_bytes"] > 0,
+          "unallocated/invalid terminal reserve")
     qualification = execution["qualification"]
     _need((qualification is None) == (scope == "binding"), "binding qualification sequence")
     if qualification is not None:
-        _keys(qualification, ("release", "report", "source_full_git", "source_manifest",
-                              "template_sha256", "runtime", "monitor", "unknown_child_guard",
-                              "compatibility"), "qualification")
+        _keys(qualification, ("release", "report", "terminal", "publication", "source_full_git",
+                              "source_manifest", "template_sha256", "runtime", "monitor",
+                              "unknown_child_guard", "compatibility"), "qualification")
         for key, kind in (("release", "binding_plan"), ("report", "binding_report"),
+                          ("terminal", "terminal_report"),
+                          ("publication", "publication_acceptance"),
                           ("source_manifest", "source_manifest"), ("monitor", "python_source"),
                           ("unknown_child_guard", "existing_guard_proof")):
             _ref(qualification[key], kind)
@@ -402,6 +466,74 @@ def _execution_shape(execution, scope):
           (execution["preparation_output"] is None or
            (_str(execution["preparation_output"]) and Path(execution["preparation_output"]).is_absolute())),
           "absolute output paths")
+
+
+def _archive_map(mapping, root):
+    _need(type(mapping) is dict and type(mapping.get("files")) is list and
+          len(mapping["files"]) == 3064, "A custody mapping count")
+    by_archive = {}
+    by_original = {}
+    for item in mapping["files"]:
+        _keys(item, ("original", "archive", "bytes", "sha256"), "A custody row")
+        _need(_str(item["original"]) and _str(item["archive"]) and
+              item["archive"] not in by_archive and item["original"] not in by_original,
+              "A custody mapping identity")
+        read_verified(root, dict(kind="bytes", path=item["archive"],
+                                 bytes=item["bytes"], sha256=item["sha256"]))
+        by_archive[item["archive"]] = item
+        by_original[item["original"]] = item
+    return by_archive, by_original
+
+
+def _mapped_ref(ref, filename, by_archive):
+    _need(ref is not None and ref["path"] == ARCHIVE_STAGE + filename and
+          ref["path"] in by_archive, "selected A archive identity")
+    mapped = by_archive[ref["path"]]
+    _need(mapped["original"] == ORIGINAL_STAGE + filename and
+          (mapped["bytes"], mapped["sha256"]) == (ref["bytes"], ref["sha256"]),
+          "selected A original custody identity")
+
+
+def _static_proofs(evidence, root, setup, by_archive, by_original):
+    _need(type(evidence["statics"]) is list and len(evidence["statics"]) == 6,
+          "six ordered statics")
+    for pair, ref in zip(FAMILIES, evidence["statics"]):
+        family, ridge = pair
+        cid = family + ":" + ridge
+        _ref(ref, "A_static")
+        _mapped_ref(ref, f"statics-{family}-{ridge}.json", by_archive)
+        raw = strict_json(read_verified(root, ref))
+        _keys(raw, ("factor_diagnostics", "gram_gate", "ownership", "unit_ownership", "unit_transport"), "static")
+        exported = setup["static_exports"][cid]
+        _need(exported["path"] in by_original, "static export custody")
+        mapped = by_original[exported["path"]]
+        _need(mapped["sha256"] == exported["sha256"], "static export bytes")
+        spec = strict_json(read_verified(root, dict(kind="existing_export", path=mapped["archive"],
+                                                   sha256=mapped["sha256"], bytes=mapped["bytes"])))
+        reader = spec["schema"]["reader"]
+        _need(reader["config"]["family"] == family and
+              float(reader["config"]["ridge"]).hex() == ridge,
+              "static candidate/export identity")
+        gram = reader["arrays"]["gram"]
+        _need(gram["dtype"] == "float64" and gram["shape"] == [8, 8],
+              "static Gram export shape")
+        values = struct.unpack("<64d", base64.b64decode(gram["data"], validate=True))
+        matrix = [list(values[i * 8:(i + 1) * 8]) for i in range(8)]
+        diag = raw["factor_diagnostics"]
+        _need(all(_finite(diag[k]) and diag[k] > 0 for k in
+                  ("condition_estimate", "minimum_eigenvalue")) and
+              _finite(diag["factor_residual"]) and diag["factor_residual"] >= 0 and
+              raw["gram_gate"]["status"] == "PASS" and
+              raw["gram_gate"]["failed_fields"] == [] and
+              raw["gram_gate"]["production_gram"] == matrix and
+              type(raw["gram_gate"]["reference_gram"]) is list and
+              len(raw["gram_gate"]["reference_gram"]) == 8 and
+              all(type(row) is list and len(row) == 8 for row in raw["gram_gate"]["reference_gram"]) and
+              raw["ownership"]["additional_persistent_history_bytes"] == 0 and
+              raw["unit_ownership"]["additional_persistent_history_bytes"] == 0 and
+              raw["unit_transport"]["kind"] == "DERIVED unit transport" and
+              raw["unit_transport"]["parent"]["fit_provenance"] == spec["schema"]["fit_provenance"],
+              "static Gram/ownership/export gate")
 
 
 def validate_evidence(evidence, root):
@@ -418,35 +550,39 @@ def validate_evidence(evidence, root):
             continue
         _ref(evidence[name], kinds[name])
         read_verified(root, evidence[name])
-    _need(type(evidence["statics"]) is list and len(evidence["statics"]) == 6, "six statics")
-    for ref in evidence["statics"]:
-        raw = strict_json(read_verified(root, ref))
-        _keys(raw, ("factor_diagnostics", "gram_gate", "ownership", "unit_ownership", "unit_transport"), "static")
-        diag = raw["factor_diagnostics"]
-        _need(all(_finite(diag[k]) and diag[k] > 0 for k in
-                  ("condition_estimate", "minimum_eigenvalue")) and
-              _finite(diag["factor_residual"]) and diag["factor_residual"] >= 0 and
-              raw["gram_gate"]["status"] == "PASS" and
-              raw["gram_gate"]["failed_fields"] == [] and
-              all(type(raw["gram_gate"][k]) is list and len(raw["gram_gate"][k]) == 8 and
-                  all(type(row) is list and len(row) == 8 for row in raw["gram_gate"][k])
-                  for k in ("production_gram", "reference_gram")) and
-              raw["ownership"]["additional_persistent_history_bytes"] == 0 and
-              raw["unit_ownership"]["additional_persistent_history_bytes"] == 0 and
-              raw["unit_transport"]["kind"] == "DERIVED unit transport", "static Gram/ownership gate")
+    setup = strict_json(read_verified(root, evidence["setup"]))
+    seal = strict_json(read_verified(root, evidence["seal"]))
+    mapping = strict_json(read_verified(root, evidence["mapping"]))
+    by_archive, by_original = _archive_map(mapping, root)
+    _static_proofs(evidence, root, setup, by_archive, by_original)
     stage = strict_json(read_verified(root, evidence["inventory"]))
     _keys(stage, ("counts", "events", "failure", "groups", "inventory", "outer_seconds",
                   "seconds", "status"), "A inventory")
     _need(stage["status"] == "FAILED" and stage["failure"] is None and
           len(stage["groups"]) == 24 and len(stage["inventory"]) == 768,
           "A status/inventory")
+    expected_groups = [(list(pair), transform) for pair in FAMILIES
+                       for transform in ("I", "O", "U", "R")]
+    _need(type(stage["groups"]) is list and all(
+        type(group) is dict and set(group) == {"candidate", "transform", "seconds"} and
+        (group["candidate"], group["transform"]) == expected and
+        _finite(group["seconds"]) and group["seconds"] >= 0
+        for group, expected in zip(stage["groups"], expected_groups)), "A group identity/time")
     _need(stage["counts"].get("read") == 744 and stage["counts"].get("read_dispatch") == 744 and
           stage["counts"].get("result_serialization") == 720 and
           stage["counts"].get("reference_setup") == 12 and
           stage["counts"].get("reference_solve") == 3360 and
+          type(stage["counts"]) is dict and set(stage["counts"]) ==
+          STAGE_COUNT_NAMES - {"worker:factor"} and
           all(_integer(v) for v in stage["counts"].values()) and
+          type(stage["seconds"]) is dict and set(stage["seconds"]) == STAGE_SECONDS_NAMES and
           all(_finite(v) and v >= 0 for v in stage["seconds"].values()) and
-          _finite(stage["outer_seconds"]), "A actual inventory counts")
+          _finite(stage["outer_seconds"]) and stage["outer_seconds"] > 0 and
+          type(stage["events"]) is list and len(stage["events"]) == 744 and
+          all(type(event) is dict and set(event) == {"deadline", "kind", "sha256"} and
+              event["kind"] == "reader_launch_vector" and _hash(event["sha256"]) and
+              _finite(event["deadline"]) for event in stage["events"]),
+          "A actual inventory counts/events")
     training = strict_json((Path(root) / "validation/kernel_stage_a/frozen-training-metadata.json").read_bytes())
     from validation.kernel_stage_a.descriptors import slots as a_slots
     expected = list(a_slots())
@@ -468,6 +604,12 @@ def validate_evidence(evidence, root):
                       "nonapplicable slot")
                 continue
             _need(listed["ordinal"] == ordinal and row["status"] == "EXECUTED", "executed ordinal")
+            stem = f"{pair[0]}-{pair[1]}-{slot.row:02}-{slot.transform}.json"
+            _mapped_ref(listed["stdout"], f"reader-{ordinal:03}.jsonl", by_archive)
+            _mapped_ref(listed["stderr"], f"reader-{ordinal:03}.stderr", by_archive)
+            _mapped_ref(listed["input"], "input-" + stem, by_archive)
+            if slot.row != 32:
+                _mapped_ref(listed["detail"], "result-" + stem, by_archive)
             _keys(row, ("candidate", "row", "transform", "status", "seconds", "outcome"),
                   "A executed row")
             _need(_finite(row["seconds"]) and row["seconds"] >= 0, "A executed seconds")
@@ -564,8 +706,6 @@ def validate_evidence(evidence, root):
                 else:
                     _need("transform_checks" not in outcome, "invented I transform check")
     _need(ordinal == 744, "A executed count")
-    setup = strict_json(read_verified(root, evidence["setup"]))
-    seal = strict_json(read_verified(root, evidence["seal"]))
     _need(setup["actual_completed_top_level_exports"] == 6 and
           setup["actual_factor_constructions"] == 6 and
           setup["actual_rate_grid_constructions"] == 2 and setup["actual_reads"] == 0 and
@@ -575,17 +715,12 @@ def validate_evidence(evidence, root):
           "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050" and
           seal["observed"]["dependency_lock_hash"] ==
           "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1" and
-          len(seal["observed"]["files"]) == 26, "A setup/sealed source")
+          len(seal["observed"]["files"]) == 26 and
+          setup["source_full_git"] == seal["observed"]["source_full_git"] == EXECUTED_A_SOURCE,
+          "A setup/sealed source")
     for path, sha in seal["observed"]["files"].items():
         _need(hashlib.sha256((Path(root) / path).read_bytes()).hexdigest() == sha,
               "preserved A sealed source: " + path)
-    mapping = strict_json(read_verified(root, evidence["mapping"]))
-    _need(type(mapping["files"]) is list and len(mapping["files"]) == 3064,
-          "A custody mapping count")
-    for item in mapping["files"]:
-        _keys(item, ("original", "archive", "bytes", "sha256"), "A custody row")
-        read_verified(root, dict(kind="bytes", path=item["archive"],
-                                 bytes=item["bytes"], sha256=item["sha256"]))
     custody = strict_json(read_verified(root, evidence["custody"]))
     acceptance = strict_json(read_verified(root, evidence["acceptance"]))
     _need(custody["status"] == "CUSTODY_SOURCE_PASS_ONLY" and
@@ -630,13 +765,23 @@ def validate_evidence(evidence, root):
           monitor["evidence"]["bytes"] == len(journal), "A monitor journal accounting")
     external = strict_json(read_verified(root, evidence["external"]))
     deadline = seal["pending"]["resource_measurement_boundary_seal"]["deadline_monotonic"]
+    launches = [event for event in events if event["event"] == "python_worker_launch"]
+    _need(len(launches) == len(stage["events"]) and
+          all(stage_event["kind"] == "reader_launch_vector" and
+              stage_event["deadline"] < deadline and
+              launch["role"] == "reader" and
+              len(launch["argv"]) == 6 and
+              stage_event["deadline"] == float(launch["argv"][-1]) and
+              stage_event["sha256"] == launch["vector_sha256"]
+              for stage_event, launch in zip(stage["events"], launches)),
+          "A raw reader launch identity")
     _need(external["exit"] == 1 and external["parent_invocations"] == 1 and
           external["monotonic_before"] < external["monotonic_after"] < deadline and
           _finite(external["elapsed_seconds"]), "A external end before original deadline")
     return stage
 
 
-def _source_manifest(root, ref):
+def _source_manifest(root, ref, sealed_paths):
     rows = strict_json(read_verified(root, ref))
     _need(type(rows) is list and rows == sorted(rows, key=lambda row: row["path"]),
           "source manifest order")
@@ -647,14 +792,263 @@ def _source_manifest(root, ref):
         paths.add(row["path"])
         read_verified(root, dict(kind="bytes", **row))
     root = Path(root)
-    required = {str(p.relative_to(root)) for p in (root / "famjet").rglob("*.py")}
-    required.update(str(p.relative_to(root)) for p in (root / "validation/kernel_stage_a").glob("*.py"))
+    package = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+               for p in sorted((root / "famjet").rglob("*.py"))}
+    _need(len(package) == 53 and digest(package) == PACKAGE_HASH,
+          "preserved full famjet package before science")
+    _need(hashlib.sha256((root / "requirements.lock").read_bytes()).hexdigest() == LOCK_HASH,
+          "preserved dependency lock before science")
+    for name, expected in STAGE_A_HASHES.items():
+        path = root / "validation/kernel_stage_a" / name
+        _need(hashlib.sha256(path.read_bytes()).hexdigest() == expected,
+              "preserved complete Stage A bytes before science: " + name)
+    required = set(package)
+    required.update("validation/kernel_stage_a/" + name for name in STAGE_A_HASHES)
     required.update(str(p.relative_to(root)) for p in (root / "validation/kernel_stage_b").glob("*.py"))
     required.update(("requirements.lock", PINS["panel_config"][0],
-                     "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md"))
-    _need(required <= paths and "validation/kernel_stage_b/bootstrap.py" in paths,
-          "source manifest missing material paths")
+                     "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md",
+                     "docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md"))
+    required.update(sealed_paths)
+    _need(paths == required and "validation/kernel_stage_b/bootstrap.py" in paths,
+          "source manifest incomplete or unclosed material paths")
     return rows
+
+
+def _compare_material_compatibility(old_rows, new_rows, compat, sealed_paths):
+    """Require a complete executed-A inventory, then exact protected-byte equality."""
+    old = {row["path"]: row for row in old_rows}
+    new = {row["path"]: row for row in new_rows}
+    required = {path for path in new if path.startswith("famjet/") and path.endswith(".py")}
+    required.update("validation/kernel_stage_a/" + name for name in STAGE_A_HASHES)
+    required.update(sealed_paths)
+    required.update(("requirements.lock", PINS["panel_config"][0]))
+    _need(compat["old_source"] == EXECUTED_A_SOURCE and len(required & set(old)) == len(required) and
+          len({path for path in old if path.startswith("famjet/") and path.endswith(".py")}) == 53 and
+          required <= set(new), "historical material inventory/executed source")
+    _need(all(old[path] == new[path] for path in required),
+          "historical material bytes differ")
+    changed = sorted(path for path in old.keys() | new.keys() if old.get(path) != new.get(path))
+    allowed_additions = {path for path in new if path.startswith("validation/kernel_stage_b/") and
+                         path.endswith(".py")}
+    allowed_additions.add("docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md")
+    allowed_additions.add("docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md")
+    _need(changed == compat["changed_paths"] and set(changed) <= allowed_additions and
+          all(path not in old for path in changed), "external-adapter-only material changes")
+
+
+def _guard_proof(root, ref):
+    _ref(ref, "existing_guard_proof")
+    _need((ref["path"], ref["bytes"], ref["sha256"]) == GUARD_PROOF,
+          "inherited unknown-child proof identity")
+    proof = strict_json(read_verified(root, ref))
+    _need(proof["executed_source"] == "a718a2542baf32071ae4d8f169db232c1bff4291" and
+          proof["evidence_commit"] == "31844a4d4be3262c10e05707cd6c4c4344224e85" and
+          proof["scope"] == "observed helper families and unknown-child cancellation only" and
+          proof["compatibility"] == "PASS" and proof["actual_native_invocations"] == 1 and
+          [(case["case"], case["status"], case["compatibility"], case["returncode"], case["fallback"])
+           for case in proof["cases"]] ==
+          [("families", "COMPLETED", "PASS", 0, False),
+           ("unknown", "STOPPED", "PASS", 0, False)] and
+          proof["scientific_execution_authorized_by_this_record"] is False,
+          "inherited guarded native outcome")
+
+
+def _qualified_material(q, execution, binding, report, root):
+    """Bind qualification declarations to the actual binding plan and current class."""
+    bound = binding["execution"]
+    launch = execution["launch"]
+    bound_launch = bound["launch"]
+    _need(q["runtime"] == bound["runtime"] == execution["runtime"],
+          "qualified binding runtime")
+    _need(q["template_sha256"] == bound_launch["template_sha256"] ==
+          launch["template_sha256"] == report["template_sha256"] and
+          q["monitor"] == bound_launch["monitor"] == launch["monitor"] and
+          bound_launch["bootstrap"] == launch["bootstrap"] and
+          report["argv_sha256"] == bound_launch["argv_sha256"],
+          "qualified bootstrap/monitor/template/argv")
+    _need(q["source_full_git"] == bound["source_full_git"] == report["source_full_git"] and
+          q["source_manifest"] == bound["source_manifest"] == report["source_manifest"],
+          "qualified binding source identity")
+    qualified = read_verified(root, q["source_manifest"])
+    current = read_verified(root, execution["source_manifest"])
+    _need(qualified == current, "qualified material manifest differs")
+    if q["source_full_git"] != execution["source_full_git"]:
+        compat = q["compatibility"]
+        _need(type(compat) is dict and compat["qualified_source"] == q["source_full_git"] and
+              compat["current_source"] == execution["source_full_git"] and
+              compat["material_manifest_equal"] is True,
+              "qualified/current Git requires explicit compatibility")
+        _ref(compat["ruling"], "markdown")
+        read_verified(root, compat["ruling"])
+    elif q["compatibility"] is not None:
+        compat = q["compatibility"]
+        _need(compat["qualified_source"] == q["source_full_git"] and
+              compat["current_source"] == execution["source_full_git"] and
+              compat["material_manifest_equal"] is True,
+              "qualified/current compatibility identity")
+        _ref(compat["ruling"], "markdown")
+        read_verified(root, compat["ruling"])
+
+
+def validate_exit_witness(plan, root, witness):
+    """Check the one-use wrapper's post-wait record without claiming its own exit."""
+    from validation.kernel_stage_a.commands import vector_hash
+
+    _keys(witness, ("version", "plan_sha256", "plan_file_sha256", "witness", "parent_argv",
+                    "parent_argv_sha256", "parent_invocations", "parent_pid",
+                    "launch_monotonic", "reaped_monotonic", "returncode", "reaped"),
+          "parent exit witness")
+    execution = plan["execution"]
+    terminal = execution["terminal"]
+    _need(type(witness["version"]) is int and witness["version"] == 1 and
+          witness["plan_sha256"] == digest(plan) and
+          _hash(witness["plan_file_sha256"]) and
+          witness["witness"] == terminal["witness"] and
+          witness["parent_argv"] == terminal["parent_argv"] and
+          witness["parent_argv_sha256"] == terminal["parent_argv_sha256"] ==
+          vector_hash(witness["parent_argv"]) and
+          type(witness["parent_invocations"]) is int and witness["parent_invocations"] == 1 and
+          type(witness["parent_pid"]) is int and witness["parent_pid"] > 0 and
+          type(witness["returncode"]) is int and witness["reaped"] is True and
+          _finite(witness["launch_monotonic"]) and _finite(witness["reaped_monotonic"]) and
+          execution["boundary"]["allocation_start_monotonic"] <= witness["launch_monotonic"] <=
+          witness["reaped_monotonic"] < execution["boundary"]["deadline_monotonic"],
+          "actual parent wait witness shape/clock")
+    read_verified(root, terminal["witness"])
+    raw = Path(terminal["parent_argv"][4]).read_bytes()
+    _need(hashlib.sha256(raw).hexdigest() == witness["plan_file_sha256"] and
+          strict_json(raw) == plan, "witnessed Plan bytes")
+
+
+def validate_completion(plan, terminal, publication, root=None):
+    """Admit only root-observed publication; return charged final costs."""
+    from .driver import select_family, terminal_costs
+
+    _need(publication is not None, "missing root publication acceptance")
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    _keys(terminal, ("version", "scope", "plan_sha256", "exit", "status", "failure",
+                     "run", "binding", "monitor", "allocation_start", "program_end",
+                     "intervals", "costs", "campaign_seconds", "selection", "same_plan_bytes",
+                     "program_output_bytes", "publication_reserve_bytes"), "terminal report")
+    _keys(publication, ("version", "approved", "terminal", "witness", "invocation",
+                        "observed_witness_returncode", "receipt_commit_observed",
+                        "receipt_phase_seconds", "charged_output_bytes", "within_original_deadline",
+                        "within_publication_budget", "ruling"), "publication acceptance")
+    execution = plan["execution"]
+    reserve = execution["terminal"]
+    boundary = execution["boundary"]
+    limits = execution["limits"]
+    scope = plan["release"]["scope"]
+    _need(type(terminal["version"]) is int and terminal["version"] == 1 and
+          terminal["scope"] == scope and terminal["plan_sha256"] == digest(plan) and
+          terminal["status"] == "ELIGIBLE_PENDING_PUBLICATION" and
+          terminal["failure"] is None and terminal["same_plan_bytes"] is True and
+          _finite(terminal["allocation_start"]) and
+          terminal["allocation_start"] == boundary["allocation_start_monotonic"] and
+          _finite(terminal["program_end"]) and
+          terminal["allocation_start"] <= terminal["program_end"] < boundary["deadline_monotonic"] and
+          _finite(terminal["campaign_seconds"]) and
+          terminal["campaign_seconds"] == terminal["program_end"] - terminal["allocation_start"] and
+          _integer(terminal["program_output_bytes"]) and
+          terminal["publication_reserve_bytes"] == reserve["publication_bytes"] and
+          terminal["program_output_bytes"] + reserve["publication_bytes"] <= limits["output_bytes"],
+          "terminal provisional eligibility/budget")
+    validate_exit_witness(plan, root, terminal["exit"])
+    _need(terminal["exit"]["returncode"] == 0 and
+          terminal["exit"]["reaped_monotonic"] <= terminal["program_end"],
+          "observed parent exit/commit order")
+    _ref(publication["terminal"], "terminal_report")
+    _ref(publication["witness"], "python_source")
+    _ref(publication["invocation"], "root_invocation_record")
+    _ref(publication["ruling"], "markdown")
+    _need(type(publication["version"]) is int and publication["version"] == 1 and
+          publication["approved"] is True and
+          type(publication["observed_witness_returncode"]) is int and
+          publication["observed_witness_returncode"] == 0 and
+          publication["receipt_commit_observed"] is True and
+          publication["within_original_deadline"] is True and
+          publication["within_publication_budget"] is True and
+          publication["witness"] == reserve["witness"] and
+          _finite(publication["receipt_phase_seconds"]) and
+          publication["receipt_phase_seconds"] >= 0 and
+          _integer(publication["charged_output_bytes"]), "root publication shape/outcome")
+    saved = strict_json(read_verified(root, publication["terminal"]))
+    _need(saved == terminal, "root publication terminal bytes")
+    read_verified(root, publication["witness"])
+    read_verified(root, publication["ruling"])
+    invocation = strict_json(read_verified(root, publication["invocation"]))
+    _keys(invocation, ("version", "witness", "plan_sha256", "actual_returncode",
+                       "publication_verified_monotonic", "output_bytes", "commit_success"),
+          "root invocation")
+    _need(type(invocation["version"]) is int and invocation["version"] == 1 and
+          invocation["witness"] == reserve["witness"] and
+          invocation["plan_sha256"] == digest(plan) and
+          type(invocation["actual_returncode"]) is int and
+          invocation["actual_returncode"] == 0 and invocation["commit_success"] is True and
+          _finite(invocation["publication_verified_monotonic"]) and
+          terminal["program_end"] <= invocation["publication_verified_monotonic"] <
+          boundary["deadline_monotonic"] and
+          _integer(invocation["output_bytes"]) and
+          invocation["output_bytes"] == publication["charged_output_bytes"] and
+          publication["receipt_phase_seconds"] ==
+          invocation["publication_verified_monotonic"] - terminal["program_end"] and
+          publication["receipt_phase_seconds"] <= reserve["publication_seconds"] and
+          0 <= publication["charged_output_bytes"] - terminal["program_output_bytes"] <=
+          reserve["publication_bytes"] and
+          publication["charged_output_bytes"] <= limits["output_bytes"],
+          "observed post-return publication clock/cost/bytes")
+    _need(charged_bytes(execution["output"], execution["preparation_output"]) ==
+          publication["charged_output_bytes"], "retained charged output changed")
+    artifact_root = root / Path(publication["terminal"]["path"]).parent
+    _ref(terminal["monitor"], "A_monitor")
+    monitor = strict_json(read_verified(artifact_root, terminal["monitor"]))
+    _need(monitor["status"] == "COMPLETED" and monitor["returncode"] == 0,
+          "terminal native monitor outcome")
+    _keys(terminal["selection"], ("jet", "bank"), "terminal selection")
+    if scope == "binding":
+        _need(terminal["run"] is None and terminal["selection"] == {"jet": None, "bank": None} and
+              terminal["costs"] == [] and len(terminal["intervals"]) == 1 and
+              terminal["intervals"][0]["owner"] == "common", "binding common cost")
+        _ref(terminal["binding"], "binding_record")
+        record = strict_json(read_verified(artifact_root, terminal["binding"]))
+        _need(record["version"] == 2 and record["status"] == "PENDING_TERMINAL" and
+              record["plan_sha256"] == digest(plan) and record["failure"] is None,
+              "provisional binding record")
+        completed = set()
+        costs = []
+        selection = {"jet": None, "bank": None}
+    else:
+        _need(terminal["binding"] is None, "panel binding reference")
+        _ref(terminal["run"], "Run")
+        run = strict_json(read_verified(artifact_root, terminal["run"]))
+        _need(type(run["version"]) is int and run["version"] == 2 and
+              run["cost_scope"] == "worker_provisional" and
+              run["completion"] == "PENDING_TERMINAL" and
+              run["status"] == "COMPLETED" and run["failure"] is None and
+              run["plan_sha256"] == digest(plan), "provisional scientific Run")
+        completed = {row["candidate"] for row in run["combined"] if row["complete"]}
+        _need(len(completed) == 6, "complete fixed panel before selection")
+        costs = terminal_costs(plan["candidates"], terminal["intervals"], completed)
+        _need(costs == terminal["costs"], "terminal standalone cost recomposition")
+        hashes = {candidate["id"]: candidate["config_sha256"] for candidate in plan["candidates"]}
+        provisional = {family: select_family(family, run["combined"], costs, hashes)
+                       for family in ("jet", "bank")}
+        _need(provisional == terminal["selection"], "provisional terminal selection")
+    terminal_costs(plan["candidates"] if scope == "panel" else [],
+                   terminal["intervals"], completed)
+    _need(terminal["intervals"][0]["start"] == terminal["allocation_start"] and
+          terminal["intervals"][-1]["end"] == terminal["program_end"],
+          "full allocation-origin interval partition")
+    receipt = publication["receipt_phase_seconds"]
+    accepted_costs = [dict(cost, common_seconds=cost["common_seconds"] + receipt,
+                           standalone_total_seconds=cost["standalone_total_seconds"] + receipt)
+                      for cost in costs]
+    if scope == "panel":
+        selection = {family: select_family(family, run["combined"], accepted_costs, hashes)
+                     for family in ("jet", "bank")}
+    return dict(program_seconds=terminal["campaign_seconds"], receipt_seconds=receipt,
+                campaign_seconds=terminal["campaign_seconds"] + receipt,
+                costs=accepted_costs, selection=selection)
 
 
 def _execution_live(plan, root, worker):
@@ -667,7 +1061,8 @@ def _execution_live(plan, root, worker):
     host = dict(node=platform.node(), system=platform.system(), release=platform.release(),
                 machine=platform.machine())
     _need(execution["host"] == host, "current host changed")
-    _source_manifest(root, execution["source_manifest"])
+    seal = strict_json(read_verified(root, plan["evidence"]["seal"]))
+    _source_manifest(root, execution["source_manifest"], seal["observed"]["files"])
     _need(plan["approval"]["compatibility"]["new_manifest"] == execution["source_manifest"] and
           plan["approval"]["compatibility"]["new_source"] == execution["source_full_git"],
           "current source compatibility mismatch")
@@ -717,6 +1112,12 @@ def _execution_live(plan, root, worker):
     _need(argv[:5] == [current["executable"], "-I", str(bootstrap), "--worker", "--seal"] and
           Path(argv[5]).is_absolute() and Path(argv[5]).is_file() and
           launch["argv_sha256"] == vector_hash(argv), "literal worker argv")
+    terminal = execution["terminal"]
+    read_verified(root, terminal["witness"])
+    parent_argv = [current["executable"], "-I", str(bootstrap), "--seal", argv[5]]
+    _need(terminal["parent_argv"] == parent_argv and
+          terminal["parent_argv_sha256"] == vector_hash(parent_argv),
+          "literal witnessed parent argv")
     boundary = execution["boundary"]
     _need(boundary["allocation_start_monotonic"] <= time.monotonic() <
           boundary["deadline_monotonic"], "original allocation clock")
@@ -736,8 +1137,17 @@ def _execution_live(plan, root, worker):
         q = execution["qualification"]
         report = strict_json(read_verified(root, q["report"]))
         binding = strict_json(read_verified(root, q["release"]))
-        read_verified(root, q["unknown_child_guard"])
-        _need(report["status"] == "PASS" and report["counts"] ==
+        terminal_report = strict_json(read_verified(root, q["terminal"]))
+        publication = strict_json(read_verified(root, q["publication"]))
+        validate_plan(binding)
+        _guard_proof(root, q["unknown_child_guard"])
+        _qualified_material(q, execution, binding, report, root)
+        accepted = validate_completion(binding, terminal_report, publication, root)
+        _need(accepted["costs"] == [] and accepted["selection"] == {"jet": None, "bank": None} and
+              terminal_report["binding"] is not None and
+              (Path(q["terminal"]["path"]).parent / terminal_report["binding"]["path"]).as_posix() ==
+              q["report"]["path"] and
+              report["version"] == 2 and report["status"] == "PENDING_TERMINAL" and report["counts"] ==
               {"constructions": 0, "encodes": 0, "reads": 0, "factors": 0, "predictions": 0} and
               report["failure"] is None and
               report["template_sha256"] == launch["template_sha256"] and
@@ -758,21 +1168,8 @@ def _execution_live(plan, root, worker):
               native["missing_worker_baselines"] == [] and
               native["unresolved_worker_count"] == 0 and
               external["monitor_status"] == "COMPLETED" and
-              external["monitor_returncode"] == 0 and external["same_plan_bytes"] is True and
-              external["commit_monotonic"] < binding["execution"]["boundary"]["deadline_monotonic"],
+              external["monitor_returncode"] == 0 and external["same_plan_bytes"] is True,
               "accepted zero-science native binding")
-        _need(q["source_manifest"] == execution["source_manifest"] or
-              (q["compatibility"] is not None and q["compatibility"]["material_manifest_equal"] is True),
-              "qualified material source")
-        if q["compatibility"] is not None:
-            compat = q["compatibility"]
-            _keys(compat, ("qualified_source", "current_source", "material_manifest_equal", "ruling"),
-                  "qualification compatibility")
-            _ref(compat["ruling"], "markdown")
-            read_verified(root, compat["ruling"])
-            _need(compat["qualified_source"] == q["source_full_git"] and
-                  compat["current_source"] == execution["source_full_git"] and
-                  compat["material_manifest_equal"] is True, "qualified/current source ruling")
     return boundary["deadline_monotonic"]
 
 
@@ -810,18 +1207,18 @@ def _entry(plan, root, worker):
         read_verified(root, plan["approval"][name])
     read_verified(root, plan["release"]["ruling"])
     compat = plan["approval"]["compatibility"]
-    new_rows = _source_manifest(root, compat["new_manifest"])
+    seal = strict_json(read_verified(root, plan["evidence"]["seal"]))
+    new_rows = _source_manifest(root, compat["new_manifest"], seal["observed"]["files"])
     old_rows = strict_json(read_verified(root, compat["old_manifest"]))
     _need(type(old_rows) is list and old_rows == sorted(old_rows, key=lambda row: row["path"]),
           "historical source manifest order")
-    old = {row["path"]: row for row in old_rows}
-    new = {row["path"]: row for row in new_rows}
-    _need(len(old) == len(old_rows), "duplicate historical material source")
-    changed = sorted(path for path in old.keys() | new.keys() if old.get(path) != new.get(path))
-    _need(compat["changed_paths"] == changed and
-          all(old.get(path) == new.get(path) for path in old.keys() & new.keys()
-              if path.startswith("famjet/") or path.startswith("validation/kernel_stage_a/") or
-              path == "requirements.lock"), "material source compatibility inventory")
+    for row in old_rows:
+        _keys(row, ("path", "sha256", "bytes"), "historical source row")
+        _need(_str(row["path"]) and _hash(row["sha256"]) and _integer(row["bytes"]),
+              "historical source row values")
+    _need(len({row["path"] for row in old_rows}) == len(old_rows),
+          "duplicate historical material source")
+    _compare_material_compatibility(old_rows, new_rows, compat, seal["observed"]["files"])
     return _execution_live(plan, root, worker)
 
 
