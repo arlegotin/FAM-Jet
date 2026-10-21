@@ -428,3 +428,6 @@ Kernel source review found no Critical/Important or actionable Minor defect. Roo
 
 
 21 October2026: user resumed; new admission free+spec215760896B failed1GiB rule, before allocation. Independent primary-Apple-source assessment found37% memory_pressure output includes working data; exact installed-build identity remains unverified. No unsupported reclaimable-memory claim or favorable threshold was substituted. Package15cf84 unchanged; no new factors/reads/tests or other processes changed. Capacity refusal is operational, not negative model evidence.
+
+
+21 October2026: full StageA06 independently reconciled all768inventoryrows (744executed/24nonapplicable),720finite records and24intentional sentinel no-detail outcomes; no missing execution imputed. All744reader outcomes pass;696finite source cases pass/24fail exactlyrow30all6×4; all1602finite transform comparisons and6staticGram checks pass. GlobalFAILED/rawmonitorSTOPPEDreturn1 preserved; common accounting/identity/cleanup complete with no recorded violation and limits satisfied. Root verified3064original78,867,230B/3067Gitpaths/26sealedsourcefiles/package/lock. This is scoped arithmetic evidence, not task accuracy, convergence or source-fidelity certification. Root advanced descriptive actual-state DESIGN only; no panel or source implementation released.
