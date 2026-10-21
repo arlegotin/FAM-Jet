@@ -1,0 +1,35 @@
+{
+  "status": "SCOPED_COMPONENT_ACCEPTED_FOR_NEXT_PROPOSAL_ONLY",
+  "utc": "2026-10-21T09:42:03.587101+00:00",
+  "executed_source": "81204796ade55ce9e7202bc9253b1b61db6a65a3",
+  "evidence_commit": "7c3e04b342103ab486bb71a7d14349fb32d42de9",
+  "global_stage_a_status": "FAILED",
+  "raw_monitor_status": "STOPPED",
+  "raw_monitor_returncode": 1,
+  "scope": "Reader arithmetic, executed reference/static checks and recorded common/resource accounting; NOT global source fidelity, population fidelity, task accuracy, accepted baseline convergence or Stage B execution.",
+  "counts": {
+    "executed": 744,
+    "nonapplicable": 24,
+    "finite_detail_pass_P_A": 720,
+    "policy_sentinel_pass": 24,
+    "finite_source_pass": 696,
+    "finite_source_failed": 24
+  },
+  "failed_source_slots": {
+    "candidates": "all six original candidates",
+    "row": 30,
+    "transforms": [
+      "I",
+      "O",
+      "U",
+      "R"
+    ],
+    "disposition": "Retain FAILED in all records. May design descriptive actual-state scoring only, subject to separate reviewed source and release; no exclusion or waiver."
+  },
+  "audit": {
+    "path": "docs/research/task18-kernel-stage-a06-mathematical-audit.md",
+    "sha256": "2fd3f16edeeccef1b0746a699ec63838cce92432715a63bc48606386da873242"
+  },
+  "root_custody": "docs/research/task18-kernel-stage-a06-root-verification.json",
+  "future_scientific_permissions": []
+}

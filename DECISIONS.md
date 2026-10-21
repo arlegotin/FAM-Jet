@@ -432,3 +432,8 @@ Ruling: preserve the reviewed future panel preparation, with corrected response/
 ## 21 October2026 — preserve admission after primary-source review
 
 Ruling: preserve the current capacity hold rather than reinterpret37% as allocatable memory or add inactive/file-backed/purgeable queues as independent free pools. Reason: Apple’s public non-Jetsam accounting includes active data, and the snapshot gives no guaranteed reclaimable subset or sustained swap/pressure rate. Cost if wrong: a conservative rule delays a run that might succeed after reclamation; it does not change the science or imply the M3Max cannot run the PoC. Prior refusals and all earlier numerical failures remain unchanged. Observe once again only after external capacity changes/resume; no polling, other-job disruption or threshold change.
+
+
+## 21 October2026 — accept scoped kernel evidence and advance design
+
+Ruling: preserve globalFAILED/rawSTOPPED while accepting completed reader/reference/common components for a separately reviewed descriptive actual-state panel proposal. Reason: all744plannedreads executed; failuremap is exactly the known extreme row30; process1 reports that scientific failure while accounting/cleanup complete without a reported violation. Cost if wrong: revise the proposal or report an inconclusive component, never waive source-fidelity failure. Ordinary fixtures do not guarantee fidelity over unbounded generator tails. Freeze existing96×8population, sixcandidates, centralfailure-complete scoring and exact descriptive ties before any panel access; require independent new-source/runtime/admission release.
