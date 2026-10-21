@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-21T12:18:01.121008+00:00",
+  "base": "08ba541aa32cc8f1ea83833cccb9962291f0d625",
+  "head": "c4bee4bee52114427bfb07ab9d4a04d5280e20dc",
+  "delivered_git_paths_verified": 19,
+  "material_rows": 88,
+  "historical_rows_unchanged": 79,
+  "package_files": 53,
+  "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "stage_a_files_unchanged": 15,
+  "protected_diff_empty": true,
+  "failed_binding01_unchanged": true,
+  "test_invocations": 10,
+  "failed_invocations_retained": [
+    1,
+    2,
+    4,
+    5,
+    8
+  ],
+  "final_test_log_sha256": "2c374e23772130e946d9fcab758ff6363a525881ca3e36fc9ad6b4fe2877f985",
+  "final_test_result": "58 passed in 9.36s",
+  "manifest_sha256": "3a9b3d6e0fb788d7431578ae7df19fb626945ef2b2572227c4f6e252e445e938",
+  "prospective_material_refs": 1,
+  "prospective_authority_null": true,
+  "report_sha256": "957ff757667089ddfea3d460441359d49648fc9ed241cd30da58275f2a6f2fda",
+  "report_mirror_equal": true,
+  "scientific_imports": false,
+  "experiment_launched": false
+}

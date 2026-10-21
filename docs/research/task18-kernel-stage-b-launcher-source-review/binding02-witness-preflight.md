@@ -1,0 +1,13 @@
+# Binding02 one-use witness draft — scoped static preflight
+
+**SPEC: YES. BUILDABLE: YES within the adopted root Publication boundary. No helper-delta blocker. HOLD: product-source acceptance, promotion, byte pinning, allocation, and native execution remain separate gates.**
+
+Reviewed the unreleased draft only against accepted witness01 and the adopted fixed-launcher and terminal-cost requirements. The draft is 3,552 bytes, SHA256 `e7b4ba82fcc977fef5ea71c9e4576449b3c15b7fabeafd41293a8198f4f5cc55`; its supplied diff has exactly three substitutions. This was a static source review, with no helper import, test, launch, allocation, or native probe. The concurrent product-launcher correction was outside this review and is not accepted by this verdict.
+
+The fixed `binding-02-prep/plan.json` path and preparation-output check bind the new one-use directory. The changed error text matches binding02. `authority.project_launcher(ROOT, execution["runtime"])` supplies the specified lexical `ROOT/.venv/bin/python` first element; the draft keeps `-I`, bootstrap, `--seal`, and the fixed Plan as the other four elements. It compares the entire five-element vector and its existing `vector_hash` against the sealed terminal fields before launch. Runtime's canonical executable remains a target identity, not the literal argv launcher. The witness-source Ref still checks this file's exact bytes.
+
+The unchanged control flow creates an exclusive `launched.once` marker before the single `Popen`, retains exclusive parent logs, and obtains returncode and reap time from `parent.wait()`. It records that actual parent PID, invocation count one, both Plan hashes, argv/hash, and launch/reap times in a verified ExitWitness. The finalizer runs only after exit, including for nonzero parent return. The wrapper returns zero only when the parent returned zero and finalization returned `ELIGIBLE_PENDING_PUBLICATION`; it cannot attest its own completed invocation.
+
+**Publication-accounting boundary:** `witness-result.json` and wrapper stdout follow the finalizer's intermediate byte/time observation. Root must observe the completed wrapper, verify the terminal commitment, then charge the retained preparation/output trees and post-report growth against the original cap, reserve, and deadline. RootInvocation and Publication must reflect that post-wrapper observation; a surviving pending terminal report alone cannot qualify. This is the adopted external boundary, not a new helper defect.
+
+No concrete blocker or new minor issue arises from the three-line functional delta. Promote and pin these exact bytes only after the separate product-source gate; witness01 and its failed evidence stay unchanged.

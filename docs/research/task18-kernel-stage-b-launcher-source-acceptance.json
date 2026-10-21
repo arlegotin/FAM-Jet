@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "utc": "2026-10-21T12:20:27.512762+00:00",
+  "scope": "runtime_launcher_source_only",
+  "base": "08ba541aa32cc8f1ea83833cccb9962291f0d625",
+  "reviewed_head": "c4bee4bee52114427bfb07ab9d4a04d5280e20dc",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "findings": [],
+  "review": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-runtime-launcher-source-review.md",
+    "archive": "docs/research/task18-kernel-stage-b-launcher-source-review/review.md",
+    "bytes": 3315,
+    "sha256": "d0fdcad911535f62f21db9fb6746e9da9035911b67b07dc88bf5f7687da6a0ca"
+  },
+  "root_custody": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-runtime-launcher-root-custody.json",
+    "archive": "docs/research/task18-kernel-stage-b-launcher-source-review/root-custody.json",
+    "bytes": 1048,
+    "sha256": "2fbc217f4340f46e79e8794e446e6a123d48f3f74f6b417d418cfefa254f912a"
+  },
+  "prior_adapter_acceptance": "docs/research/task18-kernel-stage-b-source-acceptance.json",
+  "test_result": "58 passed in 9.36s",
+  "native_invocations": 0,
+  "binding01_status": "FAILED_NOT_QUALIFIED",
+  "binding02_witness": {
+    "path": "docs/research/task18-kernel-stage-b-binding02-witness.py",
+    "bytes": 3552,
+    "sha256": "e7b4ba82fcc977fef5ea71c9e4576449b3c15b7fabeafd41293a8198f4f5cc55",
+    "static_preflight": {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-binding02-witness-preflight.md",
+      "archive": "docs/research/task18-kernel-stage-b-launcher-source-review/binding02-witness-preflight.md",
+      "bytes": 2703,
+      "sha256": "c03c9deb96805a278dee4b03618bb86b15ff194f4d1a194c96c449b036e0b0a9"
+    }
+  },
+  "allocation_released": false,
+  "panel_released": false,
+  "scientific_work_released": false
+}
