@@ -1,0 +1,37 @@
+{
+  "archive_bytes": 78867230,
+  "archive_files": 3064,
+  "every_file_byte_equal": true,
+  "manifest": "docs/research/task18-kernel-stage-a06-evidence/original-mappings.json",
+  "mismatches": [],
+  "original_bytes": 78867230,
+  "original_files": 3064,
+  "root_directories": [
+    {
+      "archive": "docs/research/task18-kernel-stage-a06-evidence/setup",
+      "empty_directories": [],
+      "files": 31,
+      "nested_directories": 2,
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source8120479-06"
+    },
+    {
+      "archive": "docs/research/task18-kernel-stage-a06-evidence/stage-a",
+      "empty_directories": [],
+      "files": 3028,
+      "nested_directories": 0,
+      "original": "/private/tmp/famjet-task18-kernel-stage-a-source8120479-06-driver"
+    }
+  ],
+  "sealed_source": {
+    "file_mismatches": [],
+    "files_checked": 26,
+    "git_head": "81204796ade55ce9e7202bc9253b1b61db6a65a3",
+    "package_python_files": 53,
+    "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+    "requirements_lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+    "sealed_git_head": "81204796ade55ce9e7202bc9253b1b61db6a65a3",
+    "sealed_package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+    "sealed_requirements_lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+  },
+  "verified_utc": "2026-10-21T09:37:52.473812+00:00"
+}

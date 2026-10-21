@@ -1,0 +1,102 @@
+{
+  "time_utc": "2026-10-21T09:17:13.633676+00:00",
+  "source_full_git": "81204796ade55ce9e7202bc9253b1b61db6a65a3",
+  "ruling": "ONE fresh setup06 under adopted19Oct restart and new passed21Oct admission. Root inspection before StageA seal on same1200s clock.",
+  "amendment": "docs/amendments/2026-10-19-kernel-stage-a-setup06-restart.md",
+  "capacity_admission_amendment": "docs/amendments/2026-10-18-kernel-stage-a-capacity-admission.md",
+  "parent": {
+    "path": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/task-18-stage-a-setup06-launch.py",
+    "sha256": "8d4c68626f979dbf01835c16e296187ba081919ec2b1e7c59c3170c0405a62d4"
+  },
+  "worker_sha256": "f768a8f98577653e81779f080bac27edddd854b173a3c221e3499b5d21ccc1b0",
+  "template_sha256": "6264b909dbb9d2909e2445ccf62e06b4ac3db6d270585b312c0d9eeaec224ce0",
+  "preparation": "/private/tmp/famjet-task18-kernel-stage-a-source8120479-06",
+  "driver_output": "/private/tmp/famjet-task18-kernel-stage-a-source8120479-06-driver",
+  "source_acceptance": "docs/research/task18-stage-a-completion-resources-source-acceptance.json",
+  "capacity_observation": {
+    "utc": "2026-10-21T09:16:13.480686+00:00",
+    "user_scope": "Recheck RAM and find a bounded way to overcome the conservative admission hold. Existing admission rule evaluated honestly first.",
+    "raw": [
+      {
+        "argv": [
+          "/usr/sbin/sysctl",
+          "-n",
+          "hw.memsize"
+        ],
+        "exit": 0,
+        "stdout": "38654705664\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/usr/bin/vm_stat"
+        ],
+        "exit": 0,
+        "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   483602.\nPages active:                                 587306.\nPages inactive:                               562553.\nPages speculative:                             27222.\nPages throttled:                                   0.\nPages wired down:                             305428.\nPages purgeable:                               46791.\n\"Translation faults\":                     9710203511.\nPages copy-on-write:                       661636683.\nPages zero filled:                        8395352705.\nPages reactivated:                         223763375.\nPages purged:                               91452359.\nFile-backed pages:                            388848.\nAnonymous pages:                              788233.\nPages stored in compressor:                  1435001.\nPages occupied by compressor:                 334961.\nDecompressions:                            212675191.\nCompressions:                              276214280.\nPageins:                                   207875542.\nPageouts:                                    1200902.\nSwapins:                                     3640397.\nSwapouts:                                    6350495.\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/usr/bin/memory_pressure",
+          "-Q"
+        ],
+        "exit": 0,
+        "stdout": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 72%\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/usr/sbin/sysctl",
+          "vm.swapusage"
+        ],
+        "exit": 0,
+        "stdout": "vm.swapusage: total = 10240.00M  used = 8645.81M  free = 1594.19M  (encrypted)\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/usr/sbin/sysctl",
+          "-n",
+          "kern.memorystatus_vm_pressure_level"
+        ],
+        "exit": 0,
+        "stdout": "1\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/usr/bin/pmset",
+          "-g",
+          "batt"
+        ],
+        "exit": 0,
+        "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36634723)\t100%; finishing charge; 0:02 remaining present: true\n",
+        "stderr": ""
+      }
+    ],
+    "free_disk_bytes": 266355040256,
+    "admission": true,
+    "page_size": 16384,
+    "printed_free_bytes": 7923335168,
+    "printed_speculative_bytes": 446005248,
+    "available_bytes": 8369340416,
+    "reserve_bytes": 2092335104,
+    "planning_envelope_bytes": 6277005312,
+    "installed_memory_bytes": 38654705664
+  },
+  "limits": {
+    "outer_seconds": 1200,
+    "candidate_seconds": 180,
+    "incremental_bytes": 402653184,
+    "output_bytes": 201326592,
+    "free_disk_bytes": 4294967296,
+    "threads": 1,
+    "factors": 6,
+    "reads_during_setup": 0
+  },
+  "limits_note": "Sampled conservative execution charge, not absolute physical peak; cap stop retained without automatic retry.",
+  "cumulative_factor_attempts_before": 30,
+  "clock_started": false,
+  "stage_A_scientific_release": false,
+  "protected_access": "CLOSED"
+}
