@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/test_kernel_stage_b_launcher.py ____________
+ImportError while importing test module '/Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_kernel_stage_b_launcher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_kernel_stage_b_launcher.py:7: in <module>
+    from validation.kernel_stage_b.authority import AuthorityError, project_launcher
+E   ImportError: cannot import name 'project_launcher' from 'validation.kernel_stage_b.authority' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/authority.py)
+=========================== short test summary info ============================
+ERROR tests/test_kernel_stage_b_launcher.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.06s

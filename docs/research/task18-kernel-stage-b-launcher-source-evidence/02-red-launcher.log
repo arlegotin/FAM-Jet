@@ -1,0 +1,58 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_project_launcher_preserves_lexical_symlink ________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4015/test_project_launcher_preserve0')
+
+    def test_project_launcher_preserves_lexical_symlink(tmp_path):
+        root, runtime, executable = launcher_fixture(tmp_path)
+>       assert authority.project_launcher(root, runtime) == str(root / ".venv/bin/python")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.kernel_stage_b.authority' has no attribute 'project_launcher'
+
+tests/test_kernel_stage_b_launcher.py:27: AttributeError
+______________ test_project_launcher_rejects_wrong_target_or_hash ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4015/test_project_launcher_rejects_0')
+
+    def test_project_launcher_rejects_wrong_target_or_hash(tmp_path):
+        root, runtime, executable = launcher_fixture(tmp_path)
+        with pytest.raises(AuthorityError):
+>           authority.project_launcher(root, dict(runtime, executable_sha256="0" * 64))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_b.authority' has no attribute 'project_launcher'
+
+tests/test_kernel_stage_b_launcher.py:34: AttributeError
+________ test_project_launcher_rejects_missing_cfg_and_directory_escape ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4015/test_project_launcher_rejects_1')
+
+    def test_project_launcher_rejects_missing_cfg_and_directory_escape(tmp_path):
+        root, runtime, _ = launcher_fixture(tmp_path)
+        (root / ".venv/pyvenv.cfg").unlink()
+        with pytest.raises(AuthorityError):
+>           authority.project_launcher(root, runtime)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_b.authority' has no attribute 'project_launcher'
+
+tests/test_kernel_stage_b_launcher.py:47: AttributeError
+__________ test_project_launcher_rejects_missing_or_looped_executable __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4015/test_project_launcher_rejects_2')
+
+    def test_project_launcher_rejects_missing_or_looped_executable(tmp_path):
+        root, runtime, _ = launcher_fixture(tmp_path)
+        launcher = root / ".venv/bin/python"
+        launcher.unlink()
+        with pytest.raises(AuthorityError):
+>           authority.project_launcher(root, runtime)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.kernel_stage_b.authority' has no attribute 'project_launcher'
+
+tests/test_kernel_stage_b_launcher.py:65: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_launcher.py::test_project_launcher_preserves_lexical_symlink
+FAILED tests/test_kernel_stage_b_launcher.py::test_project_launcher_rejects_wrong_target_or_hash
+FAILED tests/test_kernel_stage_b_launcher.py::test_project_launcher_rejects_missing_cfg_and_directory_escape
+FAILED tests/test_kernel_stage_b_launcher.py::test_project_launcher_rejects_missing_or_looped_executable
+4 failed in 0.16s

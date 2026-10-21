@@ -1,0 +1,132 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_qualification_requires_bound_and_current_literal_launchers ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4017/test_qualification_requires_bo0')
+
+    def test_qualification_requires_bound_and_current_literal_launchers(tmp_path):
+        from validation.kernel_stage_b.authority import _qualified_material
+    
+        manifest = tmp_path / "material.json"
+        manifest.write_bytes(b"[]")
+        ref = {"kind": "source_manifest", "path": manifest.name,
+               "sha256": hashlib.sha256(b"[]").hexdigest(), "bytes": 2}
+        launcher = str(tmp_path / ".venv/bin/python")
+        source = "a" * 40
+        runtime = {"executable": str(tmp_path / "base-python")}
+        def execution(first):
+            return {"runtime": runtime, "source_full_git": source, "source_manifest": ref,
+                    "launch": {"argv": [first, "-I", "bootstrap", "--worker", "--seal", "plan"],
+                               "template_sha256": "template", "argv_sha256": "argv",
+                               "monitor": "monitor", "bootstrap": "bootstrap"},
+                    "terminal": {"parent_argv": [first, "-I", "bootstrap", "--seal", "plan"]}}
+        bound = execution(launcher)
+        current = execution(launcher)
+        binding = {"execution": bound}
+        report = {"source_full_git": source, "source_manifest": ref,
+                  "template_sha256": "template", "argv_sha256": "argv"}
+        q = {"runtime": runtime, "source_full_git": source, "source_manifest": ref,
+             "template_sha256": "template", "monitor": "monitor", "compatibility": None}
+        _qualified_material(q, current, binding, report, tmp_path)
+        current["launch"]["argv"][0] = runtime["executable"]
+>       with pytest.raises(AuthorityError, match="project launcher"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_launcher.py:93: Failed
+_____ test_live_authority_rejects_inactive_project_environment[executable] _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10668c2b0>
+bad_part = 'executable'
+
+    @pytest.mark.parametrize("bad_part", ["executable", "prefix", "base_prefix"])
+    def test_live_authority_rejects_inactive_project_environment(monkeypatch, bad_part):
+        from validation.kernel_stage_a import authority as a_authority
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, runtime, _, _ = _released_binding(Path(name))
+            launcher = str(ROOT / ".venv/bin/python")
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority, "project_launcher", lambda root, value: launcher)
+            monkeypatch.setattr(sys, "executable", launcher)
+            monkeypatch.setattr(sys, "prefix", str(ROOT / ".venv"))
+            monkeypatch.setattr(sys, "base_prefix", str(ROOT.parent))
+            if bad_part == "executable":
+                monkeypatch.setattr(sys, "executable", runtime["executable"])
+            elif bad_part == "prefix":
+                monkeypatch.setattr(sys, "prefix", str(ROOT.parent))
+            else:
+                monkeypatch.setattr(sys, "base_prefix", str(ROOT / ".venv"))
+>           with pytest.raises(authority.AuthorityError, match="active project environment"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'active project environment'
+E             Actual message: 'reference bytes changed'
+
+tests/test_kernel_stage_b_lifecycle.py:164: AssertionError
+_______ test_live_authority_rejects_inactive_project_environment[prefix] _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10668cd60>
+bad_part = 'prefix'
+
+    @pytest.mark.parametrize("bad_part", ["executable", "prefix", "base_prefix"])
+    def test_live_authority_rejects_inactive_project_environment(monkeypatch, bad_part):
+        from validation.kernel_stage_a import authority as a_authority
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, runtime, _, _ = _released_binding(Path(name))
+            launcher = str(ROOT / ".venv/bin/python")
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority, "project_launcher", lambda root, value: launcher)
+            monkeypatch.setattr(sys, "executable", launcher)
+            monkeypatch.setattr(sys, "prefix", str(ROOT / ".venv"))
+            monkeypatch.setattr(sys, "base_prefix", str(ROOT.parent))
+            if bad_part == "executable":
+                monkeypatch.setattr(sys, "executable", runtime["executable"])
+            elif bad_part == "prefix":
+                monkeypatch.setattr(sys, "prefix", str(ROOT.parent))
+            else:
+                monkeypatch.setattr(sys, "base_prefix", str(ROOT / ".venv"))
+>           with pytest.raises(authority.AuthorityError, match="active project environment"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'active project environment'
+E             Actual message: 'reference bytes changed'
+
+tests/test_kernel_stage_b_lifecycle.py:164: AssertionError
+____ test_live_authority_rejects_inactive_project_environment[base_prefix] _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106576690>
+bad_part = 'base_prefix'
+
+    @pytest.mark.parametrize("bad_part", ["executable", "prefix", "base_prefix"])
+    def test_live_authority_rejects_inactive_project_environment(monkeypatch, bad_part):
+        from validation.kernel_stage_a import authority as a_authority
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, runtime, _, _ = _released_binding(Path(name))
+            launcher = str(ROOT / ".venv/bin/python")
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority, "project_launcher", lambda root, value: launcher)
+            monkeypatch.setattr(sys, "executable", launcher)
+            monkeypatch.setattr(sys, "prefix", str(ROOT / ".venv"))
+            monkeypatch.setattr(sys, "base_prefix", str(ROOT.parent))
+            if bad_part == "executable":
+                monkeypatch.setattr(sys, "executable", runtime["executable"])
+            elif bad_part == "prefix":
+                monkeypatch.setattr(sys, "prefix", str(ROOT.parent))
+            else:
+                monkeypatch.setattr(sys, "base_prefix", str(ROOT / ".venv"))
+>           with pytest.raises(authority.AuthorityError, match="active project environment"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'active project environment'
+E             Actual message: 'reference bytes changed'
+
+tests/test_kernel_stage_b_lifecycle.py:164: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_launcher.py::test_qualification_requires_bound_and_current_literal_launchers
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_live_authority_rejects_inactive_project_environment[executable]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_live_authority_rejects_inactive_project_environment[prefix]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_live_authority_rejects_inactive_project_environment[base_prefix]
+4 failed in 0.28s

@@ -1,0 +1,42 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_adopted_material_addition_preserves_all_historical_rows _________
+
+    def test_adopted_material_addition_preserves_all_historical_rows():
+        rows = json.loads((ROOT / "docs/research/task18-kernel-stage-b-source-evidence/source-manifest.json").read_bytes())
+        old = [row for row in rows if not row["path"].startswith("validation/kernel_stage_b/") and
+               row["path"] not in {
+                   "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md",
+                   "docs/amendments/2026-10-21-kernel-stage-b-project-launcher.md",
+                   "docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md"}]
+        assert len(old) == 79 and len(rows) == 88
+>       sealed = json.loads((ROOT / "validation/kernel_stage_b/prospective-seal.json").read_bytes())[
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "observed"]["files"]
+
+tests/test_kernel_stage_b_launcher.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:625: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/prospective-seal.json')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/prospective-seal.json'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_launcher.py::test_adopted_material_addition_preserves_all_historical_rows
+1 failed, 2 passed in 0.12s
