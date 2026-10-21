@@ -1,0 +1,73 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_________________ test_null_plan_refuses_before_backend_import _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10897ab10>
+capsys = <_pytest.capture.CaptureFixture object at 0x1089cba10>
+
+    def test_null_plan_refuses_before_backend_import(monkeypatch, capsys):
+        """Replacing the null gate with a permissive branch would reach production."""
+        import sys
+>       from validation.kernel_stage_b.__main__ import main
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:15: ModuleNotFoundError
+_______________ test_canonical_hash_uses_unicode_and_strict_json _______________
+
+    def test_canonical_hash_uses_unicode_and_strict_json():
+        """Changing Unicode encoding or accepting NaN changes release identities."""
+>       from validation.kernel_stage_b.authority import canonical, digest
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:26: ModuleNotFoundError
+_________________ test_unsupported_scope_refuses[feasibility] __________________
+
+scope = 'feasibility'
+
+    @pytest.mark.parametrize("scope", ["feasibility", "subset", "Q1"])
+    def test_unsupported_scope_refuses(scope):
+        """Broadening release scope must not admit an unclosed experiment."""
+>       from validation.kernel_stage_b.authority import AuthorityError, validate_plan
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:37: ModuleNotFoundError
+____________________ test_unsupported_scope_refuses[subset] ____________________
+
+scope = 'subset'
+
+    @pytest.mark.parametrize("scope", ["feasibility", "subset", "Q1"])
+    def test_unsupported_scope_refuses(scope):
+        """Broadening release scope must not admit an unclosed experiment."""
+>       from validation.kernel_stage_b.authority import AuthorityError, validate_plan
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:37: ModuleNotFoundError
+______________________ test_unsupported_scope_refuses[Q1] ______________________
+
+scope = 'Q1'
+
+    @pytest.mark.parametrize("scope", ["feasibility", "subset", "Q1"])
+    def test_unsupported_scope_refuses(scope):
+        """Broadening release scope must not admit an unclosed experiment."""
+>       from validation.kernel_stage_b.authority import AuthorityError, validate_plan
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:37: ModuleNotFoundError
+___________ test_verified_ref_rejects_path_escape_and_changed_bytes ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3946/test_verified_ref_rejects_path0')
+
+    def test_verified_ref_rejects_path_escape_and_changed_bytes(tmp_path):
+        """Trusting a declared SHA without containment or byte verification is unsafe."""
+>       from validation.kernel_stage_b.authority import AuthorityError, read_verified
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b'
+
+tests/test_kernel_stage_b_source.py:48: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_null_plan_refuses_before_backend_import
+FAILED tests/test_kernel_stage_b_source.py::test_canonical_hash_uses_unicode_and_strict_json
+FAILED tests/test_kernel_stage_b_source.py::test_unsupported_scope_refuses[feasibility]
+FAILED tests/test_kernel_stage_b_source.py::test_unsupported_scope_refuses[subset]
+FAILED tests/test_kernel_stage_b_source.py::test_unsupported_scope_refuses[Q1]
+FAILED tests/test_kernel_stage_b_source.py::test_verified_ref_rejects_path_escape_and_changed_bytes
+6 failed in 0.05s

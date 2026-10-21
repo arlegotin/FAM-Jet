@@ -1,0 +1,23 @@
+................F                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_current_source_manifest_is_byte_bound __________________
+
+    def test_current_source_manifest_is_byte_bound():
+        """A stale source hash must block a later release even when tests pass."""
+        from validation.kernel_stage_b.authority import read_verified, strict_json
+    
+        plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_text())
+        rows = strict_json(read_verified(ROOT, plan["evidence"]["source"]))
+        mapped = {row["path"]: row for row in rows}
+        for path in (ROOT / "validation/kernel_stage_b").glob("*.py"):
+            relative = str(path.relative_to(ROOT))
+>           assert mapped[relative]["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+E           AssertionError: assert '41b77ede6445...4225033294faf' == '61afdc39169a...204a482db81fb'
+E             
+E             - 61afdc39169a7282122233d94d895ad63cd95741ebcecad8395204a482db81fb
+E             + 41b77ede6445df73be909f5be22cbec39d743d3a7aeec2f6ee84225033294faf
+
+tests/test_kernel_stage_b_source.py:274: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_current_source_manifest_is_byte_bound
+1 failed, 16 passed in 0.56s

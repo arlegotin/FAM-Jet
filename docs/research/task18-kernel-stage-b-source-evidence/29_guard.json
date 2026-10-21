@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_source.py",
+    "-q",
+    "-k",
+    "null_plan or help_needs or transport_stop or archived_reader_stream or q8_window_trace"
+  ],
+  "elapsed_seconds": 0.1795471659861505,
+  "exit_code": 0,
+  "log": "29_guard.log"
+}

@@ -1,0 +1,17 @@
+..........F                                                              [100%]
+=================================== FAILURES ===================================
+_______ test_quarantined_q8_uses_central_training_fallback_without_read ________
+
+    def test_quarantined_q8_uses_central_training_fallback_without_read():
+        """Replacing central scoring with fabricated fallback rows would lose flags."""
+        import torch
+        from types import SimpleNamespace
+        from famjet.types import QueryBatch
+        from famjet.eval.runner import episode_policy
+>       from validation.kernel_stage_b.production import score_numeric
+E       ImportError: cannot import name 'score_numeric' from 'validation.kernel_stage_b.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py)
+
+tests/test_kernel_stage_b_source.py:140: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_quarantined_q8_uses_central_training_fallback_without_read
+1 failed, 10 passed in 0.88s

@@ -1,0 +1,13 @@
+............F                                                            [100%]
+=================================== FAILURES ===================================
+____________ test_archived_reader_stream_requires_one_final_result _____________
+
+    def test_archived_reader_stream_requires_one_final_result():
+        """A trailing result or missing counter would falsify the raw A proof."""
+>       from validation.kernel_stage_b.authority import parse_reader_stream, AuthorityError
+E       ImportError: cannot import name 'parse_reader_stream' from 'validation.kernel_stage_b.authority' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/authority.py)
+
+tests/test_kernel_stage_b_source.py:202: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_archived_reader_stream_requires_one_final_result
+1 failed, 12 passed in 0.56s

@@ -1,0 +1,31 @@
+......FFF                                                                [100%]
+=================================== FAILURES ===================================
+________ test_length_composition_keeps_undefined_and_infinite_evidence _________
+
+    def test_length_composition_keeps_undefined_and_infinite_evidence():
+        """Changing precedence or averaging by query count would select a wrong candidate."""
+>       from validation.kernel_stage_b.driver import combine_lengths
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b.driver'
+
+tests/test_kernel_stage_b_source.py:63: ModuleNotFoundError
+_____________ test_exact_tie_uses_standalone_cost_then_config_hash _____________
+
+    def test_exact_tie_uses_standalone_cost_then_config_hash():
+        """A missing cost or hash tiebreak changes the selected family member."""
+>       from validation.kernel_stage_b.driver import select_family
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b.driver'
+
+tests/test_kernel_stage_b_source.py:80: ModuleNotFoundError
+_________ test_reader_response_rejects_extra_fields_and_preserves_null _________
+
+    def test_reader_response_rejects_extra_fields_and_preserves_null():
+        """A permissive decoder could reinterpret a malformed or unsupported read."""
+>       from validation.kernel_stage_b.production import decode_response
+E       ModuleNotFoundError: No module named 'validation.kernel_stage_b.production'
+
+tests/test_kernel_stage_b_source.py:98: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_length_composition_keeps_undefined_and_infinite_evidence
+FAILED tests/test_kernel_stage_b_source.py::test_exact_tie_uses_standalone_cost_then_config_hash
+FAILED tests/test_kernel_stage_b_source.py::test_reader_response_rejects_extra_fields_and_preserves_null
+3 failed, 6 passed in 0.11s

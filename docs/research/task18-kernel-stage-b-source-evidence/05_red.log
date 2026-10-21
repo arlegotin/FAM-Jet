@@ -1,0 +1,15 @@
+.........F                                                               [100%]
+=================================== FAILURES ===================================
+__________ test_panel_config_changes_only_the_closed_generator_fields __________
+
+    def test_panel_config_changes_only_the_closed_generator_fields():
+        """A replacement of model/training/resource fields would change historical inputs."""
+        from dataclasses import asdict
+        from famjet.config import load_config
+>       from validation.kernel_stage_b.production import panel_config_for_entry
+E       ImportError: cannot import name 'panel_config_for_entry' from 'validation.kernel_stage_b.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py)
+
+tests/test_kernel_stage_b_source.py:121: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_panel_config_changes_only_the_closed_generator_fields
+1 failed, 9 passed in 0.05s

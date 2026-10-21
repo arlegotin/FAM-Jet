@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_source.py",
+    "-q",
+    "-k",
+    "prospective_inventory"
+  ],
+  "elapsed_seconds": 0.12940687499940395,
+  "exit_code": 0,
+  "log": "28_inventory.log"
+}

@@ -1,0 +1,20 @@
+.F..........                                                             [100%]
+=================================== FAILURES ===================================
+_______________ test_canonical_hash_uses_unicode_and_strict_json _______________
+
+    def test_canonical_hash_uses_unicode_and_strict_json():
+        """Changing Unicode encoding or accepting NaN changes release identities."""
+        from validation.kernel_stage_b.authority import canonical, digest
+    
+        assert canonical({"é": [1, "β"]}) == b'{"\xc3\xa9":[1,"\xce\xb2"]}'
+        assert digest({"é": [1, "β"]}) == hashlib.sha256(b'{"\xc3\xa9":[1,"\xce\xb2"]}').hexdigest()
+        with pytest.raises((ValueError, TypeError)):
+            canonical({"x": float("nan")})
+>       with pytest.raises((ValueError, TypeError)):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (ValueError, TypeError)
+
+tests/test_kernel_stage_b_source.py:32: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_canonical_hash_uses_unicode_and_strict_json
+1 failed, 11 passed in 0.55s

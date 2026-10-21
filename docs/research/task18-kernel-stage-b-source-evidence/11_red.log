@@ -1,0 +1,43 @@
+...........F                                                             [100%]
+=================================== FAILURES ===================================
+___________ test_transport_stop_preserves_attempt_and_does_not_score ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3956/test_transport_stop_preserves_0')
+
+    def test_transport_stop_preserves_attempt_and_does_not_score(tmp_path):
+        """Inventing fallback after a failed reader would make incomplete work selectable."""
+        from validation.kernel_stage_b.driver import execute
+    
+        ids = [("jet", "a"), ("bank", "a"), ("bank", "b"),
+               ("jet", "b"), ("jet", "c"), ("bank", "c")]
+        candidates = [dict(id=f"{f}:{r}", family=f, config_sha256="0" * 64) for f, r in ids]
+        entries = [dict(episode_id=f"controlled-{i}", query_ids=list(range(8)), length=128)
+                   for i in range(96)]
+        class FailingBackend:
+            def prepare(self):
+                return dict(entries=entries, resolved_panel_config=None)
+            def encode(self, family, entry):
+                return dict(record=dict(version=1, family=family, history_id=entry["episode_id"],
+                                        snapshot_hash="0" * 64, trigger=None))
+            def read(self, candidate, entry, snapshot):
+                raise RuntimeError("controlled transport failure")
+            def score(self, candidate, entry, numeric, trigger):
+                pytest.fail("failed transport must not be scored")
+        plan = {"execution": {"output": str(tmp_path),
+                               "boundary": {"deadline_monotonic": 10**20},
+                               "limits": {"candidate_seconds": 1000}, "source_manifest": None},
+                "candidates": candidates}
+        result = execute(plan, FailingBackend(), lambda: None)
+        assert result["status"] == "INFRA_STOP"
+        assert result["failure"]["phase"] == "transport"
+        assert result["counts"]["requests_attempted"] == 1
+        assert result["counts"]["predictions_scored"] == 0
+        assert len(result["failure"]["remaining"]) == 576
+        assert result["selection"] == {"jet": None, "bank": None}
+>       assert result["failure"]["raw"]
+E       assert []
+
+tests/test_kernel_stage_b_source.py:195: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_transport_stop_preserves_attempt_and_does_not_score
+1 failed, 11 passed in 0.56s

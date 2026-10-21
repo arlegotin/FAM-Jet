@@ -1,0 +1,13 @@
+.............F                                                           [100%]
+=================================== FAILURES ===================================
+__________ test_q8_window_trace_follows_query_order_and_early_returns __________
+
+    def test_q8_window_trace_follows_query_order_and_early_returns():
+        """An extra or reordered window could attach arithmetic to the wrong query."""
+>       from validation.kernel_stage_b.production import validate_window_order
+E       ImportError: cannot import name 'validate_window_order' from 'validation.kernel_stage_b.production' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py)
+
+tests/test_kernel_stage_b_source.py:222: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_q8_window_trace_follows_query_order_and_early_returns
+1 failed, 13 passed in 0.55s

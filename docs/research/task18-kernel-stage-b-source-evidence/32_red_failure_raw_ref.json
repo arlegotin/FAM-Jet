@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_source.py",
+    "-q",
+    "-k",
+    "transport_stop_preserves_attempt"
+  ],
+  "elapsed_seconds": 0.13905679096933454,
+  "exit_code": 0,
+  "log": "32_red_failure_raw_ref.log"
+}

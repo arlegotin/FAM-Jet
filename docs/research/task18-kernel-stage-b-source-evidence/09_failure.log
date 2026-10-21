@@ -1,0 +1,46 @@
+........FFF                                                              [100%]
+=================================== FAILURES ===================================
+_________ test_reader_response_rejects_extra_fields_and_preserves_null _________
+
+    def test_reader_response_rejects_extra_fields_and_preserves_null():
+        """A permissive decoder could reinterpret a malformed or unsupported read."""
+>       from validation.kernel_stage_b.production import decode_response
+E         File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py", line 220
+E           if policy["primary_tasks"] != ["contrast", "mean"] or policy["task_weights"] !=
+E                                                                                          ^
+E       SyntaxError: invalid syntax
+
+tests/test_kernel_stage_b_source.py:98: SyntaxError
+__________ test_panel_config_changes_only_the_closed_generator_fields __________
+
+    def test_panel_config_changes_only_the_closed_generator_fields():
+        """A replacement of model/training/resource fields would change historical inputs."""
+        from dataclasses import asdict
+        from famjet.config import load_config
+>       from validation.kernel_stage_b.production import panel_config_for_entry
+E         File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py", line 220
+E           if policy["primary_tasks"] != ["contrast", "mean"] or policy["task_weights"] !=
+E                                                                                          ^
+E       SyntaxError: invalid syntax
+
+tests/test_kernel_stage_b_source.py:121: SyntaxError
+_______ test_quarantined_q8_uses_central_training_fallback_without_read ________
+
+    def test_quarantined_q8_uses_central_training_fallback_without_read():
+        """Replacing central scoring with fabricated fallback rows would lose flags."""
+        import torch
+        from types import SimpleNamespace
+        from famjet.types import QueryBatch
+        from famjet.eval.runner import episode_policy
+>       from validation.kernel_stage_b.production import score_numeric
+E         File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/production.py", line 220
+E           if policy["primary_tasks"] != ["contrast", "mean"] or policy["task_weights"] !=
+E                                                                                          ^
+E       SyntaxError: invalid syntax
+
+tests/test_kernel_stage_b_source.py:140: SyntaxError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_source.py::test_reader_response_rejects_extra_fields_and_preserves_null
+FAILED tests/test_kernel_stage_b_source.py::test_panel_config_changes_only_the_closed_generator_fields
+FAILED tests/test_kernel_stage_b_source.py::test_quarantined_q8_uses_central_training_fallback_without_read
+3 failed, 8 passed in 0.50s
