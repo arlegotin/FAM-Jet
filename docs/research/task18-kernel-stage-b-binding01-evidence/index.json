@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "status": "FAILED_NOT_QUALIFIED",
+  "source_full_git": "9f47f8260374a0193198c6ba8faa3b68c5a016eb",
+  "files": [
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/admission.json",
+      "bytes": 1892,
+      "sha256": "af1221ef918e80a1d65387b9c673d3098558e617553d7703eec6e9faafb19639"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/allocation-summary.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/allocation-summary.json",
+      "bytes": 637,
+      "sha256": "dc652a7cd94a6214efe509c90aa15b1417dc2822db6f33cf9c0ea4d29f949287"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/binding-release.md",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/binding-release.md",
+      "bytes": 1598,
+      "sha256": "27d5c58b50539899e04c58e47d14ec06e6c0a83b229f541ac2ec1676c6413b82"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/exit-witness.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/exit-witness.json",
+      "bytes": 927,
+      "sha256": "575d2aa09217b0e21baf578ab7a89e972cdc5ea6825e23591f58d5ef591963b3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/launched.once",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/launched.once",
+      "bytes": 65,
+      "sha256": "9d6f895ac83ee33d91b4868cd9ae9203034fe58ec50bfc069c4a4a4d7d0257dd"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/manual-source-and-failure-ruling.md",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/manual-source-and-failure-ruling.md",
+      "bytes": 1782,
+      "sha256": "e2de158fae2527d7b04a5b967398781f3b5b44aab7deace60e2e7311429df022"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/memory-pressure.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/memory-pressure.json",
+      "bytes": 443,
+      "sha256": "0e0ea554f922e45c40fa303e3984b49161d0c0a515f9aed339bf73c488905a86"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/memory-pressure.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/memory-pressure.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/memory-pressure.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/memory-pressure.stdout",
+      "bytes": 110,
+      "sha256": "17989bef546fa69c9a283e64e86896389a4b8df02a12dec4c284f82c7e3ad383"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/parent.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/parent.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/parent.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/parent.stdout",
+      "bytes": 5667,
+      "sha256": "79ebe33991d026fd2bfbc3ecf939d577fb1ad300887d266ab23d4731838f0cf6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/plan.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/plan.json",
+      "bytes": 729234,
+      "sha256": "1e31531d84b67d9bdee1656314ac6e4f4411aea6f7288bdfc454ee59bc9f3e0a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-admission.json",
+      "bytes": 440,
+      "sha256": "862f6c77e0ebc4e75cdcfdd73e3c96c4af365d62b8ab43b4662d282d5467738a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-admission.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-admission.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-admission.stdout",
+      "bytes": 106,
+      "sha256": "5fb77d54a847f7113dfe1aa8ece28012eeca9883b276964cfe1fe85071ae4426"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-launch.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-launch.json",
+      "bytes": 434,
+      "sha256": "745fe8802ff9535acd98f4b8c7f9195e18c9259286ae57dfb89d9db8feb808ea"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-launch.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-launch.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/power-launch.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/power-launch.stdout",
+      "bytes": 106,
+      "sha256": "5fb77d54a847f7113dfe1aa8ece28012eeca9883b276964cfe1fe85071ae4426"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/vm-stat.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/vm-stat.json",
+      "bytes": 415,
+      "sha256": "a572139b794536961c34e6b259baf2fb78c76d09d923c5e2d25352cf5d94c4a7"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/vm-stat.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/vm-stat.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/vm-stat.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/vm-stat.stdout",
+      "bytes": 1247,
+      "sha256": "b35c6ede351ed29eaf0037cb795cbdf28c2c6f0ef41a684922ccc253873832aa"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/witness-result.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/witness-result.json",
+      "bytes": 1217,
+      "sha256": "02e9f6df812780cf6e96df7c8d34b58ac639af92923c2b8a9f353057a825e155"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/wrapper.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/wrapper.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-prep/wrapper.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/preparation/wrapper.stdout",
+      "bytes": 54,
+      "sha256": "6f94217c2cd8b65d2e6c7064d2c5b27fd4ae57557e12283e3551274a82a794d3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/binding-report.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/binding-report.json",
+      "bytes": 1425,
+      "sha256": "55d30c98aa89ece68aef32bba8529f4f95c331e37625f8d39beb177e06c6e87d"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/monitor-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/monitor-events.jsonl",
+      "bytes": 2034,
+      "sha256": "ce9abb9ce5d9fccfaf306370838bdfaa4c455cc4f1edab24541afd896f9f0bf0"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/monitor-evidence.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/monitor-evidence.jsonl",
+      "bytes": 103715,
+      "sha256": "5495d72acbf9f92638ca60ec1894f1cc0e3a92ecbf3f23262a7cd67667d06199"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/monitor.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/monitor.json",
+      "bytes": 8192,
+      "sha256": "326b0f499eea8d5de3cb33ca09465c7f82c66b1bda914f6d03c3a42747820a6f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/requests.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/requests.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/scores.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/scores.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/snapshots.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/snapshots.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/stage-b-external.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/stage-b-external.json",
+      "bytes": 245,
+      "sha256": "4e8aeeba5c806137ee610be17483776ddd6f30bcfdb63cdd57c573863f2f96a0"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/stage-b.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/stage-b.json",
+      "bytes": 3957,
+      "sha256": "6f43f8aa0794a6d179a8ef775327cf22afaa71cc7a4e3ca70c1e8698aa58ef7c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/stderr.log",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/stdout.log",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01/terminal-report.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/output/terminal-report.json",
+      "bytes": 1969,
+      "sha256": "a7e14fef50a15838a333dd05ad91b4264efca940fc685f1d1b916ab2fc1e961d"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-custody/failure-observation.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/custody/failure-observation.json",
+      "bytes": 1034,
+      "sha256": "7be1aba306e78b7e310cf2cec7c1f711ae8abdc712d1cd48da4a5687a2c72476"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-binding-01-custody/root-invocation-failed.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/custody/root-invocation-failed.json",
+      "bytes": 401,
+      "sha256": "6e0b3db1dd3293b3618cdbb6762be7714778c7e412641feab8895e9b73cd7faa"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-binding01-diagnosis.md",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/diagnosis.md",
+      "bytes": 6030,
+      "sha256": "b18c51fd206651348b39eb2fbc49b70c9e1e40047326902da3b4513005b1cb25"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-prepare-binding01.py",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/allocation-builder.py",
+      "bytes": 11087,
+      "sha256": "1b9a51e5ea5333b17917c333d23a2231fc853545df92659947cc1e336fde9946"
+    },
+    {
+      "original": "docs/research/task18-kernel-stage-b-source-evidence/source-manifest.json",
+      "archive": "docs/research/task18-kernel-stage-b-binding01-evidence/executed-source-manifest.json",
+      "bytes": 11614,
+      "sha256": "aad2379767b8d60e69d572485c976e9b88deada67a59715d6fe7c9db13f59d63"
+    }
+  ],
+  "files_verified": 41,
+  "total_archived_bytes": 898077,
+  "actual_wrapper_returncode": 1,
+  "publication_approved": false,
+  "raw_whitespace_exception": "output/monitor.json retains original reserved verdict padding; do not trim"
+}

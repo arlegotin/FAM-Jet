@@ -1,0 +1,13 @@
+# Empty binding01 — failed,21 October2026
+
+One actual wrapper/parent invocation executed on clean source9f47f8260374a0193198c6ba8faa3b68c5a016eb. The fresh admission passed the unchanged rule with1.6213GiBfree+speculative and248.38GiBdisk,25%reserve and512MiB incremental allocation. The original900s clock/64MiB output caps were not extended. This was a zero-science launch check: zero model constructions, snapshots, reads, factors or predictions; no protected work.
+
+The wrapper and parent both actually returned1; terminal FAILED and monitor STOPPED remain. The [independent diagnosis](task18-kernel-stage-b-binding01-evidence/diagnosis.md) identifies an exact inherited timing rejection: the live Git40705 kernel-image/hash observation ended0.628ms after its owning completion. Identity path/hash/argv matched, but the unchanged lifetime predicate rejected the overlap; final reconciliation also made the earlier pending sample unaccounted. No foreign executable substitution is established. Both Git helpers were really reaped0 and authority ended successfully.
+
+Independently, the worker recorded INFRA_STOP/prepare with ModuleNotFoundError for torch before baseline. The sealed canonical base-Python launcher did not preserve the project's virtual environment. Source acceptance and controlled tests did not establish installed dependency visibility in that isolated invocation. This needs a separate, narrowly reviewed runtime-wiring correction before another binding is considered. No native predicate is waived.
+
+Cleanup retains its signal PermissionError/EPERM, two unresolved workers and missing baselines. The worker really returned1 and was reaped; no cleanup-success or qualified memory claim is made. Sampled absolute tree170459136B and conservative charge213417984B are retained with those failed-accounting limits; memory was not the stated stop reason. The parent lasted2.7584635s; terminal retains the full allocation-origin failed common cost. Post-failure diagnosis time is outside a successful publication interval; no approved Publication exists.
+
+All original preparation/output/custody bytes plus builder/source-manifest/diagnosis are archived in the [index](task18-kernel-stage-b-binding01-evidence/index.json), with exact mappings/hashes. The original paths, failed records and once marker remain. No automatic retry or panel is released. Main memory-accuracy conclusions are unchanged.
+
+The raw monitor report retains its original reserved trailing padding. Git whitespace checking excludes only that exact raw file; its full bytes/hash were independently verified. All other new source/document/evidence paths pass the check.

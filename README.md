@@ -23,6 +23,8 @@ The memory hold cleared on21October when a fresh check passed the unchanged admi
 
 The fixed-reader experiment runner has now passed [independent source review](docs/research/task18-kernel-stage-b-source-review/fix2-review.md), with47 covering source tests passing. Its [source acceptance](docs/research/task18-kernel-stage-b-source-acceptance.json) permits preparation of one separate empty launch check. The accuracy experiment still requires that check and a fresh resource allocation; no new model result follows from these source tests.
 
+The first [empty launch check](docs/research/task18-kernel-stage-b-binding01-report.md) failed before the PyTorch baseline. Its base-Python launcher lost the project environment, and an inherited helper timing check also rejected an observation across process exit. This was not a RAM-limit stop. The failed run is archived; launch wiring needs correction and a separately approved check before accuracy work proceeds.
+
 The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.

@@ -1,0 +1,37 @@
+{
+  "utc": "2026-10-21T12:01:54.508924+00:00",
+  "kind": "FAILED_NATIVE_BINDING_NOT_QUALIFIED",
+  "source_full_git": "9f47f8260374a0193198c6ba8faa3b68c5a016eb",
+  "actual_tool_session": 67562,
+  "actual_wrapper_returncode": 1,
+  "parent_invocations": 1,
+  "parent_returncode": 1,
+  "monitor_status": "STOPPED",
+  "monitor_reason": "foreign process identity",
+  "worker_status": "INFRA_STOP",
+  "worker_failure": {
+    "candidate": null,
+    "exception_type": "ModuleNotFoundError",
+    "history_id": null,
+    "message": "No module named 'torch'",
+    "monotonic": 812636.427049416,
+    "ordinal": null,
+    "phase": "prepare",
+    "raw": [],
+    "remaining": []
+  },
+  "source_counts": {
+    "fallback_rows": 0,
+    "predictions_scored": 0,
+    "quarantined_histories": 0,
+    "requests_attempted": 0,
+    "requests_completed": 0,
+    "snapshots_attempted": 0,
+    "snapshots_completed": 0,
+    "worker_factors": 0,
+    "worker_reads": 0
+  },
+  "publication_approved": false,
+  "new_scientific_work": 0,
+  "automatic_retry": false
+}
