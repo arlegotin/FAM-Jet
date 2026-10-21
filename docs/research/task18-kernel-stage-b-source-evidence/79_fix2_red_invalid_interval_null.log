@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_invalid_interval_unexecuted_diagnostics_remain_null ___________
+
+    def test_invalid_interval_unexecuted_diagnostics_remain_null():
+        from validation.kernel_stage_b.production import validate_window_order
+    
+        diagnostics = {"failure_code": [[[7, 0]] + [[0, 0] for _ in range(7)]],
+                       "quarantined": [[False] * 8],
+                       "reconstructed_mass": [[[1.0, None]] + [[None, None] for _ in range(7)]],
+                       "cancellation_bound": [[[None, None] for _ in range(8)]]}
+        response = {"numeric": {"diagnostics": diagnostics}, "windows": []}
+>       with pytest.raises(ValueError, match="unexecuted"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'unexecuted'
+E         Actual message: 'invalid interval code'
+
+tests/test_kernel_stage_b_review.py:268: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_invalid_interval_unexecuted_diagnostics_remain_null
+1 failed, 25 deselected in 0.05s

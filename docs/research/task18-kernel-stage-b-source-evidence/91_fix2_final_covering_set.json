@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_source.py",
+    "tests/test_kernel_stage_b_review.py",
+    "tests/test_kernel_stage_b_lifecycle.py",
+    "-q"
+  ],
+  "elapsed_seconds": 9.378262707963586,
+  "exit_code": 0,
+  "log": "91_fix2_final_covering_set.log"
+}

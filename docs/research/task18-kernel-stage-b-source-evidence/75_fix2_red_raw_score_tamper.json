@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_review.py",
+    "-q",
+    "-k",
+    "controlled_full_panel"
+  ],
+  "elapsed_seconds": 1.5713717500912026,
+  "exit_code": 1,
+  "log": "75_fix2_red_raw_score_tamper.log"
+}

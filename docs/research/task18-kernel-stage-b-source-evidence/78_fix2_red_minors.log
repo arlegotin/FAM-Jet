@@ -1,0 +1,56 @@
+FF.                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_qualification_requires_explicit_ruling_for_distinct_git _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4005/test_qualification_requires_ex0')
+
+    def test_qualification_requires_explicit_ruling_for_distinct_git(tmp_path):
+        from validation.kernel_stage_b.authority import AuthorityError, _qualified_material
+    
+        material = tmp_path / "material.json"
+        material.write_bytes(b"[]")
+        ref = {"kind": "source_manifest", "path": "material.json",
+               "sha256": hashlib.sha256(b"[]").hexdigest(), "bytes": 2}
+        ruling = tmp_path / "ruling.md"
+        ruling.write_text("manual compatibility")
+        ruling_ref = {"kind": "markdown", "path": "ruling.md",
+                      "sha256": hashlib.sha256(ruling.read_bytes()).hexdigest(),
+                      "bytes": len(ruling.read_bytes())}
+        launch = {"bootstrap": {"sha256": "b"}, "monitor": {"sha256": "m"},
+                  "template_sha256": "t", "argv_sha256": "a"}
+        bound = {"source_full_git": "1" * 40, "source_manifest": ref,
+                 "runtime": {"executable": "same"}, "launch": launch}
+        binding = {"execution": bound}
+        report = {"source_full_git": bound["source_full_git"], "source_manifest": ref,
+                  "template_sha256": "t", "argv_sha256": "a"}
+        current = {"source_full_git": "2" * 40, "source_manifest": ref,
+                   "runtime": bound["runtime"], "launch": launch}
+        q = {"source_full_git": bound["source_full_git"], "source_manifest": ref,
+             "runtime": bound["runtime"], "monitor": launch["monitor"],
+             "template_sha256": "t", "compatibility": None}
+        with pytest.raises(AuthorityError, match="explicit compatibility"):
+            _qualified_material(q, current, binding, report, tmp_path)
+        q["compatibility"] = {"qualified_source": "1" * 40, "current_source": "2" * 40,
+                              "material_manifest_equal": True, "ruling": ruling_ref}
+        _qualified_material(q, current, binding, report, tmp_path)
+        q["compatibility"]["unreviewed_extra"] = True
+>       with pytest.raises(AuthorityError, match="compatibility"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_review.py:133: Failed
+_________________ test_boolean_observation_returncode_refuses __________________
+
+    def test_boolean_observation_returncode_refuses():
+        from validation.kernel_stage_b.authority import AuthorityError, _observation
+    
+        empty = {"kind": "bytes", "path": "empty", "sha256": "0" * 64, "bytes": 0}
+>       with pytest.raises(AuthorityError, match="observation"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_review.py:141: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_qualification_requires_explicit_ruling_for_distinct_git
+FAILED tests/test_kernel_stage_b_review.py::test_boolean_observation_returncode_refuses
+2 failed, 1 passed, 23 deselected in 0.14s

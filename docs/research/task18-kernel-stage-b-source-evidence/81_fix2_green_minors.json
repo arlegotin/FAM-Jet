@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_review.py",
+    "-q",
+    "-k",
+    "qualification_requires_explicit or boolean_observation or invalid_interval_unexecuted"
+  ],
+  "elapsed_seconds": 0.20336737495381385,
+  "exit_code": 0,
+  "log": "81_fix2_green_minors.log"
+}

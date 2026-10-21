@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_review.py",
+    "-q",
+    "-k",
+    "invalid_interval_unexecuted"
+  ],
+  "elapsed_seconds": 0.14813650003634393,
+  "exit_code": 1,
+  "log": "79_fix2_red_invalid_interval_null.log"
+}

@@ -1,0 +1,52 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_archived_counter_value_tamper_refuses[worker:read] ____________
+
+counter = 'worker:read'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1083ab490>
+
+    @pytest.mark.parametrize("counter", ["worker:read", "candidate_setup"])
+    def test_archived_counter_value_tamper_refuses(counter, monkeypatch):
+        from validation.kernel_stage_b import authority
+    
+        original = authority.read_verified
+        def changed(root, ref):
+            raw = original(root, ref)
+            if ref == PLAN["evidence"]["inventory"]:
+                stage = authority.strict_json(raw)
+                stage["counts"][counter] = 0
+                return authority.canonical(stage)
+            return raw
+        monkeypatch.setattr(authority, "read_verified", changed)
+>       with pytest.raises(authority.AuthorityError, match="count|worker"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_review.py:35: Failed
+_________ test_archived_counter_value_tamper_refuses[candidate_setup] __________
+
+counter = 'candidate_setup'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1083ab230>
+
+    @pytest.mark.parametrize("counter", ["worker:read", "candidate_setup"])
+    def test_archived_counter_value_tamper_refuses(counter, monkeypatch):
+        from validation.kernel_stage_b import authority
+    
+        original = authority.read_verified
+        def changed(root, ref):
+            raw = original(root, ref)
+            if ref == PLAN["evidence"]["inventory"]:
+                stage = authority.strict_json(raw)
+                stage["counts"][counter] = 0
+                return authority.canonical(stage)
+            return raw
+        monkeypatch.setattr(authority, "read_verified", changed)
+>       with pytest.raises(authority.AuthorityError, match="count|worker"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_review.py:35: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_archived_counter_value_tamper_refuses[worker:read]
+FAILED tests/test_kernel_stage_b_review.py::test_archived_counter_value_tamper_refuses[candidate_setup]
+2 failed, 22 deselected in 2.88s

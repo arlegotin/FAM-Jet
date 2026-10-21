@@ -1,0 +1,20 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+_________________ test_boolean_numerical_thread_limit_refuses __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10aae5eb0>
+
+    def test_boolean_numerical_thread_limit_refuses(monkeypatch):
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, _, _, _ = _released_binding(Path(name))
+            plan["execution"]["limits"]["numerical_threads"] = True
+>           with pytest.raises(authority.AuthorityError, match="limits"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'limits'
+E             Actual message: 'release payload hash'
+
+tests/test_kernel_stage_b_lifecycle.py:186: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_boolean_numerical_thread_limit_refuses
+1 failed, 2 passed in 2.73s

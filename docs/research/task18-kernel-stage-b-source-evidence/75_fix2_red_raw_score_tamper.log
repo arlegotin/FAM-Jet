@@ -1,0 +1,199 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_controlled_full_panel_success_and_quarantine_inventory __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-4002/test_controlled_full_panel_suc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108cc35c0>
+
+    def test_controlled_full_panel_success_and_quarantine_inventory(tmp_path, monkeypatch):
+        import base64
+        import struct
+        from famjet.eval import metrics
+        from validation.kernel_stage_b.driver import execute
+        from validation.kernel_stage_b.authority import canonical, digest, PACKAGE_HASH
+        from validation.kernel_stage_a.commands import vector_hash
+    
+        plan, _ = _driver_plan(tmp_path)
+        panel_raw = (ROOT / PLAN["panel"]["path"]).read_bytes()
+        panel = json.loads(panel_raw)
+        entries = [dict(entry, query_ids=list(range(8))) for entry in
+                   panel["splits"]["development_fit"]["episodes"]]
+        def output_ref(path, kind):
+            raw = path.read_bytes()
+            return {"kind": kind, "path": tmp_path.name + "/" + path.name,
+                    "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+        panel_path = tmp_path / "panel-manifest.json"
+        panel_path.write_bytes(panel_raw)
+        plan["panel"] = output_ref(panel_path, "existing_manifest")
+        material_path = tmp_path / "controlled-source-manifest.json"
+        material_path.write_bytes((ROOT / PLAN["evidence"]["source"]["path"]).read_bytes())
+        plan["execution"]["source_manifest"] = output_ref(material_path, "source_manifest")
+        specs = {}
+        for candidate in plan["candidates"]:
+            spec = {"controlled_method": candidate["id"]}
+            path = tmp_path / (candidate["id"].replace(":", "-") + "-static.json")
+            path.write_bytes(canonical(spec))
+            candidate["static"] = output_ref(path, "static_export")
+            candidate["config_sha256"] = digest(spec)
+            candidate["writer_sha256"] = "0" * 64
+            specs[candidate["id"]] = spec
+        plan_path = tmp_path / "plan.json"
+        witness_path = tmp_path / "controlled-witness.py"
+        witness_path.write_bytes(b"# controlled source-only witness\n")
+        witness_ref = {"kind": "python_source", "path": tmp_path.name + "/" + witness_path.name,
+                       "sha256": hashlib.sha256(witness_path.read_bytes()).hexdigest(),
+                       "bytes": len(witness_path.read_bytes())}
+        parent_argv = ["python", "-I", "bootstrap", "--seal", str(plan_path)]
+        plan["execution"]["boundary"]["allocation_start_monotonic"] = 0.0
+        plan["execution"]["limits"]["output_bytes"] = 20000000
+        plan["execution"]["preparation_output"] = None
+        plan["execution"]["launch"] = {"argv": ["python", "-I", "bootstrap", "--worker",
+                                           "--seal", str(plan_path)]}
+        plan["execution"]["terminal"] = {"witness": witness_ref, "parent_argv": parent_argv,
+                                          "parent_argv_sha256": vector_hash(parent_argv),
+                                          "publication_seconds": 10.0,
+                                          "publication_bytes": 1000000}
+        plan["release"] = {"scope": "panel"}
+        plan_path.write_bytes(canonical(plan))
+        def controlled_aggregate(scores):
+            assert len(scores) == 256
+            return {"status": "ok", "loss": sum(row["loss"] for row in scores) / 256,
+                    "infinite_loss_count": 0, "query_count": len(scores)}
+        monkeypatch.setattr(metrics, "aggregate_scores", controlled_aggregate)
+        class Backend:
+            def __init__(self):
+                self.read_ordinal = 0
+            def prepare(self):
+                config_path = tmp_path / "resolved-panel-config.json"
+                config_path.write_bytes(canonical({"data": panel["data"], "development": {"data_seed": 20261017018}}))
+                return {"entries": entries, "resolved_panel_config":
+                        {**output_ref(config_path, "resolved_run_config"), "path": config_path.name}}
+            def encode(self, family, entry):
+                state = {"schema_version": 1, "parameter_hash": "0" * 64, "payload": {},
+                         "last_time": {}, "valid": {}, "event_offset": {}}
+                body = dict(state, format="famjet.snapshot", format_version=1)
+                path = tmp_path / f"snapshot-{family}-{entry['episode_id']}.json"
+                path.write_bytes(canonical({"body": body, "checksum": digest(body)}))
+                trigger = {"reason": "controlled quarantine"} if (
+                    family == "jet" and entry["episode_id"] == entries[0]["episode_id"]) else None
+                record = {"version": 1, "family": family, "history_id": entry["episode_id"],
+                          "writer_sha256": "0" * 64,
+                          "snapshot": {**output_ref(path, "snapshot"), "path": path.name},
+                          "snapshot_hash": digest(state), "logical_bytes": 0,
+                          "trigger": trigger, "event_count": entry["length"],
+                          "encoding_seconds": 0.0}
+                return {"state": state, "record": record}
+            def read(self, candidate, entry, snapshot):
+                ordinal = self.read_ordinal
+                self.read_ordinal += 1
+                query_record = {"dtype": "int64", "shape": [1, 8],
+                                "data": base64.b64encode(struct.pack("<8q", *range(8))).decode()}
+                request = {"method": specs[candidate["id"]], "state": snapshot["state"],
+                           "queries": {"history_ids": [entry["episode_id"]],
+                                       "query_ids": query_record}, "operation": "read",
+                           "model_hash": candidate["config_sha256"], "source_hash": PACKAGE_HASH}
+                request_path = tmp_path / f"request-{ordinal:03}.json"
+                request_path.write_bytes(canonical(request))
+                request_ref = {**output_ref(request_path, "request"), "path": request_path.name}
+                self.on_attempt(request_ref)
+                diagnostics = {name: [[False] * 8] for name in
+                               ("numerical_eligible", "prediction_valid", "numeric_supported",
+                                "factual_support_available", "quarantined")}
+                diagnostics.update(failure_code=[[[0, 0] for _ in range(8)]],
+                                   reconstructed_mass=[[[None, None] for _ in range(8)]],
+                                   cancellation_bound=[[[None, None] for _ in range(8)]])
+                response = {"numeric": {"schema_version": 1, "logits": None,
+                                        "prediction": [[[0.0] * 8 for _ in range(8)]],
+                                        "support": [[None] * 8], "failure": [[False] * 8],
+                                        "diagnostics": diagnostics},
+                            "counts": {"read": 1}, "windows": [], "coefficients": [],
+                            "window_vectors": [], "seconds": 0.0}
+                stdout_path = tmp_path / f"reader-{ordinal:03}.jsonl"
+                stdout_path.write_bytes(canonical({"counter": "read"}) + b"\n" + canonical(response) + b"\n")
+                stderr_path = tmp_path / f"reader-{ordinal:03}.stderr"
+                stderr_path.write_bytes(b"")
+                return {"numeric": response["numeric"], "counts": response["counts"],
+                        "seconds": 0.0, "request": request_ref,
+                        "stdout": {**output_ref(stdout_path, "bytes"), "path": stdout_path.name},
+                        "stderr": {**output_ref(stderr_path, "bytes"), "path": stderr_path.name}}
+            def score(self, candidate, entry, numeric, trigger):
+                assert (numeric is None) == (trigger is not None)
+                loss = next(i for i, c in enumerate(plan["candidates"]) if c["id"] == candidate["id"])
+                return [{"schema_version": 2, "method": candidate["id"],
+                         "history_id": entry["episode_id"], "query_id": q,
+                         "regime": entry["regime"], "manifest_hash": panel["manifest_hash"],
+                         "fallback": trigger is not None, "loss_status": "ok",
+                         "infinite_loss": False, "loss": loss} for q in range(8)]
+        result = execute(plan, Backend(), lambda: None)
+        assert result["status"] == "COMPLETED"
+        assert result["counts"] == {"snapshots_attempted": 192, "snapshots_completed": 192,
+                                    "requests_attempted": 573, "requests_completed": 573,
+                                    "worker_reads": 573, "worker_factors": 0,
+                                    "predictions_scored": 4608, "quarantined_histories": 1,
+                                    "fallback_rows": 24}
+        assert len((tmp_path / "scores.jsonl").read_bytes().splitlines()) == 4608
+        assert len((tmp_path / "requests.jsonl").read_bytes().splitlines()) == 1146
+        assert len(result["summaries"]) == 18
+        assert all(row["complete"] and row["query_count"] == 768 for row in result["combined"])
+        assert result["selection"] == {"jet": "jet:a", "bank": "bank:a"}
+        from validation.kernel_stage_b.__main__ import finalize_terminal
+        from validation.kernel_stage_b.authority import validate_completion
+        (tmp_path / "stage-b.json").write_bytes(canonical(result))
+        (tmp_path / "monitor.json").write_bytes(b'{"status":"COMPLETED","returncode":0}')
+        program_end = result["end_monotonic"] + 2.0
+        monkeypatch.setattr("validation.kernel_stage_b.authority.validate_plan", lambda _: None)
+        monkeypatch.setattr("validation.kernel_stage_b.__main__.time.monotonic", lambda: program_end)
+        witness = {"version": 1, "plan_sha256": digest(plan),
+                   "plan_file_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
+                   "witness": witness_ref, "parent_argv": parent_argv,
+                   "parent_argv_sha256": vector_hash(parent_argv), "parent_invocations": 1,
+                   "parent_pid": 123, "launch_monotonic": 1.0,
+                   "reaped_monotonic": result["end_monotonic"] + 1.0,
+                   "returncode": 0, "reaped": True}
+        terminal_result = finalize_terminal(plan, tmp_path.parent, witness)
+        terminal = json.loads((tmp_path / "terminal-report.json").read_bytes())
+        assert terminal_result["status"] == "ELIGIBLE_PENDING_PUBLICATION", terminal["failure"]
+        assert terminal["intervals"][0]["start"] == 0.0
+        assert terminal["intervals"][-1]["end"] == program_end
+        assert terminal["intervals"][-1]["owner"] == "common"
+        assert len(terminal["costs"]) == 6
+        def ref(path, kind):
+            raw = path.read_bytes()
+            return {"kind": kind, "path": path.name, "sha256": hashlib.sha256(raw).hexdigest(),
+                    "bytes": len(raw)}
+        charged = sum(path.stat().st_size for path in tmp_path.iterdir() if path.is_file())
+        invocation = {"version": 1, "witness": witness_ref, "plan_sha256": digest(plan),
+                      "actual_returncode": 0, "publication_verified_monotonic": program_end + 4.0,
+                      "output_bytes": charged, "commit_success": True}
+        invocation_path = tmp_path.parent / "controlled-invocation.json"
+        invocation_path.write_bytes(canonical(invocation))
+        ruling_path = tmp_path.parent / "controlled-ruling.md"
+        ruling_path.write_text("controlled publication")
+        publication = {"version": 1, "approved": True,
+                       "terminal": {**ref(tmp_path / "terminal-report.json", "terminal_report"),
+                                    "path": tmp_path.name + "/terminal-report.json"},
+                       "witness": witness_ref,
+                       "invocation": ref(invocation_path, "root_invocation_record"),
+                       "observed_witness_returncode": 0, "receipt_commit_observed": True,
+                       "receipt_phase_seconds": 4.0, "charged_output_bytes": charged,
+                       "within_original_deadline": True, "within_publication_budget": True,
+                       "ruling": ref(ruling_path, "markdown")}
+        accepted = validate_completion(plan, terminal, publication, tmp_path.parent)
+        assert accepted["campaign_seconds"] == terminal["campaign_seconds"] + 4.0
+        assert accepted["selection"] == terminal["selection"]
+        assert all(a["standalone_total_seconds"] == b["standalone_total_seconds"] + 4.0
+                   for a, b in zip(accepted["costs"], terminal["costs"]))
+        from validation.kernel_stage_b.authority import AuthorityError
+        scores_path = tmp_path / "scores.jsonl"
+        original_scores = scores_path.read_bytes()
+        changed_scores = original_scores.replace(b'"method":"jet:a"', b'"method":"jet:b"', 1)
+        assert len(changed_scores) == len(original_scores) and changed_scores != original_scores
+        scores_path.write_bytes(changed_scores)
+>       with pytest.raises(AuthorityError, match="reference bytes|raw score"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthorityError
+
+tests/test_kernel_stage_b_review.py:480: Failed
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_controlled_full_panel_success_and_quarantine_inventory
+1 failed, 23 deselected in 1.35s

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_kernel_stage_b_review.py",
+    "-q",
+    "-k",
+    "archived_counter_value"
+  ],
+  "elapsed_seconds": 2.9945750000188127,
+  "exit_code": 1,
+  "log": "72_fix2_red_counter_values.log"
+}
