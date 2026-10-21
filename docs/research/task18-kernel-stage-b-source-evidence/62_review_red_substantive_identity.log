@@ -1,0 +1,120 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_terminal_finalizer_requires_actual_parent_exit[0-ELIGIBLE_PENDING_PUBLICATION] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3993/test_terminal_finalizer_requir1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a1b2650>
+exit_code = 0, expected = 'ELIGIBLE_PENDING_PUBLICATION'
+
+    @pytest.mark.parametrize("exit_code,expected", [(1, "FAILED"), (0, "ELIGIBLE_PENDING_PUBLICATION")])
+    def test_terminal_finalizer_requires_actual_parent_exit(tmp_path, monkeypatch, exit_code, expected):
+        from validation.kernel_stage_b.__main__ import finalize_terminal
+        from validation.kernel_stage_b.authority import canonical, digest
+        from validation.kernel_stage_a.commands import vector_hash
+    
+        plan_path = tmp_path / "plan.json"
+        out = tmp_path / "output"
+        out.mkdir()
+        source = tmp_path / "witness.py"
+        source.write_bytes(b"# controlled witness\n")
+        source_ref = {"kind": "python_source", "path": source.name,
+                      "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                      "bytes": len(source.read_bytes())}
+        parent_argv = ["python", "-I", "bootstrap", "--seal", str(plan_path)]
+        plan = {"execution": {"output": str(out), "preparation_output": None,
+                              "boundary": {"allocation_start_monotonic": 10.0,
+                                           "deadline_monotonic": 100.0},
+                              "limits": {"output_bytes": 1000000},
+                              "launch": {"argv": ["python", "-I", "bootstrap", "--worker", "--seal", str(plan_path)]},
+                              "terminal": {"publication_seconds": 20.0,
+                                           "publication_bytes": 100000,
+                                           "parent_argv": parent_argv,
+                                           "parent_argv_sha256": vector_hash(parent_argv),
+                                           "witness": source_ref}},
+                "release": {"scope": "binding"}, "candidates": []}
+        plan_path.write_bytes(canonical(plan))
+        (out / "monitor.json").write_bytes(b'{"status":"COMPLETED","returncode":0}')
+        (out / "binding-report.json").write_bytes(canonical({"version": 2, "status": "PENDING_TERMINAL",
+            "plan_sha256": digest(plan), "failure": None}))
+        monkeypatch.setattr("validation.kernel_stage_b.authority.validate_plan", lambda _: None)
+        monkeypatch.setattr("validation.kernel_stage_b.__main__.time.monotonic", lambda: 50.0)
+        witness = {"version": 1, "plan_sha256": digest(plan),
+                   "plan_file_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
+                   "witness": source_ref, "parent_argv": parent_argv,
+                   "parent_argv_sha256": vector_hash(parent_argv),
+                   "parent_invocations": 1, "parent_pid": 123,
+                   "launch_monotonic": 11.0, "reaped_monotonic": 20.0,
+                   "returncode": exit_code, "reaped": True}
+        result = finalize_terminal(plan, tmp_path, witness)
+        assert result["status"] == expected
+        assert result["exit"]["returncode"] == exit_code
+        assert result["selection"] == {"jet": None, "bank": None}
+        terminal = json.loads((out / "terminal-report.json").read_bytes())
+        assert terminal["status"] == expected
+        assert terminal["campaign_seconds"] == 40.0
+        assert terminal["intervals"] == [{"start": 10.0, "end": 50.0, "owner": "common",
+                                         "operation": "binding_program",
+                                         "status": "failed" if exit_code else "completed"}]
+        if exit_code == 0:
+            from validation.kernel_stage_b.authority import AuthorityError, validate_completion
+            def ref(path, kind):
+                raw = path.read_bytes()
+                return {"kind": kind, "path": str(path.relative_to(tmp_path)),
+                        "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+            observed_bytes = sum(path.stat().st_size for path in out.rglob("*") if path.is_file())
+            invocation = {"version": 1, "witness": source_ref, "plan_sha256": digest(plan),
+                          "actual_returncode": 0, "publication_verified_monotonic": 60.0,
+                          "output_bytes": observed_bytes, "commit_success": True}
+            invocation_path = tmp_path / "invocation.json"
+            invocation_path.write_bytes(canonical(invocation))
+            ruling_path = tmp_path / "ruling.md"
+            ruling_path.write_text("controlled root acceptance")
+            publication = {"version": 1, "approved": True,
+                           "terminal": ref(out / "terminal-report.json", "terminal_report"),
+                           "witness": source_ref,
+                           "invocation": ref(invocation_path, "root_invocation_record"),
+                           "observed_witness_returncode": 0, "receipt_commit_observed": True,
+                           "receipt_phase_seconds": 10.0, "charged_output_bytes": observed_bytes,
+                           "within_original_deadline": True, "within_publication_budget": True,
+                           "ruling": ref(ruling_path, "markdown")}
+            accepted = validate_completion(plan, terminal, publication, tmp_path)
+            assert accepted["campaign_seconds"] == 50.0
+            assert accepted["costs"] == []
+            with pytest.raises(AuthorityError, match="publication"):
+                validate_completion(plan, terminal, None, tmp_path)
+            bad = dict(publication, receipt_phase_seconds=9.0)
+            with pytest.raises(AuthorityError, match="publication clock"):
+                validate_completion(plan, terminal, bad, tmp_path)
+            forged = dict(witness, parent_argv_sha256="0" * 64)
+            with pytest.raises(AuthorityError, match="parent wait witness"):
+                from validation.kernel_stage_b.authority import validate_exit_witness
+                validate_exit_witness(plan, tmp_path, forged)
+            from validation.kernel_stage_b import __main__ as launcher
+            checked_commit = launcher._checked_commit
+            late_failure = False
+            def renamed_then_failed(path, value, execution, deadline):
+                nonlocal late_failure
+                receipt = checked_commit(path, value, execution, deadline)
+                if path.name == "terminal-report.json" and not late_failure:
+                    late_failure = True
+                    raise OSError("controlled post-rename verification failure")
+                return receipt
+            monkeypatch.setattr(launcher, "_checked_commit", renamed_then_failed)
+            failed = finalize_terminal(plan, tmp_path, witness)
+            assert failed["status"] == "FAILED"
+            assert late_failure
+            assert json.loads((out / "terminal-report.json").read_bytes())["status"] == "FAILED"
+            assert json.loads((out / "monitor.json").read_bytes())["status"] == "COMPLETED"
+            binding_path = out / "binding-report.json"
+            binding_record = json.loads(binding_path.read_bytes())
+            binding_path.write_bytes(canonical(dict(binding_record, plan_sha256="0" * 64)))
+>           assert finalize_terminal(plan, tmp_path, witness)["status"] == "FAILED"
+E           AssertionError: assert 'ELIGIBLE_PENDING_PUBLICATION' == 'FAILED'
+E             
+E             - FAILED
+E             + ELIGIBLE_PENDING_PUBLICATION
+
+tests/test_kernel_stage_b_review.py:488: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_terminal_finalizer_requires_actual_parent_exit[0-ELIGIBLE_PENDING_PUBLICATION]
+1 failed, 1 passed, 19 deselected in 0.06s

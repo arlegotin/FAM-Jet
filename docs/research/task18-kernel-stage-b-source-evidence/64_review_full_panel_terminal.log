@@ -1,0 +1,94 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_controlled_full_panel_success_and_quarantine_inventory __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3995/test_controlled_full_panel_suc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10842f360>
+
+    def test_controlled_full_panel_success_and_quarantine_inventory(tmp_path, monkeypatch):
+        from famjet.eval import metrics
+        from validation.kernel_stage_b.driver import execute
+        from validation.kernel_stage_b.authority import canonical, digest
+        from validation.kernel_stage_a.commands import vector_hash
+    
+        plan, entries = _driver_plan(tmp_path)
+        plan_path = tmp_path / "plan.json"
+        witness_path = tmp_path / "controlled-witness.py"
+        witness_path.write_bytes(b"# controlled source-only witness\n")
+        witness_ref = {"kind": "python_source", "path": tmp_path.name + "/" + witness_path.name,
+                       "sha256": hashlib.sha256(witness_path.read_bytes()).hexdigest(),
+                       "bytes": len(witness_path.read_bytes())}
+        parent_argv = ["python", "-I", "bootstrap", "--seal", str(plan_path)]
+        plan["execution"]["boundary"]["allocation_start_monotonic"] = 0.0
+        plan["execution"]["limits"]["output_bytes"] = 20000000
+        plan["execution"]["preparation_output"] = None
+        plan["execution"]["launch"] = {"argv": ["python", "-I", "bootstrap", "--worker",
+                                           "--seal", str(plan_path)]}
+        plan["execution"]["terminal"] = {"witness": witness_ref, "parent_argv": parent_argv,
+                                          "parent_argv_sha256": vector_hash(parent_argv),
+                                          "publication_seconds": 10.0,
+                                          "publication_bytes": 100000}
+        plan["release"] = {"scope": "panel"}
+        plan_path.write_bytes(canonical(plan))
+        def controlled_aggregate(scores):
+            assert len(scores) == 256
+            return {"status": "ok", "loss": sum(row["loss"] for row in scores) / 256,
+                    "infinite_loss_count": 0, "query_count": len(scores)}
+        monkeypatch.setattr(metrics, "aggregate_scores", controlled_aggregate)
+        request_file = tmp_path / "controlled-request.json"
+        request_file.write_bytes(b"{}")
+        request_ref = {"kind": "request", "path": request_file.name,
+                       "sha256": hashlib.sha256(b"{}").hexdigest(), "bytes": 2}
+        class Backend:
+            def prepare(self):
+                return {"entries": entries, "resolved_panel_config": None}
+            def encode(self, family, entry):
+                return {"record": {"trigger": "controlled quarantine" if
+                        family == "jet" and entry["episode_id"] == "controlled-0" else None,
+                        "snapshot_hash": "0" * 64}}
+            def read(self, candidate, entry, snapshot):
+                self.on_attempt(request_ref)
+                return {"numeric": {}, "counts": {"read": 1, "factor": 0},
+                        "seconds": 0.0, "request": request_ref, "stdout": None, "stderr": None}
+            def score(self, candidate, entry, numeric, trigger):
+                assert (numeric is None) == (trigger is not None)
+                loss = next(i for i, c in enumerate(plan["candidates"]) if c["id"] == candidate["id"])
+                return [{"fallback": trigger is not None, "loss_status": "ok",
+                         "infinite_loss": False, "loss": loss} for _ in range(8)]
+        result = execute(plan, Backend(), lambda: None)
+        assert result["status"] == "COMPLETED"
+        assert result["counts"] == {"snapshots_attempted": 192, "snapshots_completed": 192,
+                                    "requests_attempted": 573, "requests_completed": 573,
+                                    "worker_reads": 573, "worker_factors": 0,
+                                    "predictions_scored": 4608, "quarantined_histories": 1,
+                                    "fallback_rows": 24}
+        assert len((tmp_path / "scores.jsonl").read_bytes().splitlines()) == 4608
+        assert len((tmp_path / "requests.jsonl").read_bytes().splitlines()) == 1146
+        assert len(result["summaries"]) == 18
+        assert all(row["complete"] and row["query_count"] == 768 for row in result["combined"])
+        assert result["selection"] == {"jet": "jet:a", "bank": "bank:a"}
+        from validation.kernel_stage_b.__main__ import finalize_terminal
+        from validation.kernel_stage_b.authority import validate_completion
+        (tmp_path / "stage-b.json").write_bytes(canonical(result))
+        (tmp_path / "monitor.json").write_bytes(b'{"status":"COMPLETED","returncode":0}')
+        program_end = result["end_monotonic"] + 2.0
+        monkeypatch.setattr("validation.kernel_stage_b.authority.validate_plan", lambda _: None)
+        monkeypatch.setattr("validation.kernel_stage_b.__main__.time.monotonic", lambda: program_end)
+        witness = {"version": 1, "plan_sha256": digest(plan),
+                   "plan_file_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
+                   "witness": witness_ref, "parent_argv": parent_argv,
+                   "parent_argv_sha256": vector_hash(parent_argv), "parent_invocations": 1,
+                   "parent_pid": 123, "launch_monotonic": 1.0,
+                   "reaped_monotonic": result["end_monotonic"] + 1.0,
+                   "returncode": 0, "reaped": True}
+        terminal_result = finalize_terminal(plan, tmp_path.parent, witness)
+>       assert terminal_result["status"] == "ELIGIBLE_PENDING_PUBLICATION"
+E       AssertionError: assert 'FAILED' == 'ELIGIBLE_PENDING_PUBLICATION'
+E         
+E         - ELIGIBLE_PENDING_PUBLICATION
+E         + FAILED
+
+tests/test_kernel_stage_b_review.py:356: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_controlled_full_panel_success_and_quarantine_inventory
+1 failed, 20 deselected in 0.76s

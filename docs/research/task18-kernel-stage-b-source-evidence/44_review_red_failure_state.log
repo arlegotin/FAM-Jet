@@ -1,0 +1,85 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+______ test_prepare_stop_retains_known_config_and_all_unscored_identities ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3978/test_prepare_stop_retains_know0')
+
+    def test_prepare_stop_retains_known_config_and_all_unscored_identities(tmp_path):
+        from validation.kernel_stage_b.driver import execute
+    
+        plan, entries = _driver_plan(tmp_path)
+        config = {"kind": "resolved_run_config", "path": "resolved-panel-config.json",
+                  "sha256": "0" * 64, "bytes": 2}
+        class Backend:
+            def __init__(self):
+                self.entries = entries
+                self.resolved_ref = None
+            def prepare(self):
+                (tmp_path / config["path"]).write_bytes(b"{}")
+                self.resolved_ref = config
+                raise RuntimeError("controlled prepare stop")
+        result = execute(plan, Backend(), lambda: None)
+        assert result["status"] == "INFRA_STOP"
+>       assert result["resolved_panel_config"] == config
+E       AssertionError: assert None == {'kind': 'resolved_run_config', 'path': 'resolved-panel-config.json', 'sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'bytes': 2}
+
+tests/test_kernel_stage_b_review.py:106: AssertionError
+________________ test_score_stop_uses_attempted_request_ordinal ________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3978/test_score_stop_uses_attempted0')
+
+    def test_score_stop_uses_attempted_request_ordinal(tmp_path):
+        from validation.kernel_stage_b.driver import execute
+    
+        plan, entries = _driver_plan(tmp_path)
+        class Backend:
+            def prepare(self):
+                return {"entries": entries, "resolved_panel_config": None}
+            def encode(self, family, entry):
+                return {"record": {"trigger": None, "snapshot_hash": "0" * 64}}
+            def read(self, candidate, entry, snapshot):
+                request = tmp_path / "request-000.json"
+                request.write_bytes(b"{}")
+                self.on_attempt({"kind": "request", "path": request.name,
+                                 "sha256": hashlib.sha256(b"{}").hexdigest(), "bytes": 2})
+                return {"numeric": {}, "counts": {"read": 1}, "seconds": 0.0,
+                        "request": None, "stdout": None, "stderr": None}
+            def score(self, candidate, entry, numeric, trigger):
+                raise RuntimeError("controlled scoring stop")
+        result = execute(plan, Backend(), lambda: None)
+        assert result["failure"]["phase"] == "score"
+>       assert result["failure"]["ordinal"] == 0
+E       assert 1 == 0
+
+tests/test_kernel_stage_b_review.py:131: AssertionError
+___________ test_later_stop_keeps_completed_candidate_score_evidence ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3978/test_later_stop_keeps_complete0')
+
+    def test_later_stop_keeps_completed_candidate_score_evidence(tmp_path):
+        from validation.kernel_stage_b.driver import execute
+    
+        plan, entries = _driver_plan(tmp_path)
+        class Backend:
+            def prepare(self):
+                return {"entries": entries, "resolved_panel_config": None}
+            def encode(self, family, entry):
+                return {"record": {"trigger": None, "snapshot_hash": "0" * 64}}
+            def read(self, candidate, entry, snapshot):
+                if candidate["id"] == "bank:a":
+                    raise RuntimeError("second candidate stop")
+                return {"numeric": {}, "counts": {"read": 1}, "seconds": 0.0,
+                        "request": None, "stdout": None, "stderr": None}
+            def score(self, candidate, entry, numeric, trigger):
+                return [{"fallback": False, "loss_status": "ok", "infinite_loss": False} for _ in range(8)]
+        result = execute(plan, Backend(), lambda: None)
+        assert result["status"] == "INFRA_STOP"
+>       assert result["combined"][0]["query_count"] == 768
+E       assert 0 == 768
+
+tests/test_kernel_stage_b_review.py:153: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_prepare_stop_retains_known_config_and_all_unscored_identities
+FAILED tests/test_kernel_stage_b_review.py::test_score_stop_uses_attempted_request_ordinal
+FAILED tests/test_kernel_stage_b_review.py::test_later_stop_keeps_completed_candidate_score_evidence
+3 failed, 4 deselected in 0.09s

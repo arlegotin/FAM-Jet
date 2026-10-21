@@ -1,0 +1,27 @@
+..................F.....................                                 [100%]
+=================================== FAILURES ===================================
+_________ test_full_archived_evidence_accepts_without_scientific_work __________
+
+    def test_full_archived_evidence_accepts_without_scientific_work():
+        from validation.kernel_stage_b.authority import validate_evidence
+    
+>       stage = validate_evidence(PLAN["evidence"], ROOT)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_b_review.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_b/authority.py:768: in validate_evidence
+    _need(all(event["deadline"] == deadline and
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'A raw reader launch identity'
+
+    def _need(condition, message):
+        if not condition:
+>           raise AuthorityError(message)
+E           validation.kernel_stage_b.authority.AuthorityError: A raw reader launch identity
+
+validation/kernel_stage_b/authority.py:77: AuthorityError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_full_archived_evidence_accepts_without_scientific_work
+1 failed, 39 passed in 2.72s

@@ -1,0 +1,14 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_qualification_binds_actual_binding_runtime_and_manifest _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3976/test_qualification_binds_actua0')
+
+    def test_qualification_binds_actual_binding_runtime_and_manifest(tmp_path):
+>       from validation.kernel_stage_b.authority import AuthorityError, _qualified_material
+E       ImportError: cannot import name '_qualified_material' from 'validation.kernel_stage_b.authority' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/authority.py)
+
+tests/test_kernel_stage_b_review.py:46: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_qualification_binds_actual_binding_runtime_and_manifest
+1 failed, 3 deselected in 0.03s

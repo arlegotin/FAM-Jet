@@ -1,0 +1,23 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_terminal_finalizer_requires_actual_parent_exit ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3983/test_terminal_finalizer_requir0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a522d70>
+
+    def test_terminal_finalizer_requires_actual_parent_exit(tmp_path, monkeypatch):
+>       from validation.kernel_stage_b.__main__ import finalize_terminal
+E       ImportError: cannot import name 'finalize_terminal' from 'validation.kernel_stage_b.__main__' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/__main__.py)
+
+tests/test_kernel_stage_b_review.py:249: ImportError
+______ test_allocation_cost_partition_rejects_gap_and_charges_common_time ______
+
+    def test_allocation_cost_partition_rejects_gap_and_charges_common_time():
+>       from validation.kernel_stage_b.driver import terminal_costs
+E       ImportError: cannot import name 'terminal_costs' from 'validation.kernel_stage_b.driver' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/driver.py)
+
+tests/test_kernel_stage_b_review.py:277: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_terminal_finalizer_requires_actual_parent_exit
+FAILED tests/test_kernel_stage_b_review.py::test_allocation_cost_partition_rejects_gap_and_charges_common_time
+2 failed, 12 deselected in 0.05s

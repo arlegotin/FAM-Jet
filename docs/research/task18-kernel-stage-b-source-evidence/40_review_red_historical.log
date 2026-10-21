@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_historical_manifest_requires_complete_preserved_inventory ________
+
+    def test_historical_manifest_requires_complete_preserved_inventory():
+>       from validation.kernel_stage_b.authority import AuthorityError, _compare_material_compatibility
+E       ImportError: cannot import name '_compare_material_compatibility' from 'validation.kernel_stage_b.authority' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/authority.py)
+
+tests/test_kernel_stage_b_review.py:32: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_historical_manifest_requires_complete_preserved_inventory
+1 failed, 2 deselected in 0.02s

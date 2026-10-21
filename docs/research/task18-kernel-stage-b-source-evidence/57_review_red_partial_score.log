@@ -1,0 +1,38 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_partial_score_journal_retains_only_committed_rows ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-3988/test_partial_score_journal_ret0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108c363f0>
+
+    def test_partial_score_journal_retains_only_committed_rows(tmp_path, monkeypatch):
+        from validation.kernel_stage_b import driver
+    
+        plan, entries = _driver_plan(tmp_path)
+        append = driver._append
+        seen = 0
+        def interrupted(path, value):
+            nonlocal seen
+            if path.name == "scores.jsonl":
+                seen += 1
+                if seen == 4:
+                    raise OSError("controlled fourth-score write failure")
+            append(path, value)
+        monkeypatch.setattr(driver, "_append", interrupted)
+        class Backend:
+            def prepare(self):
+                return {"entries": entries, "resolved_panel_config": None}
+            def encode(self, family, entry):
+                return {"record": {"trigger": "controlled quarantine", "snapshot_hash": "0" * 64}}
+            def score(self, candidate, entry, numeric, trigger):
+                return [{"fallback": True, "loss_status": "infinite_loss", "infinite_loss": True}
+                        for _ in range(8)]
+        result = driver.execute(plan, Backend(), lambda: None)
+        assert result["status"] == "INFRA_STOP"
+>       assert result["counts"]["predictions_scored"] == 3
+E       assert 0 == 3
+
+tests/test_kernel_stage_b_review.py:272: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_partial_score_journal_retains_only_committed_rows
+1 failed, 16 deselected in 0.05s

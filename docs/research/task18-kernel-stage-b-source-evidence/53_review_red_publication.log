@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_provisional_terminal_cannot_qualify_without_root_publication _______
+
+    def test_provisional_terminal_cannot_qualify_without_root_publication():
+>       from validation.kernel_stage_b.authority import AuthorityError, validate_completion
+E       ImportError: cannot import name 'validate_completion' from 'validation.kernel_stage_b.authority' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/validation/kernel_stage_b/authority.py)
+
+tests/test_kernel_stage_b_review.py:292: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_review.py::test_provisional_terminal_cannot_qualify_without_root_publication
+1 failed, 14 deselected in 0.05s
