@@ -128,6 +128,9 @@ def validate_window_order(response, tasks, state_valid, intervals=None):
                 if not math.isfinite(lower) or not math.isfinite(upper) or not lower < upper:
                     if codes[k] != 7:
                         raise ValueError("invalid interval code")
+                    if (d["reconstructed_mass"][0][j][k] is not None or
+                            d["cancellation_bound"][0][j][k] is not None):
+                        raise ValueError("unexecuted invalid interval diagnostics must remain null")
                     break
             if position >= len(windows):
                 raise ValueError("missing reached window")

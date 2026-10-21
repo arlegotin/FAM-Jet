@@ -224,6 +224,8 @@ def finalize_terminal(plan, root, exit_witness):
             monitor = None
         if raw_path.is_file():
             body = authority.strict_json(raw_path.read_bytes())
+            if scope == "panel":
+                authority.validate_run_evidence(plan, body, root)
             committed = _checked_commit(raw_path, body, execution, deadline)
         substantive = (exit_witness["returncode"] == 0 and monitor is not None and
                        monitor.get("status") == "COMPLETED" and monitor.get("returncode") == 0 and

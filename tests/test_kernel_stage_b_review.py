@@ -19,6 +19,23 @@ def test_full_archived_evidence_accepts_without_scientific_work():
     assert len(stage["inventory"]) == 768
 
 
+@pytest.mark.parametrize("counter", ["worker:read", "candidate_setup"])
+def test_archived_counter_value_tamper_refuses(counter, monkeypatch):
+    from validation.kernel_stage_b import authority
+
+    original = authority.read_verified
+    def changed(root, ref):
+        raw = original(root, ref)
+        if ref == PLAN["evidence"]["inventory"]:
+            stage = authority.strict_json(raw)
+            stage["counts"][counter] = 0
+            return authority.canonical(stage)
+        return raw
+    monkeypatch.setattr(authority, "read_verified", changed)
+    with pytest.raises(authority.AuthorityError, match="count|worker"):
+        authority.validate_evidence(PLAN["evidence"], ROOT)
+
+
 def test_current_manifest_covers_all_preserved_material_before_import():
     from validation.kernel_stage_b.authority import _source_manifest, STAGE_A_HASHES
 
@@ -112,6 +129,18 @@ def test_qualification_requires_explicit_ruling_for_distinct_git(tmp_path):
     q["compatibility"] = {"qualified_source": "1" * 40, "current_source": "2" * 40,
                           "material_manifest_equal": True, "ruling": ruling_ref}
     _qualified_material(q, current, binding, report, tmp_path)
+    q["compatibility"]["unreviewed_extra"] = True
+    with pytest.raises(AuthorityError, match="compatibility"):
+        _qualified_material(q, current, binding, report, tmp_path)
+
+
+def test_boolean_observation_returncode_refuses():
+    from validation.kernel_stage_b.authority import AuthorityError, _observation
+
+    empty = {"kind": "bytes", "path": "empty", "sha256": "0" * 64, "bytes": 0}
+    with pytest.raises(AuthorityError, match="observation"):
+        _observation({"argv": ["controlled"], "returncode": False,
+                      "stdout": empty, "stderr": empty})
 
 
 def test_inherited_unknown_child_proof_is_exactly_pinned():
@@ -228,6 +257,19 @@ def test_boolean_reader_version_and_unused_diagnostic_values_refuse():
         validate_window_order(response, ("mean",) * 8, False)
 
 
+def test_invalid_interval_unexecuted_diagnostics_remain_null():
+    from validation.kernel_stage_b.production import validate_window_order
+
+    diagnostics = {"failure_code": [[[7, 0]] + [[0, 0] for _ in range(7)]],
+                   "quarantined": [[False] * 8],
+                   "reconstructed_mass": [[[1.0, None]] + [[None, None] for _ in range(7)]],
+                   "cancellation_bound": [[[None, None] for _ in range(8)]]}
+    response = {"numeric": {"diagnostics": diagnostics}, "windows": []}
+    with pytest.raises(ValueError, match="unexecuted"):
+        validate_window_order(response, ("mean",) * 8, True,
+                              [[(1.0, 1.0)] for _ in range(8)])
+
+
 def test_decode_failure_is_not_labeled_transport(tmp_path):
     from validation.kernel_stage_b.driver import execute
     from validation.kernel_stage_b.production import DecodeError
@@ -277,12 +319,50 @@ def test_partial_score_journal_retains_only_committed_rows(tmp_path, monkeypatch
 
 
 def test_controlled_full_panel_success_and_quarantine_inventory(tmp_path, monkeypatch):
+    import base64
+    import struct
     from famjet.eval import metrics
     from validation.kernel_stage_b.driver import execute
-    from validation.kernel_stage_b.authority import canonical, digest
+    from validation.kernel_stage_b.authority import canonical, digest, PACKAGE_HASH
     from validation.kernel_stage_a.commands import vector_hash
 
-    plan, entries = _driver_plan(tmp_path)
+    plan, _ = _driver_plan(tmp_path)
+    panel_raw = (ROOT / PLAN["panel"]["path"]).read_bytes()
+    panel = json.loads(panel_raw)
+    entries = [dict(entry, query_ids=list(range(8))) for entry in
+               panel["splits"]["development_fit"]["episodes"]]
+    def output_ref(path, kind):
+        raw = path.read_bytes()
+        return {"kind": kind, "path": tmp_path.name + "/" + path.name,
+                "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+    panel_path = tmp_path / "panel-manifest.json"
+    panel_path.write_bytes(panel_raw)
+    plan["panel"] = output_ref(panel_path, "existing_manifest")
+    config_source = tmp_path / "original-panel-config.yaml"
+    config_source.write_bytes((ROOT / PLAN["panel_config"]["path"]).read_bytes())
+    plan["panel_config"] = output_ref(config_source, "run_config_yaml")
+    for source_name in ("panel_producer", "exposure"):
+        source_path = tmp_path / (source_name + Path(PLAN[source_name]["path"]).suffix)
+        source_path.write_bytes((ROOT / PLAN[source_name]["path"]).read_bytes())
+        plan[source_name] = output_ref(source_path, PLAN[source_name]["kind"])
+    training_source = tmp_path / "frozen-training-metadata.json"
+    training_source.write_bytes((ROOT / PLAN["training"]["path"]).read_bytes())
+    plan["training"] = output_ref(training_source, "frozen_training")
+    material_path = tmp_path / "controlled-source-manifest.json"
+    material_path.write_bytes((ROOT / PLAN["evidence"]["source"]["path"]).read_bytes())
+    plan["execution"]["source_manifest"] = output_ref(material_path, "source_manifest")
+    specs = {}
+    for candidate in plan["candidates"]:
+        spec = {"controlled_method": candidate["id"]}
+        path = tmp_path / (candidate["id"].replace(":", "-") + "-static.json")
+        path.write_bytes(canonical(spec))
+        candidate["static"] = output_ref(path, "static_export")
+        rate_path = tmp_path / (candidate["id"].replace(":", "-") + "-rates.json")
+        rate_path.write_bytes(b"[]")
+        candidate["rates"] = output_ref(rate_path, "represented_rates")
+        candidate["config_sha256"] = digest(spec)
+        candidate["writer_sha256"] = "0" * 64
+        specs[candidate["id"]] = spec
     plan_path = tmp_path / "plan.json"
     witness_path = tmp_path / "controlled-witness.py"
     witness_path.write_bytes(b"# controlled source-only witness\n")
@@ -304,28 +384,73 @@ def test_controlled_full_panel_success_and_quarantine_inventory(tmp_path, monkey
     def controlled_aggregate(scores):
         assert len(scores) == 256
         return {"status": "ok", "loss": sum(row["loss"] for row in scores) / 256,
-                "infinite_loss_count": 0, "query_count": len(scores)}
+                "infinite_loss_count": 0, "fallback_count": sum(row["fallback"] for row in scores),
+                "query_count": len(scores)}
     monkeypatch.setattr(metrics, "aggregate_scores", controlled_aggregate)
-    request_file = tmp_path / "controlled-request.json"
-    request_file.write_bytes(b"{}")
-    request_ref = {"kind": "request", "path": request_file.name,
-                   "sha256": hashlib.sha256(b"{}").hexdigest(), "bytes": 2}
     class Backend:
+        def __init__(self):
+            self.read_ordinal = 0
         def prepare(self):
-            return {"entries": entries, "resolved_panel_config": None}
+            config_path = tmp_path / "resolved-panel-config.json"
+            config_path.write_bytes(canonical({"data": panel["data"], "development": {"data_seed": 20261017018}}))
+            return {"entries": entries, "resolved_panel_config":
+                    {**output_ref(config_path, "resolved_run_config"), "path": config_path.name}}
         def encode(self, family, entry):
-            return {"record": {"trigger": "controlled quarantine" if
-                    family == "jet" and entry["episode_id"] == "controlled-0" else None,
-                    "snapshot_hash": "0" * 64}}
+            state = {"schema_version": 1, "parameter_hash": "0" * 64, "payload": {},
+                     "last_time": {}, "valid": {}, "event_offset": {}}
+            body = dict(state, format="famjet.snapshot", format_version=1)
+            path = tmp_path / f"snapshot-{family}-{entry['episode_id']}.json"
+            path.write_bytes(canonical({"body": body, "checksum": digest(body)}))
+            trigger = {"reason": "controlled quarantine"} if (
+                family == "jet" and entry["episode_id"] == entries[0]["episode_id"]) else None
+            record = {"version": 1, "family": family, "history_id": entry["episode_id"],
+                      "writer_sha256": "0" * 64,
+                      "snapshot": {**output_ref(path, "snapshot"), "path": path.name},
+                      "snapshot_hash": digest(state), "logical_bytes": 0,
+                      "trigger": trigger, "event_count": entry["length"],
+                      "encoding_seconds": 0.0}
+            return {"state": state, "record": record}
         def read(self, candidate, entry, snapshot):
+            ordinal = self.read_ordinal
+            self.read_ordinal += 1
+            query_record = {"dtype": "int64", "shape": [1, 8],
+                            "data": base64.b64encode(struct.pack("<8q", *range(8))).decode()}
+            request = {"method": specs[candidate["id"]], "state": snapshot["state"],
+                       "queries": {"history_ids": [entry["episode_id"]],
+                                   "query_ids": query_record}, "operation": "read",
+                       "model_hash": candidate["config_sha256"], "source_hash": PACKAGE_HASH}
+            request_path = tmp_path / f"request-{ordinal:03}.json"
+            request_path.write_bytes(canonical(request))
+            request_ref = {**output_ref(request_path, "request"), "path": request_path.name}
             self.on_attempt(request_ref)
-            return {"numeric": {}, "counts": {"read": 1, "factor": 0},
-                    "seconds": 0.0, "request": request_ref, "stdout": None, "stderr": None}
+            diagnostics = {name: [[False] * 8] for name in
+                           ("numerical_eligible", "prediction_valid", "numeric_supported",
+                            "factual_support_available", "quarantined")}
+            diagnostics.update(failure_code=[[[0, 0] for _ in range(8)]],
+                               reconstructed_mass=[[[None, None] for _ in range(8)]],
+                               cancellation_bound=[[[None, None] for _ in range(8)]])
+            response = {"numeric": {"schema_version": 1, "logits": None,
+                                    "prediction": [[[0.0] * 8 for _ in range(8)]],
+                                    "support": [[None] * 8], "failure": [[False] * 8],
+                                    "diagnostics": diagnostics},
+                        "counts": {"read": 1}, "windows": [], "coefficients": [],
+                        "window_vectors": [], "seconds": 0.0}
+            stdout_path = tmp_path / f"reader-{ordinal:03}.jsonl"
+            stdout_path.write_bytes(canonical({"counter": "read"}) + b"\n" + canonical(response) + b"\n")
+            stderr_path = tmp_path / f"reader-{ordinal:03}.stderr"
+            stderr_path.write_bytes(b"")
+            return {"numeric": response["numeric"], "counts": response["counts"],
+                    "seconds": 0.0, "request": request_ref,
+                    "stdout": {**output_ref(stdout_path, "bytes"), "path": stdout_path.name},
+                    "stderr": {**output_ref(stderr_path, "bytes"), "path": stderr_path.name}}
         def score(self, candidate, entry, numeric, trigger):
             assert (numeric is None) == (trigger is not None)
             loss = next(i for i, c in enumerate(plan["candidates"]) if c["id"] == candidate["id"])
-            return [{"fallback": trigger is not None, "loss_status": "ok",
-                     "infinite_loss": False, "loss": loss} for _ in range(8)]
+            return [{"schema_version": 2, "method": candidate["id"],
+                     "history_id": entry["episode_id"], "query_id": q,
+                     "regime": entry["regime"], "manifest_hash": panel["manifest_hash"],
+                     "fallback": trigger is not None, "loss_status": "ok",
+                     "infinite_loss": False, "loss": loss} for q in range(8)]
     result = execute(plan, Backend(), lambda: None)
     assert result["status"] == "COMPLETED"
     assert result["counts"] == {"snapshots_attempted": 192, "snapshots_completed": 192,
@@ -385,6 +510,46 @@ def test_controlled_full_panel_success_and_quarantine_inventory(tmp_path, monkey
     assert accepted["selection"] == terminal["selection"]
     assert all(a["standalone_total_seconds"] == b["standalone_total_seconds"] + 4.0
                for a, b in zip(accepted["costs"], terminal["costs"]))
+    from validation.kernel_stage_b.authority import AuthorityError
+    scores_path = tmp_path / "scores.jsonl"
+    original_scores = scores_path.read_bytes()
+    changed_scores = original_scores.replace(b'"method":"jet:a"', b'"method":"jet:b"', 1)
+    assert len(changed_scores) == len(original_scores) and changed_scores != original_scores
+    scores_path.write_bytes(changed_scores)
+    with pytest.raises(AuthorityError, match="reference bytes|raw score"):
+        validate_completion(plan, terminal, publication, tmp_path.parent)
+    scores_path.write_bytes(original_scores)
+    for name in ("resolved-panel-config.json", "request-000.json", "reader-000.jsonl",
+                 f"snapshot-jet-{entries[0]['episode_id']}.json"):
+        path = tmp_path / name
+        raw = path.read_bytes()
+        path.write_bytes(b"[" + raw[1:])
+        with pytest.raises(AuthorityError, match="reference bytes"):
+            validate_completion(plan, terminal, publication, tmp_path.parent)
+        path.write_bytes(raw)
+    run_path = tmp_path / "stage-b.json"
+    from validation.kernel_stage_b.authority import validate_run_evidence
+    alias = tmp_path / "snapshots-copy.jsonl"
+    alias.write_bytes((tmp_path / "snapshots.jsonl").read_bytes())
+    aliased_run = json.loads(run_path.read_bytes())
+    aliased_run["snapshots"]["path"] = alias.name
+    with pytest.raises(AuthorityError, match="journal path"):
+        validate_run_evidence(plan, aliased_run, tmp_path.parent)
+    alias.unlink()
+    wrong_count = json.loads(run_path.read_bytes())
+    wrong_count["counts"]["requests_completed"] -= 1
+    with pytest.raises(AuthorityError, match="Run full counts"):
+        validate_run_evidence(plan, wrong_count, tmp_path.parent)
+    rate_path = tmp_path / "jet-a-rates.json"
+    rate_path.write_bytes(b"{}")
+    with pytest.raises(AuthorityError, match="reference bytes"):
+        validate_completion(plan, terminal, publication, tmp_path.parent)
+    rate_path.write_bytes(b"[]")
+    missing = json.loads(run_path.read_bytes())
+    del missing["snapshots"]
+    run_path.write_bytes(canonical(missing))
+    assert finalize_terminal(plan, tmp_path.parent, witness)["status"] == "FAILED"
+    assert json.loads((tmp_path / "monitor.json").read_bytes())["status"] == "COMPLETED"
 
 
 @pytest.mark.parametrize("monitor_status,expected", [("COMPLETED", "PENDING_TERMINAL"),

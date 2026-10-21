@@ -1,5 +1,6 @@
 """Standard-library authority for the fixed external Stage B panel."""
 import base64
+from collections import Counter
 import hashlib
 import json
 import math
@@ -60,6 +61,17 @@ STAGE_COUNT_NAMES = {"artifact_write", "candidate_setup", "empty_snapshot", "enc
                      "result_serialization", "resume_ownership_copy", "state_deserialization",
                      "state_record", "state_serialization", "static_reconstruction",
                      "transform_copy", "unit_kernel_reconstruction", "unit_static_reconstruction"}
+EXPECTED_STAGE_COUNTS = {
+    "artifact_write": 1528, "candidate_setup": 6, "empty_snapshot": 2,
+    "encode": 62, "event_materialization": 62, "injection_copy": 64,
+    "read": 744, "read_dispatch": 744, "reference_setup": 12,
+    "reference_solve": 3360, "request_serialization": 744,
+    "result_serialization": 720, "resume_ownership_copy": 744,
+    "state_deserialization": 1488, "state_record": 744,
+    "state_serialization": 808, "static_reconstruction": 6,
+    "transform_copy": 744, "unit_kernel_reconstruction": 6,
+    "unit_static_reconstruction": 6,
+}
 PINS = {
     "panel": ("artifacts/task18/finite-nested96/manifest.json", 37234,
               "0617dab2f992fb6c9adfd44bb588ee6d8c0418f1c03d8e9f496e097427d28013"),
@@ -376,7 +388,8 @@ def validate_plan(plan):
 def _observation(value):
     _keys(value, ("argv", "returncode", "stdout", "stderr"), "observation")
     _need(type(value["argv"]) is list and value["argv"] and all(_str(x) for x in value["argv"]) and
-          value["returncode"] == 0, "observation command/result")
+          type(value["returncode"]) is int and value["returncode"] == 0,
+          "observation command/result")
     _ref(value["stdout"], "bytes"); _ref(value["stderr"], "bytes")
 
 
@@ -401,7 +414,8 @@ def _execution_shape(execution, scope):
                    "free_disk_bytes", "numerical_threads"), "limits")
     _need(all(_finite(limits[k]) and limits[k] > 0 for k in ("outer_seconds", "candidate_seconds")) and
           all(_integer(limits[k]) and limits[k] > 0 for k in ("incremental_bytes", "output_bytes")) and
-          limits["free_disk_bytes"] == 4294967296 and limits["numerical_threads"] == 1,
+          limits["free_disk_bytes"] == 4294967296 and
+          type(limits["numerical_threads"]) is int and limits["numerical_threads"] == 1,
           "unallocated/invalid limits")
     boundary = execution["boundary"]
     _keys(boundary, ("allocation_start_monotonic", "allocation_start_utc_epoch", "deadline_monotonic",
@@ -568,10 +582,7 @@ def validate_evidence(evidence, root):
         (group["candidate"], group["transform"]) == expected and
         _finite(group["seconds"]) and group["seconds"] >= 0
         for group, expected in zip(stage["groups"], expected_groups)), "A group identity/time")
-    _need(stage["counts"].get("read") == 744 and stage["counts"].get("read_dispatch") == 744 and
-          stage["counts"].get("result_serialization") == 720 and
-          stage["counts"].get("reference_setup") == 12 and
-          stage["counts"].get("reference_solve") == 3360 and
+    _need(all(stage["counts"].get(k) == v for k, v in EXPECTED_STAGE_COUNTS.items()) and
           type(stage["counts"]) is dict and set(stage["counts"]) ==
           STAGE_COUNT_NAMES - {"worker:factor"} and
           all(_integer(v) for v in stage["counts"].values()) and
@@ -588,6 +599,7 @@ def validate_evidence(evidence, root):
     expected = list(a_slots())
     _need(type(evidence["slots"]) is list and len(evidence["slots"]) == 768, "A slots")
     ordinal = 0
+    worker_counts = Counter()
     for ci, pair in enumerate(FAMILIES):
         for si, slot in enumerate(expected):
             listed = evidence["slots"][ci * 128 + si]
@@ -620,6 +632,7 @@ def validate_evidence(evidence, root):
                 read_verified(root, listed[name])
             _need(read_verified(root, listed["stderr"]) == b"", "A reader stderr")
             response = parse_reader_stream(read_verified(root, listed["stdout"]))
+            worker_counts.update(response["counts"])
             state = strict_json(read_verified(root, listed["input"]))
             _keys(state, ("body", "checksum"), "A saved state")
             _need(state["checksum"] == digest(state["body"]), "A state checksum")
@@ -706,6 +719,13 @@ def validate_evidence(evidence, root):
                 else:
                     _need("transform_checks" not in outcome, "invented I transform check")
     _need(ordinal == 744, "A executed count")
+    _need(all(stage["counts"]["worker:" + name] == worker_counts[name]
+              for name in TRACE_COUNTERS if name != "factor") and
+          worker_counts["read"] == ordinal and worker_counts["factor"] == 0 and
+          stage["counts"]["candidate_setup"] == len(FAMILIES) and
+          stage["counts"]["result_serialization"] == sum(
+              row["status"] == "EXECUTED" and row["row"] != 32
+              for row in stage["inventory"]), "A source/worker count reconciliation")
     _need(setup["actual_completed_top_level_exports"] == 6 and
           setup["actual_factor_constructions"] == 6 and
           setup["actual_rate_grid_constructions"] == 2 and setup["actual_reads"] == 0 and
@@ -874,7 +894,10 @@ def _qualified_material(q, execution, binding, report, root):
     _need(qualified == current, "qualified material manifest differs")
     if q["source_full_git"] != execution["source_full_git"]:
         compat = q["compatibility"]
-        _need(type(compat) is dict and compat["qualified_source"] == q["source_full_git"] and
+        _need(type(compat) is dict, "qualified/current Git requires explicit compatibility")
+        _keys(compat, ("qualified_source", "current_source", "material_manifest_equal", "ruling"),
+              "qualification compatibility")
+        _need(compat["qualified_source"] == q["source_full_git"] and
               compat["current_source"] == execution["source_full_git"] and
               compat["material_manifest_equal"] is True,
               "qualified/current Git requires explicit compatibility")
@@ -882,6 +905,8 @@ def _qualified_material(q, execution, binding, report, root):
         read_verified(root, compat["ruling"])
     elif q["compatibility"] is not None:
         compat = q["compatibility"]
+        _keys(compat, ("qualified_source", "current_source", "material_manifest_equal", "ruling"),
+              "qualification compatibility")
         _need(compat["qualified_source"] == q["source_full_git"] and
               compat["current_source"] == execution["source_full_git"] and
               compat["material_manifest_equal"] is True,
@@ -918,6 +943,215 @@ def validate_exit_witness(plan, root, witness):
     raw = Path(terminal["parent_argv"][4]).read_bytes()
     _need(hashlib.sha256(raw).hexdigest() == witness["plan_file_sha256"] and
           strict_json(raw) == plan, "witnessed Plan bytes")
+
+
+def validate_run_evidence(plan, run, root):
+    """Verify the complete saved panel graph as bytes and metadata, without science."""
+    from .production import decode_response
+
+    output = Path(plan["execution"]["output"])
+    _keys(run, ("version", "cost_scope", "completion", "plan_sha256", "status", "counts",
+                "resolved_panel_config", "snapshots", "requests", "scores", "failure",
+                "summaries", "combined", "costs", "intervals", "campaign_seconds",
+                "selection", "exclusions", "start_monotonic", "end_monotonic",
+                "source_manifest"), "Run evidence")
+    _need(run["source_manifest"] == plan["execution"]["source_manifest"],
+          "Run source identity")
+    read_verified(root, run["source_manifest"])
+    for name in ("panel_config", "panel_producer", "exposure", "training"):
+        read_verified(root, plan[name])
+    panel = strict_json(read_verified(root, plan["panel"]))
+    entries = panel["splits"]["development_fit"]["episodes"]
+    _need(type(entries) is list and len(entries) == 96, "Run fixed panel inventory")
+    _ref(run["resolved_panel_config"], "resolved_run_config")
+    config = strict_json(read_verified(output, run["resolved_panel_config"]))
+    _need(config["data"] == panel["data"] and
+          config["development"]["data_seed"] == 20261017018,
+          "Run resolved original config")
+    def journal(name):
+        _ref(run[name], "jsonl")
+        raw = read_verified(output, run[name])
+        lines = raw.splitlines()
+        rows = [strict_json(line) for line in lines]
+        _need(all(canonical(row) == line for row, line in zip(rows, lines)),
+              "noncanonical Run " + name + " journal")
+        return rows
+    snapshots = journal("snapshots")
+    requests = journal("requests")
+    scores = journal("scores")
+    candidates = plan["candidates"]
+    families = list(dict.fromkeys(row["family"] for row in candidates))
+    _need(families == ["jet", "bank"] and len(snapshots) == 192 and
+          len(scores) == 4608, "Run full journal inventory")
+    methods = {}
+    for candidate in candidates:
+        method = strict_json(read_verified(root, candidate["static"]))
+        read_verified(root, candidate["rates"])
+        _need(digest(method) == candidate["config_sha256"], "Run method source identity")
+        methods[candidate["id"]] = method
+    _need(run["resolved_panel_config"]["path"] == "resolved-panel-config.json" and
+          all(run[name]["path"] == name + ".jsonl" for name in
+              ("snapshots", "requests", "scores")), "Run journal path identity")
+    by_snapshot = {}
+    quarantined = 0
+    for index, record in enumerate(snapshots):
+        _keys(record, ("version", "family", "history_id", "writer_sha256", "snapshot",
+                       "snapshot_hash", "logical_bytes", "trigger", "event_count",
+                       "encoding_seconds"), "snapshot journal row")
+        family = families[index // 96]
+        entry = entries[index % 96]
+        writer = next(c["writer_sha256"] for c in candidates if c["family"] == family)
+        _ref(record["snapshot"], "snapshot")
+        _need(record["snapshot"]["path"] ==
+              f"snapshot-{family}-{entry['episode_id']}.json", "saved snapshot path")
+        saved = strict_json(read_verified(output, record["snapshot"]))
+        _keys(saved, ("body", "checksum"), "saved snapshot")
+        body = saved["body"]
+        state = {key: value for key, value in body.items()
+                 if key not in ("format", "format_version")}
+        _need(type(record["version"]) is int and record["version"] == 1 and
+              record["family"] == family and record["history_id"] == entry["episode_id"] and
+              record["writer_sha256"] == writer and body["format"] == "famjet.snapshot" and
+              type(body["format_version"]) is int and body["format_version"] == 1 and
+              saved["checksum"] == digest(body) and record["snapshot_hash"] == digest(state) and
+              state["parameter_hash"] == writer and
+              _integer(record["logical_bytes"]) and
+              type(record["event_count"]) is int and 0 <= record["event_count"] <= entry["length"] and
+              _finite(record["encoding_seconds"]) and record["encoding_seconds"] >= 0 and
+              (record["trigger"] is None or type(record["trigger"]) is dict),
+              "saved snapshot identity/inventory")
+        quarantined += record["trigger"] is not None
+        by_snapshot[(family, entry["episode_id"])] = (record, state)
+    _need(quarantined <= 192, "quarantine ceiling")
+    _need(len(requests) % 2 == 0, "paired request journal")
+    by_request = {}
+    reader_counts = Counter()
+    request_ordinal = 0
+    request_position = 0
+    for candidate in candidates:
+        for entry in entries:
+            snap, state = by_snapshot[(candidate["family"], entry["episode_id"])]
+            key = (candidate["id"], entry["episode_id"])
+            if snap["trigger"] is not None:
+                by_request[key] = None
+                continue
+            _need(request_position + 1 < len(requests), "missing request pair")
+            attempt, completion = requests[request_position:request_position + 2]
+            request_position += 2
+            columns = ("version", "ordinal", "candidate", "history_id", "query_ids",
+                       "request", "stdout", "stderr", "returncode", "status",
+                       "reader_seconds", "failure")
+            _keys(attempt, columns, "request attempt")
+            _keys(completion, columns, "request completion")
+            _ref(attempt["request"], "request")
+            _ref(completion["stdout"], "bytes")
+            _ref(completion["stderr"], "bytes")
+            _need(attempt["request"]["path"] == f"request-{request_ordinal:03}.json" and
+                  completion["stdout"]["path"] == f"reader-{request_ordinal:03}.jsonl" and
+                  completion["stderr"]["path"] == f"reader-{request_ordinal:03}.stderr",
+                  "raw reader artifact paths")
+            _need(type(attempt["version"]) is int and attempt["version"] == 1 and
+                  attempt["ordinal"] == completion["ordinal"] == request_ordinal and
+                  attempt["candidate"] == completion["candidate"] == candidate["id"] and
+                  attempt["history_id"] == completion["history_id"] == entry["episode_id"] and
+                  attempt["query_ids"] == completion["query_ids"] == list(range(8)) and
+                  attempt["status"] == "attempted" and completion["status"] == "completed" and
+                  attempt["request"] == completion["request"] and
+                  attempt["stdout"] is attempt["stderr"] is attempt["returncode"] is
+                  attempt["reader_seconds"] is attempt["failure"] is None and
+                  type(completion["returncode"]) is int and completion["returncode"] == 0 and
+                  completion["failure"] is None and _finite(completion["reader_seconds"]) and
+                  completion["reader_seconds"] >= 0, "paired reader identity/status")
+            raw_request = strict_json(read_verified(output, attempt["request"]))
+            _keys(raw_request, ("method", "state", "queries", "operation", "model_hash",
+                                "source_hash"), "raw request")
+            query = raw_request["queries"]
+            ids = query["query_ids"]
+            _keys(ids, ("dtype", "shape", "data"), "raw query IDs")
+            _need(query["history_ids"] == [entry["episode_id"]] and
+                  ids["dtype"] == "int64" and ids["shape"] == [1, 8] and
+                  base64.b64decode(ids["data"], validate=True) == struct.pack("<8q", *range(8)) and
+                  raw_request["method"] == methods[candidate["id"]] and
+                  raw_request["state"] == state and raw_request["operation"] == "read" and
+                  raw_request["model_hash"] == candidate["config_sha256"] and
+                  raw_request["source_hash"] == PACKAGE_HASH,
+                  "raw request source/state/Q8 identity")
+            raw_stream = read_verified(output, completion["stdout"])
+            _need(read_verified(output, completion["stderr"]) == b"", "raw reader stderr")
+            lines = raw_stream.splitlines()
+            _need(bool(lines), "missing raw reader response")
+            observed = Counter()
+            for line in lines[:-1]:
+                item = strict_json(line)
+                _keys(item, ("counter",), "raw reader counter")
+                _need(item["counter"] in TRACE_COUNTERS, "raw reader counter name")
+                observed[item["counter"]] += 1
+            response = decode_response(strict_json(lines[-1]))
+            _need(all(response["counts"].get(name, 0) == observed[name]
+                      for name in TRACE_COUNTERS) and
+                  completion["reader_seconds"] == response["seconds"],
+                  "raw reader response/count/time")
+            reader_counts.update(response["counts"])
+            by_request[key] = request_ordinal
+            request_ordinal += 1
+    _need(request_position == len(requests), "extra request pair")
+    fallback_rows = 0
+    for index, row in enumerate(scores):
+        _keys(row, ("version", "candidate", "length", "snapshot_hash",
+                    "request_ordinal", "score"), "raw score journal row")
+        candidate = candidates[index // 768]
+        entry = entries[(index % 768) // 8]
+        query_id = index % 8
+        snap, _ = by_snapshot[(candidate["family"], entry["episode_id"])]
+        value = row["score"]
+        _need(type(value) is dict and type(value.get("schema_version")) is int and
+              value["schema_version"] == 2 and value.get("method") == candidate["id"] and
+              value.get("history_id") == entry["episode_id"] and
+              type(value.get("query_id")) is int and value["query_id"] == query_id and
+              value.get("regime") == entry["regime"] and
+              value.get("manifest_hash") == panel["manifest_hash"] and
+              type(value.get("fallback")) is bool and
+              type(value.get("infinite_loss")) is bool and
+              value.get("loss_status") in ("ok", "infinite_loss", "undefined_loss", "ineligible") and
+              (snap["trigger"] is None or value["fallback"] is True) and
+              type(row["version"]) is int and row["version"] == 1 and
+              row["candidate"] == candidate["id"] and row["length"] == entry["length"] and
+              row["snapshot_hash"] == snap["snapshot_hash"] and
+              row["request_ordinal"] == by_request[(candidate["id"], entry["episode_id"])],
+              "raw score identity/order")
+        fallback_rows += value["fallback"]
+    counts = run["counts"]
+    _keys(counts, ("snapshots_attempted", "snapshots_completed", "requests_attempted",
+                   "requests_completed", "worker_reads", "worker_factors",
+                   "predictions_scored", "quarantined_histories", "fallback_rows"),
+          "Run inventory counts")
+    _need(all(type(value) is int for value in counts.values()) and
+          counts == dict(snapshots_attempted=192, snapshots_completed=192,
+                         requests_attempted=request_ordinal, requests_completed=request_ordinal,
+                         worker_reads=reader_counts["read"], worker_factors=reader_counts["factor"],
+                         predictions_scored=4608, quarantined_histories=quarantined,
+                         fallback_rows=fallback_rows) and
+          request_ordinal + 3 * quarantined == 576 and reader_counts["factor"] == 0,
+          "Run full counts/raw reference graph")
+    _need(type(run["summaries"]) is list and len(run["summaries"]) == 18 and
+          type(run["combined"]) is list and len(run["combined"]) == 6,
+          "Run aggregated inventory")
+    for index, row in enumerate(run["combined"]):
+        _need(row["candidate"] == candidates[index]["id"] and row["complete"] is True and
+              row["query_count"] == 768, "Run combined Q8 inventory")
+    for index, row in enumerate(run["summaries"]):
+        cid = candidates[index // 3]["id"]
+        length = (128, 512, 2048)[index % 3]
+        observed = [item["score"] for item in scores if item["candidate"] == cid and
+                    item["length"] == length]
+        summary = row["summary"]
+        _need(row["candidate"] == candidates[index // 3]["id"] and
+              row["length"] == length and len(observed) == 256 and
+              summary["query_count"] == len(observed) and
+              summary["fallback_count"] == sum(item["fallback"] for item in observed) and
+              summary["infinite_loss_count"] == sum(item["infinite_loss"] for item in observed),
+              "Run length Q8 inventory")
+    return run
 
 
 def validate_completion(plan, terminal, publication, root=None):
@@ -1021,6 +1255,7 @@ def validate_completion(plan, terminal, publication, root=None):
         _need(terminal["binding"] is None, "panel binding reference")
         _ref(terminal["run"], "Run")
         run = strict_json(read_verified(artifact_root, terminal["run"]))
+        validate_run_evidence(plan, run, root)
         _need(type(run["version"]) is int and run["version"] == 2 and
               run["cost_scope"] == "worker_provisional" and
               run["completion"] == "PENDING_TERMINAL" and
