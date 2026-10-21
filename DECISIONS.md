@@ -437,3 +437,8 @@ Ruling: preserve the current capacity hold rather than reinterpret37% as allocat
 ## 21 October2026 — accept scoped kernel evidence and advance design
 
 Ruling: preserve globalFAILED/rawSTOPPED while accepting completed reader/reference/common components for a separately reviewed descriptive actual-state panel proposal. Reason: all744plannedreads executed; failuremap is exactly the known extreme row30; process1 reports that scientific failure while accounting/cleanup complete without a reported violation. Cost if wrong: revise the proposal or report an inconclusive component, never waive source-fidelity failure. Ordinary fixtures do not guarantee fidelity over unbounded generator tails. Freeze existing96×8population, sixcandidates, centralfailure-complete scoring and exact descriptive ties before any panel access; require independent new-source/runtime/admission release.
+
+
+## 21 October2026 — implement fixed-reader external adapter
+
+Adopt the independently reviewed closed StageB design for source work only. Bind the original resolved generator configuration and exact canonical/hash/template preimages; keep historical/current Git identities distinct and bind exposure through the dated amendment. Preserve all24 source-fidelity failures and score actual saved states in any later approved panel. Reuse unchanged native/reader mechanisms; do not extend the core package. Reject feasibility/subset/Q1 scopes until a separately closed component exists. This advances descriptive accuracy diagnosis without authorizing an experiment or claiming convergence/source fidelity. Source rework or an inconclusive future comparison is the stated risk.
