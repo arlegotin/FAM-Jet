@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "kind": "source_review_custody_not_execution",
+  "files": [
+    {
+      "path": "initial-review.md",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-review.md",
+      "bytes": 10303,
+      "sha256": "f31ae1f66b759edd12faa0d055e4b3c01ae51a62094019ead1b5258dda725860"
+    },
+    {
+      "path": "fix1-review.md",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-fix1-review.md",
+      "bytes": 9490,
+      "sha256": "b865f76beb4df7873eb736d958ec4c4edde4a488af2a8c23269397c3e629aab3"
+    },
+    {
+      "path": "fix2-review.md",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-fix2-review.md",
+      "bytes": 6294,
+      "sha256": "b2a1fb5b663139586b69a0b9f8ffc9fd6d24a227bafcf418d77d208fb784665b"
+    },
+    {
+      "path": "initial-root-verification.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-root-verification.json",
+      "bytes": 818,
+      "sha256": "fe02f743ea8f657d2571637d3fd5654ee2ecfd7686fcd84345f149adaa7dc52f"
+    },
+    {
+      "path": "fix1-root-verification.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-fix1-root-verification.json",
+      "bytes": 1296,
+      "sha256": "591dd5ed4d60a91aab06bafca232386114f472f81f4cea920f11b41b37317b1f"
+    },
+    {
+      "path": "fix2-root-verification.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-source-fix2-root-verification.json",
+      "bytes": 1341,
+      "sha256": "772ecd6b56ed1a7b1921abce55c6b6c2d2168ec595ee57df24e034b5485c5abe"
+    },
+    {
+      "path": "historical-material-manifest.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-historical-material-manifest.json",
+      "bytes": 10449,
+      "sha256": "78a725d975f77e570cbb53713450e8aa463273b8a8eeb60f4719fe2c87748e69"
+    },
+    {
+      "path": "historical-material-preparation-proof.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-historical-material-proof.json",
+      "bytes": 891,
+      "sha256": "f30e4b04351e6d25610dc8fc26a8ba80357661b59ad74b0715182302e0f0b4cd"
+    },
+    {
+      "path": "root-audit-disclosure.json",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-root-audit-disclosure.json",
+      "bytes": 651,
+      "sha256": "57f6d66b6f142a293ba4896c90e1bb3846df928d896a50b3371575b1ec203a94"
+    },
+    {
+      "path": "binding-witness-preflight.md",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-binding-witness-preflight.md",
+      "bytes": 2944,
+      "sha256": "93ecbf662518ef41453ea155edca3a785663d1df044789d2b6f819958992ae96"
+    },
+    {
+      "path": "verify_source_custody.py",
+      "source": ".superpowers/sdd/2026-10-16-famjet/task-18-kernel-stage-b-verify-fix2.py",
+      "bytes": 5018,
+      "sha256": "2ff76fbc1592756b5a3c9dd68eff77061755b2f6410b3da1fb8b4e3de7956ed7"
+    }
+  ]
+}

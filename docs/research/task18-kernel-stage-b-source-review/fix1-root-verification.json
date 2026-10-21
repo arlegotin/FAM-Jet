@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-21T11:24:10.488306+00:00",
+  "base": "fb26e86c6c78ab4e10cad4413101440304c9ff00",
+  "fix_base": "e9007839802bcb730af76ff8d0c72c9b2ba98f4f",
+  "head": "a993cad3044cefc00d4b42b41c4a2ec5bc75cd65",
+  "delivered_git_paths_verified": 162,
+  "material_manifest_files_verified": 87,
+  "test_logs_verified": 71,
+  "failed_attempts_retained": 25,
+  "successful_attempts_retained": 46,
+  "final_record": {
+    "argv": [
+      "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_kernel_stage_b_source.py",
+      "tests/test_kernel_stage_b_review.py",
+      "-q"
+    ],
+    "elapsed_seconds": 2.7507609999738634,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "83bd712b97f91bbcd7fb84bcbb6c1571e830a208256b4fcc278c6125fbf865d7",
+    "name": "71_review_final_covering_set"
+  },
+  "report_sha256": "61785263d18f42b97d3fd01b7b3526e4e21c8156a62a4bec80cbac5e412a282b",
+  "report_mirror_equal": true,
+  "package": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "package_files": 53,
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "stage_a_files": 15,
+  "protected_paths_unchanged": true,
+  "prospective_authority_null": true,
+  "experiment_permission": false
+}

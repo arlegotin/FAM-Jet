@@ -1,0 +1,21 @@
+{
+  "kind": "historical_material_compatibility_preparation_only",
+  "old_source": "81204796ade55ce9e7202bc9253b1b61db6a65a3",
+  "current_source": "a993cad3044cefc00d4b42b41c4a2ec5bc75cd65",
+  "historical_rows_verified": 79,
+  "new_rows": 87,
+  "changed_paths": [
+    "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md",
+    "docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md",
+    "validation/kernel_stage_b/__init__.py",
+    "validation/kernel_stage_b/__main__.py",
+    "validation/kernel_stage_b/authority.py",
+    "validation/kernel_stage_b/bootstrap.py",
+    "validation/kernel_stage_b/driver.py",
+    "validation/kernel_stage_b/production.py"
+  ],
+  "historical_manifest_sha256": "78a725d975f77e570cbb53713450e8aa463273b8a8eeb60f4719fe2c87748e69",
+  "historical_manifest_bytes": 10449,
+  "manual_ruling_issued": false,
+  "execution_released": false
+}

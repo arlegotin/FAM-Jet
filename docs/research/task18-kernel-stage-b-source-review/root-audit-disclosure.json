@@ -1,0 +1,18 @@
+{
+  "kind": "root_custody_audit_development",
+  "product_source_changed": false,
+  "scientific_test_rerun": false,
+  "failed_root_audit_attempts": [
+    {
+      "reason": "raw command record differs from enriched index schema",
+      "exception": "AssertionError: 01_red"
+    },
+    {
+      "reason": "new cumulative index omits old successes summary key",
+      "exception": "KeyError: successes"
+    }
+  ],
+  "corrections": "Read exact raw/index schemas; compare raw argv/elapsed/exit/log and independently hash all logs and derive counts.",
+  "completed_proof": "task-18-kernel-stage-b-source-fix1-root-verification.json",
+  "final_exit_code": 0
+}

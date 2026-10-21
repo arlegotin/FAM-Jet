@@ -442,3 +442,8 @@ Ruling: preserve globalFAILED/rawSTOPPED while accepting completed reader/refere
 ## 21 October2026 — implement fixed-reader external adapter
 
 Adopt the independently reviewed closed StageB design for source work only. Bind the original resolved generator configuration and exact canonical/hash/template preimages; keep historical/current Git identities distinct and bind exposure through the dated amendment. Preserve all24 source-fidelity failures and score actual saved states in any later approved panel. Reuse unchanged native/reader mechanisms; do not extend the core package. Reject feasibility/subset/Q1 scopes until a separately closed component exists. This advances descriptive accuracy diagnosis without authorizing an experiment or claiming convergence/source fidelity. Source rework or an inconclusive future comparison is the stated risk.
+
+
+## 21 October2026 — source completion and observed publication
+
+Ruling: accept the reviewed external adapter source after two correction rounds, while keeping every experiment separately gated. Replace early self-reported PASS with actual parent exit, a verified terminal artifact and root-observed wrapper publication; count program work from the original allocation and bounded receipt overhead. Verify nested raw references and inventory/counter relationships without replaying science. Reason: completion and resource evidence must survive ordinary failure and file verification. Cost if wrong: source rework or a rejected run; no waiver of source-fidelity failure or implication of model advantage. Preserve all91source-test attempts and both failed reviews. Park the minor completion-row version check and tracked scratch-report cleanup for final triage; neither is an Important source blocker.

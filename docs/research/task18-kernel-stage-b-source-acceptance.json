@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "status": "SOURCE_ACCEPTED_FOR_SEPARATE_BINDING_PROPOSAL_ONLY",
+  "utc": "2026-10-21T11:50:18.277329+00:00",
+  "source_head": "f390f2c2644dfe8815d48b724edaf043bc991b84",
+  "source_commits": [
+    "bad3d01",
+    "485e46c",
+    "bffcb8e"
+  ],
+  "evidence_commits": [
+    "e900783",
+    "a993cad",
+    "f390f2c"
+  ],
+  "independent_review": {
+    "kind": "markdown",
+    "path": "docs/research/task18-kernel-stage-b-source-review/fix2-review.md",
+    "bytes": 6294,
+    "sha256": "b2a1fb5b663139586b69a0b9f8ffc9fd6d24a227bafcf418d77d208fb784665b"
+  },
+  "root_verification": {
+    "kind": "root_custody",
+    "path": "docs/research/task18-kernel-stage-b-source-review/fix2-root-verification.json",
+    "bytes": 1341,
+    "sha256": "772ecd6b56ed1a7b1921abce55c6b6c2d2168ec595ee57df24e034b5485c5abe"
+  },
+  "material_manifest": {
+    "kind": "source_manifest",
+    "path": "docs/research/task18-kernel-stage-b-source-evidence/source-manifest.json",
+    "bytes": 11614,
+    "sha256": "aad2379767b8d60e69d572485c976e9b88deada67a59715d6fe7c9db13f59d63"
+  },
+  "historical_preserved_rows": 79,
+  "covering_tests": {
+    "passed": 47,
+    "pytest_seconds": 9.13,
+    "runner_seconds": 9.378262707963586,
+    "attempts_retained": 91,
+    "failed_attempts_retained": 33
+  },
+  "parked_minors": [
+    {
+      "finding": "completion row version is not separately checked",
+      "location": "validation/kernel_stage_b/authority.py:1053",
+      "disposition": "final whole-branch schema triage; no Important source blocker"
+    },
+    {
+      "finding": "tracked SDD source report must be rehomed before workspace cleanup",
+      "disposition": "preserve Git provenance at final cleanup"
+    }
+  ],
+  "witness_preflight": {
+    "kind": "markdown",
+    "path": "docs/research/task18-kernel-stage-b-source-review/binding-witness-preflight.md",
+    "bytes": 2944,
+    "sha256": "93ecbf662518ef41453ea155edca3a785663d1df044789d2b6f819958992ae96"
+  },
+  "one_use_witness": {
+    "kind": "python_source",
+    "path": "docs/research/task18-kernel-stage-b-binding01-witness.py",
+    "bytes": 3530,
+    "sha256": "cb62d3d0c63e225981d8f2b666bdc92b9dda166eb3d8468dc31575914b6c0d13"
+  },
+  "prospective_authority_null": true,
+  "native_binding_released": false,
+  "scientific_panel_released": false,
+  "task18_science_complete": false
+}

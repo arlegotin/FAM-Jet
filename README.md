@@ -21,6 +21,8 @@ The fixed mathematical reader has now completed its [full numerical diagnostic](
 
 The memory hold cleared on21October when a fresh check passed the unchanged admission rule. The diagnostic's sampled worker process-tree peak was about471MiB; no hardware upgrade, process termination or system-setting change was needed. Earlier refused admissions and failed runs remain in the record. The full test ran within its shared time and execution/output limits. Protected evaluation remains closed.
 
+The fixed-reader experiment runner has now passed [independent source review](docs/research/task18-kernel-stage-b-source-review/fix2-review.md), with47 covering source tests passing. Its [source acceptance](docs/research/task18-kernel-stage-b-source-acceptance.json) permits preparation of one separate empty launch check. The accuracy experiment still requires that check and a fresh resource allocation; no new model result follows from these source tests.
+
 The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
