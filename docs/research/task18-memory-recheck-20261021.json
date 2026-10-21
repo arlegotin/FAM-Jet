@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "user_requested_status_observation",
+  "recorded_utc": "2026-10-21T09:58:53.339366+00:00",
+  "capture_time_exact": null,
+  "capture_note": "Values are retained from the read-only vm_stat and df calls immediately preceding this record. This is not a fresh scientific admission or execution allocation.",
+  "commands": [
+    {
+      "argv": [
+        "vm_stat"
+      ],
+      "returncode": 0,
+      "page_size": 16384,
+      "pages_free": 526858,
+      "pages_speculative": 49189
+    },
+    {
+      "argv": [
+        "df",
+        "-k",
+        "."
+      ],
+      "returncode": 0,
+      "available_1024_blocks": 261529476
+    }
+  ],
+  "available_free_plus_speculative_bytes": 9437954048,
+  "available_free_plus_speculative_gib": 8.789779663085938,
+  "disk_available_bytes": 267806183424,
+  "disk_available_gib": 249.41394424438477,
+  "scope": "status_only_not_admission",
+  "experiment_started": false,
+  "os_settings_changed": false,
+  "other_processes_terminated": false,
+  "interpretation": "Current RAM and disk are sufficient for source work and comparable sequential small runs; each future native or scientific allocation still needs its own fresh complete admission and measured limits."
+}
