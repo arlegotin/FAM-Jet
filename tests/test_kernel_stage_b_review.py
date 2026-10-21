@@ -42,7 +42,8 @@ def test_current_manifest_covers_all_preserved_material_before_import():
     sealed = json.loads((ROOT / PLAN["evidence"]["seal"]["path"]).read_bytes())["observed"]["files"]
     rows = _source_manifest(ROOT, PLAN["evidence"]["source"], sealed)
     paths = {row["path"] for row in rows}
-    assert len(rows) == 87
+    assert len(rows) == 88
+    assert "docs/amendments/2026-10-21-kernel-stage-b-project-launcher.md" in paths
     assert all("validation/kernel_stage_a/" + name in paths for name in STAGE_A_HASHES)
 
 
@@ -81,13 +82,16 @@ def test_qualification_binds_actual_binding_runtime_and_manifest(tmp_path):
     old = ref("old.json", b"[]")
     new = ref("new.json", b"[1]")
     launch = {"bootstrap": {"sha256": "b"}, "monitor": {"sha256": "m"},
-              "template_sha256": "t", "argv_sha256": "a"}
+              "template_sha256": "t", "argv_sha256": "a",
+              "argv": [str(tmp_path / ".venv/bin/python")]}
     binding = {"execution": {"source_full_git": "1" * 40, "source_manifest": old,
-                             "runtime": {"executable": "old"}, "launch": launch}}
+                             "runtime": {"executable": "old"}, "launch": launch,
+                             "terminal": {"parent_argv": [str(tmp_path / ".venv/bin/python")]}}}
     report = {"source_full_git": "1" * 40, "source_manifest": old,
               "template_sha256": "t", "argv_sha256": "a"}
     current = {"source_full_git": "2" * 40, "source_manifest": new,
-               "runtime": {"executable": "new"}, "launch": launch}
+               "runtime": {"executable": "new"}, "launch": launch,
+               "terminal": binding["execution"]["terminal"]}
     q = {"source_full_git": "1" * 40, "source_manifest": old,
          "runtime": {"executable": "new"}, "template_sha256": "t",
          "monitor": launch["monitor"], "compatibility": {"qualified_source": "1" * 40,
@@ -113,14 +117,17 @@ def test_qualification_requires_explicit_ruling_for_distinct_git(tmp_path):
                   "sha256": hashlib.sha256(ruling.read_bytes()).hexdigest(),
                   "bytes": len(ruling.read_bytes())}
     launch = {"bootstrap": {"sha256": "b"}, "monitor": {"sha256": "m"},
-              "template_sha256": "t", "argv_sha256": "a"}
+              "template_sha256": "t", "argv_sha256": "a",
+              "argv": [str(tmp_path / ".venv/bin/python")]}
     bound = {"source_full_git": "1" * 40, "source_manifest": ref,
-             "runtime": {"executable": "same"}, "launch": launch}
+             "runtime": {"executable": "same"}, "launch": launch,
+             "terminal": {"parent_argv": [str(tmp_path / ".venv/bin/python")]}}
     binding = {"execution": bound}
     report = {"source_full_git": bound["source_full_git"], "source_manifest": ref,
               "template_sha256": "t", "argv_sha256": "a"}
     current = {"source_full_git": "2" * 40, "source_manifest": ref,
-               "runtime": bound["runtime"], "launch": launch}
+               "runtime": bound["runtime"], "launch": launch,
+               "terminal": bound["terminal"]}
     q = {"source_full_git": bound["source_full_git"], "source_manifest": ref,
          "runtime": bound["runtime"], "monitor": launch["monitor"],
          "template_sha256": "t", "compatibility": None}

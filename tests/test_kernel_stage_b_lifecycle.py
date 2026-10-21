@@ -34,6 +34,7 @@ def _released_binding(work):
     old_rows = [row for row in current_rows if not row["path"].startswith("validation/kernel_stage_b/")
                 and row["path"] not in {
                     "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md",
+                    "docs/amendments/2026-10-21-kernel-stage-b-project-launcher.md",
                     "docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md"}]
     old_path = work / "controlled-old-material.json"
     old_path.write_bytes(authority.canonical(old_rows))
@@ -60,8 +61,10 @@ def _released_binding(work):
                                                                   set(row["path"] for row in old_rows)),
                                           "decision": "external_adapter_only"}}
     host = {key: getattr(platform, key)() for key in ("node", "system", "release", "machine")}
-    runtime = {"python": "controlled", "executable": sys.executable,
-               "executable_sha256": "0" * 64, "implementation": "controlled",
+    base_python = Path(sys.executable).resolve(strict=True)
+    runtime = {"python": "controlled", "executable": str(base_python),
+               "executable_sha256": hashlib.sha256(base_python.read_bytes()).hexdigest(),
+               "implementation": "controlled",
                "process_image": {"method": "controlled", "path": sys.executable,
                                  "sha256": "0" * 64},
                "helpers": {name: {"path": name, "sha256": "0" * 64} for name in ("ps", "git")},
@@ -92,8 +95,9 @@ def _released_binding(work):
     plan_path = work / "controlled-plan.json"
     witness = work / "controlled-witness.py"
     witness.write_bytes(b"# source-only controlled witness\n")
-    worker_argv = [sys.executable, "-I", str(bootstrap), "--worker", "--seal", str(plan_path)]
-    parent_argv = [sys.executable, "-I", str(bootstrap), "--seal", str(plan_path)]
+    launcher = str(ROOT / ".venv/bin/python")
+    worker_argv = [launcher, "-I", str(bootstrap), "--worker", "--seal", str(plan_path)]
+    parent_argv = [launcher, "-I", str(bootstrap), "--seal", str(plan_path)]
     environment = {key: "1" for key in ("OMP_NUM_THREADS", "MKL_NUM_THREADS",
                                          "OPENBLAS_NUM_THREADS", "VECLIB_MAXIMUM_THREADS",
                                          "NUMEXPR_NUM_THREADS")}
@@ -141,6 +145,51 @@ def _released_binding(work):
                        "ruling": note}
     plan_path.write_bytes(authority.canonical(plan))
     return plan, out, runtime, now, tick
+
+
+@pytest.mark.parametrize("bad_part", ["executable", "prefix", "base_prefix"])
+def test_live_authority_rejects_inactive_project_environment(monkeypatch, bad_part):
+    from validation.kernel_stage_a import authority as a_authority
+
+    with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+        plan, _, runtime, _, _ = _released_binding(Path(name))
+        launcher = str(ROOT / ".venv/bin/python")
+        monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+        monkeypatch.setattr(authority, "project_launcher", lambda root, value: launcher)
+        monkeypatch.setattr(sys, "executable", launcher)
+        monkeypatch.setattr(sys, "prefix", str(ROOT / ".venv"))
+        monkeypatch.setattr(sys, "base_prefix", str(ROOT.parent))
+        if bad_part == "executable":
+            monkeypatch.setattr(sys, "executable", str(ROOT.parent / "base-python"))
+        elif bad_part == "prefix":
+            monkeypatch.setattr(sys, "prefix", str(ROOT.parent))
+        else:
+            monkeypatch.setattr(sys, "base_prefix", str(ROOT / ".venv"))
+        with pytest.raises(authority.AuthorityError, match="active project environment"):
+            authority._execution_live(plan, ROOT, True)
+
+
+@pytest.mark.parametrize("which", ["worker", "parent"])
+def test_live_authority_requires_literal_project_argv(monkeypatch, which):
+    from validation.kernel_stage_a import authority as a_authority
+
+    with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+        plan, _, runtime, now, tick = _released_binding(Path(name))
+        monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+        monkeypatch.setattr(authority.time, "time", lambda: now)
+        monkeypatch.setattr(authority.time, "monotonic", lambda: tick)
+        if which == "worker":
+            launch = plan["execution"]["launch"]
+            launch["argv"][0] = runtime["executable"]
+            launch["argv_sha256"] = vector_hash(launch["argv"])
+            message = "literal worker argv"
+        else:
+            terminal = plan["execution"]["terminal"]
+            terminal["parent_argv"][0] = runtime["executable"]
+            terminal["parent_argv_sha256"] = vector_hash(terminal["parent_argv"])
+            message = "literal witnessed parent argv"
+        with pytest.raises(authority.AuthorityError, match=message):
+            authority._execution_live(plan, ROOT, True)
 
 
 @pytest.mark.parametrize("helper_fails", [False, True])

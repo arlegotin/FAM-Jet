@@ -11,6 +11,7 @@ import platform
 import re
 import shutil
 import struct
+import sys
 import time
 
 
@@ -114,6 +115,29 @@ def canonical(value):
 
 def digest(value):
     return hashlib.sha256(canonical(value)).hexdigest()
+
+
+def project_launcher(root, runtime):
+    """Validate the fixed project environment and return its lexical Python path."""
+    try:
+        repo = Path(root).resolve(strict=True)
+        venv = repo / ".venv"
+        bin_dir = venv / "bin"
+        cfg = venv / "pyvenv.cfg"
+        launcher = bin_dir / "python"
+        _need(repo.is_dir(), "project root directory")
+        _need(venv.is_dir() and venv.resolve(strict=True) == venv and
+              bin_dir.is_dir() and bin_dir.resolve(strict=True) == bin_dir,
+              "project environment directory")
+        _need(cfg.is_file() and cfg.resolve(strict=True).is_relative_to(venv),
+              "project environment config")
+        target = launcher.resolve(strict=True)
+        _need(launcher.is_file() and target == Path(runtime["executable"]) and
+              hashlib.sha256(target.read_bytes()).hexdigest() == runtime["executable_sha256"],
+              "project launcher target")
+        return str(launcher)
+    except (OSError, RuntimeError) as exc:
+        raise AuthorityError("project launcher unavailable") from exc
 
 
 def _pairs(pairs):
@@ -827,6 +851,7 @@ def _source_manifest(root, ref, sealed_paths):
     required.update(str(p.relative_to(root)) for p in (root / "validation/kernel_stage_b").glob("*.py"))
     required.update(("requirements.lock", PINS["panel_config"][0],
                      "docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md",
+                     "docs/amendments/2026-10-21-kernel-stage-b-project-launcher.md",
                      "docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md"))
     required.update(sealed_paths)
     _need(paths == required and "validation/kernel_stage_b/bootstrap.py" in paths,
@@ -852,6 +877,7 @@ def _compare_material_compatibility(old_rows, new_rows, compat, sealed_paths):
                          path.endswith(".py")}
     allowed_additions.add("docs/amendments/2026-10-21-kernel-stage-b-external-adapter-source.md")
     allowed_additions.add("docs/amendments/2026-10-21-kernel-stage-b-terminal-publication.md")
+    allowed_additions.add("docs/amendments/2026-10-21-kernel-stage-b-project-launcher.md")
     _need(changed == compat["changed_paths"] and set(changed) <= allowed_additions and
           all(path not in old for path in changed), "external-adapter-only material changes")
 
@@ -880,6 +906,11 @@ def _qualified_material(q, execution, binding, report, root):
     bound_launch = bound["launch"]
     _need(q["runtime"] == bound["runtime"] == execution["runtime"],
           "qualified binding runtime")
+    launcher = str(Path(root).resolve(strict=True) / ".venv/bin/python")
+    _need(bound_launch["argv"][0] == launch["argv"][0] == launcher and
+          bound["terminal"]["parent_argv"][0] ==
+          execution["terminal"]["parent_argv"][0] == launcher,
+          "qualified fixed project launcher")
     _need(q["template_sha256"] == bound_launch["template_sha256"] ==
           launch["template_sha256"] == report["template_sha256"] and
           q["monitor"] == bound_launch["monitor"] == launch["monitor"] and
@@ -1293,6 +1324,10 @@ def _execution_live(plan, root, worker):
     execution = plan["execution"]
     current = a_authority.runtime()
     _need(execution["runtime"] == current, "runtime image/helper/decimal mismatch")
+    launcher = project_launcher(root, current)
+    _need(sys.executable == launcher and
+          Path(sys.prefix).resolve(strict=True) == Path(root).resolve(strict=True) / ".venv" and
+          sys.prefix != sys.base_prefix, "active project environment")
     host = dict(node=platform.node(), system=platform.system(), release=platform.release(),
                 machine=platform.machine())
     _need(execution["host"] == host, "current host changed")
@@ -1344,12 +1379,12 @@ def _execution_live(plan, root, worker):
           read_verified(root, launch["monitor"]) == (Path(root) / monitor).read_bytes(),
           "unchanged monitor identity")
     argv = launch["argv"]
-    _need(argv[:5] == [current["executable"], "-I", str(bootstrap), "--worker", "--seal"] and
+    _need(len(argv) == 6 and argv[:5] == [launcher, "-I", str(bootstrap), "--worker", "--seal"] and
           Path(argv[5]).is_absolute() and Path(argv[5]).is_file() and
           launch["argv_sha256"] == vector_hash(argv), "literal worker argv")
     terminal = execution["terminal"]
     read_verified(root, terminal["witness"])
-    parent_argv = [current["executable"], "-I", str(bootstrap), "--seal", argv[5]]
+    parent_argv = [launcher, "-I", str(bootstrap), "--seal", argv[5]]
     _need(terminal["parent_argv"] == parent_argv and
           terminal["parent_argv_sha256"] == vector_hash(parent_argv),
           "literal witnessed parent argv")
