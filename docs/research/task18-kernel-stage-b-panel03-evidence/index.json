@@ -1,0 +1,834 @@
+{
+  "version": 1,
+  "status": "FAILED_NOT_QUALIFIED",
+  "executed_source": "56d8c598d4bc463c20427760669953f66cd68684",
+  "files": [
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/admission.json",
+      "bytes": 1883,
+      "sha256": "44a0e8d68b0abe07255f042f0587ebd0c93f44bc392b44d82a13bfbcd4a05b31"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/allocation-summary.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/allocation-summary.json",
+      "bytes": 639,
+      "sha256": "0dd6f8adcc2c031416de3dc28bdf3a554bb50a57246a9694111f1b0faee0e433"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/exit-witness.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/exit-witness.json",
+      "bytes": 886,
+      "sha256": "e12fb6cb7b76fe928a9519d32c3d373f7a4740691cbec0dc05af449329eb424f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/launched.once",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/launched.once",
+      "bytes": 65,
+      "sha256": "5be41a42e808efb3f65a62ac175a1138fe6bd242acd225e9dbb3d830dae93323"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/manual-source-and-failure-ruling.md",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/manual-source-and-failure-ruling.md",
+      "bytes": 2614,
+      "sha256": "a001eb42bb28a089d967763373db814715c7640d4cc48c42a068698949b24ff8"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/memory-pressure.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/memory-pressure.json",
+      "bytes": 439,
+      "sha256": "b2724eb8546ec569d1fc8b4f9eb3acf78f58e08a1298f7d361e97885792266c5"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/memory-pressure.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/memory-pressure.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/memory-pressure.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/memory-pressure.stdout",
+      "bytes": 110,
+      "sha256": "96f8df51d63cfa460bf647959f91705c99a56fd9a141dd24d2cff45b516dea59"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/panel-release.md",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/panel-release.md",
+      "bytes": 2171,
+      "sha256": "f1c3c7bfce89fbc1c4e544e1e29793e118ff0536d619e1c67969aae93bd55579"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/parent.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/parent.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/parent.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/parent.stdout",
+      "bytes": 5493,
+      "sha256": "6ab33c038edb35d081cc9a2a86b433c92584586e4ee38f10ec3d1f4f97098444"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/plan.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/plan.json",
+      "bytes": 732388,
+      "sha256": "36f5524ed61c5a67900fe2b6a5fd8be2f4237ddf4e591d319026ba2dfa4e1785"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-admission.json",
+      "bytes": 436,
+      "sha256": "65f18165f1b897cd185fd96ac86de2b4d0fc05e0444e6624f33990e820373723"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-admission.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-admission.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-admission.stdout",
+      "bytes": 106,
+      "sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-launch.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-launch.json",
+      "bytes": 430,
+      "sha256": "d6fed016f6c5fcdf2d165102dec8eed781815ddcee0e5677f7a9e55256ef6fc3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-launch.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-launch.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/power-launch.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/power-launch.stdout",
+      "bytes": 106,
+      "sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/vm-stat.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/vm-stat.json",
+      "bytes": 411,
+      "sha256": "b914e00ff4a752201f54a4293ab7ad2c5404790d9e6166bc329b912a68a585db"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/vm-stat.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/vm-stat.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/vm-stat.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/vm-stat.stdout",
+      "bytes": 1247,
+      "sha256": "dfe16b006d2544b07ee02b577967eb93ab8c66b196f59afcb0837347922fdc7f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/witness-result.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/witness-result.json",
+      "bytes": 1178,
+      "sha256": "4af1e0ec6a47ff51964fdd11ac1affddffe7a218ba377756c5fb14e6c7e3f830"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/witness.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/witness.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-prep/witness.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/preparation/witness.stdout",
+      "bytes": 54,
+      "sha256": "6f94217c2cd8b65d2e6c7064d2c5b27fd4ae57557e12283e3551274a82a794d3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/monitor-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/monitor-events.jsonl",
+      "bytes": 4318,
+      "sha256": "a95cbbd2e9a41f014db4134be51a64728cbffc703af6e7f577ff865fd14cf2d7"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/monitor-evidence.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/monitor-evidence.jsonl",
+      "bytes": 1387545,
+      "sha256": "93563a157c74a0eff650a311ebb1f0b9759e2643a667d6efe2edb8cbecc5413a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/monitor.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/monitor.json",
+      "bytes": 8192,
+      "sha256": "6c79024239e283357da0a9dcffd651911a2312eaa9b45887befcf2901cff0944"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/request-000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/request-000.json",
+      "bytes": 19950,
+      "sha256": "fc00598c70dc26a3100e29dfcd6c127088c86608a5c7dc3b5a6dda8c71e881bb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/requests.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/requests.jsonl",
+      "bytes": 78400,
+      "sha256": "78295d62baa062e7a74240284db63ecc7df193b9046db295a1969eb2f80dd6fb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/resolved-panel-config.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/resolved-panel-config.json",
+      "bytes": 2637,
+      "sha256": "2e4cc32b9e5ff9c29b97473aa526eec5cc75f50de7e6d9f8016799028824c423"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/scores.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/scores.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000000.json",
+      "bytes": 13103,
+      "sha256": "360ea872a76a9c0a99f66a3c81799dd29a944cb41e9e2c6d2bb8a84f5d1a0fda"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000001.json",
+      "bytes": 13103,
+      "sha256": "cf3473142d8cf5da5bb6b512b5e8c8f885a3c8082bdaa31c9d6f127b9a71ad6e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000002.json",
+      "bytes": 13103,
+      "sha256": "52a1b80dca728a0c7df8a5410561c8398665d0a352e9dcc25760ac2eeef40199"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000003.json",
+      "bytes": 13103,
+      "sha256": "5ea8daa246065077c0b189ed249e7919e29b2d5a6507b2ffa7e2b9ec80d352a6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000004.json",
+      "bytes": 13103,
+      "sha256": "432f5975087b2d50690cf81b7e8390f1e96d0a47f43fa6c6d10b72853ca84b31"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000005.json",
+      "bytes": 13103,
+      "sha256": "fdd2936622dda12b0121aae4c46e3364f02ce0b61c6e4422df39776c2f12eb7e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000006.json",
+      "bytes": 13103,
+      "sha256": "6ef7406e6104f1b7ed3fde45468933699836f8475867aceb8ba742bc9cc5f6e6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-irregular_revisions-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-irregular_revisions-000000000007.json",
+      "bytes": 13103,
+      "sha256": "73d72f69420290de596decb10b03f1e27a3eb464d5d110cb9cc32e5fc02721ea"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000000.json",
+      "bytes": 13103,
+      "sha256": "257da5e91d6b68118e16e1e75d9f5ba2b4eff3ab6c33a5327b5b2ac9771cda7d"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000001.json",
+      "bytes": 13103,
+      "sha256": "d339483ff8a803c5de0bb2c96664affde544ccff86a35fd5b49a01d5da0c0fac"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000002.json",
+      "bytes": 13103,
+      "sha256": "6278a6fc1df99fca4403da14296d2766f5fe3ae04c22e487fb071402547ab695"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000003.json",
+      "bytes": 13103,
+      "sha256": "be167f9cf763311c2619c2e02c9dd37764d17a31c4dd9818443307b32f26ff0c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000004.json",
+      "bytes": 13103,
+      "sha256": "20c85a37bb33a40e23aac9bb823b02c044eb9869a3e2436564ff45f0d4ccd58f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000005.json",
+      "bytes": 13103,
+      "sha256": "e2ea43c6d9e63cef71893ceecc410e6205fc6e09dd23278acade80fdd73d9b06"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000006.json",
+      "bytes": 13103,
+      "sha256": "7091e5902dc2eea213cd632dcc27737f04b3d27562b6292fef44dfa1229db606"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-periodic_impulses-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-periodic_impulses-000000000007.json",
+      "bytes": 13103,
+      "sha256": "afa42f32c6cd781cdb283a742e9208a12cb5cf52268ecc3233ca7ba5107b965b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000000.json",
+      "bytes": 13103,
+      "sha256": "edae39e7e41f95af1893dc005aea1c413caf927a9f16f05d41b9170b8fdc3c87"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000001.json",
+      "bytes": 13103,
+      "sha256": "4e09686cb2f498bace6c658eee5b925198ec1e218d77cb031b0b9849f6908e2f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000002.json",
+      "bytes": 13103,
+      "sha256": "696dcb7129c0dfbe6c67a94b679262adaa0ae747c0cc737a6ac46964a507b845"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000003.json",
+      "bytes": 13103,
+      "sha256": "8e2978baefbc0afe7b37dda4f9371a2a8c9dd13bd2f130c7179962142eac8f3b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000004.json",
+      "bytes": 13103,
+      "sha256": "f09a91f4ebe673da456a4a1cba0c5b48cd2a103b368bf94b6438cadd081c7ac2"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000005.json",
+      "bytes": 13103,
+      "sha256": "4adf5d22a70223da8fc4a5aaff95bc74ebaeb58694a44f709b5c78a7db4938cb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000006.json",
+      "bytes": 13103,
+      "sha256": "fa48d525e0b803995e1b11773ae655b662346181741a7a60d05659cd40801ffb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-piecewise_stationary-000000000007.json",
+      "bytes": 13103,
+      "sha256": "d06a1a7c743ceccdc576ea30f0820095cc6638af5a9f59f0842b5012f0f275dc"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000000.json",
+      "bytes": 13103,
+      "sha256": "ca970a1ca46d94a732500ae945bfe356fb8bdbe515915e592cecfb250f628191"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000001.json",
+      "bytes": 13103,
+      "sha256": "2cae21bea0b1f96d7af0df14cb734bf4be3c6700a777f8a066f2747f08a1aa47"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000002.json",
+      "bytes": 13103,
+      "sha256": "8caf9dd2dd980e2bf00253b169c6c7345d8fcbbe8d2b0fef8fa717f6f8442a1e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000003.json",
+      "bytes": 13103,
+      "sha256": "545bfeb315d98f8c9f33d96ba10bc57ef3b901d1d8a3cefc3043123349a3cf09"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000004.json",
+      "bytes": 13103,
+      "sha256": "ed298e8fe3ea1fc316b8370fa03a1f7f8a6bade96064909cfca200a7ed2fe06c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000005.json",
+      "bytes": 13103,
+      "sha256": "f855d332b8e5585f7b0d72c2c84decf2c13a5e4c374fe054fbf5394f520fa832"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000006.json",
+      "bytes": 13103,
+      "sha256": "35a86eaf339a8062207dfa033a2490adad8557b9e8dd1afb4289340feaba2451"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N128-trend_reset-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N128-trend_reset-000000000007.json",
+      "bytes": 13103,
+      "sha256": "c164d655a9c36b8c627fe5270d18464cd89e4463d04246c7f64add8bff201473"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000000.json",
+      "bytes": 13103,
+      "sha256": "524b019a9f6a0ac8e614dc1d52e3a2b81d71c3b1601ceb799818fa962b001c7e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000001.json",
+      "bytes": 13103,
+      "sha256": "bcd844b935eb4520288c8009bfdc1b79e732d3932d13f81f769b275a6b485eb3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000002.json",
+      "bytes": 13103,
+      "sha256": "4b04345fcf4b3e93dab416fe3be586cf0c818439c3bbbc27f5142785dd13f5a6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000003.json",
+      "bytes": 13103,
+      "sha256": "4075dd48ff3b0d2cb7d897b3d9456a16eb3585bc7a72ecc58ac7b1f2ffaf5c0b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000004.json",
+      "bytes": 13103,
+      "sha256": "60cbdead50552d268738da9a70f26b3aa17aa92fc8c1564a76e24bcd53d85e7b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000005.json",
+      "bytes": 13103,
+      "sha256": "de1bbb2b5d7fddbfdbb0fdcb673577cddd1d97f1d35a2271754d88946c31d500"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000006.json",
+      "bytes": 13103,
+      "sha256": "84928718a54a375547b43d15050bf4db7714074a8d2b5bc940f3d8240dababd9"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-irregular_revisions-000000000007.json",
+      "bytes": 13103,
+      "sha256": "6e7d3985db2167a3337c7bb61fa7db5bfdb0bc184113d2fc7e4b45c146458260"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000000.json",
+      "bytes": 13103,
+      "sha256": "9858b1aab2ad7a1a38f7d50a6e7d6c606fb465247131a6aeabfd34200af85439"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000001.json",
+      "bytes": 13103,
+      "sha256": "e2f42b89f31eb879d128d26a88f32347d30160d31c1c6e485beb0c4e635b305a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000002.json",
+      "bytes": 13103,
+      "sha256": "9c7889128f16622b483a2e20ef5c3fa977916d67f0b70ae7d5b31fea205020fa"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000003.json",
+      "bytes": 13103,
+      "sha256": "398b115b3ea75163fb3c7898217f8d2340399da620fb327108ca64f043d595bb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000004.json",
+      "bytes": 13103,
+      "sha256": "b321522f18501ba542d0bbb430fa9c52294e5046a9fc84327c05b321cb282677"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000005.json",
+      "bytes": 13103,
+      "sha256": "fa580711c8c75d4494afd51d0b175f8dc1a2141ce1233dbc9f63df8873a69b84"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000006.json",
+      "bytes": 13103,
+      "sha256": "7a61e2ea62ccdd383bb2821a254e006812a348ddfe9e3ec41eb3a219f01106d6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-periodic_impulses-000000000007.json",
+      "bytes": 13103,
+      "sha256": "2bb9ecef97b156f781ca804e8dc79da5e78b7008c64ca3b2086b9f6988bc1cab"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000000.json",
+      "bytes": 13103,
+      "sha256": "d8cd4ade12a1d51cb8d54dfcc54ee4db6487b9bbc226bb56166751959747f8ce"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000001.json",
+      "bytes": 13103,
+      "sha256": "2b4d4a5db53c449d97199f19c80d3416ddcbce993a43faf1553664dcb6d865f0"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000002.json",
+      "bytes": 13103,
+      "sha256": "3acf9e0f322d14c60ce2e57ddbcc835722548fe170f81dd1df5d0d5412ba4252"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000003.json",
+      "bytes": 13103,
+      "sha256": "8a97b9653045d752598541d397a0802ff33a4e26f972fd2faaa0e6b8c2d8cc88"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000004.json",
+      "bytes": 13103,
+      "sha256": "f7c20b08418bffb3d9d9797502bec41da95988f276ef31ad3b3de96605776705"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000005.json",
+      "bytes": 13103,
+      "sha256": "12d505abc4a1f6978e26a1ee99ce4afd1db320d7ab17d6d4eec9aa5f55dd586c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000006.json",
+      "bytes": 13103,
+      "sha256": "adc75abd1dca484d28d12af7c90457e38bf5d509c30613ad6d6b739545e62c4d"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-piecewise_stationary-000000000007.json",
+      "bytes": 13103,
+      "sha256": "7609140dd7b46917f9348bc275bc2d3119826e3b9b664cc2755c45b64e0ddd05"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000000.json",
+      "bytes": 13103,
+      "sha256": "7cdcf01f6de8568558092bf2ce1625155c5dea22b00ee45b87f25fa823cc8e0c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000001.json",
+      "bytes": 13103,
+      "sha256": "8b95ca97961c590a6ca7cc2d13df4e9aff1fa8a44eca8ebdc29749c68b9cea28"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000002.json",
+      "bytes": 13103,
+      "sha256": "dd5e58e7acb5076554a16516496a4e9b1b377a49d005a917c06640a5ba03771b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000003.json",
+      "bytes": 13103,
+      "sha256": "2b706d2f363cf0ab68396c8402fa25edaf8d7161cc0b360385cfd9b54c7f2c52"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000004.json",
+      "bytes": 13103,
+      "sha256": "ea3a294539a269068c1b4ba0af57de7d2aad5094b5af2bdc9c3cebe034999456"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000005.json",
+      "bytes": 13103,
+      "sha256": "8d6281e4f69e25bb7998bd1f825ff63344bca2f4f9552238fead2a0ff4cd15c6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000006.json",
+      "bytes": 13103,
+      "sha256": "65b54f12c9e1924728ddd728e976c0f3ee263ee7014fe3e8109441ab7b186a6a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N2048-trend_reset-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N2048-trend_reset-000000000007.json",
+      "bytes": 13103,
+      "sha256": "75445475d3d93fdb0dd5b785e4c9abfcb1b0796ca81d0e3b2ae6f7b4b015b650"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000000.json",
+      "bytes": 13103,
+      "sha256": "e80c52ba714e60731387caaa09f82933b9f6517b4b3fd1f100f3b83ea736abe6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000001.json",
+      "bytes": 13103,
+      "sha256": "dbff92dcd9f3823b0e053e1356dea0aae6d729ec9d75b0fb1f070d9ce1dea05f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000002.json",
+      "bytes": 13103,
+      "sha256": "006c20044e67d4b5955b06276d670e8487e2676898ceecf5b47efa5a1a9a97df"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000003.json",
+      "bytes": 13103,
+      "sha256": "a8936c910fa91904c77551aebbc662b159f6a163aa87f2c5c34e07cf1c19b5b6"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000004.json",
+      "bytes": 13103,
+      "sha256": "da58b147b6506a2d75a217c180de081259abfa27d0a5e4b1401991e9508fa037"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000005.json",
+      "bytes": 13103,
+      "sha256": "40aa50a75e424b4a3072d3c4beaf1235ee24cbb5f421018059e7769e5daff4c9"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000006.json",
+      "bytes": 13103,
+      "sha256": "ac1bb67f161424a26fdaae13d218738238cc79afb19acc241d7f278791e0b9bf"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-irregular_revisions-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-irregular_revisions-000000000007.json",
+      "bytes": 13103,
+      "sha256": "b6309ed93209a4b002d389c5dad23bd04c8dc289bfaab9699b70c7becd400bb7"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000000.json",
+      "bytes": 13103,
+      "sha256": "13a4ea3f025698ea781d6cd7c52e865cdb1bc5e7a4c8cbeeb7c55c2f531c419b"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000001.json",
+      "bytes": 13103,
+      "sha256": "3a9bcfaa298e0ffb5a1c4ceef0232ea21901a4ba050abff3c39fa9842c1aeaa4"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000002.json",
+      "bytes": 13103,
+      "sha256": "016c8b0e49a14d7f0db778c47f7e028966c1c0d53fea939b238be73cdb7db43c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000003.json",
+      "bytes": 13103,
+      "sha256": "835b5bfbebb390555daa5f83bbe845083dbfdc9ca6f88e5da387d77ccb96042f"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000004.json",
+      "bytes": 13103,
+      "sha256": "d15347a829379057d75808254841ea9d9a727ce641c737a2259f6ed9a8985efb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000005.json",
+      "bytes": 13103,
+      "sha256": "0fcb2913e1b59aa1bfb4cde0aa2bbbfd2b858c4964af32570e5c8562b30383db"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000006.json",
+      "bytes": 13103,
+      "sha256": "0db10e5988b643e8882f6e6d32e996acf4be661511a41bc0b5dc1e878a0ded97"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-periodic_impulses-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-periodic_impulses-000000000007.json",
+      "bytes": 13103,
+      "sha256": "cf86ee459326a3052a1cc259ca81bac6fd2e81b24c4f0194de8e59314824c50e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000000.json",
+      "bytes": 13103,
+      "sha256": "cc4095d4e3224643f63c91e26b370cd195fb88ee958dd25f2e68f657098aaa7e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000001.json",
+      "bytes": 13103,
+      "sha256": "372f8ff3b8d19b436bf2200f04e7ca203d4d1eb76809680de25cb0348eaa21db"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000002.json",
+      "bytes": 13103,
+      "sha256": "c9e66bdc562609609ad4611cc14023f33d6e3c90240c3e1f73bc6a59c6124d32"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000003.json",
+      "bytes": 13103,
+      "sha256": "44d5ab061184193a2cda5657837be367f2c526bb5fdb07c2eb47e74254b5970e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000004.json",
+      "bytes": 13103,
+      "sha256": "7911046d2c413b81910c3efad7ec854664050de4f522f1754f89504025a6d425"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000005.json",
+      "bytes": 13103,
+      "sha256": "900d0c35456395f130610f06727d1702c30fa9de869d29142821dff1d8ba85ee"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000006.json",
+      "bytes": 13103,
+      "sha256": "1fb6981226fa71dd2c26ff1a0a5c01b694253d44f61e497d2ebe2ca77134219e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-piecewise_stationary-000000000007.json",
+      "bytes": 13103,
+      "sha256": "91e7f736fc7c6d672205107caab0056528c0ffb972298c252eb2922236b614e4"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000000.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000000.json",
+      "bytes": 13103,
+      "sha256": "33eba09a8fa0c5dfd2c1cf786237341508c79670f82b737c379a7880b6fcd6d9"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000001.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000001.json",
+      "bytes": 13103,
+      "sha256": "03725c68a4e0746df6cd575b76a27fc397ad550352b0d702244eeb8a574f8202"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000002.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000002.json",
+      "bytes": 13103,
+      "sha256": "91d169b5177d93fba2ba25c3d0cd251bb4322d3fecf18835e75f6c5653f3e0e8"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000003.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000003.json",
+      "bytes": 13103,
+      "sha256": "981832c76ffe819642623ca8712e3261ff637752c85e1e3de2bc4941860e31b3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000004.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000004.json",
+      "bytes": 13103,
+      "sha256": "ee88899178670c08490f9ceb24d5b143be630341593e0302b6b8e0af9834a265"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000005.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000005.json",
+      "bytes": 13103,
+      "sha256": "e44c21b2e54c09ff43ff0e00b50a7e812ef5751e3ec48669152fba18dd4c55cc"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000006.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000006.json",
+      "bytes": 13103,
+      "sha256": "b92da127d1d5b971b21af496116b62ddd05bc336e2f774d723732eff683f23d0"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshot-jet-task18-dev-N512-trend_reset-000000000007.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshot-jet-task18-dev-N512-trend_reset-000000000007.json",
+      "bytes": 13103,
+      "sha256": "6330a9f5f44d896cdc93737ac14d855cb75c3371826069dcb1b91f2500b07a5c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/snapshots.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/snapshots.jsonl",
+      "bytes": 52363,
+      "sha256": "9de71c45ec4b75c631b674eb24a1df1eebe524d69260b8f9c7a3537036460a0a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/stage-b-external.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/stage-b-external.json",
+      "bytes": 242,
+      "sha256": "375f38e1c68d8fb83825bb6df482c39a80e868ecbee69e393ec0ca4b7c2c769d"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/stage-b.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/stage-b.json",
+      "bytes": 106417,
+      "sha256": "bfa661939545145756abce1a8af01b46d1f9c452ebf430919dec34d3f65f3be8"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/stderr.log",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/stdout.log",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03/terminal-report.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/output/terminal-report.json",
+      "bytes": 27387,
+      "sha256": "e1f772a83033cf99bc614fa8058af409807dfe14ea49339773391e1575359dc5"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-03-custody/root-invocation-failed.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/custody/root-invocation-failed.json",
+      "bytes": 398,
+      "sha256": "9d064ac0cab8422ca1e5ed21f3018154f91105cc01d2fcf57c130d12472c4ab3"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-prepare-panel03.py",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/allocation-builder.py",
+      "bytes": 13814,
+      "sha256": "22a48d7311b43686c2e83f3821249ced1b14b02f16dd1025380936fc18e70c88"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-publish-panel03.py",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/unexecuted-root-publisher.py",
+      "bytes": 3959,
+      "sha256": "5ca4785305654cb8552a1cc2e2e9ff5827dea0a67fa01ff96afa92ee2bb5e197"
+    },
+    {
+      "original": "docs/research/task18-kernel-stage-b-source-evidence/source-manifest.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel03-evidence/executed-source-manifest.json",
+      "bytes": 11776,
+      "sha256": "3a32a9be241bab96dfb142dc8831fe7ecf50eae9eea8aebdb16d57c2cd66ca62"
+    }
+  ],
+  "files_verified": 137,
+  "total_bytes": 3725942,
+  "actual_wrapper_returncode": 1,
+  "publication_approved": false,
+  "raw_whitespace_exception": "output/monitor.json reserved padding preserved exactly"
+}
