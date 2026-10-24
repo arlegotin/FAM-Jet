@@ -1,0 +1,70 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_development_reuses_both_caches_larger_than_free_phase_disk ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-273/test_development_reuses_both_c0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107a42520>
+
+    def test_development_reuses_both_caches_larger_than_free_phase_disk(tmp_path, monkeypatch):
+        import hashlib
+        import json
+        from famjet_poc import study
+        from famjet_poc.cache import prepare_episode_cache
+    
+        manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                         'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                         'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                         'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                           'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        out = tmp_path / 'development'
+        train = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['training_specs']],
+                                      manifest['training_inventory'], out / 'training-cache',
+                                      {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        dev = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['development_specs']],
+                                    manifest['development_inventory'], out / 'development-cache',
+                                    {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        probe = tmp_path / 'probe-reference.json'
+        probe.write_text(json.dumps({'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                                     'status': 'measured', 'feasible': True}))
+        existing = {p: (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                    for p in out.rglob('*') if p.is_file()}
+        used = sum(p.stat().st_size for p in existing)
+        free = min(train.disk_bytes, dev.disk_bytes) // 3
+>       assert free > 10_000
+E       assert 6317 > 10000
+
+tests/test_poc_e3_study.py:280: AssertionError
+__________ test_probe_reuses_both_caches_larger_than_free_phase_disk ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-273/test_probe_reuses_both_caches_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10c6bd350>
+
+    def test_probe_reuses_both_caches_larger_than_free_phase_disk(tmp_path, monkeypatch):
+        import hashlib
+        from famjet_poc import study
+        from famjet_poc.cache import prepare_episode_cache
+    
+        manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                         'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                         'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                         'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                           'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        out = tmp_path / 'probe'
+        train = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['training_specs']],
+                                      manifest['training_inventory'][:2], out / 'probe-training-cache',
+                                      {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        dev = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['development_specs']],
+                                    manifest['development_inventory'][:1], out / 'probe-development-cache',
+                                    {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        existing = {p: (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                    for p in out.rglob('*') if p.is_file()}
+        used = sum(p.stat().st_size for p in existing)
+        free = min(train.disk_bytes, dev.disk_bytes) // 3
+>       assert free > 10_000
+E       assert 6317 > 10000
+
+tests/test_poc_e3_study.py:316: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_development_reuses_both_caches_larger_than_free_phase_disk
+FAILED tests/test_poc_e3_study.py::test_probe_reuses_both_caches_larger_than_free_phase_disk
+2 failed in 0.59s

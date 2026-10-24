@@ -1,0 +1,22 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "compileall",
+    "-q",
+    "famjet_poc/study.py",
+    "tests/test_poc_e3_cache.py",
+    "tests/test_poc_e3_study.py"
+  ],
+  "elapsed_seconds": 0.03279725000174949,
+  "exit": 0,
+  "stdout_bytes": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_development_reuses_both_caches_larger_than_free_phase_disk",
+    "tests/test_poc_e3_study.py::test_probe_reuses_both_caches_larger_than_free_phase_disk",
+    "-q"
+  ],
+  "elapsed_seconds": 0.8103974999976344,
+  "exit": 1,
+  "stdout_bytes": 4776,
+  "stdout_sha256": "f7e9cc43396a4fde08b7316325443869ca10a0abb23269cebd600ebe67167a3b",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}
