@@ -1,0 +1,52 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/e2e-laguerre-actual-diagnostic-evidence/diagnose.py"
+  ],
+  "budget": {
+    "max_new_output_bytes": 33554432,
+    "max_rss_bytes": 1610612736,
+    "max_wall_seconds": 300
+  },
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "elapsed_seconds": 1.1086094999991474,
+  "end_epoch_seconds": 1792880173.2136471,
+  "end_monotonic_seconds": 36323.344746666,
+  "environment_overrides": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONPATH": ".",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "exit_code": 0,
+  "files": {
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/diagnose.py": {
+      "bytes": 15722,
+      "sha256": "130c3a271653385dd66122c6dfc344c6b8857abf6648d26cdeddd790727125d3"
+    },
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/diagnostic.log": {
+      "bytes": 4552,
+      "sha256": "9614365432b808e16900515de11b5562001fb130072a39daf577bbcad645bf37"
+    },
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/first-failure-arrays.npz": {
+      "bytes": 610666,
+      "sha256": "eeea72ba092bb6bf54905664a726358476433e90e4de12d66e8e6afbd070faea"
+    },
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/result.json": {
+      "bytes": 44337,
+      "sha256": "8a9bc3e7c12bcb028e08396b621cd38a3ff696440c6a6e9f3fe2087c66afecbd"
+    },
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/run.py": {
+      "bytes": 2192,
+      "sha256": "205012bd9f5af9c1a3998f13a565137fe8be136357e7839ee70d8ba66a7bab94"
+    }
+  },
+  "launcher_argv": [
+    "docs/research/e2e-laguerre-actual-diagnostic-evidence/run.py"
+  ],
+  "new_output_bytes_at_completion": 677469,
+  "peak_child_rss_bytes": 239517696,
+  "start_epoch_seconds": 1792880172.105045,
+  "start_monotonic_seconds": 36322.236137166
+}
