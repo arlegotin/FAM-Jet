@@ -91,7 +91,7 @@ def render_charts(data_path, out):
         x = np.arange(len(names))
         fig, axes = plt.subplots(2, 1, figsize=(8.0, 6.0), layout='constrained')
         axes[0].bar(x, [item['static_bytes'] for item in methods], color=colors)
-        axes[0].set(ylabel='Full static parameters (bytes)',
+        axes[0].set(ylabel='Full static wire/export (bytes)',
                     title='Static storage and measured read cost')
         axes[1].bar(x, [item['query_seconds'] for item in methods], color=colors)
         axes[1].set(ylabel='Median warm read block (seconds)')

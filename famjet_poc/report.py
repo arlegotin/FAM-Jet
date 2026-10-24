@@ -82,7 +82,7 @@ def _science_chart_data(inputs):
                          if item['config_hash'] == chosen)
         methods.append({'name': family, 'loss': candidate['loss'],
              'state_bytes': candidate['costs']['maximum_state_bytes'],
-             'static_bytes': candidate['static_bytes'],
+             'static_bytes': candidate['wire_static_bytes'],
              'query_seconds': timing[family]['8']['read_output_seconds']['p50']})
     for name, entry in development['controls'].items():
         methods.append({'name': name, 'loss': entry['score']['loss'],
@@ -152,6 +152,7 @@ def _science_machine(inputs, plot):
             'calibration': inputs['scientific']['calibration'],
             'selected_models': inputs['scientific']['pairs'],
             'development': inputs['development'], 'timing': inputs['timing'],
+            'transfer': inputs['transfer'],
             'synthetic': inputs['synthetic'], 'real': inputs['real'],
             'stress': inputs['stress'],
             'beijing_source_inventory': inputs['beijing_source_inventory'],
@@ -201,22 +202,34 @@ def _science_markdown(machine):
              '## Selected readers and development', '']
     for shape, result in machine['development'].items():
         lines += [f'### {shape}', '',
-                  '| Family | Candidate | Development loss | Full static bytes | Fit wall s | Total standalone s | Status / failure |',
+                  'Frozen chosen configurations:', '',
+                  '| Family | Full configuration SHA | Reader parameters | Development loss | Active numeric B | Full wire static B |',
+                  '| --- | --- | --- | ---: | ---: | ---: |']
+        for family in ('jet', 'bank'):
+            chosen = result['selected'][family]
+            entry = next(item for item in result['candidates']
+                         if item['config_hash'] == chosen['config_hash'])
+            reader = json.dumps(chosen['reader'], sort_keys=True, separators=(',', ':'))
+            lines.append(f"| {family} | `{chosen['config_hash']}` | `{reader}` | "
+                         f"{_fmt(chosen['loss'])} | {_fmt(entry['active_static_bytes'], 0)} | "
+                         f"{_fmt(entry['wire_static_bytes'], 0)} |")
+        lines += ['', 'Complete candidate ledger:', '',
+                  '| Family | Candidate | Development loss | Full wire static B | Fit wall s | Total standalone s | Status / failure |',
                   '| --- | --- | ---: | ---: | ---: | ---: | --- |']
         for item in result['candidates']:
             lines.append(f"| {item['family']} | `{item['config_hash'][:12]}` | "
-                         f"{_fmt(item['loss'])} | {_fmt(item['static_bytes'], 0)} | "
+                         f"{_fmt(item['loss'])} | {_fmt(item['wire_static_bytes'], 0)} | "
                          f"{_fmt((item['costs'] or {}).get('fit_wall_seconds'))} | "
                          f"{_fmt((item['costs'] or {}).get('standalone_seconds'))} | "
                          f"{item['status']}{': ' + item['error'] if item['error'] else ''} |")
         lines += ['', 'Subset fits (each has training-only statistics):', '',
-                  '| Family | Training histories | Loss | Evaluation s | Status |',
+                  '| Family | Training histories | Loss | Evaluation s | Status / failure |',
                   '| --- | ---: | ---: | ---: | --- |']
         for item in result['prefixes']:
             lines.append(f"| {item['family']} | {item['prefix']} | "
-                         f"{_fmt(item['score']['loss'])} | "
+                         f"{_fmt(item['score']['loss'] if item['score'] else None)} | "
                          f"{_fmt((item['costs'] or {}).get('evaluation_seconds'))} | "
-                         f"{item['status']} |")
+                         f"{item['status']}{': ' + item['error'] if item['error'] else ''} |")
         lines += ['', f"Training/development cache bytes: "
                   f"{result['shared_costs']['training_cache_bytes']}/"
                   f"{result['shared_costs']['development_cache_bytes']}; "
@@ -233,7 +246,7 @@ def _science_markdown(machine):
         lines.append('')
     lines += ['## One-budget accuracy, state, static storage and cost', '',
               'The chart contains entered configurations at the one declared persistent-state budget. '
-              'Full static parameters are separate from recurrent state; cache construction, fit, '
+              'Full wire-export static bytes are separate from active numeric parameters and recurrent state; cache construction, fit, '
               'preprocessing, serialization, cold start and isolated worker costs remain in the '
               'machine JSON and timing receipts.', '',
               f"![Development loss and occupied state]({machine['plot']['directory_name']}/accuracy-memory.svg)", '',
@@ -256,7 +269,14 @@ def _science_markdown(machine):
     lines += ['', f"![Separate protected effects]({machine['plot']['directory_name']}/primary-effect.svg)", '',
               'The nuisance pilot was separate and could not select the effect direction. '
               'All entered methods and all raw rows, including fallback and ineligible diagnostics, '
-              'remain in the release; their counts and cost receipts are in the machine JSON.', '',
+              'remain in the release.', '',
+              '| Panel / method | Raw rows | Eligible primary | Ineligible | Fallbacks | Mean normalized loss |',
+              '| --- | ---: | ---: | ---: | ---: | ---: |']
+    for key, item in machine['synthetic']['by_phase_method'].items():
+        lines.append(f"| {key} | {item['rows']} | {item['primary_rows']} | "
+                     f"{item['ineligible_rows']} | {item['fallback_rows']} | "
+                     f"{_fmt(item['mean_normalized_loss'])} |")
+    lines += ['',
               '## Beijing 2015–17 transfer', '',
               'Both K12/V1 modes use the frozen training normalization and the same 56 chronological '
               'test blocks with 120 queries per block. Native contrast inversion scales without '
@@ -280,12 +300,35 @@ def _science_markdown(machine):
             lo, hi = item['resampled_mean_95pct']
             lines.append(f"| {mode} | {window} | {_fmt(lo)} to {_fmt(hi)} | "
                          f"{item['cluster_count']} |")
+    transfer = machine['transfer']
+    lines += ['', '### Task-adapted public fit costs', '',
+              f"Measured prefreeze probe: {_fmt(transfer['real_probe']['measured_profile']['fit_seconds'])} s fit, "
+              f"{_fmt(transfer['real_probe']['measured_profile']['evaluation_seconds'])} s read; "
+              f"forecast {_fmt(transfer['real_probe']['forecast_seconds'])} s.",
+              f"Real training/development cache: {transfer['cache_bytes']} B; "
+              f"prefreeze elapsed: {_fmt(transfer['elapsed_seconds'])} s. "
+              'The selected equivalent reference has separate cost and scored-row receipts.', '',
+              '| Family | Candidate | Public development loss | Active numeric B | Evaluation s | Status |',
+              '| --- | --- | ---: | ---: | ---: | --- |']
+    for item in transfer['real_development_ledger']:
+        lines.append(f"| {item['family']} | `{item['config_hash'][:12]}` | "
+                     f"{_fmt(item['loss'])} | {_fmt(item['active_static_bytes'], 0)} | "
+                     f"{_fmt(item['costs']['evaluation_seconds'])} | {item['status']} |")
     lines += ['',
               '## Secondary tasks and robustness', '',
               '| Cell | Shape | Status | Reason |', '| --- | --- | --- | --- |']
     for item in machine['stress']['secondary_task_ledger']:
         lines.append(f"| {item['name']} | {item['shape']} | {item['status']} | "
                      f"{item['reason'] or '—'} |")
+    lines += ['', 'Entered robustness and boundary outcomes:', '',
+              '| Mode | Method | Status | Normalized loss | Fallbacks | Evaluation s |',
+              '| --- | --- | --- | ---: | ---: | ---: |']
+    for item in machine['stress']['results']:
+        summary = item['summary'] or {}
+        costs = item['costs'] or {}
+        lines.append(f"| {item['mode']} | {item['method']} | {item['status']} | "
+                     f"{_fmt(summary.get('loss'))} | {_fmt(summary.get('fallback_count'), 0)} | "
+                     f"{_fmt(costs.get('evaluation_seconds'))} |")
     lines += ['', 'Unsupported cells have null metrics in the machine JSON. Numeric mean/contrast '
               'results do not imply V32 categorical or support-logit capabilities.', '',
               '## Provenance, failures and limits', '',

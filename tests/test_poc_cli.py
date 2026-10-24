@@ -9,8 +9,13 @@ import pytest
 def test_help_and_subcommand_help_are_lightweight():
     for args in (('--help',), ('run', '--help'), ('report', '--help')):
         script = (
-            "import sys; from famjet_poc.__main__ import main; "
-            "main(sys.argv[1:]); assert 'torch' not in sys.modules"
+            "import sys\n"
+            "from famjet_poc.__main__ import main\n"
+            "try:\n"
+            "    main(sys.argv[1:])\n"
+            "except SystemExit as exc:\n"
+            "    assert exc.code == 0\n"
+            "assert 'torch' not in sys.modules\n"
         )
         result = subprocess.run([sys.executable, '-c', script, *args],
                                 capture_output=True, text=True, timeout=10)

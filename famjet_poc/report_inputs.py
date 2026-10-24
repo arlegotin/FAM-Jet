@@ -8,8 +8,9 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import tempfile
 
-from famjet.provenance import canonical_hash
+from famjet.provenance import canonical_hash, canonical_json
 
 
 _ROOT = Path(__file__).resolve().parent.parent
@@ -142,6 +143,53 @@ def verify_beijing_inventory(frozen_inventory, manifest):
     return 'verified_inventory_not_rehashed'
 
 
+def require_shared_cell_counts(paths, receipts):
+    """Keep one observed-label/count commitment across all methods in a cell."""
+    by_cell = {}
+    for receipt in receipts:
+        ref = receipt.get('counts_ref')
+        if ref is None:
+            raise ValueError('cell observed-count sidecar missing')
+        paths.ref(ref)
+        by_cell.setdefault((receipt.get('phase'), receipt.get('cell_id')), set()).add(ref['sha256'])
+    if any(len(hashes) != 1 for hashes in by_cell.values()):
+        raise ValueError('method observed-count sidecars differ within cell')
+
+
+def require_real_method_rows(method, rows):
+    if any(row.get('method') != method for row in rows):
+        raise ValueError('real row method differs from receipt method')
+
+
+def verify_selected_reference_rebased(paths, modes):
+    """Run E4's complete reference validator against I/O-resolved refs."""
+    from .transfer import verify_selected_reference
+    adapted = dict(modes)
+    original = modes['selected_reference']
+    adapted['selected_reference'] = {**original,
+        'rows_ref': paths.ref(original['rows_ref'])}
+    verify_selected_reference(adapted)
+    return original
+
+
+def verify_transfer_probe_rebased(paths, ref, manifest_sha256, worker_limits):
+    """Check original bytes, then use a temporary resolved copy for E4's validator."""
+    from .transfer import verify_transfer_probe
+    original_ref = paths.ref(ref)
+    probe = _read_json(original_ref['path'], original_ref['sha256'], original_ref['bytes'])
+    adjusted = {**probe,
+                'guard_ref': paths.ref(probe['guard_ref']),
+                'score_rows_ref': paths.ref(probe['score_rows_ref'])}
+    with tempfile.TemporaryDirectory(prefix='famjet-e5-probe-') as directory:
+        path = Path(directory) / 'resolved-probe.json'
+        raw = canonical_json(adjusted)
+        path.write_bytes(raw)
+        runtime_ref = {'path': str(path), 'sha256': hashlib.sha256(raw).hexdigest(),
+                       'bytes': len(raw)}
+        verify_transfer_probe(runtime_ref, manifest_sha256, worker_limits)
+    return probe
+
+
 def _release_rows(paths, release, freeze):
     """Validate release closure then read one method/cell at a time."""
     from .contracts import PopulationSpec
@@ -168,6 +216,8 @@ def _release_rows(paths, release, freeze):
             [receipt.get('run_id') for receipt in receipts] !=
                 freeze['inputs']['expected_protected_run_ids']):
         raise ValueError('protected run ID inventory differs from freeze')
+    if freeze['inputs']['profile'] == 'study':
+        require_shared_cell_counts(paths, receipts)
     seen = set()
     grouped = {}
     aggregates = {}
@@ -352,7 +402,7 @@ def _verify_frozen_science(paths, freeze):
             if model.shape != shape or model.spec.family != family:
                 raise ValueError('frozen selected model shape/family mismatch')
             pairs[key][family] = {'manifest_sha256': ref['sha256'],
-                                  'static_bytes': model.parameter_nbytes(),
+                                  'active_numeric_bytes': model.parameter_nbytes(),
                                   'reader': model.spec.to_json(),
                                   'target_statistics_sha256': canonical_hash(model.target_statistics),
                                   'target_statistics': model.target_statistics}
@@ -377,13 +427,21 @@ def _verify_frozen_science(paths, freeze):
     from . import transfer as transfer_module
     if modes.get('transfer_source_sha256') != _file_sha(transfer_module.__file__)[0]:
         raise ValueError('frozen transfer source changed')
+    if (modes.get('real_probe_ref') != inputs['transfer_probe_ref'] or
+            len(modes.get('real_development_ledger', [])) != 36 or
+            set(modes.get('task_adapted', {})) != {'jet', 'bank'}):
+        raise ValueError('real fit ledger/probe/model inventory mismatch')
+    ledger_hashes = set()
     for entry in modes['real_development_ledger']:
+        if entry.get('config_hash') in ledger_hashes or entry.get('family') not in {'jet', 'bank'}:
+            raise ValueError('duplicate real fit candidate')
+        ledger_hashes.add(entry['config_hash'])
         if entry['status'] not in {'qualified', 'failed'}:
             raise ValueError('real development candidate unfinished')
-        if entry.get('rows_ref') is not None:
-            load_score_rows(paths.ref(entry['rows_ref']))
-        if entry.get('fit_ref') is not None:
-            load_model(paths.resolve(entry['fit_ref']['path']), entry['fit_ref']['sha256'])
+        if type(entry.get('rows_ref')) is not dict or type(entry.get('fit_ref')) is not dict:
+            raise ValueError('real fit candidate model/rows missing')
+        load_score_rows(paths.ref(entry['rows_ref']))
+        load_model(paths.resolve(entry['fit_ref']['path']), entry['fit_ref']['sha256'])
     for split in ('training_cache', 'development_cache'):
         adjusted_entries = []
         for entry in modes[split]:
@@ -393,22 +451,119 @@ def _verify_frozen_science(paths, freeze):
                 raise ValueError('prefreeze real episode cache changed')
             adjusted_entries.append({**entry, 'path': str(path)})
         verify_prefreeze_cache_entries(adjusted_entries)
-    selected_reference = modes['selected_reference']
-    if (selected_reference.get('status') != 'passed' or
-            selected_reference.get('model_sha256') != modes['task_adapted']['jet']['sha256'] or
-            selected_reference.get('manifest_sha256') != inputs['beijing_manifest_sha256']):
-        raise ValueError('task-adapted selected reference mismatch')
-    load_score_rows(paths.ref(selected_reference['rows_ref']))
+    selected_reference = verify_selected_reference_rebased(paths, modes)
     probe_ref = inputs['transfer_probe_ref']
-    _read_json(paths.resolve(probe_ref['path']), probe_ref['sha256'])
+    probe = verify_transfer_probe_rebased(paths, probe_ref,
+                                          inputs['beijing_manifest_sha256'],
+                                          inputs['worker_limits'])
+    allocation = inputs['transfer_fit_allocation']
+    if (allocation.get('max_wall_seconds') != probe['recommended_wall_seconds'] or
+            allocation.get('max_disk_bytes') != probe['recommended_disk_bytes'] or
+            allocation.get('max_rss_bytes') != probe['recommended_rss_bytes']):
+        raise ValueError('frozen real fit allocation differs from measured probe')
     guard_ref = paths.ref(inputs['transfer_fit_guard_ref'])
     guard = _read_json(guard_ref['path'], guard_ref['sha256'], guard_ref['bytes'])
     if (guard.get('status') != 'completed' or guard.get('violation') is not None or
             guard.get('allocation') != inputs['transfer_fit_allocation']):
         raise ValueError('prefreeze transfer resource guard failed')
-    return {'pairs': pairs, 'modes': modes,
+    transfer = {'real_development_ledger': modes['real_development_ledger'],
+                'selected_task_adapted': modes['task_adapted'],
+                'selected_reference': selected_reference,
+                'real_probe': {'sha256': probe_ref['sha256'],
+                               'measured_profile': probe['measured_profile'],
+                               'forecast_seconds': probe['forecast_seconds'],
+                               'recommended_wall_seconds': probe['recommended_wall_seconds'],
+                               'recommended_disk_bytes': probe['recommended_disk_bytes'],
+                               'recommended_rss_bytes': probe['recommended_rss_bytes']},
+                'cache_bytes': modes['cache_bytes'],
+                'elapsed_seconds': modes['elapsed_seconds'],
+                'fit_allocation': allocation}
+    return {'pairs': pairs, 'modes': modes, 'transfer': transfer,
             'calibration': freeze['acceptance']['inference'],
             'qualification': freeze['acceptance']['reader']}
+
+
+def project_development_journal(journal):
+    """Project exact E3 terminal records, preserving unavailable subset metrics."""
+    if (journal.get('status') != 'complete' or len(journal.get('candidate_ledger', [])) != 36 or
+            len(journal.get('prefix_ledger', [])) != 4 or
+            set(journal.get('selected', {})) != {'jet', 'bank'} or
+            set(journal.get('controls', {})) !=
+                {'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}):
+        raise ValueError('development candidate/subset/control inventory incomplete')
+    candidates = []
+    seen = set()
+    for item in journal['candidate_ledger']:
+        identity = (item.get('family'), item.get('config_hash'))
+        if (identity in seen or item.get('status') not in {'qualified', 'failed'} or
+                identity[0] not in {'jet', 'bank'}):
+            raise ValueError('duplicate/incomplete candidate ledger')
+        seen.add(identity)
+        if item['status'] == 'qualified':
+            if (type(item.get('active_static_bytes')) is not int or
+                    type(item.get('wire_static_bytes')) is not int or
+                    type(item.get('numeric_parameter_bytes')) is not int or
+                    any(item[field] < 0 for field in
+                        ('active_static_bytes', 'wire_static_bytes', 'numeric_parameter_bytes')) or
+                    item.get('wire_static_bytes') != item.get('costs', {}).get('statics_bytes') or
+                    type(item.get('loss')) not in (int, float) or
+                    not math.isfinite(item['loss'])):
+                raise ValueError('qualified candidate storage/loss schema mismatch')
+        elif 'fit_ref' not in item:
+            if (item.get('failure_stage') != 'numerical_fit' or
+                    type(item.get('error')) is not str or not item['error'] or
+                    item.get('loss') is not None or 'rows_ref' in item):
+                raise ValueError('candidate failure is not terminal numerical fit')
+        candidates.append({key: item.get(key) for key in
+            ('family', 'reader', 'config_hash', 'status', 'loss', 'score',
+             'active_static_bytes', 'wire_static_bytes', 'numeric_parameter_bytes',
+             'fit_rows', 'fit_objective', 'costs', 'error', 'failure_stage')})
+    if len({item['config_hash'] for item in candidates}) != 36:
+        raise ValueError('candidate configuration inventory incomplete')
+    prefixes = []
+    prefix_ids = set()
+    for item in journal['prefix_ledger']:
+        identity = (item.get('family'), item.get('prefix'))
+        if identity in prefix_ids or identity[0] not in {'jet', 'bank'} or identity[1] not in {192, 384}:
+            raise ValueError('duplicate/unknown subset fit')
+        prefix_ids.add(identity)
+        if item.get('status') == 'measured':
+            if (type(item.get('score')) is not dict or
+                    type(item.get('costs')) is not dict or
+                    type(item.get('fit_ref')) is not dict or
+                    type(item.get('rows_ref')) is not dict):
+                raise ValueError('measured subset evidence incomplete')
+        elif item.get('status') == 'failed':
+            if (item.get('failure_stage') != 'numerical_fit' or
+                    type(item.get('error')) is not str or not item['error'] or
+                    any(field in item for field in ('score', 'costs', 'fit_ref', 'rows_ref'))):
+                raise ValueError('subset failure is not terminal numerical fit')
+        else:
+            raise ValueError('subset fit incomplete')
+        prefixes.append({key: item.get(key) for key in
+                         ('family', 'prefix', 'status', 'score', 'costs',
+                          'error', 'failure_stage')})
+    if prefix_ids != {(family, prefix) for family in ('jet', 'bank') for prefix in (192, 384)}:
+        raise ValueError('subset fit inventory incomplete')
+    controls = {}
+    for name, item in journal['controls'].items():
+        if item.get('status') != 'measured' or type(item.get('costs')) is not dict:
+            raise ValueError('simple control missing')
+        controls[name] = {key: item.get(key) for key in
+                          ('status', 'score', 'costs', 'static_bytes',
+                           'state_budget', 'unused_bytes', 'capacity')}
+    for family in ('jet', 'bank'):
+        chosen = journal['selected'][family]
+        matches = [item for item in journal['candidate_ledger']
+                   if item['family'] == family and item['config_hash'] == chosen.get('config_hash')
+                   and item['status'] == 'qualified' and item['reader'] == chosen.get('reader')]
+        if len(matches) != 1:
+            raise ValueError('selected configuration differs from qualified candidate')
+    return {'candidates': candidates, 'prefixes': prefixes,
+            'controls': controls, 'selected': journal['selected'],
+            'shared_costs': journal['shared_costs'],
+            'fit_attempt_count': journal.get('fit_attempt_count'),
+            'completed_fit_count': journal.get('completed_fit_count')}
 
 
 def _verify_development(paths, stages, freeze):
@@ -419,47 +574,21 @@ def _verify_development(paths, stages, freeze):
     for shape, stage_name, hash_field in (('K16/V8', 'development_k16', 'study_k16_sha256'),
                                           ('K12/V1', 'development_k12', 'study_k12_sha256')):
         journal = _stage_json(paths, stages[stage_name], 'journal_path', 'journal_sha256')
-        if (stages[stage_name]['result']['journal_sha256'] != freeze['inputs'][hash_field] or
-                journal.get('status') != 'complete' or len(journal.get('candidate_ledger', [])) != 36 or
-                len(journal.get('prefix_ledger', [])) != 4 or
-                set(journal.get('selected', {})) != {'jet', 'bank'} or
-                set(journal.get('controls', {})) !=
-                    {'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}):
-            raise ValueError('development candidate/subset/control inventory incomplete')
-        expected_hashes = set()
-        candidates = []
+        if stages[stage_name]['result']['journal_sha256'] != freeze['inputs'][hash_field]:
+            raise ValueError('development journal differs from frozen study')
+        projected = project_development_journal(journal)
         for item in journal['candidate_ledger']:
-            if item['status'] not in {'qualified', 'failed'} or item['config_hash'] in expected_hashes:
-                raise ValueError('duplicate/incomplete candidate ledger')
-            expected_hashes.add(item['config_hash'])
-            if item['status'] == 'qualified':
+            if 'fit_ref' in item:
+                load_model(paths.resolve(item['fit_ref']['path']), item['fit_ref']['sha256'])
+            if 'rows_ref' in item:
+                load_score_rows(paths.ref(item['rows_ref']))
+        for item in journal['prefix_ledger']:
+            if item['status'] == 'measured':
                 load_model(paths.resolve(item['fit_ref']['path']), item['fit_ref']['sha256'])
                 load_score_rows(paths.ref(item['rows_ref']))
-            candidates.append({key: item.get(key) for key in
-                    ('family', 'reader', 'config_hash', 'status', 'loss', 'score',
-                     'static_bytes', 'numeric_parameter_bytes', 'fit_rows',
-                     'fit_objective', 'costs', 'error', 'failure_stage')})
-        prefixes = []
-        for item in journal['prefix_ledger']:
-            if item['status'] != 'measured':
-                raise ValueError('subset fit missing')
-            load_model(paths.resolve(item['fit_ref']['path']), item['fit_ref']['sha256'])
-            load_score_rows(paths.ref(item['rows_ref']))
-            prefixes.append({key: item.get(key) for key in
-                             ('family', 'prefix', 'status', 'score', 'costs')})
-        controls = {}
         for name, item in journal['controls'].items():
-            if item['status'] != 'measured':
-                raise ValueError('simple control missing')
             load_score_rows(paths.ref(item['rows_ref']))
-            controls[name] = {key: item.get(key) for key in
-                              ('status', 'score', 'costs', 'static_bytes',
-                               'state_budget', 'unused_bytes', 'capacity')}
-        output[shape] = {'candidates': candidates, 'prefixes': prefixes,
-                         'controls': controls, 'selected': journal['selected'],
-                         'shared_costs': journal['shared_costs'],
-                         'fit_attempt_count': journal.get('fit_attempt_count'),
-                         'completed_fit_count': journal.get('completed_fit_count')}
+        output[shape] = projected
     return output
 
 
@@ -580,6 +709,8 @@ def _verify_real_release(paths, stage, freeze, modes):
                         'policy_ref': paths.ref(receipt['score_contract']['policy_ref'])}}
         normalized = load_score_rows(paths.ref(receipt['rows_ref']))
         native = load_score_rows(paths.ref(receipt['native_rows_ref']))
+        require_real_method_rows(method, normalized)
+        require_real_method_rows(method, native)
         validate_scored_receipt(adjusted, normalized, manifest_sha, histories, list(range(120)))
         validate_scored_receipt(adjusted, native, manifest_sha, histories, list(range(120)))
         if len(normalized) != 56 * 120 or len(native) != len(normalized):
@@ -737,9 +868,10 @@ def load_report_inputs(run):
             'stage_names': sorted(stages)}
     if profile == 'study':
         output.update(scientific={key: value for key, value in scientific.items()
-                                  if key != 'modes'},
+                                  if key not in {'modes', 'transfer'}},
                       development=development, timing=timing, stress=stress,
                       real=real, beijing_source_inventory=inventory,
                       beijing_source=source,
-                      beijing_source_array_status=array_status)
+                      beijing_source_array_status=array_status,
+                      transfer=scientific['transfer'])
     return output

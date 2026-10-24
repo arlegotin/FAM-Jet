@@ -5,12 +5,11 @@ import json
 from pathlib import Path
 import subprocess
 
-
-REPORT_PYTHON = Path('/private/tmp/famjet-report-20261024-01/bin/python')
+from famjet_poc.report import _plot_python
 
 
 def test_chart_export_is_deterministic_from_frozen_json(tmp_path):
-    assert REPORT_PYTHON.is_file()
+    report_python = _plot_python()
     data = {'schema_version': 1, 'kind': 'famjet_e5_chart_data',
             'methods': [
                 {'name': 'jet', 'loss': 0.3, 'state_bytes': 9345,
@@ -26,7 +25,7 @@ def test_chart_export_is_deterministic_from_frozen_json(tmp_path):
     receipts = []
     for name in ('first', 'second'):
         out = tmp_path / name
-        result = subprocess.run([str(REPORT_PYTHON), str(script), '--data', str(source),
+        result = subprocess.run([str(report_python), str(script), '--data', str(source),
                                  '--out', str(out)], capture_output=True, text=True,
                                 timeout=60)
         assert result.returncode == 0, result.stderr
