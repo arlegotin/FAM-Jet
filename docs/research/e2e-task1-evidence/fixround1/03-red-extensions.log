@@ -1,0 +1,24 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_fit_memory_ledger_names_bounded_copies_and_unknowns ___________
+
+    def test_fit_memory_ledger_names_bounded_copies_and_unknowns():
+        episodes = [_episode(i) for i in range(4)]
+        factory = lambda: iter(episodes)
+        meta = fit_training_metadata(factory)
+        spec = ReaderSpec('ridge_v1', 'bank', 8, 1e-6, 1 / 5224, 1, 1e-6, 1e-12)
+        model = build_model(ShapeSpec(12, 1), spec, meta['t_ref'], meta['target_statistics'])
+        ledger = fit_reader(model, factory, make_fit_manifest(model, meta), chunk_rows=3).memory_ledger
+        arrays = ledger['logical_arrays_bytes']
+        p = 33 * spec.query_width
+        assert arrays['gram'] == arrays['normal_matrix'] == arrays['ridge_identity_temporary'] == p * p * 8
+        assert arrays['buffered_phi'] == arrays['stacked_design'] == arrays['weighted_design'] == 3 * p * 8
+        assert arrays['max_episode_raw_features'] >= 2 * 1 * 33 * 8
+>       assert arrays['max_advanced_snapshot_copy'] >= arrays['max_episode_writer_state']
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'max_advanced_snapshot_copy'
+
+tests/test_poc_models.py:166: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_poc_models.py::test_fit_memory_ledger_names_bounded_copies_and_unknowns
+1 failed, 1 passed in 0.90s

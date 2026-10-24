@@ -1,0 +1,93 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_______ test_loaded_fit_rejects_nested_manifest_and_diagnostic_tampering _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-142/test_loaded_fit_rejects_nested0')
+
+    def test_loaded_fit_rejects_nested_manifest_and_diagnostic_tampering(tmp_path):
+        episodes = [_episode(i) for i in range(4)]
+        factory = lambda: iter(episodes)
+        meta = fit_training_metadata(factory)
+        spec = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1, 1e-6, 1e-12)
+        model = build_model(ShapeSpec(12, 1), spec, meta['t_ref'], meta['target_statistics'])
+        fit_reader(model, factory, make_fit_manifest(model, meta), chunk_rows=3)
+        ref = save_model(model, tmp_path / 'reader.json')
+        original = json.loads(ref.path.read_bytes())
+        changes = (
+            lambda p: p['fit']['manifest']['reader'].__setitem__('ridge', 1e-3),
+            lambda p: p['fit']['manifest'].__setitem__('unexpected', 1),
+            lambda p: p['fit']['manifest'].__setitem__('row_sha256', '0' * 64),
+            lambda p: p['fit']['manifest'].__setitem__('lock_sha256', '0' * 64),
+            lambda p: p['fit']['manifest']['shape'].__setitem__('key_dim', 16),
+            lambda p: p['fit']['manifest'].__setitem__('t_ref', 2.),
+            lambda p: p['fit'].__setitem__('objective', 'zero'),
+            lambda p: p['fit'].__setitem__('failure_status', 'failed'),
+            lambda p: p['fit']['solver'].__setitem__('unexpected', 1),
+        )
+        for change in changes:
+            payload = copy.deepcopy(original)
+            change(payload)
+            raw = canonical_json(payload)
+            ref.path.write_bytes(raw)
+>           with pytest.raises(ValueError):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests/test_poc_models.py:148: Failed
+___________ test_fit_memory_ledger_names_bounded_copies_and_unknowns ___________
+
+    def test_fit_memory_ledger_names_bounded_copies_and_unknowns():
+        episodes = [_episode(i) for i in range(4)]
+        factory = lambda: iter(episodes)
+        meta = fit_training_metadata(factory)
+        spec = ReaderSpec('ridge_v1', 'bank', 8, 1e-6, 1 / 5224, 1, 1e-6, 1e-12)
+        model = build_model(ShapeSpec(12, 1), spec, meta['t_ref'], meta['target_statistics'])
+        ledger = fit_reader(model, factory, make_fit_manifest(model, meta), chunk_rows=3).memory_ledger
+>       arrays = ledger['logical_arrays_bytes']
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'logical_arrays_bytes'
+
+tests/test_poc_models.py:161: KeyError
+_ test_qualification_initializes_closed_inventory_and_records_exception_without_running _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e2d5ba0>
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-142/test_qualification_initializes0')
+
+    def test_qualification_initializes_closed_inventory_and_records_exception_without_running(monkeypatch, tmp_path):
+        import famjet_poc.models as models
+        def stop_before_numeric(*args, **kwargs):
+            raise RuntimeError('injected source fixture failure')
+        monkeypatch.setattr(models, '_two_age_episodes', stop_before_numeric)
+        with pytest.raises(RuntimeError, match='injected'):
+            models.qualify_models(tmp_path)
+>       payload = json.loads((tmp_path / 'qualification.json').read_bytes())
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_models.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:625: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-142/test_qualification_initializes0/qualification.json')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-142/test_qualification_initializes0/qualification.json'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_models.py::test_loaded_fit_rejects_nested_manifest_and_diagnostic_tampering
+FAILED tests/test_poc_models.py::test_fit_memory_ledger_names_bounded_copies_and_unknowns
+FAILED tests/test_poc_models.py::test_qualification_initializes_closed_inventory_and_records_exception_without_running
+3 failed in 0.86s

@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_qualification_keeps_completed_case_when_next_case_throws _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107592060>
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-147/test_qualification_keeps_compl0')
+
+    def test_qualification_keeps_completed_case_when_next_case_throws(monkeypatch, tmp_path):
+        import famjet_poc.models as models
+        calls = 0
+        def simulated_case(*args):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise ArithmeticError('injected later case failure')
+            return {'gate': True, 'model_file': 'unit-only.json', 'model_sha256': '0' * 64}
+        monkeypatch.setattr(models, '_run_qualification_case', simulated_case)
+        with pytest.raises(ArithmeticError, match='later case'):
+            models.qualify_models(tmp_path)
+        payload = json.loads((tmp_path / 'qualification.json').read_bytes())
+        assert [c['status'] for c in payload['cases']] == ['passed', 'failed_exception'] + ['pending'] * 6
+        assert payload['cases'][0]['model_file'] == 'unit-only.json'
+        assert payload['cases'][1]['exception_type'] == 'ArithmeticError'
+        recorded = (tmp_path / 'qualification.json').read_bytes()
+>       with pytest.raises(ValueError, match='existing qualification journal'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_models.py:206: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_models.py::test_qualification_keeps_completed_case_when_next_case_throws
+1 failed in 0.55s
