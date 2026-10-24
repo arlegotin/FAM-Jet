@@ -1,0 +1,9 @@
+# E1 reader qualification01 —24 October2026
+
+The [E1source](../research/e2e-task1-source-acceptance.json) passed independentreview/scopedfix1 and19focusedtests. Rootverified26Gitdeliverypaths, unchanged53core/15A/lock/B88,3initial+10fix rawverificationlogs andupdatedsource digest. Earlydevelopmentlogsremaintranscript-only; nothingwasregenerated. This releases one independently qualified NEWreader class, not the failed MLP procedure.
+
+Run exactly `famjet_poc.models.qualify_models` for the declared8cases:2numericshapes×2families×q8/q16, fixedlambda1e-10/alphaMax1/tref1/fourfit+32freshhistories, originalfit/fresh1e-4per-task/key criterion andindependent reference gates. Preserve all8records andanyexception. No study/protected/calibration data inthisallocation. Freshone-use artifacts/e2e-qualification-01 and -01-prep mustbeabsentbeforeentry. BindtheactualcleanGitHEAD andmodelsourceSHAafterthismetadata commit; do notchange code/Gitduringtheactualcall.
+
+Total300seconds,280work+20finalizationreserve; conservativewholeparent+childsampledRSS cap1.5GiB (strongerthanincrementalcap), output128MiB, CPU1/preimportthreadenv1. Freshadmission has5.383GiB free+speculative and273.10GiB disk; repeatatentry, require2GiB/25percentreserve and4GiBdisk. Useapprovedhosttool forread-only ownPIDRSS. Thecontrollerenforcesitsdeadline/caps andretainsactualreturn/stdout/stderr/RSS pluschildclosedinventory. No automaticallyextendeddeadline/repeatedqualifications/thresholdrelaxation. A failureblocksreaderuse; onlyone diagnosis-driven amendedcorrection allowedbycompletioncontract.
+
+Independentassetpreparationcompletedwithfrozencore131.07s/338411520Bprocesslifetimehighwater; all39realtraininghistorieshaveatleast56eligiblemeanand56contrastqueries, checkedtraining-only20.74s. Current-v2manifestis sealed; no protectedscoresopened. Thisresolves theavailabilityconcernwithoutclaimingrealtransferexecuted.

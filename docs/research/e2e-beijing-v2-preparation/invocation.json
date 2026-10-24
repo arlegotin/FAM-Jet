@@ -1,0 +1,17 @@
+{
+  "utc_start": "2026-10-24T16:28:38.037105+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "famjet.prepare",
+    "--config",
+    "configs/beijing.yaml"
+  ],
+  "scope": "asset preparation only; core53 frozen, no protected scores opened",
+  "timeout_seconds": 180,
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "elapsed_seconds": 131.0697747080012,
+  "utc_end": "2026-10-24T16:30:49.105904+00:00",
+  "child_process_lifetime_peak_rss_bytes": 338411520
+}

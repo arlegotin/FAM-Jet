@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "invocation.json",
+      "original_path": "artifacts/e2e-beijing-v2-prepare-01/invocation.json",
+      "bytes": 462,
+      "sha256": "18a952b36cb64a6b3cc0a1f962dceb1592068a2f4b1965ebae87b62ececf0472"
+    },
+    {
+      "path": "stderr.log",
+      "original_path": "artifacts/e2e-beijing-v2-prepare-01/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "original_path": "artifacts/e2e-beijing-v2-prepare-01/stdout.log",
+      "bytes": 112,
+      "sha256": "5ac104ce0a9a0cc112b89ab21723374feddc5f340e76e5f9154857612880ca90"
+    },
+    {
+      "path": "training-availability.json",
+      "original_path": "artifacts/e2e-beijing-v2-prepare-01/training-availability.json",
+      "bytes": 5285,
+      "sha256": "290baecb5d96eb3dfb649936f6fa243d95f005594465ca2c52f4b2e0db8a5027"
+    }
+  ],
+  "scope": "asset preparation and training-only eligibility, no protected scores opened"
+}

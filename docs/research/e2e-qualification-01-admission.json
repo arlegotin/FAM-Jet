@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-24T16:35:41.944548+00:00",
+  "raw_vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   320518.\nPages active:                                 827204.\nPages inactive:                               809505.\nPages speculative:                             32286.\nPages throttled:                                   0.\nPages wired down:                             174142.\nPages purgeable:                               27861.\n\"Translation faults\":                      107761886.\nPages copy-on-write:                         5581648.\nPages zero filled:                          47072784.\nPages reactivated:                            663838.\nPages purged:                                 223645.\nFile-backed pages:                            765961.\nAnonymous pages:                              903034.\nPages stored in compressor:                   266616.\nPages occupied by compressor:                 137481.\nDecompressions:                               105461.\nCompressions:                                 413700.\nPageins:                                     2984697.\nPageouts:                                       3005.\nSwapins:                                           0.\nSwapouts:                                          0.\n",
+  "free_plus_speculative_bytes": 5780340736,
+  "disk_free_bytes": 293236875264,
+  "aggregate_process_rss_cap": 1610612736,
+  "note": "whole RSS cap is stronger than incremental allowance; final entry repeats admission",
+  "status": "PASSED_PRE_RELEASE"
+}

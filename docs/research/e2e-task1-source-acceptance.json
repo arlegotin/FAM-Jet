@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "ACCEPTED_SOURCE_ONLY",
+  "utc": "2026-10-24T16:35:41.944548+00:00",
+  "base": "9d278c703b4f086b745a73000838e04b6b87768f",
+  "reviewed_head": "e14ce4bd01964b15f24d535819b60a656517e255",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "fixed_findings": 3,
+  "tests": "19 passed; compile passed",
+  "early_evidence_limit": "18 earlier calls/3 checks transcript-only; original bytes unavailable",
+  "source_sha256": "f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475",
+  "qualification": "not yet run",
+  "old_core_stageA_lock_B88_preserved": true
+}
