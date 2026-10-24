@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "phase": "calibration",
+  "attempt": 1,
+  "per_cell": 128,
+  "datasets_per_fixture": 20000,
+  "fixtures": 8,
+  "forecast_main_seconds": 116.85158843647514,
+  "probe_evidence_sha256": "804278150e75a192dd2d936d23b2eeb5a732807c16aede184d3e1e67cc5c7977",
+  "probe_measured_seconds": 0.37392508299672045,
+  "deadline_total_seconds": 284,
+  "finalization_reserve_seconds": 20,
+  "rule": "ceil(2*forecast_main_seconds+50)",
+  "rss_sum_cap_bytes": 268435456,
+  "output_cap_bytes": 134217728,
+  "thresholds": "unchanged adopted 32 CP guards",
+  "out": "artifacts/e2e-inference-calibration-01",
+  "science_protected": "unentered"
+}
