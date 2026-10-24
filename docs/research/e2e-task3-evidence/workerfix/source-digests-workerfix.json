@@ -1,0 +1,18 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "from famjet_poc.cache import e3_source_sha256; from famjet_poc.contracts import source_sha256; print(\"E1\", source_sha256()); print(\"E3\", e3_source_sha256())"
+  ],
+  "elapsed_seconds": 0.5628421250003157,
+  "exit": 0,
+  "stdout_bytes": 136,
+  "stdout_sha256": "86f3cadd89c31a85eb49b5bfef4548b6f2840ba3d34e89355d873ab0d121fd1d",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

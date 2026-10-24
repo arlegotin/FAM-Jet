@@ -1,0 +1,111 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+______ test_fresh_worker_reads_all_registered_controls_after_strict_guard ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-303/test_fresh_worker_reads_all_re0')
+
+    def test_fresh_worker_reads_all_registered_controls_after_strict_guard(tmp_path):
+        from famjet.eval.state_io import snapshot_hash
+        from famjet.memory.reservoir import ReservoirMemory
+        from famjet.memory.buckets import TemporalBucketsMemory
+        from famjet_poc.wire import export_statics, isolated_read_batch
+    
+        episode = generate_episode(PopulationSpec('poc_numeric_v1', ShapeSpec(16, 8), 'unit_test', 92,
+                                                   (128,), ('piecewise_stationary',), 8, 512),
+                                   'unit-audit-controls-0')
+        methods = {'exact': PackedHistoryMemory(None, 8, 'exact', key_dim=16),
+                   'recent': PackedHistoryMemory(8, 8, 'recent', key_dim=16),
+                   'latest_lru': PackedHistoryMemory(16, 8, 'latest_lru', key_dim=16),
+                   'reservoir': ReservoirMemory(8, 8, 7, key_dim=16),
+                   'buckets': TemporalBucketsMemory(8, 8, key_dim=16, normalization='shared')}
+        for name, method in methods.items():
+            snapshot = method.encode(episode.events, mode='terminal')
+            before = snapshot_hash(snapshot)
+            pair = {'snapshot': snapshot, 'queries': episode.queries, 'time_unit': episode.events.time_unit}
+            expected = method.read(snapshot, episode.queries)
+            journal = tmp_path / f'{name}.json'
+>           result = isolated_read_batch(export_statics(method), [pair],
+                                         {'limits': _limits(), 'timeout_seconds': 30., 'journal_path': str(journal)})[0]
+
+tests/test_poc_e3_wire.py:192: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+statics = {'schema_version': 1, 'kind': 'packed', 'shape': {'key_dim': 16, 'value_dim': 8}, 'constructor': {'capacity': 16, 'value_dim': 8, 'policy': 'latest_lru', 'key_dim': 16, ...}, ...}
+pairs = [{'snapshot': Snapshot(payload={'key_ids': tensor([[14,  7, 10,  3,  8,  6,  5,  1,  4, 15, 12, 13, 11,  9,  0,  2]],
+..., True, True, True, True, True, True]]), lengths=tensor([8]), schema_version=1), 'time_unit': 'generator_reference_1'}]
+policy = {'limits': {'max_frame_bytes': 8000000, 'max_array_bytes': 4000000, 'max_histories': 64}, 'timeout_seconds': 30.0, 'jo...q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-303/test_fresh_worker_reads_all_re0/latest_lru.json'}
+
+    def isolated_read_batch(statics, pairs, policy):
+        """One clean interpreter, one framed request, explicit timeout and optional journal."""
+        if type(policy) is not dict or not {'limits', 'timeout_seconds'} <= set(policy) or set(policy) - {'limits', 'timeout_seconds', 'journal_path', 'sample_rss'}:
+            raise ValueError('worker policy requires limits and timeout')
+        if 'sample_rss' in policy and type(policy['sample_rss']) is not bool:
+            raise ValueError('sample_rss must be boolean')
+        timeout = policy['timeout_seconds']
+        if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError('positive worker timeout required')
+        expected = [{'history_id': pair['queries'].history_ids[0], 'query_ids': pair['queries'].query_ids[0].tolist()} for pair in pairs]
+        frame = encode_request(statics, pairs, expected, policy['limits'])
+        request_hash = hashlib.sha256(frame).hexdigest()
+        env = {k: v for k, v in os.environ.items() if k in {'SYSTEMROOT', 'WINDIR'}}
+        env.update(OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1',
+                   VECLIB_MAXIMUM_THREADS='1', NUMEXPR_NUM_THREADS='1')
+        bootstrap = 'import sys; sys.path.insert(0, '+repr(str(_ROOT))+'); from famjet_poc.worker import worker_main; raise SystemExit(worker_main())'
+        started = time.perf_counter()
+        journal = {'request_sha256': request_hash, 'expected_ids': expected, 'status': 'incomplete'}
+        try:
+            with tempfile.TemporaryDirectory(prefix='famjet-e3-worker-') as directory:
+                completed, sampling = _run_worker([sys.executable, '-I', '-c', bootstrap], frame,
+                                                  env, directory, timeout, policy.get('sample_rss', False))
+            if sampling is not None:
+                journal['rss_sampling'] = sampling
+            if completed.returncode or len(completed.stdout) < 8:
+                raise RuntimeError('worker failed: ' + completed.stderr.decode(errors='replace')[-1000:])
+            size = struct.unpack('>Q', completed.stdout[:8])[0]
+            if size > policy['limits']['max_frame_bytes'] or size != len(completed.stdout) - 8:
+                raise ValueError('worker response frame mismatch')
+            response = json.loads(completed.stdout[8:])
+            if (type(response) is not dict or set(response) != {'schema_version', 'request_id', 'response_id', 'results', 'error', 'child_rss_bytes'} or
+                    response['schema_version'] != 1 or type(response['child_rss_bytes']) is not int or response['child_rss_bytes'] <= 0):
+                raise ValueError('worker response schema mismatch')
+            request_id = json.loads(frame[8:])['request_id']
+            if response['request_id'] != request_id or response['response_id'] != canonical_hash({'request_id': request_id, 'results': response['results'], 'error': response['error'], 'child_rss_bytes': response['child_rss_bytes']}):
+                raise ValueError('worker response identity mismatch: '+str({'expected_request_id': request_id,
+                    'observed_request_id': response['request_id'], 'child_error': response['error']})[:1000])
+            if response['error'] is not None:
+>               raise RuntimeError('worker read failed: ' + response['error'])
+E               RuntimeError: worker read failed: PermissionError: isolated read forbids disk/network/process access
+
+famjet_poc/wire.py:528: RuntimeError
+________ test_worker_audit_guard_forbids_disk_and_network_after_imports ________
+
+    def test_worker_audit_guard_forbids_disk_and_network_after_imports():
+        script = """from famjet_poc.worker import _install_guard, _prewarm_static_dependencies
+    _prewarm_static_dependencies()
+    _install_guard()
+    import numpy as np
+    assert np.unique(np.array([1, 1], dtype=np.uint64)).tolist() == [1]
+    for operation in (lambda: open('/tmp/no-such-file', 'rb'), lambda: __import__('socket').socket()):
+        try:
+            operation()
+        except PermissionError:
+            pass
+        else:
+            raise AssertionError('forbidden I/O was admitted')
+    """
+        completed = subprocess.run([sys.executable, '-c', script], capture_output=True, text=True,
+                                   env={**os.environ, 'OMP_NUM_THREADS': '1'})
+>       assert completed.returncode == 0, completed.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E             from famjet_poc.worker import _install_guard, _prewarm_static_dependencies
+E         ImportError: cannot import name '_prewarm_static_dependencies' from 'famjet_poc.worker' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/worker.py)
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', "from famjet_poc.work...ic_dependencies\' from \'famjet_poc.worker\' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/worker.py)\n').returncode
+
+tests/test_poc_e3_wire.py:169: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_fresh_worker_reads_all_registered_controls_after_strict_guard
+FAILED tests/test_poc_e3_wire.py::test_worker_audit_guard_forbids_disk_and_network_after_imports
+2 failed in 3.00s
