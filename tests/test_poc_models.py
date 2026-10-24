@@ -1,6 +1,11 @@
 import numpy as np
 import pytest
 import torch
+import copy
+import hashlib
+import json
+
+from famjet.provenance import canonical_json
 
 from famjet_poc.contracts import ShapeSpec, ReaderSpec
 from famjet_poc.models import (build_model, feature_map, query_basis, fit_training_metadata,
@@ -113,6 +118,94 @@ def test_model_npz_roundtrip_and_tamper_rejection(tmp_path):
     arrpath.write_bytes(arrpath.read_bytes() + b'x')
     with pytest.raises(ValueError, match='NPZ'):
         load_model(ref.path, ref.sha256)
+
+
+def test_loaded_fit_rejects_nested_manifest_and_diagnostic_tampering(tmp_path):
+    episodes = [_episode(i) for i in range(4)]
+    factory = lambda: iter(episodes)
+    meta = fit_training_metadata(factory)
+    spec = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1, 1e-6, 1e-12)
+    model = build_model(ShapeSpec(12, 1), spec, meta['t_ref'], meta['target_statistics'])
+    fit_reader(model, factory, make_fit_manifest(model, meta), chunk_rows=3)
+    ref = save_model(model, tmp_path / 'reader.json')
+    original = json.loads(ref.path.read_bytes())
+    changes = (
+        lambda p: p['fit']['manifest']['reader'].__setitem__('ridge', 1e-3),
+        lambda p: p['fit']['manifest'].__setitem__('unexpected', 1),
+        lambda p: p['fit']['manifest'].__setitem__('row_sha256', '0' * 64),
+        lambda p: p['fit']['manifest'].__setitem__('lock_sha256', '0' * 64),
+        lambda p: p['fit']['manifest']['shape'].__setitem__('key_dim', 16),
+        lambda p: p['fit']['manifest'].__setitem__('t_ref', 2.),
+        lambda p: p['fit'].__setitem__('objective', 'zero'),
+        lambda p: p['fit'].__setitem__('failure_status', 'failed'),
+        lambda p: p['fit']['solver'].__setitem__('unexpected', 1),
+    )
+    for change in changes:
+        payload = copy.deepcopy(original)
+        change(payload)
+        raw = canonical_json(payload)
+        ref.path.write_bytes(raw)
+        with pytest.raises(ValueError):
+            load_model(ref.path, hashlib.sha256(raw).hexdigest())
+    ref.path.write_bytes(canonical_json(original))
+    assert load_model(ref.path, ref.sha256).fit_artifact.failure_status == 'none'
+
+
+def test_fit_memory_ledger_names_bounded_copies_and_unknowns():
+    episodes = [_episode(i) for i in range(4)]
+    factory = lambda: iter(episodes)
+    meta = fit_training_metadata(factory)
+    spec = ReaderSpec('ridge_v1', 'bank', 8, 1e-6, 1 / 5224, 1, 1e-6, 1e-12)
+    model = build_model(ShapeSpec(12, 1), spec, meta['t_ref'], meta['target_statistics'])
+    ledger = fit_reader(model, factory, make_fit_manifest(model, meta), chunk_rows=3).memory_ledger
+    arrays = ledger['logical_arrays_bytes']
+    p = 33 * spec.query_width
+    assert arrays['gram'] == arrays['normal_matrix'] == arrays['ridge_identity_temporary'] == p * p * 8
+    assert arrays['buffered_phi'] == arrays['stacked_design'] == arrays['weighted_design'] == 3 * p * 8
+    assert arrays['max_episode_raw_features'] >= 2 * 1 * 33 * 8
+    assert arrays['max_advanced_snapshot_copy'] >= arrays['max_episode_writer_state']
+    assert arrays['artifact_coefficient_values'] == p * 8
+    assert arrays['artifact_rate_values'] == 8 * 8
+    assert ledger['known_simultaneous_groups_bytes']['chunk_flush'] >= sum(
+        arrays[k] for k in ('gram', 'rhs', 'buffered_phi', 'stacked_design', 'weighted_design'))
+    assert ledger['unmeasured']['solver_workspace_bytes'] is None
+    assert ledger['unmeasured']['process_rss_bytes'] is None
+
+
+def test_qualification_initializes_closed_inventory_and_records_exception_without_running(monkeypatch, tmp_path):
+    import famjet_poc.models as models
+    def stop_before_numeric(*args, **kwargs):
+        raise RuntimeError('injected source fixture failure')
+    monkeypatch.setattr(models, '_two_age_episodes', stop_before_numeric)
+    with pytest.raises(RuntimeError, match='injected'):
+        models.qualify_models(tmp_path)
+    payload = json.loads((tmp_path / 'qualification.json').read_bytes())
+    assert len(payload['cases']) == 8
+    assert payload['cases'][0]['status'] == 'failed_exception'
+    assert all(c['status'] == 'pending' for c in payload['cases'][1:])
+    assert payload['all_passed'] is False
+
+
+def test_qualification_keeps_completed_case_when_next_case_throws(monkeypatch, tmp_path):
+    import famjet_poc.models as models
+    calls = 0
+    def simulated_case(*args):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise ArithmeticError('injected later case failure')
+        return {'gate': True, 'model_file': 'unit-only.json', 'model_sha256': '0' * 64}
+    monkeypatch.setattr(models, '_run_qualification_case', simulated_case)
+    with pytest.raises(ArithmeticError, match='later case'):
+        models.qualify_models(tmp_path)
+    payload = json.loads((tmp_path / 'qualification.json').read_bytes())
+    assert [c['status'] for c in payload['cases']] == ['passed', 'failed_exception'] + ['pending'] * 6
+    assert payload['cases'][0]['model_file'] == 'unit-only.json'
+    assert payload['cases'][1]['exception_type'] == 'ArithmeticError'
+    recorded = (tmp_path / 'qualification.json').read_bytes()
+    with pytest.raises(ValueError, match='existing qualification journal'):
+        models.qualify_models(tmp_path)
+    assert (tmp_path / 'qualification.json').read_bytes() == recorded
 
 
 def test_ridge_matches_independent_augmented_svd_objective():

@@ -248,6 +248,7 @@ def fit_training_metadata(episode_factory):
     if not math.isfinite(tref) or tref <= 0:
         raise ValueError('invalid training t_ref')
     return {'target_statistics': stats, 't_ref': tref, 't_ref_policy': 'median_positive_gap',
+            'positive_gap_count': len(gaps),
             'history_inventory': inventory,
             'row_sha256': canonical_hash(digests), 'episode_digests': digests,
             'data_sha256': canonical_hash({'digests': digests, 'inventory': inventory})}
@@ -271,6 +272,60 @@ def make_fit_manifest(model: RidgeMemoryModel, metadata: dict, *, regime_weights
             'target_statistics_sha256': canonical_hash(model.target_statistics),
             't_ref_policy': metadata['t_ref_policy'],
             'regime_weights': regime_weights}
+
+
+_FIT_MANIFEST_FIELDS = frozenset({'schema_version', 'split', 'source_sha256', 'lock_sha256',
+    'data_sha256', 'row_sha256', 'episode_digests', 'history_inventory', 'writer_sha256',
+    'shape', 'reader', 't_ref', 'target_statistics_sha256', 't_ref_policy', 'regime_weights'})
+
+
+def _sha256_text(value):
+    return type(value) is str and len(value) == 64 and all(c in '0123456789abcdef' for c in value)
+
+
+def _validate_fit_manifest(model: RidgeMemoryModel, manifest: dict, observed: dict | None = None):
+    """One exact source/data/config contract for fitting and artifact loading."""
+    lock_sha = hashlib.sha256((Path(__file__).resolve().parent.parent / 'requirements.lock').read_bytes()).hexdigest()
+    if (type(manifest) is not dict or set(manifest) != _FIT_MANIFEST_FIELDS or
+            type(manifest['schema_version']) is not int or manifest['schema_version'] != 1 or
+            manifest['split'] != 'training' or manifest['source_sha256'] != source_sha256() or
+            manifest['lock_sha256'] != lock_sha or manifest['writer_sha256'] != model.writer_hash or
+            manifest['shape'] != model.shape.to_json() or manifest['reader'] != model.spec.to_json() or
+            type(manifest['t_ref']) not in (int, float) or manifest['t_ref'] != model.t_ref or
+            manifest['target_statistics_sha256'] != canonical_hash(model.target_statistics)):
+        raise ValueError('fit manifest source/writer/config/statistics mismatch')
+    digests, inventory = manifest['episode_digests'], manifest['history_inventory']
+    if (type(digests) is not list or not digests or not all(_sha256_text(d) for d in digests) or
+            type(inventory) is not list or not inventory or
+            not all(type(x) is dict and set(x) == {'history_id', 'regime', 'eligible'} and
+                    type(x['history_id']) is str and bool(x['history_id']) and
+                    type(x['regime']) is str and bool(x['regime']) and
+                    type(x['eligible']) is dict and set(x['eligible']) == {'mean', 'contrast'} and
+                    all(type(n) is int and n > 0 for n in x['eligible'].values()) for x in inventory)):
+        raise ValueError('fit manifest history/episode schema mismatch')
+    if (len({x['history_id'] for x in inventory}) != len(inventory) or
+            manifest['row_sha256'] != canonical_hash(digests) or
+            manifest['data_sha256'] != canonical_hash({'digests': digests, 'inventory': inventory})):
+        raise ValueError('fit manifest ordered row/data inventory mismatch')
+    policy = manifest['t_ref_policy']
+    if not (policy == 'median_positive_gap' or policy == 'qualification_fixed_1' and
+            model.t_ref == 1. and all(x['regime'] == 'two_age_uniform' for x in inventory)):
+        raise ValueError('fit manifest t_ref policy mismatch')
+    if (policy == 'median_positive_gap' and model.t_ref == 1. and
+            all(x['regime'] == 'two_age_uniform' for x in inventory)):
+        raise ValueError('two-age fixture requires declared fixed-reference policy')
+    regimes, weights = {x['regime'] for x in inventory}, manifest['regime_weights']
+    if (type(weights) is not dict or set(weights) != regimes or
+            not all(type(w) in (int, float) and math.isfinite(w) and w > 0 for w in weights.values()) or
+            not math.isclose(sum(weights.values()), 1., rel_tol=1e-12)):
+        raise ValueError('fit manifest regime weights mismatch')
+    if observed is not None:
+        if (observed['episode_digests'] != digests or observed['history_inventory'] != inventory or
+                observed['data_sha256'] != manifest['data_sha256'] or
+                canonical_hash(observed['target_statistics']) != manifest['target_statistics_sha256'] or
+                policy == 'median_positive_gap' and observed['t_ref'] != model.t_ref):
+            raise ValueError('replay training rows/statistics differ from fit manifest')
+    return sum((x['eligible']['mean'] + x['eligible']['contrast']) * model.shape.value_dim for x in inventory)
 
 
 @dataclass(frozen=True)
@@ -313,9 +368,21 @@ def _replay(model, factory, manifest):
         raise ValueError('replay factory rows changed')
 
 
-def _training_rows(model, ep):
+def _training_rows(model, ep, buffers=None):
     state = model.encode(ep.events, mode='terminal')
     raw, _, numeric = model._raw_features(state, ep.queries)
+    if buffers is not None:
+        b, q, v, _ = raw.shape
+        j = 4 if model.spec.family == 'jet' else 8
+        buffers['max_episode_raw_features'] = max(buffers['max_episode_raw_features'], raw.nbytes)
+        buffers['max_episode_validity_masks'] = max(buffers['max_episode_validity_masks'], 2 * b * q)
+        buffers['max_episode_writer_state'] = max(buffers['max_episode_writer_state'],
+                                                   model.persistent_nbytes(state))
+        # One query is contracted at a time; the episode's incoming tensors
+        # belong to the factory and are outside the model's owned buffers.
+        contract = ((2 if model.spec.family == 'jet' else 1) * b * j * (v + 1) * 8 +
+                    b * 8 * (v + 1) * 8 + b * model.shape.key_dim * 8)
+        buffers['max_query_contract_arrays'] = max(buffers['max_query_contract_arrays'], contract)
     for i, h in enumerate(ep.events.history_ids):
         for j in range(int(ep.queries.lengths[i])):
             if not bool(ep.queries.present[i, j]) or not bool(ep.supported[i, j]):
@@ -335,40 +402,18 @@ def fit_reader(model: RidgeMemoryModel, episode_factory, fit_manifest: dict, *, 
         raise ValueError('invalid model/chunk_rows')
     if model.fit_artifact is not None:
         raise ValueError('refit requires a fresh model instance')
-    required = {'schema_version', 'split', 'source_sha256', 'lock_sha256', 'data_sha256', 'row_sha256',
-                'episode_digests', 'history_inventory', 'writer_sha256', 'shape', 'reader', 't_ref',
-                'target_statistics_sha256', 't_ref_policy', 'regime_weights'}
-    if (set(fit_manifest) != required or fit_manifest['schema_version'] != 1 or fit_manifest['split'] != 'training' or
-            fit_manifest['source_sha256'] != source_sha256() or
-            fit_manifest['lock_sha256'] != hashlib.sha256((Path(__file__).resolve().parent.parent / 'requirements.lock').read_bytes()).hexdigest() or
-            fit_manifest['writer_sha256'] != model.writer_hash or
-            fit_manifest['shape'] != model.shape.to_json() or fit_manifest['reader'] != model.spec.to_json() or
-            fit_manifest['t_ref'] != model.t_ref or
-            fit_manifest['target_statistics_sha256'] != canonical_hash(model.target_statistics)):
-        raise ValueError('fit manifest source/writer/config/statistics mismatch')
+    expected_rows = _validate_fit_manifest(model, fit_manifest)
     inventory = fit_manifest['history_inventory']
-    if (not inventory or len({x['history_id'] for x in inventory}) != len(inventory) or
-            canonical_hash({'digests': fit_manifest['episode_digests'], 'inventory': inventory}) != fit_manifest['data_sha256']):
-        raise ValueError('fit data inventory mismatch')
     observed = fit_training_metadata(episode_factory)
-    if (observed['episode_digests'] != fit_manifest['episode_digests'] or
-            observed['history_inventory'] != inventory or observed['data_sha256'] != fit_manifest['data_sha256'] or
-            canonical_hash(observed['target_statistics']) != fit_manifest['target_statistics_sha256']):
-        raise ValueError('replay training rows/statistics differ from fit manifest')
-    policy = fit_manifest['t_ref_policy']
-    if not (policy == 'median_positive_gap' and observed['t_ref'] == model.t_ref or
-            policy == 'qualification_fixed_1' and model.t_ref == 1. and
-            all(x['regime'] == 'two_age_uniform' for x in inventory)):
-        raise ValueError('training t_ref policy mismatch')
+    _validate_fit_manifest(model, fit_manifest, observed)
     regimes = {x['regime'] for x in inventory}
     weights = fit_manifest['regime_weights']
-    if (set(weights) != regimes or any(type(w) not in (int, float) or not math.isfinite(w) or w <= 0 for w in weights.values()) or
-            not math.isclose(sum(weights.values()), 1., rel_tol=1e-12)):
-        raise ValueError('invalid frozen regime weights')
     fsum = np.zeros(32); fsq = np.zeros(32); qsum = np.zeros(model.spec.query_width - 1)
     qsq = np.zeros_like(qsum); count = 0
+    episode_buffers = {'max_episode_raw_features': 0, 'max_episode_validity_masks': 0,
+                       'max_episode_writer_state': 0, 'max_query_contract_arrays': 0}
     for ep in _replay(model, episode_factory, fit_manifest):
-        for _, _, f, q, _ in _training_rows(model, ep):
+        for _, _, f, q, _ in _training_rows(model, ep, episode_buffers):
             fsum += f[1:]; fsq += f[1:]**2
             qsum += q[1:]; qsq += q[1:]**2; count += 1
     if count == 0:
@@ -381,6 +426,7 @@ def fit_reader(model: RidgeMemoryModel, episode_factory, fit_manifest: dict, *, 
     regime_count = {r: sum(x['regime'] == r for x in inventory) for r in regimes}
     by_h = {x['history_id']: x for x in inventory}
     buffered = []
+    max_buffered_rows = 0
     def flush():
         nonlocal yy, total_weight, rows
         if not buffered:
@@ -401,20 +447,75 @@ def fit_reader(model: RidgeMemoryModel, episode_factory, fit_manifest: dict, *, 
             weight = (weights[item['regime']] / regime_count[item['regime']] / 2 /
                       item['eligible'][task] / model.shape.value_dim / scale**2)
             buffered.append((phi, y, weight))
+            max_buffered_rows = max(max_buffered_rows, len(buffered))
             if len(buffered) == chunk_rows:
                 flush()
     flush()
-    if rows != count or not math.isfinite(total_weight) or total_weight <= 0:
+    if rows != count or rows != expected_rows or not math.isfinite(total_weight) or total_weight <= 0:
         raise ValueError('training row inventory changed')
     G /= total_weight; rhs /= total_weight; yy /= total_weight
     normal = G + model.spec.ridge * np.eye(p)
     coefficients = np.linalg.solve(normal, rhs)
     residual = float(np.linalg.norm(normal @ coefficients - rhs) / max(1., np.linalg.norm(rhs)))
     objective = float(coefficients @ G @ coefficients - 2 * coefficients @ rhs + yy + model.spec.ridge * (coefficients @ coefficients))
-    if not np.isfinite(coefficients).all() or not math.isfinite(objective) or residual > 1e-7:
+    if not np.isfinite(coefficients).all() or not math.isfinite(objective) or objective < -1e-8 or residual > 1e-7:
         raise ArithmeticError('ridge solve failed numerical verification')
+    objective = max(0., objective)
+    p8, chunk8, matrix8 = p * 8, max_buffered_rows * 8, p * p * 8
     statics = (coefficients.nbytes + fmean.nbytes + fscale.nbytes + qmean.nbytes + qscale.nbytes +
                model.writer.parameter_nbytes())
+    rate_values = model.writer.rates.numel() * 8
+    scaler_values = fmean.nbytes + fscale.nbytes + qmean.nbytes + qscale.nbytes
+    artifact_values = rate_values + coefficients.nbytes + scaler_values
+    arrays = {'gram': G.nbytes, 'normal_matrix': normal.nbytes,
+              'ridge_identity_temporary': matrix8, 'scaled_ridge_identity_temporary': matrix8,
+              'gram_product_temporary': matrix8, 'rhs': rhs.nbytes,
+              'rhs_product_temporary': p8, 'normal_residual_vectors': 2 * p8,
+              'buffered_phi': max_buffered_rows * p8,
+              'stacked_design': max_buffered_rows * p8,
+              'weighted_design': max_buffered_rows * p8,
+              'chunk_labels_and_weights': 2 * chunk8,
+              'chunk_reduction_temporaries': 3 * chunk8,
+              'feature_query_sums_and_squares': fsum.nbytes + fsq.nbytes + qsum.nbytes + qsq.nbytes,
+              'feature_query_means_and_scales': fmean.nbytes + fscale.nbytes + qmean.nbytes + qscale.nbytes,
+              'max_query_basis': model.spec.query_width * 8,
+              'max_feature_standardization_vectors': (33 + model.spec.query_width + p) * 8,
+              'metadata_positive_gap_values': observed['positive_gap_count'] * 8,
+              'model_static_arrays': statics,
+              'artifact_coefficient_values': coefficients.nbytes,
+              'artifact_scaler_values': scaler_values,
+              'artifact_rate_values': rate_values,
+              'max_advanced_snapshot_copy': episode_buffers['max_episode_writer_state'],
+              **episode_buffers}
+    simultaneous = {
+        'query_extraction': arrays['model_static_arrays'] + arrays['max_episode_writer_state'] +
+                            arrays['max_advanced_snapshot_copy'] +
+                            arrays['max_episode_raw_features'] + arrays['max_episode_validity_masks'] +
+                            arrays['max_query_contract_arrays'] + arrays['max_query_basis'],
+        'chunk_flush': arrays['model_static_arrays'] + arrays['max_episode_writer_state'] +
+                       arrays['max_episode_raw_features'] + arrays['max_episode_validity_masks'] +
+                       arrays['gram'] + arrays['rhs'] + arrays['buffered_phi'] + arrays['stacked_design'] +
+                       arrays['weighted_design'] + arrays['chunk_labels_and_weights'] +
+                       arrays['chunk_reduction_temporaries'] + arrays['gram_product_temporary'] +
+                       arrays['rhs_product_temporary'],
+        'normal_construction': arrays['model_static_arrays'] + arrays['gram'] + arrays['rhs'] +
+                               arrays['normal_matrix'] + arrays['ridge_identity_temporary'] +
+                               arrays['scaled_ridge_identity_temporary'],
+        'postsolve_artifact': arrays['model_static_arrays'] + arrays['gram'] + arrays['rhs'] +
+                              arrays['normal_matrix'] + coefficients.nbytes +
+                              arrays['normal_residual_vectors'] + artifact_values,
+    }
+    memory_ledger = {'schema_version': 2, 'scope': 'known_logical_allocations_not_peak_or_rss',
+                     'observed_peak_chunk_rows': max_buffered_rows,
+                     'logical_arrays_bytes': arrays,
+                     'known_simultaneous_groups_bytes': simultaneous,
+                     'unmeasured': {'solver_workspace_bytes': None, 'process_rss_bytes': None,
+                                    'python_object_overhead_bytes': None,
+                                    'torch_kernel_temporary_bytes': None,
+                                    'input_episode_tensors_bytes': None},
+                     'gram_bytes': G.nbytes, 'rhs_bytes': rhs.nbytes,
+                     'max_design_chunk_bytes': max_buffered_rows * p8,
+                     'static_bytes': statics, 'rss_status': 'not_measured_in_source_fit'}
     artifact = FitArtifact(json.loads(canonical_json(fit_manifest)), objective, residual, rows,
                            time.perf_counter() - started,
                            tuple(model.writer.rates.detach().cpu().flatten().tolist()),
@@ -422,10 +523,7 @@ def fit_reader(model: RidgeMemoryModel, episode_factory, fit_manifest: dict, *, 
                            tuple(qmean.tolist()), tuple(qscale.tolist()), model.target_statistics,
                            {'method': 'numpy.linalg.solve_fp64_normal_equations', 'ridge': model.spec.ridge,
                             'scaled_normal_residual': residual},
-                           {'gram_bytes': G.nbytes, 'rhs_bytes': rhs.nbytes,
-                            'max_design_chunk_bytes': chunk_rows * p * 8,
-                            'static_bytes': statics,
-                            'rss_status': 'not_measured_in_source_fit'})
+                           memory_ledger)
     model.feature_mean, model.feature_scale = fmean, fscale
     model.query_mean, model.query_scale = qmean, qscale
     model.coefficients = coefficients
@@ -513,19 +611,78 @@ def load_model(manifest_path: Path, expected_sha256: str) -> RidgeMemoryModel:
             payload['writer_sha256'] != model.writer_hash or
             np.any(arrays['feature_scale'] <= 0) or np.any(arrays['query_scale'] <= 0)):
         raise ValueError('model writer/scaler mismatch')
+    fit = payload['fit']
+    _validate_loaded_fit(model, fit, arrays)
     model.coefficients = arrays['coefficients']
     model.feature_mean, model.feature_scale = arrays['feature_mean'].copy(), arrays['feature_scale'].copy()
     model.query_mean, model.query_scale = arrays['query_mean'].copy(), arrays['query_scale'].copy()
-    fit = payload['fit']
-    if set(fit) != set(FitArtifact.__dataclass_fields__) or fit['manifest']['source_sha256'] != source_sha256():
-        raise ValueError('model fit provenance mismatch')
-    for name in ('rates', 'coefficients', 'feature_mean', 'feature_scale', 'query_mean', 'query_scale'):
-        if not np.array_equal(np.asarray(fit[name], dtype=np.float64).reshape(arrays[name].shape), arrays[name]):
-            raise ValueError('model fit/array mismatch')
-    if fit['target_statistics'] != payload['target_statistics'] or fit['manifest']['writer_sha256'] != model.writer_hash:
-        raise ValueError('model fit metadata mismatch')
     model.fit_artifact = FitArtifact(**fit)
     return model
+
+
+def _finite_number(value, *, minimum=0.):
+    return type(value) in (int, float) and math.isfinite(value) and value >= minimum
+
+
+def _validate_loaded_fit(model, fit, arrays):
+    if type(fit) is not dict or set(fit) != set(FitArtifact.__dataclass_fields__):
+        raise ValueError('model fit artifact schema mismatch')
+    expected_rows = _validate_fit_manifest(model, fit['manifest'])
+    if (not _finite_number(fit['objective']) or
+            not _finite_number(fit['scaled_normal_residual']) or fit['scaled_normal_residual'] > 1e-7 or
+            type(fit['row_count']) is not int or fit['row_count'] != expected_rows or
+            not _finite_number(fit['elapsed_seconds']) or
+            fit['failure_status'] != 'none' or fit['target_statistics'] != model.target_statistics):
+        raise ValueError('model fit status/diagnostics mismatch')
+    for name in _ARRAY_NAMES:
+        try:
+            original = np.asarray(fit[name], dtype=np.float64).reshape(arrays[name].shape)
+        except (TypeError, ValueError, KeyError) as exc:
+            raise ValueError(f'model fit {name} layout mismatch') from exc
+        if not np.isfinite(original).all() or not np.array_equal(original, arrays[name]):
+            raise ValueError(f'model fit {name} array mismatch')
+    solver = fit['solver']
+    if (type(solver) is not dict or set(solver) != {'method', 'ridge', 'scaled_normal_residual'} or
+            solver['method'] != 'numpy.linalg.solve_fp64_normal_equations' or
+            type(solver['ridge']) not in (int, float) or solver['ridge'] != model.spec.ridge or
+            solver['scaled_normal_residual'] != fit['scaled_normal_residual']):
+        raise ValueError('model fit solver diagnostics mismatch')
+    ledger = fit['memory_ledger']
+    required = {'schema_version', 'scope', 'observed_peak_chunk_rows', 'logical_arrays_bytes',
+                'known_simultaneous_groups_bytes', 'unmeasured', 'gram_bytes', 'rhs_bytes',
+                'max_design_chunk_bytes', 'static_bytes', 'rss_status'}
+    if (type(ledger) is not dict or set(ledger) != required or ledger['schema_version'] != 2 or
+            ledger['scope'] != 'known_logical_allocations_not_peak_or_rss' or
+            type(ledger['observed_peak_chunk_rows']) is not int or
+            not 0 < ledger['observed_peak_chunk_rows'] <= fit['row_count'] or
+            ledger['rss_status'] != 'not_measured_in_source_fit'):
+        raise ValueError('model fit memory ledger schema mismatch')
+    logical, groups, unmeasured = (ledger[k] for k in ('logical_arrays_bytes',
+                                                        'known_simultaneous_groups_bytes', 'unmeasured'))
+    array_fields = {'gram', 'normal_matrix', 'ridge_identity_temporary',
+                    'scaled_ridge_identity_temporary', 'gram_product_temporary', 'rhs',
+                    'rhs_product_temporary', 'normal_residual_vectors', 'buffered_phi',
+                    'stacked_design', 'weighted_design', 'chunk_labels_and_weights',
+                    'chunk_reduction_temporaries', 'feature_query_sums_and_squares',
+                    'feature_query_means_and_scales', 'max_query_basis',
+                    'max_feature_standardization_vectors', 'metadata_positive_gap_values',
+                    'model_static_arrays', 'artifact_coefficient_values', 'artifact_scaler_values',
+                    'artifact_rate_values', 'max_advanced_snapshot_copy',
+                    'max_episode_raw_features', 'max_episode_validity_masks',
+                    'max_episode_writer_state', 'max_query_contract_arrays'}
+    if (type(logical) is not dict or set(logical) != array_fields or
+            not all(type(n) is int and n >= 0 for n in logical.values()) or
+            type(groups) is not dict or set(groups) != {'query_extraction', 'chunk_flush',
+                                                         'normal_construction', 'postsolve_artifact'} or
+            not all(type(n) is int and n > 0 for n in groups.values()) or
+            type(unmeasured) is not dict or set(unmeasured) != {'solver_workspace_bytes',
+                'process_rss_bytes', 'python_object_overhead_bytes',
+                'torch_kernel_temporary_bytes', 'input_episode_tensors_bytes'} or
+            any(value is not None for value in unmeasured.values()) or
+            ledger['gram_bytes'] != logical['gram'] or ledger['rhs_bytes'] != logical['rhs'] or
+            ledger['max_design_chunk_bytes'] != logical['stacked_design'] or
+            ledger['static_bytes'] != logical['model_static_arrays']):
+        raise ValueError('model fit memory ledger mismatch')
 
 
 def _two_age_episodes(shape: ShapeSpec, count: int, seed: int, split: str):
@@ -610,60 +767,93 @@ def _qualification_reference(model, episodes):
             'design_rows': len(y), 'design_width': X.shape[1]}
 
 
-def qualify_models(out: Path):
-    """Finite 8-case source qualification; call only after independent review.
+def _atomic_qualification_json(path: Path, payload: dict):
+    raw = canonical_json(payload)
+    with tempfile.NamedTemporaryFile(dir=path.parent, prefix='.qualification-', suffix='.json',
+                                     delete=False) as tmp:
+        staged = Path(tmp.name)
+        tmp.write(raw); tmp.flush(); os.fsync(tmp.fileno())
+    try:
+        os.replace(staged, path)
+    finally:
+        staged.unlink(missing_ok=True)
 
-    Fixed alpha_max=1, ridge=1e-10, t_ref=1. Fit four original-law histories
-    and 32 fresh histories per shape; retain every task/key fit and fresh MSE.
-    """
+
+def _run_qualification_case(shape, train_seed, fresh_seed, family, width, out):
+    """One fixed case; outer helper owns the durable all-case journal."""
+    name = f'{shape.key_dim}x{shape.value_dim}-{family}-q{width}'
+    training = _two_age_episodes(shape, 4, train_seed, 'training')
+    fresh = _two_age_episodes(shape, 32, fresh_seed, 'development_fit')
+    metadata = fit_training_metadata(lambda: iter(training))
+    # This exact age fixture predeclares t_ref=1 rather than its observed gap=2.
+    metadata['t_ref'] = 1.
+    metadata['t_ref_policy'] = 'qualification_fixed_1'
+    spec = ReaderSpec('ridge_v1', family, width, 1e-10, 1 / 5224, 1, 1e-6, 1e-12)
+    model = build_model(shape, spec, 1., metadata['target_statistics'])
+    fit = fit_reader(model, lambda: iter(training), make_fit_manifest(model, metadata))
+    reference = _qualification_reference(model, training)
+    errors = {}
+    for split, episodes in (('fit', training), ('fresh', fresh)):
+        cells = {task: {key: [] for key in range(shape.key_dim)} for task in ('mean', 'contrast')}
+        for ep in episodes:
+            state = model.encode(ep.events, mode='terminal')
+            result = model.read(state, ep.queries)
+            if not bool(result.diagnostics['prediction_valid'].all()) or bool(result.failure.any()):
+                raise ArithmeticError(f'{name} {split} numerical read failure')
+            for j, task in enumerate(ep.queries.tasks[0]):
+                key = int(ep.queries.key_ids[0, j])
+                difference = result.prediction[0, j].numpy() - ep.labels[0, j].numpy()
+                cells[task][key].extend((difference**2).tolist())
+        errors[split] = {task: {str(key): float(np.mean(rows) /
+                        metadata['target_statistics']['tasks'][task]['scale']**2)
+                        for key, rows in group.items()} for task, group in cells.items()}
+    maximum = max(value for split in errors.values() for group in split.values() for value in group.values())
+    numerical_gate = (reference['prediction_max_abs_difference'] <= 1e-7 and
+                      abs(reference['objective'] - fit.objective) <= 1e-8 and
+                      reference['writer_two_age_reconstruction_max_abs_error'] <= 1e-12)
+    ref = save_model(model, out / f'{name}.json')
+    return {'fit': asdict(fit), 'reference': reference, 'normalized_mse_by_task_key': errors,
+            'maximum_normalized_mse': maximum, 'numerical_gate': numerical_gate,
+            'gate': maximum <= 1e-4 and numerical_gate,
+            'model_file': ref.path.name, 'model_sha256': ref.sha256}
+
+
+def qualify_models(out: Path):
+    """Finite closed eight-case gate; persist each outcome and any exception."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
-    cases = []
-    for shape, train_seed, fresh_seed in ((ShapeSpec(16, 8), 2026102401, 2026102403),
-                                          (ShapeSpec(12, 1), 2026102402, 2026102404)):
-        training = _two_age_episodes(shape, 4, train_seed, 'training')
-        fresh = _two_age_episodes(shape, 32, fresh_seed, 'development_fit')
-        metadata = fit_training_metadata(lambda: iter(training))
-        # This exact age fixture predeclares t_ref=1 rather than its observed gap=2.
-        metadata['t_ref'] = 1.
-        metadata['t_ref_policy'] = 'qualification_fixed_1'
-        for family in ('jet', 'bank'):
-            for width in (8, 16):
-                name = f'{shape.key_dim}x{shape.value_dim}-{family}-q{width}'
-                spec = ReaderSpec('ridge_v1', family, width, 1e-10, 1 / 5224, 1, 1e-6, 1e-12)
-                model = build_model(shape, spec, 1., metadata['target_statistics'])
-                fit = fit_reader(model, lambda: iter(training), make_fit_manifest(model, metadata))
-                reference = _qualification_reference(model, training)
-                errors = {}
-                for split, episodes in (('fit', training), ('fresh', fresh)):
-                    cells = {task: {key: [] for key in range(shape.key_dim)} for task in ('mean', 'contrast')}
-                    for ep in episodes:
-                        state = model.encode(ep.events, mode='terminal')
-                        result = model.read(state, ep.queries)
-                        if not bool(result.diagnostics['prediction_valid'].all()) or bool(result.failure.any()):
-                            raise ArithmeticError(f'{name} {split} numerical read failure')
-                        for j, task in enumerate(ep.queries.tasks[0]):
-                            key = int(ep.queries.key_ids[0, j])
-                            difference = result.prediction[0, j].numpy() - ep.labels[0, j].numpy()
-                            cells[task][key].extend((difference**2).tolist())
-                    errors[split] = {task: {str(key): float(np.mean(rows) /
-                                   metadata['target_statistics']['tasks'][task]['scale']**2)
-                                   for key, rows in group.items()} for task, group in cells.items()}
-                maximum = max(value for split in errors.values() for group in split.values() for value in group.values())
-                numerical_gate = (reference['prediction_max_abs_difference'] <= 1e-7 and
-                                  abs(reference['objective'] - fit.objective) <= 1e-8 and
-                                  reference['writer_two_age_reconstruction_max_abs_error'] <= 1e-12)
-                ref = save_model(model, out / f'{name}.json')
-                case = {'name': name, 'shape': shape.to_json(), 'family': family, 'query_width': width,
-                        'fit': asdict(fit), 'reference': reference, 'normalized_mse_by_task_key': errors,
-                        'maximum_normalized_mse': maximum, 'numerical_gate': numerical_gate,
-                        'gate': maximum <= 1e-4 and numerical_gate,
-                        'model_file': ref.path.name, 'model_sha256': ref.sha256}
-                cases.append(case)
+    path = out / 'qualification.json'
+    if path.exists():
+        raise ValueError('existing qualification journal; use a new output directory')
+    plan = [(shape, train_seed, fresh_seed, family, width)
+            for shape, train_seed, fresh_seed in ((ShapeSpec(16, 8), 2026102401, 2026102403),
+                                                  (ShapeSpec(12, 1), 2026102402, 2026102404))
+            for family in ('jet', 'bank') for width in (8, 16)]
+    cases = [{'name': f'{shape.key_dim}x{shape.value_dim}-{family}-q{width}',
+              'shape': shape.to_json(), 'family': family, 'query_width': width,
+              'train_seed': train_seed, 'fresh_seed': fresh_seed,
+              'status': 'pending', 'gate': False} for shape, train_seed, fresh_seed, family, width in plan]
     payload = {'schema_version': 1, 'source_sha256': source_sha256(),
                'config': {'alpha_min': 1 / 5224, 'alpha_max': 1., 'ridge': 1e-10,
                           't_ref': 1., 'fresh_histories_per_shape': 32,
                           'fresh_seeds': {'16x8': 2026102403, '12x1': 2026102404}},
-               'all_passed': all(c['gate'] for c in cases), 'cases': cases}
-    (out / 'qualification.json').write_bytes(canonical_json(payload))
+               'status': 'incomplete', 'all_passed': False, 'cases': cases}
+    _atomic_qualification_json(path, payload)
+    for index, (shape, train_seed, fresh_seed, family, width) in enumerate(plan):
+        case = cases[index]
+        case['status'] = 'running'
+        _atomic_qualification_json(path, payload)
+        try:
+            result = _run_qualification_case(shape, train_seed, fresh_seed, family, width, out)
+            case.update(result)
+            case['status'] = 'passed' if case['gate'] else 'failed_gate'
+        except Exception as exc:
+            case.update(status='failed_exception', gate=False,
+                        exception_type=type(exc).__name__, exception_message=str(exc))
+            _atomic_qualification_json(path, payload)
+            raise
+        _atomic_qualification_json(path, payload)
+    payload['status'] = 'passed' if all(c['gate'] for c in cases) else 'failed_gate'
+    payload['all_passed'] = payload['status'] == 'passed'
+    _atomic_qualification_json(path, payload)
     return payload
