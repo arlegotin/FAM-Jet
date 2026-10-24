@@ -63,7 +63,15 @@ class StageLedger:
         value['generations'].append(item)
         _atomic(self.path, value)
 
-    def stage(self, name, inputs, action, *, resume=False, retryable=False):
+    def first_start_epoch(self, name):
+        records = [r for r in self._read()['generations']
+                   if r['stage'] == name and r['status'] == 'running']
+        if not records:
+            raise ValueError('stage has no original allocation clock')
+        return records[0]['start_epoch_seconds']
+
+    def stage(self, name, inputs, action, *, resume=False, retryable=False,
+              monitor=False, monitor_observer=None, monitor_cancel=None):
         if type(name) is not str or not name or '/' in name or name.startswith('.') or not callable(action):
             raise ValueError('valid stage and action required')
         digest = canonical_hash(inputs)
@@ -79,6 +87,18 @@ class StageLedger:
             if _files(directory) != receipt['output_files']:
                 raise ValueError('resumed stage output hash mismatch')
             return receipt['result']
+        if records and records[-1]['status'] == 'running' and retryable and resume:
+            interrupted = records[-1]
+            directory = self.root / name
+            self._append({'stage': name, 'status': 'failed',
+                          'input_sha256': interrupted['input_sha256'],
+                          'start_monotonic': interrupted['start_monotonic'],
+                          'end_monotonic': time.monotonic(),
+                          'start_epoch_seconds': interrupted['start_epoch_seconds'],
+                          'end_epoch_seconds': time.time(),
+                          'output_files': _files(directory), 'result': None,
+                          'error': 'interrupted public stage; original allocation retained'})
+            records = [r for r in self._read()['generations'] if r['stage'] == name]
         if records and not retryable:
             raise ValueError('failed/incomplete stage needs dated amendment, not routine resume')
         directory = self.root / name
@@ -96,7 +116,27 @@ class StageLedger:
                       'start_monotonic': started, 'start_epoch_seconds': epoch,
                       'deadline_epoch_seconds': inputs.get('deadline_epoch_seconds') if type(inputs) is dict else None})
         try:
-            result = action(directory)
+            if monitor:
+                from .resources import LiveStageGuard
+                original = inputs.get('allocation') if type(inputs) is dict else None
+                if type(original) is not dict:
+                    raise ValueError('monitored stage requires frozen allocation')
+                first = self.first_start_epoch(name)
+                remaining = first + original['max_wall_seconds'] - time.time()
+                if remaining <= 0:
+                    raise RuntimeError('original monitored stage deadline expired')
+                attempt = sum(r['stage'] == name and r['status'] == 'running'
+                              for r in self._read()['generations']) - 1
+                active = {**original, 'max_wall_seconds': remaining}
+                live = LiveStageGuard(directory, active,
+                        directory / f'live-guard-attempt-{attempt:03d}.json',
+                        observer=monitor_observer, cancel=monitor_cancel)
+                with live:
+                    result = action(directory)
+                if type(result) is dict:
+                    result = {**result, 'outer_live_guard_ref': live.receipt_ref}
+            else:
+                result = action(directory)
             if result is None:
                 raise ValueError('stage returned no completion receipt')
             files = _files(directory)
@@ -107,7 +147,7 @@ class StageLedger:
                           'start_epoch_seconds': epoch, 'end_epoch_seconds': time.time(),
                           'output_files': files, 'result': result, 'error': None})
             return result
-        except Exception as exc:
+        except BaseException as exc:
             self._append({'stage': name, 'status': 'failed', 'input_sha256': digest,
                           'start_monotonic': started, 'end_monotonic': time.monotonic(),
                           'start_epoch_seconds': epoch, 'end_epoch_seconds': time.time(),
@@ -153,6 +193,7 @@ def observe_resources(root):
     return {'free_ram_bytes': free_ram, 'free_disk_bytes': disk.free,
             'tree_rss_bytes': sum(table[pid][1] for pid in members if pid in table),
             'now_epoch_seconds': time.time(), 'child_processes': len(members) - 1,
+            'descendant_pids': sorted(members - {os.getpid()}),
             'run_output_bytes': sum(path.stat().st_size for path in Path(root).rglob('*') if path.is_file())}
 
 
@@ -167,6 +208,8 @@ def admit_resources(observed, allocation):
         raise ValueError('finite resource allocation required')
     if observed['now_epoch_seconds'] >= allocation['deadline_epoch_seconds']:
         raise RuntimeError('allocation deadline expired')
+    if observed['tree_rss_bytes'] > allocation['max_incremental_rss_bytes']:
+        raise RuntimeError('current process-tree RSS allocation exceeded')
     if observed['free_ram_bytes'] < 2 * 2**30 or allocation['max_incremental_rss_bytes'] > min(1.5 * 2**30, .75 * observed['free_ram_bytes']):
         raise RuntimeError('RAM admission failed')
     if observed['free_disk_bytes'] < 4 * 2**30 or allocation['max_output_bytes'] > observed['free_disk_bytes'] - 4 * 2**30:
@@ -200,6 +243,40 @@ def k16_probe_allocation(manifest, policy):
             'allocation_id': 'e4-k16-current-source-probe-v1',
             'max_wall_seconds': 120, 'max_disk_bytes': 134217728,
             'max_rss_bytes': 1610612736}
+
+
+def remaining_probe_allocation(original, first_start_epoch, now_epoch):
+    """Charge every probe attempt to the first attempt's absolute deadline."""
+    if (type(original) is not dict or original.get('phase') != 'probe' or
+            type(original.get('max_wall_seconds')) not in (int, float) or
+            type(first_start_epoch) not in (int, float) or
+            type(now_epoch) not in (int, float) or
+            not all(math.isfinite(v) for v in
+                    (original['max_wall_seconds'], first_start_epoch, now_epoch))):
+        raise ValueError('original finite probe allocation clock required')
+    remaining = first_start_epoch + original['max_wall_seconds'] - now_epoch
+    if remaining <= 0:
+        raise RuntimeError('original probe allocation deadline expired')
+    return {**original, 'max_wall_seconds': remaining}
+
+
+def execute_study_probe(ledger, name, manifest, original_allocation, directory):
+    """Run E3's actual probe in a new durable attempt under the first deadline."""
+    from .study import probe_feasibility
+    attempt = sum(r['stage'] == name and r['status'] == 'running'
+                  for r in ledger._read()['generations']) - 1
+    first = ledger.first_start_epoch(name)
+    allocation_now = remaining_probe_allocation(original_allocation, first, time.time())
+    probe_dir = Path(directory) / f'attempt-{attempt:03d}' / 'probe'
+    result = probe_feasibility(manifest, probe_dir, allocation_now)
+    if result.get('status') != 'measured' or result.get('feasible') is not True:
+        raise RuntimeError('current-source resource probe not feasible')
+    path = probe_dir / 'probe.json'
+    return {'status': 'measured', 'probe_path': str(path),
+            'probe_sha256': _sha(path),
+            'e3_source_sha256': manifest['e3_source_sha256'],
+            'original_start_epoch_seconds': first,
+            'attempt': attempt, 'attempt_allocation': allocation_now}
 
 
 def stress_inventory():
@@ -394,7 +471,8 @@ def run(out, resume=False):
                             evaluate_cell, freeze_study,
                             grant_for, infer_release, seal_release)
     from .transfer import (ModeRefs, PrefreezeTransferInputs, evaluate_real_mode,
-                           fit_transfer_modes, load_bound_modes, seal_real_release)
+                           fit_transfer_modes, load_bound_modes, seal_real_release,
+                           probe_transfer_profile, verify_transfer_probe)
     from . import transfer as transfer_module
     from .contracts import PopulationSpec, ShapeSpec
     from .models import load_model
@@ -442,22 +520,23 @@ def run(out, resume=False):
                 'calibration_validation_costs': calibration_costs()}
         _atomic(directory / 'preflight.json', body)
         return body
+    preflight_allocation = {'allocation_id': 'e4-preflight-v1',
+                            'max_wall_seconds': 300,
+                            'max_disk_bytes': 64 * 2**20,
+                            'max_rss_bytes': 1610612736}
     ledger.stage('preflight', {'study_manifest_sha256': manifest['manifest_sha256'],
-                               'accepted_inference_acceptance_sha256': _sha(repository / 'docs/research/e2e-inference-qualification.json')},
-                 preflight, resume=resume)
+                               'accepted_inference_acceptance_sha256': _sha(repository / 'docs/research/e2e-inference-qualification.json'),
+                               'allocation': preflight_allocation},
+                 preflight, resume=resume, monitor=True)
     probe16_allocation = k16_probe_allocation(manifest, policy)
     def probe16(directory):
         admit(134217728)
-        result = probe_feasibility(manifest, directory / 'probe', probe16_allocation)
-        if result.get('status') != 'measured' or result.get('feasible') is not True:
-            raise RuntimeError('current-source K16 resource probe not feasible')
-        path = directory / 'probe' / 'probe.json'
-        return {'status': 'measured', 'probe_path': str(path),
-                'probe_sha256': _sha(path), 'e3_source_sha256': manifest['e3_source_sha256']}
+        return execute_study_probe(ledger, 'probe_k16', manifest,
+                                   probe16_allocation, directory)
     probe16 = ledger.stage('probe_k16', {'manifest_sha256': manifest['manifest_sha256'],
                                         'e3_source_sha256': manifest['e3_source_sha256'],
                                         'allocation': probe16_allocation},
-                           probe16, resume=resume, retryable=True)
+                           probe16, resume=resume, retryable=True, monitor=True)
     if _sha(probe16['probe_path']) != probe16['probe_sha256'] or (
             probe16['e3_source_sha256'] != manifest['e3_source_sha256']):
         raise ValueError('current-source K16 probe bytes/source changed')
@@ -481,7 +560,7 @@ def run(out, resume=False):
         return result
     developed16 = ledger.stage('development_k16', {'manifest_sha256': manifest['manifest_sha256'],
                                       'allocation': allocation}, develop, resume=resume,
-                               retryable=True)
+                               retryable=True, monitor=True)
     journal16 = json.loads(Path(developed16['journal_path']).read_bytes())
     if _sha(developed16['journal_path']) != developed16['journal_sha256']:
         raise ValueError('K16 development journal hash mismatch')
@@ -528,7 +607,7 @@ def run(out, resume=False):
                 'break_even_queries': result['break_even_queries']}
     ledger.stage('timing_k16', {'timing_manifest_sha256': timing_manifest_sha,
                                  'policy': timing_policy, 'allocation': timing_allocation},
-                 timing_action, resume=resume)
+                 timing_action, resume=resume, monitor=True)
 
     config12 = {**manifest['config'], 'shape': ShapeSpec(12, 1).to_json(),
                 'training_seed': 2026102401803, 'development_seed': 2026102401804}
@@ -539,14 +618,11 @@ def run(out, resume=False):
                           'max_disk_bytes': 134217728, 'max_rss_bytes': 1610612736}
     def probe12(directory):
         admit(134217728)
-        result = probe_feasibility(manifest12, directory / 'probe', probe12_allocation)
-        if result.get('status') != 'measured' or result.get('feasible') is not True:
-            raise RuntimeError('K12 resource probe not feasible')
-        return {'status': 'measured', 'probe_path': str(directory / 'probe' / 'probe.json'),
-                'probe_sha256': _sha(directory / 'probe' / 'probe.json')}
+        return execute_study_probe(ledger, 'probe_k12', manifest12,
+                                   probe12_allocation, directory)
     p12 = ledger.stage('probe_k12', {'manifest_sha256': manifest12['manifest_sha256'],
                                     'allocation': probe12_allocation}, probe12,
-                       resume=resume, retryable=True)
+                       resume=resume, retryable=True, monitor=True)
     if _sha(p12['probe_path']) != p12['probe_sha256']:
         raise ValueError('K12 probe bytes changed')
     probe12 = json.loads(Path(p12['probe_path']).read_bytes())
@@ -575,7 +651,7 @@ def run(out, resume=False):
         return result
     developed12 = ledger.stage('development_k12', {'manifest_sha256': manifest12['manifest_sha256'],
                                                     'allocation': allocation12},
-                               develop12, resume=resume, retryable=True)
+                               develop12, resume=resume, retryable=True, monitor=True)
     if _sha(developed12['journal_path']) != developed12['journal_sha256']:
         raise ValueError('K12 development journal hash mismatch')
     journal12 = json.loads(Path(developed12['journal_path']).read_bytes())
@@ -589,25 +665,53 @@ def run(out, resume=False):
     beijing_sha = _sha(beijing)
     if beijing_sha != '5bf4ead56d916538944ed7c3145e2800d281f567c19c1bc204233044d832d21c':
         raise ValueError('accepted Beijing v2 manifest changed')
+    real_probe_allocation = {'schema_version': 1, 'phase': 'probe',
+                             'manifest_sha256': beijing_sha,
+                             'allocation_id': 'e4-real-profile-probe-v1',
+                             'max_wall_seconds': 300, 'max_disk_bytes': 256 * 2**20,
+                             'max_rss_bytes': 1610612736}
+    def real_probe_action(directory):
+        admit(256 * 2**20)
+        attempt = sum(r['stage'] == 'probe_beijing_fit' and r['status'] == 'running'
+                      for r in ledger._read()['generations']) - 1
+        allocation_now = remaining_probe_allocation(
+            real_probe_allocation, ledger.first_start_epoch('probe_beijing_fit'), time.time())
+        probe_ref = probe_transfer_profile(beijing,
+                        manifest['config']['worker_limits'], allocation_now,
+                        directory / f'attempt-{attempt:03d}')
+        return {'status': 'measured', 'probe_ref': probe_ref,
+                'attempt': attempt,
+                'original_start_epoch_seconds': ledger.first_start_epoch('probe_beijing_fit')}
+    real_probe = ledger.stage('probe_beijing_fit',
+                 {'beijing_manifest_sha256': beijing_sha,
+                  'transfer_source_sha256': _sha(transfer_module.__file__),
+                  'allocation': real_probe_allocation},
+                 real_probe_action, resume=resume, retryable=True, monitor=True)
+    measured_real = verify_transfer_probe(real_probe['probe_ref'], beijing_sha,
+                                          manifest['config']['worker_limits'])
     transfer_allocation = {'schema_version': 1, 'phase': 'development',
                            'manifest_sha256': beijing_sha,
                            'allocation_id': 'e4-real-prefreeze-v1',
-                           'max_wall_seconds': 3600, 'max_disk_bytes': 2 * 2**30,
-                           'max_rss_bytes': 1610612736}
+                           'max_wall_seconds': measured_real['recommended_wall_seconds'],
+                           'max_disk_bytes': measured_real['recommended_disk_bytes'],
+                           'max_rss_bytes': measured_real['recommended_rss_bytes']}
     prefreeze = PrefreezeTransferInputs(selected12, transfer_allocation,
-                                        config12['worker_limits'], 1 * 2**30, beijing_sha)
+                                        config12['worker_limits'], 1 * 2**30, beijing_sha,
+                                        real_probe['probe_ref'])
     def fit_real(directory):
         admission = admit()
         modes = fit_transfer_modes(prefreeze, beijing, directory / 'modes')
         result = {'status': 'prefreeze_fitted', 'modes_ref': {'path': str(modes.path),
-                  'sha256': modes.sha256}, 'admission': admission}
+                  'sha256': modes.sha256}, 'live_guard_ref': modes.guard_ref,
+                  'real_probe_ref': real_probe['probe_ref'], 'admission': admission}
         _atomic(directory / 'result.json', result)
         return result
     transfer_result = ledger.stage('transfer_fit', {'beijing_manifest_sha256': beijing_sha,
                                  'selected_k12_sha256': canonical_hash(selected12),
                                  'transfer_source_sha256': _sha(transfer_module.__file__),
+                                 'real_probe_sha256': real_probe['probe_ref']['sha256'],
                                  'allocation': transfer_allocation}, fit_real, resume=resume,
-                                   retryable=False)
+                                   retryable=False, monitor=True)
     mode_ref = ModeRefs(Path(transfer_result['modes_ref']['path']),
                         transfer_result['modes_ref']['sha256'])
     modes = mode_ref.read()
@@ -644,6 +748,9 @@ def run(out, resume=False):
                      'study_k12_sha256': developed12['journal_sha256'],
                      'transfer_modes_path': str(mode_ref.path),
                      'transfer_modes_sha256': mode_ref.sha256,
+                     'transfer_fit_guard_ref': transfer_result['live_guard_ref'],
+                     'transfer_fit_allocation': transfer_allocation,
+                     'transfer_probe_ref': real_probe['probe_ref'],
                      'beijing_manifest_sha256': beijing_sha,
                      'beijing_test_ids': test_ids,
                      'beijing_array_inventory': {name: [
@@ -684,8 +791,13 @@ def run(out, resume=False):
                 'source_sha256': ref.source_sha256,
                 'executable_sha256': ref.executable_sha256,
                 'calibration_costs_so_far': calibration_costs()}
-    freeze_result = ledger.stage('freeze', {'freeze_input_sha256': canonical_hash(freeze_inputs)},
-                                 freeze_action, resume=resume)
+    freeze_allocation = {'allocation_id': 'e4-runtime-freeze-v1',
+                         'max_wall_seconds': 300,
+                         'max_disk_bytes': 64 * 2**20,
+                         'max_rss_bytes': 1610612736}
+    freeze_result = ledger.stage('freeze', {'freeze_input_sha256': canonical_hash(freeze_inputs),
+                                            'allocation': freeze_allocation},
+                                 freeze_action, resume=resume, monitor=True)
     freeze = FrozenStudyRef(Path(freeze_result['path']), freeze_result['sha256'],
                             freeze_result['source_sha256'], freeze_result['executable_sha256'])
     freeze.read()
@@ -701,7 +813,8 @@ def run(out, resume=False):
                           stress_allocation, directory / 'diagnostic')
     ledger.stage('stress', {'freeze_sha256': freeze.sha256,
                             'inventory_sha256': canonical_hash(stress_inventory()),
-                            'allocation': stress_allocation}, stress_action, resume=resume)
+                            'allocation': stress_allocation}, stress_action,
+                 resume=resume, monitor=True)
 
     protected_receipts = []
     for item in populations:
@@ -726,7 +839,7 @@ def run(out, resume=False):
                     'calibration_digest_costs': calibration_costs()[previous_costs:]}
         result = ledger.stage(cell_name, {'freeze_sha256': freeze.sha256,
                                            'cell': item, 'allocation': phase_allocation},
-                              protected_action, resume=resume)
+                              protected_action, resume=resume, monitor=True)
         protected_receipts.extend(result['receipts'])
 
     real_receipts = []
@@ -759,7 +872,7 @@ def run(out, resume=False):
             real_receipts.append(ledger.stage('beijing-' + mode_name + '-' + family,
                                  {'freeze_sha256': freeze.sha256, 'mode': mode_name,
                                   'family': family, 'allocation': allocation_real},
-                                 real_action, resume=resume))
+                                 real_action, resume=resume, monitor=True))
 
     def release_action(directory):
         admit()
@@ -777,10 +890,15 @@ def run(out, resume=False):
                 'real_release_sha256': real_release.sha256,
                 'inference_sha256': _sha(directory / 'inference.json'),
                 'real_receipts_sha256': canonical_hash(real_receipts)}
+    release_allocation = {'allocation_id': 'e4-release-v1',
+                          'max_wall_seconds': 1800,
+                          'max_disk_bytes': 512 * 2**20,
+                          'max_rss_bytes': 1610612736}
     released = ledger.stage('release', {'freeze_sha256': freeze.sha256,
                                         'protected_receipt_sha256': canonical_hash(protected_receipts),
-                                        'real_receipt_sha256': canonical_hash(real_receipts)},
-                            release_action, resume=resume)
+                                        'real_receipt_sha256': canonical_hash(real_receipts),
+                                        'allocation': release_allocation},
+                            release_action, resume=resume, monitor=True)
     ReleaseRef(Path(released['release_path']), released['release_sha256'])
     from .report import render_report
     def report_action(directory):
@@ -801,7 +919,12 @@ def run(out, resume=False):
         if _sha(report_ref['path']) != report_ref['sha256']:
             raise ValueError('rendered report byte hash mismatch')
         return {'status': 'complete', 'report_ref': report_ref}
+    report_allocation = {'allocation_id': 'e4-report-v1',
+                         'max_wall_seconds': 1800,
+                         'max_disk_bytes': 512 * 2**20,
+                         'max_rss_bytes': 1610612736}
     ledger.stage('report', {'release_sha256': released['release_sha256'],
-                            'inference_sha256': released['inference_sha256']},
-                 report_action, resume=resume)
+                            'inference_sha256': released['inference_sha256'],
+                            'allocation': report_allocation},
+                 report_action, resume=resume, monitor=True)
     return out

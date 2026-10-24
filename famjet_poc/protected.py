@@ -8,6 +8,7 @@ from pathlib import Path
 import platform
 import subprocess
 import time
+import numpy as np
 
 from famjet.provenance import canonical_hash, canonical_json
 from .contracts import AccessGrant, PopulationSpec, source_sha256
@@ -218,7 +219,8 @@ def validate_model_commitments(inputs):
     """Verify selected model weights and both prefreeze real transfer modes."""
     from .models import load_model
     from .contracts import ShapeSpec
-    from .transfer import verify_prefreeze_cache_entries
+    from .transfer import (verify_prefreeze_cache_entries,
+                           verify_transfer_probe, verify_selected_reference)
     from . import transfer as transfer_module
     from .cache import e3_source_sha256
     selected = inputs.get('selected_models')
@@ -243,11 +245,29 @@ def validate_model_commitments(inputs):
             modes.get('beijing_manifest_sha256') != inputs.get('beijing_manifest_sha256') or
             modes.get('e3_source_sha256') != e3_source_sha256() or
             modes.get('transfer_source_sha256') != _sha(Path(transfer_module.__file__).read_bytes()) or
-            modes.get('synthetic_frozen') != selected12):
+            modes.get('synthetic_frozen') != selected12 or
+            set(modes.get('task_adapted', {})) != {'jet', 'bank'}):
         raise ValueError('transfer mode/model commitment mismatch')
     commitments = {name: canonical_hash(modes[name]) for name in ('synthetic_frozen', 'task_adapted')}
     if inputs.get('real_model_commitments') != commitments:
         raise ValueError('real mode pair commitment mismatch')
+    if modes.get('real_probe_ref') != inputs.get('transfer_probe_ref'):
+        raise ValueError('frozen real transfer probe reference mismatch')
+    probe = verify_transfer_probe(inputs['transfer_probe_ref'],
+                                  inputs['beijing_manifest_sha256'],
+                                  inputs['worker_limits'])
+    allocation = inputs.get('transfer_fit_allocation')
+    if (type(allocation) is not dict or
+            allocation.get('max_wall_seconds') != probe['recommended_wall_seconds'] or
+            allocation.get('max_disk_bytes') != probe['recommended_disk_bytes'] or
+            allocation.get('max_rss_bytes') != probe['recommended_rss_bytes']):
+        raise ValueError('frozen real fit allocation not bound to measured probe')
+    guard = _read_bound_file(inputs.get('transfer_fit_guard_ref'))
+    if (guard.get('kind') != 'famjet_e4_live_stage_guard' or
+            guard.get('status') != 'completed' or guard.get('violation') is not None or
+            guard.get('allocation') != allocation):
+        raise ValueError('real fit live resource guard incomplete')
+    verify_selected_reference(modes)
     verify_prefreeze_cache_entries(modes['training_cache'])
     verify_prefreeze_cache_entries(modes['development_cache'])
     for family, ref in modes['task_adapted'].items():
@@ -411,8 +431,171 @@ def admit_cell(out, allocation, started, *, tree_rss_bytes=None):
             'tree_rss_bytes': tree_rss_bytes}
 
 
+def episode_count_records(episode):
+    """Capture oracle support counts while the authorized Episode is in hand."""
+    if episode.metadata.get('target_semantics') != 'observed_event_targets_v2':
+        raise ValueError('counts require current observed-event targets')
+    counts = np.asarray(episode.metadata['observed_counts'])
+    queries = episode.queries
+    regime = episode.metadata.get('regime')
+    if regime is None and episode.metadata.get('preparation_version') == 'beijing_observed_v2_targets':
+        regime = 'beijing_observed'
+    if type(regime) is not str or not regime:
+        raise ValueError('observed-count scoring regime missing')
+    if len(queries.history_ids) != 1 or counts.shape[:2] != queries.T.shape:
+        raise ValueError('per-query observed count layout mismatch')
+    records = []
+    for j in range(int(queries.lengths[0])):
+        if not bool(queries.present[0, j]):
+            continue
+        observed = counts[0, j]
+        if not np.issubdtype(observed.dtype, np.integer) or np.any(observed < 0):
+            raise ValueError('observed counts must be nonnegative integers')
+        records.append({'history_id': queries.history_ids[0],
+                        'query_id': int(queries.query_ids[0, j]),
+                        'task': queries.tasks[0][j],
+                        'regime': regime,
+                        'target_valid': bool(episode.metadata['target_valid'][0][j]),
+                        'factual_supported': bool(episode.supported[0, j]),
+                        'target': (episode.labels[0, j].tolist()
+                                   if bool(episode.metadata['target_valid'][0][j]) else None),
+                        'observed_counts': observed.tolist()})
+    return records
+
+
+def write_count_sidecar(records, manifest_hash, out):
+    """One immutable history/query-keyed label-diagnostic inventory."""
+    if not records or not _digest(manifest_hash):
+        raise ValueError('nonempty bound observed-count inventory required')
+    keys = [(item['history_id'], item['query_id']) for item in records]
+    if len(keys) != len(set(keys)):
+        raise ValueError('duplicate observed-count query')
+    return _write_once(Path(out) / 'observed-counts.json',
+                       {'schema_version': 1, 'kind': 'famjet_e4_observed_counts',
+                        'manifest_hash': manifest_hash,
+                        'target_semantics': 'observed_event_targets_v2',
+                        'records': records})
+
+
+def _read_bound_file(ref):
+    if (type(ref) is not dict or set(ref) != {'path', 'sha256', 'bytes'} or
+            not _digest(ref['sha256']) or type(ref['bytes']) is not int):
+        raise ValueError('bound artifact reference schema mismatch')
+    raw = Path(ref['path']).read_bytes()
+    if len(raw) != ref['bytes'] or _sha(raw) != ref['sha256']:
+        raise ValueError('bound artifact hash mismatch')
+    return json.loads(raw)
+
+
+def validate_scored_receipt(receipt, rows, manifest_hash, histories, query_ids):
+    """Validate E3 score contract and all primary tasks against captured labels."""
+    from .study import _diagnostic_score_policy
+    contract = receipt.get('score_contract')
+    if type(contract) is not dict or set(contract) != {'policy_ref', 'statistics_sha256'}:
+        raise ValueError('score contract missing')
+    policy = _read_bound_file(contract['policy_ref'])
+    counts = _read_bound_file(receipt.get('counts_ref'))
+    if (policy.get('manifest_hash') != manifest_hash or
+            policy.get('version') != 2 or
+            policy.get('primary_tasks') != ['mean', 'contrast'] or
+            policy.get('task_weights') != {'mean': .5, 'contrast': .5} or
+            policy.get('support_calibration') is not None or
+            policy.get('full_inventory_hash') != canonical_hash(policy.get('full_inventory')) or
+            policy.get('eligible_inventory_hash') != canonical_hash(policy.get('expected_inventory')) or
+            counts.get('kind') != 'famjet_e4_observed_counts' or
+            counts.get('manifest_hash') != manifest_hash or
+            counts.get('target_semantics') != 'observed_event_targets_v2'):
+        raise ValueError('frozen scoring/counts contract mismatch')
+    records = counts.get('records')
+    if type(records) is not list:
+        raise ValueError('observed-count records missing')
+    by_key = {(r['history_id'], r['query_id']): r for r in records}
+    expected_keys = {(hid, qid) for hid in histories for qid in query_ids}
+    if len(by_key) != len(records) or set(by_key) != expected_keys:
+        raise ValueError('observed-count history/query inventory mismatch')
+    full = {item['history_id']: item for item in policy['full_inventory']}
+    eligible = {item['history_id']: item for item in policy['expected_inventory']}
+    if set(full) != set(histories) or set(eligible) != set(histories):
+        raise ValueError('score policy history inventory mismatch')
+    regimes = {item['regime'] for item in records}
+    if len(regimes) != 1 or policy.get('regime_weights') != {next(iter(regimes)): 1.}:
+        raise ValueError('cell-local scoring regime weight mismatch')
+    for hid in histories:
+        collected = {task: [] for task in ('mean', 'contrast')}
+        accepted = {task: [] for task in ('mean', 'contrast')}
+        for qid in query_ids:
+            item = by_key[(hid, qid)]
+            if ((item['history_id'], item['query_id']) != (hid, qid) or
+                    item['task'] not in collected or type(item['target_valid']) is not bool or
+                    type(item['factual_supported']) is not bool or
+                    not isinstance(item['observed_counts'], list) or
+                    any(type(value) is not int or value < 0 for value in
+                        np.asarray(item['observed_counts']).ravel().tolist())):
+                raise ValueError('observed-count label diagnostics invalid')
+            collected[item['task']].append(qid)
+            if item['target_valid']:
+                accepted[item['task']].append(qid)
+        if any(not accepted[task] for task in accepted):
+            raise ValueError('missing eligible primary task before release')
+        if (full[hid]['tasks'] != collected or eligible[hid]['tasks'] != accepted or
+                full[hid]['regime'] != eligible[hid]['regime'] or
+                policy.get('eligible_counts', {}).get(hid) !=
+                    {task: len(ids) for task, ids in accepted.items()} or
+                any(by_key[(hid, qid)]['regime'] != full[hid]['regime'] for qid in query_ids)):
+            raise ValueError('score policy/count sidecar inventory mismatch')
+    diagnostic = _diagnostic_score_policy(policy)
+    policies = {'primary': policy, 'ineligible_diagnostic': diagnostic}
+    policy_hashes = {scope: canonical_hash(value) for scope, value in policies.items()}
+    seen = set()
+    primary = {(hid, task): 0 for hid in histories for task in ('mean', 'contrast')}
+    for row in rows:
+        key = (row['history_id'], row['query_id'])
+        if key in seen or key not in by_key:
+            raise ValueError('scored query identity duplicate/outside inventory')
+        seen.add(key)
+        captured = by_key[key]
+        scope = 'primary' if captured['target_valid'] else 'ineligible_diagnostic'
+        if (row.get('schema_version') != 2 or row.get('score_scope') != scope or
+                row.get('replicate') != 0 or
+                row.get('task') != captured['task'] or row.get('regime') != captured['regime'] or
+                row.get('eligible') != captured['target_valid'] or
+                row.get('factual_supported') != captured['factual_supported'] or
+                row.get('target') != captured['target'] or
+                row.get('target_semantics') != 'observed_event_targets_v2' or
+                row.get('manifest_hash') != manifest_hash or
+                row.get('statistics_hash') != contract['statistics_sha256'] or
+                row.get('full_inventory_hash') != policy['full_inventory_hash'] or
+                row.get('eligible_inventory_hash') != policy['eligible_inventory_hash'] or
+                row.get('policy_hash') != policy_hashes[scope]):
+            raise ValueError('scored row contract mismatch')
+        if scope == 'primary':
+            if type(row.get('loss')) not in (int, float) or not math.isfinite(row['loss']):
+                raise ValueError('nonfinite primary loss before release')
+            primary[(key[0], row['task'])] += 1
+    if seen != expected_keys or any(value == 0 for value in primary.values()):
+        raise ValueError('scored primary task/query inventory incomplete')
+    return {'query_count': len(seen), 'history_count': len(histories),
+            'counts_sha256': receipt['counts_ref']['sha256'],
+            'policy_sha256': contract['policy_ref']['sha256']}
+
+
 def evaluate_cell(freeze, cell, grant, out):
-    """Run one frozen 16/256-history cell through E3's complete evaluator."""
+    """Run one frozen cell under a live whole-stage host resource guard."""
+    if freeze.read()['inputs']['profile'] != 'study':
+        return _evaluate_cell_body(freeze, cell, grant, out, None)
+    from .resources import LiveStageGuard
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=False)
+    live = LiveStageGuard(out, cell['allocation'], Path(out) / 'live-guard.json')
+    with live:
+        receipts = _evaluate_cell_body(freeze, cell, grant, out, live)
+    for receipt in receipts:
+        receipt['live_guard_ref'] = live.receipt_ref
+    return receipts
+
+
+def _evaluate_cell_body(freeze, cell, grant, out, live):
+    """Use E3's complete evaluator after exact model and grant admission."""
     from .data import generate_episode
     from .models import load_model
     from .study import evaluate_panel, freeze_score_policy
@@ -435,29 +618,45 @@ def evaluate_cell(freeze, cell, grant, out):
     spec = PopulationSpec.from_json(cell['spec'])
     if cell['episode_ids'] not in [i['episode_ids'] for i in body['inputs']['populations'] if i['spec'] == cell['spec']]:
         raise ValueError('cell history inventory mismatch')
+    if type(cell.get('models')) is not dict or set(cell['models']) != {'jet', 'bank'}:
+        raise ValueError('frozen Jet/Bank checkpoint pair required')
+    if (body['inputs']['profile'] == 'study' and
+            cell['models'] != body['inputs']['selected_models']):
+        raise ValueError('cell model references differ from frozen selected pair')
+    verified_pair = canonical_hash({name: cell['models'][name]['sha256']
+                                    for name in ('jet', 'bank')})
+    if verified_pair != body['inputs']['model_pair_sha256']:
+        raise ValueError('actual cell model pair differs from frozen commitment')
+    selected = {name: load_model(Path(ref['path']), ref['sha256'])
+                for name, ref in cell['models'].items()}
+    if any(model.shape != spec.shape or model.spec.family != name
+           for name, model in selected.items()):
+        raise ValueError('protected model checkpoint shape/family mismatch')
     grant.verify(source_sha256=freeze.source_sha256, data_sha256=canonical_hash(spec.to_json()),
-                 model_sha256=body['inputs']['model_pair_sha256'], population=spec)
-    def factory():
+                 model_sha256=verified_pair, population=spec)
+    captured_counts = []
+    def factory(capture=False):
         for history_id in cell['episode_ids']:
+            if live is not None:
+                live.check()
             freeze.read()
             grant.verify(source_sha256=freeze.source_sha256, data_sha256=canonical_hash(spec.to_json()),
-                         model_sha256=body['inputs']['model_pair_sha256'], population=spec,
+                         model_sha256=verified_pair, population=spec,
                          episode_id=history_id)
-            yield generate_episode(spec, history_id,
-                                   grant=None if spec.namespace == 'unit_test' else grant)
-    policy = freeze_score_policy(factory(), manifest_hash=freeze.sha256)
+            episode = generate_episode(spec, history_id,
+                                       grant=None if spec.namespace == 'unit_test' else grant)
+            if capture:
+                captured_counts.extend(episode_count_records(episode))
+            yield episode
+    policy = freeze_score_policy(factory(capture=True), manifest_hash=freeze.sha256)
+    policy_ref = _write_once(Path(out) / 'score-policy.json', policy)
+    counts_ref = write_count_sidecar(captured_counts, freeze.sha256, out)
     from .pipeline import observe_resources
     def tree_rss():
         return (observe_resources(freeze.path.parent.parent)['tree_rss_bytes']
                 if body['inputs']['profile'] == 'study' else None)
     admit_cell(out, cell['allocation'], cell_started,
                tree_rss_bytes=tree_rss())
-    if set(cell['models']) != {'jet', 'bank'}:
-        raise ValueError('frozen Jet/Bank pair required')
-    selected = {name: load_model(Path(ref['path']), ref['sha256'])
-                for name, ref in cell['models'].items()}
-    if selected['jet'].shape != spec.shape or selected['bank'].shape != spec.shape:
-        raise ValueError('protected model checkpoint shape mismatch')
     budget = 9345 if spec.shape.to_json() == {'key_dim': 16, 'value_dim': 8} else 1665
     controls = build_controls(spec.shape, budget, selected['jet'].target_statistics,
                               body['inputs'].get('control_seed', 2026102401906))
@@ -465,6 +664,8 @@ def evaluate_cell(freeze, cell, grant, out):
                'laguerre': selected['jet']}
     receipts = []
     for method, model in methods.items():
+        if live is not None:
+            live.check()
         admit_cell(out, cell['allocation'], cell_started,
                    tree_rss_bytes=tree_rss())
         statistics = selected['jet'].target_statistics
@@ -477,6 +678,8 @@ def evaluate_cell(freeze, cell, grant, out):
                                     Path(out) / method, cell['allocation'], cell['worker_limits'])
         cell_admission = admit_cell(out, cell['allocation'], cell_started,
                    tree_rss_bytes=tree_rss())
+        if live is not None:
+            live.check()
         receipts.append({'run_id': cell['cell_id'] + '-' + method, 'phase': cell['phase'],
                          'cell_id': cell['cell_id'], 'method': method,
                          'history_ids': cell['episode_ids'], 'rows_ref': result['rows_ref'],
@@ -485,9 +688,12 @@ def evaluate_cell(freeze, cell, grant, out):
                          'grant_path': str(grant.manifest_path),
                          'grant_sha256': grant.manifest_sha256,
                          'source_sha256': freeze.source_sha256,
-                         'model_sha256': body['inputs']['model_pair_sha256'],
+                         'model_sha256': verified_pair,
                          'data_sha256': canonical_hash(spec.to_json()),
                          'expected_query_ids': list(range(spec.queries_per_history)),
+                         'score_contract': {'policy_ref': policy_ref,
+                                            'statistics_sha256': canonical_hash(statistics)},
+                         'counts_ref': counts_ref,
                          'resource_receipt': result['admission'],
                          'resource_receipt_sha256': canonical_hash(result['admission']),
                          'cell_admission': cell_admission,
@@ -522,6 +728,13 @@ def _verify_receipt_bytes(receipt):
         raw = Path(receipt['rows_path']).read_bytes()
         if _sha(raw) != receipt['rows_sha256']:
             raise ValueError('row hash mismatch')
+    if 'score_contract' in receipt or 'counts_ref' in receipt:
+        _read_bound_file(receipt['score_contract']['policy_ref'])
+        _read_bound_file(receipt['counts_ref'])
+    if 'live_guard_ref' in receipt:
+        live = _read_bound_file(receipt['live_guard_ref'])
+        if live.get('status') != 'completed' or live.get('violation') is not None:
+            raise ValueError('released live resource guard failed')
 
 
 def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> ReleaseRef:
@@ -533,6 +746,26 @@ def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> 
         raise ValueError('scientific release method inventory differs from freeze')
     planned = {(i['phase'], i.get('cell_id', canonical_hash(i['spec'])), method): set(i['episode_ids'])
                for i in body['inputs']['populations'] for method in expected_methods}
+    declared = []
+    for receipt in receipts:
+        phase, cell, method = receipt.get('phase'), receipt.get('cell_id'), receipt.get('method')
+        if cell is None:
+            matching = [key for key, ids in planned.items()
+                        if key[0] == phase and key[2] == method and
+                        ids == set(receipt.get('history_ids', []))]
+            if len(matching) != 1:
+                raise ValueError('release declared cell inventory mismatch')
+            declared.append(matching[0])
+        else:
+            declared.append((phase, cell, method))
+    if len(declared) != len(planned) or len(set(declared)) != len(declared) or set(declared) != set(planned):
+        raise ValueError('complete cell/method declaration required before scoring release')
+    expected_statistics_sha256 = None
+    if body['inputs']['profile'] == 'study':
+        from .models import load_model
+        selected_jet = body['inputs']['selected_models']['jet']
+        expected_statistics_sha256 = canonical_hash(
+            load_model(Path(selected_jet['path']), selected_jet['sha256']).target_statistics)
     actual = {}
     for receipt in receipts:
         if receipt.get('status') != 'completed' or receipt.get('freeze_sha256') != freeze.sha256:
@@ -560,15 +793,32 @@ def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> 
                     receipt.get('resource_receipt_sha256') != canonical_hash(receipt.get('resource_receipt')) or
                     receipt.get('cell_admission_sha256') != canonical_hash(receipt.get('cell_admission'))):
                 raise ValueError('scientific run source/model/data/query/resource commitment mismatch')
+            if receipt.get('score_contract', {}).get('statistics_sha256') != expected_statistics_sha256:
+                raise ValueError('scientific score statistics differ from frozen selected Jet')
             bound_grant = AccessGrant(Path(receipt['grant_path']), receipt['grant_sha256'],
                                       phase, phase)
             bound_grant.verify(source_sha256=freeze.source_sha256,
                                data_sha256=canonical_hash(spec.to_json()),
                                model_sha256=body['inputs']['model_pair_sha256'],
                                population=spec)
+            live = _read_bound_file(receipt.get('live_guard_ref'))
+            if (live.get('kind') != 'famjet_e4_live_stage_guard' or
+                    live.get('status') != 'completed' or live.get('violation') is not None or
+                    live.get('allocation', {}).get('manifest_sha256') != freeze.sha256 or
+                    live['allocation'].get('allocation_id') != 'e4-' + key[1] or
+                    any(live['allocation'].get(name) != value for name, value in
+                        body['inputs']['protected_cell_allocation_template'].items())):
+                raise ValueError('protected live resource guard incomplete')
         rows = _receipt_rows(receipt)
         if {r['history_id'] for r in rows} != planned[key] or any(r['method'] != receipt['method'] for r in rows):
             raise ValueError('incomplete scored history/method inventory')
+        if body['inputs']['profile'] == 'study' or 'score_contract' in receipt or 'counts_ref' in receipt:
+            spec_record = next(item for item in body['inputs']['populations']
+                               if (item['phase'], item.get('cell_id', canonical_hash(item['spec']))) == key[:2])
+            spec = PopulationSpec.from_json(spec_record['spec'])
+            validate_scored_receipt(receipt, rows, freeze.sha256,
+                                    spec_record['episode_ids'],
+                                    list(range(spec.queries_per_history)))
         if body['inputs']['profile'] == 'study':
             for hid in planned[key]:
                 if sorted(r['query_id'] for r in rows if r['history_id'] == hid) != receipt['expected_query_ids']:
@@ -576,6 +826,12 @@ def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> 
         actual[key] = receipt
     if actual.keys() != planned.keys():
         raise ValueError('missing method or cell in release')
+    if body['inputs']['profile'] == 'study' or any('counts_ref' in item for item in receipts):
+        by_cell = {}
+        for key, receipt in actual.items():
+            by_cell.setdefault(key[:2], set()).add(receipt['counts_ref']['sha256'])
+        if any(len(hashes) != 1 for hashes in by_cell.values()):
+            raise ValueError('method observed-count sidecars differ within cell')
     release = {'schema_version': 1, 'kind': 'famjet_e4_complete_release',
                'freeze_path': str(freeze.path), 'freeze_sha256': freeze.sha256,
                'expected_methods': list(expected_methods), 'receipts': receipts,
@@ -605,11 +861,12 @@ def read_released_rows(release, *, methods=None):
     if methods is not None and (type(methods) not in (tuple, list, set) or
                                 not set(methods) <= set(body['expected_methods'])):
         raise ValueError('unknown released method filter')
+    for receipt in body['receipts']:
+        _verify_receipt_bytes(receipt)
     def verified_rows():
         emitted = False
         for receipt in body['receipts']:
             if methods is not None and receipt['method'] not in methods:
-                _verify_receipt_bytes(receipt)
                 continue
             for row in _receipt_rows(receipt):
                 emitted = True
@@ -617,6 +874,22 @@ def read_released_rows(release, *, methods=None):
         if not emitted:
             raise ValueError('release has empty rows')
     return verified_rows()
+
+
+def read_released_counts(release):
+    """Stream each cell's hash-verified per-query oracle count sidecar once."""
+    read_released_rows(release)
+    body = json.loads(release.path.read_bytes())
+    def records():
+        seen = set()
+        for receipt in body['receipts']:
+            ref = receipt.get('counts_ref')
+            if ref is None or ref['sha256'] in seen:
+                continue
+            seen.add(ref['sha256'])
+            for record in _read_bound_file(ref)['records']:
+                yield record
+    return records()
 
 
 def infer_release(freeze, release, phase):

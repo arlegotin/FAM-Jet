@@ -6,7 +6,8 @@ import pytest
 from famjet.provenance import canonical_hash
 from famjet_poc.contracts import PopulationSpec, ShapeSpec
 from famjet_poc.protected import (freeze_study, grant_for, seal_release,
-                                  read_released_rows, infer_release, validate_scientific_plan,
+                                  read_released_rows, read_released_counts,
+                                  infer_release, validate_scientific_plan,
                                   validate_model_commitments, admit_cell, evaluate_cell)
 from famjet_poc.inference import STRATA
 
@@ -66,7 +67,7 @@ def test_release_rejects_missing_or_tampered_method(tmp_path):
     assert len(list(released)) == 4
     rows_bank.write_text('[]')
     with pytest.raises(ValueError, match='hash'):
-        list(read_released_rows(release))
+        next(read_released_rows(release))
 
 
 def test_beijing_grant_requires_frozen_model_and_exact_manifest_bytes(tmp_path):
@@ -168,7 +169,7 @@ def test_cell_allocation_counts_all_method_outputs(tmp_path):
                    time.monotonic())
 
 
-def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path):
+def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path, monkeypatch):
     from famjet_poc.contracts import ReaderSpec
     from famjet_poc.data import generate_episode
     from famjet_poc.models import (build_model, fit_training_metadata,
@@ -202,6 +203,48 @@ def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path):
     receipts = evaluate_cell(frozen, cell, grant, tmp_path / 'cell')
     assert {item['method'] for item in receipts} == {
         'jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}
+    assert all(item['counts_ref']['sha256'] == receipts[0]['counts_ref']['sha256']
+               and item['score_contract']['policy_ref']['sha256'] == receipts[0]['score_contract']['policy_ref']['sha256']
+               for item in receipts)
     release = seal_release(frozen, receipts, tmp_path / 'release',
                            expected_methods=tuple(item['method'] for item in receipts))
     assert len(list(read_released_rows(release, methods=('jet', 'bank')))) == 32
+    counts = list(read_released_counts(release))
+    assert len(counts) == 16 and all('observed_counts' in row for row in counts)
+    from famjet_poc.study import load_score_rows, persist_score_rows
+    jet = receipts[0]
+    wrong = load_score_rows(jet['rows_ref'])
+    wrong[0]['manifest_hash'] = '0' * 64
+    wrong_ref = persist_score_rows(wrong, tmp_path / 'wrong-contract.json')
+    changed = [{**jet, 'rows_ref': wrong_ref, 'rows_sha256': wrong_ref['sha256']}, *receipts[1:]]
+    with pytest.raises(ValueError, match='contract|manifest'):
+        seal_release(frozen, changed, tmp_path / 'wrong-release',
+                     expected_methods=tuple(item['method'] for item in receipts))
+    missing = load_score_rows(jet['rows_ref'])
+    for row in missing:
+        if row['history_id'] == 'tiny-0' and row['task'] == 'contrast':
+            row['score_scope'] = 'ineligible_diagnostic'
+    missing_ref = persist_score_rows(missing, tmp_path / 'missing-task.json')
+    changed = [{**jet, 'rows_ref': missing_ref, 'rows_sha256': missing_ref['sha256']}, *receipts[1:]]
+    with pytest.raises(ValueError, match='task|eligible|contract'):
+        seal_release(frozen, changed, tmp_path / 'missing-release',
+                     expected_methods=tuple(item['method'] for item in receipts))
+    def forbidden_generation(*args, **kwargs):
+        raise AssertionError('protected generation preceded model binding')
+    monkeypatch.setattr('famjet_poc.data.generate_episode', forbidden_generation)
+    swapped = {**cell, 'models': {**refs, 'bank': refs['jet']}}
+    with pytest.raises(ValueError, match='model|family|checkpoint'):
+        evaluate_cell(frozen, swapped, grant, tmp_path / 'swapped-cell')
+    alternative_bank = build_model(spec.shape,
+        ReaderSpec('ridge_v1', 'bank', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12),
+        metadata['t_ref'], metadata['target_statistics'])
+    fit_reader(alternative_bank, factory, make_fit_manifest(alternative_bank, metadata))
+    other = save_model(alternative_bank, tmp_path / 'alternative-bank.json')
+    changed = {**cell, 'models': {**refs, 'bank': {'path': str(other.path),
+                                                   'sha256': other.sha256}}}
+    with pytest.raises(ValueError, match='model|pair|checkpoint'):
+        evaluate_cell(frozen, changed, grant, tmp_path / 'changed-cell')
+    from pathlib import Path
+    Path(receipts[0]['counts_ref']['path']).write_text('{}')
+    with pytest.raises(ValueError, match='hash'):
+        next(read_released_rows(release))
