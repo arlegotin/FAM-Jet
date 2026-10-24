@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "source_head": "f9824a6ffbaade4a692e216390fa14e52d89515e",
+  "scope": "192 public histories only; no fit/Bank effects/protected data",
+  "status": "PUBLIC_STATE_AND_MASK_QUALIFICATION_COMPLETE",
+  "strict_prediction_status": "FAILED",
+  "files": [
+    {
+      "path": "e2e-coordinate-public-preflight-01/admission.json",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01/admission.json",
+      "sha256": "87616aad92880f009666c94b64aa87ce513cdde9204ebab1f0443a6da99adedc",
+      "bytes": 303874
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01/histories.jsonl",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01/histories.jsonl",
+      "sha256": "a1fc26e29f5140f286404c01b2d16e88360081c95db5a4bad7003097ec7fc754",
+      "bytes": 238400
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01/result.json",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01/result.json",
+      "sha256": "b8c09ca5079bc2084c8cd2aad1dd38b2a8a5cc8c7672d20064c110a68d6df83b",
+      "bytes": 345581
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01-prep/admission.json",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01-prep/admission.json",
+      "sha256": "a295b3d5a795ad021213157c9f27df1d06751cc63318255fa34a0661eecaf4c1",
+      "bytes": 1317
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01-prep/exit-witness.json",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01-prep/exit-witness.json",
+      "sha256": "51c224f9cddf0f465804cfdff4613a510e0d63d81851672d6b35606f415cfb87",
+      "bytes": 18202
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01-prep/stderr.log",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01-prep/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-01-prep/stdout.log",
+      "original_path": "artifacts/e2e-coordinate-public-preflight-01-prep/stdout.log",
+      "sha256": "128fa12279e69bbecc14c4d16495ff70221e8abed396abbda4e1c45fe67586ef",
+      "bytes": 34870
+    },
+    {
+      "path": "e2e-coordinate-public-preflight-allocation-01.json",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-coordinate-public-preflight-allocation-01.json",
+      "sha256": "b647ef2c910f247417ec3915b19d0912b182db6c7b54650e1e42922fee6f1884",
+      "bytes": 617
+    }
+  ],
+  "input_refs_verified": 197,
+  "history_count": 192,
+  "strict_prediction_failed_histories": 16,
+  "elapsed_witness_seconds": 47.071626209006354,
+  "maximum_sampled_rss_sum_bytes": 262553600,
+  "max_state_scaled_error": 0.10605526724392847,
+  "max_prediction_absolute_error": 2.3931079340400174e-11,
+  "max_prediction_scaled_error": 15.208148453167142
+}

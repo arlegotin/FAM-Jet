@@ -1,0 +1,19 @@
+{
+  "expected_head": "f9824a6ffbaade4a692e216390fa14e52d89515e",
+  "argv": [
+    "/usr/bin/env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    ".venv/bin/python",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-coordinate-public-preflight.py",
+    "--out",
+    "artifacts/e2e-coordinate-public-preflight-01",
+    "--expected-head",
+    "f9824a6ffbaade4a692e216390fa14e52d89515e"
+  ],
+  "out": "artifacts/e2e-coordinate-public-preflight-01",
+  "prep": "artifacts/e2e-coordinate-public-preflight-01-prep",
+  "total_seconds": 300,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 33554432
+}
