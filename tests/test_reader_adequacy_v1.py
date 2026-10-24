@@ -77,6 +77,7 @@ def test_reader_static_roundtrip_and_rejection():
     reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
     before = reader.read(kernel, snapshot, queries)
     static = reader.export_static()
+    assert len(static['source']['reader_source_sha256']) == 64
     restored = PrimaryReader.from_static(static)
     after = restored.read(kernel, snapshot, queries)
     assert torch.equal(before.prediction, after.prediction)

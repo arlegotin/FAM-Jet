@@ -9,6 +9,7 @@ import torch
 from famjet.eval.isolation import _reconstruct
 from famjet.eval.state_io import tensor_from_record
 from famjet.models._schema import training_metadata
+from famjet.provenance import canonical_hash
 
 ROOT = Path(__file__).resolve().parents[2]
 PLAN = 'docs/research/task18-kernel-stage-b-panel04-evidence/preparation/plan.json'
@@ -19,6 +20,12 @@ RATE_SHA = {'jet': '007f3cdbc32407f1a905026bc5a5033c82ab0003e328cc8359b0674f4b16
             'bank': 'cb374d6be7c72999da674a24e3099e97208c29af275173c9fbfad78356723baf'}
 WRITER_SHA = {'jet': '6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648',
               'bank': '534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e'}
+
+
+def reader_source_identity():
+    names = ('__init__.py', 'contract.py', 'reader.py', 'fixtures.py')
+    directory = Path(__file__).resolve().parent
+    return canonical_hash({name: hashlib.sha256((directory / name).read_bytes()).hexdigest() for name in names})
 
 
 def _bytes(path, expected):
@@ -101,7 +108,8 @@ def pinned_source(family):
         raise ValueError('rate/static mismatch')
     source = dict(family=family, writer_hash=WRITER_SHA[family], rate_sha256=RATE_SHA[family],
                   target_hash=TARGET_SHA, metadata_sha256=METADATA_SHA,
-                  history_identity_hash=provenance['history_identity_hash'], t_ref=1.0)
+                  history_identity_hash=provenance['history_identity_hash'], t_ref=1.0,
+                  reader_source_sha256=reader_source_identity())
     return kernel_static, source, statistics
 
 
