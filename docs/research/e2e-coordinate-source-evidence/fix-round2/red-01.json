@@ -1,0 +1,16 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py",
+    "-k",
+    "repository_study_metadata or fresh_probe_policy or fresh_probe_requires"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 0.8070482090042788,
+  "log": "docs/research/e2e-coordinate-source-evidence/fix-round2/red-01.log",
+  "bytes": 8828,
+  "sha256": "2db19e111163e2d2c7a434facb645a2354dd8c588756453cf5a5268dc2068af6"
+}

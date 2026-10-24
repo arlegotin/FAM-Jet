@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/pipeline.py",
+    "tests/test_poc_pipeline.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.03232725000270875,
+  "log": "docs/research/e2e-coordinate-source-evidence/fix-round2/compile-final.log",
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

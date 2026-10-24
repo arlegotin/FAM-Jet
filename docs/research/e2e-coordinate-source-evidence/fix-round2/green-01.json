@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 1.7119133329979377,
+  "log": "docs/research/e2e-coordinate-source-evidence/fix-round2/green-01.log",
+  "bytes": 99,
+  "sha256": "315717575bf8cf62f39c2de0239110d36a9dd3d6cc0aea4e7998c4225c7e28b0"
+}

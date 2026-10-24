@@ -1,0 +1,149 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+______ test_repository_study_metadata_prepares_fresh_current_source_probe ______
+
+    def test_repository_study_metadata_prepares_fresh_current_source_probe():
+        from pathlib import Path
+        from famjet_poc.study import study_manifest
+        repository = Path(__file__).resolve().parents[1]
+        config = json.loads((repository / 'docs/research/e2e-study-config.json').read_bytes())
+        policy = json.loads((repository / 'docs/research/e2e-development-resource-policy.json').read_bytes())
+        manifest = study_manifest(config)
+        assert manifest['e3_source_sha256'] == policy['expected_e3_source_sha256']
+>       allocation = k16_probe_allocation(manifest, policy)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_pipeline.py:320: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+manifest = {'schema_version': 1, 'kind': 'famjet_e3_study', 'config': {'profile': 'study', 'shape': {'key_dim': 16, 'value_dim': ...t_seed': 2026102401802, ...}, 'source_sha256': 'f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475', ...}
+policy = {'schema': 1, 'phase': 'development', 'allocation_policy_id': 'e2e-coordinate-diagnostic-development-v2', 'expected_e3_source_sha256': 'e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba', ...}
+
+    def k16_probe_allocation(manifest, policy):
+        """Create a fresh source-matched probe; historical receipts are provenance only."""
+        if (type(manifest) is not dict or type(policy) is not dict or
+                manifest.get('e3_source_sha256') != policy.get('expected_e3_source_sha256') or
+                type(manifest.get('manifest_sha256')) is not str or
+                len(manifest['manifest_sha256']) != 64 or
+                policy.get('probe_ref_status') !=
+                'historical_pre_worker_fix; requires fresh matching actual CLI probe'):
+>           raise ValueError('current E3 manifest and historical probe policy required')
+E           ValueError: current E3 manifest and historical probe policy required
+
+famjet_poc/pipeline.py:264: ValueError
+_______ test_fresh_probe_policy_is_independent_of_descriptive_provenance _______
+
+    def test_fresh_probe_policy_is_independent_of_descriptive_provenance():
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64, 'fresh_probe_required': True,
+                  'probe_ref_status': 'Archived source notes may change without changing admission.'}
+>       assert k16_probe_allocation(manifest, policy)['manifest_sha256'] == manifest['manifest_sha256']
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_pipeline.py:334: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+manifest = {'manifest_sha256': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'e3_source_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'}
+policy = {'expected_e3_source_sha256': 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', 'fresh_probe_required': True, 'probe_ref_status': 'Archived source notes may change without changing admission.'}
+
+    def k16_probe_allocation(manifest, policy):
+        """Create a fresh source-matched probe; historical receipts are provenance only."""
+        if (type(manifest) is not dict or type(policy) is not dict or
+                manifest.get('e3_source_sha256') != policy.get('expected_e3_source_sha256') or
+                type(manifest.get('manifest_sha256')) is not str or
+                len(manifest['manifest_sha256']) != 64 or
+                policy.get('probe_ref_status') !=
+                'historical_pre_worker_fix; requires fresh matching actual CLI probe'):
+>           raise ValueError('current E3 manifest and historical probe policy required')
+E           ValueError: current E3 manifest and historical probe policy required
+
+famjet_poc/pipeline.py:264: ValueError
+___ test_fresh_probe_requires_true_boolean_even_with_old_provenance[missing] ___
+
+flag = 'missing'
+
+    @pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+    def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64,
+                  'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+        if flag != 'missing':
+            policy['fresh_probe_required'] = flag
+>       with pytest.raises(ValueError, match='probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:347: Failed
+____ test_fresh_probe_requires_true_boolean_even_with_old_provenance[None] _____
+
+flag = None
+
+    @pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+    def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64,
+                  'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+        if flag != 'missing':
+            policy['fresh_probe_required'] = flag
+>       with pytest.raises(ValueError, match='probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:347: Failed
+____ test_fresh_probe_requires_true_boolean_even_with_old_provenance[False] ____
+
+flag = False
+
+    @pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+    def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64,
+                  'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+        if flag != 'missing':
+            policy['fresh_probe_required'] = flag
+>       with pytest.raises(ValueError, match='probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:347: Failed
+______ test_fresh_probe_requires_true_boolean_even_with_old_provenance[1] ______
+
+flag = 1
+
+    @pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+    def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64,
+                  'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+        if flag != 'missing':
+            policy['fresh_probe_required'] = flag
+>       with pytest.raises(ValueError, match='probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:347: Failed
+____ test_fresh_probe_requires_true_boolean_even_with_old_provenance[true] _____
+
+flag = 'true'
+
+    @pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+    def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+        manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+        policy = {'expected_e3_source_sha256': 'c' * 64,
+                  'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+        if flag != 'missing':
+            policy['fresh_probe_required'] = flag
+>       with pytest.raises(ValueError, match='probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:347: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_repository_study_metadata_prepares_fresh_current_source_probe
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_policy_is_independent_of_descriptive_provenance
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_requires_true_boolean_even_with_old_provenance[missing]
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_requires_true_boolean_even_with_old_provenance[None]
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_requires_true_boolean_even_with_old_provenance[False]
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_requires_true_boolean_even_with_old_provenance[1]
+FAILED tests/test_poc_pipeline.py::test_fresh_probe_requires_true_boolean_even_with_old_provenance[true]
+7 failed, 16 deselected in 0.57s
