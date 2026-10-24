@@ -1,0 +1,150 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_external_read_request_types_query_features_for_fp64_state[jet] ______
+
+family = 'jet'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-2/test_external_read_request_typ0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e55e00>
+
+    @pytest.mark.parametrize("family", ["jet", "bank"])
+    def test_external_read_request_types_query_features_for_fp64_state(family, tmp_path, monkeypatch):
+        """Serializing raw FP32 query features would fail the real reader contract."""
+        from validation.kernel_stage_a import commands
+        from validation.kernel_stage_a import production as stage_a_production
+    
+        plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_bytes())
+        candidate = next(c for c in plan["candidates"] if c["family"] == family)
+        spec = json.loads((ROOT / candidate["static"]["path"]).read_bytes())
+        model = _reconstruct(spec, freeze_rates=True)
+        key = torch.zeros((1, 1, 16), dtype=torch.float32)
+        key[0, 0, 0] = 1
+        events = EventBatch(
+            history_ids=("tiny-query-history",), event_ids=torch.tensor([[7]]),
+            timestamps=torch.tensor([[2**53 + 1]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 9]], dtype=torch.uint64),
+            key_features=key, values=torch.ones((1, 1, 8), dtype=torch.float32),
+            lengths=torch.tensor([1]), present=torch.tensor([[True]]),
+            observed=torch.ones((1, 1, 8), dtype=torch.bool), time_unit="ticks",
+        )
+        typed = replace(events, key_features=key.to(torch.float64),
+                        values=events.values.to(torch.float64))
+        with torch.no_grad():
+            state = model.encode(typed, mode="stream")
+        queries = QueryBatch(
+            history_ids=events.history_ids, query_ids=torch.tensor([[0]]),
+            T=torch.tensor([[2**53 + 2]], dtype=torch.int64),
+            key_ids=events.key_ids.clone(), key_features=key,
+            tasks=(("mean",),), age_start=torch.zeros((1, 1), dtype=torch.float64),
+            age_end=torch.ones((1, 1), dtype=torch.float64),
+            present=torch.tensor([[True]]), lengths=torch.tensor([1]),
+        )
+        with pytest.raises(ValueError, match="query features must be nonnegative on state device/dtype"):
+            model.kernel.features(state, queries)
+        query_hash = batch_hash(queries)
+    
+        class ReachedDispatch(Exception):
+            pass
+    
+        monkeypatch.setattr(commands, "reader_command", lambda *args: ["python"])
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
+                            lambda *args, **kwargs: (_ for _ in ()).throw(ReachedDispatch()))
+        backend = Backend.__new__(Backend)
+        backend.plan = {"execution": {"runtime": {"executable": "python"}}}
+        backend.root = ROOT
+        backend.out = tmp_path
+        backend.models = {candidate["id"]: model}
+        backend.specs = {candidate["id"]: spec}
+        backend.episodes = {"tiny": Episode(events, queries, torch.zeros((1, 1, 8)),
+                                           torch.ones((1, 1), dtype=torch.bool))}
+        backend.source_hash = "test-source"
+        backend.candidate_deadline = time.monotonic() + 30
+        backend.read_ordinal = 0
+        backend.on_attempt = lambda ref: None
+        snapshot = {"state": state, "record": {"snapshot_hash": snapshot_hash(state)}}
+        with pytest.raises(ReachedDispatch):
+            backend.read(candidate, {"episode_id": "tiny", "query_ids": [0],
+                                     "hashes": {"queries": query_hash}}, snapshot)
+        request = json.loads((tmp_path / "request-000.json").read_bytes())
+>       assert request["queries"]["key_features"]["dtype"] == "float64"
+E       AssertionError: assert 'float32' == 'float64'
+E         
+E         - float64
+E         + float32
+
+tests/test_kernel_stage_b_input_dtype.py:152: AssertionError
+_____ test_external_read_request_types_query_features_for_fp64_state[bank] _____
+
+family = 'bank'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-2/test_external_read_request_typ1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e55cd0>
+
+    @pytest.mark.parametrize("family", ["jet", "bank"])
+    def test_external_read_request_types_query_features_for_fp64_state(family, tmp_path, monkeypatch):
+        """Serializing raw FP32 query features would fail the real reader contract."""
+        from validation.kernel_stage_a import commands
+        from validation.kernel_stage_a import production as stage_a_production
+    
+        plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_bytes())
+        candidate = next(c for c in plan["candidates"] if c["family"] == family)
+        spec = json.loads((ROOT / candidate["static"]["path"]).read_bytes())
+        model = _reconstruct(spec, freeze_rates=True)
+        key = torch.zeros((1, 1, 16), dtype=torch.float32)
+        key[0, 0, 0] = 1
+        events = EventBatch(
+            history_ids=("tiny-query-history",), event_ids=torch.tensor([[7]]),
+            timestamps=torch.tensor([[2**53 + 1]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 9]], dtype=torch.uint64),
+            key_features=key, values=torch.ones((1, 1, 8), dtype=torch.float32),
+            lengths=torch.tensor([1]), present=torch.tensor([[True]]),
+            observed=torch.ones((1, 1, 8), dtype=torch.bool), time_unit="ticks",
+        )
+        typed = replace(events, key_features=key.to(torch.float64),
+                        values=events.values.to(torch.float64))
+        with torch.no_grad():
+            state = model.encode(typed, mode="stream")
+        queries = QueryBatch(
+            history_ids=events.history_ids, query_ids=torch.tensor([[0]]),
+            T=torch.tensor([[2**53 + 2]], dtype=torch.int64),
+            key_ids=events.key_ids.clone(), key_features=key,
+            tasks=(("mean",),), age_start=torch.zeros((1, 1), dtype=torch.float64),
+            age_end=torch.ones((1, 1), dtype=torch.float64),
+            present=torch.tensor([[True]]), lengths=torch.tensor([1]),
+        )
+        with pytest.raises(ValueError, match="query features must be nonnegative on state device/dtype"):
+            model.kernel.features(state, queries)
+        query_hash = batch_hash(queries)
+    
+        class ReachedDispatch(Exception):
+            pass
+    
+        monkeypatch.setattr(commands, "reader_command", lambda *args: ["python"])
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
+                            lambda *args, **kwargs: (_ for _ in ()).throw(ReachedDispatch()))
+        backend = Backend.__new__(Backend)
+        backend.plan = {"execution": {"runtime": {"executable": "python"}}}
+        backend.root = ROOT
+        backend.out = tmp_path
+        backend.models = {candidate["id"]: model}
+        backend.specs = {candidate["id"]: spec}
+        backend.episodes = {"tiny": Episode(events, queries, torch.zeros((1, 1, 8)),
+                                           torch.ones((1, 1), dtype=torch.bool))}
+        backend.source_hash = "test-source"
+        backend.candidate_deadline = time.monotonic() + 30
+        backend.read_ordinal = 0
+        backend.on_attempt = lambda ref: None
+        snapshot = {"state": state, "record": {"snapshot_hash": snapshot_hash(state)}}
+        with pytest.raises(ReachedDispatch):
+            backend.read(candidate, {"episode_id": "tiny", "query_ids": [0],
+                                     "hashes": {"queries": query_hash}}, snapshot)
+        request = json.loads((tmp_path / "request-000.json").read_bytes())
+>       assert request["queries"]["key_features"]["dtype"] == "float64"
+E       AssertionError: assert 'float32' == 'float64'
+E         
+E         - float64
+E         + float32
+
+tests/test_kernel_stage_b_input_dtype.py:152: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_input_dtype.py::test_external_read_request_types_query_features_for_fp64_state[jet]
+FAILED tests/test_kernel_stage_b_input_dtype.py::test_external_read_request_types_query_features_for_fp64_state[bank]
+2 failed in 0.63s

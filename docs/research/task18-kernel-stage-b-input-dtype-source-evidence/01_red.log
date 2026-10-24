@@ -1,0 +1,168 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_external_encode_promotes_only_writer_floats_and_matches_real_writer[jet] _
+
+family = 'jet'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-0/test_external_encode_promotes_0')
+
+    @pytest.mark.parametrize("family", ["jet", "bank"])
+    def test_external_encode_promotes_only_writer_floats_and_matches_real_writer(family, tmp_path):
+        """Passing the original FP32 event slice to an FP64 writer must fail this test."""
+        plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_bytes())
+        candidate = next(c for c in plan["candidates"] if c["family"] == family)
+        spec = json.loads((ROOT / candidate["static"]["path"]).read_bytes())
+        model = _reconstruct(spec, freeze_rates=True)
+        assert model.kernel.rates.dtype == torch.float64
+        assert model.kernel.rates.device.type == "cpu"
+    
+        first_time = 2**53 + 1
+        keys = torch.zeros((1, 3, 16), dtype=torch.float32)
+        keys[0, 0, 0] = 1
+        keys[0, 1, 1] = 1
+        keys[0, 2, 2] = 1
+        values = torch.tensor([[[1.25] * 8, [9.0] * 8, [-2.5] * 8]], dtype=torch.float32)
+        events = EventBatch(
+            history_ids=("tiny-dtype-history",),
+            event_ids=torch.tensor([[4, 5, 8]], dtype=torch.int64),
+            timestamps=torch.tensor([[first_time, first_time + 1, first_time + 2]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 3, 2**63 + 5, 2**63 + 7]], dtype=torch.uint64),
+            key_features=keys, values=values, lengths=torch.tensor([3]),
+            present=torch.tensor([[True, True, True]]),
+            observed=torch.tensor([[[True] * 8, [False] * 8, [True] * 8]]),
+            time_unit="ticks", auxiliary={"gate": torch.tensor([[1.0, 0.5, 0.75]])},
+        )
+        queries = QueryBatch(
+            history_ids=events.history_ids, query_ids=torch.tensor([[0]]),
+            T=torch.tensor([[first_time + 3]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 3]], dtype=torch.uint64),
+            key_features=keys[:, :1], tasks=(("mean",),),
+            age_start=torch.zeros((1, 1), dtype=torch.float64),
+            age_end=torch.ones((1, 1), dtype=torch.float64),
+            present=torch.tensor([[True]]), lengths=torch.tensor([1]),
+        )
+        raw_hash = batch_hash(events)
+        raw_fields = {name: getattr(events, name).clone() for name in
+                      ("event_ids", "timestamps", "key_ids", "key_features", "values",
+                       "lengths", "present", "observed")}
+        raw_gate = events.auxiliary["gate"].clone()
+    
+        backend = Backend.__new__(Backend)
+        backend.plan = plan
+        backend.out = tmp_path
+        backend.models = {candidate["id"]: model}
+        backend.episodes = {"tiny": Episode(events, queries, torch.zeros((1, 1, 8)),
+                                           torch.ones((1, 1), dtype=torch.bool))}
+>       actual = backend.encode(family, {"episode_id": "tiny"})["state"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_b_input_dtype.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_b/production.py:318: in encode
+    state = model.encode(event, state, mode="stream")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/models/kernel_read_model.py:76: in encode
+    return self.kernel.encode(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/_fixed_writer.py:162: in encode
+    gates = self._raw(events)
+            ^^^^^^^^^^^^^^^^^
+famjet/memory/jet.py:231: in _raw
+    return _raw(events, self.rates)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/_fixed_writer.py:71: in _raw
+    _require(events.key_features.dtype == events.values.dtype == rates.dtype
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'raw keys/values/rates must share device and dtype'
+
+    def _require(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: raw keys/values/rates must share device and dtype
+
+famjet/memory/_fixed_writer.py:16: ValueError
+_ test_external_encode_promotes_only_writer_floats_and_matches_real_writer[bank] _
+
+family = 'bank'
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-0/test_external_encode_promotes_1')
+
+    @pytest.mark.parametrize("family", ["jet", "bank"])
+    def test_external_encode_promotes_only_writer_floats_and_matches_real_writer(family, tmp_path):
+        """Passing the original FP32 event slice to an FP64 writer must fail this test."""
+        plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_bytes())
+        candidate = next(c for c in plan["candidates"] if c["family"] == family)
+        spec = json.loads((ROOT / candidate["static"]["path"]).read_bytes())
+        model = _reconstruct(spec, freeze_rates=True)
+        assert model.kernel.rates.dtype == torch.float64
+        assert model.kernel.rates.device.type == "cpu"
+    
+        first_time = 2**53 + 1
+        keys = torch.zeros((1, 3, 16), dtype=torch.float32)
+        keys[0, 0, 0] = 1
+        keys[0, 1, 1] = 1
+        keys[0, 2, 2] = 1
+        values = torch.tensor([[[1.25] * 8, [9.0] * 8, [-2.5] * 8]], dtype=torch.float32)
+        events = EventBatch(
+            history_ids=("tiny-dtype-history",),
+            event_ids=torch.tensor([[4, 5, 8]], dtype=torch.int64),
+            timestamps=torch.tensor([[first_time, first_time + 1, first_time + 2]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 3, 2**63 + 5, 2**63 + 7]], dtype=torch.uint64),
+            key_features=keys, values=values, lengths=torch.tensor([3]),
+            present=torch.tensor([[True, True, True]]),
+            observed=torch.tensor([[[True] * 8, [False] * 8, [True] * 8]]),
+            time_unit="ticks", auxiliary={"gate": torch.tensor([[1.0, 0.5, 0.75]])},
+        )
+        queries = QueryBatch(
+            history_ids=events.history_ids, query_ids=torch.tensor([[0]]),
+            T=torch.tensor([[first_time + 3]], dtype=torch.int64),
+            key_ids=torch.tensor([[2**63 + 3]], dtype=torch.uint64),
+            key_features=keys[:, :1], tasks=(("mean",),),
+            age_start=torch.zeros((1, 1), dtype=torch.float64),
+            age_end=torch.ones((1, 1), dtype=torch.float64),
+            present=torch.tensor([[True]]), lengths=torch.tensor([1]),
+        )
+        raw_hash = batch_hash(events)
+        raw_fields = {name: getattr(events, name).clone() for name in
+                      ("event_ids", "timestamps", "key_ids", "key_features", "values",
+                       "lengths", "present", "observed")}
+        raw_gate = events.auxiliary["gate"].clone()
+    
+        backend = Backend.__new__(Backend)
+        backend.plan = plan
+        backend.out = tmp_path
+        backend.models = {candidate["id"]: model}
+        backend.episodes = {"tiny": Episode(events, queries, torch.zeros((1, 1, 8)),
+                                           torch.ones((1, 1), dtype=torch.bool))}
+>       actual = backend.encode(family, {"episode_id": "tiny"})["state"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_b_input_dtype.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_b/production.py:318: in encode
+    state = model.encode(event, state, mode="stream")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/models/kernel_read_model.py:76: in encode
+    return self.kernel.encode(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/_fixed_writer.py:162: in encode
+    gates = self._raw(events)
+            ^^^^^^^^^^^^^^^^^
+famjet/memory/expbank.py:223: in _raw
+    return _raw(events, self.rates, lambda r: validate_bank_rates(r, no_decay=self.no_decay))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/_fixed_writer.py:71: in _raw
+    _require(events.key_features.dtype == events.values.dtype == rates.dtype
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'raw keys/values/rates must share device and dtype'
+
+    def _require(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: raw keys/values/rates must share device and dtype
+
+famjet/memory/_fixed_writer.py:16: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_input_dtype.py::test_external_encode_promotes_only_writer_floats_and_matches_real_writer[jet]
+FAILED tests/test_kernel_stage_b_input_dtype.py::test_external_encode_promotes_only_writer_floats_and_matches_real_writer[bank]
+2 failed in 0.68s
