@@ -252,6 +252,81 @@ def test_development_resume_exhausted_clock_blocks_before_cache_reopen(tmp_path,
         study.run_development(manifest, tmp_path, allocation)
 
 
+def test_development_reuses_both_caches_larger_than_free_phase_disk(tmp_path, monkeypatch):
+    import hashlib
+    import json
+    from famjet_poc import study
+    from famjet_poc.cache import prepare_episode_cache
+
+    manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                     'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                     'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                     'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                       'max_array_bytes': 4_000_000, 'max_histories': 64}})
+    out = tmp_path / 'development'
+    train = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['training_specs']],
+                                  manifest['training_inventory'], out / 'training-cache',
+                                  {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+    dev = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['development_specs']],
+                                manifest['development_inventory'], out / 'development-cache',
+                                {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+    probe = tmp_path / 'probe-reference.json'
+    probe.write_text(json.dumps({'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                                 'status': 'measured', 'feasible': True}))
+    existing = {p: (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                for p in out.rglob('*') if p.is_file()}
+    used = sum(p.stat().st_size for p in existing)
+    free = min(train.disk_bytes, dev.disk_bytes) // 2
+    assert free > 5_000
+    allocation = {'schema_version': 1, 'phase': 'development', 'manifest_sha256': manifest['manifest_sha256'],
+                  'allocation_id': 'unit-existing-caches', 'max_wall_seconds': 60.,
+                  'max_disk_bytes': used + free, 'max_rss_bytes': 2_000_000_000,
+                  'probe_ref': {'path': str(probe), 'sha256': hashlib.sha256(probe.read_bytes()).hexdigest()}}
+    monkeypatch.setattr(study, 'prepare_episode_cache',
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError('episode regenerated')))
+    monkeypatch.setattr(study, '_fit_one',
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError('stop after cache reopen')))
+    with pytest.raises(RuntimeError, match='stop after cache reopen'):
+        study.run_development(manifest, out, allocation)
+    assert all((hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) == prior
+               for p, prior in existing.items())
+
+
+def test_probe_reuses_both_caches_larger_than_free_phase_disk(tmp_path, monkeypatch):
+    import hashlib
+    from famjet_poc import study
+    from famjet_poc.cache import prepare_episode_cache
+
+    manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                     'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                     'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                     'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                       'max_array_bytes': 4_000_000, 'max_histories': 64}})
+    out = tmp_path / 'probe'
+    train = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['training_specs']],
+                                  manifest['training_inventory'][:2], out / 'probe-training-cache',
+                                  {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+    dev = prepare_episode_cache([PopulationSpec.from_json(s) for s in manifest['development_specs']],
+                                manifest['development_inventory'][:1], out / 'probe-development-cache',
+                                {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+    existing = {p: (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                for p in out.rglob('*') if p.is_file()}
+    used = sum(p.stat().st_size for p in existing)
+    free = min(train.disk_bytes, dev.disk_bytes) // 2
+    assert free > 5_000
+    allocation = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                  'allocation_id': 'unit-probe-existing-caches', 'max_wall_seconds': 60.,
+                  'max_disk_bytes': used + free, 'max_rss_bytes': 2_000_000_000}
+    monkeypatch.setattr(study, 'prepare_episode_cache',
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError('episode regenerated')))
+    monkeypatch.setattr(study, '_fit_one',
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError('stop after cache reopen')))
+    result = study.probe_feasibility(manifest, out, allocation)
+    assert result['error'] == 'RuntimeError: stop after cache reopen'
+    assert all((hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) == prior
+               for p, prior in existing.items())
+
+
 def test_normalized_score_rows_roundtrip_policy_and_reject_tampering(tmp_path):
     import hashlib
     import json

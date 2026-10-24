@@ -673,7 +673,12 @@ def _fit_one(reader, shape, train_cache, train_ids, out, allocation, started, wo
     return loaded, meta, fit, ref, model.cache_stats, admission
 
 
-def _cache_for(specs, inventory, root, limits):
+def _cache_for(specs, inventory, root, limits, *, incremental_disk_bytes=None):
+    if (type(limits) is not dict or set(limits) != {'disk_bytes', 'lru_bytes'} or
+            any(type(value) is not int or value <= 0 for value in limits.values()) or
+            incremental_disk_bytes is not None and
+            (type(incremental_disk_bytes) is not int or incremental_disk_bytes < 0)):
+        raise ValueError('invalid cache total/incremental disk admission')
     path = Path(root) / 'cache-manifest.json'
     if path.exists():
         raw = path.read_bytes()
@@ -683,12 +688,14 @@ def _cache_for(specs, inventory, root, limits):
         saved = [(entry['history_id'], entry['spec_sha256']) for entry in cache.entries]
         if requested != saved or any(spec_hash not in requested_specs for _, spec_hash in requested):
             raise ValueError('resumed cache history/spec inventory mismatch')
-        if (type(limits) is not dict or set(limits) != {'disk_bytes', 'lru_bytes'} or
-                type(limits['disk_bytes']) is not int or limits['disk_bytes'] < cache.disk_bytes or
-                type(limits['lru_bytes']) is not int or limits['lru_bytes'] != cache.lru_bytes):
+        if (limits['disk_bytes'] < cache.disk_bytes or limits['lru_bytes'] != cache.lru_bytes):
             raise ValueError('resumed cache ceiling/admission mismatch')
         return cache
-    return prepare_episode_cache([PopulationSpec.from_json(s) for s in specs], inventory, root, limits)
+    disk_ceiling = limits['disk_bytes'] if incremental_disk_bytes is None else min(limits['disk_bytes'], incremental_disk_bytes)
+    if disk_ceiling <= 0:
+        raise RuntimeError('new episode cache has no incremental disk admission')
+    return prepare_episode_cache([PopulationSpec.from_json(s) for s in specs], inventory, root,
+                                 {**limits, 'disk_bytes': disk_ceiling})
 
 
 def probe_feasibility(manifest, out, allocation) -> dict:
@@ -709,19 +716,17 @@ def probe_feasibility(manifest, out, allocation) -> dict:
         train = manifest['training_inventory'][:min(2, len(manifest['training_inventory']))]
         dev = manifest['development_inventory'][:1]
         limits = manifest['config']['cache_limits']
-        train_disk_limit = min(limits['disk_bytes'], int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
-        if train_disk_limit <= 0:
-            raise RuntimeError('probe training cache disk admission exhausted')
+        train_incremental = int(_admit(started, allocation, directory=out)['remaining_disk_bytes'])
         cache_started = time.perf_counter()
         cache = _cache_for(manifest['training_specs'], train, out / 'probe-training-cache',
-                           {'disk_bytes': train_disk_limit, 'lru_bytes': limits['lru_bytes']})
-        dev_disk_limit = min(limits['disk_bytes'] - cache.disk_bytes,
-                             int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
-        if dev_disk_limit <= 0:
-            raise RuntimeError('probe development cache disk admission exhausted')
+                           limits, incremental_disk_bytes=train_incremental)
+        dev_total_ceiling = limits['disk_bytes'] - cache.disk_bytes
+        if dev_total_ceiling <= 0:
+            raise RuntimeError('probe development cache configured ceiling exhausted')
+        dev_incremental = int(_admit(started, allocation, directory=out)['remaining_disk_bytes'])
         dev_cache = _cache_for(manifest['development_specs'], dev, out / 'probe-development-cache',
-                               {'disk_bytes': dev_disk_limit,
-                                'lru_bytes': limits['lru_bytes']})
+                               {'disk_bytes': dev_total_ceiling, 'lru_bytes': limits['lru_bytes']},
+                               incremental_disk_bytes=dev_incremental)
         cache_seconds = time.perf_counter() - cache_started
         _admit(started, allocation, directory=out)
         candidate = manifest['candidates'][0]
@@ -831,20 +836,20 @@ def run_development(manifest, out, allocation) -> dict:
         _atomic_json(journal_path, journal)
     _admit(started, allocation, directory=out)
     limits = manifest['config']['cache_limits']
-    train_disk_limit = min(limits['disk_bytes'], int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
-    if train_disk_limit <= 0:
-        raise RuntimeError('development training cache disk admission exhausted')
+    train_incremental = int(_admit(started, allocation, directory=out)['remaining_disk_bytes'])
     train_cache_started = time.perf_counter()
     train_cache = _cache_for(manifest['training_specs'], manifest['training_inventory'], out / 'training-cache',
-                             {'disk_bytes': train_disk_limit, 'lru_bytes': limits['lru_bytes']})
+                             limits, incremental_disk_bytes=train_incremental)
     train_cache_seconds = time.perf_counter() - train_cache_started
-    remaining = min(limits['disk_bytes'] - train_cache.disk_bytes,
-                    int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
-    if remaining <= 0:
-        raise RuntimeError('development cache disk admission exhausted')
+    dev_total_ceiling = limits['disk_bytes'] - train_cache.disk_bytes
+    if dev_total_ceiling <= 0:
+        raise RuntimeError('development cache configured ceiling exhausted')
+    dev_incremental = int(_admit(started, allocation, directory=out)['remaining_disk_bytes'])
     dev_cache_started = time.perf_counter()
     dev_cache = _cache_for(manifest['development_specs'], manifest['development_inventory'],
-                           out / 'development-cache', {'disk_bytes': remaining, 'lru_bytes': limits['lru_bytes']})
+                           out / 'development-cache',
+                           {'disk_bytes': dev_total_ceiling, 'lru_bytes': limits['lru_bytes']},
+                           incremental_disk_bytes=dev_incremental)
     dev_cache_seconds = time.perf_counter() - dev_cache_started
     _admit(started, allocation, directory=out)
     train_ids = [item['history_id'] for item in manifest['training_inventory']]

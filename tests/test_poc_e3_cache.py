@@ -88,6 +88,12 @@ def test_reused_cache_rejects_changed_spec_and_lower_ceiling(tmp_path):
     with pytest.raises((MemoryError, ValueError), match='ceiling|limit|admission'):
         _cache_for([spec.to_json()], inventory, tmp_path / 'cache',
                    {'disk_bytes': cache.disk_bytes - 1, 'lru_bytes': 1_000_000})
+    assert _cache_for([spec.to_json()], inventory, tmp_path / 'cache',
+                      {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000},
+                      incremental_disk_bytes=0).manifest_sha256 == cache.manifest_sha256
+    with pytest.raises(MemoryError, match='disk admission'):
+        _cache_for([spec.to_json()], inventory, tmp_path / 'new-cache',
+                   {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000}, incremental_disk_bytes=128)
     meta = fit_training_metadata(episode_factory(cache, ['unit-cache-spec-0']))
     with pytest.raises(ValueError, match='LRU|ceiling|limit'):
         attach_training_cache(build_model(spec.shape, _reader(), meta['t_ref'], meta['target_statistics']), cache,
