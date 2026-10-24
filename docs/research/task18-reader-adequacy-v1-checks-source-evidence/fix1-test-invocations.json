@@ -1,0 +1,153 @@
+{
+  "fix_base": "3cd19e3caa2094388c37cd95f1668ccaec6dc151",
+  "invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 1191,
+      "elapsed_seconds": 0.95,
+      "exit_code": 2,
+      "ordinal": 1,
+      "raw_log": "fix1-pytest-red.log",
+      "sha256": "d449c994b423d9939cae10fbafcd6d2a92c06b268d47968d889287317fbbf5b9",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 1.0,
+      "exit_code": 0,
+      "ordinal": 2,
+      "raw_log": "fix1-pytest-green1.log",
+      "sha256": "5c8309fe16feac84edb14876d395e850ca6854dbd70757a43d0409559c2b1c9a",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 1.11,
+      "exit_code": 0,
+      "ordinal": 3,
+      "raw_log": "fix1-pytest-green2.log",
+      "sha256": "9155149a4dcb40a3a45b46bcebfb1912a6f01328709c6080f8767077481dc32b",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py",
+        "-k",
+        "fixture_task_scales"
+      ],
+      "bytes": 1247,
+      "elapsed_seconds": 0.86,
+      "exit_code": 1,
+      "ordinal": 4,
+      "raw_log": "fix1-scale-red.log",
+      "sha256": "c54027d2f7771d4f91856ec78260d6389197e85fc1e64b1ae5b815fb263211b5",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py",
+        "-k",
+        "completed_cell"
+      ],
+      "bytes": 1652,
+      "elapsed_seconds": 0.88,
+      "exit_code": 1,
+      "ordinal": 5,
+      "raw_log": "fix1-cell-red.log",
+      "sha256": "8919d07576b4e3dd72700698b1d0d50984fd026beabbeeca708ed519488edc28",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.98,
+      "exit_code": 0,
+      "ordinal": 6,
+      "raw_log": "fix1-pytest-green3.log",
+      "sha256": "f1db0b42a60c5d914d37260cabb97f2ce7d6d8e8d1a7e2ff431598242b6a3dcd",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.99,
+      "exit_code": 0,
+      "ordinal": 7,
+      "raw_log": "fix1-pytest-final.log",
+      "sha256": "03e48a1333060db3d50e4f1d71d303fecd593d88644141e3102b8d69e908479d",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "validation.reader_adequacy_v1.check_run",
+        "--help"
+      ],
+      "bytes": 325,
+      "elapsed_seconds": 0.7,
+      "exit_code": 0,
+      "ordinal": 8,
+      "raw_log": "fix1-cli-help.log",
+      "sha256": "0e72b1e54f394e93bae6776dd58b106f5ca1be446386eaed6e8f89649bc5f8ec",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.99,
+      "exit_code": 0,
+      "ordinal": 9,
+      "raw_log": "fix1-pytest-final2.log",
+      "sha256": "3145c9f07351acae2ba58b1ec8e23c67b79ac7a2b409abdf94d45ec20dd8b75d",
+      "wrapper": "/usr/bin/time -p"
+    }
+  ],
+  "utc": "2026-10-24T12:57:18.429398+00:00"
+}

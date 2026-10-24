@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_completed_cell_is_durable_before_numerical_return ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-47/test_completed_cell_is_durable0')
+
+    def test_completed_cell_is_durable_before_numerical_return(tmp_path):
+        module = __import__('validation.reader_adequacy_v1.checks', fromlist=['_record_terminal_cell'])
+        path = tmp_path/'progress.json'
+        budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                               sample=lambda: (0, 0), clock=lambda: 1.,
+                               publish=lambda value: atomic_json(path, value))
+        budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+        completed = {'length': 128, 'regime': 'piecewise_stationary',
+                     'episode_id': 't18ra1-check-128-piecewise_stationary',
+                     'status': 'PASS', 'families': {'jet': {'errors': {'z': 0.}}}}
+>       module._record_terminal_cell(budget, 0, completed)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validation.reader_adequacy_v1.checks' has no attribute '_record_terminal_cell'
+
+tests/test_reader_adequacy_checks.py:207: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_checks.py::test_completed_cell_is_durable_before_numerical_return
+1 failed, 21 deselected in 0.64s
+real 0.88
+user 0.76
+sys 0.12

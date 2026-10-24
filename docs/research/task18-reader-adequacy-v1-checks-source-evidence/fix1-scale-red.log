@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_fixture_task_scales_are_distinct_pooled_population_scalars ________
+
+    def test_fixture_task_scales_are_distinct_pooled_population_scalars():
+        labels = torch.empty(4, 64, 8, dtype=torch.float64)
+        labels[:, :32] = torch.tensor([-1., 1., -1., 1.])[:, None, None]
+        labels[:, 32:] = torch.tensor([-2., 2., -2., 2.])[:, None, None]
+        means, scales = fixture_target_stats(labels)
+        assert means.shape == (2, 8) and torch.equal(means, torch.zeros_like(means))
+>       assert scales.shape == (2, 1) and torch.equal(scales, torch.tensor([[1.], [2.]], dtype=torch.float64))
+E       assert (torch.Size([8]) == (2, 1)
+E         
+E         At index 0 diff: 8 != 2
+E         Right contains one more item: 1
+E         Use -v to get more diff)
+
+tests/test_reader_adequacy_checks.py:160: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_checks.py::test_fixture_task_scales_are_distinct_pooled_population_scalars
+1 failed, 20 deselected in 0.62s
+real 0.86
+user 0.74
+sys 0.11
