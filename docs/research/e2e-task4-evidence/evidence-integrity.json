@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-c",
+    "import hashlib,json,pathlib; root=pathlib.Path.cwd(); d=root/\"docs/research/e2e-task4-evidence\"; records=[json.loads(p.read_bytes()) for p in d.glob(\"*.json\")]; assert all((root/r[\"log\"]).is_file() and hashlib.sha256((root/r[\"log\"]).read_bytes()).hexdigest()==r[\"log_sha256\"] and len((root/r[\"log\"]).read_bytes())==r[\"log_bytes\"] for r in records); print(len(records),\"evidence records verified\")"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 0.03286833300080616,
+  "log": "docs/research/e2e-task4-evidence/evidence-integrity.log",
+  "log_sha256": "55474c04a13bca8379a9b2fbfbfa3e14b69149b17b84ba96f318dabaf93e0149",
+  "log_bytes": 29
+}

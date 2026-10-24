@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_stage_ledger_rejects_edited_generation"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 0.11534833299810998,
+  "log": "docs/research/e2e-task4-evidence/green-ledger-chain.log",
+  "log_sha256": "a71df3ef716cabe43ead70bd8311cda3aeadcb986bea501da0ea9262f31c3925",
+  "log_bytes": 98
+}

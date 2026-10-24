@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_protected.py::test_unit_cell_runs_selected_pair_and_all_fixed_controls",
+    "tests/test_poc_pipeline.py::test_k16_probe_uses_current_manifest_not_historical_receipt",
+    "tests/test_poc_transfer.py::test_equivalent_control_matches_independent_laguerre_and_rejects_bank"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 1.1720222500007367,
+  "log": "docs/research/e2e-task4-evidence/green-worker-cell-and-probe.log",
+  "log_sha256": "70900744fa1c3e6f4656a792df453c20d99e738bcbe83bfbb6f78869f4a042ce",
+  "log_bytes": 241
+}

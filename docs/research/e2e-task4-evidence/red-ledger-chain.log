@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________________ test_stage_ledger_rejects_edited_generation __________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-292/test_stage_ledger_rejects_edit0')
+
+    def test_stage_ledger_rejects_edited_generation(tmp_path):
+        ledger = StageLedger(tmp_path / 'run')
+        def action(out):
+            (out / 'done.txt').write_text('done')
+            return {'status': 'done'}
+        ledger.stage('public', {'seed': 1}, action)
+        path = tmp_path / 'run' / 'run-ledger.json'
+        payload = json.loads(path.read_text())
+        payload['generations'][0]['input_sha256'] = '0' * 64
+        path.write_text(json.dumps(payload))
+>       with pytest.raises(ValueError, match='ledger'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_pipeline.py:64: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_stage_ledger_rejects_edited_generation
+1 failed in 0.03s

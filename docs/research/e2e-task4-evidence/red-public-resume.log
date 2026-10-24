@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_public_stage_resume_keeps_failed_bytes_and_original_input ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-285/test_public_stage_resume_keeps0')
+
+    def test_public_stage_resume_keeps_failed_bytes_and_original_input(tmp_path):
+        ledger = StageLedger(tmp_path / 'run')
+        calls = []
+        def action(out):
+            calls.append(1)
+            if len(calls) == 1:
+                (out / 'partial.txt').write_text('kept')
+                raise RuntimeError('public interruption')
+            assert (out / 'partial.txt').read_text() == 'kept'
+            (out / 'done.txt').write_text('done')
+            return {'status': 'done'}
+        with pytest.raises(RuntimeError):
+>           ledger.stage('public', {'seed': 1}, action, retryable=True)
+E           TypeError: StageLedger.stage() got an unexpected keyword argument 'retryable'
+
+tests/test_poc_pipeline.py:48: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_public_stage_resume_keeps_failed_bytes_and_original_input
+1 failed in 0.03s

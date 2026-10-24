@@ -1,0 +1,117 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+___________ test_unit_cell_runs_selected_pair_and_all_fixed_controls ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-310/test_unit_cell_runs_selected_p0')
+
+    def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path):
+        from famjet_poc.contracts import ReaderSpec
+        from famjet_poc.data import generate_episode
+        from famjet_poc.models import (build_model, fit_training_metadata,
+                                       make_fit_manifest, fit_reader, save_model)
+        spec = _spec()
+        episodes = [generate_episode(spec, history) for history in ('tiny-0', 'tiny-1')]
+        for episode in episodes:
+            episode.metadata['split'] = 'training'
+        factory = lambda: iter(episodes)
+        metadata = fit_training_metadata(factory)
+        refs = {}
+        for family in ('jet', 'bank'):
+            reader = ReaderSpec('ridge_v1', family, 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+            model = build_model(spec.shape, reader, metadata['t_ref'], metadata['target_statistics'])
+            fit_reader(model, factory, make_fit_manifest(model, metadata))
+            ref = save_model(model, tmp_path / (family + '.json'))
+            refs[family] = {'path': str(ref.path), 'sha256': ref.sha256}
+        inputs = _inputs()
+        inputs['model_pair_sha256'] = canonical_hash({name: ref['sha256'] for name, ref in refs.items()})
+        inputs['populations'][0]['cell_id'] = 'tiny-cell'
+        frozen = freeze_study(inputs, tmp_path / 'freeze')
+        grant = grant_for(frozen, 'unit_test', 'pilot', spec, inputs['model_pair_sha256'])
+        cell = {'cell_id': 'tiny-cell', 'phase': 'unit_test', 'spec': spec.to_json(),
+                'episode_ids': ['tiny-0', 'tiny-1'], 'models': refs,
+                'allocation': {'schema_version': 1, 'phase': 'unit_test',
+                               'manifest_sha256': frozen.sha256, 'allocation_id': 'tiny',
+                               'max_wall_seconds': 30, 'max_disk_bytes': 16 * 2**20,
+                               'max_rss_bytes': 2**30},
+                'worker_limits': {'max_frame_bytes': 2**20,
+                                  'max_array_bytes': 2**19, 'max_histories': 64}}
+>       receipts = evaluate_cell(frozen, cell, grant, tmp_path / 'cell')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_protected.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/protected.py:472: in evaluate_cell
+    result = evaluate_equivalent_control(model, factory, policy,
+famjet_poc/transfer.py:114: in evaluate_equivalent_control
+    rows, summary, costs = _evaluate(model, factory, policy, statistics, 'laguerre',
+famjet_poc/study.py:543: in _evaluate
+    measured = laguerre_control(model, ep.events, ep.queries)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+model = <famjet_poc.models.RidgeMemoryModel object at 0x1136c82d0>
+events = EventBatch(history_ids=('tiny-0',), event_ids=tensor([[  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12...  ..., True, True, True]]]), time_unit='generator_reference_1', normalization='shared', auxiliary={}, schema_version=1)
+queries = QueryBatch(history_ids=('tiny-0',), query_ids=tensor([[0, 1, 2, 3, 4, 5, 6, 7]]), T=tensor([[307., 307., 307., 307., 3...ch.float64), present=tensor([[True, True, True, True, True, True, True, True]]), lengths=tensor([8]), schema_version=1)
+
+    def laguerre_control(model, events, queries) -> dict:
+        """Step L0/L1 per event, recover Z/H only at the reader boundary."""
+        if type(model) is not RidgeMemoryModel or model.spec.family != 'jet':
+            raise ValueError('base frozen Jet reader required')
+        validate_events(events)
+        validate_queries(queries)
+        if events.history_ids != queries.history_ids:
+            raise ValueError('history identities differ')
+        b, n = events.event_ids.shape
+        if any(int(length) != n for length in events.lengths):
+            raise ValueError('independent Laguerre control requires unpadded histories')
+        events = replace(events, key_features=events.key_features.to(torch.float64),
+                         values=events.values.to(torch.float64))
+        validate_events(events)
+        gates = model.writer._raw(events)
+        base = model.init_state(b, device='cpu', dtype='float64')
+        l0 = torch.zeros_like(base.payload['z'])
+        l1 = torch.zeros_like(l0)
+        direct = None
+        previous = [None] * b
+        started = time.perf_counter()
+        with torch.no_grad():
+            for j in range(n):
+                times = events.timestamps[:, j].tolist()
+                gaps = [0. if previous[i] is None else float(exact_time_difference(times[i], previous[i])) for i in range(b)]
+                l0, l1 = laguerre_step(l0, l1, events.key_features[:, j, None].to(torch.float64),
+                                       events.values[:, j, None].to(torch.float64), gates[:, j, None],
+                                       torch.tensor(gaps, dtype=torch.float64), model.writer.rates,
+                                       events.validation.write_mask[:, j])
+                event = replace(events, **{name: getattr(events, name)[:, j:j+1] for name in
+                                        ('event_ids', 'timestamps', 'key_ids', 'key_features', 'values', 'present', 'observed')},
+                                lengths=torch.ones_like(events.lengths),
+                                auxiliary={k: v[:, j:j+1] for k, v in events.auxiliary.items()})
+                direct = model.encode(event, direct, mode='stream')
+                previous = times
+            coordinate_seconds = time.perf_counter() - started
+            converted = from_laguerre(l0, l1)
+            recovered = Snapshot({**direct.payload, 'z': converted.z, 'h': converted.h},
+                                 direct.last_time.clone(), direct.valid.clone(), direct.parameter_hash,
+                                 direct.event_offset.clone())
+            converted_seconds = time.perf_counter() - started - coordinate_seconds
+            left = model.read(direct, queries)
+            right = model.read(recovered, queries)
+        finite = torch.isfinite(left.prediction) & torch.isfinite(right.prediction)
+        prediction_error = float(torch.max(torch.abs(left.prediction[finite] - right.prediction[finite]))) if bool(finite.any()) else 0.
+        state_error = max(float(torch.max(torch.abs(direct.payload[key] - recovered.payload[key]))) for key in ('z', 'h'))
+        if not (torch.equal(torch.isfinite(left.prediction), torch.isfinite(right.prediction)) and
+                torch.equal(left.failure, right.failure)):
+            raise ArithmeticError('Laguerre reader support/failure parity changed')
+        if (not torch.allclose(direct.payload['z'], recovered.payload['z'], rtol=1e-12, atol=1e-12) or
+                not torch.allclose(direct.payload['h'], recovered.payload['h'], rtol=1e-12, atol=1e-12) or
+                not torch.allclose(left.prediction[finite], right.prediction[finite], rtol=1e-12, atol=1e-12) or
+                not torch.equal(left.support, right.support) or
+                any(not torch.equal(left.diagnostics[name], right.diagnostics[name]) for name in
+                    ('prediction_valid', 'numeric_supported'))):
+>           raise ArithmeticError('Laguerre FP64 state/prediction parity exceeded original tolerance')
+E           ArithmeticError: Laguerre FP64 state/prediction parity exceeded original tolerance
+
+famjet_poc/comparators.py:131: ArithmeticError
+=========================== short test summary info ============================
+FAILED tests/test_poc_protected.py::test_unit_cell_runs_selected_pair_and_all_fixed_controls
+1 failed, 2 passed in 6.76s

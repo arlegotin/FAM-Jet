@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-I",
+    "-c",
+    "import sys,numpy as np; sys.addaudithook(lambda event,args: (_ for _ in ()).throw(PermissionError(event)) if event in {\"open\",\"os.listdir\",\"os.scandir\",\"ctypes.dlopen\"} else None); print(np.unique(np.array([1,1,2])))"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 0.05155774999730056,
+  "log": "docs/research/e2e-task4-evidence/latest-lru-audit-probe.log",
+  "log_sha256": "5059aae3c6f605870b6463ba41d80156d336eb8c6bbf8ec8978f375ae9556740",
+  "log_bytes": 1036
+}

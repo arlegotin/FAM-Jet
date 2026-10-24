@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_beijing_grant_requires_frozen_model_and_exact_manifest_bytes _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-282/test_beijing_grant_requires_fr0')
+
+    def test_beijing_grant_requires_frozen_model_and_exact_manifest_bytes(tmp_path):
+        manifest = tmp_path / 'beijing.json'
+        manifest.write_text('{"unit_test":true}')
+        inputs = _inputs()
+        inputs.update(beijing_manifest_sha256=hashlib.sha256(manifest.read_bytes()).hexdigest(),
+                      beijing_test_ids=['test-0'],
+                      real_model_commitments={'synthetic_frozen': 'b' * 64})
+        frozen = freeze_study(inputs, tmp_path / 'freeze')
+>       grant = grant_for(frozen, 'unit_test', 'test', manifest, 'b' * 64)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_protected.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+freeze = FrozenStudyRef(path=PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-...661ef66adbb522d2cbcd36c331d8475', executable_sha256='73fb6725de361ccc6fac1b32e5ce2e0d0cd8dbb092edd1e19783c2304eb8b045')
+phase = 'unit_test', split = 'test'
+population = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-282/test_beijing_grant_requires_fr0/beijing.json')
+model_pair = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+
+    def grant_for(freeze, phase, split, population, model_pair) -> AccessGrant:
+        body = freeze.read()
+        if not isinstance(population, PopulationSpec) or model_pair != body['inputs']['model_pair_sha256']:
+>           raise ValueError('frozen model pair/population mismatch')
+E           ValueError: frozen model pair/population mismatch
+
+famjet_poc/protected.py:165: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_protected.py::test_beijing_grant_requires_frozen_model_and_exact_manifest_bytes
+1 failed in 0.48s

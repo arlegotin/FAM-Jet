@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_k16_probe_uses_current_manifest_not_historical_receipt"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 0.12282412499916973,
+  "log": "docs/research/e2e-task4-evidence/red-fresh-k16-probe.log",
+  "log_sha256": "c911017ebc8feed482a73e398302be14c3f193a4d74b54c5c033b81f6717a97c",
+  "log_bytes": 1213
+}

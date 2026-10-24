@@ -1,0 +1,17 @@
+ERROR: found no collectors for /Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_transfer.py::test_real_comparison_release_requires_every_declared_method
+
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/test_poc_transfer.py __________________
+ImportError while importing test module '/Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_transfer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_poc_transfer.py:8: in <module>
+    from famjet_poc.transfer import validate_real_method_inventory
+E   ImportError: cannot import name 'validate_real_method_inventory' from 'famjet_poc.transfer' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/transfer.py)
+=========================== short test summary info ============================
+ERROR tests/test_poc_transfer.py
+1 error in 0.89s

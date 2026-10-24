@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_secondary_ledger_names_unavailable_tasks_with_null_metrics"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 0.12027220800155192,
+  "log": "docs/research/e2e-task4-evidence/red-secondary.log",
+  "log_sha256": "5f12f04989a70db6333930aaa195271fc5fabb4e20327159f2ce44579a3b5f79",
+  "log_bytes": 1213
+}

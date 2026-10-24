@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_prefreeze_episode_cache_bytes_are_rechecked"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 1.1270645410004363,
+  "log": "docs/research/e2e-task4-evidence/red-prefreeze-cache.log",
+  "log_sha256": "b0d85e97cff189228e0c56f02e2bd31c9204fc944292ce49428f48ebbdf3e1de",
+  "log_bytes": 1194
+}

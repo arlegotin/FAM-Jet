@@ -1,0 +1,38 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_native_contrast_scales_without_pollutant_offset _____________
+
+    def test_native_contrast_scales_without_pollutant_offset():
+        rows = [{'history_id': 'h', 'task': 'mean', 'prediction': [1.], 'target': [2.]},
+                {'history_id': 'h', 'task': 'contrast', 'prediction': [1.], 'target': [2.]}]
+        converted = native_rows(rows, {'split': 'training', 'mean': 50., 'scale': 20.})
+        assert converted[0]['native_prediction'] == [70.]
+        assert converted[0]['native_target'] == [90.]
+        assert converted[1]['native_prediction'] == [20.]
+        assert converted[1]['native_target'] == [40.]
+>       assert converted[1]['native_mse_micrograms2'] == 400.
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'native_mse_micrograms2'
+
+tests/test_poc_transfer.py:16: KeyError
+___________ test_block_sensitivity_groups_stations_in_shared_cluster ___________
+
+    def test_block_sensitivity_groups_stations_in_shared_cluster():
+        rows = [
+            {'history_id': 'h0', 'cluster_28d': 'a', 'cluster_56d': 'A', 'station': 'north', 'loss': 1.},
+            {'history_id': 'h0', 'cluster_28d': 'a', 'cluster_56d': 'A', 'station': 'south', 'loss': 3.},
+            {'history_id': 'h1', 'cluster_28d': 'b', 'cluster_56d': 'A', 'station': 'north', 'loss': 5.},
+            {'history_id': 'h2', 'cluster_28d': 'c', 'cluster_56d': 'B', 'station': 'south', 'loss': 7.},
+        ]
+        result = block_sensitivity(rows, {'28d': 3, '56d': 2})
+        assert result['28d']['cluster_count'] == 3
+        assert result['56d']['cluster_count'] == 2
+        assert result['28d']['cluster_means']['a'] == 2.
+>       assert result['56d']['cluster_means']['A'] == 3.5
+E       assert 3.0 == 3.5
+
+tests/test_poc_transfer.py:30: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_native_contrast_scales_without_pollutant_offset
+FAILED tests/test_poc_transfer.py::test_block_sensitivity_groups_stations_in_shared_cluster
+2 failed in 0.89s

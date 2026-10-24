@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_prefreeze_real_fit_requires_finite_whole_stage_allocation"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 1.1346495419966232,
+  "log": "docs/research/e2e-task4-evidence/red-transfer-allocation.log",
+  "log_sha256": "d4d6fd8940b8996aae3269f3442a517a93a528bf4d34166ef23b99e83d8d6a7a",
+  "log_bytes": 714
+}

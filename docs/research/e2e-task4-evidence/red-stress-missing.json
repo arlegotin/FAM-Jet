@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_diagnostic_keeps_missing_task_failure_without_redraw"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 0.12449020800340804,
+  "log": "docs/research/e2e-task4-evidence/red-stress-missing.log",
+  "log_sha256": "2288771cd3cf4be2b77ac7d9c6fca8475dedfef3054b124c1fc7b7ba13518bf8",
+  "log_bytes": 1225
+}

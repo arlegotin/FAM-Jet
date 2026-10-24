@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_protected.py::test_beijing_grant_requires_frozen_model_and_exact_manifest_bytes"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 0.5912930419981421,
+  "log": "docs/research/e2e-task4-evidence/green-beijing-grant.log",
+  "log_sha256": "acb50bc88917f57929611d63c707e0ccd387dae970fefba6e9100a81f12eba7b",
+  "log_bytes": 98
+}

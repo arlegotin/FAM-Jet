@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from famjet_poc.protected import _accepted_calibration, calibration_costs; print(_accepted_calibration()); print(calibration_costs())
+                                                                                     ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/protected.py", line 151, in _accepted_calibration
+    evidence, accepted, attestation = _calibration_material()
+                                      ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/protected.py", line 138, in _calibration_material
+    raise ValueError('original calibration deadline admission mismatch')
+ValueError: original calibration deadline admission mismatch

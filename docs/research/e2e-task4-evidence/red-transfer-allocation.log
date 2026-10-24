@@ -1,0 +1,13 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_prefreeze_real_fit_requires_finite_whole_stage_allocation ________
+
+    def test_prefreeze_real_fit_requires_finite_whole_stage_allocation():
+>       with pytest.raises(ValueError, match='allocation'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_transfer.py:100: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_prefreeze_real_fit_requires_finite_whole_stage_allocation
+1 failed in 0.88s

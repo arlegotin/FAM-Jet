@@ -1,0 +1,45 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_real_mode_rejects_unknown_method_before_test_manifest_access _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-290/test_real_mode_rejects_unknown0')
+
+    def test_real_mode_rejects_unknown_method_before_test_manifest_access(tmp_path):
+        with pytest.raises(ValueError, match='method'):
+>           evaluate_real_mode({'mode_name': 'synthetic_frozen', 'family': 'invented',
+                                'modes_ref': {'path': '/missing/modes.json', 'sha256': 'a' * 64},
+                                'manifest': '/missing/test.json', 'allocation': {},
+                                'worker_limits': {}}, None, tmp_path / 'out')
+
+tests/test_poc_transfer.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/transfer.py:280: in evaluate_real_mode
+    refs = ModeRefs(Path(mode['modes_ref']['path']), mode['modes_ref']['sha256']).read()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/transfer.py:127: in read
+    raw = self.path.read_bytes()
+          ^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_abc.py:625: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/missing/modes.json'), mode = 'rb', buffering = -1
+encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/missing/modes.json'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_real_mode_rejects_unknown_method_before_test_manifest_access
+1 failed in 0.90s

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from famjet_poc.pipeline import observe_resources; print(observe_resources("."))
+                                                             ~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 120, in observe_resources
+    pages[key.strip()] = int(value.strip().rstrip('.'))
+                         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: '(page size of 16384 bytes)'

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_timing_disables_break_even_without_application_tolerance"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 0.12177300000257674,
+  "log": "docs/research/e2e-task4-evidence/red-timing-admission.log",
+  "log_sha256": "a5084ec6ccd8758863b4cdd7598402188a8eec89a8f2601860c4f9dc33822459",
+  "log_bytes": 1220
+}

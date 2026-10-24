@@ -1,0 +1,55 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_equivalent_control_uses_pinned_e3_rows_and_rejects_bank _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-287/test_equivalent_control_uses_p0')
+
+    def test_equivalent_control_uses_pinned_e3_rows_and_rejects_bank(tmp_path):
+        import numpy as np
+        from famjet.eval.metrics import fit_target_statistics
+        from famjet_poc.contracts import PopulationSpec, ReaderSpec, ShapeSpec
+        from famjet_poc.data import generate_episode
+        from famjet_poc.models import build_model
+        from famjet_poc.study import evaluate_panel, freeze_score_policy, load_score_rows
+    
+        spec = PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 318,
+                              (128,), ('piecewise_stationary',), 8, 512)
+        ep = generate_episode(spec, 'equivalent-unit-0')
+        ep.metadata['split'] = 'training'
+        statistics = fit_target_statistics([ep])
+        policy = freeze_score_policy([ep])
+        allocation = {'schema_version': 1, 'phase': 'unit_test',
+                      'manifest_sha256': policy['manifest_hash'], 'allocation_id': 'equiv-test',
+                      'max_wall_seconds': 30, 'max_disk_bytes': 2**20,
+                      'max_rss_bytes': 2**30}
+        limits = {'max_frame_bytes': 2**20, 'max_array_bytes': 2**19, 'max_histories': 64}
+        jet = build_model(ShapeSpec(12, 1), ReaderSpec('ridge_v1', 'jet', 8, 1e-6,
+                          1 / 5224, 1., 1e-6, 1e-12), 1., statistics)
+        jet.coefficients = np.linspace(-.01, .02, jet.coefficients.size)
+>       ordinary = evaluate_panel(jet, lambda: iter([ep]), policy, statistics, 'jet',
+                                  tmp_path / 'ordinary', allocation, limits)
+
+tests/test_poc_transfer.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/study.py:611: in evaluate_panel
+    rows, summary, costs = _evaluate(model, factory, policy, statistics, method,
+famjet_poc/study.py:508: in _evaluate
+    statics = export_statics(model)
+              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+model = <famjet_poc.models.RidgeMemoryModel object at 0x111b4eba0>
+
+    def export_statics(model):
+        """Reject training subclasses, hidden attributes and nonfinite statics."""
+        if type(model) is RidgeMemoryModel:
+            _exact_attributes(model, {'shape', 'spec', 't_ref', '_target_statistics', 'writer', '_coefficients',
+                                      'feature_mean', 'feature_scale', 'query_mean', 'query_scale', 'fit_artifact'})
+            if type(model.fit_artifact) is not FitArtifact:
+>               raise ValueError('verified fitted reader required')
+E               ValueError: verified fitted reader required
+
+famjet_poc/wire.py:255: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_equivalent_control_uses_pinned_e3_rows_and_rejects_bank
+1 failed in 0.94s

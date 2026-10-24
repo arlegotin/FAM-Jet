@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_grant_rechecks_attested_bundle_after_freeze _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-294/test_grant_rechecks_attested_b0')
+
+    def test_grant_rechecks_attested_bundle_after_freeze(tmp_path):
+        bundle = tmp_path / 'bundle'
+        bundle.mkdir()
+        sample = bundle / 'batch.bin'
+        sample.write_bytes(b'accepted')
+        inputs = _inputs()
+        inputs['unit_test_bundle'] = {'schema_version': 1,
+                                      'kind': 'famjet_e4_unit_test_bundle',
+                                      'directory': str(bundle),
+                                      'files': {'batch.bin': hashlib.sha256(b'accepted').hexdigest()}}
+        frozen = freeze_study(inputs, tmp_path / 'freeze')
+        grant_for(frozen, 'unit_test', 'pilot', _spec(), 'a' * 64)
+        sample.write_bytes(b'changed')
+>       with pytest.raises(ValueError, match='bundle'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_protected.py:156: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_protected.py::test_grant_rechecks_attested_bundle_after_freeze
+1 failed in 0.48s

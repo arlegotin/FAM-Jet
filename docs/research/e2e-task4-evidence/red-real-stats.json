@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_real_scoring_uses_manifest_training_statistics_for_every_mode"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 1.1451717919990188,
+  "log": "docs/research/e2e-task4-evidence/red-real-stats.log",
+  "log_sha256": "8041109e402e0c504a6d16d342e125cb30a0c4352f4932ea2da0de26a9440c70",
+  "log_bytes": 1227
+}

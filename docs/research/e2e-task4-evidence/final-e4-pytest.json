@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_protected.py",
+    "tests/test_poc_transfer.py",
+    "tests/test_poc_pipeline.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 2.663085874999524,
+  "log": "docs/research/e2e-task4-evidence/final-e4-pytest.log",
+  "log_sha256": "015678208dacc6b7fe67e85b5923dbf3d62a00bf7afee9212bad97029e31de51",
+  "log_bytes": 99
+}

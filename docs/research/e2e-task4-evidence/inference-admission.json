@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-c",
+    "from famjet_poc.protected import _accepted_calibration; print(_accepted_calibration())"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 12.086045125000965,
+  "log": "docs/research/e2e-task4-evidence/inference-admission.log",
+  "log_sha256": "474b1902845bc59f318a07f6ec2b31a81f37d394a36df0b91ccdac070eb22b76",
+  "log_bytes": 361
+}

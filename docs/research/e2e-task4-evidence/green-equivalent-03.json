@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_equivalent_control_uses_pinned_e3_rows_and_rejects_bank"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 2.3820479169989994,
+  "log": "docs/research/e2e-task4-evidence/green-equivalent-03.log",
+  "log_sha256": "a4701b2a9bc0a139d4429a56263a85a23a9889f74e615adefc4c2d4ac75697bc",
+  "log_bytes": 98
+}

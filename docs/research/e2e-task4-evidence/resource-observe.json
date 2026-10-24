@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-c",
+    "from famjet_poc.pipeline import observe_resources; print(observe_resources(\".\"))"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 0.048045750001620036,
+  "log": "docs/research/e2e-task4-evidence/resource-observe.log",
+  "log_sha256": "dd849ce045a586a40ec1e4611f5ae67f928d7466588dfe9583dc10c0ecacec17",
+  "log_bytes": 548
+}
