@@ -291,6 +291,7 @@ class Backend:
                     sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw))
 
     def encode(self, family, entry):
+        from dataclasses import replace
         import torch
         import time
         from famjet.data.schema import validate_events, validate_queries
@@ -307,14 +308,20 @@ class Backend:
         candidate = next(c for c in self.plan["candidates"] if c["family"] == family)
         model = self.models[candidate["id"]]
         state = None; trigger = None; start = time.monotonic()
+        reference = model.kernel.reference_tensor
+        writer_events = replace(events,
+                                key_features=events.key_features.to(reference),
+                                values=events.values.to(reference),
+                                present=events.present.to(reference.device),
+                                observed=events.observed.to(reference.device),
+                                auxiliary={k: v.to(reference.device) for k, v in events.auxiliary.items()})
         with torch.no_grad():
             for offset in range(count):
-                from dataclasses import replace
-                event = replace(events, **{k: getattr(events, k)[:, offset:offset + 1]
-                                           for k in ("event_ids", "timestamps", "key_ids",
-                                                     "key_features", "values", "present", "observed")},
-                                lengths=torch.ones_like(events.lengths),
-                                auxiliary={k: v[:, offset:offset + 1] for k, v in events.auxiliary.items()})
+                event = replace(writer_events, **{k: getattr(writer_events, k)[:, offset:offset + 1]
+                                                  for k in ("event_ids", "timestamps", "key_ids",
+                                                            "key_features", "values", "present", "observed")},
+                                lengths=torch.ones_like(writer_events.lengths),
+                                auxiliary={k: v[:, offset:offset + 1] for k, v in writer_events.auxiliary.items()})
                 state = model.encode(event, state, mode="stream")
                 fields = {**state.payload, "last_time": state.last_time}
                 bad = [name for name, value in fields.items()
@@ -322,9 +329,14 @@ class Backend:
                 if bad:
                     if events.auxiliary:
                         raise ValueError("primary panel auxiliary fields unexpected")
+                    raw_event = replace(events, **{k: getattr(events, k)[:, offset:offset + 1]
+                                                   for k in ("event_ids", "timestamps", "key_ids",
+                                                             "key_features", "values", "present", "observed")},
+                                        lengths=torch.ones_like(events.lengths),
+                                        auxiliary={k: v[:, offset:offset + 1] for k, v in events.auxiliary.items()})
                     trigger = dict(reason="nonfinite_stored_state", fields=bad,
                                    event_offset=offset + 1, parameter_hash=state.parameter_hash,
-                                   input_hash=batch_hash(event), state_hash=batch_hash(state),
+                                   input_hash=batch_hash(raw_event), state_hash=batch_hash(state),
                                    input=dict(event_id=int(events.event_ids[0, offset]),
                                               timestamp=events.timestamps[0, offset].item(),
                                               key_id=int(events.key_ids[0, offset]),
@@ -334,7 +346,7 @@ class Backend:
                                               auxiliary={}), history_id=entry["episode_id"])
                     break
             if state is None:
-                state = model.encode(events, mode="stream")
+                state = model.encode(writer_events, mode="stream")
         if state.parameter_hash != candidate["writer_sha256"]:
             raise ValueError("encoded writer changed")
         logical_bytes = (model.persistent_nbytes(state) if trigger is None else
@@ -350,6 +362,7 @@ class Backend:
         return dict(state=state, record=record)
 
     def read(self, candidate, entry, snapshot):
+        from dataclasses import replace
         import json
         import os
         import tempfile
@@ -373,8 +386,11 @@ class Backend:
         if batch_hash(ep.queries) != entry["hashes"]["queries"]:
             raise ValueError("ordered query bytes changed")
         spec = self.specs[candidate["id"]]
+        model = self.models[candidate["id"]]
+        reader_queries = replace(ep.queries,
+                                 key_features=ep.queries.key_features.to(model.kernel.reference_tensor))
         request = dict(method=spec, state=snapshot_record(state),
-                       queries=isolation._query_record(ep.queries), operation="read",
+                       queries=isolation._query_record(reader_queries), operation="read",
                        model_hash=digest(spec), source_hash=self.source_hash)
         raw = canonical(request)
         index = self.read_ordinal
@@ -413,7 +429,6 @@ class Backend:
             response = decode_response(strict_json(lines[-1]))
             if any(response["counts"].get(k, 0) != count for k, count in observed.items()):
                 raise ValueError("reader emitted count mismatch")
-            model = self.models[candidate["id"]]
             intervals = []
             for j, task in enumerate(ep.queries.tasks[0]):
                 lower = ep.queries.age_start[0, j].item() / model.kernel.t_ref
