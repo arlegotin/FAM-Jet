@@ -171,6 +171,12 @@ def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
     record = evidence['fixtures']['1']['batches'][0]
     assert record['per_cell'] == 128
     assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+    original_counter = record['counter_commitment']
+    record['counter_commitment'] = '0'*64
+    inf._atomic_json(out/'evidence.json', evidence)
+    assert inf.validate_calibration(evidence, {'out': out})['status'] == 'fail'
+    record['counter_commitment'] = original_counter
+    inf._atomic_json(out/'evidence.json', evidence)
     path = out/record['file']
     with np.load(path, allow_pickle=False) as raw:
         arrays = {key: raw[key] for key in raw.files}
