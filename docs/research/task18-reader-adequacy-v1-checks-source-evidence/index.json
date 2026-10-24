@@ -1,0 +1,83 @@
+{
+  "durable_mirror_equal": true,
+  "files": [
+    {
+      "bytes": 325,
+      "path": "cli-help.log",
+      "sha256": "8bfac3f1a2178c904e6d851b7a23ef5a94b81edb2674fd20deb690bf46e3edc1"
+    },
+    {
+      "bytes": 24764,
+      "path": "preservation-proof.json",
+      "sha256": "e7c65e71639da49974bf3f29f26ba9bef4b85c2cf78a1ad686e7e8cadae8d213"
+    },
+    {
+      "bytes": 128,
+      "path": "pytest-final.log",
+      "sha256": "fb016fb5cc9279bdc39ffbb9e27024206b6b89bfa873f6bbeddc0856fcd99fe5"
+    },
+    {
+      "bytes": 843,
+      "path": "pytest-green1.log",
+      "sha256": "92bf32c00f601463717224c1a744baab7c8221e954b22ad81a6bdd9d4106504a"
+    },
+    {
+      "bytes": 127,
+      "path": "pytest-green2.log",
+      "sha256": "dc320f8f409a569a7999a99daa2d79c0d8e9bc852fc074654411369e94db879e"
+    },
+    {
+      "bytes": 127,
+      "path": "pytest-green3.log",
+      "sha256": "b7bd9aac7637755f5469ab79392615fea7a46548e32a39b1f9815c4fda885c19"
+    },
+    {
+      "bytes": 128,
+      "path": "pytest-green4.log",
+      "sha256": "baeacc4ce04de9aaa53e17e3bc4702a2c62b1e6382370614cc758d502b20c99b"
+    },
+    {
+      "bytes": 128,
+      "path": "pytest-green5.log",
+      "sha256": "0c54bed8de82903084b1ae6c31e226a320b3fdf666706b7779661878b4fb4553"
+    },
+    {
+      "bytes": 128,
+      "path": "pytest-green6.log",
+      "sha256": "4c73164af23b9ff5709e091bcba02e0bb97c0a0f0f96e4879ff62b62e8fb4d65"
+    },
+    {
+      "bytes": 128,
+      "path": "pytest-green7.log",
+      "sha256": "f9df6286b2d6519be6b4f0e88bf91fd7350835c01dbc92ff86e2b0a8cb4e0bc4"
+    },
+    {
+      "bytes": 1077,
+      "path": "pytest-red.log",
+      "sha256": "c92ab97f92f466b3651a0508f30eb97a71974da10de6d3b58894ac0f62eb62c5"
+    },
+    {
+      "bytes": 1184,
+      "path": "pytest-red2.log",
+      "sha256": "bbda691d667361de9415ce43ce4005820924665ee7f746b23a88754e9def2973"
+    },
+    {
+      "bytes": 661,
+      "path": "source-inventory.json",
+      "sha256": "984798d21218cee62c1f15920ff9ad8e5d1ff390d7d9b33d5d926dcd45fe8775"
+    },
+    {
+      "bytes": 4560,
+      "path": "test-invocations.json",
+      "sha256": "472cb820eebc9798d954cede7d115133a3e41c188faf70bfdfb6389bd005f6a8"
+    }
+  ],
+  "report": {
+    "bytes": 4388,
+    "path": "docs/research/task18-reader-adequacy-v1-checks-source-report.md",
+    "sha256": "8f03111a88021afe100e1f9d5fdbf20128aadc7cc2985cee62606d71ddf72e01"
+  },
+  "scientific_runs": 0,
+  "source_status": "SOURCE_ONLY",
+  "utc": "2026-10-24T12:45:42.904453+00:00"
+}

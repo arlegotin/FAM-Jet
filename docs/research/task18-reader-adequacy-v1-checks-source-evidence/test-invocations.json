@@ -1,0 +1,180 @@
+{
+  "invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 1077,
+      "elapsed_seconds": 0.89,
+      "exit_code": 2,
+      "ordinal": 1,
+      "raw_log": "pytest-red.log",
+      "sha256": "c92ab97f92f466b3651a0508f30eb97a71974da10de6d3b58894ac0f62eb62c5",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 843,
+      "elapsed_seconds": 0.99,
+      "exit_code": 1,
+      "ordinal": 2,
+      "raw_log": "pytest-green1.log",
+      "sha256": "92bf32c00f601463717224c1a744baab7c8221e954b22ad81a6bdd9d4106504a",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 1184,
+      "elapsed_seconds": 0.9,
+      "exit_code": 2,
+      "ordinal": 3,
+      "raw_log": "pytest-red2.log",
+      "sha256": "bbda691d667361de9415ce43ce4005820924665ee7f746b23a88754e9def2973",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 127,
+      "elapsed_seconds": 1.04,
+      "exit_code": 0,
+      "ordinal": 4,
+      "raw_log": "pytest-green2.log",
+      "sha256": "dc320f8f409a569a7999a99daa2d79c0d8e9bc852fc074654411369e94db879e",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 127,
+      "elapsed_seconds": 0.9,
+      "exit_code": 0,
+      "ordinal": 5,
+      "raw_log": "pytest-green3.log",
+      "sha256": "b7bd9aac7637755f5469ab79392615fea7a46548e32a39b1f9815c4fda885c19",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 1.1,
+      "exit_code": 0,
+      "ordinal": 6,
+      "raw_log": "pytest-green4.log",
+      "sha256": "baeacc4ce04de9aaa53e17e3bc4702a2c62b1e6382370614cc758d502b20c99b",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 1.55,
+      "exit_code": 0,
+      "ordinal": 7,
+      "raw_log": "pytest-green5.log",
+      "sha256": "0c54bed8de82903084b1ae6c31e226a320b3fdf666706b7779661878b4fb4553",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "validation.reader_adequacy_v1.check_run",
+        "--help"
+      ],
+      "bytes": 325,
+      "elapsed_seconds": 0.71,
+      "exit_code": 0,
+      "ordinal": 8,
+      "raw_log": "cli-help.log",
+      "sha256": "8bfac3f1a2178c904e6d851b7a23ef5a94b81edb2674fd20deb690bf46e3edc1",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.97,
+      "exit_code": 0,
+      "ordinal": 9,
+      "raw_log": "pytest-green6.log",
+      "sha256": "4c73164af23b9ff5709e091bcba02e0bb97c0a0f0f96e4879ff62b62e8fb4d65",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.96,
+      "exit_code": 0,
+      "ordinal": 10,
+      "raw_log": "pytest-green7.log",
+      "sha256": "f9df6286b2d6519be6b4f0e88bf91fd7350835c01dbc92ff86e2b0a8cb4e0bc4",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 0.98,
+      "exit_code": 0,
+      "ordinal": 11,
+      "raw_log": "pytest-final.log",
+      "sha256": "fb016fb5cc9279bdc39ffbb9e27024206b6b89bfa873f6bbeddc0856fcd99fe5",
+      "wrapper": "/usr/bin/time -p"
+    }
+  ],
+  "utc": "2026-10-24T12:45:08.684483+00:00"
+}
