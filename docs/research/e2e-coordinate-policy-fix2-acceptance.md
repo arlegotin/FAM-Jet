@@ -1,0 +1,7 @@
+# Fresh-probe runtime compatibility acceptance —25 October2026
+
+Root accepts the narrow correction through`f3cdccd01da4edd6119d8decc16f234898a39a28` after [independent approval](e2e-coordinate-policy-fix2-review.md). The launcher now requires the strict machineboolean `fresh_probe_required is True`, preserves all E3/manifest/probeallocation checks and treats human provenance text descriptively. The resource policy only adds thattruefield. [Rootproof](e2e-coordinate-policy-fix2-root-proof.json) independently checks the pipeline AST outside thathelper,26571oldpaths,31rawsource-taskinvocations(11retainednonzero), reportmirror and1245unchangedrun01files. E1/E2/E3 numerical sources are unchanged. The earlier192publicstate/maskqualification remains applicable; strictreadfailures remain failures.
+
+The meaningful regression loads actual repository config/policy and realstudy_manifest; arbitraryprose cannot authorize, missing/false/nonbooleanflag rejects, E3mismatch stillrejects. All23pipelinechecks pass1.47s and affectedcompile passes. The [14.117-second stopped run02](e2e-core-run-02-failure-evidence/index.json) remains failed, with no guardviolation, no freshprobe/fits/protectedaccess and allrawclocks/trace retained. It does not reset any allowance.
+
+Next is fresh fullrun03 on currentreviewedsource, unchangedscientificsettings/firstprotectedroots, underonlyremainingtime until original03:41:39.663497Zdeadline. No actualscientificresult or end-to-endcompletion is asserted here. Finalreport/replay/wholebranchreview remain required.

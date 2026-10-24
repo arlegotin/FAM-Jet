@@ -1,0 +1,140 @@
+{
+  "status": "pass",
+  "base": "eb6d33eac3f3995208c7453fa4eb0e51fbcb7df7",
+  "head": "f3cdccd01da4edd6119d8decc16f234898a39a28",
+  "old_paths_preserved": 26571,
+  "unexpected_old_changes": [],
+  "pipeline_ast_outside_helper_unchanged": true,
+  "policy_only_adds_strict_true_flag": true,
+  "raw_invocations": [
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/compile-final-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/compile-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/diff-check-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/compile-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/covering-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/covering-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/diff-check.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/green-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/integration-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/red-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/red-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round1/verification-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round2/compile-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round2/diff-check.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round2/green-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round2/red-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/fix-round2/verification-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-03.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-04.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-final-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-03.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-04.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-05.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-06.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-07.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/verification-final.json",
+      "exit_code": 0
+    }
+  ],
+  "raw_mismatches": [],
+  "run01_files_preserved": 1245,
+  "run01_mismatches": [],
+  "report_mirror_equal": true,
+  "tests_rerun": false
+}

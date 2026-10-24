@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 20, in main
+    result = run(arguments.out, resume=arguments.resume)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 555, in run
+    probe16_allocation = k16_probe_allocation(manifest, policy)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 264, in k16_probe_allocation
+    raise ValueError('current E3 manifest and historical probe policy required')
+ValueError: current E3 manifest and historical probe policy required

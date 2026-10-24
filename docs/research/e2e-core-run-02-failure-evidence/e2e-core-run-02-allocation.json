@@ -1,0 +1,19 @@
+{
+  "expected_head": "eb6d33eac3f3995208c7453fa4eb0e51fbcb7df7",
+  "argv": [
+    "/usr/bin/env",
+    "FAMJET_REPORT_PYTHON=/private/tmp/famjet-report-20261024-01/bin/python",
+    ".venv/bin/python",
+    "-m",
+    "famjet_poc",
+    "run",
+    "--out",
+    "artifacts/e2e-core-run-02"
+  ],
+  "out": "artifacts/e2e-core-run-02",
+  "prep": "artifacts/e2e-core-run-02-prep",
+  "total_seconds": 16968,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 34359738368
+}

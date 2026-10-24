@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "status": "failed_before_probe_fits_protected",
+  "reason": "stale_descriptive_provenance_sentence_compared_as_authorization",
+  "elapsed_seconds": 14.117138125002384,
+  "maximum_sampled_rss_sum_bytes": 297648128,
+  "files": [
+    {
+      "path": "e2e-core-run-02/preflight/live-guard-attempt-000.json",
+      "original_path": "artifacts/e2e-core-run-02/preflight/live-guard-attempt-000.json",
+      "sha256": "d9a2a0114959ff57d374886afdd11d4307e5603f2095342a80200f2d0eb063b4",
+      "bytes": 17842
+    },
+    {
+      "path": "e2e-core-run-02/preflight/preflight.json",
+      "original_path": "artifacts/e2e-core-run-02/preflight/preflight.json",
+      "sha256": "baa9810a0cd4575408d6727e9d9e9aed7e5fd7d6550cc1b04344ab8e60dd123e",
+      "bytes": 1675
+    },
+    {
+      "path": "e2e-core-run-02/run-ledger.json",
+      "original_path": "artifacts/e2e-core-run-02/run-ledger.json",
+      "sha256": "e6f9cbbf2eed3cc4d89e99400e9ae447be5a9fbf0f7986dd3ac3d8f9c38bcd06",
+      "bytes": 3055
+    },
+    {
+      "path": "e2e-core-run-02/run-policy.json",
+      "original_path": "artifacts/e2e-core-run-02/run-policy.json",
+      "sha256": "6b4d612e042a121dc7af805e511c46a150ec711f872e38758b7f353d5a27458b",
+      "bytes": 281
+    },
+    {
+      "path": "e2e-core-run-02-prep/admission.json",
+      "original_path": "artifacts/e2e-core-run-02-prep/admission.json",
+      "sha256": "71b07ebda40a0ed6f2c59e82efb13e15a56bbf41bbb28e32c00cf55ad6b6bc48",
+      "bytes": 1201
+    },
+    {
+      "path": "e2e-core-run-02-prep/exit-witness.json",
+      "original_path": "artifacts/e2e-core-run-02-prep/exit-witness.json",
+      "sha256": "feddd0aea437cd0d84e771d5e8edee584441b7886e8351aa1bc3c50629686b23",
+      "bytes": 6564
+    },
+    {
+      "path": "e2e-core-run-02-prep/stderr.log",
+      "original_path": "artifacts/e2e-core-run-02-prep/stderr.log",
+      "sha256": "3947dec8ebcc5ff1a0d2f491869c95f99428a48577b042be58250333d5f29f14",
+      "bytes": 846
+    },
+    {
+      "path": "e2e-core-run-02-prep/stdout.log",
+      "original_path": "artifacts/e2e-core-run-02-prep/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "e2e-core-run-02-allocation.json",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-core-run-02-allocation.json",
+      "sha256": "237546573fb9d1dd7488b3870fa721fffc4aea15b6ae5f30ee972815896e4af7",
+      "bytes": 501
+    },
+    {
+      "path": "e2e-core-run-02-shared-clock.json",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-core-run-02-shared-clock.json",
+      "sha256": "f505f9df64a2ed0054effee6c3624af6d927e42ef24982599ea01db3b026bba3",
+      "bytes": 559
+    }
+  ]
+}
