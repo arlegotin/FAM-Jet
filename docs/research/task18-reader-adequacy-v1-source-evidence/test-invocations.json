@@ -138,5 +138,75 @@
     "log": "docs/research/task18-reader-adequacy-v1-source-evidence/10-green.log",
     "bytes": 99,
     "sha256": "7a4eefa216d376a35ba42c7afc3e4fbc3fb06373de7bceef4cb80f27fbbc441b"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.0218428750004023,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/11-review-red.log",
+    "bytes": 10365,
+    "sha256": "92c159c4ed79d04aa6c32133783cf319602266e14c7bf435b5147b6bc2660969"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.998570667000422,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/12-review-green-attempt.log",
+    "bytes": 99,
+    "sha256": "038e25cf049e1bc86dc4aafd373555d4b9530a592a475af805d676dacbc067ea"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.0061913339995954,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/13-review-green.log",
+    "bytes": 99,
+    "sha256": "038e25cf049e1bc86dc4aafd373555d4b9530a592a475af805d676dacbc067ea"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.085447875000682,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/14-initialization-red.log",
+    "bytes": 1373,
+    "sha256": "6cef1630aa1de9069751fc6975e5b60e870796bd6b7116c634a21aff85126cc5"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.0107820000002903,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/15-initialization-green.log",
+    "bytes": 99,
+    "sha256": "9dfc1c3fb1d4277da055b658e9b00e3db945951cc26cec36b32a19ce30096836"
   }
 ]

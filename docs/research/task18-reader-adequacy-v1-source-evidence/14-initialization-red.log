@@ -1,0 +1,22 @@
+......F............                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_initialization_matches_direct_fp64_linear_construction __________
+
+    def test_initialization_matches_direct_fp64_linear_construction():
+        spec = ReaderSpec('jet', 'C', 128)
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(20261024)
+            actual = PrimaryReader(spec)
+            torch.manual_seed(20261024)
+            expected = torch.nn.Sequential(
+                torch.nn.Linear(92, 128, device='cpu', dtype=torch.float64), torch.nn.SiLU(),
+                torch.nn.Linear(128, 128, device='cpu', dtype=torch.float64), torch.nn.SiLU(),
+                torch.nn.Linear(128, 8, device='cpu', dtype=torch.float64))
+>       assert all(torch.equal(actual.network.state_dict()[k], v) for k, v in expected.state_dict().items())
+E       assert False
+E        +  where False = all(<generator object test_initialization_matches_direct_fp64_linear_construction.<locals>.<genexpr> at 0x10f136020>)
+
+tests/test_reader_adequacy_v1.py:50: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_initialization_matches_direct_fp64_linear_construction
+1 failed, 18 passed in 0.82s

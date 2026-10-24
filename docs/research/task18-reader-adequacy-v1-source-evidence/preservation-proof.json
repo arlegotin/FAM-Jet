@@ -281,7 +281,7 @@
     "path": "requirements.lock",
     "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
   },
-  "source_commit": "22d4d534e776f422ae68ca781a1a4237f2de9767",
+  "source_commit": "030d4750f38c9ac224475d6db792aa75c39be615",
   "stage_a_files": [
     {
       "bytes": 24166,
@@ -360,6 +360,21 @@
     }
   ],
   "tracked_paths_changed_from_base": [
+    "docs/research/task18-reader-adequacy-v1-source-evidence/01-red.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/02-red.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/03-green-attempt.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/04-green.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/05-red.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/06-green.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/07-red.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/08-green.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/09-red.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/10-green.log",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/index.json",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/preservation-proof.json",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/source-inventory.json",
+    "docs/research/task18-reader-adequacy-v1-source-evidence/test-invocations.json",
+    "docs/research/task18-reader-adequacy-v1-source-report.md",
     "tests/test_reader_adequacy_v1.py",
     "validation/reader_adequacy_v1/README.md",
     "validation/reader_adequacy_v1/__init__.py",

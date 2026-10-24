@@ -1,0 +1,161 @@
+.............FFF..                                                       [100%]
+=================================== FAILURES ===================================
+______ test_unbound_training_rows_cannot_be_promoted_to_production_static ______
+
+    def test_unbound_training_rows_cannot_be_promoted_to_production_static():
+        reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
+        row = {'split': 'training', 'values': torch.zeros(1, 92, dtype=torch.float64),
+               'supported': torch.tensor([True])}
+        reader.fit_feature_statistics((row,))
+        static = reader.export_static()
+        static['feature_fit'] = {'scope': 'original768', 'row_count': 6144,
+                                 'identity_hash': reader.source['history_identity_hash']}
+>       with pytest.raises(ValueError): PrimaryReader.from_static(static, require_production=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_reader_adequacy_v1.py:126: Failed
+____________ test_zero_query_features_and_read_are_empty[jet-C-128] ____________
+
+family = 'jet', access = 'C', width = 128
+
+    @pytest.mark.parametrize('family,access,width', [('jet', 'C', 128), ('bank', 'F', 256)])
+    def test_zero_query_features_and_read_are_empty(family, access, width):
+        kernel, snapshot, queries = tiny_case(family)
+        empty = replace(queries, query_ids=torch.empty(1, 0, dtype=torch.int64),
+                        T=torch.empty(1, 0, dtype=torch.float64), key_ids=torch.empty(1, 0, dtype=torch.int64),
+                        key_features=torch.empty(1, 0, 16, dtype=torch.float64), tasks=((),),
+                        age_start=torch.empty(1, 0, dtype=torch.float64),
+                        age_end=torch.empty(1, 0, dtype=torch.float64),
+                        present=torch.empty(1, 0, dtype=torch.bool), lengths=torch.zeros(1, dtype=torch.int64))
+        spec = ReaderSpec(family, access, width)
+>       batch = features(kernel, snapshot, empty, spec)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_reader_adequacy_v1.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+kernel = JetMemory()
+snapshot = Snapshot(payload={'z': tensor([[[[[0., 0., 0., 0., 0., 0., 0., 0., 0.],
+           [0., 0., 0., 0., 0., 0., 0., 0., 0....er_hash='6bc455ca97aadfac1e08df5a6b0164746e88381a7f0e0f01ba803aecba4de648', event_offset=tensor([1]), schema_version=1)
+queries = QueryBatch(history_ids=('tiny',), query_ids=tensor([], size=(1, 0), dtype=torch.int64), T=tensor([], size=(1, 0), dtyp...(1, 0), dtype=torch.float64), present=tensor([], size=(1, 0), dtype=torch.bool), lengths=tensor([0]), schema_version=1)
+spec = ReaderSpec(family='jet', access='C', width=128)
+
+    def features(kernel, snapshot, queries, spec):
+        """Current fixed-kernel advance and contraction; raw state is copied per query."""
+        _require(type(spec) is ReaderSpec, 'reader spec required')
+        _validate_kernel(kernel, spec)
+        _require(type(snapshot) is Snapshot and type(queries) is QueryBatch
+                 and set(vars(queries)) == {f.name for f in fields(QueryBatch)}, 'public query/snapshot schema required')
+        kernel._check_snapshot(snapshot)
+        validate_queries(queries, snapshot)
+        _require(queries.key_features.device.type == 'cpu' and queries.key_features.dtype == torch.float64
+                 and queries.key_features.shape[-1] == 16, 'query keys must be CPU FP64 K16')
+        _require(all(t in ('mean', 'contrast') for row in queries.tasks for t in row), 'nonprimary task')
+        if bool(snapshot.payload['time_unit_hash'].any()):
+            _require(torch.equal(torch.stack([_digest_tensor(h) for h in queries.history_ids]),
+                                 snapshot.payload['history_hash']), 'query history identity mismatch')
+        contracted = kernel.features(snapshot, queries)
+        b, q = queries.T.shape
+        if spec.access == 'C':
+            diag = contracted.diagnostics
+            if q:
+                if spec.family == 'jet':
+                    memory = torch.cat((diag['u'], diag['h'], diag['z'][..., None], diag['b'][..., None]), -1)
+                else:
+                    memory = torch.cat((diag['u'], diag['z'][..., None]), -1)
+                memory = memory.flatten(2)
+            else:
+                memory = torch.empty((b, 0, 72), dtype=torch.float64)
+        else:
+            rows = []
+            for j in range(q):
+                advanced = kernel._advance_payload(snapshot, queries.T[:, j].tolist(), queries.present[:, j].tolist())
+                rows.append(torch.cat([advanced[name].flatten(1) for name in kernel._state_keys], -1))
+            memory = torch.stack(rows, 1) if rows else torch.empty((b, 0, 1152), dtype=torch.float64)
+        task = torch.tensor([[[float(t == 'mean'), float(t == 'contrast')] for t in row]
+                             for row in queries.tasks], dtype=torch.float64).reshape(b, q, 2)
+        x = torch.cat((memory, queries.key_features, task,
+                       queries.age_start[..., None] / kernel.t_ref,
+                       queries.age_end[..., None] / kernel.t_ref), -1)
+        _require(x.shape == (b, q, spec.input_dim), 'feature width mismatch')
+>       failed = contracted.diagnostics['failure'] | ~torch.isfinite(x).all(-1)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'failure'
+
+validation/reader_adequacy_v1/reader.py:74: KeyError
+___________ test_zero_query_features_and_read_are_empty[bank-F-256] ____________
+
+family = 'bank', access = 'F', width = 256
+
+    @pytest.mark.parametrize('family,access,width', [('jet', 'C', 128), ('bank', 'F', 256)])
+    def test_zero_query_features_and_read_are_empty(family, access, width):
+        kernel, snapshot, queries = tiny_case(family)
+        empty = replace(queries, query_ids=torch.empty(1, 0, dtype=torch.int64),
+                        T=torch.empty(1, 0, dtype=torch.float64), key_ids=torch.empty(1, 0, dtype=torch.int64),
+                        key_features=torch.empty(1, 0, 16, dtype=torch.float64), tasks=((),),
+                        age_start=torch.empty(1, 0, dtype=torch.float64),
+                        age_end=torch.empty(1, 0, dtype=torch.float64),
+                        present=torch.empty(1, 0, dtype=torch.bool), lengths=torch.zeros(1, dtype=torch.int64))
+        spec = ReaderSpec(family, access, width)
+>       batch = features(kernel, snapshot, empty, spec)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_reader_adequacy_v1.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+kernel = ExpBankMemory()
+snapshot = Snapshot(payload={'z': tensor([[[[[0., 0., 0.,  ..., 0., 0., 0.],
+           [0., 0., 0.,  ..., 0., 0., 0.],
+         ...er_hash='534888f230076d997f8929ff44ad56bbf2aeb380ba393178f245e5e7f9c9ea3e', event_offset=tensor([1]), schema_version=1)
+queries = QueryBatch(history_ids=('tiny',), query_ids=tensor([], size=(1, 0), dtype=torch.int64), T=tensor([], size=(1, 0), dtyp...(1, 0), dtype=torch.float64), present=tensor([], size=(1, 0), dtype=torch.bool), lengths=tensor([0]), schema_version=1)
+spec = ReaderSpec(family='bank', access='F', width=256)
+
+    def features(kernel, snapshot, queries, spec):
+        """Current fixed-kernel advance and contraction; raw state is copied per query."""
+        _require(type(spec) is ReaderSpec, 'reader spec required')
+        _validate_kernel(kernel, spec)
+        _require(type(snapshot) is Snapshot and type(queries) is QueryBatch
+                 and set(vars(queries)) == {f.name for f in fields(QueryBatch)}, 'public query/snapshot schema required')
+        kernel._check_snapshot(snapshot)
+        validate_queries(queries, snapshot)
+        _require(queries.key_features.device.type == 'cpu' and queries.key_features.dtype == torch.float64
+                 and queries.key_features.shape[-1] == 16, 'query keys must be CPU FP64 K16')
+        _require(all(t in ('mean', 'contrast') for row in queries.tasks for t in row), 'nonprimary task')
+        if bool(snapshot.payload['time_unit_hash'].any()):
+            _require(torch.equal(torch.stack([_digest_tensor(h) for h in queries.history_ids]),
+                                 snapshot.payload['history_hash']), 'query history identity mismatch')
+        contracted = kernel.features(snapshot, queries)
+        b, q = queries.T.shape
+        if spec.access == 'C':
+            diag = contracted.diagnostics
+            if q:
+                if spec.family == 'jet':
+                    memory = torch.cat((diag['u'], diag['h'], diag['z'][..., None], diag['b'][..., None]), -1)
+                else:
+                    memory = torch.cat((diag['u'], diag['z'][..., None]), -1)
+                memory = memory.flatten(2)
+            else:
+                memory = torch.empty((b, 0, 72), dtype=torch.float64)
+        else:
+            rows = []
+            for j in range(q):
+                advanced = kernel._advance_payload(snapshot, queries.T[:, j].tolist(), queries.present[:, j].tolist())
+                rows.append(torch.cat([advanced[name].flatten(1) for name in kernel._state_keys], -1))
+            memory = torch.stack(rows, 1) if rows else torch.empty((b, 0, 1152), dtype=torch.float64)
+        task = torch.tensor([[[float(t == 'mean'), float(t == 'contrast')] for t in row]
+                             for row in queries.tasks], dtype=torch.float64).reshape(b, q, 2)
+        x = torch.cat((memory, queries.key_features, task,
+                       queries.age_start[..., None] / kernel.t_ref,
+                       queries.age_end[..., None] / kernel.t_ref), -1)
+        _require(x.shape == (b, q, spec.input_dim), 'feature width mismatch')
+>       failed = contracted.diagnostics['failure'] | ~torch.isfinite(x).all(-1)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'failure'
+
+validation/reader_adequacy_v1/reader.py:74: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_unbound_training_rows_cannot_be_promoted_to_production_static
+FAILED tests/test_reader_adequacy_v1.py::test_zero_query_features_and_read_are_empty[jet-C-128]
+FAILED tests/test_reader_adequacy_v1.py::test_zero_query_features_and_read_are_empty[bank-F-256]
+3 failed, 15 passed in 0.78s
