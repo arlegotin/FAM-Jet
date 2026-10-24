@@ -1,6 +1,5 @@
 """External CPU FP64 primary MLP; no TaskModel registration or history cache."""
 from dataclasses import fields
-import math
 
 import torch
 from torch import nn
@@ -49,6 +48,9 @@ def features(kernel, snapshot, queries, spec):
                              snapshot.payload['history_hash']), 'query history identity mismatch')
     contracted = kernel.features(snapshot, queries)
     b, q = queries.T.shape
+    if q == 0:
+        return FeatureBatch(contracted.values.new_empty((b, 0, spec.input_dim)), contracted.supported,
+                            {'failure': torch.zeros((b, 0), dtype=torch.bool, device=contracted.supported.device)})
     if spec.access == 'C':
         diag = contracted.diagnostics
         if q:
@@ -95,18 +97,11 @@ class PrimaryReader(nn.Module):
         self.feature_fit = {'scope': 'unfitted', 'row_count': 0, 'identity_hash': None}
 
     def fit_feature_statistics(self, training_rows, *, provenance='unit_training'):
-        """One ordered population-SD reduction. Production needs explicit original768 provenance."""
+        """One ordered population-SD reduction for unit or fixture rows only."""
         _require(self.feature_fit['scope'] == 'unfitted', 'feature statistics already fitted')
         _require(type(training_rows) in (tuple, list), 'feature rows must be a replayable ordered sequence')
         if provenance == 'unit_training':
             scope, identity_hash = 'unit_training', None
-        elif type(provenance) is dict and set(provenance) == {'scope', 'history_ids'} and provenance['scope'] == 'original768':
-            ids = provenance['history_ids']
-            _require(type(ids) in (tuple, list) and len(ids) == 768 and len(set(ids)) == 768
-                     and all(type(x) is str and x for x in ids), 'original768 history inventory mismatch')
-            identity_hash = canonical_hash(ids)
-            _require(identity_hash == self.source['history_identity_hash'], 'original768 history identity mismatch')
-            scope = 'original768'
         elif type(provenance) is dict and set(provenance) == {'scope', 'fixture_id'} and provenance['scope'] == 'fixture_only':
             _require(type(provenance['fixture_id']) is str and bool(provenance['fixture_id']), 'fixture identity required')
             scope, identity_hash = 'fixture_only', canonical_hash(provenance['fixture_id'])
@@ -129,7 +124,7 @@ class PrimaryReader(nn.Module):
                 delta = v-mean
                 mean += delta/count
                 m2 += delta*(v-mean)
-        _require(count > 0 and (scope != 'original768' or count == 6144), 'feature fit row count mismatch')
+        _require(count > 0, 'feature fit row count mismatch')
         scale = torch.sqrt(torch.clamp(m2/count, min=0.))
         scale = torch.where(scale == 0, torch.ones_like(scale), scale)
         _require(bool(torch.isfinite(mean).all()) and bool(torch.isfinite(scale).all()), 'nonfinite statistics')
@@ -158,14 +153,16 @@ class PrimaryReader(nn.Module):
                           {'numeric_supported': batch.supported, 'prediction_valid': valid,
                            'failure': failure})
 
-    def export_static(self):
+    def export_static(self, *, require_production=False):
+        _require(type(require_production) is bool and not require_production,
+                 'production static export awaits verified original-training row binding')
         _require(self.source == pinned_source(self.spec.family)[1], 'source identity mismatch')
         _, _, stats = pinned_source(self.spec.family)
         _require(torch.equal(self.target_mean, torch.tensor([stats['tasks'][t]['mean'] for t in ('mean', 'contrast')], dtype=torch.float64))
                  and torch.equal(self.target_scale, torch.tensor([[stats['tasks'][t]['scale']] for t in ('mean', 'contrast')], dtype=torch.float64)),
                  'frozen target statistics mismatch')
         _require(set(self.feature_fit) == {'scope', 'row_count', 'identity_hash'} and self.feature_fit['scope'] in
-                 ('unfitted', 'unit_training', 'original768', 'fixture_only'), 'fit provenance mismatch')
+                 ('unfitted', 'unit_training', 'fixture_only'), 'fit provenance mismatch')
         _require(all(x.dtype == torch.float64 and x.device.type == 'cpu' and bool(torch.isfinite(x).all())
                      for x in self.state_dict().values()) and bool((self.feature_scale > 0).all()),
                  'static tensors must be finite CPU FP64')
@@ -176,6 +173,8 @@ class PrimaryReader(nn.Module):
 
     @classmethod
     def from_static(cls, static, *, require_production=False):
+        _require(type(require_production) is bool and not require_production,
+                 'production static load awaits verified original-training row binding')
         _require(type(static) is dict and set(static) == {'schema_version', 'spec', 'source', 'feature_fit', 'weights'}
                  and static['schema_version'] == 1, 'reader static schema mismatch')
         s = static['spec']
@@ -185,18 +184,12 @@ class PrimaryReader(nn.Module):
         _require(static['source'] == obj.source, 'frozen source identity mismatch')
         fit = static['feature_fit']
         _require(type(fit) is dict and set(fit) == {'scope', 'row_count', 'identity_hash'}
-                 and fit['scope'] in ('unfitted', 'unit_training', 'original768', 'fixture_only')
+                 and fit['scope'] in ('unfitted', 'unit_training', 'fixture_only')
                  and type(fit['row_count']) is int and 0 <= fit['row_count'] <= 6144
                  and ((fit['scope'] == 'unfitted') == (fit['row_count'] == 0))
-                 and (fit['scope'] != 'original768' or (fit['row_count'] == 6144
-                      and fit['identity_hash'] == obj.source['history_identity_hash']))
                  and (fit['scope'] not in ('unfitted', 'unit_training') or fit['identity_hash'] is None)
                  and (fit['scope'] != 'fixture_only' or (type(fit['identity_hash']) is str
                       and len(fit['identity_hash']) == 64)), 'feature fit provenance mismatch')
-        if require_production:
-            _require(fit == {'scope': 'original768', 'row_count': 6144,
-                             'identity_hash': obj.source['history_identity_hash']},
-                     'production requires original768 fit')
         state = obj.state_dict()
         _require(type(static['weights']) is dict and set(static['weights']) == set(state), 'weight inventory mismatch')
         tensors = {k: tensor_from_record(v) for k, v in static['weights'].items()}

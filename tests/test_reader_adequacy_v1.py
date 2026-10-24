@@ -115,6 +115,40 @@ def test_production_fit_claim_requires_pinned_history_identity():
     with pytest.raises(ValueError): reader.export_static()
 
 
+def test_fixture_identity_cannot_be_promoted_to_original_training_static():
+    reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
+    row = {'split': 'training', 'values': torch.zeros(1, 92, dtype=torch.float64),
+           'supported': torch.tensor([True])}
+    reader.fit_feature_statistics((row,), provenance={'scope': 'fixture_only',
+                                                       'fixture_id': 't18ra1-fixture-00'})
+    static = reader.export_static()
+    assert static['feature_fit']['identity_hash'] != reader.source['history_identity_hash']
+    static['feature_fit'] = {'scope': 'original768', 'row_count': 6144,
+                             'identity_hash': reader.source['history_identity_hash']}
+    with pytest.raises(ValueError): PrimaryReader.from_static(static, require_production=True)
+    with pytest.raises(ValueError): PrimaryReader.from_static(static)
+    with pytest.raises(ValueError): reader.export_static(require_production=True)
+
+
+@pytest.mark.parametrize('family,access,width', [('jet', 'C', 128), ('bank', 'F', 256)])
+def test_zero_query_features_and_read_are_empty(family, access, width):
+    kernel, snapshot, queries = tiny_case(family)
+    empty = replace(queries, query_ids=torch.empty(1, 0, dtype=torch.int64),
+                    T=torch.empty(1, 0, dtype=torch.float64), key_ids=torch.empty(1, 0, dtype=torch.int64),
+                    key_features=torch.empty(1, 0, 16, dtype=torch.float64), tasks=((),),
+                    age_start=torch.empty(1, 0, dtype=torch.float64),
+                    age_end=torch.empty(1, 0, dtype=torch.float64),
+                    present=torch.empty(1, 0, dtype=torch.bool), lengths=torch.zeros(1, dtype=torch.int64))
+    spec = ReaderSpec(family, access, width)
+    batch = features(kernel, snapshot, empty, spec)
+    assert batch.values.shape == (1, 0, spec.input_dim)
+    assert batch.supported.shape == batch.diagnostics['failure'].shape == (1, 0)
+    result = PrimaryReader(spec).read(kernel, snapshot, empty)
+    assert result.prediction.shape == (1, 0, 8)
+    assert result.support.shape == result.failure.shape == (1, 0)
+    assert result.diagnostics['prediction_valid'].shape == (1, 0)
+
+
 def test_feature_fit_rejects_one_shot_rows():
     row = {'split': 'training', 'values': torch.zeros(1, 92, dtype=torch.float64),
            'supported': torch.tensor([True])}
