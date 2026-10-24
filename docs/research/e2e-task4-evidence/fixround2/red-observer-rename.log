@@ -1,0 +1,298 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_production_observer_survives_atomic_rename_during_file_stat _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-377/test_production_observer_survi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a2f7950>
+
+    def test_production_observer_survives_atomic_rename_during_file_stat(tmp_path, monkeypatch):
+        temporary = tmp_path / '.e4-in-progress'
+        final = tmp_path / 'result.json'
+        temporary.write_bytes(b'completed output')
+        original_stat = os.stat
+        renamed = []
+    
+        def rename_after_stat(path, *args, **kwargs):
+            if os.fspath(path) == str(temporary) and not renamed:
+                info = original_stat(path, *args, **kwargs)
+                os.replace(temporary, final)
+                renamed.append(True)
+                return info
+            return original_stat(path, *args, **kwargs)
+    
+        monkeypatch.setattr(pipeline.os, 'stat', rename_after_stat)
+>       first = pipeline.observe_resources(tmp_path)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_pipeline.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/pipeline.py:177: in observe_resources
+    output = subprocess.run(['ps', '-axo', 'pid=,ppid=,rss='], check=True,
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py:554: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py:1039: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 255 args: ['ps', '-axo', 'pid=,ppid=,rss=']>
+args = ['ps', '-axo', 'pid=,ppid=,rss='], executable = b'ps', preexec_fn = None
+close_fds = True, pass_fds = (), cwd = None, env = None, startupinfo = None
+creationflags = 0, shell = False, p2cread = -1, p2cwrite = -1, c2pread = 11
+c2pwrite = 12, errread = 13, errwrite = 14, restore_signals = True, gid = None
+gids = None, uid = None, umask = -1, start_new_session = False
+process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       restore_signals,
+                       gid, gids, uid, umask,
+                       start_new_session, process_group):
+        """Execute program (POSIX version)"""
+    
+        if isinstance(args, (str, bytes)):
+            args = [args]
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = [args]
+        else:
+            args = list(args)
+    
+        if shell:
+            # On Android the default shell is at '/system/bin/sh'.
+            unix_shell = ('/system/bin/sh' if
+                      hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+            args = [unix_shell, "-c"] + args
+            if executable:
+                args[0] = executable
+    
+        if executable is None:
+            executable = args[0]
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        if (_USE_POSIX_SPAWN
+                and os.path.dirname(executable)
+                and preexec_fn is None
+                and (not close_fds or _HAVE_POSIX_SPAWN_CLOSEFROM)
+                and not pass_fds
+                and cwd is None
+                and (p2cread == -1 or p2cread > 2)
+                and (c2pwrite == -1 or c2pwrite > 2)
+                and (errwrite == -1 or errwrite > 2)
+                and not start_new_session
+                and process_group == -1
+                and gid is None
+                and gids is None
+                and uid is None
+                and umask < 0):
+            self._posix_spawn(args, executable, env, restore_signals, close_fds,
+                              p2cread, p2cwrite,
+                              c2pread, c2pwrite,
+                              errread, errwrite)
+            return
+    
+        orig_executable = executable
+    
+        # For transferring possible exec failure from child to parent.
+        # Data format: "exception name:hex errno:description"
+        # Pickle is not used; it is complex and involves memory allocation.
+        errpipe_read, errpipe_write = os.pipe()
+        # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+        low_fds_to_close = []
+        while errpipe_write < 3:
+            low_fds_to_close.append(errpipe_write)
+            errpipe_write = os.dup(errpipe_write)
+        for low_fd in low_fds_to_close:
+            os.close(low_fd)
+        try:
+            try:
+                # We must avoid complex work that could involve
+                # malloc or free in the child process to avoid
+                # potential deadlocks, thus we do all this here.
+                # and pass it to fork_exec()
+    
+                if env is not None:
+                    env_list = []
+                    for k, v in env.items():
+                        k = os.fsencode(k)
+                        if b'=' in k:
+                            raise ValueError("illegal environment variable name")
+                        env_list.append(k + b'=' + os.fsencode(v))
+                else:
+                    env_list = None  # Use execv instead of execve.
+                executable = os.fsencode(executable)
+                if os.path.dirname(executable):
+                    executable_list = (executable,)
+                else:
+                    # This matches the behavior of os._execvpe().
+                    executable_list = tuple(
+                        os.path.join(os.fsencode(dir), executable)
+                        for dir in os.get_exec_path(env))
+                fds_to_keep = set(pass_fds)
+                fds_to_keep.add(errpipe_write)
+                self.pid = _fork_exec(
+                        args, executable_list,
+                        close_fds, tuple(sorted(map(int, fds_to_keep))),
+                        cwd, env_list,
+                        p2cread, p2cwrite, c2pread, c2pwrite,
+                        errread, errwrite,
+                        errpipe_read, errpipe_write,
+                        restore_signals, start_new_session,
+                        process_group, gid, gids, uid, umask,
+                        preexec_fn, _USE_VFORK)
+                self._child_created = True
+            finally:
+                # be sure the FD is closed no matter what
+                os.close(errpipe_write)
+    
+            self._close_pipe_fds(p2cread, p2cwrite,
+                                 c2pread, c2pwrite,
+                                 errread, errwrite)
+    
+            # Wait for exec to fail or succeed; possibly raising an
+            # exception (limited in size)
+            errpipe_data = bytearray()
+            while True:
+                part = os.read(errpipe_read, 50000)
+                errpipe_data += part
+                if not part or len(errpipe_data) > 50000:
+                    break
+        finally:
+            # be sure the FD is closed no matter what
+            os.close(errpipe_read)
+    
+        if errpipe_data:
+            try:
+                pid, sts = os.waitpid(self.pid, 0)
+                if pid == self.pid:
+                    self._handle_exitstatus(sts)
+                else:
+                    self.returncode = sys.maxsize
+            except ChildProcessError:
+                pass
+    
+            try:
+                exception_name, hex_errno, err_msg = (
+                        errpipe_data.split(b':', 2))
+                # The encoding here should match the encoding
+                # written in by the subprocess implementations
+                # like _posixsubprocess
+                err_msg = err_msg.decode()
+            except ValueError:
+                exception_name = b'SubprocessError'
+                hex_errno = b'0'
+                err_msg = 'Bad exception data from child: {!r}'.format(
+                              bytes(errpipe_data))
+            child_exception_type = getattr(
+                    builtins, exception_name.decode('ascii'),
+                    SubprocessError)
+            if issubclass(child_exception_type, OSError) and hex_errno:
+                errno_num = int(hex_errno, 16)
+                if err_msg == "noexec:chdir":
+                    err_msg = ""
+                    # The error must be from chdir(cwd).
+                    err_filename = cwd
+                elif err_msg == "noexec":
+                    err_msg = ""
+                    err_filename = None
+                else:
+                    err_filename = orig_executable
+                if errno_num != 0:
+                    err_msg = os.strerror(errno_num)
+                if err_filename is not None:
+>                   raise child_exception_type(errno_num, err_msg, err_filename)
+E                   PermissionError: [Errno 1] Operation not permitted: 'ps'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py:1972: PermissionError
+____ test_production_observer_fails_closed_on_output_stat_permission_error _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-377/test_production_observer_fails0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a2f62c0>
+
+    def test_production_observer_fails_closed_on_output_stat_permission_error(tmp_path, monkeypatch):
+        output = tmp_path / 'output.bin'
+        output.write_bytes(b'owned output')
+        original_stat = os.stat
+    
+        def denied_stat(path, *args, **kwargs):
+            if os.fspath(path) == str(output):
+                raise PermissionError('output stat denied')
+            return original_stat(path, *args, **kwargs)
+    
+        monkeypatch.setattr(pipeline.os, 'stat', denied_stat)
+>       with pytest.raises(PermissionError, match='output stat denied'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'output stat denied'
+E         Actual message: "[Errno 1] Operation not permitted: 'ps'"
+
+tests/test_poc_pipeline.py:48: AssertionError
+_______ test_live_guard_production_observer_keeps_atomic_rename_healthy ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-377/test_live_guard_production_obs0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a45f1d0>
+
+    def test_live_guard_production_observer_keeps_atomic_rename_healthy(tmp_path, monkeypatch):
+        temporary = tmp_path / '.e4-in-progress'
+        final = tmp_path / 'output.bin'
+        temporary.write_bytes(b'payload')
+        original_stat = os.stat
+        renamed = []
+    
+        def rename_after_stat(path, *args, **kwargs):
+            if os.fspath(path) == str(temporary) and not renamed:
+                info = original_stat(path, *args, **kwargs)
+                os.replace(temporary, final)
+                renamed.append(True)
+                return info
+            return original_stat(path, *args, **kwargs)
+    
+        monkeypatch.setattr(pipeline.os, 'stat', rename_after_stat)
+        allocation = {'max_wall_seconds': 5, 'max_disk_bytes': 1_000_000,
+                      'max_rss_bytes': 10**12, 'allocation_id': 'unit-rename'}
+>       with LiveStageGuard(tmp_path, allocation, tmp_path / 'guard.json',
+                            sample_interval=10) as guard:
+
+tests/test_poc_resources.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <famjet_poc.resources.LiveStageGuard object at 0x10a490980>
+
+    def __enter__(self):
+        self.started = time.monotonic()
+        self._record()
+        if self.violation:
+            self._write_receipt()
+>           raise RuntimeError(self.violation)
+E           RuntimeError: host resource observer failed
+
+famjet_poc/resources.py:158: RuntimeError
+___ test_witness_output_counter_survives_rename_and_rejects_permission_error ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-377/test_witness_output_counter_su0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a422250>
+
+    def test_witness_output_counter_survives_rename_and_rejects_permission_error(
+            tmp_path, monkeypatch):
+        source = Path(__file__).resolve().parents[1] / 'docs/research/e2e-process-witness.py'
+        mirror = (Path(__file__).resolve().parents[1] /
+                  '.superpowers/sdd/2026-10-16-famjet/e2e-process-witness.py')
+        assert source.read_bytes() == mirror.read_bytes()
+>       function = next(node for node in ast.parse(source.read_text()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == '_count_output_bytes')
+E       StopIteration
+
+tests/test_poc_resources.py:50: StopIteration
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_production_observer_survives_atomic_rename_during_file_stat
+FAILED tests/test_poc_pipeline.py::test_production_observer_fails_closed_on_output_stat_permission_error
+FAILED tests/test_poc_resources.py::test_live_guard_production_observer_keeps_atomic_rename_healthy
+FAILED tests/test_poc_resources.py::test_witness_output_counter_survives_rename_and_rejects_permission_error
+4 failed in 0.10s

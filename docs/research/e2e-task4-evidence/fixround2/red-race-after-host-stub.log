@@ -1,0 +1,116 @@
+F.FF                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_production_observer_survives_atomic_rename_during_file_stat _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-378/test_production_observer_survi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a993950>
+
+    def test_production_observer_survives_atomic_rename_during_file_stat(tmp_path, monkeypatch):
+        _stub_host_processes(monkeypatch)
+        temporary = tmp_path / '.e4-in-progress'
+        final = tmp_path / 'result.json'
+        temporary.write_bytes(b'completed output')
+        original_stat = os.stat
+        renamed = []
+    
+        def rename_after_stat(path, *args, **kwargs):
+            if os.fspath(path) == str(temporary) and not renamed:
+                info = original_stat(path, *args, **kwargs)
+                os.replace(temporary, final)
+                renamed.append(True)
+                return info
+            return original_stat(path, *args, **kwargs)
+    
+        monkeypatch.setattr(pipeline.os, 'stat', rename_after_stat)
+>       first = pipeline.observe_resources(tmp_path)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_pipeline.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/pipeline.py:197: in observe_resources
+    'run_output_bytes': sum(path.stat().st_size for path in Path(root).rglob('*') if path.is_file())}
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/pipeline.py:197: in <genexpr>
+    'run_output_bytes': sum(path.stat().st_size for path in Path(root).rglob('*') if path.is_file())}
+                            ^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:515: in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-378/test_production_observer_survi0/.e4-in-progress')
+args = (), kwargs = {'follow_symlinks': True}
+
+    def rename_after_stat(path, *args, **kwargs):
+        if os.fspath(path) == str(temporary) and not renamed:
+            info = original_stat(path, *args, **kwargs)
+            os.replace(temporary, final)
+            renamed.append(True)
+            return info
+>       return original_stat(path, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-378/test_production_observer_survi0/.e4-in-progress'
+
+tests/test_poc_pipeline.py:38: FileNotFoundError
+_______ test_live_guard_production_observer_keeps_atomic_rename_healthy ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-378/test_live_guard_production_obs0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ab13530>
+
+    def test_live_guard_production_observer_keeps_atomic_rename_healthy(tmp_path, monkeypatch):
+        _stub_host_processes(monkeypatch)
+        temporary = tmp_path / '.e4-in-progress'
+        final = tmp_path / 'output.bin'
+        temporary.write_bytes(b'payload')
+        original_stat = os.stat
+        renamed = []
+    
+        def rename_after_stat(path, *args, **kwargs):
+            if os.fspath(path) == str(temporary) and not renamed:
+                info = original_stat(path, *args, **kwargs)
+                os.replace(temporary, final)
+                renamed.append(True)
+                return info
+            return original_stat(path, *args, **kwargs)
+    
+        monkeypatch.setattr(pipeline.os, 'stat', rename_after_stat)
+        allocation = {'max_wall_seconds': 5, 'max_disk_bytes': 1_000_000,
+                      'max_rss_bytes': 10**12, 'allocation_id': 'unit-rename'}
+>       with LiveStageGuard(tmp_path, allocation, tmp_path / 'guard.json',
+                            sample_interval=10) as guard:
+
+tests/test_poc_resources.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <famjet_poc.resources.LiveStageGuard object at 0x10ab80440>
+
+    def __enter__(self):
+        self.started = time.monotonic()
+        self._record()
+        if self.violation:
+            self._write_receipt()
+>           raise RuntimeError(self.violation)
+E           RuntimeError: host resource observer failed
+
+famjet_poc/resources.py:158: RuntimeError
+___ test_witness_output_counter_survives_rename_and_rejects_permission_error ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-378/test_witness_output_counter_su0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10aad6140>
+
+    def test_witness_output_counter_survives_rename_and_rejects_permission_error(
+            tmp_path, monkeypatch):
+        source = Path(__file__).resolve().parents[1] / 'docs/research/e2e-process-witness.py'
+        mirror = (Path(__file__).resolve().parents[1] /
+                  '.superpowers/sdd/2026-10-16-famjet/e2e-process-witness.py')
+        assert source.read_bytes() == mirror.read_bytes()
+>       function = next(node for node in ast.parse(source.read_text()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == '_count_output_bytes')
+E       StopIteration
+
+tests/test_poc_resources.py:62: StopIteration
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_production_observer_survives_atomic_rename_during_file_stat
+FAILED tests/test_poc_resources.py::test_live_guard_production_observer_keeps_atomic_rename_healthy
+FAILED tests/test_poc_resources.py::test_witness_output_counter_survives_rename_and_rejects_permission_error
+3 failed, 1 passed in 0.07s

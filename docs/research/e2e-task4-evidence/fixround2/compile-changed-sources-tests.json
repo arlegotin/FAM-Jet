@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/pipeline.py",
+    "docs/research/e2e-process-witness.py",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-process-witness.py",
+    "tests/test_poc_pipeline.py",
+    "tests/test_poc_resources.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 0.03657404200203018,
+  "log": "docs/research/e2e-task4-evidence/fixround2/compile-changed-sources-tests.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "log_bytes": 0
+}
