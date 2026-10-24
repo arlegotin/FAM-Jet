@@ -1,0 +1,47 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_real_profile_probe_measures_public_k12_fit_before_grid __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-346/test_real_profile_probe_measur0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10790b5c0>
+
+    def test_real_profile_probe_measures_public_k12_fit_before_grid(tmp_path, monkeypatch):
+        import hashlib
+        import time
+        from famjet_poc.contracts import PopulationSpec, ShapeSpec
+        from famjet_poc.data import generate_episode
+        spec = PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 913,
+                              (128,), ('piecewise_stationary',), 8, 512)
+        training = [generate_episode(spec, f'probe-train-{i}') for i in range(2)]
+        development = [generate_episode(spec, 'probe-dev-0')]
+        for episode in training:
+            episode.metadata['split'] = 'training'
+        monkeypatch.setattr('famjet_poc.transfer.iter_beijing',
+                            lambda _path, split: iter(training if split == 'training' else development))
+        manifest = tmp_path / 'public-manifest.json'
+        manifest.write_bytes(b'unit-only-public-profile')
+        digest = hashlib.sha256(manifest.read_bytes()).hexdigest()
+        allocation = {'schema_version': 1, 'phase': 'probe',
+                      'manifest_sha256': digest, 'allocation_id': 'unit-real-profile',
+                      'max_wall_seconds': 120, 'max_disk_bytes': 16 * 2**20,
+                      'max_rss_bytes': 2**30}
+        limits = {'max_frame_bytes': 2**20, 'max_array_bytes': 2**19,
+                  'max_histories': 64}
+        def observer(root):
+            return {'tree_rss_bytes': 1, 'run_output_bytes': sum(
+                        p.stat().st_size for p in root.rglob('*') if p.is_file()),
+                    'now_epoch_seconds': time.time(), 'descendant_pids': []}
+        ref = probe_transfer_profile(manifest, limits, allocation, tmp_path / 'probe',
+                                     observer=observer)
+        result = verify_transfer_probe(ref, digest, limits)
+        assert result['measured_profile']['train_blocks'] == 2
+        assert result['measured_profile']['dev_blocks'] == 1
+        assert result['measured_profile']['fit_rows'] > 0
+>       modes['selected_reference'] = {'status': 'passed', 'model_sha256': 'c' * 64}
+        ^^^^^
+E       NameError: name 'modes' is not defined
+
+tests/test_poc_transfer.py:179: NameError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_real_profile_probe_measures_public_k12_fit_before_grid
+1 failed in 1.56s

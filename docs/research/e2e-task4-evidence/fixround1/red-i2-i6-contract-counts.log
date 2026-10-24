@@ -1,0 +1,93 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______________ test_release_rejects_missing_or_tampered_method ________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-335/test_release_rejects_missing_o0')
+
+    def test_release_rejects_missing_or_tampered_method(tmp_path):
+        frozen = freeze_study(_inputs(), tmp_path / 'freeze')
+        rows = tmp_path / 'jet.json'
+        rows.write_text(json.dumps([{'history_id': 'tiny-0', 'method': 'jet'},
+                                    {'history_id': 'tiny-1', 'method': 'jet'}]))
+        receipt = {'run_id': 'unit-jet', 'phase': 'unit_test', 'method': 'jet',
+                   'history_ids': ['tiny-0', 'tiny-1'], 'rows_path': str(rows),
+                   'rows_sha256': hashlib.sha256(rows.read_bytes()).hexdigest(),
+                   'status': 'completed', 'freeze_sha256': frozen.sha256}
+        with pytest.raises(ValueError, match='method'):
+            seal_release(frozen, [receipt], tmp_path / 'release',
+                         expected_methods=('jet', 'bank'))
+        rows_bank = tmp_path / 'bank.json'
+        rows_bank.write_text(json.dumps([{'history_id': 'tiny-0', 'method': 'bank'},
+                                         {'history_id': 'tiny-1', 'method': 'bank'}]))
+        bank = {**receipt, 'run_id': 'unit-bank', 'method': 'bank',
+                'rows_path': str(rows_bank), 'rows_sha256': hashlib.sha256(rows_bank.read_bytes()).hexdigest()}
+        release = seal_release(frozen, [receipt, bank], tmp_path / 'release',
+                               expected_methods=('jet', 'bank'))
+        released = read_released_rows(release)
+        assert iter(released) is released
+        assert len(list(released)) == 4
+        rows_bank.write_text('[]')
+>       with pytest.raises(ValueError, match='hash'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_protected.py:68: Failed
+___________ test_unit_cell_runs_selected_pair_and_all_fixed_controls ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-335/test_unit_cell_runs_selected_p0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10cf5e520>
+
+    def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path, monkeypatch):
+        from famjet_poc.contracts import ReaderSpec
+        from famjet_poc.data import generate_episode
+        from famjet_poc.models import (build_model, fit_training_metadata,
+                                       make_fit_manifest, fit_reader, save_model)
+        spec = _spec()
+        episodes = [generate_episode(spec, history) for history in ('tiny-0', 'tiny-1')]
+        for episode in episodes:
+            episode.metadata['split'] = 'training'
+        factory = lambda: iter(episodes)
+        metadata = fit_training_metadata(factory)
+        refs = {}
+        for family in ('jet', 'bank'):
+            reader = ReaderSpec('ridge_v1', family, 8, 1e-2, 1 / 5224, 1., 1e-6, 1e-12)
+            model = build_model(spec.shape, reader, metadata['t_ref'], metadata['target_statistics'])
+            fit_reader(model, factory, make_fit_manifest(model, metadata))
+            ref = save_model(model, tmp_path / (family + '.json'))
+            refs[family] = {'path': str(ref.path), 'sha256': ref.sha256}
+        inputs = _inputs()
+        inputs['model_pair_sha256'] = canonical_hash({name: ref['sha256'] for name, ref in refs.items()})
+        inputs['populations'][0]['cell_id'] = 'tiny-cell'
+        frozen = freeze_study(inputs, tmp_path / 'freeze')
+        grant = grant_for(frozen, 'unit_test', 'pilot', spec, inputs['model_pair_sha256'])
+        cell = {'cell_id': 'tiny-cell', 'phase': 'unit_test', 'spec': spec.to_json(),
+                'episode_ids': ['tiny-0', 'tiny-1'], 'models': refs,
+                'allocation': {'schema_version': 1, 'phase': 'unit_test',
+                               'manifest_sha256': frozen.sha256, 'allocation_id': 'tiny',
+                               'max_wall_seconds': 30, 'max_disk_bytes': 16 * 2**20,
+                               'max_rss_bytes': 2**30},
+                'worker_limits': {'max_frame_bytes': 2**20,
+                                  'max_array_bytes': 2**19, 'max_histories': 64}}
+        receipts = evaluate_cell(frozen, cell, grant, tmp_path / 'cell')
+        assert {item['method'] for item in receipts} == {
+            'jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}
+>       assert all(item['counts_ref']['sha256'] == receipts[0]['counts_ref']['sha256']
+                   and item['score_contract']['policy_ref']['sha256'] == receipts[0]['score_contract']['policy_ref']['sha256']
+                   for item in receipts)
+
+tests/test_poc_protected.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x111b57a60>
+
+>   assert all(item['counts_ref']['sha256'] == receipts[0]['counts_ref']['sha256']
+               ^^^^^^^^^^^^^^^^^^
+               and item['score_contract']['policy_ref']['sha256'] == receipts[0]['score_contract']['policy_ref']['sha256']
+               for item in receipts)
+E   KeyError: 'counts_ref'
+
+tests/test_poc_protected.py:205: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_poc_protected.py::test_release_rejects_missing_or_tampered_method
+FAILED tests/test_poc_protected.py::test_unit_cell_runs_selected_pair_and_all_fixed_controls
+2 failed in 6.19s

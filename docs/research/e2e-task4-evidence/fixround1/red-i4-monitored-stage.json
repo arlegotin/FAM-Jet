@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_monitored_stage_cancels_live_owned_worker_and_never_seals"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 0.1384734590028529,
+  "log": "docs/research/e2e-task4-evidence/fixround1/red-i4-monitored-stage.log",
+  "log_sha256": "01554095701df4d075182b252f410412a0b9bd2e5dfbc9e4a845c580c5fbe777",
+  "log_bytes": 2080
+}

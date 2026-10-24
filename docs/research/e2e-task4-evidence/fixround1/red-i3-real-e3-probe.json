@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_real_e3_probe_callee_uses_original_stage_clock_and_attempt_dir"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 4,
+  "elapsed_seconds": 0.12783404199944925,
+  "log": "docs/research/e2e-task4-evidence/fixround1/red-i3-real-e3-probe.log",
+  "log_sha256": "6b3321150a480d9fd9a9ddbdf87fc335b1c72a5154889689f610ca20987e8e8b",
+  "log_bytes": 1220
+}

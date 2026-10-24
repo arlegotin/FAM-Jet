@@ -1,0 +1,42 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_monitored_stage_cancels_live_owned_worker_and_never_seals ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-360/test_monitored_stage_cancels_l0')
+
+    def test_monitored_stage_cancels_live_owned_worker_and_never_seals(tmp_path):
+        import os
+        import signal
+        import subprocess
+        import time
+        ledger = StageLedger(tmp_path / 'run')
+        started = []
+        cancelled = []
+        unrelated = subprocess.Popen(['sleep', '5'])
+        def observer(_root):
+            child = started[0] if started else None
+            live = child is not None and child.poll() is None
+            return {'tree_rss_bytes': 2**30 if live else 1,
+                    'run_output_bytes': 0, 'now_epoch_seconds': time.time(),
+                    'descendant_pids': [child.pid] if live else []}
+        def cancel(pid):
+            cancelled.append(pid)
+            os.kill(pid, signal.SIGTERM)
+        def action(_directory):
+            child = subprocess.Popen(['sleep', '5'])
+            started.append(child)
+            child.wait(timeout=3)
+            return {'status': 'complete'}
+        try:
+            with pytest.raises(RuntimeError, match='RSS|resource'):
+>               ledger.stage('live-worker', {'allocation': {
+                    'max_wall_seconds': 3, 'max_disk_bytes': 1024,
+                    'max_rss_bytes': 1024, 'allocation_id': 'unit-worker'}},
+                    action, monitor=True, monitor_observer=observer,
+                    monitor_cancel=cancel)
+E                   TypeError: StageLedger.stage() got an unexpected keyword argument 'monitor'
+
+tests/test_poc_pipeline.py:134: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_poc_pipeline.py::test_monitored_stage_cancels_live_owned_worker_and_never_seals
+1 failed in 0.04s

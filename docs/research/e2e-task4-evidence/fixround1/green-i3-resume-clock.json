@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_pipeline.py::test_interrupted_public_stage_retains_first_clock_and_attempt_bytes",
+    "tests/test_poc_pipeline.py::test_public_stage_resume_keeps_failed_bytes_and_original_input",
+    "tests/test_poc_pipeline.py::test_failed_stage_retains_failed_attempt_and_never_restarts_same_allocation"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 0.12474250000013853,
+  "log": "docs/research/e2e-task4-evidence/fixround1/green-i3-resume-clock.log",
+  "log_sha256": "c2cba0e5b1275bde99432021fd22a26635493fa35d0886fcd5cd38708b0f7cca",
+  "log_bytes": 98
+}

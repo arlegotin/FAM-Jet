@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_task_adapted_selected_jet_requires_pretest_reference"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 1.1675600839989784,
+  "log": "docs/research/e2e-task4-evidence/fixround1/green-i7-partial-reference.log",
+  "log_sha256": "85c3e34df3337375b023792993d5880ace51098d60f8a6d4b62bb027a039340d",
+  "log_bytes": 98
+}

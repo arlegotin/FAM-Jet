@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_protected.py::test_release_rejects_missing_or_tampered_method",
+    "tests/test_poc_protected.py::test_unit_cell_runs_selected_pair_and_all_fixed_controls"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 6.516081249999843,
+  "log": "docs/research/e2e-task4-evidence/fixround1/green-i1-i2-i6-unitcell-02.log",
+  "log_sha256": "460788a5ccaaad9e370992480c1647c897e4792026410d4574b3a294c3a71998",
+  "log_bytes": 98
+}

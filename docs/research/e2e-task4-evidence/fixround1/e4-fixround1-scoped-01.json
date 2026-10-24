@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_protected.py",
+    "tests/test_poc_transfer.py",
+    "tests/test_poc_pipeline.py",
+    "tests/test_poc_resources.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 8.734642167000857,
+  "log": "docs/research/e2e-task4-evidence/fixround1/e4-fixround1-scoped-01.log",
+  "log_sha256": "8324f2cc9bf73edfaa42a770c59a15cb261b13d844b84c81f5e2049f45de76bf",
+  "log_bytes": 998
+}

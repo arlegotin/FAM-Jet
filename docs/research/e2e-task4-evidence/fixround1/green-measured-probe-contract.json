@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_transfer.py::test_real_profile_probe_measures_public_k12_fit_before_grid",
+    "tests/test_poc_transfer.py::test_real_fit_probe_ref_requires_measured_current_profile"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 0,
+  "elapsed_seconds": 1.790213499996753,
+  "log": "docs/research/e2e-task4-evidence/fixround1/green-measured-probe-contract.log",
+  "log_sha256": "d470f4b6c5447e65dd213833ea1c937fd0da3af8c050a74db02fe0bf62942220",
+  "log_bytes": 98
+}

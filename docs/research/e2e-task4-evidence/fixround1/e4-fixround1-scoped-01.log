@@ -1,0 +1,17 @@
+.............F......................                                     [100%]
+=================================== FAILURES ===================================
+______ test_real_mode_rejects_unknown_method_before_test_manifest_access _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-350/test_real_mode_rejects_unknown0')
+
+    def test_real_mode_rejects_unknown_method_before_test_manifest_access(tmp_path):
+>       with pytest.raises(ValueError, match='method'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'method'
+E         Actual message: 'frozen real mode descriptor required'
+
+tests/test_poc_transfer.py:98: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_real_mode_rejects_unknown_method_before_test_manifest_access
+1 failed, 35 passed in 8.46s

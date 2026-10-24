@@ -1,0 +1,27 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+__________ test_real_fit_probe_ref_requires_measured_current_profile ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-344/test_real_fit_probe_ref_requir0')
+
+    def test_real_fit_probe_ref_requires_measured_current_profile(tmp_path):
+        import hashlib
+        manifest_sha = 'a' * 64
+        probe = {'schema_version': 1, 'kind': 'famjet_e4_real_fit_probe',
+                 'status': 'measured', 'beijing_manifest_sha256': manifest_sha,
+                 'transfer_source_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64,
+                 'worker_limits': {'max_frame_bytes': 1024, 'max_array_bytes': 512,
+                                   'max_histories': 2},
+                 'measured_profile': {'train_blocks': 2, 'dev_blocks': 1,
+                                      'fit_seconds': 1., 'evaluation_seconds': 2.},
+                 'forecast_seconds': 100., 'recommended_wall_seconds': 1800,
+                 'guard_ref': {'path': '/missing/guard', 'sha256': 'd' * 64, 'bytes': 1}}
+        path = tmp_path / 'probe.json'
+>       path.write_text(json.dumps(probe))
+                        ^^^^
+E       NameError: name 'json' is not defined. Did you forget to import 'json'?
+
+tests/test_poc_transfer.py:123: NameError
+=========================== short test summary info ============================
+FAILED tests/test_poc_transfer.py::test_real_fit_probe_ref_requires_measured_current_profile
+1 failed, 2 passed in 0.90s

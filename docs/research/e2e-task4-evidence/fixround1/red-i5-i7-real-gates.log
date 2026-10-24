@@ -1,0 +1,19 @@
+ERROR: found no collectors for /Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_transfer.py::test_real_fit_probe_ref_requires_measured_current_profile
+
+ERROR: found no collectors for /Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_transfer.py::test_task_adapted_selected_jet_requires_pretest_reference
+
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/test_poc_transfer.py __________________
+ImportError while importing test module '/Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_transfer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_poc_transfer.py:9: in <module>
+    from famjet_poc.transfer import verify_transfer_probe, verify_selected_reference
+E   ImportError: cannot import name 'verify_transfer_probe' from 'famjet_poc.transfer' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/transfer.py)
+=========================== short test summary info ============================
+ERROR tests/test_poc_transfer.py
+1 error in 0.90s
