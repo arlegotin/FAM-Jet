@@ -1,0 +1,20 @@
+[
+  {
+    "argv": ".venv/bin/python -m py_compile famjet_poc/*.py",
+    "exit_code": 1,
+    "observed_failure": "SyntaxError in an unfinished multiline if at models.py:234; fixed",
+    "tool_chunk_id": "008436"
+  },
+  {
+    "argv": ".venv/bin/python -m py_compile famjet_poc/*.py",
+    "exit_code": 1,
+    "observed_failure": "SyntaxError in an unfinished multiline if at models.py:450; fixed",
+    "tool_chunk_id": "e65cbb"
+  },
+  {
+    "argv": "git add six E1 files && git diff --cached --check && git diff --cached --stat",
+    "exit_code": 128,
+    "observed_failure": "sandbox denied .git/index.lock; authorized user commit completed through require_escalated",
+    "tool_chunk_id": "875af1"
+  }
+]

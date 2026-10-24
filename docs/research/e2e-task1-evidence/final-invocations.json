@@ -1,0 +1,45 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_models.py",
+      "tests/test_poc_data.py"
+    ],
+    "elapsed_seconds": 1.2368875840002147,
+    "exit_code": 0,
+    "log": "01-focused-pytest.log",
+    "log_bytes": 99,
+    "log_sha256": "27da0ea168135c7aba2ff77a10ae171fd765e29475f2ca9a16207a3c26596481"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "py_compile",
+      "famjet_poc/__init__.py",
+      "famjet_poc/contracts.py",
+      "famjet_poc/data.py",
+      "famjet_poc/models.py"
+    ],
+    "elapsed_seconds": 0.03299870800037752,
+    "exit_code": 0,
+    "log": "02-compile.log",
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-c",
+      "import sys; import famjet_poc; import famjet_poc.contracts; assert 'torch' not in sys.modules; print('contracts import torch-free')"
+    ],
+    "elapsed_seconds": 0.032127332997333724,
+    "exit_code": 0,
+    "log": "03-light-import.log",
+    "log_bytes": 28,
+    "log_sha256": "2d9c1b98f4efae0ceb1075a48731fc0c233d56cd42fdc94de5db8d62f5fd8619"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 2,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "collection ModuleNotFoundError before package creation",
+    "tool_chunk_id": "6c2ab6",
+    "tool_wall_seconds": 1.4719
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 1,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "three expected behavioral RED NotImplementedError; one contract test passed",
+    "tool_chunk_id": "84736b",
+    "tool_wall_seconds": 0.6464
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "4 passed",
+    "tool_chunk_id": "f37156",
+    "tool_wall_seconds": 0.7399
+  },
+  {
+    "argv": ".venv/bin/python -m py_compile famjet_poc/*.py && pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "4 passed",
+    "tool_chunk_id": "fc4d9b",
+    "tool_wall_seconds": 0.6859
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "6 passed",
+    "tool_chunk_id": "2ebc10",
+    "tool_wall_seconds": 0.6877
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_data.py",
+    "exit_code": 1,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "golden mismatch: query key IDs; missing provisional RNG draw",
+    "tool_chunk_id": "562314",
+    "tool_wall_seconds": 0.7467
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "4 passed",
+    "tool_chunk_id": "615cc5",
+    "tool_wall_seconds": 0.8298
+  },
+  {
+    "argv": ".venv/bin/python -m py_compile famjet_poc/*.py && pytest -q tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "5 passed",
+    "tool_chunk_id": "92b222",
+    "tool_wall_seconds": 1.0225
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "6 passed",
+    "tool_chunk_id": "023584",
+    "tool_wall_seconds": 0.6769
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py::test_ridge_matches_independent_augmented_svd_objective",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "1 passed",
+    "tool_chunk_id": "16af2d",
+    "tool_wall_seconds": 0.6968
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "12 passed",
+    "tool_chunk_id": "80ef0a",
+    "tool_wall_seconds": 1.0889
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "13 passed",
+    "tool_chunk_id": "47a4de",
+    "tool_wall_seconds": 1.166
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "13 passed",
+    "tool_chunk_id": "bb078a",
+    "tool_wall_seconds": 1.1084
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "13 passed",
+    "tool_chunk_id": "c6bd48",
+    "tool_wall_seconds": 1.1655
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py tests/test_poc_data.py",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "13 passed",
+    "tool_chunk_id": "7e9b2e",
+    "tool_wall_seconds": 0.9917
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py::test_core_scorer_accepts_fitted_reader_snapshot_interface",
+    "exit_code": 1,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "test fixture used invalid manifest provenance hash",
+    "tool_chunk_id": "96d8bd",
+    "tool_wall_seconds": 0.7606
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py::test_core_scorer_accepts_fitted_reader_snapshot_interface",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "1 passed",
+    "tool_chunk_id": "2a6758",
+    "tool_wall_seconds": 0.7088
+  },
+  {
+    "argv": ".venv/bin/python -m pytest -q tests/test_poc_models.py::test_jet_raw_state_features_and_read_leave_snapshot_unchanged",
+    "exit_code": 0,
+    "log_preservation": "tool transcript only; original stdout bytes not separately persisted",
+    "observed_summary": "1 passed",
+    "tool_chunk_id": "add272",
+    "tool_wall_seconds": 0.6377
+  }
+]
