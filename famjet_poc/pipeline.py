@@ -259,9 +259,8 @@ def k16_probe_allocation(manifest, policy):
             manifest.get('e3_source_sha256') != policy.get('expected_e3_source_sha256') or
             type(manifest.get('manifest_sha256')) is not str or
             len(manifest['manifest_sha256']) != 64 or
-            policy.get('probe_ref_status') !=
-            'historical_pre_worker_fix; requires fresh matching actual CLI probe'):
-        raise ValueError('current E3 manifest and historical probe policy required')
+            policy.get('fresh_probe_required') is not True):
+        raise ValueError('current E3 manifest and mandatory fresh probe policy required')
     return {'schema_version': 1, 'phase': 'probe',
             'manifest_sha256': manifest['manifest_sha256'],
             'allocation_id': 'e4-k16-current-source-probe-v1',

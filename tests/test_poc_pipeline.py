@@ -299,9 +299,50 @@ def test_k16_probe_uses_current_manifest_not_historical_receipt():
     manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
     policy = {'probe_ref': {'path': 'old-probe.json', 'sha256': 'a' * 64},
               'expected_e3_source_sha256': 'c' * 64,
+              'fresh_probe_required': True,
               'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
     allocation = k16_probe_allocation(manifest, policy)
     assert allocation['phase'] == 'probe'
     assert allocation['manifest_sha256'] == 'b' * 64
     assert allocation['allocation_id'] == 'e4-k16-current-source-probe-v1'
     assert 'probe_ref' not in allocation
+
+
+
+def test_repository_study_metadata_prepares_fresh_current_source_probe():
+    from pathlib import Path
+    from famjet_poc.study import study_manifest
+    repository = Path(__file__).resolve().parents[1]
+    config = json.loads((repository / 'docs/research/e2e-study-config.json').read_bytes())
+    policy = json.loads((repository / 'docs/research/e2e-development-resource-policy.json').read_bytes())
+    manifest = study_manifest(config)
+    assert manifest['e3_source_sha256'] == policy['expected_e3_source_sha256']
+    allocation = k16_probe_allocation(manifest, policy)
+    assert policy['fresh_probe_required'] is True
+    assert allocation == {'schema_version': 1, 'phase': 'probe',
+                          'manifest_sha256': manifest['manifest_sha256'],
+                          'allocation_id': 'e4-k16-current-source-probe-v1',
+                          'max_wall_seconds': 120, 'max_disk_bytes': 134217728,
+                          'max_rss_bytes': 1610612736}
+    assert 'probe_ref' not in allocation
+
+
+def test_fresh_probe_policy_is_independent_of_descriptive_provenance():
+    manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+    policy = {'expected_e3_source_sha256': 'c' * 64, 'fresh_probe_required': True,
+              'probe_ref_status': 'Archived source notes may change without changing admission.'}
+    assert k16_probe_allocation(manifest, policy)['manifest_sha256'] == manifest['manifest_sha256']
+    policy['expected_e3_source_sha256'] = 'd' * 64
+    with pytest.raises(ValueError, match='probe'):
+        k16_probe_allocation(manifest, policy)
+
+
+@pytest.mark.parametrize('flag', ['missing', None, False, 1, 'true'])
+def test_fresh_probe_requires_true_boolean_even_with_old_provenance(flag):
+    manifest = {'manifest_sha256': 'b' * 64, 'e3_source_sha256': 'c' * 64}
+    policy = {'expected_e3_source_sha256': 'c' * 64,
+              'probe_ref_status': 'historical_pre_worker_fix; requires fresh matching actual CLI probe'}
+    if flag != 'missing':
+        policy['fresh_probe_required'] = flag
+    with pytest.raises(ValueError, match='probe'):
+        k16_probe_allocation(manifest, policy)

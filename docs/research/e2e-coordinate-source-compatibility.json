@@ -114,6 +114,23 @@
       "previous_e3_source_sha256": "c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82",
       "changes": "R1 independent selected-model and value-dimension binding at all consumers; R2 zero maxima for zero compared scalars",
       "status": "implemented_pending_scoped_rereview"
+    },
+    {
+      "date": "2026-10-25",
+      "fix_base": "eb6d33eac3f3995208c7453fa4eb0e51fbcb7df7",
+      "e3_source_sha256_unchanged": "e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba",
+      "changes": "K16 probe admission requires fresh_probe_required is True; probe_ref_status remains descriptive provenance only",
+      "status": "implemented_pending_narrow_review",
+      "runtime_failure": {
+        "run": "actual_fresh_main02",
+        "exit_code": 1,
+        "elapsed_seconds": 14.117138125,
+        "current_rss_bytes": 297648128,
+        "before_probe_fits_protected": true,
+        "root_cause": "obsolete human prose equality; matching E3 identities were not the failing predicate"
+      },
+      "numerical_code_changed": false,
+      "fresh_probe_required": true
     }
   ]
 }
