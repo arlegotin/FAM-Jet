@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "utc": "2026-10-24T11:34:52.043904+00:00",
+  "scope": "external_reader_launcher_source_only",
+  "base": "38093b1ec1d0489a5d3d6247f76ce8baa07d6e74",
+  "reviewed_head": "9c4b4b3017ddaa97267b9e8c35b68991bc1bc6db",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "findings": [],
+  "review": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-reader-launcher-source-review.md",
+    "archive": "docs/research/task18-kernel-stage-b-reader-launcher-source-review/review.md",
+    "bytes": 2980,
+    "sha256": "7fbcfd54d821760cf952edf920e092eb4866c95c6e78c2b951fd39f69f053bb1"
+  },
+  "root_custody": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-reader-launcher-root-custody.json",
+    "archive": "docs/research/task18-kernel-stage-b-reader-launcher-source-review/root-custody.json",
+    "bytes": 971,
+    "sha256": "45abba4ccef0775d093f53fb8db798d5091f528a64f23424d1a1b5e5fae1eb4a"
+  },
+  "material_sha256": "d0669ad0c20a1dc810f0eb6a79b4e9b81f71496cc76a2430e3e91fe833ec49d8",
+  "test_result": "67 passed in 9.63s",
+  "whole_tree_custody_gap_resolved": true,
+  "native_invocations": 0,
+  "allocation_released": false,
+  "old_failed_attempts_preserved": true
+}
