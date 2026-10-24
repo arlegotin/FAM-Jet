@@ -6,7 +6,7 @@
   "policy": "fp64_coordinate_diagnostic_v2",
   "e1_source_sha256": "f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475",
   "e2_source_sha256": "5cdbae0a61810a0f9d509ed1d462530d708439021f8f9fc81ce04fd12f39bfb4",
-  "e3_source_sha256": "c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82",
+  "e3_source_sha256": "e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba",
   "historical_development_policy": {
     "schema": 1,
     "phase": "development",
@@ -60,12 +60,12 @@
     },
     "comparators.py": {
       "base_sha256": "0b903cfcbf770286645a591ad440e5f962d6d827b55688a3a79c982ccf38b60a",
-      "current_sha256": "dd8d7093130d03339347671f6e5ebb55530cec2afaadb9ea7957aeafaa80a0f2",
+      "current_sha256": "3be6bf16f2c2fc3dd86f6addead1ebff178ba1e1d7e322768297023e7df96f1b",
       "unchanged": false
     },
     "study.py": {
       "base_sha256": "c72aec164b7028dffa8dec40fa8844171f43f46bedc39aa45b12a81280997a28",
-      "current_sha256": "d8a507d8d76fb80bdef8576365b30b600960e3c15c81c0f5c57f8787f1eec5e7",
+      "current_sha256": "0b8e4f7235d01e6c5cb87d86fc41a53b18401120776423e70c7f48cb2ebc5514",
       "unchanged": false
     },
     "timing.py": {
@@ -106,5 +106,14 @@
     "files_immutable": true
   },
   "scientific_changes": false,
-  "actual_scientific_execution_in_source_task": false
+  "actual_scientific_execution_in_source_task": false,
+  "revision_history": [
+    {
+      "date": "2026-10-25",
+      "fix_base": "254424b0f91f7517af503ca04ae9a49f5bc8a00f",
+      "previous_e3_source_sha256": "c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82",
+      "changes": "R1 independent selected-model and value-dimension binding at all consumers; R2 zero maxima for zero compared scalars",
+      "status": "implemented_pending_scoped_rereview"
+    }
+  ]
 }

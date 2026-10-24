@@ -190,6 +190,7 @@ def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path, monkeypat
     inputs = _inputs()
     inputs['model_pair_sha256'] = canonical_hash({name: ref['sha256'] for name, ref in refs.items()})
     inputs['populations'][0]['cell_id'] = 'tiny-cell'
+    inputs['selected_models'] = refs
     frozen = freeze_study(inputs, tmp_path / 'freeze')
     grant = grant_for(frozen, 'unit_test', 'pilot', spec, inputs['model_pair_sha256'])
     cell = {'cell_id': 'tiny-cell', 'phase': 'unit_test', 'spec': spec.to_json(),
@@ -209,6 +210,12 @@ def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path, monkeypat
     release = seal_release(frozen, receipts, tmp_path / 'release',
                            expected_methods=tuple(item['method'] for item in receipts))
     assert len(list(read_released_rows(release, methods=('jet', 'bank')))) == 32
+    from test_poc_coordinate_diagnostic import forge_coordinate_model
+    altered = [{**item, 'costs': forge_coordinate_model(item['costs'])}
+               if item['method'] == 'laguerre' else item for item in receipts]
+    with pytest.raises(ValueError, match='coordinate'):
+        seal_release(frozen, altered, tmp_path / 'wrong-coordinate-model',
+                     expected_methods=tuple(item['method'] for item in receipts))
     counts = list(read_released_counts(release))
     assert len(counts) == 16 and all('observed_counts' in row for row in counts)
     from famjet_poc.study import load_score_rows, persist_score_rows

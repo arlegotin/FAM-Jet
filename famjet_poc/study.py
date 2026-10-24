@@ -22,7 +22,7 @@ from famjet.types import PredictionBatch
 from .cache import (attach_training_cache, e3_source_sha256, episode_factory,
                     load_episode_cache, prepare_episode_cache)
 from .comparators import (build_controls, laguerre_control, coordinate_model_sha256,
-                          validate_coordinate_audits)
+                          validate_coordinate_audits, load_coordinate_model)
 from .contracts import PopulationSpec, ReaderSpec, ShapeSpec, source_sha256
 from .models import (RidgeMemoryModel, build_model, fit_reader, fit_training_metadata,
                      load_model, make_fit_manifest, save_model)
@@ -587,7 +587,7 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
                            'evaluation_seconds': time.perf_counter() - evaluation_started}
     if equivalent:
         costs['coordinate_model_sha256'] = coordinate_model_sha256(model)
-        costs['coordinate_diagnostic_summary'] = validate_coordinate_audits(costs, rows, require_summary=False)
+        costs['coordinate_diagnostic_summary'] = validate_coordinate_audits(costs, rows, expected_model=model, require_summary=False)
         costs['evaluation_seconds'] = time.perf_counter() - evaluation_started
     return rows, summary, costs
 
@@ -804,7 +804,13 @@ def _audit_terminal_entries(journal, policy, out):
         if canonical_hash(summary) != canonical_hash(entry['score']):
             raise ValueError('resumed score aggregate mismatch')
         if method == 'laguerre':
-            validate_coordinate_audits(entry.get('costs'), rows)
+            winner = select_candidate([item for item in journal['candidate_ledger'] if item['family'] == 'jet'])
+            selected_ref = winner['fit_ref']
+            if journal['selected']['jet']['fit_ref'] != selected_ref:
+                raise ValueError('coordinate resumed selected checkpoint mismatch')
+            local_ref(selected_ref)
+            selected_model = load_coordinate_model(selected_ref)
+            validate_coordinate_audits(entry.get('costs'), rows, expected_model=selected_model)
         return summary
     for entry in journal['candidate_ledger']:
         if entry['status'] == 'qualified':

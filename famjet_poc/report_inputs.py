@@ -11,7 +11,8 @@ from pathlib import Path
 import tempfile
 
 from famjet.provenance import canonical_hash, canonical_json
-from .comparators import validate_coordinate_audits
+from .comparators import validate_coordinate_audits, load_coordinate_model
+from .contracts import ShapeSpec
 
 
 _ROOT = Path(__file__).resolve().parent.parent
@@ -294,7 +295,9 @@ def _release_rows(paths, release, freeze):
                         freeze['inputs']['protected_cell_allocation_template'].items())):
                 raise ValueError('protected live resource guard failed')
             validate_scored_receipt(adjusted, rows, release['freeze_sha256'],
-                                    item['episode_ids'], receipt['expected_query_ids'])
+                                    item['episode_ids'], receipt['expected_query_ids'],
+                                    coordinate_model=load_coordinate_model(freeze['inputs']['selected_models']['jet'],
+                                        spec.shape, resolve=paths.resolve) if method == 'laguerre' else None)
         identities = {(row['history_id'], row.get('query_id')) for row in rows}
         if len(identities) != len(rows):
             raise ValueError('duplicate query row identity')
@@ -607,7 +610,13 @@ def _verify_development(paths, stages, freeze):
         for name, item in journal['controls'].items():
             rows = load_score_rows(paths.ref(item['rows_ref']))
             if name == 'laguerre':
-                validate_coordinate_audits(item.get('costs'), rows)
+                key = 'selected_models' if shape == 'K16/V8' else 'selected_k12_models'
+                selected_ref = freeze['inputs'][key]['jet']
+                if journal['selected']['jet']['fit_ref'] != selected_ref:
+                    raise ValueError('coordinate development selected checkpoint mismatch')
+                expected_shape = ShapeSpec(16, 8) if shape == 'K16/V8' else ShapeSpec(12, 1)
+                model = load_coordinate_model(selected_ref, expected_shape, resolve=paths.resolve)
+                validate_coordinate_audits(item.get('costs'), rows, expected_model=model)
         output[shape] = projected
     return output
 
@@ -625,7 +634,7 @@ def _verify_timing(paths, stage, expected_methods):
             'rss_scope': body['rss_scope'], 'admission': body['admission']}
 
 
-def _verify_stress(paths, stage):
+def _verify_stress(paths, stage, freeze):
     from .study import load_score_rows
     body = _stage_json(paths, stage, 'results_path', 'results_sha256')
     if body.get('kind') != 'famjet_e4_public_stress' or not body.get('secondary_task_ledger'):
@@ -638,7 +647,9 @@ def _verify_stress(paths, stage):
         if item['rows_ref'] is not None:
             rows = load_score_rows(paths.ref(item['rows_ref']))
             if item['method'] == 'laguerre':
-                validate_coordinate_audits(item.get('costs'), rows)
+                model = load_coordinate_model(freeze['inputs']['selected_models']['jet'],
+                                              ShapeSpec(16, 8), resolve=paths.resolve)
+                validate_coordinate_audits(item.get('costs'), rows, expected_model=model)
     statuses = {'implemented/scored', 'unsupported', 'failed', 'unentered'}
     for item in body['secondary_task_ledger']:
         if item['status'] not in statuses or (item['status'] != 'implemented/scored' and
@@ -733,8 +744,9 @@ def _verify_real_release(paths, stage, freeze, modes):
         native = load_score_rows(paths.ref(receipt['native_rows_ref']))
         require_real_method_rows(method, normalized)
         require_real_method_rows(method, native)
-        validate_scored_receipt(adjusted, normalized, manifest_sha, histories, list(range(120)))
-        validate_scored_receipt(adjusted, native, manifest_sha, histories, list(range(120)))
+        coordinate_model = load_coordinate_model(modes[mode]['jet'], ShapeSpec(12, 1), resolve=paths.resolve) if method == 'laguerre' else None
+        validate_scored_receipt(adjusted, normalized, manifest_sha, histories, list(range(120)), coordinate_model=coordinate_model)
+        validate_scored_receipt(adjusted, native, manifest_sha, histories, list(range(120)), coordinate_model=coordinate_model)
         if len(normalized) != 56 * 120 or len(native) != len(normalized):
             raise ValueError('real method query inventory incomplete')
         expected_native = native_rows(normalized, modes['normalization'])
@@ -856,7 +868,7 @@ def load_report_inputs(run):
             'target_statistics_sha256']
         development = _verify_development(paths, stages, frozen)
         timing = _verify_timing(paths, stages['timing_k16'], release['expected_methods'])
-        stress = _verify_stress(paths, stages['stress'])
+        stress = _verify_stress(paths, stages['stress'], frozen)
         synthetic = _release_rows(paths, release, frozen)
         real_release_path = _read_json(paths.resolve(release_result['real_release_path']),
                                        release_result['real_release_sha256'])

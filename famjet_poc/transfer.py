@@ -13,7 +13,7 @@ from famjet.provenance import canonical_hash, canonical_json
 from .contracts import ShapeSpec, ReaderSpec
 from .data import invert_normalized_prediction, iter_beijing
 from .protected import _write_once
-from .comparators import COORDINATE_POLICY, coordinate_model_sha256, validate_coordinate_audits
+from .comparators import COORDINATE_POLICY, coordinate_model_sha256, validate_coordinate_audits, load_coordinate_model
 
 
 def native_rows(rows, normalization):
@@ -102,7 +102,7 @@ def evaluate_equivalent_control(model, factory, policy, statistics, out, allocat
     from .study import _admit, _evaluate, persist_score_rows
     if type(model) is not RidgeMemoryModel or model.spec.family != 'jet':
         raise ValueError('base frozen Jet reader required for equivalent control')
-    if e3_source_sha256() != 'c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82':
+    if e3_source_sha256() != 'e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba':
         raise ValueError('pinned E3 equivalent evaluator source changed')
     if (type(policy) is not dict or type(allocation) is not dict or
             allocation.get('manifest_sha256') != policy.get('manifest_hash') or
@@ -271,7 +271,7 @@ def verify_selected_reference(modes):
     model_hash = coordinate_model_sha256(model)
     if model.shape != ShapeSpec(12, 1) or model.spec.family != 'jet' or ref.get('model_numeric_sha256') != model_hash:
         raise ValueError('selected coordinate reference model mismatch')
-    validate_coordinate_audits(ref.get('costs'), rows, model_numeric_sha256=model_hash)
+    validate_coordinate_audits(ref.get('costs'), rows, expected_model=model)
     return ref
 
 
@@ -769,7 +769,9 @@ class RealReleaseRef:
                 raise ValueError('real release live resource guard changed')
             validate_scored_receipt(receipt, load_score_rows(receipt['rows_ref']),
                                     body['beijing_manifest_sha256'],
-                                    frozen['inputs']['beijing_test_ids'], list(range(120)))
+                                    frozen['inputs']['beijing_test_ids'], list(range(120)),
+                                    coordinate_model=load_coordinate_model(modes[receipt['mode']]['jet'], ShapeSpec(12, 1))
+                                    if receipt['method'] == 'laguerre' else None)
         return body
 
     def iter_counts(self):
@@ -825,8 +827,9 @@ def seal_real_release(freeze, mode_ref, receipts, beijing_manifest, out):
                      model_sha256=commitment)
         rows = load_score_rows(receipt['rows_ref'])
         native = load_score_rows(receipt['native_rows_ref'])
-        validate_scored_receipt(receipt, rows, manifest_sha, histories, expected_queries)
-        validate_scored_receipt(receipt, native, manifest_sha, histories, expected_queries)
+        coordinate_model = load_coordinate_model(modes[mode]['jet'], ShapeSpec(12, 1)) if method == 'laguerre' else None
+        validate_scored_receipt(receipt, rows, manifest_sha, histories, expected_queries, coordinate_model=coordinate_model)
+        validate_scored_receipt(receipt, native, manifest_sha, histories, expected_queries, coordinate_model=coordinate_model)
         for name, batch in (('normalized', rows), ('native', native)):
             if len(batch) != 56 * 120 or any(row['method'] != method for row in batch):
                 raise ValueError('real method query/method inventory incomplete')

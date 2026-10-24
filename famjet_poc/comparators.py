@@ -1,5 +1,6 @@
 """Frozen arithmetic controls and independently stepped Laguerre coordinates."""
 from dataclasses import replace
+from pathlib import Path
 import time
 import math
 
@@ -14,7 +15,7 @@ from famjet.memory.buckets import TemporalBucketsMemory
 from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import Snapshot
 from .contracts import ShapeSpec
-from .models import RidgeMemoryModel
+from .models import RidgeMemoryModel, load_model
 from .wire import export_statics
 
 
@@ -85,6 +86,14 @@ def coordinate_model_sha256(model):
         'target_statistics': model.target_statistics,
         'arrays': {name: getattr(model, name).tolist() for name in
                    ('coefficients', 'feature_mean', 'feature_scale', 'query_mean', 'query_scale')}})
+
+
+def load_coordinate_model(reference, expected_shape=None, *, resolve=Path):
+    """Load the independently committed phase Jet, never an identity from its costs."""
+    model = load_model(resolve(reference['path']), reference['sha256'])
+    if model.spec.family != 'jet' or expected_shape is not None and model.shape != expected_shape:
+        raise ValueError('coordinate checkpoint shape/family mismatch')
+    return model
 
 
 def _errors(left, right):
@@ -191,12 +200,14 @@ def laguerre_control(model, events, queries, *, diagnostic_mode=False) -> dict:
                                          sum(t.numel() * t.element_size() for t in (recovered.payload['z'], recovered.payload['h']))}
 
 
-def validate_coordinate_audits(costs, rows, *, model_numeric_sha256=None, require_summary=True):
+def validate_coordinate_audits(costs, rows, *, expected_model, require_summary=True):
     """Pure validation of complete immutable history/query diagnostics and their summary."""
     def reject():
         raise ValueError('coordinate diagnostic audit/model/inventory/status mismatch')
-    if type(costs) is not dict or not rows:
+    if (type(costs) is not dict or not rows or type(expected_model) is not RidgeMemoryModel or
+            expected_model.spec.family != 'jet'):
         reject()
+    model_numeric_sha256 = coordinate_model_sha256(expected_model)
     audits = costs.get('stream_audits')
     if type(audits) is not dict or costs.get('stream_audits_sha256') != canonical_hash(audits):
         reject()
@@ -210,7 +221,7 @@ def validate_coordinate_audits(costs, rows, *, model_numeric_sha256=None, requir
     model_hash = costs.get('coordinate_model_sha256')
     if (type(model_hash) is not str or len(model_hash) != 64 or
             any(c not in '0123456789abcdef' for c in model_hash) or
-            model_numeric_sha256 is not None and model_hash != model_numeric_sha256):
+            model_hash != model_numeric_sha256):
         reject()
     diagnostics = []
     for history, query_ids in inventory.items():
@@ -229,7 +240,7 @@ def validate_coordinate_audits(costs, rows, *, model_numeric_sha256=None, requir
                   'strict_prediction_failed_scalars', 'strict_prediction_failed_queries')
         if any(type(d.get(name)) is not int or d[name] < 0 for name in fields):
             reject()
-        if (d['value_dim'] < 1 or d['total_scalar_count'] != len(query_ids) * d['value_dim'] or
+        if (d['value_dim'] != expected_model.shape.value_dim or d['total_scalar_count'] != len(query_ids) * d['value_dim'] or
                 not 0 <= d['strict_prediction_failed_scalars'] <= d['evaluated_scalar_count'] <= d['total_scalar_count'] or
                 not 0 <= d['strict_prediction_failed_queries'] <= min(len(query_ids), d['strict_prediction_failed_scalars']) or
                 d['strict_prediction_failed_scalars'] > d['strict_prediction_failed_queries'] * d['value_dim'] or
@@ -251,7 +262,8 @@ def validate_coordinate_audits(costs, rows, *, model_numeric_sha256=None, requir
                     for name in ('absolute', 'scaled')) or
                 (d['max_prediction_scaled_error'] > 1) != failed or
                 d['strict_prediction_status'] != ('FAILED' if failed else 'PASSED') or
-                d['evaluated_scalar_count'] == 0 and d['max_prediction_absolute_error'] != 0):
+                d['evaluated_scalar_count'] == 0 and
+                (d['max_prediction_absolute_error'] != 0 or d['max_prediction_scaled_error'] != 0)):
             reject()
         history_rows = [row for row in rows if row['history_id'] == history]
         if any(type(row.get('raw_prediction')) is not list or

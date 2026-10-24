@@ -11,7 +11,7 @@ import time
 import numpy as np
 
 from famjet.provenance import canonical_hash, canonical_json
-from .contracts import AccessGrant, PopulationSpec, source_sha256
+from .contracts import AccessGrant, PopulationSpec, ShapeSpec, source_sha256
 from .inference import source_identity, validate_calibration
 
 
@@ -487,7 +487,7 @@ def _read_bound_file(ref):
     return json.loads(raw)
 
 
-def validate_scored_receipt(receipt, rows, manifest_hash, histories, query_ids):
+def validate_scored_receipt(receipt, rows, manifest_hash, histories, query_ids, *, coordinate_model=None):
     """Validate E3 score contract and all primary tasks against captured labels."""
     from .study import _diagnostic_score_policy
     contract = receipt.get('score_contract')
@@ -576,7 +576,7 @@ def validate_scored_receipt(receipt, rows, manifest_hash, histories, query_ids):
         raise ValueError('scored primary task/query inventory incomplete')
     if receipt.get('method') == 'laguerre' or any(row.get('method') == 'laguerre' for row in rows):
         from .comparators import validate_coordinate_audits
-        validate_coordinate_audits(receipt.get('costs'), rows)
+        validate_coordinate_audits(receipt.get('costs'), rows, expected_model=coordinate_model)
     return {'query_count': len(seen), 'history_count': len(histories),
             'counts_sha256': receipt['counts_ref']['sha256'],
             'policy_sha256': contract['policy_ref']['sha256']}
@@ -764,11 +764,16 @@ def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> 
     if len(declared) != len(planned) or len(set(declared)) != len(declared) or set(declared) != set(planned):
         raise ValueError('complete cell/method declaration required before scoring release')
     expected_statistics_sha256 = None
-    if body['inputs']['profile'] == 'study':
-        from .models import load_model
-        selected_jet = body['inputs']['selected_models']['jet']
-        expected_statistics_sha256 = canonical_hash(
-            load_model(Path(selected_jet['path']), selected_jet['sha256']).target_statistics)
+    coordinate_model = None
+    if body['inputs']['profile'] == 'study' or 'laguerre' in expected_methods:
+        selected = body['inputs'].get('selected_models')
+        if (type(selected) is not dict or set(selected) != {'jet', 'bank'} or
+                canonical_hash({name: ref['sha256'] for name, ref in selected.items()}) != body['inputs']['model_pair_sha256']):
+            raise ValueError('coordinate frozen selected checkpoint commitment missing/mismatched')
+        from .comparators import load_coordinate_model
+        coordinate_model = load_coordinate_model(selected['jet'],
+            ShapeSpec(16, 8) if body['inputs']['profile'] == 'study' else None)
+        expected_statistics_sha256 = canonical_hash(coordinate_model.target_statistics)
     actual = {}
     for receipt in receipts:
         if receipt.get('status') != 'completed' or receipt.get('freeze_sha256') != freeze.sha256:
@@ -819,9 +824,11 @@ def seal_release(freeze, receipts, out, *, expected_methods=('jet', 'bank')) -> 
             spec_record = next(item for item in body['inputs']['populations']
                                if (item['phase'], item.get('cell_id', canonical_hash(item['spec']))) == key[:2])
             spec = PopulationSpec.from_json(spec_record['spec'])
+            if receipt['method'] == 'laguerre' and coordinate_model.shape != spec.shape:
+                raise ValueError('coordinate frozen checkpoint/population shape mismatch')
             validate_scored_receipt(receipt, rows, freeze.sha256,
                                     spec_record['episode_ids'],
-                                    list(range(spec.queries_per_history)))
+                                    list(range(spec.queries_per_history)), coordinate_model=coordinate_model)
         if body['inputs']['profile'] == 'study':
             for hid in planned[key]:
                 if sorted(r['query_id'] for r in rows if r['history_id'] == hid) != receipt['expected_query_ids']:
