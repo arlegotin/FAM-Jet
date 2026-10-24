@@ -4,7 +4,18 @@ FAM-Jet explores a simple idea: compress a stream once, then answer different ti
 
 The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is assessing CPU development comparisons at 128, 512 and 2048 events.
 
-The latest completed comparison used fixed temporal bases and full structured readers. Both models passed their trained numerical checks after 8192 updates, but simple summaries still had much lower error on the same 96 development histories:
+The latest completed experiment used fixed mathematical readers on 96 development histories, with eight questions per history. All six declared configurations finished: 192 saved states, 576 reader requests and 4608 scored predictions, with no fallback or quarantine. The best configuration in each family was:
+
+| Memory | Normalized loss | Persistent state |
+| --- | ---: | ---: |
+| Ordinary exponential bank, 8 decays | 0.1918 | 9345 B |
+| Jet, 4 decays plus first moments | 0.2804 | 9345 B |
+
+Lower loss is better. The bank led at all three history lengths. **There is no demonstrated practical Jet advantage.** These are selected, exposed development results for one fixed-reader family; they do not establish an information-capacity limit or protected generalization. The [full result and all six configurations](docs/research/task18-kernel-stage-b-panel04-report.md) retain those limits and the raw evidence.
+
+The complete CPU64 experiment ran on the Mac in 10.63 minutes, with about 396 MiB of additional sampled worker memory under a 640 MiB limit. The process monitor and post-return validation passed. No cache purge, unrelated process termination or hardware upgrade was needed. The guarded process overhead is included, so these timings are not optimized deployment latency.
+
+An earlier trained comparison used structured readers. Both models passed their trained numerical checks after 8192 updates, but simple summaries still had much lower error on that same development population:
 
 | Method | Normalized loss | Persistent state |
 | --- | ---: | ---: |
@@ -13,17 +24,17 @@ The latest completed comparison used fixed temporal bases and full structured re
 | Ordinary exponential bank | 0.3888 | 9345 B |
 | Jet | 0.3945 | 9345 B |
 
-**There is no demonstrated practical Jet advantage.** Jet's development loss flattened near the end; Bank improved modestly. Frozen training losses remain high too (Jet 0.4183, Bank 0.4687). Optimization, the reader and temporal compression remain unresolved explanations. These are exploratory CPU64 results with one initialization, a reused training corpus and exposed development data—not a convergence or statistical claim. Protected evaluation remains closed.
+In that trained comparison, Jet's development loss flattened near the end; Bank improved modestly. Frozen training losses remained high too (Jet 0.4183, Bank 0.4687). Optimization, the reader and temporal compression remain unresolved explanations. Those exploratory CPU64 results used one initialization and a reused training corpus; they are not a convergence or statistical claim. The new fixed reader changes the decoder class and does not establish that the older models converged. Protected evaluation remains closed.
 
 The [completed pair](docs/research/task18-epsilon1em6-learning-results.md) retains all curves, length/regime results, numerical checks and costs. An earlier structured Jet run failed a strict trained gradient check; the [failed result](docs/research/task18-structured-stopped8192-report.md) remains failed. The new pair uses a different numerical smoothing setting and does not repair that historical result. Earlier learned-rate and fixed-basis comparisons remain in the [development inventory](docs/research/task18-development-inventory.json); the learned-rate Bank's observed loss of 0.3871 also remains below the current pair.
 
-The fixed mathematical reader has now completed its [full numerical diagnostic](docs/research/task18-kernel-stage-a06-report.md): all720 finite reader comparisons and24 fallback-policy checks passed. All696 ordinary source-state comparisons passed too. One extreme signed-cancellation fixture failed across the six configurations and four transforms, so global numerical validation remains **FAILED**. The [independent audit](docs/research/task18-kernel-stage-a06-mathematical-audit.md) preserves that limitation. Correctly reading the saved state does not establish answer accuracy; the next separately reviewed step will measure that on the existing development histories.
+The fixed mathematical reader completed its [full numerical diagnostic](docs/research/task18-kernel-stage-a06-report.md): all720 finite reader comparisons and24 fallback-policy checks passed. All696 ordinary source-state comparisons passed too. One extreme signed-cancellation fixture failed across the six configurations and four transforms, so global numerical validation remains **FAILED**. The [independent audit](docs/research/task18-kernel-stage-a06-mathematical-audit.md) preserves that limitation. The completed development experiment describes the ordinary saved states; it does not repair those extreme failures.
 
 The memory hold cleared on21October when a fresh check passed the unchanged admission rule. The diagnostic's sampled worker process-tree peak was about471MiB; no hardware upgrade, process termination or system-setting change was needed. Earlier refused admissions and failed runs remain in the record. The full test ran within its shared time and execution/output limits. Protected evaluation remains closed.
 
-The fixed-reader experiment runner has now passed [independent source review](docs/research/task18-kernel-stage-b-source-review/fix2-review.md), with47 covering source tests passing. Its [source acceptance](docs/research/task18-kernel-stage-b-source-acceptance.json) permits preparation of one separate empty launch check. The accuracy experiment still requires that check and a fresh resource allocation; no new model result follows from these source tests.
+The first [empty launch check](docs/research/task18-kernel-stage-b-binding01-report.md) failed before the PyTorch baseline. Later attempts exposed FP32/FP64 input wiring and a reader-launcher path check. The [input correction](docs/research/task18-kernel-stage-b-input-dtype-source-report.md) and [reader-launcher correction](docs/research/task18-kernel-stage-b-reader-launcher-source-report.md) passed independent review and 67 focused covering tests before fresh qualification and the completed experiment. All failed attempts remain archived; no historical failure was reclassified as success.
 
-The first [empty launch check](docs/research/task18-kernel-stage-b-binding01-report.md) failed before the PyTorch baseline. Its base-Python launcher lost the project environment, and an inherited helper timing check also rejected an observation across process exit. This was not a RAM-limit stop. The failed run is archived; launch wiring needs correction and a separately approved check before accuracy work proceeds.
+Task18 now needs a bounded generic-contracted versus full-state reader-adequacy comparison, with comparable parameter/compute budgets and explicit fitting and convergence criteria. The kernel result is an achievable reference from these states, not an optimal decoder. Broader comparator learning curves, learned writers, resource frontiers, calibrated inference and real transfer remain open.
 
 The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 

@@ -437,3 +437,10 @@ Kernel source review found no Critical/Important or actionable Minor defect. Roo
 
 
 21 October2026: emptybinding01 actualwrapper/parent exit1 on9f47f82, no scientific work. Independent raw-evidence diagnosis locates a Git image-observation interval across owning reap and an independent torch import failure before baseline. Matchingimage/argv/hash does not waive the timing predicate. Retain rawSTOPPED, EPERM, unresolved/missingbaselines, terminalFAILED and absentPublication. Root copied/verified41originals898077B with source/builder/diagnosis custody. No RAM-cap stop or new accuracy result. Environment-launch wiring needs separate source correction; no blind retry or native-algorithm relaxation.
+
+
+## 24 October2026 — complete descriptive actual-state panel
+
+Accept panel04 only within its adopted exposed-development scope. Source9d44b4a; actual wrapper75742/publisher4359 both exit0, nativeCOMPLETED0, no missing baselines/unresolved workers/cleanup diagnostics. All192snapshots/576requests/4608scores completed,0factors/fallback/quarantine. Root post-return Publication validated original clock/output/receipt and immutable reference graph; campaign637.544010958s, charged100527732B, sampled incremental414908416B and absolute process-tree584630272B. The147GB lifetime sum of PID maxima is not physical peak memory.
+
+Best selected Bank.1918295624 beats Jet.2804328338 at equal9345B, and Bank leads at all3lengths/allmatchedridges. Independent scientific audit found no load-bearing inventory/interpretation issue; no protected inference, capacity bound, practical superiority or Task18completion follows. Root verified2006archivedoriginals101675559B and2012committed file blobs atf75bfdb. All prior failed runs,24A06extreme failures and bootstrap calibration failures remain unchanged. The next reader-adequacy design is pending independent builder check; no new training is released.
