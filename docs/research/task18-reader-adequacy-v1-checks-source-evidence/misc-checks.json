@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "py_compile",
+        "validation/reader_adequacy_v1/checks.py",
+        "validation/reader_adequacy_v1/check_run.py"
+      ],
+      "elapsed_seconds": null,
+      "exit_code": 0,
+      "kind": "py_compile",
+      "observed_stderr": "",
+      "observed_stdout": "",
+      "provenance": "recovered from this task tool transcript; no raw log or elapsed was captured",
+      "raw_log_path": null
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from dataclasses import replace; from famjet.config import load_config,validate_config; c=load_config('configs/development/jet_finite_raw_32768.yaml'); c=replace(c,data=replace(c.data,length=128,generator=replace(c.data.generator,namespace='training',regime='piecewise_stationary'))); validate_config(c); print('config valid')"
+      ],
+      "elapsed_seconds": null,
+      "exit_code": 0,
+      "kind": "config_validation_only",
+      "observed_stderr": "",
+      "observed_stdout": "config valid\n",
+      "provenance": "recovered from this task tool transcript; no raw log or elapsed was captured",
+      "raw_log_path": null
+    }
+  ]
+}
