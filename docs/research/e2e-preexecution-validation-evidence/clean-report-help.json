@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "-I",
+    "-m",
+    "famjet_poc",
+    "report",
+    "--help"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-24T21:26:47.927444+00:00",
+  "elapsed_seconds": 0.04297016700002132,
+  "timeout_seconds": 30.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-final-validation-01/clean-report-help.log",
+  "log_sha256": "c030853327c9f5035e0f5f02deff1e086f5bbf9f06b8dc6a5b9fe5b05d64adc2",
+  "log_bytes": 162,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": null
+}

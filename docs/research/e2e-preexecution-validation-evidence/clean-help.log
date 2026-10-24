@@ -1,0 +1,11 @@
+usage: python -m famjet_poc [-h] {run,report} ...
+
+Run or replay the fixed-writer memory study.
+
+positional arguments:
+  {run,report}
+    run         execute the accepted complete pipeline
+    report      rebuild the report from frozen artifacts
+
+options:
+  -h, --help    show this help message and exit

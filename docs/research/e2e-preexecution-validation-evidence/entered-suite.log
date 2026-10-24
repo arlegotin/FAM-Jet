@@ -1,0 +1,305 @@
+.............................................................F..F.FF.F.. [ 48%]
+.F.F.................................................................... [ 97%]
+...                                                                      [100%]
+=================================== FAILURES ===================================
+________________ test_incomplete_run_has_all_fixture_inventory _________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_incomplete_run_has_all_fi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110f23cb0>
+
+    def test_incomplete_run_has_all_fixture_inventory(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path / 'calibration'
+        result = inf.run_calibration(out, deadline_monotonic=99.)
+        assert result['status'] == 'incomplete'
+        evidence = json.loads((out / 'evidence.json').read_text())
+        assert len(evidence['fixtures']) == 8
+        assert all(v['completed'] == 0 for v in evidence['fixtures'].values())
+>       assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+E       AssertionError: assert 'fail' == 'incomplete'
+E         
+E         - incomplete
+E         + fail
+
+tests/test_poc_inference.py:104: AssertionError
+__________ test_small_probe_records_forecast_without_calibration_gate __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_small_probe_records_forec0')
+
+    def test_small_probe_records_forecast_without_calibration_gate(tmp_path):
+        out = tmp_path/'small-probe'
+>       evidence = inf._run(out, deadline_monotonic=math.inf, attempt=0,
+                            role=inf.PROBE, kind='probe', total=1)
+
+tests/test_poc_inference.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/inference.py:457: in _run
+    _store_batch(out, evidence, batch)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_small_probe_records_forec0/small-probe')
+evidence = {'schema': 1, 'engine': 'conditional_history_welch_v1', 'kind': 'probe', 'status': 'fail', ...}
+batch = {'fixture_id': 1, 'outer_start': 0, 'count': 1, 'per_cell': 128, ...}
+
+    def _store_batch(out, evidence, batch):
+        fixture = str(batch['fixture_id'])
+        start = batch['outer_start']
+        name = f'fixture-{fixture}-outer-{start:05d}.npz'
+        path = out/name
+        temp = out/(name+'.tmp')
+        with temp.open('wb') as f:
+            np.savez_compressed(f, **{k: batch[k] for k in ('D', 'V', 'df', 'lower', 'upper', 'status')})
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, path)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        record = {'file': name, 'sha256': digest, 'outer_start': start, 'count': batch['count'], 'per_cell': batch['per_cell'],
+                  'counter_commitment': batch['counter_commitment'], 'counts': batch['counts'],
+                  'shift_coverage_equal': batch['shift_coverage_equal']}
+        item = evidence['fixtures'][fixture]
+        item['batches'].append(record)
+        item['completed'] += batch['count']
+        for k, v in batch['counts'].items():
+            item['counts'][k] += v
+        evidence['resource']['peak_rss_bytes'] = max(evidence['resource']['peak_rss_bytes'], _rss_bytes())
+        evidence['resource']['artifact_bytes'] = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
+        if evidence['resource']['peak_rss_bytes'] > 256*1024**2 or evidence['resource']['artifact_bytes'] > 128*1024**2:
+            evidence['status'] = 'fail'
+            _atomic_json(out/'evidence.json', evidence)
+>           raise RuntimeError('resource cap exceeded')
+E           RuntimeError: resource cap exceeded
+
+famjet_poc/inference.py:431: RuntimeError
+_________ test_validator_rejects_wrong_per_cell_and_tampered_endpoints _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_validator_rejects_wrong_p0')
+
+    def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
+        out = tmp_path/'mini'
+        out.mkdir()
+        evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+        evidence['transform_control'] = inf.production_transform_controls()
+        inf._atomic_json(out/'evidence.json', evidence)
+        wrong = inf.calibration_batch(1, 0, 2, per_cell=4)
+>       inf._store_batch(out, evidence, wrong)
+
+tests/test_poc_inference.py:167: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_validator_rejects_wrong_p0/mini')
+evidence = {'schema': 1, 'engine': 'conditional_history_welch_v1', 'kind': 'calibration', 'status': 'fail', ...}
+batch = {'fixture_id': 1, 'outer_start': 0, 'count': 2, 'per_cell': 4, ...}
+
+    def _store_batch(out, evidence, batch):
+        fixture = str(batch['fixture_id'])
+        start = batch['outer_start']
+        name = f'fixture-{fixture}-outer-{start:05d}.npz'
+        path = out/name
+        temp = out/(name+'.tmp')
+        with temp.open('wb') as f:
+            np.savez_compressed(f, **{k: batch[k] for k in ('D', 'V', 'df', 'lower', 'upper', 'status')})
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, path)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        record = {'file': name, 'sha256': digest, 'outer_start': start, 'count': batch['count'], 'per_cell': batch['per_cell'],
+                  'counter_commitment': batch['counter_commitment'], 'counts': batch['counts'],
+                  'shift_coverage_equal': batch['shift_coverage_equal']}
+        item = evidence['fixtures'][fixture]
+        item['batches'].append(record)
+        item['completed'] += batch['count']
+        for k, v in batch['counts'].items():
+            item['counts'][k] += v
+        evidence['resource']['peak_rss_bytes'] = max(evidence['resource']['peak_rss_bytes'], _rss_bytes())
+        evidence['resource']['artifact_bytes'] = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
+        if evidence['resource']['peak_rss_bytes'] > 256*1024**2 or evidence['resource']['artifact_bytes'] > 128*1024**2:
+            evidence['status'] = 'fail'
+            _atomic_json(out/'evidence.json', evidence)
+>           raise RuntimeError('resource cap exceeded')
+E           RuntimeError: resource cap exceeded
+
+famjet_poc/inference.py:431: RuntimeError
+___________________ test_corrupt_batch_archive_fails_closed ____________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_corrupt_batch_archive_fai0')
+
+    def test_corrupt_batch_archive_fails_closed(tmp_path):
+        out = tmp_path/'mini'
+        out.mkdir()
+        evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+        evidence['transform_control'] = inf.production_transform_controls()
+        inf._atomic_json(out/'evidence.json', evidence)
+>       inf._store_batch(out, evidence, inf.calibration_batch(1, 0, 1))
+
+tests/test_poc_inference.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_corrupt_batch_archive_fai0/mini')
+evidence = {'schema': 1, 'engine': 'conditional_history_welch_v1', 'kind': 'calibration', 'status': 'fail', ...}
+batch = {'fixture_id': 1, 'outer_start': 0, 'count': 1, 'per_cell': 128, ...}
+
+    def _store_batch(out, evidence, batch):
+        fixture = str(batch['fixture_id'])
+        start = batch['outer_start']
+        name = f'fixture-{fixture}-outer-{start:05d}.npz'
+        path = out/name
+        temp = out/(name+'.tmp')
+        with temp.open('wb') as f:
+            np.savez_compressed(f, **{k: batch[k] for k in ('D', 'V', 'df', 'lower', 'upper', 'status')})
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, path)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        record = {'file': name, 'sha256': digest, 'outer_start': start, 'count': batch['count'], 'per_cell': batch['per_cell'],
+                  'counter_commitment': batch['counter_commitment'], 'counts': batch['counts'],
+                  'shift_coverage_equal': batch['shift_coverage_equal']}
+        item = evidence['fixtures'][fixture]
+        item['batches'].append(record)
+        item['completed'] += batch['count']
+        for k, v in batch['counts'].items():
+            item['counts'][k] += v
+        evidence['resource']['peak_rss_bytes'] = max(evidence['resource']['peak_rss_bytes'], _rss_bytes())
+        evidence['resource']['artifact_bytes'] = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
+        if evidence['resource']['peak_rss_bytes'] > 256*1024**2 or evidence['resource']['artifact_bytes'] > 128*1024**2:
+            evidence['status'] = 'fail'
+            _atomic_json(out/'evidence.json', evidence)
+>           raise RuntimeError('resource cap exceeded')
+E           RuntimeError: resource cap exceeded
+
+famjet_poc/inference.py:431: RuntimeError
+_________ test_fake_clock_retains_partial_progress_and_full_inventory __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_fake_clock_retains_partia0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11287fa00>
+
+    def test_fake_clock_retains_partial_progress_and_full_inventory(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf, 'N', 2)
+        ticks = iter([0., 0., 100., 100., 100.])
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+        out = tmp_path/'partial'
+>       evidence = inf.run_calibration(out, deadline_monotonic=50.)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_inference.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/inference.py:490: in run_calibration
+    return _run(out, deadline_monotonic=deadline_monotonic, attempt=attempt,
+famjet_poc/inference.py:457: in _run
+    _store_batch(out, evidence, batch)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_fake_clock_retains_partia0/partial')
+evidence = {'schema': 1, 'engine': 'conditional_history_welch_v1', 'kind': 'calibration', 'status': 'fail', ...}
+batch = {'fixture_id': 1, 'outer_start': 0, 'count': 2, 'per_cell': 128, ...}
+
+    def _store_batch(out, evidence, batch):
+        fixture = str(batch['fixture_id'])
+        start = batch['outer_start']
+        name = f'fixture-{fixture}-outer-{start:05d}.npz'
+        path = out/name
+        temp = out/(name+'.tmp')
+        with temp.open('wb') as f:
+            np.savez_compressed(f, **{k: batch[k] for k in ('D', 'V', 'df', 'lower', 'upper', 'status')})
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, path)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        record = {'file': name, 'sha256': digest, 'outer_start': start, 'count': batch['count'], 'per_cell': batch['per_cell'],
+                  'counter_commitment': batch['counter_commitment'], 'counts': batch['counts'],
+                  'shift_coverage_equal': batch['shift_coverage_equal']}
+        item = evidence['fixtures'][fixture]
+        item['batches'].append(record)
+        item['completed'] += batch['count']
+        for k, v in batch['counts'].items():
+            item['counts'][k] += v
+        evidence['resource']['peak_rss_bytes'] = max(evidence['resource']['peak_rss_bytes'], _rss_bytes())
+        evidence['resource']['artifact_bytes'] = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
+        if evidence['resource']['peak_rss_bytes'] > 256*1024**2 or evidence['resource']['artifact_bytes'] > 128*1024**2:
+            evidence['status'] = 'fail'
+            _atomic_json(out/'evidence.json', evidence)
+>           raise RuntimeError('resource cap exceeded')
+E           RuntimeError: resource cap exceeded
+
+famjet_poc/inference.py:431: RuntimeError
+________ test_final_batch_deadline_overrun_is_incomplete_and_persisted _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_final_batch_deadline_over0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x112925e50>
+
+    def test_final_batch_deadline_overrun_is_incomplete_and_persisted(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf, 'N', 1)
+        monkeypatch.setattr(inf, 'FIXTURES', (1,))
+        ticks = iter([0., 0., 100., 100., 100.])
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+        out = tmp_path/'last-batch-overrun'
+>       evidence = inf.run_calibration(out, deadline_monotonic=50.)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_inference.py:315: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/inference.py:490: in run_calibration
+    return _run(out, deadline_monotonic=deadline_monotonic, attempt=attempt,
+famjet_poc/inference.py:457: in _run
+    _store_batch(out, evidence, batch)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_final_batch_deadline_over0/last-batch-overrun')
+evidence = {'schema': 1, 'engine': 'conditional_history_welch_v1', 'kind': 'calibration', 'status': 'fail', ...}
+batch = {'fixture_id': 1, 'outer_start': 0, 'count': 1, 'per_cell': 128, ...}
+
+    def _store_batch(out, evidence, batch):
+        fixture = str(batch['fixture_id'])
+        start = batch['outer_start']
+        name = f'fixture-{fixture}-outer-{start:05d}.npz'
+        path = out/name
+        temp = out/(name+'.tmp')
+        with temp.open('wb') as f:
+            np.savez_compressed(f, **{k: batch[k] for k in ('D', 'V', 'df', 'lower', 'upper', 'status')})
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, path)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        record = {'file': name, 'sha256': digest, 'outer_start': start, 'count': batch['count'], 'per_cell': batch['per_cell'],
+                  'counter_commitment': batch['counter_commitment'], 'counts': batch['counts'],
+                  'shift_coverage_equal': batch['shift_coverage_equal']}
+        item = evidence['fixtures'][fixture]
+        item['batches'].append(record)
+        item['completed'] += batch['count']
+        for k, v in batch['counts'].items():
+            item['counts'][k] += v
+        evidence['resource']['peak_rss_bytes'] = max(evidence['resource']['peak_rss_bytes'], _rss_bytes())
+        evidence['resource']['artifact_bytes'] = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
+        if evidence['resource']['peak_rss_bytes'] > 256*1024**2 or evidence['resource']['artifact_bytes'] > 128*1024**2:
+            evidence['status'] = 'fail'
+            _atomic_json(out/'evidence.json', evidence)
+>           raise RuntimeError('resource cap exceeded')
+E           RuntimeError: resource cap exceeded
+
+famjet_poc/inference.py:431: RuntimeError
+_________ test_run_binds_real_production_shift_and_scale_sign_controls _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-418/test_run_binds_real_production0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x112b4b960>
+
+    def test_run_binds_real_production_shift_and_scale_sign_controls(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'controls'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+        assert evidence['transform_control']['passed'] is True
+        assert evidence['transform_control']['cases'] == ['+0.05', '-0.05', '-2.0']
+>       assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+E       AssertionError: assert 'fail' == 'incomplete'
+E         
+E         - incomplete
+E         + fail
+
+tests/test_poc_inference.py:345: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_incomplete_run_has_all_fixture_inventory
+FAILED tests/test_poc_inference.py::test_small_probe_records_forecast_without_calibration_gate
+FAILED tests/test_poc_inference.py::test_validator_rejects_wrong_per_cell_and_tampered_endpoints
+FAILED tests/test_poc_inference.py::test_corrupt_batch_archive_fails_closed
+FAILED tests/test_poc_inference.py::test_fake_clock_retains_partial_progress_and_full_inventory
+FAILED tests/test_poc_inference.py::test_final_batch_deadline_overrun_is_incomplete_and_persisted
+FAILED tests/test_poc_inference.py::test_run_binds_real_production_shift_and_scale_sign_controls
+7 failed, 140 passed in 41.12s

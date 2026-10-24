@@ -1,0 +1,192 @@
+{
+  "status": "pass",
+  "base": "58e33bcc6f8d69f4b2e6bbda64bd261f90937eb3",
+  "head": "d55b19295ba0099061bb4060faecfa45d640fe32",
+  "old_paths_preserved": 26425,
+  "old_changes": [],
+  "raw_invocations": [
+    {
+      "file": "docs/research/e2e-task5-evidence/compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-compile-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-diff-check.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-help-report.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-help-root.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-help-run.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-pytest-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/final-e5-pytest-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-cli-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-e5-focused-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-e5-focused-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-inputs-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-inputs-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-inventory-status-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-plotlock-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-plots-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-relative-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-report-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-report-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-report-stage-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/green-science-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-cli-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-inputs-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-inventory-status-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-plotlock-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-plots-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-relative-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-report-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-report-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-evidence/red-science-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/final-fix1-compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/final-fix1-compile-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/final-fix1-pytest-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/final-fix1-pytest-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/green-scientific-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/green-scientific-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/green-scientific-03.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround1-evidence/red-scientific-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround2-evidence/final-fix2-compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround2-evidence/final-fix2-pytest-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround2-evidence/green-candidate-refs-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround2-evidence/green-candidate-refs-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-task5-fixround2-evidence/red-candidate-refs-01.json",
+      "exit_code": 1
+    }
+  ],
+  "raw_mismatches": [],
+  "report_mirrors_equal": {
+    "e2e-task-5-report.md": true,
+    "e2e-task-5-fixround1-report.md": true,
+    "e2e-task-5-fixround2-report.md": true
+  },
+  "tests_rerun_for_audit": false
+}

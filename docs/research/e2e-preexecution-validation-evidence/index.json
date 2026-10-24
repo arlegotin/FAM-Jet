@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-24T21:41:01.291729+00:00",
+  "files": [
+    {
+      "path": "clean-editable-install.json",
+      "original_path": "artifacts/e2e-final-validation-01/clean-editable-install.json",
+      "sha256": "c9d76d973805a87f35b4df0db7616041a6260106a68ed8244f1d475dd67b35e2",
+      "bytes": 755
+    },
+    {
+      "path": "clean-editable-install.log",
+      "original_path": "artifacts/e2e-final-validation-01/clean-editable-install.log",
+      "sha256": "0669684cdd67ae9476e603fada8b4a447699ec640d9dd6b60e97a242c686b6b0",
+      "bytes": 1238
+    },
+    {
+      "path": "clean-help.json",
+      "original_path": "artifacts/e2e-final-validation-01/clean-help.json",
+      "sha256": "a47f211e76611a19c3c499b19cbeb2b6dae183c65387f9bd93f621012e881879",
+      "bytes": 695
+    },
+    {
+      "path": "clean-help.log",
+      "original_path": "artifacts/e2e-final-validation-01/clean-help.log",
+      "sha256": "0e921b43806e98b67869c24d9155feae0213cd00bfb45ee1a17627823a0ec6cf",
+      "bytes": 304
+    },
+    {
+      "path": "clean-report-help.json",
+      "original_path": "artifacts/e2e-final-validation-01/clean-report-help.json",
+      "sha256": "17ba0d0de2b2cf3bbb7b529a8754f9b779b3817021d294ec3d8a7032c18aa35d",
+      "bytes": 715
+    },
+    {
+      "path": "clean-report-help.log",
+      "original_path": "artifacts/e2e-final-validation-01/clean-report-help.log",
+      "sha256": "c030853327c9f5035e0f5f02deff1e086f5bbf9f06b8dc6a5b9fe5b05d64adc2",
+      "bytes": 162
+    },
+    {
+      "path": "clean-run-help.json",
+      "original_path": "artifacts/e2e-final-validation-01/clean-run-help.json",
+      "sha256": "8ea8681e3e598582e136fde21cfa5ba14b1375720ee9d11e09560540d470b0e7",
+      "bytes": 710
+    },
+    {
+      "path": "clean-run-help.log",
+      "original_path": "artifacts/e2e-final-validation-01/clean-run-help.log",
+      "sha256": "12b2f46d8e61d99b49be144dbf15d243c394ce8952431a0ed2de63c3bb631549",
+      "bytes": 148
+    },
+    {
+      "path": "entered-final-clean.json",
+      "original_path": "artifacts/e2e-final-validation-01/entered-final-clean.json",
+      "sha256": "37da067725566ae2633a3c5b28390f2a0803f3e4af7e17b9f0a89ee3ce415ed6",
+      "bytes": 1316
+    },
+    {
+      "path": "entered-final-clean.log",
+      "original_path": "artifacts/e2e-final-validation-01/entered-final-clean.log",
+      "sha256": "7e4eefb65b6468fb32d5e473e96a78ea47950fb0afaced9df5169ff85a4b3c42",
+      "bytes": 181
+    },
+    {
+      "path": "entered-suite.json",
+      "original_path": "artifacts/e2e-final-validation-01/entered-suite.json",
+      "sha256": "8187fc62cf7a4a4b2d094955a23888b882692f4cc0c5b59d96c27cef50ee503d",
+      "bytes": 1272
+    },
+    {
+      "path": "entered-suite.log",
+      "original_path": "artifacts/e2e-final-validation-01/entered-suite.log",
+      "sha256": "21ce2c1461f999ca73992c60cb3373b4bd6035d338bc457e3359c5d1d0891e9d",
+      "bytes": 17492
+    },
+    {
+      "path": "inference-final-clean.json",
+      "original_path": "artifacts/e2e-final-validation-01/inference-final-clean.json",
+      "sha256": "3b1495f6236bffe46d731d20f7b29b9aaf018d04826b10f9fc1e6166d47aabd9",
+      "bytes": 721
+    },
+    {
+      "path": "inference-final-clean.log",
+      "original_path": "artifacts/e2e-final-validation-01/inference-final-clean.log",
+      "sha256": "85791c7eeaddbb2859d01bd4b18d540117072f396e319b7b689fbfc17afb8c05",
+      "bytes": 99
+    },
+    {
+      "path": "inference-isolated.json",
+      "original_path": "artifacts/e2e-final-validation-01/inference-isolated.json",
+      "sha256": "3418f6faed803f2697734fa12da0465eb0a24a294ba8022188dcbb38e8bb6d8b",
+      "bytes": 686
+    },
+    {
+      "path": "inference-isolated.log",
+      "original_path": "artifacts/e2e-final-validation-01/inference-isolated.log",
+      "sha256": "1098d5b484eb74c8355af313e2292f4460a2c998c5011daf0bde3f0507b8f1c6",
+      "bytes": 99
+    },
+    {
+      "path": "capture-command.py",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-capture-command.py",
+      "sha256": "6d0a424f2b33756532a08def3ceaef521c0d778a835d7e240d538ac96ededbfe",
+      "bytes": 1627
+    }
+  ],
+  "scope": "pre-scientific execution package tests and clean-lock editable installation/help; retained initial combined-process inference RSS failures; no actual scientific outputs",
+  "source_head_before_protocol_commit": "d55b19295ba0099061bb4060faecfa45d640fe32"
+}

@@ -1,0 +1,139 @@
+{
+  "status": "pass",
+  "base": "503f1219ee51c35181d293f0b2d2d23a739e2838",
+  "head": "13b09d9d17bfe077c13181dd610de4880c308953",
+  "old_files_preserved_except_authorized_readme_gitignore": 26335,
+  "symlink_targets_preserved": 1066,
+  "old_file_changes": [],
+  "raw_invocations": [
+    {
+      "file": "compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-compile-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-diff-check.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-help-report.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-help-root.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-help-run.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-pytest-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e5-pytest-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-cli-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-e5-focused-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-e5-focused-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-inputs-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-inputs-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-inventory-status-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-plotlock-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-plots-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-relative-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-report-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "green-report-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-report-stage-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-science-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "red-cli-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-inputs-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-inventory-status-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-plotlock-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-plots-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-relative-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-report-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-report-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-science-01.json",
+      "exit_code": 1
+    }
+  ],
+  "raw_mismatches": [],
+  "report_mirror_equal": true,
+  "main_lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "tests_rerun_for_audit": false,
+  "initial_audit_attempt": "read_bytes followed a historical dangling tracked symlink; corrected audit hashes the link target bytes per Git mode120000, source/evidence unchanged"
+}

@@ -1,0 +1,14 @@
+WARNING: The directory '/Users/artemlegotin/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Obtaining file:///Users/artemlegotin/Documents/git_alter/FAM-Jet
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: famjet
+  Building editable for famjet (pyproject.toml): started
+  Building editable for famjet (pyproject.toml): finished with status 'done'
+  Created wheel for famjet: filename=famjet-0.1.0-0.editable-py3-none-any.whl size=2782 sha256=5d2a2f520704d138c64648096f5558c788f4af54b56919aa14926c490bd1751b
+  Stored in directory: /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pip-ephem-wheel-cache-s39zlnfv/wheels/40/4d/51/89a6e819640f81db7b63c787a4f92dda22f658347db2938165
+Successfully built famjet
+Installing collected packages: famjet
+Successfully installed famjet-0.1.0
