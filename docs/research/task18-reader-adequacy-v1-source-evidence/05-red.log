@@ -1,0 +1,17 @@
+............F.                                                           [100%]
+=================================== FAILURES ===================================
+__________ test_production_fit_claim_requires_pinned_history_identity __________
+
+    def test_production_fit_claim_requires_pinned_history_identity():
+        row = {'split': 'training', 'values': torch.zeros(1, 92, dtype=torch.float64),
+               'supported': torch.tensor([True])}
+        reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
+        with pytest.raises(ValueError): reader.fit_feature_statistics((row,), provenance='original768')
+>       with pytest.raises(ValueError): reader.fit_feature_statistics((row,), provenance='fixture_only')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_reader_adequacy_v1.py:112: Failed
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_production_fit_claim_requires_pinned_history_identity
+1 failed, 13 passed in 0.72s

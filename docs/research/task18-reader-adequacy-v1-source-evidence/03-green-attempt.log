@@ -1,0 +1,22 @@
+............F                                                            [100%]
+=================================== FAILURES ===================================
+__________________ test_fixture_determinism_and_oracle_schema __________________
+
+    def test_fixture_determinism_and_oracle_schema():
+        one = make_two_age_fixture()
+        two = make_two_age_fixture()
+        assert torch.equal(one.events.values, two.events.values)
+        assert len(one.events.history_ids) == 4
+        assert one.events.values.shape == (4, 32, 8)
+        assert one.queries.T.shape == (4, 64)
+        assert one.targets.shape == (4, 64, 8)
+        assert one.events.values.dtype == torch.float64
+>       assert torch.equal(one.targets[0, 0], one.events.values[0, 0])
+E       assert False
+E        +  where False = <built-in method equal of type object at 0x109399230>(tensor([-0.6803,  0.3519, -0.6266,  0.3930,  0.8170,  0.6478,  0.9733,  0.8294],\n       dtype=torch.float64), tensor([-0.5296,  0.5291, -0.5630,  0.4214, -0.8506,  0.9398, -0.5478, -0.3087],\n       dtype=torch.float64))
+E        +    where <built-in method equal of type object at 0x109399230> = torch.equal
+
+tests/test_reader_adequacy_v1.py:116: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_fixture_determinism_and_oracle_schema
+1 failed, 12 passed in 0.76s

@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "bytes": 75,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/01-red.log",
+      "sha256": "efc28245506babe60ddb4231a43cc6f9a7959cb1f6f73e0006754c77ca1d5585"
+    },
+    {
+      "bytes": 1021,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/02-red.log",
+      "sha256": "45bb4b8015a4131ba415bf86769cd16c9ecc7eeed30276bf256a9b8085bd8c7c"
+    },
+    {
+      "bytes": 1416,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/03-green-attempt.log",
+      "sha256": "951317aa0c3255cada086bb91930219d2b9ee037229cf1a4920eb0949eddba12"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/04-green.log",
+      "sha256": "4cb00601193e33e804a94647034ff80a4ab0bcc6634f923ef70af0f3e7b716e3"
+    },
+    {
+      "bytes": 1056,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/05-red.log",
+      "sha256": "db9f98c1a22272e48cf8e1a0f3a83e74bb25026ec2568c55e61d39691b74275b"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/06-green.log",
+      "sha256": "7561cfa19e98bb67d8b55440f88199299f71b6c2676e9588867d9b378e69860d"
+    },
+    {
+      "bytes": 891,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/07-red.log",
+      "sha256": "2e9771e0619ee71680c51c4e095f2654c3274506b055cf2e55a1976a634b3db5"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/08-green.log",
+      "sha256": "8752b14b3f5eda7251b8f24981b122e0cfbd72bc995a1e0295d1338e73c24c4a"
+    },
+    {
+      "bytes": 917,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/09-red.log",
+      "sha256": "9f37fa47636673f96d29042ccd729ea67d450f64d1d90f845e6c40934e88f2f7"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/10-green.log",
+      "sha256": "7a4eefa216d376a35ba42c7afc3e4fbc3fb06373de7bceef4cb80f27fbbc441b"
+    },
+    {
+      "bytes": 12141,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/preservation-proof.json",
+      "sha256": "9b41b15465103f1afc1d921e202302789c50cdbc2621cb3e81a3eb3ec1aee7f5"
+    },
+    {
+      "bytes": 1180,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/source-inventory.json",
+      "sha256": "8d62185c1ce3cefc0c35b755000a40f09f2e3f25aa279303ab4903a8ddcb7c6b"
+    },
+    {
+      "bytes": 3758,
+      "path": "docs/research/task18-reader-adequacy-v1-source-evidence/test-invocations.json",
+      "sha256": "24eca0e7db8a377d3461df546547e8c59dcfe6b81920f2cafa7703302ee55cf8"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Task18 reader adequacy v1 first source component",
+  "self_excluded": "index.json is excluded to avoid self-reference"
+}

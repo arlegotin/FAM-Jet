@@ -1,0 +1,17 @@
+..........F....                                                          [100%]
+=================================== FAILURES ===================================
+__________________ test_reader_static_roundtrip_and_rejection __________________
+
+    def test_reader_static_roundtrip_and_rejection():
+        kernel, snapshot, queries = tiny_case('bank')
+        reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
+        before = reader.read(kernel, snapshot, queries)
+        static = reader.export_static()
+>       assert len(static['source']['reader_source_sha256']) == 64
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'reader_source_sha256'
+
+tests/test_reader_adequacy_v1.py:80: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_reader_static_roundtrip_and_rejection
+1 failed, 14 passed in 0.76s

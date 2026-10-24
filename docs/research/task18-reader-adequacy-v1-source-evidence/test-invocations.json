@@ -1,0 +1,142 @@
+[
+  {
+    "argv": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.017297625000537664,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/01-red.log",
+    "bytes": 75,
+    "sha256": "efc28245506babe60ddb4231a43cc6f9a7959cb1f6f73e0006754c77ca1d5585"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.7565309170004184,
+    "exit": 2,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/02-red.log",
+    "bytes": 1021,
+    "sha256": "45bb4b8015a4131ba415bf86769cd16c9ecc7eeed30276bf256a9b8085bd8c7c"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.008033666999836,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/03-green-attempt.log",
+    "bytes": 1416,
+    "sha256": "951317aa0c3255cada086bb91930219d2b9ee037229cf1a4920eb0949eddba12"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.9454430829991907,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/04-green.log",
+    "bytes": 99,
+    "sha256": "4cb00601193e33e804a94647034ff80a4ab0bcc6634f923ef70af0f3e7b716e3"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.9685152090005431,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/05-red.log",
+    "bytes": 1056,
+    "sha256": "db9f98c1a22272e48cf8e1a0f3a83e74bb25026ec2568c55e61d39691b74275b"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 0.9625018340002498,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/06-green.log",
+    "bytes": 99,
+    "sha256": "7561cfa19e98bb67d8b55440f88199299f71b6c2676e9588867d9b378e69860d"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.086322416999792,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/07-red.log",
+    "bytes": 891,
+    "sha256": "2e9771e0619ee71680c51c4e095f2654c3274506b055cf2e55a1976a634b3db5"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.061299875000259,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/08-green.log",
+    "bytes": 99,
+    "sha256": "8752b14b3f5eda7251b8f24981b122e0cfbd72bc995a1e0295d1338e73c24c4a"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.0273388330006128,
+    "exit": 1,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/09-red.log",
+    "bytes": 917,
+    "sha256": "9f37fa47636673f96d29042ccd729ea67d450f64d1d90f845e6c40934e88f2f7"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reader_adequacy_v1.py"
+    ],
+    "elapsed_seconds": 1.0472079169994686,
+    "exit": 0,
+    "log": "docs/research/task18-reader-adequacy-v1-source-evidence/10-green.log",
+    "bytes": 99,
+    "sha256": "7a4eefa216d376a35ba42c7afc3e4fbc3fb06373de7bceef4cb80f27fbbc441b"
+  }
+]

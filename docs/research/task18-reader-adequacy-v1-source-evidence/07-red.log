@@ -1,0 +1,16 @@
+.............F.                                                          [100%]
+=================================== FAILURES ===================================
+____________________ test_feature_fit_rejects_one_shot_rows ____________________
+
+    def test_feature_fit_rejects_one_shot_rows():
+        row = {'split': 'training', 'values': torch.zeros(1, 92, dtype=torch.float64),
+               'supported': torch.tensor([True])}
+        reader = PrimaryReader(ReaderSpec('bank', 'C', 128))
+>       with pytest.raises(ValueError): reader.fit_feature_statistics(iter((row,)))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_reader_adequacy_v1.py:121: Failed
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_v1.py::test_feature_fit_rejects_one_shot_rows
+1 failed, 14 passed in 0.79s
