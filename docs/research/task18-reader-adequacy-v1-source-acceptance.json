@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-24T12:35:48.528988+00:00",
+  "status": "ACCEPTED_SOURCE_ONLY",
+  "base": "57bf7acbb30cb62ef8e6930a34cd2a92a5e4cd73",
+  "reviewed_head": "30d8b5fdce8060a03581dbbadef9666b09700c03",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "fixed_findings": 3,
+  "covering_tests": "19 passed in 0.77s",
+  "test_invocations_retained": 15,
+  "production_original768_path": "BLOCKED until verified ordered row-to-history/query builder",
+  "numerical_tiny_fit_feasibility_development": "NOT_RUN_OR_RELEASED",
+  "task18": "OPEN",
+  "protected": "CLOSED",
+  "review": {
+    "path": "docs/research/task18-reader-adequacy-v1-source-review.md",
+    "bytes": 4415,
+    "sha256": "0a039c66fedc944c4b13c9ad9bc479a6aa29a2be9e96fef5c6ded743666b4cc9"
+  },
+  "fix_review": {
+    "path": "docs/research/task18-reader-adequacy-v1-source-fix1-review.md",
+    "bytes": 2747,
+    "sha256": "b0bd96304061f1ca01f38628e5885f2176ed3b6031beaeadec972e27e049b9db"
+  },
+  "root_proof": {
+    "path": "docs/research/task18-reader-adequacy-v1-source-root-proof.json",
+    "bytes": 758,
+    "sha256": "56b59286b10b4dcba4b49b0c7387d589b1d86ece45dc06fdd432f551f38e4f52"
+  }
+}

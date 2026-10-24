@@ -1,0 +1,13 @@
+# Task 18 reader adequacy v1: fix round 1 re-review
+
+**SPEC YES. QUALITY APPROVED** for the first source component, subject to Root's separate updated custody check. Source acceptance does not release numerical, fixture fit, original768 feature fitting, training, CLI, worker, feasibility or development work.
+
+## Prior findings
+
+- **ADDRESSED — Important, unbound `original768` provenance.** `fit_feature_statistics` now admits only unit-training or identified fixture provenance (`validation/reader_adequacy_v1/reader.py:99`). Both `export_static(require_production=True)` and `from_static(..., require_production=True)` reject, and ordinary loading rejects a forged `original768` scope (`validation/reader_adequacy_v1/reader.py:157`, `validation/reader_adequacy_v1/reader.py:176`, `validation/reader_adequacy_v1/reader.py:187`). The regression uses a fixture fit, forges the prior production marker, and checks all three rejection routes (`tests/test_reader_adequacy_v1.py:131`). This implements Root's explicit safe option: production remains unavailable until a later ordered row-to-history/query builder proves identity. It does not claim that builder exists.
+- **ADDRESSED — Minor, empty queries.** After validating the kernel, snapshot and public query schema, `features` returns `[B,0,D]` with empty support/failure diagnostics when Q=0 (`validation/reader_adequacy_v1/reader.py:51`). The `read` path retains empty `[B,0,8]` predictions and empty status arrays; Jet contracted and Bank full cases are covered (`tests/test_reader_adequacy_v1.py:147`).
+- **ADDRESSED — Root's direct FP64 initialization gap.** All three `nn.Linear` layers now construct with `device='cpu', dtype=torch.float64` instead of initializing in FP32 and converting (`validation/reader_adequacy_v1/reader.py:89`). A seed-fixed test compares every layer's initial weight and bias with separately constructed CPU FP64 layers (`tests/test_reader_adequacy_v1.py:40`).
+
+## New breakage and evidence
+
+No new source behavior breakage found in this scoped diff. The removed `original768` path is deliberate and documented (`validation/reader_adequacy_v1/README.md:10`); unit and fixture static round trips remain available. The retained focused logs show the expected three-failure review RED, the initialization RED, then the latest clean `19 passed in 0.77s` (`docs/research/task18-reader-adequacy-v1-source-evidence/15-initialization-green.log:1`). I did not rerun tests. The updated source report supersedes its earlier production-fit and final-run claims (`docs/research/task18-reader-adequacy-v1-source-report.md:21`). Root independently verified initial whole-tree custody and owns the updated fix custody; this review does not assert that updated byte audit.

@@ -1,5 +1,13 @@
 # Progress
 
+**Current — 24 October 2026:** RAM no longer blocks the completed fixed-reader experiment. All six configurations finished on the Mac in10.63minutes, using about396MiB additional sampled worker memory. The selected ordinary exponential bank had loss0.1918 versus Jet0.2804 at the same9345bytes, and led at every tested history length. These are exposed development results, with no demonstrated Jet advantage. [Completed experiment](docs/research/task18-kernel-stage-b-panel04-report.md).
+
+The next reader-attribution component passed independent source review and19 focused tests. It compares small contracted, larger contracted and full-state readers. Production feature fitting remains blocked until row-level training provenance is implemented. The next released work is source-only numerical/known-sufficient fixture runner implementation; no larger training, feasibility or protected work has begun. [Reader acceptance](docs/research/task18-reader-adequacy-v1-source-acceptance.json), [next source scope](docs/amendments/2026-10-24-reader-adequacy-v1-numerical-checks.md).
+
+Tasks1–17 are accepted; broad Task18, statistical calibration and later research gates remain open. Protected evaluation is closed. All prior failures and refused memory admissions remain historical evidence.
+
+The entries below preserve earlier snapshots; their holds and future-work wording do not supersede this update.
+
 **Numerical work is held for other jobs, at the user’s request.** The [fresh admission](docs/research/task18-setup05-admission-refused-free-plus-speculative.json) reported293273600 bytes of free-plus-speculative pages, below the adopted1GiB entry threshold. Setup05 has not been allocated or started; no new clock/factors/reads exist. The reviewed384MiB template is ready. Resume with fresh admission after the other jobs finish, then bind the actual clean source and inspect setup before any Stage A seal. [Checkpoint](docs/research/task18-setup05-resource-hold.json).
 
 Current state —18October2026: Tasks1–17 accepted; Task18 science remains OPEN and protected work CLOSED. The latest completed accuracy comparison remains Jet0.394466304 / Bank0.388818438 / buckets0.136494775 at similar state bytes, exploratory and unconverged. There is no demonstrated practical Jet advantage.
