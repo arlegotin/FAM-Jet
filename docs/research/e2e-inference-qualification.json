@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "pass",
+  "attempt": 2,
+  "per_cell": 256,
+  "histories_per_panel": 3072,
+  "evidence_path": "docs/research/e2e-inference-calibration-02-evidence/e2e-inference-calibration-02/evidence.json",
+  "evidence_sha256": "db4a41b3362fdb6b27f2d9c3c6ba6f5859ffb88543aace1ae3252da4a22921a3",
+  "validation_path": "docs/research/e2e-inference-calibration-02-evidence/e2e-inference-calibration-02-prep/validation.json",
+  "admission_path": "docs/research/e2e-inference-calibration-02-evidence/e2e-inference-calibration-02-prep/allocation.json",
+  "deadline_monotonic": 21972.779518666,
+  "inference_source": {
+    "bit_generator": "numpy.random.PCG64",
+    "files": {
+      "famjet/provenance.py": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59",
+      "famjet_poc/inference.py": "4bba9ad0561ea7c285d194f8a20d0b0ad9227c373ffa3cf8e818a467f67633ee",
+      "requirements.lock": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    },
+    "numpy": "2.5.4",
+    "python": "3.13.5",
+    "scipy": "1.18.1",
+    "sha256": "5cdbae0a61810a0f9d509ed1d462530d708439021f8f9fc81ce04fd12f39bfb4"
+  },
+  "confirmation_root": 2026102401904,
+  "replication_root": 2026102401905,
+  "previous_attempt": "failed_retained",
+  "all_32_guards": true
+}

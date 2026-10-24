@@ -1,0 +1,18 @@
+{
+  "utc_start": "2026-10-24T17:10:42.079481+00:00",
+  "source_head": "8156f69034b4e70907344a3f3ff358627bc5d412",
+  "wrapper_sha256": "4e20b2fbc8791892331a84eb0f34004b93bcb7b02419c7c42c07e1683e3b78fe",
+  "start_monotonic": 21247.779518666,
+  "work_deadline": 21972.779518666,
+  "deadline": 21992.779518666,
+  "free_plus_speculative": 4869947392,
+  "rss_sum_cap": 268435456,
+  "output_cap": 134217728,
+  "status": "STARTING",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-c",
+    "from famjet_poc.inference import run_calibration, validate_calibration; from pathlib import Path; import json; r=run_calibration('/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-inference-calibration-02',deadline_monotonic=21972.779518666,attempt=2); v=validate_calibration(r,{\"out\":'/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-inference-calibration-02',\"deadline_monotonic\":21972.779518666}); Path('/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-inference-calibration-02-prep/validation.json').write_text(json.dumps(v,indent=2)); print(json.dumps({\"execution\":r[\"status\"],\"validation\":v})); raise SystemExit(0 if r[\"status\"]==\"complete\" else 1)"
+  ],
+  "child_pid": 53658
+}
