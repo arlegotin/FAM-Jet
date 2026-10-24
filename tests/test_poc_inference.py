@@ -63,12 +63,12 @@ def test_manifest_one_pair_per_history_and_exact_inventory():
 
 def test_laws_seeds_and_translation_small_batch():
     for fixture in range(1, 9):
-        batch = inf.calibration_batch(fixture, 0, 3, per_cell=4)
+        batch = inf.calibration_batch(fixture, 0, 3, per_cell=64)
         assert len(batch['D']) == 3
         assert len(batch['status']) == 3
         assert batch['counts']['total'] == 3
-        assert batch['counter_commitment'] == inf.calibration_batch(fixture, 0, 3, per_cell=4)['counter_commitment']
-        assert np.array_equal(batch['D'], inf.calibration_batch(fixture, 0, 3, per_cell=4)['D'])
+        assert batch['counter_commitment'] == inf.calibration_batch(fixture, 0, 3, per_cell=64)['counter_commitment']
+        assert np.array_equal(batch['D'], inf.calibration_batch(fixture, 0, 3, per_cell=64)['D'])
         assert batch['shift_coverage_equal'] is True
         assert batch['law']['fixture'] == fixture
     a = inf.fixture_scales(7)
@@ -119,7 +119,9 @@ def test_validation_rejects_corrupt_commitments(tmp_path, monkeypatch):
 def test_primary_manifest_requires_fixed_12_cell_allocation():
     ids = {str(g): [f'{g}-{i}' for i in range(16)] for g in range(12)}
     manifest = {'units': 'history', 'panel': 'nuisance', 'strata': list(inf.STRATA),
-                'history_ids_by_stratum': ids, 'weights': [1/12]*12}
+                'history_ids_by_stratum': ids, 'weights': [1/12]*12,
+                'attempt': 0, 'per_cell': 16, 'source_sha256': inf.source_identity()['sha256'],
+                'calibration_evidence_sha256': None}
     rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0.,
              'bank_loss': float(i), 'units': 'history'}
             for g in range(12) for i, hid in enumerate(ids[str(g)])]
@@ -158,14 +160,16 @@ def test_frozen_cp_counts_and_counter_draw_golden():
 def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
     out = tmp_path/'mini'
     out.mkdir()
-    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration')
+    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+    evidence['transform_control'] = inf.production_transform_controls()
     inf._atomic_json(out/'evidence.json', evidence)
     wrong = inf.calibration_batch(1, 0, 2, per_cell=4)
     inf._store_batch(out, evidence, wrong)
     assert inf.validate_calibration(evidence, {'out': out})['status'] == 'fail'
     out = tmp_path/'proper-mini'
     out.mkdir()
-    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration')
+    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+    evidence['transform_control'] = inf.production_transform_controls()
     inf._atomic_json(out/'evidence.json', evidence)
     inf._store_batch(out, evidence, inf.calibration_batch(1, 0, 2))
     record = evidence['fixtures']['1']['batches'][0]
@@ -191,7 +195,8 @@ def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
 def test_corrupt_batch_archive_fails_closed(tmp_path):
     out = tmp_path/'mini'
     out.mkdir()
-    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration')
+    evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+    evidence['transform_control'] = inf.production_transform_controls()
     inf._atomic_json(out/'evidence.json', evidence)
     inf._store_batch(out, evidence, inf.calibration_batch(1, 0, 1))
     record = evidence['fixtures']['1']['batches'][0]
@@ -231,3 +236,131 @@ def test_fake_clock_retains_partial_progress_and_full_inventory(tmp_path, monkey
     assert len(evidence['fixtures']) == 8
     assert all(evidence['fixtures'][str(f)]['completed'] == 0 for f in range(2, 9))
     assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+
+
+def test_batch_uses_production_interval_for_real_shifted_inputs(monkeypatch):
+    original = inf.conditional_interval
+    calls = [0]
+    def corrupt_second_input(d, strata, **kwargs):
+        result = original(d, strata, **kwargs)
+        calls[0] += 1
+        if calls[0] % 3 == 2:
+            result['upper'] += 1.
+        return result
+    monkeypatch.setattr(inf, 'conditional_interval', corrupt_second_input)
+    batch = inf.calibration_batch(1, 0, 2, per_cell=4)
+    assert batch['shift_coverage_equal'] is False
+
+
+def test_batch_matches_production_interval_and_affine_controls():
+    strata = np.repeat(np.arange(12), 64)
+    for fixture in range(1, 9):
+        batch = inf.calibration_batch(fixture, 0, 2, per_cell=64)
+        for r in range(2):
+            d = np.concatenate([.25*inf.fixture_scales(fixture)[g]*inf._draw(
+                fixture, inf._counter_seed(2026102401901, 'e2e-inference-calibration-v1', fixture, r, g), 64)
+                for g in range(12)])
+            actual = inf.conditional_interval(d, strata)
+            for key in ('D', 'V', 'df', 'lower', 'upper'):
+                assert batch[key][r] == pytest.approx(actual[key], rel=1e-11, abs=1e-11)
+            assert bool(batch['status'][r]) == (actual['status'] == 'ok')
+            for shift in (+.05, -.05):
+                moved = inf.conditional_interval(d+shift, strata)
+                assert moved['D'] == pytest.approx(actual['D']+shift, abs=1e-11)
+                assert moved['V'] == pytest.approx(actual['V'], rel=1e-11, abs=1e-11)
+                assert moved['df'] == pytest.approx(actual['df'], rel=1e-11, abs=1e-11)
+                assert moved['lower'] == pytest.approx(actual['lower']+shift, abs=1e-11)
+                assert moved['upper'] == pytest.approx(actual['upper']+shift, abs=1e-11)
+            transformed = inf.conditional_interval(-2*d, strata)
+            assert transformed['D'] == pytest.approx(-2*actual['D'])
+            assert transformed['V'] == pytest.approx(4*actual['V'])
+            assert transformed['df'] == pytest.approx(actual['df'])
+            assert transformed['lower'] == pytest.approx(-2*actual['upper'])
+            assert transformed['upper'] == pytest.approx(-2*actual['lower'])
+
+
+def test_revised_scientific_panel_binds_attempt_allocation_and_calibration():
+    ids = {str(g): [f'{g}-{i}' for i in range(256)] for g in range(12)}
+    rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0., 'bank_loss': float(i), 'units': 'history'}
+            for g in range(12) for i, hid in enumerate(ids[str(g)])]
+    manifest = {'panel': 'confirmation', 'units': 'history', 'strata': list(inf.STRATA),
+                'history_ids_by_stratum': ids, 'weights': [1/12]*12, 'attempt': 2,
+                'per_cell': 256, 'source_sha256': inf.source_identity()['sha256'],
+                'calibration_evidence_sha256': 'a'*64}
+    assert len(inf.validate_history_pairs(rows, manifest)[0]) == 3072
+    assert len(inf.validate_history_pairs(rows, {**manifest, 'panel': 'replication'})[0]) == 3072
+    for changed in ({**manifest, 'attempt': 1}, {**manifest, 'per_cell': 128},
+                    {**manifest, 'source_sha256': '0'*64},
+                    {**manifest, 'calibration_evidence_sha256': None}):
+        with pytest.raises(ValueError):
+            inf.validate_history_pairs(rows, changed)
+    with pytest.raises(ValueError):
+        inf.validate_history_pairs(rows[:-1], manifest)
+    ids128 = {g: values[:128] for g, values in ids.items()}
+    rows128 = [row for row in rows if int(row['history_id'].split('-')[1]) < 128]
+    first = {**manifest, 'history_ids_by_stratum': ids128, 'attempt': 1, 'per_cell': 128}
+    assert len(inf.validate_history_pairs(rows128, first)[0]) == 1536
+    with pytest.raises(ValueError):
+        inf.validate_history_pairs(rows128, {**first, 'attempt': 2})
+    with pytest.raises(ValueError):
+        inf.validate_history_pairs(rows128, {**first, 'calibration_evidence_sha256': 'A'*64})
+
+
+def test_final_batch_deadline_overrun_is_incomplete_and_persisted(tmp_path, monkeypatch):
+    monkeypatch.setattr(inf, 'N', 1)
+    monkeypatch.setattr(inf, 'FIXTURES', (1,))
+    ticks = iter([0., 0., 100., 100., 100.])
+    monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+    out = tmp_path/'last-batch-overrun'
+    evidence = inf.run_calibration(out, deadline_monotonic=50.)
+    assert evidence['status'] == 'incomplete'
+    assert evidence['fixtures']['1']['completed'] == 1
+    assert evidence['resource']['deadline_monotonic'] == 50.
+    assert json.loads((out/'evidence.json').read_text()) == evidence
+    forged = {**evidence, 'status': 'complete'}
+    inf._atomic_json(out/'evidence.json', forged)
+    result = inf.validate_calibration(forged, {'out': out, 'deadline_monotonic': 50.})
+    assert result['status'] == 'fail' and 'deadline' in result['reason']
+
+
+def test_timing_and_canonical_metadata_are_validated(tmp_path, monkeypatch):
+    monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+    out = tmp_path/'incomplete'
+    evidence = inf.run_calibration(out, deadline_monotonic=99.)
+    for key, value in (('schema', 2), ('engine', 'other'), ('strata', list(reversed(inf.STRATA)))):
+        changed = {**evidence, key: value}
+        inf._atomic_json(out/'evidence.json', changed)
+        assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+    changed = {**evidence, 'resource': {**evidence['resource'], 'deadline_monotonic': 50.}}
+    inf._atomic_json(out/'evidence.json', changed)
+    assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+
+
+def test_run_binds_real_production_shift_and_scale_sign_controls(tmp_path, monkeypatch):
+    monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+    out = tmp_path/'controls'
+    evidence = inf.run_calibration(out, deadline_monotonic=99.)
+    assert evidence['transform_control']['passed'] is True
+    assert evidence['transform_control']['cases'] == ['+0.05', '-0.05', '-2.0']
+    assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+    changed = {**evidence, 'transform_control': {**evidence['transform_control'], 'passed': False}}
+    inf._atomic_json(out/'evidence.json', changed)
+    assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+
+
+def test_corrupt_production_scale_control_blocks_run_before_counts(tmp_path, monkeypatch):
+    original = inf.conditional_interval
+    calls = [0]
+    def corrupt_fourth_input(d, strata, **kwargs):
+        result = original(d, strata, **kwargs)
+        calls[0] += 1
+        if calls[0] == 4:
+            result['upper'] += 1.
+        return result
+    monkeypatch.setattr(inf, 'conditional_interval', corrupt_fourth_input)
+    monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+    out = tmp_path/'bad-control'
+    evidence = inf.run_calibration(out, deadline_monotonic=99.)
+    assert evidence['status'] == 'fail'
+    assert evidence['transform_control']['passed'] is False
+    assert all(v['completed'] == 0 for v in evidence['fixtures'].values())

@@ -88,6 +88,35 @@ def t_critical(df: float) -> float:
     return value
 
 
+def _interval_matches(observed, expected):
+    return observed['status'] == 'ok' and all(
+        math.isfinite(observed[key]) and
+        abs(observed[key] - value) <= 1e-10 * max(1., abs(value))
+        for key, value in expected.items())
+
+
+def production_transform_controls():
+    """Small pre-calibration checks through the public interval on raw inputs."""
+    histories = np.sin(np.arange(48, dtype=np.float64)*.37) + np.arange(48)/480.
+    strata = np.repeat(np.arange(12), 4)
+    passed = True
+    try:
+        base = conditional_interval(histories, strata)
+        for shift in (.05, -.05):
+            moved = conditional_interval(histories + shift, strata)
+            passed &= _interval_matches(moved, {'D': base['D'] + shift,
+                       'V': base['V'], 'df': base['df'],
+                       'lower': base['lower'] + shift, 'upper': base['upper'] + shift})
+        scaled = conditional_interval(-2*histories, strata)
+        passed &= _interval_matches(scaled, {'D': -2*base['D'],
+                  'V': 4*base['V'], 'df': base['df'],
+                  'lower': -2*base['upper'], 'upper': -2*base['lower']})
+    except (ValueError, FloatingPointError, OverflowError):
+        passed = False
+    return {'passed': bool(passed), 'cases': ['+0.05', '-0.05', '-2.0'],
+            'input_sha256': hashlib.sha256(histories.astype('<f8').tobytes()).hexdigest()}
+
+
 def conditional_interval(d, strata, *, weights=None, identical_method=False):
     """Finite JSON-compatible stratified Welch interval for paired history losses."""
     d = np.asarray(d, dtype=np.float64)
@@ -136,7 +165,11 @@ def conditional_interval(d, strata, *, weights=None, identical_method=False):
 
 
 def validate_history_pairs(rows, manifest):
-    """Require exactly one pre-averaged paired loss per committed history ID."""
+    """Require one paired history loss under a fixed panel and calibration bind.
+
+    E4 must verify the referenced calibration evidence is accepted before freeze;
+    this validator enforces its SHA-256 identity and authorized allocation.
+    """
     if type(manifest) is not dict or manifest.get('units') != 'history' or manifest.get('panel') not in {'unit_test', 'nuisance', 'confirmation', 'replication'}:
         raise ValueError('history manifest required')
     inventory = manifest.get('history_ids_by_stratum')
@@ -144,10 +177,24 @@ def validate_history_pairs(rows, manifest):
         raise ValueError('contiguous stratum inventory required')
     panel = manifest['panel']
     if panel != 'unit_test':
+        fields = {'panel', 'units', 'strata', 'history_ids_by_stratum', 'weights',
+                  'attempt', 'per_cell', 'source_sha256', 'calibration_evidence_sha256'}
+        if set(manifest) != fields or manifest['source_sha256'] != source_identity()['sha256']:
+            raise ValueError('scientific manifest source or fields mismatch')
+        attempt = manifest['attempt']
+        per_cell = manifest['per_cell']
+        evidence_hash = manifest['calibration_evidence_sha256']
+        if panel == 'nuisance':
+            if type(attempt) is not int or attempt != 0 or type(per_cell) is not int or per_cell != 16 or evidence_hash is not None:
+                raise ValueError('nuisance allocation precedes calibration')
+        elif (type(attempt) is not int or attempt not in ATTEMPTS or
+              type(per_cell) is not int or per_cell != ATTEMPTS[attempt][2] or
+              type(evidence_hash) is not str or len(evidence_hash) != 64 or
+              any(c not in '0123456789abcdef' for c in evidence_hash)):
+            raise ValueError('scientific panel must bind an admitted calibration attempt')
         if manifest.get('strata') != list(STRATA):
             raise ValueError('primary stratum labels and order required')
-        expected_per_cell = 16 if panel == 'nuisance' else 128
-        if len(inventory) != 12 or any(len(ids) != expected_per_cell for ids in inventory.values()):
+        if len(inventory) != 12 or any(len(ids) != per_cell for ids in inventory.values()):
             raise ValueError('fixed 12-stratum panel allocation required')
     weights = manifest.get('weights')
     if weights is None or len(weights) != len(inventory) or not np.allclose(weights, np.full(len(inventory), 1/len(inventory)), atol=0, rtol=0):
@@ -229,26 +276,43 @@ def _batch(fixture_id, outer_start, count, per_cell, role):
             seed = _counter_seed(root, namespace, fixture_id, outer_start+r, g)
             seeds[r, g] = seed
             d[r, g, :] = .25*scales[g]*_draw(fixture_id, seed, per_cell)
-    mean = d.mean(axis=2)
-    var = d.var(axis=2, ddof=1)
-    a = var/(12*12*per_cell)
-    D = mean.mean(axis=1)
-    V = a.sum(axis=1)
-    with np.errstate(divide='ignore', invalid='ignore', over='ignore'):
-        df = V*V / (a*a).sum(axis=1) * (per_cell-1)
-        half = student_t.ppf(.975, df)*np.sqrt(V)
-    lower = D-half
-    upper = D+half
-    status = np.isfinite(D)&np.isfinite(V)&np.isfinite(df)&np.isfinite(lower)&np.isfinite(upper)&(V>0)&(df>0)
+    D = np.full(count, np.nan)
+    V = np.full(count, np.nan)
+    df = np.full(count, np.nan)
+    lower = np.full(count, np.nan)
+    upper = np.full(count, np.nan)
+    status = np.zeros(count, dtype=bool)
+    strata = np.repeat(np.arange(12), per_cell)
+    shift_equal = True
+    for r in range(count):
+        histories = d[r].reshape(-1)
+        try:
+            base = conditional_interval(histories, strata)
+            if base['status'] != 'ok':
+                shift_equal = False
+                continue
+            for key, array in (('D', D), ('V', V), ('df', df),
+                               ('lower', lower), ('upper', upper)):
+                array[r] = base[key]
+            status[r] = True
+            base_cover = base['lower'] <= 0 <= base['upper']
+            for shift in (.05, -.05):
+                moved = conditional_interval(histories + shift, strata)
+                expected = {'D': base['D'] + shift, 'V': base['V'],
+                            'df': base['df'], 'lower': base['lower'] + shift,
+                            'upper': base['upper'] + shift}
+                shift_equal &= _interval_matches(moved, expected)
+                shift_equal &= (moved['lower'] <= shift <= moved['upper']) == base_cover
+        except (ValueError, FloatingPointError, OverflowError):
+            status[r] = False
+            shift_equal = False
+            D[r] = V[r] = df[r] = lower[r] = upper[r] = np.nan
     cover = status & (lower <= 0) & (upper >= 0)
     null_reject = ~cover
     pos_power = status & (lower+.05 > 0)
     neg_power = status & (upper-.05 < 0)
-    # Shifted intervals are exact translations for this location-equivariant statistic.
-    shift_equal = bool(np.array_equal((lower+.05 <= .05)&(upper+.05 >= .05),
-                                      (lower <= 0)&(upper >= 0)) and
-                       np.array_equal((lower-.05 <= -.05)&(upper-.05 >= -.05),
-                                      (lower <= 0)&(upper >= 0)))
+    # Deviations are reused only after both shifted raw-history inputs ran through
+    # the same public interval implementation and agreed with translated results.
     counts = {'total': count, 'coverage': int(cover.sum()), 'null_rejection': int(null_reject.sum()),
               'positive_power': int(pos_power.sum()), 'negative_power': int(neg_power.sum()),
               'invalid': int((~status).sum())}
@@ -317,16 +381,25 @@ def _rss_bytes():
     return int(value if sys.platform == 'darwin' else value*1024)
 
 
-def _initial_evidence(attempt, role, per_cell, kind):
+def _initial_evidence(attempt, role, per_cell, kind, deadline_monotonic=None):
+    start = time.monotonic()
+    source = source_identity()
+    admission = (canonical_hash({'start_monotonic': start,
+                                 'deadline_monotonic': deadline_monotonic,
+                                 'source_sha256': source['sha256']})
+                 if kind == 'calibration' else None)
     return {'schema': 1, 'engine': ENGINE, 'kind': kind, 'status': 'incomplete', 'attempt': attempt,
             'N': N if kind == 'calibration' else 64, 'per_cell': per_cell,
-            'source': source_identity(), 'fixture_hash': FIXTURE_HASH,
+            'source': source, 'fixture_hash': FIXTURE_HASH,
             'counter_protocol': COUNTER_PROTOCOL, 'root': role[0], 'namespace': role[1],
             'boundaries': calibration_boundaries(), 'strata': list(STRATA),
+            'transform_control': None,
             'fixtures': {str(f): {'completed': 0, 'counts': {'total': 0, 'coverage': 0,
                  'null_rejection': 0, 'positive_power': 0, 'negative_power': 0, 'invalid': 0},
                  'batches': []} for f in FIXTURES},
-            'resource': {'start_monotonic': time.monotonic(), 'end_monotonic': None,
+            'resource': {'start_monotonic': start, 'end_monotonic': None,
+                         'deadline_monotonic': deadline_monotonic,
+                         'admission_sha256': admission,
                          'peak_rss_bytes': _rss_bytes(), 'artifact_bytes': 0}}
 
 
@@ -360,22 +433,32 @@ def _store_batch(out, evidence, batch):
 
 
 def _run(out, *, deadline_monotonic, attempt, role, kind, total):
-    out = Path(out)
-    out.mkdir(parents=True, exist_ok=False)
-    evidence = _initial_evidence(attempt, role, role[2], kind)
-    _atomic_json(out/'evidence.json', evidence)
     if (type(deadline_monotonic) not in (float, int) or
             (not math.isfinite(deadline_monotonic) and not (kind == 'probe' and deadline_monotonic == math.inf))):
         raise ValueError('finite monotonic deadline required for calibration')
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=False)
+    evidence = _initial_evidence(attempt, role, role[2], kind,
+                                 deadline_monotonic if kind == 'calibration' else None)
+    _atomic_json(out/'evidence.json', evidence)
     try:
+        if kind == 'calibration':
+            evidence['transform_control'] = production_transform_controls()
+            if not evidence['transform_control']['passed']:
+                evidence['status'] = 'fail'
+                _atomic_json(out/'evidence.json', evidence)
+                return evidence
+            _atomic_json(out/'evidence.json', evidence)
         for fixture in FIXTURES:
             for start in range(0, total, 64):
                 if time.monotonic() >= deadline_monotonic:
-                    evidence['resource']['end_monotonic'] = time.monotonic()
-                    _atomic_json(out/'evidence.json', evidence)
                     return evidence
                 batch = _batch(fixture, start, min(64, total-start), role[2], role)
                 _store_batch(out, evidence, batch)
+                if time.monotonic() >= deadline_monotonic:
+                    return evidence
+        if time.monotonic() >= deadline_monotonic:
+            return evidence
         evidence['status'] = 'complete'
         if kind == 'probe':
             elapsed = time.monotonic() - evidence['resource']['start_monotonic']
@@ -388,6 +471,9 @@ def _run(out, *, deadline_monotonic, attempt, role, kind, total):
         raise
     finally:
         evidence['resource']['end_monotonic'] = time.monotonic()
+        if (kind == 'calibration' and evidence['status'] == 'complete' and
+                evidence['resource']['end_monotonic'] >= deadline_monotonic):
+            evidence['status'] = 'incomplete'
         _atomic_json(out/'evidence.json', evidence)
     return evidence
 
@@ -411,11 +497,34 @@ def validate_calibration(evidence, policy):
         out = Path(policy['out'])
         if type(evidence) is not dict or evidence.get('kind') != 'calibration':
             return {'status': 'fail', 'reason': 'not calibration evidence'}
+        if evidence.get('schema') != 1 or evidence.get('engine') != ENGINE or evidence.get('strata') != list(STRATA):
+            return {'status': 'fail', 'reason': 'schema, engine, or strata mismatch'}
         attempt = evidence['attempt']
         if attempt not in ATTEMPTS or evidence['source'] != source_identity() or evidence['fixture_hash'] != FIXTURE_HASH or evidence['counter_protocol'] != COUNTER_PROTOCOL or evidence['boundaries'] != calibration_boundaries() or evidence['N'] != N or evidence['per_cell'] != ATTEMPTS[attempt][2] or (evidence['root'], evidence['namespace']) != ATTEMPTS[attempt][:2]:
             return {'status': 'fail', 'reason': 'source, fixture, counter, or boundary mismatch'}
         if evidence != json.loads((out/'evidence.json').read_text()):
             return {'status': 'fail', 'reason': 'evidence file mismatch'}
+        control = evidence['transform_control']
+        if control is not None and (control != production_transform_controls() or not control['passed']):
+            return {'status': 'fail', 'reason': 'production transform control mismatch'}
+        if control is None and (evidence['status'] == 'complete' or
+                any(item['completed'] for item in evidence['fixtures'].values())):
+            return {'status': 'fail', 'reason': 'missing production transform control'}
+        resource = evidence['resource']
+        start = resource['start_monotonic']
+        deadline = resource['deadline_monotonic']
+        end = resource['end_monotonic']
+        if (type(start) not in (int, float) or not math.isfinite(start) or
+                type(deadline) not in (int, float) or not math.isfinite(deadline) or
+                (end is not None and (type(end) not in (int, float) or
+                                      not math.isfinite(end) or end < start)) or
+                resource['admission_sha256'] != canonical_hash({
+                    'start_monotonic': start, 'deadline_monotonic': deadline,
+                    'source_sha256': evidence['source']['sha256']})):
+            return {'status': 'fail', 'reason': 'timing admission mismatch'}
+        if evidence['status'] == 'complete' and (end is None or end >= deadline or
+                policy.get('deadline_monotonic') != deadline):
+            return {'status': 'fail', 'reason': 'completed run exceeded or lacks admitted deadline'}
         if set(evidence['fixtures']) != {str(f) for f in FIXTURES} or evidence['status'] == 'fail':
             return {'status': 'fail', 'reason': 'fixture inventory or execution failure'}
         total_file_bytes = sum(p.stat().st_size for p in out.iterdir() if p.is_file())
