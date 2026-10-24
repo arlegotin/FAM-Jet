@@ -72,6 +72,31 @@
       "sha256": "2799dfe852627666891a2b9686b235204cc313aa8815b3472cb53b3fd9d863b4"
     },
     {
+      "bytes": 1225,
+      "path": "fix2-optimizer-red.log",
+      "sha256": "b1af2725b754103dcbe72615c2044faa5ff5b44ec437c78828d25af9bc58d180"
+    },
+    {
+      "bytes": 15022,
+      "path": "fix2-preservation-proof.json",
+      "sha256": "0cd5eac5b61fb7c9b50d15017d2ee3a4fd48811ed517c9f8fea491d1588cb5e4"
+    },
+    {
+      "bytes": 128,
+      "path": "fix2-pytest-green.log",
+      "sha256": "fb6814d4f69b0ca9d51c812ef2ec862c945d507451c2aa549cf384e52f80620a"
+    },
+    {
+      "bytes": 330,
+      "path": "fix2-source-inventory.json",
+      "sha256": "80a93e1c9a87917d040f9cd932a87a32cf910afe19dafcebde89837af126b1ac"
+    },
+    {
+      "bytes": 1007,
+      "path": "fix2-test-invocations.json",
+      "sha256": "5f2c3fd5fd46583d5f84c8680d6c2d69a0c09f6112c2a0277385dce234e47d83"
+    },
+    {
       "bytes": 1202,
       "path": "misc-checks.json",
       "sha256": "6035f47b8de4293b2f6ec2acc482ed66399776b62540c2a884285ddbd1bf9fe6"
@@ -143,11 +168,11 @@
     }
   ],
   "report": {
-    "bytes": 7680,
+    "bytes": 8644,
     "path": "docs/research/task18-reader-adequacy-v1-checks-source-report.md",
-    "sha256": "b165f9ff7dc0f00de2b34c067d75ce227bbc0ddffd8556c1797dd307859ab852"
+    "sha256": "881902406a4d3e1248b92c6e402c9b7b164eb13849814ad6a177f88422d48553"
   },
   "scientific_runs": 0,
-  "source_status": "FIXROUND1_SOURCE_ONLY",
-  "utc": "2026-10-24T12:57:53.480331+00:00"
+  "source_status": "FIXROUND2_SOURCE_ONLY",
+  "utc": "2026-10-24T13:00:50.371309+00:00"
 }

@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_raising_optimizer_call_is_charged_before_completion ___________
+
+    def test_raising_optimizer_call_is_charged_before_completion():
+        module = __import__('validation.reader_adequacy_v1.checks', fromlist=['_attempt_optimizer_step'])
+        class RaisingOptimizer:
+            def step(self):
+                raise RuntimeError('partial optimizer call')
+        arm = {'optimizer_steps_attempted': 0, 'optimizer_steps_completed': 0}
+        with pytest.raises(RuntimeError, match='partial optimizer call'):
+>           module._attempt_optimizer_step(RaisingOptimizer(), arm, 1)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'validation.reader_adequacy_v1.checks' has no attribute '_attempt_optimizer_step'
+
+tests/test_reader_adequacy_checks.py:196: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_reader_adequacy_checks.py::test_raising_optimizer_call_is_charged_before_completion
+1 failed, 22 deselected in 1.28s
+real 1.72
+user 0.80
+sys 0.20

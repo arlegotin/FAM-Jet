@@ -1,0 +1,40 @@
+{
+  "fix_base": "88def43bb2b60c9bc7c1e4f7be2849b7a24c416a",
+  "invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py",
+        "-k",
+        "raising_optimizer_call"
+      ],
+      "bytes": 1225,
+      "elapsed_seconds": 1.72,
+      "exit_code": 1,
+      "ordinal": 1,
+      "raw_log": "fix2-optimizer-red.log",
+      "sha256": "b1af2725b754103dcbe72615c2044faa5ff5b44ec437c78828d25af9bc58d180",
+      "wrapper": "/usr/bin/time -p"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_reader_adequacy_checks.py"
+      ],
+      "bytes": 128,
+      "elapsed_seconds": 1.03,
+      "exit_code": 0,
+      "ordinal": 2,
+      "raw_log": "fix2-pytest-green.log",
+      "sha256": "fb6814d4f69b0ca9d51c812ef2ec862c945d507451c2aa549cf384e52f80620a",
+      "wrapper": "/usr/bin/time -p"
+    }
+  ],
+  "utc": "2026-10-24T13:00:39.076710+00:00"
+}

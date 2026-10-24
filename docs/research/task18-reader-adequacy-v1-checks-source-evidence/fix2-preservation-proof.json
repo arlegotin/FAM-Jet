@@ -1,0 +1,458 @@
+{
+  "changed_paths": [
+    "tests/test_reader_adequacy_checks.py",
+    "validation/reader_adequacy_v1/checks.py"
+  ],
+  "famjet_source_identity": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "fix_base": "88def43bb2b60c9bc7c1e4f7be2849b7a24c416a",
+  "fix_source_commit": "115ef7b6153cf3d6490149a5aeaf72ca1d270b32",
+  "historical_manifest_sha256": "d0669ad0c20a1dc810f0eb6a79b4e9b81f71496cc76a2430e3e91fe833ec49d8",
+  "historical_rows": 88,
+  "historical_rows_all_match": true,
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "protected_all_equal_fix_base": true,
+  "protected_core_count": 53,
+  "protected_files": [
+    {
+      "bytes": 100,
+      "equals_fix_base": true,
+      "path": "famjet/__init__.py",
+      "sha256": "cd8e67e396819718143676ef86a65c3cae1f2ddc584ca66a7b000334053968e9"
+    },
+    {
+      "bytes": 27031,
+      "equals_fix_base": true,
+      "path": "famjet/analysis/development.py",
+      "sha256": "07c243647d57f4181102a0a47a4c4f75602f77014d5970bde4d0f709d6ce6561"
+    },
+    {
+      "bytes": 32306,
+      "equals_fix_base": true,
+      "path": "famjet/analysis/statistics.py",
+      "sha256": "efe3a50bcf5f5cfcfb3497d951e6291cfe844da72143b3f7f856d7e723397bd9"
+    },
+    {
+      "bytes": 2032,
+      "equals_fix_base": true,
+      "path": "famjet/artifacts.py",
+      "sha256": "033b0b74de819f4316b47b3719942a3bda74a626024403126e189dab4a4d6d2f"
+    },
+    {
+      "bytes": 16745,
+      "equals_fix_base": true,
+      "path": "famjet/checkpoint.py",
+      "sha256": "0393ede682bf88662b2401c60ce79189a1ac5b867c52113580937f68665ae3af"
+    },
+    {
+      "bytes": 21507,
+      "equals_fix_base": true,
+      "path": "famjet/config.py",
+      "sha256": "32ba632b41cceb032f5d7ddb9311f2f02df454045b2008398ac9233164689241"
+    },
+    {
+      "bytes": 71,
+      "equals_fix_base": true,
+      "path": "famjet/data/__init__.py",
+      "sha256": "1401b57145b77a2602c3f2687b8282e025fe3772689eb01bd916947f4b5c65e7"
+    },
+    {
+      "bytes": 5378,
+      "equals_fix_base": true,
+      "path": "famjet/data/_processes.py",
+      "sha256": "42387d1522d12bf11e2fd25db221bd54f2c723a73f15d4f287a2e7c698422bd4"
+    },
+    {
+      "bytes": 23102,
+      "equals_fix_base": true,
+      "path": "famjet/data/beijing.py",
+      "sha256": "08fcc810658acf8eff5434a04e5a1689bdf0458acdb99538ab553955dd0efc49"
+    },
+    {
+      "bytes": 7166,
+      "equals_fix_base": true,
+      "path": "famjet/data/development_cache.py",
+      "sha256": "9e263ec8e52e2e6875afff0e472428fb72823de07788dcb18e7b8582fbb03258"
+    },
+    {
+      "bytes": 11029,
+      "equals_fix_base": true,
+      "path": "famjet/data/feature_cache.py",
+      "sha256": "081120d51d5c8a22d0e26a5b562646a360e272ff0fb355bbf20a1b816f74ec6a"
+    },
+    {
+      "bytes": 8877,
+      "equals_fix_base": true,
+      "path": "famjet/data/schema.py",
+      "sha256": "f4044301533bf0dca05d2a733114fac77303c037e81eeea5cda51a36fc0db38a"
+    },
+    {
+      "bytes": 16157,
+      "equals_fix_base": true,
+      "path": "famjet/data/synthetic.py",
+      "sha256": "033e11d6e44eae63bc294b2d309b843f30962169d585679bc38e9d5ab8bfaf15"
+    },
+    {
+      "bytes": 10772,
+      "equals_fix_base": true,
+      "path": "famjet/doctor.py",
+      "sha256": "312c26b095d27fadabf5779ead6bb691d3657dc30c146d775775be522bf41f2d"
+    },
+    {
+      "bytes": 51,
+      "equals_fix_base": true,
+      "path": "famjet/eval/__init__.py",
+      "sha256": "73d5e6c25d05959792d75ff3a79889502c6d56d22874deb8194fb7bccd2576d5"
+    },
+    {
+      "bytes": 7346,
+      "equals_fix_base": true,
+      "path": "famjet/eval/budgets.py",
+      "sha256": "c24d3e3588d75e2fad48a7cf190711cdb032e2381e2c812e72c0752ca15c5790"
+    },
+    {
+      "bytes": 8130,
+      "equals_fix_base": true,
+      "path": "famjet/eval/controls.py",
+      "sha256": "09ab7a26a75e0fc3b3c541dc7f018c8f70c74e70635bab82cb625cc4bc22f1f9"
+    },
+    {
+      "bytes": 22180,
+      "equals_fix_base": true,
+      "path": "famjet/eval/isolation.py",
+      "sha256": "6502333ee8e6a03e97f52746cb87af64ca0abeacf8eea6ed0b7ad869800a6bbf"
+    },
+    {
+      "bytes": 24093,
+      "equals_fix_base": true,
+      "path": "famjet/eval/metrics.py",
+      "sha256": "fd34b865324469ed430a2c26f442455228303cc76bd025616a0583df5cfdced3"
+    },
+    {
+      "bytes": 7098,
+      "equals_fix_base": true,
+      "path": "famjet/eval/oracle.py",
+      "sha256": "65275f5449a2b3b5967e1f3db8d1a5a1996aee896596d0f8ae58a62df64b3c35"
+    },
+    {
+      "bytes": 7653,
+      "equals_fix_base": true,
+      "path": "famjet/eval/runner.py",
+      "sha256": "d8a6b0ba74cdc3dfaa5d507deac05d0e1b2f534d5904a228c4a63f62e54eb836"
+    },
+    {
+      "bytes": 10372,
+      "equals_fix_base": true,
+      "path": "famjet/eval/splits.py",
+      "sha256": "9677e05118e7ebe45b67748361f20ac25630e4d3bb924878ba0de5500b5defcf"
+    },
+    {
+      "bytes": 9352,
+      "equals_fix_base": true,
+      "path": "famjet/eval/state_io.py",
+      "sha256": "b36ca558257642b3f6226d0d6b81f423002eaf75150fa07634564990999557ba"
+    },
+    {
+      "bytes": 55,
+      "equals_fix_base": true,
+      "path": "famjet/memory/__init__.py",
+      "sha256": "ba014490dd498b224402c0b97326dcad4fc8197468d5dc5b2b31c775eeca00fe"
+    },
+    {
+      "bytes": 8250,
+      "equals_fix_base": true,
+      "path": "famjet/memory/_coefficient.py",
+      "sha256": "d481ea70c06c0e2ab01ff9cd18f4128ffb70688226b3587179276fa4e6e5ada5"
+    },
+    {
+      "bytes": 17016,
+      "equals_fix_base": true,
+      "path": "famjet/memory/_fixed_writer.py",
+      "sha256": "ca7f5459e80a718c886e53ebc5d490c336c8425c2199d6cb473b5765c041f9f2"
+    },
+    {
+      "bytes": 5529,
+      "equals_fix_base": true,
+      "path": "famjet/memory/associative_hippo.py",
+      "sha256": "0871dc857931916f6e1272a3db50c9ac2ee8318af14ffca1364e7b88e41a517b"
+    },
+    {
+      "bytes": 13873,
+      "equals_fix_base": true,
+      "path": "famjet/memory/buckets.py",
+      "sha256": "74e561d1f76c14c50f13c0d55ae59aa75f4c0553d193c3a4f5848b0a98469c75"
+    },
+    {
+      "bytes": 1369,
+      "equals_fix_base": true,
+      "path": "famjet/memory/coordinates.py",
+      "sha256": "e79a6e480850d365456ef360df987ac030e83e69f32b63f45f9fb8ed42d457f1"
+    },
+    {
+      "bytes": 18139,
+      "equals_fix_base": true,
+      "path": "famjet/memory/delta.py",
+      "sha256": "622966a4656ae412a0796c6dbd4d97a77b030ae9025f2942008ea63f34c77784"
+    },
+    {
+      "bytes": 25297,
+      "equals_fix_base": true,
+      "path": "famjet/memory/exact_store.py",
+      "sha256": "e009107087c9fc447523d5d130775a9838d1853a7bd31a86b286c46a1aa0bb17"
+    },
+    {
+      "bytes": 12786,
+      "equals_fix_base": true,
+      "path": "famjet/memory/expbank.py",
+      "sha256": "3740f01e7f967b76c9b48d9094dc9814376161fba81b39efdc2db3a95f2f0e2d"
+    },
+    {
+      "bytes": 4189,
+      "equals_fix_base": true,
+      "path": "famjet/memory/gaver.py",
+      "sha256": "eec887fdc1b89122b360cdec4e43981e5f8b60d7a67edb74dd4a8f5b12219c65"
+    },
+    {
+      "bytes": 6167,
+      "equals_fix_base": true,
+      "path": "famjet/memory/hippo.py",
+      "sha256": "c71ecf64d92ac9105304eb7c82ead38af151da50f8e19b9dd34110e0fb376cd3"
+    },
+    {
+      "bytes": 13178,
+      "equals_fix_base": true,
+      "path": "famjet/memory/jet.py",
+      "sha256": "acd61df3ae8b65d54f737f7e3f1068a56bcd8a1cb6c4ced80a45fa0fe92c12a1"
+    },
+    {
+      "bytes": 9143,
+      "equals_fix_base": true,
+      "path": "famjet/memory/multiscale.py",
+      "sha256": "3145f6f60425b077b3f8960deb31f4b736030ce0e273df21b37f669a59ecd24a"
+    },
+    {
+      "bytes": 1399,
+      "equals_fix_base": true,
+      "path": "famjet/memory/oracle.py",
+      "sha256": "c293c69e6fd3396ecceaa5b5929c0b0a9ab18563b27133b6809520af3fcb8a0c"
+    },
+    {
+      "bytes": 12438,
+      "equals_fix_base": true,
+      "path": "famjet/memory/reservoir.py",
+      "sha256": "bd65f441832ea61f3d849ecf229b2a9b241843934c77b54dab3418ba3e07dd12"
+    },
+    {
+      "bytes": 41,
+      "equals_fix_base": true,
+      "path": "famjet/models/__init__.py",
+      "sha256": "29f80147f5926951015c7fabd370bec733321a040a15583c4547dd64ac33417b"
+    },
+    {
+      "bytes": 5577,
+      "equals_fix_base": true,
+      "path": "famjet/models/_schema.py",
+      "sha256": "82c6f6cb24c2ea8f2f8834bec8c363d309dbbd099ff1957188c85bfb122de73a"
+    },
+    {
+      "bytes": 9804,
+      "equals_fix_base": true,
+      "path": "famjet/models/kernel_read_model.py",
+      "sha256": "4c5f565e173702927ccd871334fd3b4dad5cfa8b83b6e42f233b343ba29cd5d7"
+    },
+    {
+      "bytes": 21397,
+      "equals_fix_base": true,
+      "path": "famjet/models/task_model.py",
+      "sha256": "1dcbd9961b3d66111938215a10d181edcad7a3596add349bbc1ab381197f0d60"
+    },
+    {
+      "bytes": 12009,
+      "equals_fix_base": true,
+      "path": "famjet/ops.py",
+      "sha256": "6a539c531811854d0a8f030285bf25ab32bef6bee5bdfaa5ab616f83d74543cc"
+    },
+    {
+      "bytes": 3341,
+      "equals_fix_base": true,
+      "path": "famjet/prepare.py",
+      "sha256": "e02290deb293c0c975c26ded21878c87cfb7ba1dca3f10a4ed1badb4e52ff6a3"
+    },
+    {
+      "bytes": 3522,
+      "equals_fix_base": true,
+      "path": "famjet/provenance.py",
+      "sha256": "980ee4a987ddf8dd1a39156168266ac9c518639cf134c67410f8067c3cc12a59"
+    },
+    {
+      "bytes": 63,
+      "equals_fix_base": true,
+      "path": "famjet/readers/__init__.py",
+      "sha256": "b9cadeae7acaccbb737c720d7945145a58af1b7e0bed0289a5c35642bba48513"
+    },
+    {
+      "bytes": 11340,
+      "equals_fix_base": true,
+      "path": "famjet/readers/kernel_projection.py",
+      "sha256": "b49bcc907d8095c1cb4342e996dde78b0af9a4f4d1acfddef1f9b7ff400daf6e"
+    },
+    {
+      "bytes": 2157,
+      "equals_fix_base": true,
+      "path": "famjet/readers/mlp.py",
+      "sha256": "1b265d0ac9e8b3478f5f7674c50cbc9c05e8cf76be89a973dd8f516fd4bdf30e"
+    },
+    {
+      "bytes": 7781,
+      "equals_fix_base": true,
+      "path": "famjet/readers/structured.py",
+      "sha256": "20bb7dc149b39f85dc9c154f901ee152268a379091fc83822ab22cf78abcdcca"
+    },
+    {
+      "bytes": 23578,
+      "equals_fix_base": true,
+      "path": "famjet/reproduce.py",
+      "sha256": "c4f759acdbe06d4e93525b4da9e1efbdc23aaf40541b0800b725b79812b81936"
+    },
+    {
+      "bytes": 1315,
+      "equals_fix_base": true,
+      "path": "famjet/run.py",
+      "sha256": "ed1b3bc56190603c963142424b716411219ac1aa994ce12cac6655c5568737cd"
+    },
+    {
+      "bytes": 41569,
+      "equals_fix_base": true,
+      "path": "famjet/train.py",
+      "sha256": "a252f1eb5d01ec44346536eda68ae2c379a3afde371b6688f76101e4883da936"
+    },
+    {
+      "bytes": 4399,
+      "equals_fix_base": true,
+      "path": "famjet/types.py",
+      "sha256": "1dc1d93a167b20481c8abd124cb86e86d41ec9873d82715b8f2d6734139ff11f"
+    },
+    {
+      "bytes": 24166,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/README.md",
+      "sha256": "ebfd32d79bcee457bd4a7772bc56be00aaed884f21d1e8740aad7812e6e7b464"
+    },
+    {
+      "bytes": 77,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/__init__.py",
+      "sha256": "c885b32de0b53a229b55043bcf8138e6e2b95756f543bb1e05b6e489de9fcf92"
+    },
+    {
+      "bytes": 2972,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/__main__.py",
+      "sha256": "1c07a2a635bbe367bf176fc8b61e1a3e1c0c49e50c6b6118a5c90ed00f931d2a"
+    },
+    {
+      "bytes": 17887,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/authority.py",
+      "sha256": "e21d19a36a5ef8755a3c251b7fe75ede6cea9fc797e01e72a02860edf2ab62ce"
+    },
+    {
+      "bytes": 2375,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/commands.py",
+      "sha256": "01f1c14f53f5e31cd87640867a730080999c7dc12e5d5bcda2013428514658a0"
+    },
+    {
+      "bytes": 4876,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/descriptors.py",
+      "sha256": "b6cac1d1b652be98429ff541b949ab3ce466cc9bcfb113a3d125c0fa7e817415"
+    },
+    {
+      "bytes": 3976,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/driver.py",
+      "sha256": "4c09a18fe3d4144f0772a2e99e9f08c28478c0f342bc666c8baea88fbbe2d7d7"
+    },
+    {
+      "bytes": 59678,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/fixture-descriptors.json",
+      "sha256": "44501a0e469f72cdf14d24d3c622ba3c611590cf96e7dd875bd391c324c4d5f0"
+    },
+    {
+      "bytes": 6299,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/frozen-training-metadata.json",
+      "sha256": "9ca422cc04f35de1a94bf65a579f37be5122a382cb635c47e7d39d49fa92509c"
+    },
+    {
+      "bytes": 94628,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/monitor.py",
+      "sha256": "3c7e4aa237173895245444e1cb66a017275507398a6446133020ad509a00d30e"
+    },
+    {
+      "bytes": 18831,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/production.py",
+      "sha256": "20940f1e27702a04e857dc18187a782f223b4f64482a80a81d8c8f7fb2c1c5ab"
+    },
+    {
+      "bytes": 7018,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/prospective-seal.json",
+      "sha256": "1ec00a04f156c9c5ddeaaf807222a3ff7d863986143ed038b38827bd4d3314ce"
+    },
+    {
+      "bytes": 3771,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/reader_worker.py",
+      "sha256": "918cd1a6a1b17144dfbc80ac39ee428a05b97ef57dc62a3c87c270ce77085a0b"
+    },
+    {
+      "bytes": 16497,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/reference.py",
+      "sha256": "091b2ba72b6072512aec75567ad7ca5e9488ea4df5ce28404194b5a7d4b4bab7"
+    },
+    {
+      "bytes": 6743,
+      "equals_fix_base": true,
+      "path": "validation/kernel_stage_a/source_lifecycles.py",
+      "sha256": "4538fb9887cfc13c98c5ff61be16168e88cf2f5a590d6f67b9fc7feab3e09004"
+    },
+    {
+      "bytes": 2658,
+      "equals_fix_base": true,
+      "path": "requirements.lock",
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    },
+    {
+      "bytes": 241,
+      "equals_fix_base": true,
+      "path": "validation/reader_adequacy_v1/__init__.py",
+      "sha256": "2a37b696136e1e8e1aefc12154a986378a668fb8ed7a2126a2433f0a4c185d63"
+    },
+    {
+      "bytes": 5650,
+      "equals_fix_base": true,
+      "path": "validation/reader_adequacy_v1/contract.py",
+      "sha256": "3c90e7b95024a02fa7cfadf26d0c5ab2b98a6c0986fdbda74bd37a2401e3efc8"
+    },
+    {
+      "bytes": 13273,
+      "equals_fix_base": true,
+      "path": "validation/reader_adequacy_v1/reader.py",
+      "sha256": "a517f1a1ecc5a4f1819b9b99eba265422cc46afc01879d0599d42bd3d26f87d3"
+    },
+    {
+      "bytes": 2090,
+      "equals_fix_base": true,
+      "path": "validation/reader_adequacy_v1/fixtures.py",
+      "sha256": "841f3c9cb92ee11600be9fa26650bbe818cfead45f13310a94e9cdbe6f5b2b8b"
+    }
+  ],
+  "protected_stage_a_count": 15,
+  "reader_source_identity": "2373635540126e884edf4fa2154e92a8a68fea8b2250f7a2a8a81ab3f4fcd15f",
+  "utc": "2026-10-24T13:00:39.640912+00:00"
+}
