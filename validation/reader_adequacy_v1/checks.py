@@ -199,6 +199,12 @@ def run_bounded_steps(step, evaluate, resource_check, *, records=None,
     return observations
 
 
+def _attempt_optimizer_step(optimizer, arm, n):
+    """Charge a call before entering it; completion is recorded by the caller."""
+    arm['optimizer_steps_attempted'] = n
+    optimizer.step()
+
+
 def admission(free_plus_spec_bytes, disk_free_bytes):
     return (free_plus_spec_bytes >= 2*2**30 and disk_free_bytes >= 4*2**30
             and 2**30 <= .75*free_plus_spec_bytes)
@@ -737,8 +743,7 @@ def tiny_fit(*, budget):
                     raise FloatingPointError(f'nonfinite {name} gradient')
                 gradient_activity[name] |= bool((grad != 0).any())
             torch.nn.utils.clip_grad_norm_(parameters, 1., error_if_nonfinite=True)
-            optimizer.step()
-            arm['optimizer_steps_attempted'] = n
+            _attempt_optimizer_step(optimizer, arm, n)
             if not all(bool(torch.isfinite(p).all()) for p in parameters):
                 raise FloatingPointError('nonfinite fixture weights')
 

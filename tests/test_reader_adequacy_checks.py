@@ -182,8 +182,19 @@ def test_fixed_checkpoint_and_injected_step_recording():
                    '_physical(reader, raw[index], task[index])',
                    'reader.target_scale', 'fixture_scale[task[index]]',
                    'run_arm_inventory(execute, budget)', 'on_checkpoint=checkpoint',
-                   "arm['optimizer_steps_attempted'] = n"):
+                   '_attempt_optimizer_step(optimizer, arm, n)'):
         assert phrase in source
+
+
+def test_raising_optimizer_call_is_charged_before_completion():
+    module = __import__('validation.reader_adequacy_v1.checks', fromlist=['_attempt_optimizer_step'])
+    class RaisingOptimizer:
+        def step(self):
+            raise RuntimeError('partial optimizer call')
+    arm = {'optimizer_steps_attempted': 0, 'optimizer_steps_completed': 0}
+    with pytest.raises(RuntimeError, match='partial optimizer call'):
+        module._attempt_optimizer_step(RaisingOptimizer(), arm, 1)
+    assert arm == {'optimizer_steps_attempted': 1, 'optimizer_steps_completed': 0}
 
 
 def test_initial_status_and_closed_inventory_are_durable(tmp_path):
