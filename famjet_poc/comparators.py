@@ -1,6 +1,7 @@
 """Frozen arithmetic controls and independently stepped Laguerre coordinates."""
 from dataclasses import replace
 import time
+import math
 
 import torch
 
@@ -73,8 +74,30 @@ def build_controls(shape, budget, training_statistics, seed) -> dict:
     return controls
 
 
-def laguerre_control(model, events, queries) -> dict:
+COORDINATE_POLICY = 'fp64_coordinate_diagnostic_v2'
+_COORDINATE_MASKS = ('finite', 'support', 'failure', 'prediction_valid', 'numeric_supported')
+
+
+def coordinate_model_sha256(model):
+    """Identity of the unchanged numeric reader, also valid for unfitted unit controls."""
+    return canonical_hash({'shape': model.shape.to_json(), 'reader': model.spec.to_json(),
+        't_ref': model.t_ref, 'writer_hash': model.writer_hash,
+        'target_statistics': model.target_statistics,
+        'arrays': {name: getattr(model, name).tolist() for name in
+                   ('coefficients', 'feature_mean', 'feature_scale', 'query_mean', 'query_scale')}})
+
+
+def _errors(left, right):
+    delta = torch.abs(left - right)
+    scaled = delta / (1e-12 + 1e-12 * torch.abs(right))
+    return (float(delta.max()) if delta.numel() else 0.,
+            float(scaled.max()) if scaled.numel() else 0.)
+
+
+def laguerre_control(model, events, queries, *, diagnostic_mode=False) -> dict:
     """Step L0/L1 per event, recover Z/H only at the reader boundary."""
+    if type(diagnostic_mode) is not bool:
+        raise ValueError('explicit boolean diagnostic mode required')
     if type(model) is not RidgeMemoryModel or model.spec.family != 'jet':
         raise ValueError('base frozen Jet reader required')
     validate_events(events)
@@ -117,22 +140,140 @@ def laguerre_control(model, events, queries) -> dict:
         left = model.read(direct, queries)
         right = model.read(recovered, queries)
     finite = torch.isfinite(left.prediction) & torch.isfinite(right.prediction)
-    prediction_error = float(torch.max(torch.abs(left.prediction[finite] - right.prediction[finite]))) if bool(finite.any()) else 0.
-    state_error = max(float(torch.max(torch.abs(direct.payload[key] - recovered.payload[key]))) for key in ('z', 'h'))
-    if not (torch.equal(torch.isfinite(left.prediction), torch.isfinite(right.prediction)) and
-            torch.equal(left.failure, right.failure)):
-        raise ArithmeticError('Laguerre reader support/failure parity changed')
-    if (not torch.allclose(direct.payload['z'], recovered.payload['z'], rtol=1e-12, atol=1e-12) or
-            not torch.allclose(direct.payload['h'], recovered.payload['h'], rtol=1e-12, atol=1e-12) or
-            not torch.allclose(left.prediction[finite], right.prediction[finite], rtol=1e-12, atol=1e-12) or
-            not torch.equal(left.support, right.support) or
-            any(not torch.equal(left.diagnostics[name], right.diagnostics[name]) for name in
-                ('prediction_valid', 'numeric_supported'))):
+    masks = {'finite': (torch.isfinite(left.prediction), torch.isfinite(right.prediction)),
+             'support': (left.support, right.support), 'failure': (left.failure, right.failure),
+             **{name: (left.diagnostics[name], right.diagnostics[name])
+                for name in ('prediction_valid', 'numeric_supported')}}
+    if any(not torch.equal(a, b) for a, b in masks.values()):
+        raise ArithmeticError('Laguerre reader support/failure/semantic mask parity changed')
+    for key in ('z', 'h'):
+        if (not bool(torch.isfinite(direct.payload[key]).all()) or
+                not bool(torch.isfinite(recovered.payload[key]).all()) or
+                not torch.allclose(direct.payload[key], recovered.payload[key], rtol=1e-12, atol=1e-12)):
+            raise ArithmeticError('Laguerre FP64 state parity exceeded original tolerance')
+    strict_pass = torch.allclose(left.prediction[finite], right.prediction[finite], rtol=1e-12, atol=1e-12)
+    if not strict_pass and not diagnostic_mode:
         raise ArithmeticError('Laguerre FP64 state/prediction parity exceeded original tolerance')
+    diagnostics = {}
+    model_hash = coordinate_model_sha256(model)
+    for i, history in enumerate(events.history_ids):
+        present = queries.present[i]
+        valid = finite[i] & present[:, None]
+        absolute, scaled = _errors(left.prediction[i][valid], right.prediction[i][valid])
+        failed = valid & ~torch.isclose(left.prediction[i], right.prediction[i], rtol=1e-12, atol=1e-12)
+        state_errors = {key: _errors(direct.payload[key][i], recovered.payload[key][i]) for key in ('z', 'h')}
+        diagnostics[history] = {
+            'schema_version': 2, 'policy': COORDINATE_POLICY, 'atol': 1e-12, 'rtol': 1e-12,
+            'history_id': history, 'model_numeric_sha256': model_hash,
+            'query_ids': queries.query_ids[i][present].tolist(),
+            'query_count': int(present.sum()), 'value_dim': model.shape.value_dim,
+            'total_scalar_count': int(present.sum()) * model.shape.value_dim,
+            'evaluated_scalar_count': int(valid.sum()),
+            'strict_prediction_failed_scalars': int(failed.sum()),
+            'strict_prediction_failed_queries': int(failed.any(dim=-1).sum()),
+            'strict_prediction_status': 'FAILED' if bool(failed.any()) else 'PASSED',
+            'state_checks': {'z': True, 'h': True},
+            'mask_checks': {name: True for name in _COORDINATE_MASKS},
+            'state_errors': {key: {'absolute': value[0], 'scaled': value[1]} for key, value in state_errors.items()},
+            'max_state_absolute_error': max(value[0] for value in state_errors.values()),
+            'max_state_scaled_error': max(value[1] for value in state_errors.values()),
+            'max_prediction_absolute_error': absolute, 'max_prediction_scaled_error': scaled}
+    prediction_error = max(d['max_prediction_absolute_error'] for d in diagnostics.values())
+    state_error = max(d['max_state_absolute_error'] for d in diagnostics.values())
     return {'result': right, 'direct_result': left, 'recovered_state': recovered,
+            'coordinate_diagnostics': diagnostics,
             'event_count': b * n, 'max_state_absolute_error': state_error,
             'max_prediction_absolute_error': prediction_error,
             'coordinate_seconds': coordinate_seconds, 'conversion_seconds': converted_seconds,
+            'diagnostic_seconds': time.perf_counter() - started - coordinate_seconds - converted_seconds,
             'equivalent_state_bytes': sum(t.numel() * t.element_size() for t in (l0, l1)),
             'equivalent_metadata_bytes': model.persistent_nbytes(recovered) -
                                          sum(t.numel() * t.element_size() for t in (recovered.payload['z'], recovered.payload['h']))}
+
+
+def validate_coordinate_audits(costs, rows, *, model_numeric_sha256=None, require_summary=True):
+    """Pure validation of complete immutable history/query diagnostics and their summary."""
+    def reject():
+        raise ValueError('coordinate diagnostic audit/model/inventory/status mismatch')
+    if type(costs) is not dict or not rows:
+        reject()
+    audits = costs.get('stream_audits')
+    if type(audits) is not dict or costs.get('stream_audits_sha256') != canonical_hash(audits):
+        reject()
+    inventory = {}
+    for row in rows:
+        if row.get('method') != 'laguerre':
+            reject()
+        inventory.setdefault(row['history_id'], []).append(row['query_id'])
+    if set(inventory) != set(audits) or costs.get('history_count') != len(inventory):
+        reject()
+    model_hash = costs.get('coordinate_model_sha256')
+    if (type(model_hash) is not str or len(model_hash) != 64 or
+            any(c not in '0123456789abcdef' for c in model_hash) or
+            model_numeric_sha256 is not None and model_hash != model_numeric_sha256):
+        reject()
+    diagnostics = []
+    for history, query_ids in inventory.items():
+        d = audits[history].get('coordinate_diagnostic')
+        if (type(d) is not dict or d.get('schema_version') != 2 or d.get('policy') != COORDINATE_POLICY or
+                d.get('history_id') != history or d.get('model_numeric_sha256') != model_hash or
+                d.get('atol') != 1e-12 or d.get('rtol') != 1e-12 or
+                d.get('query_ids') != sorted(query_ids) or len(set(query_ids)) != len(query_ids) or
+                d.get('query_count') != len(query_ids) or
+                d.get('state_checks') != {'z': True, 'h': True} or
+                d.get('mask_checks') != {name: True for name in _COORDINATE_MASKS}):
+            reject()
+        if any(value is not True for name in ('state_checks', 'mask_checks') for value in d[name].values()):
+            reject()
+        fields = ('query_count', 'value_dim', 'total_scalar_count', 'evaluated_scalar_count',
+                  'strict_prediction_failed_scalars', 'strict_prediction_failed_queries')
+        if any(type(d.get(name)) is not int or d[name] < 0 for name in fields):
+            reject()
+        if (d['value_dim'] < 1 or d['total_scalar_count'] != len(query_ids) * d['value_dim'] or
+                not 0 <= d['strict_prediction_failed_scalars'] <= d['evaluated_scalar_count'] <= d['total_scalar_count'] or
+                not 0 <= d['strict_prediction_failed_queries'] <= min(len(query_ids), d['strict_prediction_failed_scalars']) or
+                d['strict_prediction_failed_scalars'] > d['strict_prediction_failed_queries'] * d['value_dim'] or
+                (d['strict_prediction_failed_scalars'] == 0) != (d['strict_prediction_failed_queries'] == 0)):
+            reject()
+        maxima = ('max_state_absolute_error', 'max_state_scaled_error',
+                  'max_prediction_absolute_error', 'max_prediction_scaled_error')
+        if any(type(d.get(name)) not in (float, int) or not math.isfinite(d[name]) or d[name] < 0 for name in maxima):
+            reject()
+        state = d.get('state_errors')
+        if (type(state) is not dict or set(state) != {'z', 'h'} or
+                any(type(v) is not dict or set(v) != {'absolute', 'scaled'} or
+                    any(type(x) not in (float, int) or not math.isfinite(x) or x < 0 for x in v.values())
+                    for v in state.values())):
+            reject()
+        failed = d['strict_prediction_failed_scalars'] > 0
+        if (d['max_state_scaled_error'] > 1 or
+                any(d['max_state_' + name + '_error'] != max(v[name] for v in state.values())
+                    for name in ('absolute', 'scaled')) or
+                (d['max_prediction_scaled_error'] > 1) != failed or
+                d['strict_prediction_status'] != ('FAILED' if failed else 'PASSED') or
+                d['evaluated_scalar_count'] == 0 and d['max_prediction_absolute_error'] != 0):
+            reject()
+        history_rows = [row for row in rows if row['history_id'] == history]
+        if any(type(row.get('raw_prediction')) is not list or
+               len(row['raw_prediction']) != d['value_dim'] for row in history_rows):
+            reject()
+        finite_count = sum(type(value) in (float, int) and math.isfinite(value)
+                           for row in history_rows for value in row['raw_prediction'])
+        if finite_count != d['evaluated_scalar_count']:
+            reject()
+        diagnostics.append(d)
+    result = {'schema_version': 2, 'policy': COORDINATE_POLICY,
+              'status': 'diagnostic_complete', 'state_checks': 'PASSED', 'mask_checks': 'PASSED',
+              'atol': 1e-12, 'rtol': 1e-12, 'history_count': len(diagnostics),
+              'strict_prediction_failed_histories': sum(d['strict_prediction_status'] == 'FAILED' for d in diagnostics)}
+    for name in ('query_count', 'total_scalar_count', 'evaluated_scalar_count',
+                 'strict_prediction_failed_scalars', 'strict_prediction_failed_queries'):
+        result[name] = sum(d[name] for d in diagnostics)
+    for name in ('max_state_absolute_error', 'max_state_scaled_error',
+                 'max_prediction_absolute_error', 'max_prediction_scaled_error'):
+        result[name] = max(d[name] for d in diagnostics)
+    result['strict_prediction_status'] = 'FAILED' if result['strict_prediction_failed_histories'] else 'PASSED'
+    if ((require_summary or 'coordinate_diagnostic_summary' in costs) and
+            costs.get('coordinate_diagnostic_summary') != result):
+        reject()
+    return result

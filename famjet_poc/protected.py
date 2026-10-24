@@ -574,6 +574,9 @@ def validate_scored_receipt(receipt, rows, manifest_hash, histories, query_ids):
             primary[(key[0], row['task'])] += 1
     if seen != expected_keys or any(value == 0 for value in primary.values()):
         raise ValueError('scored primary task/query inventory incomplete')
+    if receipt.get('method') == 'laguerre' or any(row.get('method') == 'laguerre' for row in rows):
+        from .comparators import validate_coordinate_audits
+        validate_coordinate_audits(receipt.get('costs'), rows)
     return {'query_count': len(seen), 'history_count': len(histories),
             'counts_sha256': receipt['counts_ref']['sha256'],
             'policy_sha256': contract['policy_ref']['sha256']}

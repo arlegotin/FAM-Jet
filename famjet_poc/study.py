@@ -21,7 +21,8 @@ from famjet.provenance import canonical_hash, canonical_json
 from famjet.types import PredictionBatch
 from .cache import (attach_training_cache, e3_source_sha256, episode_factory,
                     load_episode_cache, prepare_episode_cache)
-from .comparators import build_controls, laguerre_control
+from .comparators import (build_controls, laguerre_control, coordinate_model_sha256,
+                          validate_coordinate_audits)
 from .contracts import PopulationSpec, ReaderSpec, ShapeSpec, source_sha256
 from .models import (RidgeMemoryModel, build_model, fit_reader, fit_training_metadata,
                      load_model, make_fit_manifest, save_model)
@@ -540,7 +541,7 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
         _admit(started, allocation, directory=out)
         stream_started = time.perf_counter()
         if equivalent:
-            measured = laguerre_control(model, ep.events, ep.queries)
+            measured = laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
             state = measured['recovered_state']
             trigger = None
             bytes_used = model.persistent_nbytes(state)
@@ -548,12 +549,16 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
                      'chunk_input_digest': batch_hash(ep.events), 'checkpoint_copy_bytes': 0,
                      'checkpoint_copy_seconds': 0., 'replay_count': 0,
                      'replayed_events': 0, 'replay_seconds': 0.,
+                     'coordinate_diagnostic': measured['coordinate_diagnostics'][ep.events.history_ids[0]],
                      'coordinate_seconds': measured['coordinate_seconds'],
                      'conversion_seconds': measured['conversion_seconds'],
+                     'diagnostic_seconds': measured['diagnostic_seconds'],
                      'equivalent_state_bytes': measured['equivalent_state_bytes'],
                      'equivalent_metadata_bytes': measured['equivalent_metadata_bytes']}
         else:
             state, trigger, bytes_used, audit = _stream_snapshot(model, ep, return_audit=True)
+        if equivalent and ep.events.history_ids[0] in audits:
+            raise ValueError('duplicate evaluation history audit')
         audits[ep.events.history_ids[0]] = audit
         stream_seconds += time.perf_counter() - stream_started
         event_count += int(ep.events.lengths[0])
@@ -566,7 +571,7 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
     flush()
     primary = [row for row in rows if row['score_scope'] == 'primary']
     summary = aggregate_scores(primary)
-    return rows, summary, {'maximum_state_bytes': maximum, 'worker_batches': batches,
+    costs = {'maximum_state_bytes': maximum, 'worker_batches': batches,
                            'statics_bytes': len(canonical_json(statics)),
                            'event_count': event_count, 'history_count': history_count,
                            'stream_seconds': stream_seconds, 'worker_seconds': worker_seconds,
@@ -580,6 +585,11 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
                            'replayed_events': sum(item['replayed_events'] for item in audits.values()),
                            'replay_seconds': sum(item['replay_seconds'] for item in audits.values()),
                            'evaluation_seconds': time.perf_counter() - evaluation_started}
+    if equivalent:
+        costs['coordinate_model_sha256'] = coordinate_model_sha256(model)
+        costs['coordinate_diagnostic_summary'] = validate_coordinate_audits(costs, rows, require_summary=False)
+        costs['evaluation_seconds'] = time.perf_counter() - evaluation_started
+    return rows, summary, costs
 
 
 def evaluate_panel(model, factory, policy, statistics, method, out, allocation, worker_limits) -> dict:
@@ -793,6 +803,8 @@ def _audit_terminal_entries(journal, policy, out):
         summary = aggregate_scores([row for row in rows if row['score_scope'] == 'primary'])
         if canonical_hash(summary) != canonical_hash(entry['score']):
             raise ValueError('resumed score aggregate mismatch')
+        if method == 'laguerre':
+            validate_coordinate_audits(entry.get('costs'), rows)
         return summary
     for entry in journal['candidate_ledger']:
         if entry['status'] == 'qualified':

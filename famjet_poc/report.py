@@ -135,6 +135,59 @@ def _render_plots(chart_data, out):
             'receipt': receipt, 'directory_name': plots_dir.name}
 
 
+def coordinate_report(inputs):
+    """Expose every validated coordinate receipt without aggregating away failures."""
+    panels = {}
+    additional_seconds = 0.
+    def visit(value, path):
+        nonlocal additional_seconds
+        if isinstance(value, dict):
+            if 'coordinate_diagnostic_summary' in value:
+                panels[path] = value['coordinate_diagnostic_summary']
+                additional_seconds += value['evaluation_seconds']
+            else:
+                for key, item in value.items():
+                    visit(item, path + '/' + key)
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                visit(item, path + '/' + str(index))
+    for section in ('development', 'synthetic', 'stress', 'transfer', 'real'):
+        visit(inputs.get(section, {}), section)
+    return {'policy': 'fp64_coordinate_diagnostic_v2',
+            'interpretation': 'strict FP64 read equivalence is not established when any criterion FAILED',
+            'panels': panels,
+            'additional_coordinate_evaluation_seconds': additional_seconds,
+            'additional_expenditure_scope': 'current run coordinate evaluation only; full current run costs remain in section receipts',
+            'prior_work': {'run': 'original_actual_run01', 'status': 'FAILED_stopped_before_protected_access',
+                           'elapsed_seconds': 1728.763838625, 'current_rss_bytes': 848740352,
+                           'diagnosis': 'docs/research/e2e-laguerre-actual-diagnostic-report.md'}}
+
+
+def coordinate_markdown(diagnostic):
+    prior = diagnostic['prior_work']
+    lines = ['## Coordinate numerical diagnostics', '',
+             'Gamma/Laguerre is a numerical control. Strict FP64 read equivalence is not established '
+             'where the original 1e-12 absolute/relative criterion FAILED. State and all five mask '
+             'checks remain mandatory; prediction-only rounding is recorded, without a wider tolerance.', '',
+             '| Receipt scope | Histories | Queries | Failed histories / queries / scalars | Strict read | State / masks | Max state abs / scaled | Max read abs / scaled |',
+             '| --- | ---: | ---: | --- | --- | --- | --- | --- |']
+    for scope, item in diagnostic['panels'].items():
+        lines.append(f"| {scope} | {item['history_count']} | {item['query_count']} | "
+                     f"{item['strict_prediction_failed_histories']} / {item['strict_prediction_failed_queries']} / "
+                     f"{item['strict_prediction_failed_scalars']} | {item['strict_prediction_status']} | "
+                     f"{item['state_checks']} / {item['mask_checks']} | "
+                     f"{_fmt(item['max_state_absolute_error'])} / {_fmt(item['max_state_scaled_error'])} | "
+                     f"{_fmt(item['max_prediction_absolute_error'])} / {_fmt(item['max_prediction_scaled_error'])} |")
+    lines += ['', f"Prior work: original actual run01 remains **{prior['status']}**; "
+              f"elapsed {prior['elapsed_seconds']} s; observed current RSS {prior['current_rss_bytes']} B. "
+              f"[Measured conditioning diagnosis]({prior['diagnosis']}). "
+              'This observed cancellation case provides no universal error bound.', '',
+              f"Additional coordinate evaluation in this run: {diagnostic['additional_coordinate_evaluation_seconds']:.9f} s. "
+              'These costs are separate from the stopped run; all other fresh-run fit, cache, worker '
+              'and stage costs remain in their machine receipts.', '']
+    return '\n'.join(lines)
+
+
 def _science_machine(inputs, plot):
     panels = inputs['synthetic']['paired_panels']
     confirmed = panels['confirmation']['lower'] > 0
@@ -151,6 +204,7 @@ def _science_machine(inputs, plot):
             'qualification': inputs['scientific']['qualification'],
             'calibration': inputs['scientific']['calibration'],
             'selected_models': inputs['scientific']['pairs'],
+            'coordinate_diagnostics': coordinate_report(inputs),
             'development': inputs['development'], 'timing': inputs['timing'],
             'transfer': inputs['transfer'],
             'synthetic': inputs['synthetic'], 'real': inputs['real'],
@@ -349,6 +403,7 @@ def _science_markdown(machine):
               'and conditional inference do not repair them.', '',
               'No multi-budget memory frontier, broad information-capacity result, agent result, '
               'all-family superiority or novelty claim follows from this one entered study.', '']
+    lines += [coordinate_markdown(machine.get('coordinate_diagnostics', coordinate_report(machine)))]
     return '\n'.join(lines)
 
 

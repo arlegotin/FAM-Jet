@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "status": "implemented_pending_independent_review",
+  "base": "7547deac07b13f8f90aecbb1db3c7279e59f5692",
+  "policy": "fp64_coordinate_diagnostic_v2",
+  "e1_source_sha256": "f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475",
+  "e2_source_sha256": "5cdbae0a61810a0f9d509ed1d462530d708439021f8f9fc81ce04fd12f39bfb4",
+  "e3_source_sha256": "c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82",
+  "historical_development_policy": {
+    "schema": 1,
+    "phase": "development",
+    "allocation_policy_id": "e2e-measured-development-v1",
+    "expected_e3_source_sha256": "bbd4772c341de2b1b25d63dae195b3a2a3f2456dbe3f79af76ed31726dada39e",
+    "study_config_path": "docs/research/e2e-study-config.json",
+    "probe_ref": {
+      "path": "docs/research/e2e-study-probe-01-evidence/e2e-study-probe-01/probe.json",
+      "sha256": "e64755a4fb4d58ae0dfa310c3bcb46ee652e6ef13bb4b265cb09d73d68a17e32"
+    },
+    "resource_probe_result_ref": {
+      "path": "docs/research/e2e-study-scale-probe-01-evidence/e2e-study-scale-probe-01/result.json",
+      "sha256": "eaf8e215d1fe72c4c6d8d370f700cf83825f0a8e9852b8f1e9d69892346857ef"
+    },
+    "forecast_seconds": {
+      "36_candidate_fits": 555.4859639758361,
+      "four_prefix_fits_upper": 23.49916799996572,
+      "shared_cache_construction": 46.32753458998195,
+      "46_stream_panels": 332.91970501374453,
+      "138_cold_worker_batches": 76.68916459209868,
+      "total": 1034.921536171627
+    },
+    "max_wall_seconds": 2400,
+    "deadline_rule": "ceil_to_300(2*representative_component_forecast+180)",
+    "max_rss_bytes": 1610612736,
+    "max_disk_bytes": 2147483648,
+    "scope": "K16/V8 study,36candidates+4prefixfits+6controlpanels; actual through finalCLI",
+    "resource_only_extra_fits": 4,
+    "resource_only_extra_training_histories": 96,
+    "selection_uses_extra_fits": false,
+    "unknowns": "unmeasured ridge/grid variability, baseline costs, scoring/row volume and runtime scaling; guarded, not completion promise",
+    "probe_ref_status": "historical_pre_worker_fix; requires fresh matching actual CLI probe",
+    "source_compatibility_ref": "docs/research/e2e-task3-worker-acceptance.json",
+    "budget_status": "unchanged conservative guard derived from unchanged fitting/cache/data/timing code; corrected-worker startup measured by fresh probe"
+  },
+  "modules": {
+    "cache.py": {
+      "base_sha256": "421fdd1da1ab57322d83c73bdf9f5892acb0f3ca9e500ff0127d968c4e518423",
+      "current_sha256": "421fdd1da1ab57322d83c73bdf9f5892acb0f3ca9e500ff0127d968c4e518423",
+      "unchanged": true
+    },
+    "wire.py": {
+      "base_sha256": "8d2fe4b437e0bf13ffbed05f4f6a2b575470f62468967be700d58d695c1bc10b",
+      "current_sha256": "8d2fe4b437e0bf13ffbed05f4f6a2b575470f62468967be700d58d695c1bc10b",
+      "unchanged": true
+    },
+    "worker.py": {
+      "base_sha256": "37ca7e8c36699976bb94b5e890231e9bb83b317497e9c7938da0e056cf8d5600",
+      "current_sha256": "37ca7e8c36699976bb94b5e890231e9bb83b317497e9c7938da0e056cf8d5600",
+      "unchanged": true
+    },
+    "comparators.py": {
+      "base_sha256": "0b903cfcbf770286645a591ad440e5f962d6d827b55688a3a79c982ccf38b60a",
+      "current_sha256": "dd8d7093130d03339347671f6e5ebb55530cec2afaadb9ea7957aeafaa80a0f2",
+      "unchanged": false
+    },
+    "study.py": {
+      "base_sha256": "c72aec164b7028dffa8dec40fa8844171f43f46bedc39aa45b12a81280997a28",
+      "current_sha256": "d8a507d8d76fb80bdef8576365b30b600960e3c15c81c0f5c57f8787f1eec5e7",
+      "unchanged": false
+    },
+    "timing.py": {
+      "base_sha256": "0b01f45ab5fb52d7ae9dd186133307e226bff807194ea563d27802dc0561fe7e",
+      "current_sha256": "0b01f45ab5fb52d7ae9dd186133307e226bff807194ea563d27802dc0561fe7e",
+      "unchanged": true
+    },
+    "contracts.py": {
+      "base_sha256": "9a710e2613ceb84c9a632cd57792a7c81e63fbba75070d22f0b411a40a1691c5",
+      "current_sha256": "9a710e2613ceb84c9a632cd57792a7c81e63fbba75070d22f0b411a40a1691c5",
+      "unchanged": true
+    },
+    "data.py": {
+      "base_sha256": "2f0af90ffa9ec10cf6539d1eb076777883ed603332e3fd33a330cdce9acc6bc3",
+      "current_sha256": "2f0af90ffa9ec10cf6539d1eb076777883ed603332e3fd33a330cdce9acc6bc3",
+      "unchanged": true
+    },
+    "models.py": {
+      "base_sha256": "754f2936305e04b5d4e4436517221cf036dcd72451579cdca0f730d2282d0216",
+      "current_sha256": "754f2936305e04b5d4e4436517221cf036dcd72451579cdca0f730d2282d0216",
+      "unchanged": true
+    },
+    "inference.py": {
+      "base_sha256": "4bba9ad0561ea7c285d194f8a20d0b0ad9227c373ffa3cf8e818a467f67633ee",
+      "current_sha256": "4bba9ad0561ea7c285d194f8a20d0b0ad9227c373ffa3cf8e818a467f67633ee",
+      "unchanged": true
+    }
+  },
+  "source_transition": "fresh source-matched probes and full fixed public recipe in new run root; no cache adoption or old-run resume",
+  "overall_deadline": "original first-run UTC witness start plus21600seconds; Root external witness supplies only remaining time",
+  "stage_ceiling_seconds": 3600,
+  "rss_bytes": 1610612736,
+  "disk_bytes": 2147483648,
+  "original_run01": {
+    "status": "FAILED_stopped_before_protected_access",
+    "elapsed_seconds": 1728.763838625,
+    "current_rss_bytes": 848740352,
+    "files_immutable": true
+  },
+  "scientific_changes": false,
+  "actual_scientific_execution_in_source_task": false
+}

@@ -199,16 +199,11 @@ def _paths(tmp_path):
 def test_rebased_selected_reference_uses_e4_complete_query_guard(tmp_path):
     from famjet_poc.report_inputs import verify_selected_reference_rebased
     paths, root = _paths(tmp_path)
-    manifest = 'a'*64
-    rows = [_score_row('laguerre', f'dev-{i}', query, manifest)
-            for i in range(4) for query in range(120)]
-    ref = persist_score_rows(rows, root / 'rows.json')
-    modes = {'beijing_manifest_sha256': manifest,
-             'task_adapted': {'jet': {'sha256': 'b'*64}},
-             'development_cache': [{'history_id': f'dev-{i}'} for i in range(4)],
-             'selected_reference': {'status': 'passed', 'model_sha256': 'b'*64,
-                                    'manifest_sha256': manifest, 'rows_ref': ref}}
-    assert verify_selected_reference_rebased(paths, modes)['status'] == 'passed'
+    from test_poc_coordinate_diagnostic import selected_producer
+    from famjet_poc.study import load_score_rows
+    modes = selected_producer(root)
+    rows = load_score_rows(modes['selected_reference']['rows_ref'])
+    assert verify_selected_reference_rebased(paths, modes)['status'] == 'diagnostic_complete'
     rows[-1]['method'] = 'jet'
     bad_ref = persist_score_rows(rows, root / 'bad-rows.json')
     bad = copy.deepcopy(modes)

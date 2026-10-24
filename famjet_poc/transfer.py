@@ -13,6 +13,7 @@ from famjet.provenance import canonical_hash, canonical_json
 from .contracts import ShapeSpec, ReaderSpec
 from .data import invert_normalized_prediction, iter_beijing
 from .protected import _write_once
+from .comparators import COORDINATE_POLICY, coordinate_model_sha256, validate_coordinate_audits
 
 
 def native_rows(rows, normalization):
@@ -101,7 +102,7 @@ def evaluate_equivalent_control(model, factory, policy, statistics, out, allocat
     from .study import _admit, _evaluate, persist_score_rows
     if type(model) is not RidgeMemoryModel or model.spec.family != 'jet':
         raise ValueError('base frozen Jet reader required for equivalent control')
-    if e3_source_sha256() != 'bbd4772c341de2b1b25d63dae195b3a2a3f2456dbe3f79af76ed31726dada39e':
+    if e3_source_sha256() != 'c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82':
         raise ValueError('pinned E3 equivalent evaluator source changed')
     if (type(policy) is not dict or type(allocation) is not dict or
             allocation.get('manifest_sha256') != policy.get('manifest_hash') or
@@ -117,7 +118,7 @@ def evaluate_equivalent_control(model, factory, policy, statistics, out, allocat
                                       equivalent=True)
     remaining = int(_admit(started, allocation, directory=out)['remaining_disk_bytes'])
     ref = persist_score_rows(rows, out / 'laguerre-rows.json', max_bytes=remaining)
-    reference_seconds = sum(item['coordinate_seconds'] + item['conversion_seconds']
+    reference_seconds = sum(item['coordinate_seconds'] + item['conversion_seconds'] + item['diagnostic_seconds']
                             for item in costs['stream_audits'].values())
     costs = {**costs, 'diagnostic_reference_validation_seconds': reference_seconds,
              'deployable_ingestion_seconds': None,
@@ -242,11 +243,11 @@ def verify_transfer_probe(ref, manifest_sha256, worker_limits):
 
 
 def verify_selected_reference(modes):
-    """Bind public equivalent-reference success to the selected adapted Jet."""
+    """Bind complete public coordinate diagnostics to the selected adapted Jet."""
     ref = modes.get('selected_reference') if type(modes) is dict else None
     selected = modes.get('task_adapted', {}).get('jet') if type(modes) is dict else None
     if (type(ref) is not dict or type(selected) is not dict or
-            ref.get('status') != 'passed' or ref.get('model_sha256') != selected.get('sha256') or
+            ref.get('model_sha256') != selected.get('sha256') or
             ref.get('manifest_sha256') != modes.get('beijing_manifest_sha256') or
             type(ref.get('rows_ref')) is not dict):
         raise ValueError('selected task-adapted Jet equivalent reference missing/mismatched')
@@ -262,6 +263,15 @@ def verify_selected_reference(modes):
             any(row.get('target_semantics') != 'observed_event_targets_v2'
                 for row in rows)):
         raise ValueError('selected Jet reference lacks complete four-block public query inventory')
+    if (ref.get('schema_version') != 2 or ref.get('status') != 'diagnostic_complete' or
+            ref.get('policy') != COORDINATE_POLICY):
+        raise ValueError('selected coordinate reference diagnostic status/policy mismatch')
+    from .models import load_model
+    model = load_model(Path(selected['path']), selected['sha256'])
+    model_hash = coordinate_model_sha256(model)
+    if model.shape != ShapeSpec(12, 1) or model.spec.family != 'jet' or ref.get('model_numeric_sha256') != model_hash:
+        raise ValueError('selected coordinate reference model mismatch')
+    validate_coordinate_audits(ref.get('costs'), rows, model_numeric_sha256=model_hash)
     return ref
 
 
@@ -536,7 +546,9 @@ def _fit_transfer_modes_body(inputs, beijing_manifest, out, live):
         out / 'selected-reference', transfer['allocation'], transfer['worker_limits'])
     if selected_check['summary']['status'] != 'ok':
         raise RuntimeError('selected task-adapted Jet public equivalent reference failed')
-    selected_reference = {'status': 'passed',
+    selected_reference = {'schema_version': 2, 'status': 'diagnostic_complete',
+                          'policy': COORDINATE_POLICY,
+                          'model_numeric_sha256': coordinate_model_sha256(selected_jet),
                           'model_sha256': selected_jet_ref['sha256'],
                           'manifest_sha256': manifest_sha,
                           'rows_ref': selected_check['rows_ref'],

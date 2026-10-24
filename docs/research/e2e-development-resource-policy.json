@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "phase": "development",
-  "allocation_policy_id": "e2e-measured-development-v1",
-  "expected_e3_source_sha256": "bbd4772c341de2b1b25d63dae195b3a2a3f2456dbe3f79af76ed31726dada39e",
+  "allocation_policy_id": "e2e-coordinate-diagnostic-development-v2",
+  "expected_e3_source_sha256": "c88b38987ba460a77d783bef32cfc46e9fc2246cdb91fbfc9167a28b0b50cb82",
   "study_config_path": "docs/research/e2e-study-config.json",
   "probe_ref": {
     "path": "docs/research/e2e-study-probe-01-evidence/e2e-study-probe-01/probe.json",
@@ -20,8 +20,8 @@
     "138_cold_worker_batches": 76.68916459209868,
     "total": 1034.921536171627
   },
-  "max_wall_seconds": 2400,
-  "deadline_rule": "ceil_to_300(2*representative_component_forecast+180)",
+  "max_wall_seconds": 3600,
+  "deadline_rule": "prospective 3600s ceiling from 1728.763838625s stopped partial stage plus unmeasured complete coordinate-audit headroom",
   "max_rss_bytes": 1610612736,
   "max_disk_bytes": 2147483648,
   "scope": "K16/V8 study,36candidates+4prefixfits+6controlpanels; actual through finalCLI",
@@ -29,7 +29,7 @@
   "resource_only_extra_training_histories": 96,
   "selection_uses_extra_fits": false,
   "unknowns": "unmeasured ridge/grid variability, baseline costs, scoring/row volume and runtime scaling; guarded, not completion promise",
-  "probe_ref_status": "historical_pre_worker_fix; requires fresh matching actual CLI probe",
-  "source_compatibility_ref": "docs/research/e2e-task3-worker-acceptance.json",
-  "budget_status": "unchanged conservative guard derived from unchanged fitting/cache/data/timing code; corrected-worker startup measured by fresh probe"
+  "probe_ref_status": "historical_pre_coordinate_diagnostic; requires fresh source-matched actual CLI probe",
+  "source_compatibility_ref": "docs/research/e2e-coordinate-source-compatibility.json",
+  "budget_status": "prospective stage allowance only; original 2400s run remains closed; overall absolute six-hour deadline unchanged and enforced by Root external remaining-time witness"
 }

@@ -103,6 +103,9 @@ def test_equivalent_control_uses_pinned_e3_rows_and_rejects_bank(tmp_path):
         validate_scored_receipt(receipt, altered, policy['manifest_hash'],
                                 ['equivalent-unit-0'], list(range(8)))
     assert equivalent['costs']['deployment_latency_status'] == 'unmeasured_reference_validation_entangled'
+    assert equivalent['costs']['diagnostic_reference_validation_seconds'] == sum(
+        audit['coordinate_seconds'] + audit['conversion_seconds'] + audit['diagnostic_seconds']
+        for audit in equivalent['costs']['stream_audits'].values())
     bank = build_model(ShapeSpec(12, 1), ReaderSpec('ridge_v1', 'bank', 8, 1e-6,
                        1 / 5224, 1., 1e-6, 1e-12), metadata['t_ref'], statistics)
     with pytest.raises(ValueError, match='Jet'):

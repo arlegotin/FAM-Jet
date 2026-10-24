@@ -11,6 +11,7 @@ from pathlib import Path
 import tempfile
 
 from famjet.provenance import canonical_hash, canonical_json
+from .comparators import validate_coordinate_audits
 
 
 _ROOT = Path(__file__).resolve().parent.parent
@@ -168,6 +169,9 @@ def verify_selected_reference_rebased(paths, modes):
     original = modes['selected_reference']
     adapted['selected_reference'] = {**original,
         'rows_ref': paths.ref(original['rows_ref'])}
+    selected = modes['task_adapted']['jet']
+    adapted['task_adapted'] = {**modes['task_adapted'],
+        'jet': {**selected, 'path': str(paths.resolve(selected['path']))}}
     verify_selected_reference(adapted)
     return original
 
@@ -601,7 +605,9 @@ def _verify_development(paths, stages, freeze):
                 load_model(paths.resolve(item['fit_ref']['path']), item['fit_ref']['sha256'])
                 load_score_rows(paths.ref(item['rows_ref']))
         for name, item in journal['controls'].items():
-            load_score_rows(paths.ref(item['rows_ref']))
+            rows = load_score_rows(paths.ref(item['rows_ref']))
+            if name == 'laguerre':
+                validate_coordinate_audits(item.get('costs'), rows)
         output[shape] = projected
     return output
 
@@ -630,7 +636,9 @@ def _verify_stress(paths, stage):
         raise ValueError('stress inventory/status ledger mismatch')
     for item in body['results']:
         if item['rows_ref'] is not None:
-            load_score_rows(paths.ref(item['rows_ref']))
+            rows = load_score_rows(paths.ref(item['rows_ref']))
+            if item['method'] == 'laguerre':
+                validate_coordinate_audits(item.get('costs'), rows)
     statuses = {'implemented/scored', 'unsupported', 'failed', 'unentered'}
     for item in body['secondary_task_ledger']:
         if item['status'] not in statuses or (item['status'] != 'implemented/scored' and
