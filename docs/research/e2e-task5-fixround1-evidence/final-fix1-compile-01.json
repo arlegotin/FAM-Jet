@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/report.py",
+    "famjet_poc/report_inputs.py",
+    "tests/test_poc_cli.py",
+    "tests/test_poc_plots.py",
+    "tests/test_poc_report_scientific.py"
+  ],
+  "bytes": 0,
+  "elapsed_seconds": 0.04479291600000579,
+  "environment": {
+    "FAMJET_REPORT_PYTHON": "/private/tmp/famjet-report-20261024-01/bin/python"
+  },
+  "exit_code": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_stderr_log": "final-fix1-compile-01.log"
+}

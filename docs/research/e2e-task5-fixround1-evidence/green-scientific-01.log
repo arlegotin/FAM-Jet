@@ -1,0 +1,72 @@
+FF...                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_producer_candidate_storage_and_terminal_subset_failure_render ______
+
+    def test_producer_candidate_storage_and_terminal_subset_failure_render():
+        from famjet_poc.report_inputs import project_development_journal
+        from famjet_poc.report import _science_chart_data, _science_markdown
+        journal = _producer_journal()
+        journal['prefix_ledger'][0] = {'family': 'jet', 'prefix': 192, 'status': 'failed',
+                                       'error': 'ArithmeticError: singular subset',
+                                       'failure_stage': 'numerical_fit'}
+>       projected = project_development_journal(journal)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_report_scientific.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+journal = {'status': 'complete', 'candidate_ledger': [{'family': 'jet', 'config_hash': 'jet-00', 'reader': {'family': 'jet', 'ri...re': {'loss': 0.5}, 'costs': {'maximum_state_bytes': 9345, 'statics_bytes': 10, 'evaluation_seconds': 1.0}}, ...}, ...}
+
+    def project_development_journal(journal):
+        """Project exact E3 terminal records, preserving unavailable subset metrics."""
+        if (journal.get('status') != 'complete' or len(journal.get('candidate_ledger', [])) != 36 or
+                len(journal.get('prefix_ledger', [])) != 4 or
+                set(journal.get('selected', {})) != {'jet', 'bank'} or
+                set(journal.get('controls', {})) !=
+                    {'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}):
+            raise ValueError('development candidate/subset/control inventory incomplete')
+        candidates = []
+        seen = set()
+        for item in journal['candidate_ledger']:
+            identity = (item.get('family'), item.get('config_hash'))
+            if (identity in seen or item.get('status') not in {'qualified', 'failed'} or
+                    identity[0] not in {'jet', 'bank'}):
+                raise ValueError('duplicate/incomplete candidate ledger')
+            seen.add(identity)
+            if item['status'] == 'qualified':
+                if (type(item.get('active_static_bytes')) is not int or
+                        type(item.get('wire_static_bytes')) is not int or
+                        type(item.get('numeric_parameter_bytes')) is not int or
+                        any(item[field] < 0 for field in
+                            ('active_static_bytes', 'wire_static_bytes', 'numeric_parameter_bytes')) or
+                        item.get('wire_static_bytes') != item.get('costs', {}).get('statics_bytes') or
+                        type(item.get('loss')) not in (int, float) or
+                        not math.isfinite(item['loss'])):
+                    raise ValueError('qualified candidate storage/loss schema mismatch')
+            elif 'fit_ref' not in item:
+                if (item.get('failure_stage') != 'numerical_fit' or
+                        type(item.get('error')) is not str or not item['error'] or
+                        item.get('loss') is not None or 'rows_ref' in item):
+>                   raise ValueError('candidate failure is not terminal numerical fit')
+E                   ValueError: candidate failure is not terminal numerical fit
+
+famjet_poc/report_inputs.py:516: ValueError
+___________________ test_incomplete_subset_remains_blocking ____________________
+
+    def test_incomplete_subset_remains_blocking():
+        from famjet_poc.report_inputs import project_development_journal
+        journal = _producer_journal()
+        journal['prefix_ledger'][0] = {'family': 'jet', 'prefix': 192,
+                                       'status': 'incomplete',
+                                       'failure_stage': 'fit_infrastructure_or_data'}
+>       with pytest.raises(ValueError, match='subset|incomplete'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'subset|incomplete'
+E         Actual message: 'candidate failure is not terminal numerical fit'
+
+tests/test_poc_report_scientific.py:114: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_scientific.py::test_producer_candidate_storage_and_terminal_subset_failure_render
+FAILED tests/test_poc_report_scientific.py::test_incomplete_subset_remains_blocking
+2 failed, 3 passed in 0.99s

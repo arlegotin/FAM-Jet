@@ -1,0 +1,116 @@
+...............F....                                                     [100%]
+=================================== FAILURES ===================================
+______ test_producer_candidate_storage_and_terminal_subset_failure_render ______
+
+    def test_producer_candidate_storage_and_terminal_subset_failure_render():
+        from famjet_poc.report_inputs import project_development_journal
+        from famjet_poc.report import _science_chart_data, _science_machine, _science_markdown
+        journal = _producer_journal()
+        journal['prefix_ledger'][0] = {'family': 'jet', 'prefix': 192, 'status': 'failed',
+                                       'error': 'ArithmeticError: singular subset',
+                                       'failure_stage': 'numerical_fit'}
+        projected = project_development_journal(journal)
+        assert projected['candidates'][0]['active_static_bytes'] == 1234
+        assert projected['prefixes'][0]['score'] is None
+        inputs = {'development': {'K16/V8': projected},
+                  'timing': {'summaries': {name: {'8': {'read_output_seconds': {'p50': .1}}}
+                                          for name in ('jet', 'bank', *journal['controls'])}},
+                  'synthetic': {'paired_panels': {
+                      name: {'D': .1, 'lower': .01, 'upper': .2}
+                      for name in ('confirmation', 'replication')}},
+                  'freeze_sha256': 'a'*64, 'release_sha256': 'b'*64}
+        chart = _science_chart_data(inputs)
+        assert chart['methods'][0]['static_bytes'] == 1500
+        assert chart['methods'][1]['static_bytes'] == 1600
+        machine = {'decision': 'jet_advantage_not_demonstrated',
+                   'executable_sha256': 'a'*64, 'source_sha256': 'b'*64,
+                   'release_sha256': 'c'*64, 'git': {'revision': 'test'},
+                   'qualification': {'status': 'reused_accepted', 'file_count': 16},
+                   'calibration': {'evidence_sha256': 'd'*64, 'per_cell': 256},
+                   'development': {'K16/V8': projected},
+                   'plot': {'directory_name': 'final-charts'},
+                   'timing': {'summaries': {}}, 'synthetic': {'paired_panels': {
+                       name: {'paired_history_count': 3072, 'D': .1, 'lower': .01,
+                              'upper': .2, 'superiority': True}
+                       for name in ('confirmation', 'replication')},
+                       'by_phase_method': {}},
+                   'real': {'modes': {}, 'paired_block_sensitivity': {},
+                            'beijing_manifest_sha256': 'e'*64},
+                   'stress': {'secondary_task_ledger': [], 'results': []},
+                   'beijing_source': {'archive': {'sha256': 'f'*64},
+                                      'attribution': {'license': 'CC BY 4.0'},
+                                      'preparation_version': 'v2'},
+                   'beijing_source_array_status': 'verified_inventory_not_rehashed',
+                   'transfer': {'real_development_ledger': [
+                       {'family': 'jet', 'config_hash': 'adapted-jet', 'loss': .1,
+                        'active_static_bytes': 1234, 'costs': {'evaluation_seconds': 2.},
+                        'status': 'qualified'}], 'cache_bytes': 0,
+                                'real_probe': {'measured_profile': {'fit_seconds': 1.,
+                                                                     'evaluation_seconds': 2.},
+                                               'forecast_seconds': 3.},
+                                'elapsed_seconds': 4.}}
+        markdown = _science_markdown(machine)
+        assert 'jet-00' in markdown
+        assert 'ridge' in markdown
+        assert 'ArithmeticError: singular subset' in markdown
+        inputs.update(freeze={'git': machine['git']},
+                      scientific={'qualification': machine['qualification'],
+                                  'calibration': machine['calibration'], 'pairs': {}},
+                      real=machine['real'], stress=machine['stress'],
+                      transfer=machine['transfer'],
+                      beijing_source_inventory={},
+                      beijing_source=machine['beijing_source'],
+                      beijing_source_array_status=machine['beijing_source_array_status'])
+>       assert _science_machine(inputs, machine['plot'])['transfer']['real_development_ledger'][0][
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            'config_hash'] == 'adapted-jet'
+
+tests/test_poc_report_scientific.py:121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = {'development': {'K16/V8': {'candidates': [{'family': 'jet', 'reader': {'family': 'jet', 'ridge': 1e-06}, 'config_hash...ower': 0.01, 'upper': 0.2}}}, 'freeze_sha256': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', ...}
+plot = {'directory_name': 'final-charts'}
+
+    def _science_machine(inputs, plot):
+        panels = inputs['synthetic']['paired_panels']
+        confirmed = panels['confirmation']['lower'] > 0
+        replicated = panels['replication']['lower'] > 0
+        decision = ('conditional_frozen_model_jet_advantage_replicated'
+                    if confirmed and replicated else 'jet_advantage_not_demonstrated')
+        return {'schema_version': 1, 'kind': 'famjet_poc_report',
+                'status': 'scientific_artifacts_validated', 'decision': decision,
+                'freeze_sha256': inputs['freeze_sha256'],
+                'release_sha256': inputs['release_sha256'],
+>               'source_sha256': inputs['source_sha256'],
+                                 ^^^^^^^^^^^^^^^^^^^^^^^
+                'executable_sha256': inputs['executable_sha256'],
+                'git': inputs['freeze']['git'],
+                'qualification': inputs['scientific']['qualification'],
+                'calibration': inputs['scientific']['calibration'],
+                'selected_models': inputs['scientific']['pairs'],
+                'development': inputs['development'], 'timing': inputs['timing'],
+                'transfer': inputs['transfer'],
+                'synthetic': inputs['synthetic'], 'real': inputs['real'],
+                'stress': inputs['stress'],
+                'beijing_source_inventory': inputs['beijing_source_inventory'],
+                'beijing_source': inputs['beijing_source'],
+                'beijing_source_array_status': inputs['beijing_source_array_status'],
+                'plot': plot,
+                'metrics': {'native_rmse_status': 'see_real_mode_method_rows'},
+                'historical_failures': [
+                    {'name': 'six_prior_mlp_qualification_cases', 'status': 'failed_unchanged',
+                     'source': 'docs/research/task18-reader-adequacy-v1-checks-run02-report.md'},
+                    {'name': 'extreme_signed_cancellation_numerics', 'status': 'failed_unchanged',
+                     'source': 'docs/research/task18-kernel-stage-a06-report.md'},
+                    {'name': 'crossed_bootstrap', 'status': 'failed_unchanged',
+                     'source': 'docs/research/task19-bootstrap-recon/report.md'}],
+                'limits': ['conditional on frozen fitted readers; retraining variance excluded',
+                           'one executed persistent-state budget; no memory frontier',
+                           'real 28/56-day clusters are finite-period descriptive sensitivity only',
+                           'no broad novelty, capacity, agent or all-family superiority claim']}
+E       KeyError: 'source_sha256'
+
+famjet_poc/report.py:148: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_scientific.py::test_producer_candidate_storage_and_terminal_subset_failure_render
+1 failed, 19 passed in 22.11s

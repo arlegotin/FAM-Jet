@@ -1,0 +1,34 @@
+# E5 fix round 1 — producer schemas and closure — 24 October 2026
+
+Base `13b09d9d17bfe077c13181dd610de4880c308953`; reviewed findings in `.superpowers/sdd/2026-10-16-famjet/e2e-task-5-review.md`. Source/tests commit: `9fff3f68`. This was a focused source repair only. No full grid, calibration, benchmark, protected generation, Beijing test array or actual scientific report was run.
+
+## Changes against findings
+
+| Finding | Repair | Focused proof |
+| --- | --- | --- |
+| I1 E3 fitted-candidate storage schema | Project the actual `active_static_bytes`, `wire_static_bytes` and `numeric_parameter_bytes`. The charts compare full wire-export static bytes for fitted readers and controls; active numeric bytes remain separately labeled in machine output and the chosen-reader table. | `test_producer_candidate_storage_and_terminal_subset_failure_render` builds 36 producer-shaped candidates, projects a selected Jet/Bank pair and renders chart data/Markdown. |
+| I2 terminal subset numerical failure | Accept only E3's `status=failed`, `failure_stage=numerical_fit`, nonempty error, absent score/model/rows; render null loss/cost and the recorded error. Incomplete/infrastructure cases remain blocking. | Same positive test includes a failed 192-history fit; `test_incomplete_subset_remains_blocking` rejects unfinished infrastructure status. |
+| I3 omitted E4 closure semantics | Verify the original probe/ref bytes, then pass temporary runtime-resolved copies to E4's pure `verify_transfer_probe` and `verify_selected_reference`. Preserve frozen JSON unchanged. Bind probe to mode ref and measured real-fit allocation; require identical count-sidecar SHA within each protected cell and real row method identity in normalized and native batches. | `test_rebased_selected_reference_uses_e4_complete_query_guard`, `test_rebased_probe_uses_e4_measured_forecast_guard`, `test_distinct_hash_valid_cell_counts_and_real_method_mismatch_are_rejected` use internally hash-consistent malformed public fixtures. |
+| I4 incomplete scientific account | Show full chosen config SHA/reader parameters, all candidate and subset failures/costs, synthetic eligible/ineligible/fallback counts and actual robustness summaries in Markdown. Retain all 36 adapted-fit candidate rows, selected reference, measured probe, cache/fit costs and selected model refs in machine JSON; show adapted-fit costs in Markdown. | Producer-shaped positive schema→chart/Markdown/machine assertion in `test_poc_report_scientific.py`. |
+
+The two adjacent test issues are corrected: CLI help catches `SystemExit(0)` before checking the import set, and the plot test resolves the interpreter through the same documented `FAMJET_REPORT_PYTHON`/local/current selection as the reporter. The final focused gate set `FAMJET_REPORT_PYTHON=/private/tmp/famjet-report-20261024-01/bin/python` for the already installed separate hash-locked environment. `plots.py` labels wire/export bytes explicitly.
+
+## Exact focused commands and raw results
+
+All invocations below were executed from the repository root. [`invoke.py`](e2e-task5-fixround1-evidence/invoke.py) retains exact child argv, selected report-interpreter environment, combined raw stdout/stderr, byte count/SHA-256, exit status and elapsed seconds as one `.json` plus one `.log` per label. Prior E5 evidence is untouched.
+
+- RED: `.venv/bin/python -m pytest -q tests/test_poc_report_scientific.py` → 5 expected missing-function failures. [`red-scientific-01.log`](e2e-task5-fixround1-evidence/red-scientific-01.log), [`receipt`](e2e-task5-fixround1-evidence/red-scientific-01.json).
+- First implementation loop, same command → 2 failures from a fixture conditional expression that incorrectly assigned losses to failed Jet candidates; this was corrected in the test fixture. [`green-scientific-01.log`](e2e-task5-fixround1-evidence/green-scientific-01.log), [`receipt`](e2e-task5-fixround1-evidence/green-scientific-01.json).
+- Corrected fixture, same command → 5 passed. [`green-scientific-02.log`](e2e-task5-fixround1-evidence/green-scientific-02.log), [`receipt`](e2e-task5-fixround1-evidence/green-scientific-02.json).
+- Initial combined focused command `.venv/bin/python -m pytest -q tests/test_poc_cli.py tests/test_poc_report_inputs.py tests/test_poc_report.py tests/test_poc_plots.py tests/test_poc_report_scientific.py` → 19 passed, 1 failed because a new machine-retention test fixture omitted its own source SHA. The fixture was repaired without weakening source validation. [`final-fix1-pytest-01.log`](e2e-task5-fixround1-evidence/final-fix1-pytest-01.log), [`receipt`](e2e-task5-fixround1-evidence/final-fix1-pytest-01.json).
+- Corrected producer-shaped file, `.venv/bin/python -m pytest -q tests/test_poc_report_scientific.py` → 5 passed. [`green-scientific-03.log`](e2e-task5-fixround1-evidence/green-scientific-03.log), [`receipt`](e2e-task5-fixround1-evidence/green-scientific-03.json).
+- **Final amended E5 focused gate**, same combined five-file command → **20 passed in 22.26 seconds**, exit 0. [`final-fix1-pytest-02.log`](e2e-task5-fixround1-evidence/final-fix1-pytest-02.log), [`receipt`](e2e-task5-fixround1-evidence/final-fix1-pytest-02.json).
+- Final compile: `.venv/bin/python -m py_compile famjet_poc/report.py famjet_poc/report_inputs.py famjet_poc/plots.py tests/test_poc_cli.py tests/test_poc_plots.py tests/test_poc_report_scientific.py` → exit 0, zero output. [`final-fix1-compile-02.log`](e2e-task5-fixround1-evidence/final-fix1-compile-02.log), [`receipt`](e2e-task5-fixround1-evidence/final-fix1-compile-02.json). The earlier compile also exited 0 and is retained as `final-fix1-compile-01.*`.
+
+`git diff --check` and the source/tests staged whitespace check exited 0. The raw failed pytest logs contain their original traceback whitespace; their bytes are retained unchanged with SHA receipts. The evidence commit uses a scoped source/report whitespace check and preserves raw logs.
+
+## Review scope and remaining limits
+
+The tests now enter the producer-shaped E3 projection and E4 semantic validators through resolved, hash-bound public fixtures. They do not represent a completed E4 scientific release or an actual full `render_report` over production artifacts. Root's first complete one-command run, copied-run replay, clean locked environment checks and independent whole-branch review remain required. The external Beijing prepared arrays retain `verified_inventory_not_rehashed` status in report-only replay; this fix did not alter that ruling.
+
+Root separately reported an isolated fresh E2 inference module gate of 22 passed after a combined 147-test process had 140 passes and seven lifetime-RSS cap failures from Torch collection. E5 did not rerun E2, modify the 256 MiB policy, or reinterpret the combined-process failures. The statistical final gate should run in its own process as recorded by Root; other entered tests may be grouped separately.

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 1.2687396660039667,
+  "environment": {
+    "FAMJET_REPORT_PYTHON": "/private/tmp/famjet-report-20261024-01/bin/python"
+  },
+  "exit_code": 0,
+  "sha256": "2928adf7f4acff2ac90882c821e00c5a088e75affe01c61a15ba0e83aa36f7d8",
+  "stdout_stderr_log": "green-scientific-03.log"
+}

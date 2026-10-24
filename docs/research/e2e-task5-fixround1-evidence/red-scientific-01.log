@@ -1,0 +1,50 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_producer_candidate_storage_and_terminal_subset_failure_render ______
+
+    def test_producer_candidate_storage_and_terminal_subset_failure_render():
+>       from famjet_poc.report_inputs import project_development_journal
+E       ImportError: cannot import name 'project_development_journal' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_scientific.py:62: ImportError
+___________________ test_incomplete_subset_remains_blocking ____________________
+
+    def test_incomplete_subset_remains_blocking():
+>       from famjet_poc.report_inputs import project_development_journal
+E       ImportError: cannot import name 'project_development_journal' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_scientific.py:108: ImportError
+_________ test_rebased_selected_reference_uses_e4_complete_query_guard _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-425/test_rebased_selected_referenc0')
+
+    def test_rebased_selected_reference_uses_e4_complete_query_guard(tmp_path):
+>       from famjet_poc.report_inputs import verify_selected_reference_rebased
+E       ImportError: cannot import name 'verify_selected_reference_rebased' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_scientific.py:132: ImportError
+______________ test_rebased_probe_uses_e4_measured_forecast_guard ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-425/test_rebased_probe_uses_e4_mea0')
+
+    def test_rebased_probe_uses_e4_measured_forecast_guard(tmp_path):
+>       from famjet_poc.report_inputs import verify_transfer_probe_rebased
+E       ImportError: cannot import name 'verify_transfer_probe_rebased' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_scientific.py:153: ImportError
+__ test_distinct_hash_valid_cell_counts_and_real_method_mismatch_are_rejected __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-425/test_distinct_hash_valid_cell_0')
+
+    def test_distinct_hash_valid_cell_counts_and_real_method_mismatch_are_rejected(tmp_path):
+>       from famjet_poc.report_inputs import require_shared_cell_counts, require_real_method_rows
+E       ImportError: cannot import name 'require_shared_cell_counts' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_scientific.py:190: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_scientific.py::test_producer_candidate_storage_and_terminal_subset_failure_render
+FAILED tests/test_poc_report_scientific.py::test_incomplete_subset_remains_blocking
+FAILED tests/test_poc_report_scientific.py::test_rebased_selected_reference_uses_e4_complete_query_guard
+FAILED tests/test_poc_report_scientific.py::test_rebased_probe_uses_e4_measured_forecast_guard
+FAILED tests/test_poc_report_scientific.py::test_distinct_hash_valid_cell_counts_and_real_method_mismatch_are_rejected
+5 failed in 0.95s

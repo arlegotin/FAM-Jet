@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py"
+  ],
+  "bytes": 4630,
+  "elapsed_seconds": 1.3073855000038748,
+  "exit_code": 1,
+  "sha256": "2963975a1199d46f0733a05b6099b91af4630bc365cb20b55dd968a13dfd0d67",
+  "stdout_stderr_log": "green-scientific-01.log"
+}
