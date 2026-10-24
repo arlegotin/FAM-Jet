@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history",
+    "-q"
+  ],
+  "elapsed_seconds": 1.532393207999121,
+  "exit": 1,
+  "stdout_bytes": 6235,
+  "stdout_sha256": "759ab537d1962cd42dd6c8f0d1d9b5b7d58d0ca304df38f6e9ddcd0ea10354cc",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

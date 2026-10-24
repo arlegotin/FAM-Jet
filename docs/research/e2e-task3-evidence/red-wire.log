@@ -1,0 +1,28 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating ___
+
+    def test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating():
+>       from famjet_poc.wire import decode_request, encode_request, export_statics
+E       ModuleNotFoundError: No module named 'famjet_poc.wire'
+
+tests/test_poc_e3_wire.py:29: ModuleNotFoundError
+_________________ test_worker_batch_limit_and_read_only_input __________________
+
+    def test_worker_batch_limit_and_read_only_input():
+>       from famjet_poc.wire import encode_request, export_statics, isolated_read_batch
+E       ModuleNotFoundError: No module named 'famjet_poc.wire'
+
+tests/test_poc_e3_wire.py:48: ModuleNotFoundError
+_________________ test_export_rejects_hidden_history_attribute _________________
+
+    def test_export_rejects_hidden_history_attribute():
+>       from famjet_poc.wire import export_statics
+E       ModuleNotFoundError: No module named 'famjet_poc.wire'
+
+tests/test_poc_e3_wire.py:63: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating
+FAILED tests/test_poc_e3_wire.py::test_worker_batch_limit_and_read_only_input
+FAILED tests/test_poc_e3_wire.py::test_export_rejects_hidden_history_attribute
+3 failed in 0.50s

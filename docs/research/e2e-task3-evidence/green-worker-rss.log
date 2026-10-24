@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_worker_journal_keeps_simultaneous_parent_child_rss_samples ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-229/test_worker_journal_keeps_simu0')
+
+    def test_worker_journal_keeps_simultaneous_parent_child_rss_samples(tmp_path):
+        from famjet_poc.wire import export_statics, isolated_read_batch
+    
+        method, pair = _pair()
+        journal = tmp_path / 'attempt.json'
+        isolated_read_batch(export_statics(method), [pair],
+                            {'limits': _limits(), 'timeout_seconds': 30.,
+                             'journal_path': str(journal), 'sample_rss': True})
+        record = json.loads(journal.read_bytes())
+        assert record['status'] == 'ok'
+        assert record['rss_sampling']['parent_pid'] == os.getpid()
+>       assert record['rss_sampling']['sample_count'] > 0
+E       assert 0 > 0
+
+tests/test_poc_e3_wire.py:187: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_worker_journal_keeps_simultaneous_parent_child_rss_samples
+1 failed in 1.27s

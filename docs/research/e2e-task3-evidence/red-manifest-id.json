@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_explicit_manifest_identity_flows_into_scored_rows",
+    "-q"
+  ],
+  "elapsed_seconds": 0.725480625002092,
+  "exit": 1,
+  "stdout_bytes": 968,
+  "stdout_sha256": "28483b33e4001d29c6e60031c3bf87effe6bdb1787b094c140eef0c5092788f5",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

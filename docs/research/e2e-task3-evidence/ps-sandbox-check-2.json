@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ps",
+    "-o",
+    "pid=,rss=",
+    "-p",
+    "1"
+  ],
+  "elapsed_seconds": 0.002546457999414997,
+  "exit": 127,
+  "stdout_bytes": 57,
+  "stdout_sha256": "a9137301ac1174d136ec4c853e2a68a4224aeed036c14d9ef1abf9531e6e5977",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

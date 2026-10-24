@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_comparators.py::test_controls_take_largest_capacity_within_total_state_budget",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7240342920013063,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "866432d567eb30f716ad0380ad29e9453b6fd80645780de4fbe94565dc3eab20",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

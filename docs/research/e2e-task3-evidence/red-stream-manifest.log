@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_study_manifest_freezes_balanced_prefixes_and_grid ____________
+
+    def test_study_manifest_freezes_balanced_prefixes_and_grid():
+        from famjet_poc.study import study_manifest
+    
+        manifest = study_manifest({'profile': 'study', 'shape': ShapeSpec(12, 1).to_json(),
+                                   'training_seed': 13, 'development_seed': 29,
+                                   'max_query_attempts': 512,
+                                   'cache_limits': {'disk_bytes': 1_073_741_824, 'lru_bytes': 67_108_864},
+                                   'worker_limits': {'max_frame_bytes': 64_000_000,
+                                                     'max_array_bytes': 32_000_000, 'max_histories': 64}})
+        assert len(manifest['training_inventory']) == 768
+        assert len(manifest['development_inventory']) == 192
+        assert len(manifest['candidates']) == 36
+>       assert manifest['stream_chunk_size'] == 128 and manifest['stream_mode'] == 'stream'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'stream_chunk_size'
+
+tests/test_poc_e3_study.py:44: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_study_manifest_freezes_balanced_prefixes_and_grid
+1 failed in 0.51s

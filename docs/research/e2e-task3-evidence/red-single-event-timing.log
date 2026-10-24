@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_fake_clock_single_event_latency_is_separate_from_chunk_throughput ____
+
+    def test_fake_clock_single_event_latency_is_separate_from_chunk_throughput():
+>       from famjet_poc.timing import measure_one_event
+E       ImportError: cannot import name 'measure_one_event' from 'famjet_poc.timing' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/timing.py)
+
+tests/test_poc_e3_timing.py:36: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_timing.py::test_fake_clock_single_event_latency_is_separate_from_chunk_throughput
+1 failed in 0.47s

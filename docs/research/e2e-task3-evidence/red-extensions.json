@@ -1,0 +1,23 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_worker_audit_guard_forbids_disk_and_network_after_imports",
+    "tests/test_poc_e3_wire.py::test_sixty_four_histories_admitted_but_sixty_five_rejected",
+    "tests/test_poc_e3_study.py::test_score_results_matches_causal_score_episode_on_valid_tiny_case",
+    "tests/test_poc_e3_study.py::test_probe_requires_phase_bound_finite_allocation",
+    "-q"
+  ],
+  "elapsed_seconds": 2.806771542000206,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "d9c03215b4c68da184c401b76df65a7c8d8a1db23540c5ca7dc2a8558b8ffffc",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

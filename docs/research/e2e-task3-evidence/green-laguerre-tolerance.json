@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_comparators.py::test_laguerre_control_streams_independently_with_reader_parity",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7459630410012323,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "91ac28e87543203edb8fac4612b815f59bf36ac9a72ab315b86b2e36637fba30",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

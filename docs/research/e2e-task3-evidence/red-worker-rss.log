@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_worker_journal_keeps_simultaneous_parent_child_rss_samples ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-228/test_worker_journal_keeps_simu0')
+
+    def test_worker_journal_keeps_simultaneous_parent_child_rss_samples(tmp_path):
+        from famjet_poc.wire import export_statics, isolated_read_batch
+    
+        method, pair = _pair()
+        journal = tmp_path / 'attempt.json'
+>       isolated_read_batch(export_statics(method), [pair],
+                            {'limits': _limits(), 'timeout_seconds': 30.,
+                             'journal_path': str(journal), 'sample_rss': True})
+
+tests/test_poc_e3_wire.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+statics = {'schema_version': 1, 'kind': 'packed', 'shape': {'key_dim': 12, 'value_dim': 1}, 'constructor': {'capacity': None, 'value_dim': 1, 'policy': 'exact', 'key_dim': 12, ...}, ...}
+pairs = [{'snapshot': Snapshot(payload={'key_ids': tensor([[ 4,  3,  0,  0,  1, 11,  0,  2,  5,  6, 10,  9,  7,  5,  6,  1,  9..., True, True, True, True, True, True]]), lengths=tensor([8]), schema_version=1), 'time_unit': 'generator_reference_1'}]
+policy = {'limits': {'max_frame_bytes': 8000000, 'max_array_bytes': 4000000, 'max_histories': 64}, 'timeout_seconds': 30.0, 'jo...zydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-228/test_worker_journal_keeps_simu0/attempt.json', 'sample_rss': True}
+
+    def isolated_read_batch(statics, pairs, policy):
+        """One clean interpreter, one framed request, explicit timeout and optional journal."""
+        if type(policy) is not dict or not {'limits', 'timeout_seconds'} <= set(policy) or set(policy) - {'limits', 'timeout_seconds', 'journal_path'}:
+>           raise ValueError('worker policy requires limits and timeout')
+E           ValueError: worker policy requires limits and timeout
+
+famjet_poc/wire.py:251: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_worker_journal_keeps_simultaneous_parent_child_rss_samples
+1 failed in 0.55s

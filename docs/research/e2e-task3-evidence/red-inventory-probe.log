@@ -1,0 +1,62 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_public_score_results_rejects_incomplete_expected_inventory ________
+
+    def test_public_score_results_rejects_incomplete_expected_inventory():
+        from famjet_poc.study import freeze_score_policy, score_results
+    
+        first = _episode()
+        spec = PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 318,
+                              (128,), ('piecewise_stationary',), 8, 512)
+        second = generate_episode(spec, 'unit-score-1')
+        policy = freeze_score_policy([first, second])
+        stats = fit_target_statistics([replace(first, metadata={**first.metadata, 'split': 'training'}),
+                                       replace(second, metadata={**second.metadata, 'split': 'training'})])
+        failure = torch.ones_like(first.queries.present)
+        result = ReadResult(torch.full_like(first.labels, float('nan')), None, ~failure, failure,
+                            {'prediction_valid': ~failure, 'numeric_supported': ~failure})
+>       with pytest.raises(ValueError, match='incomplete'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_study.py:144: Failed
+______ test_development_requires_successful_probe_before_cache_generation ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-215/test_development_requires_succ0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b801f30>
+
+    def test_development_requires_successful_probe_before_cache_generation(tmp_path, monkeypatch):
+        from famjet_poc import study
+    
+        manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                         'training_seed': 13, 'development_seed': 29, 'max_query_attempts': 512,
+                                         'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000},
+                                         'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                           'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        monkeypatch.setattr(study, '_cache_for', lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError('premature cache generation')))
+        allocation = {'schema_version': 1, 'phase': 'development', 'manifest_sha256': manifest['manifest_sha256'],
+                      'allocation_id': 'unit-no-probe', 'max_wall_seconds': 10.,
+                      'max_disk_bytes': 8_000_000, 'max_rss_bytes': 1_000_000_000}
+        with pytest.raises(ValueError, match='probe'):
+>           study.run_development(manifest, tmp_path, allocation)
+
+tests/test_poc_e3_study.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/study.py:450: in run_development
+    train_cache = _cache_for(manifest['training_specs'], manifest['training_inventory'], out / 'training-cache', limits)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_poc_e3_study.py:157: in <lambda>
+    monkeypatch.setattr(study, '_cache_for', lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError('premature cache generation')))
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x10fa5a590>
+
+>   monkeypatch.setattr(study, '_cache_for', lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError('premature cache generation')))
+E   AssertionError: premature cache generation
+
+tests/test_poc_e3_study.py:157: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_public_score_results_rejects_incomplete_expected_inventory
+FAILED tests/test_poc_e3_study.py::test_development_requires_successful_probe_before_cache_generation
+2 failed in 0.59s

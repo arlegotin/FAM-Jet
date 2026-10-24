@@ -1,0 +1,36 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+____________ test_study_manifest_freezes_balanced_prefixes_and_grid ____________
+
+    def test_study_manifest_freezes_balanced_prefixes_and_grid():
+>       from famjet_poc.study import study_manifest
+E       ModuleNotFoundError: No module named 'famjet_poc.study'
+
+tests/test_poc_e3_study.py:33: ModuleNotFoundError
+___ test_score_results_retains_invalid_diagnostic_and_valid_failed_fallback ____
+
+    def test_score_results_retains_invalid_diagnostic_and_valid_failed_fallback():
+>       from famjet_poc.study import freeze_score_policy, score_results
+E       ModuleNotFoundError: No module named 'famjet_poc.study'
+
+tests/test_poc_e3_study.py:53: ModuleNotFoundError
+_______________ test_missing_primary_task_blocks_without_redraw ________________
+
+    def test_missing_primary_task_blocks_without_redraw():
+>       from famjet_poc.study import freeze_score_policy
+E       ModuleNotFoundError: No module named 'famjet_poc.study'
+
+tests/test_poc_e3_study.py:76: ModuleNotFoundError
+____ test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure ____
+
+    def test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure():
+>       from famjet_poc.study import select_candidate
+E       ModuleNotFoundError: No module named 'famjet_poc.study'
+
+tests/test_poc_e3_study.py:85: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_study_manifest_freezes_balanced_prefixes_and_grid
+FAILED tests/test_poc_e3_study.py::test_score_results_retains_invalid_diagnostic_and_valid_failed_fallback
+FAILED tests/test_poc_e3_study.py::test_missing_primary_task_blocks_without_redraw
+FAILED tests/test_poc_e3_study.py::test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure
+4 failed in 0.49s

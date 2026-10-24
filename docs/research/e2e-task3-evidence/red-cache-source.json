@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_cache.py::test_cached_fit_matches_direct_and_rejects_stale_reader_key",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7932122910024191,
+  "exit": 1,
+  "stdout_bytes": 2624,
+  "stdout_sha256": "43597381f864da79c0f15d8d473f2c516b4cef95927a22a091a96f2a4c376e98",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

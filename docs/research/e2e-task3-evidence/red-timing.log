@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_fake_clock_separates_preprocessing_ingest_and_read ____________
+
+    def test_fake_clock_separates_preprocessing_ingest_and_read():
+>       from famjet_poc.timing import timed_pipeline
+E       ModuleNotFoundError: No module named 'famjet_poc.timing'
+
+tests/test_poc_e3_timing.py:16: ModuleNotFoundError
+__________ test_break_even_requires_accuracy_and_positive_read_saving __________
+
+    def test_break_even_requires_accuracy_and_positive_read_saving():
+>       from famjet_poc.timing import break_even_queries
+E       ModuleNotFoundError: No module named 'famjet_poc.timing'
+
+tests/test_poc_e3_timing.py:26: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_timing.py::test_fake_clock_separates_preprocessing_ingest_and_read
+FAILED tests/test_poc_e3_timing.py::test_break_even_requires_accuracy_and_positive_read_saving
+2 failed in 0.02s

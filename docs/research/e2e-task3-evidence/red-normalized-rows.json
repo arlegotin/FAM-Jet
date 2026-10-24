@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_normalized_score_rows_roundtrip_policy_and_reject_tampering",
+    "-q"
+  ],
+  "elapsed_seconds": 0.743281457998819,
+  "exit": 1,
+  "stdout_bytes": 1023,
+  "stdout_sha256": "3d4835db2a100224e97735547aed8c73e9b79e462198b15e3d5193dd629baff4",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

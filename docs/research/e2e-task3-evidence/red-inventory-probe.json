@@ -1,0 +1,21 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_public_score_results_rejects_incomplete_expected_inventory",
+    "tests/test_poc_e3_study.py::test_development_requires_successful_probe_before_cache_generation",
+    "-q"
+  ],
+  "elapsed_seconds": 0.8346594579998055,
+  "exit": 1,
+  "stdout_bytes": 4235,
+  "stdout_sha256": "7adf9b620bc0a281a2178a4746a40c8a193d68a508b9246598a90f1c87b5873d",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

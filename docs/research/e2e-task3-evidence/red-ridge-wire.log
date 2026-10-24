@@ -1,0 +1,81 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-220/test_ridge_worker_uses_loaded_0')
+
+    def test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+        from famjet_poc.contracts import ReaderSpec
+        from famjet_poc.models import build_model, fit_reader, fit_training_metadata, load_model, make_fit_manifest, save_model
+        from famjet_poc.wire import export_statics, isolated_read_batch
+    
+        spec = PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'training', 412,
+                              (128,), ('piecewise_stationary',), 8, 512)
+        ids = ['unit-ridge-wire-0', 'unit-ridge-wire-1']
+        cache = prepare_episode_cache([spec], [{'history_id': h, 'spec': spec.to_json()} for h in ids],
+                                      tmp_path / 'cache', {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        factory = episode_factory(cache, ids)
+        meta = fit_training_metadata(factory)
+        reader = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+        fitted = attach_training_cache(build_model(spec.shape, reader, meta['t_ref'], meta['target_statistics']),
+                                       cache, {'lru_bytes': 8_000_000})
+        fit_reader(fitted, factory, make_fit_manifest(fitted, meta), chunk_rows=32)
+        ref = save_model(fitted, tmp_path / 'loaded.json')
+        model = load_model(ref.path, ref.sha256)
+        assert type(model).__name__ == 'RidgeMemoryModel'
+        ep = generate_episode(PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 991,
+                                             (128,), ('piecewise_stationary',), 8, 512), 'unit-ridge-read-0')
+        pair = {'snapshot': model.encode(ep.events, mode='terminal'), 'queries': ep.queries,
+                'time_unit': ep.events.time_unit}
+        statics = export_statics(model)
+>       result = isolated_read_batch(statics, [pair], {'limits': _limits(), 'timeout_seconds': 30.})[0]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_wire.py:168: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+statics = {'schema_version': 1, 'kind': 'ridge', 'shape': {'key_dim': 12, 'value_dim': 1}, 'reader': {'alpha_max': 1.0, 'alpha_min': 0.00019142419601837673, 'epsilon': 1e-06, 'family': 'jet', ...}, ...}
+pairs = [{'snapshot': Snapshot(payload={'z': tensor([[[[[-1.0834e+01,  9.7940e+00],
+           [ 1.2392e+00,  1.1635e+01],
+   ..., True, True, True, True, True, True]]), lengths=tensor([8]), schema_version=1), 'time_unit': 'generator_reference_1'}]
+policy = {'limits': {'max_frame_bytes': 8000000, 'max_array_bytes': 4000000, 'max_histories': 64}, 'timeout_seconds': 30.0}
+
+    def isolated_read_batch(statics, pairs, policy):
+        """One clean interpreter, one framed request, explicit timeout and optional journal."""
+        if type(policy) is not dict or not {'limits', 'timeout_seconds'} <= set(policy) or set(policy) - {'limits', 'timeout_seconds', 'journal_path'}:
+            raise ValueError('worker policy requires limits and timeout')
+        timeout = policy['timeout_seconds']
+        if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError('positive worker timeout required')
+        expected = [{'history_id': pair['queries'].history_ids[0], 'query_ids': pair['queries'].query_ids[0].tolist()} for pair in pairs]
+        frame = encode_request(statics, pairs, expected, policy['limits'])
+        request_hash = hashlib.sha256(frame).hexdigest()
+        env = {k: v for k, v in os.environ.items() if k in {'SYSTEMROOT', 'WINDIR'}}
+        env.update(OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1',
+                   VECLIB_MAXIMUM_THREADS='1', NUMEXPR_NUM_THREADS='1')
+        bootstrap = 'import sys; sys.path.insert(0, '+repr(str(_ROOT))+'); from famjet_poc.worker import worker_main; raise SystemExit(worker_main())'
+        started = time.perf_counter()
+        journal = {'request_sha256': request_hash, 'expected_ids': expected, 'status': 'incomplete'}
+        try:
+            with tempfile.TemporaryDirectory(prefix='famjet-e3-worker-') as directory:
+                completed = subprocess.run([sys.executable, '-I', '-c', bootstrap], input=frame,
+                                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=directory,
+                                           env=env, close_fds=True, timeout=timeout)
+            if completed.returncode or len(completed.stdout) < 8:
+                raise RuntimeError('worker failed: ' + completed.stderr.decode(errors='replace')[-1000:])
+            size = struct.unpack('>Q', completed.stdout[:8])[0]
+            if size > policy['limits']['max_frame_bytes'] or size != len(completed.stdout) - 8:
+                raise ValueError('worker response frame mismatch')
+            response = json.loads(completed.stdout[8:])
+            if type(response) is not dict or set(response) != {'schema_version', 'request_id', 'response_id', 'results', 'error'} or response['schema_version'] != 1:
+                raise ValueError('worker response schema mismatch')
+            request_id = json.loads(frame[8:])['request_id']
+            if response['request_id'] != request_id or response['response_id'] != canonical_hash({'request_id': request_id, 'results': response['results'], 'error': response['error']}):
+>               raise ValueError('worker response identity mismatch')
+E               ValueError: worker response identity mismatch
+
+famjet_poc/wire.py:270: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history
+1 failed in 1.27s

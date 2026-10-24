@@ -1,0 +1,25 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "compileall",
+    "-q",
+    "famjet_poc/cache.py",
+    "famjet_poc/wire.py",
+    "famjet_poc/worker.py",
+    "famjet_poc/comparators.py",
+    "famjet_poc/study.py",
+    "famjet_poc/timing.py"
+  ],
+  "elapsed_seconds": 0.03923912499885773,
+  "exit": 0,
+  "stdout_bytes": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_public_panel_evaluator_reuses_worker_and_normalized_rows _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-240/test_public_panel_evaluator_re0')
+
+    def test_public_panel_evaluator_reuses_worker_and_normalized_rows(tmp_path):
+        from famjet.memory.exact_store import PackedHistoryMemory
+>       from famjet_poc.study import evaluate_panel, freeze_score_policy, load_score_rows
+E       ImportError: cannot import name 'evaluate_panel' from 'famjet_poc.study' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/study.py)
+
+tests/test_poc_e3_study.py:214: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_public_panel_evaluator_reuses_worker_and_normalized_rows
+1 failed in 0.53s

@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-224/test_probe_measures_one_tiny_f0')
+
+    def test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast(tmp_path):
+        from famjet_poc.study import probe_feasibility, study_manifest
+    
+        manifest = study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                   'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                   'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                   'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                     'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        allocation = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                      'allocation_id': 'unit-probe', 'max_wall_seconds': 60.,
+                      'max_disk_bytes': 8_000_000, 'max_rss_bytes': 2_000_000_000}
+        result = probe_feasibility(manifest, tmp_path, allocation)
+        assert result['status'] == 'measured', result.get('error')
+        assert result['fit_rows'] > 0 and result['costs']['worker_batches'] == 1
+>       assert result['forecast']['expected_fit_attempts'] == 36
+               ^^^^^^^^^^^^^^^^^^
+E       KeyError: 'forecast'
+
+tests/test_poc_e3_study.py:179: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast
+1 failed in 1.28s

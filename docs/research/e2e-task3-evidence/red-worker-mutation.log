@@ -1,0 +1,43 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_worker_detects_method_attribute_added_during_read ____________
+
+    def test_worker_detects_method_attribute_added_during_read():
+        from famjet_poc.wire import encode_request, export_statics
+    
+        method, pair = _pair()
+        expected = [{'history_id': pair['queries'].history_ids[0],
+                     'query_ids': pair['queries'].query_ids[0].tolist()}]
+        frame = encode_request(export_statics(method), [pair], expected, _limits())
+        script = """import json, sys
+    from famjet.memory.exact_store import PackedHistoryMemory
+    from famjet_poc.worker import _read
+    original = PackedHistoryMemory.read
+    def retaining(self, state, queries):
+        result = original(self, state, queries)
+        self.history_cache = {'forbidden': 'retained'}
+        return result
+    PackedHistoryMemory.read = retaining
+    try:
+        _read(json.loads(sys.stdin.buffer.read()))
+    except ValueError as exc:
+        if 'mutated' not in str(exc) and 'attribute' not in str(exc):
+            raise
+    else:
+        raise AssertionError('worker admitted hidden method state')
+    """
+        completed = subprocess.run([sys.executable, '-c', script], input=frame[8:],
+                                   capture_output=True, env={**os.environ, 'OMP_NUM_THREADS': '1'})
+>       assert completed.returncode == 0, completed.stderr.decode()
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 16, in <module>
+E             raise AssertionError('worker admitted hidden method state')
+E         AssertionError: worker admitted hidden method state
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', "import json, sys\nfr... raise AssertionError(\'worker admitted hidden method state\')\nAssertionError: worker admitted hidden method state\n').returncode
+
+tests/test_poc_e3_wire.py:140: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_worker_detects_method_attribute_added_during_read
+1 failed in 1.18s

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_cache.py",
+    "-q"
+  ],
+  "elapsed_seconds": 0.016802832997200312,
+  "exit": 1,
+  "stdout_bytes": 75,
+  "stdout_sha256": "efc28245506babe60ddb4231a43cc6f9a7959cb1f6f73e0006754c77ca1d5585",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

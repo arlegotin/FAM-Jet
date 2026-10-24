@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7337290410032438,
+  "exit": 1,
+  "stdout_bytes": 1529,
+  "stdout_sha256": "4e548e6b190eb29f491c0f59eec802e4f68cc468151dc9869693e709eca34ed7",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_study_manifest_freezes_balanced_prefixes_and_grid",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7162463340027898,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "7f20721722339faad833bedbd918bbce72ec5ee8917b82cf8b1a09bf4e47f2f3",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

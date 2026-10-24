@@ -1,0 +1,106 @@
+.FF...F......                                                            [100%]
+=================================== FAILURES ===================================
+_________ test_cached_fit_matches_direct_and_rejects_stale_reader_key __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-210/test_cached_fit_matches_direct0')
+
+    def test_cached_fit_matches_direct_and_rejects_stale_reader_key(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+    
+        spec = _population()
+        ids = ['unit-fit-0', 'unit-fit-1']
+        cache = prepare_episode_cache([spec], [{'history_id': h, 'spec': spec.to_json()} for h in ids],
+                                      tmp_path, {'disk_bytes': 16_000_000, 'lru_bytes': 16_000_000})
+        factory = episode_factory(cache, ids)
+>       meta = fit_training_metadata(factory)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_cache.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/models.py:244: in fit_training_metadata
+    stats = fit_target_statistics(inspected())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:33: in fit_target_statistics
+    for ep in episodes:
+              ^^^^^^^^
+famjet_poc/models.py:220: in inspected
+    for ep in _checked_factory(episode_factory):
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+factory = <function episode_factory.<locals>.factory at 0x10c7332e0>
+
+    def _checked_factory(factory):
+        if not callable(factory):
+            raise TypeError('episode_factory must be replayable callable')
+        episodes = factory()
+        if episodes is factory or not hasattr(episodes, '__iter__'):
+            raise TypeError('episode_factory must return fresh iterable')
+        for ep in episodes:
+            if ep.metadata.get('split') != 'training' or ep.metadata.get('target_semantics') != 'observed_event_targets_v2':
+>               raise ValueError('fit admits current-v2 training episodes only')
+E               ValueError: fit admits current-v2 training episodes only
+
+famjet_poc/models.py:199: ValueError
+___ test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating ___
+
+    def test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating():
+        from famjet_poc.wire import decode_request, encode_request, export_statics
+    
+        method, pair = _pair()
+        statics = export_statics(method)
+        expected = [{'history_id': pair['queries'].history_ids[0],
+                     'query_ids': pair['queries'].query_ids[0].tolist()}]
+        raw = encode_request(statics, [pair], expected, _limits())
+        assert decode_request(raw[8:], _limits())['expected_ids'] == expected
+        body = json.loads(raw[8:])
+        body['labels'] = [1.]
+        with pytest.raises(ValueError, match='field|schema'):
+            decode_request(json.dumps(body).encode(), _limits())
+        body.pop('labels')
+        body['pairs'][0]['snapshot']['payload']['values']['shape'] = [2**60]
+>       with pytest.raises(ValueError, match='array|tensor|byte'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'array|tensor|byte'
+E         Actual message: 'request source/hash mismatch'
+
+tests/test_poc_e3_wire.py:43: AssertionError
+________ test_laguerre_control_streams_independently_with_reader_parity ________
+
+    def test_laguerre_control_streams_independently_with_reader_parity():
+        from famjet_poc.comparators import laguerre_control
+    
+        ep = _episode()
+        stats = fit_target_statistics([ep])
+        spec = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+        model = build_model(ShapeSpec(12, 1), spec, 1., stats)
+        model.coefficients = np.linspace(-0.01, 0.02, 33 * spec.query_width)
+>       result = laguerre_control(model, ep.events, ep.queries)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_comparators.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/comparators.py:85: in laguerre_control
+    gates = model.writer._raw(events)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/jet.py:231: in _raw
+    return _raw(events, self.rates)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/memory/_fixed_writer.py:71: in _raw
+    _require(events.key_features.dtype == events.values.dtype == rates.dtype
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'raw keys/values/rates must share device and dtype'
+
+    def _require(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: raw keys/values/rates must share device and dtype
+
+famjet/memory/_fixed_writer.py:16: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_cache.py::test_cached_fit_matches_direct_and_rejects_stale_reader_key
+FAILED tests/test_poc_e3_wire.py::test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating
+FAILED tests/test_poc_e3_comparators.py::test_laguerre_control_streams_independently_with_reader_parity
+3 failed, 10 passed in 1.40s

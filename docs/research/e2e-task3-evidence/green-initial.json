@@ -1,0 +1,24 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_cache.py",
+    "tests/test_poc_e3_wire.py",
+    "tests/test_poc_e3_comparators.py",
+    "tests/test_poc_e3_study.py",
+    "tests/test_poc_e3_timing.py",
+    "-q"
+  ],
+  "elapsed_seconds": 1.6768896249996033,
+  "exit": 1,
+  "stdout_bytes": 5452,
+  "stdout_sha256": "417f9108fec3eb116a58025d314e75f3efc834c989af5dd4535696c32961eb7e",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

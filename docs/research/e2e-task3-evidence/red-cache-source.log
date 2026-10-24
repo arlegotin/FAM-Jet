@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_cached_fit_matches_direct_and_rejects_stale_reader_key __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-244/test_cached_fit_matches_direct0')
+
+    def test_cached_fit_matches_direct_and_rejects_stale_reader_key(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+    
+        spec = _population('training')
+        ids = ['unit-fit-0', 'unit-fit-1']
+        cache = prepare_episode_cache([spec], [{'history_id': h, 'spec': spec.to_json()} for h in ids],
+                                      tmp_path, {'disk_bytes': 16_000_000, 'lru_bytes': 16_000_000})
+        factory = episode_factory(cache, ids)
+        meta = fit_training_metadata(factory)
+        direct = build_model(spec.shape, _reader(), meta['t_ref'], meta['target_statistics'])
+        cached = attach_training_cache(build_model(spec.shape, _reader(), meta['t_ref'], meta['target_statistics']),
+                                       cache, {'lru_bytes': 16_000_000})
+        fit_reader(direct, factory, make_fit_manifest(direct, meta), chunk_rows=32)
+        fit_reader(cached, factory, make_fit_manifest(cached, meta), chunk_rows=32)
+        np.testing.assert_array_equal(cached.coefficients, direct.coefficients)
+        assert cached.cache_stats['raw_hits'] > 0
+        new = attach_training_cache(build_model(spec.shape, _reader(1e-2), meta['t_ref'], meta['target_statistics']),
+                                    cache, {'lru_bytes': 16_000_000})
+        assert new._cache_identity != cached._cache_identity
+        changed_reference = attach_training_cache(build_model(spec.shape, _reader(), meta['t_ref'] * 2,
+                                                              meta['target_statistics']),
+                                                  cache, {'lru_bytes': 16_000_000})
+        assert changed_reference.writer_hash != cached.writer_hash
+        assert changed_reference._cache_identity != cached._cache_identity
+        cache.e3_sha256 = '0' * 64
+>       with pytest.raises(ValueError, match='source'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_cache.py:68: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_cache.py::test_cached_fit_matches_direct_and_rejects_stale_reader_key
+1 failed in 0.58s

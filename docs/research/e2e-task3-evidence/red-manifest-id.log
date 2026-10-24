@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_explicit_manifest_identity_flows_into_scored_rows ____________
+
+    def test_explicit_manifest_identity_flows_into_scored_rows():
+        from famjet_poc.study import freeze_score_policy, score_results
+    
+        ep = _episode()
+        stats = fit_target_statistics([replace(ep, metadata={**ep.metadata, 'split': 'training'})])
+>       policy = freeze_score_policy([ep], manifest_hash='a' * 64)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: freeze_score_policy() got an unexpected keyword argument 'manifest_hash'
+
+tests/test_poc_e3_study.py:238: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_explicit_manifest_identity_flows_into_scored_rows
+1 failed in 0.51s

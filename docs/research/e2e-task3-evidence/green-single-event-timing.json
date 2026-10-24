@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_timing.py::test_fake_clock_single_event_latency_is_separate_from_chunk_throughput",
+    "-q"
+  ],
+  "elapsed_seconds": 0.727576291999867,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "0c33791aa03cbc8826ba04efd1b062adb3baa875c47625e4de7090bd753d7635",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

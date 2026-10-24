@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_comparators.py",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7328154999995604,
+  "exit": 1,
+  "stdout_bytes": 1152,
+  "stdout_sha256": "a4ef1a342207de435af5a89aebeda396b19b8e1f1296f213757fada30aa30ab7",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

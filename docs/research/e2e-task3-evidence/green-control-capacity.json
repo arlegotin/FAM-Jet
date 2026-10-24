@@ -1,0 +1,22 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_wire_rejects_huge_control_capacity_before_constructor_allocation",
+    "tests/test_poc_e3_wire.py::test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history",
+    "tests/test_poc_e3_wire.py::test_worker_batch_limit_and_read_only_input",
+    "-q"
+  ],
+  "elapsed_seconds": 2.37481995899725,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "c72ff6def760245306364fbb4a092dcafb2bdd7d7f72ad477336d8391647b442",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

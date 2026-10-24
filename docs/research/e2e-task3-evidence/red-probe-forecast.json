@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast",
+    "-q"
+  ],
+  "elapsed_seconds": 1.523810709000827,
+  "exit": 1,
+  "stdout_bytes": 1919,
+  "stdout_sha256": "306b9ebf97380b4336bdbb16caac68529756c460cad569de6f630655de3112a8",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

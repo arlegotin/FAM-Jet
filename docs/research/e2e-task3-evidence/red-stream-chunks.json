@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_stream.py",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7710573750009644,
+  "exit": 1,
+  "stdout_bytes": 3095,
+  "stdout_sha256": "4d0340d819ccb7dc48d666a45ac5d7b0e0ee6c6a7f779aea5ecc0675bd799024",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

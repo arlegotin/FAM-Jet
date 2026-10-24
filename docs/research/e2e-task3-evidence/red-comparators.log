@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_controls_take_largest_capacity_within_total_state_budget _________
+
+    def test_controls_take_largest_capacity_within_total_state_budget():
+>       from famjet_poc.comparators import build_controls
+E       ModuleNotFoundError: No module named 'famjet_poc.comparators'
+
+tests/test_poc_e3_comparators.py:18: ModuleNotFoundError
+________ test_laguerre_control_streams_independently_with_reader_parity ________
+
+    def test_laguerre_control_streams_independently_with_reader_parity():
+>       from famjet_poc.comparators import laguerre_control
+E       ModuleNotFoundError: No module named 'famjet_poc.comparators'
+
+tests/test_poc_e3_comparators.py:34: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_comparators.py::test_controls_take_largest_capacity_within_total_state_budget
+FAILED tests/test_poc_e3_comparators.py::test_laguerre_control_streams_independently_with_reader_parity
+2 failed in 0.50s

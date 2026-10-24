@@ -1,0 +1,24 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_episode_cache_replays_owned_real_tensors_and_detects_tampering ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-209/test_episode_cache_replays_own0')
+
+    def test_episode_cache_replays_owned_real_tensors_and_detects_tampering(tmp_path):
+>       from famjet_poc.cache import prepare_episode_cache, episode_factory
+E       ModuleNotFoundError: No module named 'famjet_poc.cache'
+
+tests/test_poc_e3_cache.py:23: ModuleNotFoundError
+_________ test_cached_fit_matches_direct_and_rejects_stale_reader_key __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-209/test_cached_fit_matches_direct0')
+
+    def test_cached_fit_matches_direct_and_rejects_stale_reader_key(tmp_path):
+>       from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+E       ModuleNotFoundError: No module named 'famjet_poc.cache'
+
+tests/test_poc_e3_cache.py:44: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_cache.py::test_episode_cache_replays_owned_real_tensors_and_detects_tampering
+FAILED tests/test_poc_e3_cache.py::test_cached_fit_matches_direct_and_rejects_stale_reader_key
+2 failed in 0.90s

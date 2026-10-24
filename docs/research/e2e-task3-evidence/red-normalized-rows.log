@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_normalized_score_rows_roundtrip_policy_and_reject_tampering _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-234/test_normalized_score_rows_rou0')
+
+    def test_normalized_score_rows_roundtrip_policy_and_reject_tampering(tmp_path):
+        import hashlib
+        import json
+>       from famjet_poc.study import freeze_score_policy, load_score_rows, persist_score_rows, score_results
+E       ImportError: cannot import name 'load_score_rows' from 'famjet_poc.study' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/study.py)
+
+tests/test_poc_e3_study.py:187: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_normalized_score_rows_roundtrip_policy_and_reject_tampering
+1 failed in 0.51s

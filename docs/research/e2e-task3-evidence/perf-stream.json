@@ -1,0 +1,17 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "docs/research/e2e-task3-evidence/perf_stream_chunks.py"
+  ],
+  "elapsed_seconds": 0.5443767500000831,
+  "exit": 1,
+  "stdout_bytes": 272,
+  "stdout_sha256": "e4bc9dac5aec66a2365b7bd343cbeb6add97570c7fa0f15f3fd84945153e82fb",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

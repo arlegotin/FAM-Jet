@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_worker_detects_method_attribute_added_during_read",
+    "-q"
+  ],
+  "elapsed_seconds": 1.450934332999168,
+  "exit": 1,
+  "stdout_bytes": 2326,
+  "stdout_sha256": "8c11521850490c6e4dec34533d06c8d4c85f2ace2e9fb00e4300e202aa48e4d9",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

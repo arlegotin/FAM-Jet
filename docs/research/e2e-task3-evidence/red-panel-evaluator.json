@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_public_panel_evaluator_reuses_worker_and_normalized_rows",
+    "-q"
+  ],
+  "elapsed_seconds": 0.7632713749990216,
+  "exit": 1,
+  "stdout_bytes": 1020,
+  "stdout_sha256": "4f21f5a6b796ba3d56f1d58148cfbee439c07ab7f243a64fa48415df2a5a993b",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

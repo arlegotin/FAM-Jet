@@ -1,0 +1,51 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_chunk128_stream_matches_single_event_state_ids_bytes_and_predictions ___
+
+    def test_chunk128_stream_matches_single_event_state_ids_bytes_and_predictions():
+        from famjet_poc.study import _stream_snapshot
+    
+        ep = _episode()
+        stats = fit_target_statistics([replace(ep, metadata={**ep.metadata, 'split': 'training'})])
+        methods = {}
+        for family in ('jet', 'bank'):
+            reader = ReaderSpec('ridge_v1', family, 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+            methods[family] = build_model(ShapeSpec(12, 1), reader, 1., stats)
+        methods.update(exact=PackedHistoryMemory(None, 1, 'exact', key_dim=12),
+                       recent=PackedHistoryMemory(16, 1, 'recent', key_dim=12),
+                       latest_lru=PackedHistoryMemory(16, 1, 'latest_lru', key_dim=12),
+                       reservoir=ReservoirMemory(16, 1, 41, key_dim=12),
+                       buckets=TemporalBucketsMemory(16, 1, key_dim=12, normalization='shared'))
+        for name, method in methods.items():
+            expected = _one_event_state(method, ep)
+>           actual, trigger, nbytes, audit = _stream_snapshot(method, ep, chunk_size=128, return_audit=True)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: _stream_snapshot() got an unexpected keyword argument 'chunk_size'
+
+tests/test_poc_e3_stream.py:53: TypeError
+_______ test_bad_chunk_replays_from_checkpoint_to_first_nonfinite_event ________
+
+    def test_bad_chunk_replays_from_checkpoint_to_first_nonfinite_event():
+        from famjet_poc.study import _stream_snapshot
+    
+        ep = _episode()
+        values = ep.events.values.clone()
+        keys = ep.events.key_features.clone()
+        key_ids = ep.events.key_ids.clone()
+        values[0, 3, 0] = 1e308
+        values[0, 4, 0] = 1e308
+        keys[0, 4] = keys[0, 3]
+        key_ids[0, 4] = key_ids[0, 3]
+        ep = replace(ep, events=replace(ep.events, values=values, key_features=keys, key_ids=key_ids))
+        stats = fit_target_statistics([replace(_episode(), metadata={**ep.metadata, 'split': 'training'})])
+        reader = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+        model = build_model(ShapeSpec(12, 1), reader, 1., stats)
+>       _, trigger, _, audit = _stream_snapshot(model, ep, chunk_size=128, return_audit=True)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: _stream_snapshot() got an unexpected keyword argument 'chunk_size'
+
+tests/test_poc_e3_stream.py:80: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_stream.py::test_chunk128_stream_matches_single_event_state_ids_bytes_and_predictions
+FAILED tests/test_poc_e3_stream.py::test_bad_chunk_replays_from_checkpoint_to_first_nonfinite_event
+2 failed in 0.55s

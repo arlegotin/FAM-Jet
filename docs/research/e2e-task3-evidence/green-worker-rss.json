@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_worker_journal_keeps_simultaneous_parent_child_rss_samples",
+    "-q"
+  ],
+  "elapsed_seconds": 1.5481871250012773,
+  "exit": 1,
+  "stdout_bytes": 1320,
+  "stdout_sha256": "d694dcd21e324f96f51c4cbf9cd35fdb8b0630750d70045dd548af95c7b47144",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

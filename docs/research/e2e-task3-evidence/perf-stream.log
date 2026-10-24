@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/e2e-task3-evidence/perf_stream_chunks.py", line 9, in <module>
+    from famjet.eval.metrics import fit_target_statistics
+ModuleNotFoundError: No module named 'famjet'
