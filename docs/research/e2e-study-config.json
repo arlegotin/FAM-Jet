@@ -1,0 +1,19 @@
+{
+  "profile": "study",
+  "shape": {
+    "key_dim": 16,
+    "value_dim": 8
+  },
+  "training_seed": 2026102401801,
+  "development_seed": 2026102401802,
+  "max_query_attempts": 4096,
+  "cache_limits": {
+    "disk_bytes": 1073741824,
+    "lru_bytes": 67108864
+  },
+  "worker_limits": {
+    "max_frame_bytes": 33554432,
+    "max_array_bytes": 16777216,
+    "max_histories": 64
+  }
+}

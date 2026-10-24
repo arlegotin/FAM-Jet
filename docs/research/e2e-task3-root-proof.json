@@ -1,0 +1,260 @@
+{
+  "status": "pass",
+  "base": "3de99bd598e6a18b064aeff980e14a460572183e",
+  "head": "764e3d305f29c8a04ed88bf509a2761e1834e8d1",
+  "new_git_paths": 134,
+  "preserved_paths": 78,
+  "raw_invocations": [
+    {
+      "record": "compile-after-refactor.json",
+      "exit": 0
+    },
+    {
+      "record": "compile-e3-final-rss.json",
+      "exit": 0
+    },
+    {
+      "record": "compile-e3-final.json",
+      "exit": 0
+    },
+    {
+      "record": "compile-iteration.json",
+      "exit": 0
+    },
+    {
+      "record": "diagnose-ridge-wire.json",
+      "exit": 1
+    },
+    {
+      "record": "full-e3-final-candidate.json",
+      "exit": 0
+    },
+    {
+      "record": "full-e3-final-rss.json",
+      "exit": 0
+    },
+    {
+      "record": "full-e3-final.json",
+      "exit": 0
+    },
+    {
+      "record": "full-e3-iteration.json",
+      "exit": 0
+    },
+    {
+      "record": "full-e3-source-freeze.json",
+      "exit": 0
+    },
+    {
+      "record": "green-cache-source.json",
+      "exit": 0
+    },
+    {
+      "record": "green-control-capacity.json",
+      "exit": 0
+    },
+    {
+      "record": "green-initial.json",
+      "exit": 1
+    },
+    {
+      "record": "green-inventory-probe.json",
+      "exit": 0
+    },
+    {
+      "record": "green-iteration-2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-laguerre-tolerance.json",
+      "exit": 0
+    },
+    {
+      "record": "green-lru-cap.json",
+      "exit": 0
+    },
+    {
+      "record": "green-manifest-id.json",
+      "exit": 0
+    },
+    {
+      "record": "green-normalized-rows.json",
+      "exit": 0
+    },
+    {
+      "record": "green-panel-evaluator.json",
+      "exit": 0
+    },
+    {
+      "record": "green-policy-edges.json",
+      "exit": 0
+    },
+    {
+      "record": "green-probe-forecast.json",
+      "exit": 0
+    },
+    {
+      "record": "green-ridge-wire-1.json",
+      "exit": 1
+    },
+    {
+      "record": "green-ridge-wire-2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-single-event-timing.json",
+      "exit": 0
+    },
+    {
+      "record": "green-stream-chunks-1.json",
+      "exit": 0
+    },
+    {
+      "record": "green-stream-ledger.json",
+      "exit": 0
+    },
+    {
+      "record": "green-stream-manifest.json",
+      "exit": 0
+    },
+    {
+      "record": "green-worker-mutation.json",
+      "exit": 0
+    },
+    {
+      "record": "green-worker-rss-2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-worker-rss.json",
+      "exit": 1
+    },
+    {
+      "record": "green-writer-constants.json",
+      "exit": 0
+    },
+    {
+      "record": "perf-stream-2.json",
+      "exit": 0
+    },
+    {
+      "record": "perf-stream.json",
+      "exit": 1
+    },
+    {
+      "record": "ps-sandbox-check-2.json",
+      "exit": 127
+    },
+    {
+      "record": "red-cache-2.json",
+      "exit": 1
+    },
+    {
+      "record": "red-cache-source.json",
+      "exit": 1
+    },
+    {
+      "record": "red-cache.json",
+      "exit": 1
+    },
+    {
+      "record": "red-comparators.json",
+      "exit": 1
+    },
+    {
+      "record": "red-control-capacity.json",
+      "exit": 1
+    },
+    {
+      "record": "red-extensions.json",
+      "exit": 0
+    },
+    {
+      "record": "red-inventory-probe.json",
+      "exit": 1
+    },
+    {
+      "record": "red-lru-cap.json",
+      "exit": 1
+    },
+    {
+      "record": "red-manifest-id.json",
+      "exit": 1
+    },
+    {
+      "record": "red-normalized-rows.json",
+      "exit": 1
+    },
+    {
+      "record": "red-panel-evaluator.json",
+      "exit": 1
+    },
+    {
+      "record": "red-probe-forecast.json",
+      "exit": 1
+    },
+    {
+      "record": "red-ridge-wire.json",
+      "exit": 1
+    },
+    {
+      "record": "red-single-event-timing.json",
+      "exit": 1
+    },
+    {
+      "record": "red-stream-chunks.json",
+      "exit": 1
+    },
+    {
+      "record": "red-stream-manifest.json",
+      "exit": 1
+    },
+    {
+      "record": "red-study.json",
+      "exit": 1
+    },
+    {
+      "record": "red-timing.json",
+      "exit": 1
+    },
+    {
+      "record": "red-wire.json",
+      "exit": 1
+    },
+    {
+      "record": "red-worker-mutation.json",
+      "exit": 1
+    },
+    {
+      "record": "red-worker-rss.json",
+      "exit": 1
+    },
+    {
+      "record": "red-writer-constants.json",
+      "exit": 1
+    },
+    {
+      "record": "resume-audit.json",
+      "exit": 0
+    },
+    {
+      "record": "source-digests.json",
+      "exit": 0
+    }
+  ],
+  "tests_rerun": false,
+  "report_mirror_equal": true,
+  "source_files": {
+    "famjet_poc/__init__.py": "24027ef093ff3f8f0d130b3c2eab6d947f3fe140d1ccb1cc67955396a1eafa6b",
+    "famjet_poc/cache.py": "472a3f749b820c79b48aa217c8a26cdfcaa4da962f681ee0d2067d86c731bcd5",
+    "famjet_poc/comparators.py": "0b903cfcbf770286645a591ad440e5f962d6d827b55688a3a79c982ccf38b60a",
+    "famjet_poc/contracts.py": "9a710e2613ceb84c9a632cd57792a7c81e63fbba75070d22f0b411a40a1691c5",
+    "famjet_poc/data.py": "2f0af90ffa9ec10cf6539d1eb076777883ed603332e3fd33a330cdce9acc6bc3",
+    "famjet_poc/inference.py": "4bba9ad0561ea7c285d194f8a20d0b0ad9227c373ffa3cf8e818a467f67633ee",
+    "famjet_poc/models.py": "754f2936305e04b5d4e4436517221cf036dcd72451579cdca0f730d2282d0216",
+    "famjet_poc/study.py": "f1bf4c90dcb17426eeff0f518431fd4383402d3d1c648e2da79f5e8f020c51c4",
+    "famjet_poc/timing.py": "0b01f45ab5fb52d7ae9dd186133307e226bff807194ea563d27802dc0561fe7e",
+    "famjet_poc/wire.py": "1097677e83e0baea016ab0c8fcdd47c4812564713f763ee64d0df8a2c0f0c071",
+    "famjet_poc/worker.py": "5b0e33162a6d11328e1b69731dc43e270c9fc2c18377760e7db1c4f3bbb8e213"
+  }
+}

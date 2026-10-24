@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "base": "c8f95d6a11bb2c078258a34315137d4a0927bdae",
+  "head": "ee0705c63b9af8ee575fa7fcceb21b80ecb770bd",
+  "fix_invocations": [
+    {
+      "record": "cache-total-incremental.json",
+      "exit": 0
+    },
+    {
+      "record": "compile-fixround2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-r1-callers.json",
+      "exit": 0
+    },
+    {
+      "record": "red-r1-callers-2.json",
+      "exit": 1
+    },
+    {
+      "record": "red-r1-callers.json",
+      "exit": 1
+    },
+    {
+      "record": "scoped-cache-study-final.json",
+      "exit": 0
+    },
+    {
+      "record": "source-digests-fixround2.json",
+      "exit": 0
+    }
+  ],
+  "old_evidence_files_preserved": 155,
+  "old_paths_preserved": 78,
+  "report_mirror_equal": true,
+  "tests_rerun": false
+}

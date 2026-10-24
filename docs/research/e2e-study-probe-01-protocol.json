@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "phase": "probe",
+  "source_e3_sha256": "e02e4750995cf7614be45c46a839b7ce1717e0e4a88e60eef5012946f93f8608",
+  "config_path": "docs/research/e2e-study-config.json",
+  "config_file_sha256": "cee86c77af5a483c61d3d0338be0fdf83df9347d9cdcc04ad65f960467844547",
+  "allocation_id": "e2e-study-probe-01",
+  "probe_phase_max_wall_seconds": 120,
+  "wrapper_total_seconds": 180,
+  "wrapper_finalization_reserve_seconds": 20,
+  "max_rss_bytes": 1610612736,
+  "max_disk_bytes": 134217728,
+  "out": "artifacts/e2e-study-probe-01",
+  "prep": "artifacts/e2e-study-probe-01-prep",
+  "profile": "first declared candidate, two training/one development histories, no selection",
+  "followup": "measured full-development allocation; actual matrix executed through final CLI after E4/E5 acceptance"
+}

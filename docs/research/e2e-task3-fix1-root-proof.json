@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "base": "764e3d305f29c8a04ed88bf509a2761e1834e8d1",
+  "head": "c8f95d6a11bb2c078258a34315137d4a0927bdae",
+  "fix_invocations": [
+    {
+      "record": "compile-fixround1.json",
+      "exit": 0
+    },
+    {
+      "record": "control-wire-layouts.json",
+      "exit": 0
+    },
+    {
+      "record": "full-fixround1-candidate.json",
+      "exit": 0
+    },
+    {
+      "record": "full-fixround1-final.json",
+      "exit": 0
+    },
+    {
+      "record": "full-interim-2.json",
+      "exit": 0
+    },
+    {
+      "record": "full-interim.json",
+      "exit": 1
+    },
+    {
+      "record": "green-i1-m1-2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-i1-m1.json",
+      "exit": 1
+    },
+    {
+      "record": "green-i2-i4-i5.json",
+      "exit": 0
+    },
+    {
+      "record": "green-i3-2.json",
+      "exit": 0
+    },
+    {
+      "record": "green-i3-first.json",
+      "exit": 1
+    },
+    {
+      "record": "red-i1-m1.json",
+      "exit": 1
+    },
+    {
+      "record": "red-i2-i4-i5.json",
+      "exit": 1
+    },
+    {
+      "record": "red-i3.json",
+      "exit": 1
+    },
+    {
+      "record": "resume-expired-integration.json",
+      "exit": 0
+    },
+    {
+      "record": "ridge-both-layouts.json",
+      "exit": 0
+    },
+    {
+      "record": "source-digests-fixround1.json",
+      "exit": 0
+    }
+  ],
+  "nonzero": 6,
+  "original_evidence_files_preserved": 120,
+  "old_paths_preserved": 78,
+  "report_mirror_equal": true,
+  "tests_rerun": false
+}
