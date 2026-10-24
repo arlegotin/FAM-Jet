@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-24T13:02:24.103081+00:00",
+  "status": "ACCEPTED_SOURCE_ONLY",
+  "base": "ed47d5cc577e24060686a3fae1ff03bfb2b4059e",
+  "reviewed_head": "d15112433a6f09ae652c3696de6a661eb5ec8f04",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "fixed_findings": 3,
+  "fix_rounds": 2,
+  "latest_covering_tests": "23 passed in 0.78s",
+  "pytest_help_invocations_retained": 22,
+  "additional_recovered_checks": 2,
+  "custody": "39Gitpaths/33evidencefiles/78009B/73protected/B88/allbyteverified",
+  "production_original768": "BLOCKED",
+  "scientific_results": "NOT_RUN",
+  "protected": "CLOSED",
+  "review": {
+    "path": "docs/research/task18-reader-adequacy-v1-checks-source-review.md",
+    "bytes": 5574,
+    "sha256": "9f5e4c6444d1eacc57c82200b8fa028daabcb3c05b360c56dce932a0ae3b34dd"
+  },
+  "fix1_review": {
+    "path": "docs/research/task18-reader-adequacy-v1-checks-source-fix1-review.md",
+    "bytes": 3304,
+    "sha256": "b7ccd11c85a5b725fe2e6a678c11bd07af9535601a43daad438944c032a9d7cd"
+  },
+  "fix2_review": {
+    "path": "docs/research/task18-reader-adequacy-v1-checks-source-fix2-review.md",
+    "bytes": 2251,
+    "sha256": "e0c80dc2aeb0ae002181b8101b08612e2b6ac29b279bff47cef36938f1aad876"
+  },
+  "proof": {
+    "path": "docs/research/task18-reader-adequacy-v1-checks-source-root-proof.json",
+    "bytes": 843,
+    "sha256": "7866be7423fe6185c1234f4b1d0f9c310ee08b4c5b4f3e7eafca6dda452960a9"
+  }
+}
