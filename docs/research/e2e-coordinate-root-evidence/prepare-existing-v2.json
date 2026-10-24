@@ -1,0 +1,29 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "famjet.prepare",
+    "--config",
+    "configs/beijing.yaml",
+    "--archive",
+    "data/raw/beijing-uci501.zip",
+    "--out",
+    "configs/manifests/beijing_v2_targets.json"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-24T22:26:48.781167+00:00",
+  "elapsed_seconds": 0.6607693339974503,
+  "timeout_seconds": 180.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-bootstrap-validation-01/prepare-existing-v2.log",
+  "log_sha256": "5ac104ce0a9a0cc112b89ab21723374feddc5f340e76e5f9154857612880ca90",
+  "log_bytes": 112,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": null
+}

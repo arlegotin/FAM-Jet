@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source_head": "11f6af785bfa99e6e9cadbf2b4a6f6afc5c83fdf",
+  "files": [
+    {
+      "path": "entered-main.json",
+      "original_path": "artifacts/e2e-final-validation-02/entered-main.json",
+      "sha256": "6736144ae80fba9d0e65ef89b25e18ed7c2c95099a33d70b8a5077fea94f5a82",
+      "bytes": 1356
+    },
+    {
+      "path": "entered-main.log",
+      "original_path": "artifacts/e2e-final-validation-02/entered-main.log",
+      "sha256": "aa080a439c9761c9d2f92f9634a91a08931dc6d6019ef62b7bc2e259b135c9d9",
+      "bytes": 261
+    },
+    {
+      "path": "prepare-existing-v2.json",
+      "original_path": "artifacts/e2e-bootstrap-validation-01/prepare-existing-v2.json",
+      "sha256": "0921b7b58cc50de8483e499aea49e8538ca190ed69929aba930b04e8dfb42cce",
+      "bytes": 813
+    },
+    {
+      "path": "prepare-existing-v2.log",
+      "original_path": "artifacts/e2e-bootstrap-validation-01/prepare-existing-v2.log",
+      "sha256": "5ac104ce0a9a0cc112b89ab21723374feddc5f340e76e5f9154857612880ca90",
+      "bytes": 112
+    },
+    {
+      "path": "e2e-coordinate-public-preflight.py",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-coordinate-public-preflight.py",
+      "sha256": "e43bc3d68391656f9ab3ed2852b78ef0b53c9a2e8742fffe71d46923c44b8172",
+      "bytes": 16086
+    },
+    {
+      "path": "e2e-coordinate-public-preflight.md",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/e2e-coordinate-public-preflight.md",
+      "sha256": "0ea5ba1f3306a88b5626c6b667b774cee33294009c2cc728fdcd91b7238fbaba",
+      "bytes": 3337
+    }
+  ],
+  "preflight_status": "script_only_HOLD_not_executed"
+}

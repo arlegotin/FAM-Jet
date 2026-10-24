@@ -1,0 +1,42 @@
+{
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_cli.py",
+    "tests/test_poc_coordinate_diagnostic.py",
+    "tests/test_poc_data.py",
+    "tests/test_poc_e3_cache.py",
+    "tests/test_poc_e3_comparators.py",
+    "tests/test_poc_e3_stream.py",
+    "tests/test_poc_e3_study.py",
+    "tests/test_poc_e3_timing.py",
+    "tests/test_poc_e3_wire.py",
+    "tests/test_poc_models.py",
+    "tests/test_poc_pipeline.py",
+    "tests/test_poc_plots.py",
+    "tests/test_poc_protected.py",
+    "tests/test_poc_report.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report_scientific.py",
+    "tests/test_poc_resources.py",
+    "tests/test_poc_transfer.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-24T22:48:55.767175+00:00",
+  "elapsed_seconds": 58.66792545799399,
+  "timeout_seconds": 600.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-final-validation-02/entered-main.log",
+  "log_sha256": "aa080a439c9761c9d2f92f9634a91a08931dc6d6019ef62b7bc2e259b135c9d9",
+  "log_bytes": 261,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": "/private/tmp/famjet-report-20261024-01/bin/python"
+}

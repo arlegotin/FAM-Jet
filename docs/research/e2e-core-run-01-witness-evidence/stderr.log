@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 20, in main
+    result = run(arguments.out, resume=arguments.resume)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 585, in run
+    developed16 = ledger.stage('development_k16', {'manifest_sha256': manifest['manifest_sha256'],
+                                      'allocation': allocation}, develop, resume=resume,
+                               retryable=True, monitor=True)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 136, in stage
+    result = action(directory)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 578, in develop
+    journal = run_development(manifest, directory / 'study', allocation)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/study.py", line 1042, in run_development
+    rows, summary, costs = _evaluate(base, dev_factory, policy, base.target_statistics,
+                           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'laguerre', manifest['config']['worker_limits'], out, started, allocation, equivalent=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/study.py", line 543, in _evaluate
+    measured = laguerre_control(model, ep.events, ep.queries)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/comparators.py", line 131, in laguerre_control
+    raise ArithmeticError('Laguerre FP64 state/prediction parity exceeded original tolerance')
+ArithmeticError: Laguerre FP64 state/prediction parity exceeded original tolerance

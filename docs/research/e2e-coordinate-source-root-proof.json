@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "base": "7547deac07b13f8f90aecbb1db3c7279e59f5692",
+  "head": "254424b0f91f7517af503ca04ae9a49f5bc8a00f",
+  "old_paths_preserved": 26475,
+  "unexpected_old_changes": [],
+  "raw_invocations": [
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/compile-final-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/compile-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/diff-check-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-03.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-04.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-final-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/green-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-03.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-04.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-05.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-06.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/red-07.json",
+      "exit_code": 1
+    },
+    {
+      "file": "docs/research/e2e-coordinate-source-evidence/verification-final.json",
+      "exit_code": 0
+    }
+  ],
+  "raw_mismatches": [],
+  "run01_files_preserved": 1245,
+  "run01_bytes_preserved": 348930903,
+  "run01_mismatches": [],
+  "report_mirror_equal": true,
+  "preflight_tracked_python_files": 1507,
+  "missing_python_files": [],
+  "tests_rerun": false
+}
