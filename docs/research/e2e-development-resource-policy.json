@@ -2,7 +2,7 @@
   "schema": 1,
   "phase": "development",
   "allocation_policy_id": "e2e-measured-development-v1",
-  "expected_e3_source_sha256": "e02e4750995cf7614be45c46a839b7ce1717e0e4a88e60eef5012946f93f8608",
+  "expected_e3_source_sha256": "bbd4772c341de2b1b25d63dae195b3a2a3f2456dbe3f79af76ed31726dada39e",
   "study_config_path": "docs/research/e2e-study-config.json",
   "probe_ref": {
     "path": "docs/research/e2e-study-probe-01-evidence/e2e-study-probe-01/probe.json",
@@ -28,5 +28,8 @@
   "resource_only_extra_fits": 4,
   "resource_only_extra_training_histories": 96,
   "selection_uses_extra_fits": false,
-  "unknowns": "unmeasured ridge/grid variability, baseline costs, scoring/row volume and runtime scaling; guarded, not completion promise"
+  "unknowns": "unmeasured ridge/grid variability, baseline costs, scoring/row volume and runtime scaling; guarded, not completion promise",
+  "probe_ref_status": "historical_pre_worker_fix; requires fresh matching actual CLI probe",
+  "source_compatibility_ref": "docs/research/e2e-task3-worker-acceptance.json",
+  "budget_status": "unchanged conservative guard derived from unchanged fitting/cache/data/timing code; corrected-worker startup measured by fresh probe"
 }

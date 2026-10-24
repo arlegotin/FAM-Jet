@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "source_accepted",
+  "source_head": "66f426e8486f4a6d59c35adefb70d1fd221e95ec",
+  "previous_e3_source_sha256": "e02e4750995cf7614be45c46a839b7ce1717e0e4a88e60eef5012946f93f8608",
+  "e3_source_sha256": "bbd4772c341de2b1b25d63dae195b3a2a3f2456dbe3f79af76ed31726dada39e",
+  "e1_source_sha256": "f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475",
+  "change": "trusted static NumPy unique dependency initialized before request/strict I/O guard",
+  "unchanged_modules": {
+    "cache.py": "421fdd1da1ab57322d83c73bdf9f5892acb0f3ca9e500ff0127d968c4e518423",
+    "wire.py": "8d2fe4b437e0bf13ffbed05f4f6a2b575470f62468967be700d58d695c1bc10b",
+    "comparators.py": "0b903cfcbf770286645a591ad440e5f962d6d827b55688a3a79c982ccf38b60a",
+    "study.py": "c72aec164b7028dffa8dec40fa8844171f43f46bedc39aa45b12a81280997a28",
+    "timing.py": "0b01f45ab5fb52d7ae9dd186133307e226bff807194ea563d27802dc0561fe7e"
+  },
+  "review": "SPEC YES; QUALITY APPROVED",
+  "fresh_corrected_source_readiness": "pending_actual_CLI_probe",
+  "paused_e4_files_verified_unchanged": 142,
+  "previous_fitting_timing": "retained historical resource evidence; fitting/math/cache/data/timing code unchanged, no numeric result reuse",
+  "no_scientific_outcomes": true
+}

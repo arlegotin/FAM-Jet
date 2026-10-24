@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "base": "0862f5f89b2d784a1eb32a45546eae0134a9f4f3",
+  "head": "66f426e8486f4a6d59c35adefb70d1fd221e95ec",
+  "raw_invocations": [
+    {
+      "record": "compile-workerfix.json",
+      "exit": 0
+    },
+    {
+      "record": "green-latest-lru-guard.json",
+      "exit": 0
+    },
+    {
+      "record": "red-latest-lru-guard.json",
+      "exit": 1
+    },
+    {
+      "record": "source-digests-workerfix.json",
+      "exit": 0
+    },
+    {
+      "record": "wire-covering-final.json",
+      "exit": 0
+    }
+  ],
+  "paused_e4_files_unchanged": 142,
+  "old_paths_preserved": 78,
+  "unchanged_e3_fit_cache_data_timing_wire_modules": 5,
+  "report_mirror_equal": true,
+  "tests_rerun": false
+}
