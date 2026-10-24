@@ -249,8 +249,8 @@ def attach_training_cache(model, cache, limits) -> CachedTrainingModel:
         raise ValueError('fresh base RidgeMemoryModel and cache required')
     if cache.source_sha256 != source_sha256() or cache.e3_sha256 != e3_source_sha256():
         raise ValueError('training cache source identity mismatch')
-    if type(limits) is not dict or set(limits) != {'lru_bytes'} or type(limits['lru_bytes']) is not int or limits['lru_bytes'] <= 0 or limits['lru_bytes'] > cache.lru_bytes:
-        raise ValueError('invalid training LRU admission')
+    if type(limits) is not dict or set(limits) != {'lru_bytes'} or type(limits['lru_bytes']) is not int or limits['lru_bytes'] != cache.lru_bytes:
+        raise ValueError('training LRU ceiling must equal shared cache ceiling')
     attached = CachedTrainingModel(model.shape, model.spec, model.t_ref, model.target_statistics)
     attached._cache = cache
     attached._cache_identity = canonical_hash({'e1_source': source_sha256(), 'e3_source': e3_source_sha256(),

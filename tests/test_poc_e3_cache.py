@@ -70,3 +70,25 @@ def test_cached_fit_matches_direct_and_rejects_stale_reader_key(tmp_path):
     with pytest.raises(ValueError, match='source'):
         attach_training_cache(build_model(spec.shape, _reader(), meta['t_ref'], meta['target_statistics']),
                               cache, {'lru_bytes': 16_000_000})
+
+
+def test_reused_cache_rejects_changed_spec_and_lower_ceiling(tmp_path):
+    from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+    from famjet_poc.study import _cache_for
+
+    spec = _population('training')
+    inventory = [{'history_id': 'unit-cache-spec-0', 'spec': spec.to_json()}]
+    cache = prepare_episode_cache([spec], inventory, tmp_path / 'cache',
+                                  {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000})
+    changed = dataclasses.replace(spec, seed=spec.seed + 1)
+    changed_inventory = [{'history_id': 'unit-cache-spec-0', 'spec': changed.to_json()}]
+    with pytest.raises(ValueError, match='spec|inventory'):
+        _cache_for([changed.to_json()], changed_inventory, tmp_path / 'cache',
+                   {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000})
+    with pytest.raises((MemoryError, ValueError), match='ceiling|limit|admission'):
+        _cache_for([spec.to_json()], inventory, tmp_path / 'cache',
+                   {'disk_bytes': cache.disk_bytes - 1, 'lru_bytes': 1_000_000})
+    meta = fit_training_metadata(episode_factory(cache, ['unit-cache-spec-0']))
+    with pytest.raises(ValueError, match='LRU|ceiling|limit'):
+        attach_training_cache(build_model(spec.shape, _reader(), meta['t_ref'], meta['target_statistics']), cache,
+                              {'lru_bytes': cache.lru_bytes - 1})

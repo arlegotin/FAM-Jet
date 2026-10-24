@@ -42,9 +42,88 @@ def test_wire_rejects_unknown_fields_and_oversized_tensors_before_allocating():
     body['pairs'][0]['snapshot']['payload']['values']['shape'] = [2**60]
     from famjet.provenance import canonical_hash
     body['request_id'] = canonical_hash({'statics': body['statics'], 'pairs': body['pairs'],
-                                         'expected_ids': body['expected_ids']})
+                                         'expected_ids': body['expected_ids'], 'limits': body['limits']})
     with pytest.raises(ValueError, match='array|tensor|byte'):
         decode_request(json.dumps(body).encode(), _limits())
+
+
+def test_worker_caller_limits_cover_snapshot_and_query_input_arrays():
+    from famjet_poc.wire import encode_request, export_statics, isolated_read_batch
+
+    method, pair = _pair()
+    limits = {'max_frame_bytes': 8_000_000, 'max_array_bytes': 256, 'max_histories': 64}
+    expected = [{'history_id': pair['queries'].history_ids[0],
+                 'query_ids': pair['queries'].query_ids[0].tolist()}]
+    with pytest.raises(ValueError, match='tensor|array|byte|ceiling'):
+        encode_request(export_statics(method), [pair], expected, limits)
+    with pytest.raises(ValueError, match='tensor|array|byte|ceiling'):
+        isolated_read_batch(export_statics(method), [pair], {'limits': limits, 'timeout_seconds': 30.})
+
+
+def test_worker_preflights_registered_payload_and_byte_valid_layout_before_reconstruction(monkeypatch):
+    import copy
+    from famjet.provenance import canonical_hash
+    from famjet_poc import wire
+
+    method, pair = _pair()
+    expected = [{'history_id': pair['queries'].history_ids[0],
+                 'query_ids': pair['queries'].query_ids[0].tolist()}]
+    base = json.loads(wire.encode_request(wire.export_statics(method), [pair], expected, _limits())[8:])
+    def rehash(body):
+        body['pairs'][0]['snapshot_hash'] = canonical_hash(body['pairs'][0]['snapshot'])
+        identity = {'statics': body['statics'], 'pairs': body['pairs'], 'expected_ids': body['expected_ids']}
+        if 'limits' in body:
+            identity['limits'] = body['limits']
+        body['request_id'] = canonical_hash(identity)
+        return json.dumps(body).encode()
+    monkeypatch.setattr(wire, 'tensor_from_record', lambda *_: (_ for _ in ()).throw(AssertionError('tensor allocated')))
+    monkeypatch.setattr(wire, '_reconstruct', lambda *_: (_ for _ in ()).throw(AssertionError('model reconstructed')))
+    extra = copy.deepcopy(base)
+    extra['pairs'][0]['snapshot']['payload']['labels'] = copy.deepcopy(extra['pairs'][0]['snapshot']['payload']['values'])
+    with pytest.raises(ValueError, match='payload|schema'):
+        wire.decode_request(rehash(extra), _limits())
+    wrong = copy.deepcopy(base)
+    values = wrong['pairs'][0]['snapshot']['payload']['values']
+    values['shape'] = [values['shape'][1], values['shape'][0], values['shape'][2]]
+    assert sorted(values['shape']) == sorted(base['pairs'][0]['snapshot']['payload']['values']['shape'])
+    with pytest.raises(ValueError, match='layout|shape'):
+        wire.decode_request(rehash(wrong), _limits())
+
+
+def test_decoder_enforces_admitted_caller_ceiling_inside_valid_frame():
+    from famjet.provenance import canonical_hash
+    from famjet_poc.wire import decode_request, encode_request, export_statics
+
+    method, pair = _pair()
+    expected = [{'history_id': pair['queries'].history_ids[0],
+                 'query_ids': pair['queries'].query_ids[0].tolist()}]
+    body = json.loads(encode_request(export_statics(method), [pair], expected, _limits())[8:])
+    body['limits']['max_array_bytes'] = 256
+    body['request_id'] = canonical_hash({'statics': body['statics'], 'pairs': body['pairs'],
+                                         'expected_ids': body['expected_ids'], 'limits': body['limits']})
+    with pytest.raises(ValueError, match='tensor|array|byte|ceiling'):
+        decode_request(json.dumps(body).encode(), _limits())
+
+
+def test_registered_control_snapshot_layouts_roundtrip_preflight():
+    from famjet.memory.reservoir import ReservoirMemory
+    from famjet.memory.buckets import TemporalBucketsMemory
+    from famjet_poc.wire import decode_request, encode_request, export_statics
+
+    _, source = _pair()
+    episode = generate_episode(PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 92,
+                                               (128,), ('piecewise_stationary',), 8, 512), 'unit-wire-0')
+    controls = [PackedHistoryMemory(8, 1, 'recent', key_dim=12),
+                PackedHistoryMemory(8, 1, 'latest_lru', key_dim=12),
+                ReservoirMemory(8, 1, 7, key_dim=12),
+                TemporalBucketsMemory(8, 1, key_dim=12, normalization='shared')]
+    expected = [{'history_id': episode.queries.history_ids[0],
+                 'query_ids': episode.queries.query_ids[0].tolist()}]
+    for method in controls:
+        pair = {'snapshot': method.encode(episode.events, mode='terminal'),
+                'queries': source['queries'], 'time_unit': episode.events.time_unit}
+        raw = encode_request(export_statics(method), [pair], expected, _limits())
+        assert decode_request(raw[8:], _limits())['limits'] == _limits()
 
 
 def test_worker_batch_limit_and_read_only_input():
@@ -140,7 +219,8 @@ else:
     assert completed.returncode == 0, completed.stderr.decode()
 
 
-def test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history(tmp_path):
+@pytest.mark.parametrize('family', ['jet', 'bank'])
+def test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history(tmp_path, family):
     from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
     from famjet_poc.contracts import ReaderSpec
     from famjet_poc.models import build_model, fit_reader, fit_training_metadata, load_model, make_fit_manifest, save_model
@@ -153,7 +233,7 @@ def test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history(tmp_pat
                                   tmp_path / 'cache', {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
     factory = episode_factory(cache, ids)
     meta = fit_training_metadata(factory)
-    reader = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+    reader = ReaderSpec('ridge_v1', family, 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
     fitted = attach_training_cache(build_model(spec.shape, reader, meta['t_ref'], meta['target_statistics']),
                                    cache, {'lru_bytes': 8_000_000})
     fit_reader(fitted, factory, make_fit_manifest(fitted, meta), chunk_rows=32)
@@ -207,6 +287,6 @@ def test_wire_rejects_huge_control_capacity_before_constructor_allocation():
     body['statics']['constructor']['policy'] = 'recent'
     body['statics_hash'] = canonical_hash(body['statics'])
     body['request_id'] = canonical_hash({'statics': body['statics'], 'pairs': body['pairs'],
-                                         'expected_ids': body['expected_ids']})
+                                         'expected_ids': body['expected_ids'], 'limits': body['limits']})
     with pytest.raises(ValueError, match='capacity|allocation'):
         decode_request(json.dumps(body).encode(), _limits())

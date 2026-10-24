@@ -40,7 +40,10 @@ def e3_source_sha256():
 
 
 def _limits(limits):
-    if type(limits) is not dict or set(limits) != _LIMIT_FIELDS or any(type(v) is not int or v <= 0 for v in limits.values()) or limits['max_histories'] > 64:
+    if (type(limits) is not dict or set(limits) != _LIMIT_FIELDS or
+            any(type(v) is not int or v <= 0 for v in limits.values()) or
+            limits['max_histories'] > 64 or limits['max_frame_bytes'] > 64_000_000 or
+            limits['max_array_bytes'] > 32_000_000):
         raise ValueError('invalid finite worker limits')
     return limits
 
@@ -88,12 +91,28 @@ def _preflight_arrays(value, limits):
 
 
 def _preflight_statics(statics, limits):
-    if type(statics) is not dict or statics.get('kind') not in {'ridge', 'packed', 'reservoir', 'buckets'}:
+    if (type(statics) is not dict or statics.get('schema_version') != 1 or
+            statics.get('kind') not in {'ridge', 'packed', 'reservoir', 'buckets'} or
+            type(statics.get('writer_hash')) is not str or len(statics['writer_hash']) != 64 or
+            any(ch not in '0123456789abcdef' for ch in statics['writer_hash'])):
         raise ValueError('invalid static kind')
     shape = statics.get('shape')
-    if type(shape) is not dict or (shape.get('key_dim'), shape.get('value_dim')) not in {(12, 1), (16, 8)}:
+    if (type(shape) is not dict or set(shape) != {'key_dim', 'value_dim'} or
+            (shape.get('key_dim'), shape.get('value_dim')) not in {(12, 1), (16, 8)}):
         raise ValueError('unsupported static shape')
     if statics['kind'] == 'ridge':
+        if set(statics) != {'schema_version', 'kind', 'shape', 'reader', 't_ref', 'target_statistics', 'writer_hash', 'arrays'}:
+            raise ValueError('reader static field inventory mismatch')
+        reader = ReaderSpec.from_json(statics['reader'])
+        if type(statics['t_ref']) not in (int, float) or not math.isfinite(statics['t_ref']) or statics['t_ref'] <= 0:
+            raise ValueError('reader reference time schema mismatch')
+        if type(statics['arrays']) is not dict or set(statics['arrays']) != set(_RIDGE_ARRAYS):
+            raise ValueError('reader static array inventory mismatch')
+        expected_arrays = {'coefficients': [33 * reader.query_width], 'feature_mean': [32],
+                           'feature_scale': [32], 'query_mean': [reader.query_width - 1],
+                           'query_scale': [reader.query_width - 1]}
+        for name, expected_shape in expected_arrays.items():
+            _record_layout(statics['arrays'][name], expected_shape, {'float64'}, name)
         stats = statics.get('target_statistics')
         required = {'schema_version', 'target_semantics', 'split', 'variance_ddof', 'pooling',
                     'constant_policy', 'tasks'}
@@ -118,9 +137,21 @@ def _preflight_statics(statics, limits):
                     entry['scale'] <= 0):
                 raise ValueError('reader training statics numeric schema mismatch')
     else:
+        if set(statics) != {'schema_version', 'kind', 'shape', 'constructor', 'writer_hash'}:
+            raise ValueError('control static field inventory mismatch')
         c = statics.get('constructor')
         if type(c) is not dict:
             raise ValueError('control constructor schema mismatch')
+        expected_fields = ({'capacity', 'value_dim', 'policy', 'key_dim', 'value_dtype'} if statics['kind'] == 'packed' else
+                           {'capacity', 'value_dim', 'seed', 'key_dim', 'value_dtype', 'accumulation_dtype'} if statics['kind'] == 'reservoir' else
+                           {'capacity', 'value_dim', 'key_dim', 'value_dtype', 'accumulation_dtype', 'normalization'})
+        if set(c) != expected_fields or c['key_dim'] != shape['key_dim'] or c['value_dim'] != shape['value_dim']:
+            raise ValueError('control constructor field/shape mismatch')
+        if (type(c['value_dtype']) is not str or c['value_dtype'] not in {'float32', 'float64'} or
+                statics['kind'] != 'packed' and (type(c['accumulation_dtype']) is not str or c['accumulation_dtype'] not in {'float32', 'float64'}) or
+                statics['kind'] == 'packed' and c['policy'] not in {'exact', 'recent', 'latest_lru'} or
+                statics['kind'] == 'buckets' and c['normalization'] not in {'shared', 'independent'}):
+            raise ValueError('control constructor precision/policy mismatch')
         capacity = c.get('capacity')
         if statics['kind'] == 'packed' and c.get('policy') == 'exact':
             if capacity is not None:
@@ -128,6 +159,86 @@ def _preflight_statics(statics, limits):
         elif (type(capacity) is not int or capacity <= 0 or
               capacity * (64 + 16 * shape['value_dim']) > limits['max_array_bytes']):
             raise ValueError('control capacity exceeds allocation ceiling')
+
+
+def _record_layout(record, shape, dtypes, name):
+    if (type(record) is not dict or set(record) != {'dtype', 'shape', 'data'} or
+            record.get('shape') != shape or record.get('dtype') not in dtypes):
+        raise ValueError(f'invalid registered tensor layout: {name}')
+
+
+def _preflight_pair(pair, statics, expected):
+    if type(pair) is not dict or set(pair) != {'snapshot', 'snapshot_hash', 'queries', 'time_unit'}:
+        raise ValueError('pair field inventory mismatch')
+    s, q = pair['snapshot'], pair['queries']
+    if (type(s) is not dict or set(s) != {'schema_version', 'parameter_hash', 'payload', 'last_time', 'valid', 'event_offset'} or
+            s['schema_version'] != 1 or s['parameter_hash'] != statics['writer_hash'] or
+            type(s['payload']) is not dict or pair['snapshot_hash'] != canonical_hash(s) or
+            type(pair['time_unit']) is not str or not pair['time_unit']):
+        raise ValueError('snapshot schema/writer/hash mismatch before reconstruction')
+    c = statics.get('constructor', {})
+    k, v = statics['shape']['key_dim'], statics['shape']['value_dim']
+    kind = statics['kind']
+    payload = {'history_hash': ([1, 32], {'uint8'}), 'time_unit_hash': ([32], {'uint8'})}
+    if kind == 'ridge':
+        width = 4 if statics['reader']['family'] == 'jet' else 8
+        for name in ('z', 'h') if statics['reader']['family'] == 'jet' else ('z',):
+            payload[name] = ([1, 1, width, k, v + 1], {'float64'})
+        payload['last_event_id'] = ([1], {'int64'})
+    else:
+        capacity = c['capacity'] if c['capacity'] is not None else s['payload'].get('occupied', {}).get('shape', [None, None])[1]
+        if type(capacity) is not int or capacity < 0:
+            raise ValueError('invalid packed snapshot capacity')
+        slot = [1, capacity]
+        payload.update({name: (slot, {'uint64'}) for name in ('key_ids', 'event_ids', 'time_words')})
+        payload.update({name: (slot, {'bool'}) for name in ('time_is_tick', 'occupied')})
+        payload['values'] = ([1, capacity, v], {c.get('accumulation_dtype', c['value_dtype']) if kind == 'buckets' else c['value_dtype']})
+        obs_width = 1 if kind == 'buckets' and c['normalization'] == 'shared' else v
+        payload['observed'] = ([1, capacity, obs_width], {'bool'})
+        payload.update({name: ([1, 1], {'int64'}) for name in ('size', 'seen', 'discarded')})
+        payload.update({'last_time_word': ([1, 1], {'uint64'}), 'last_time_is_tick': ([1, 1], {'bool'}),
+                        'last_valid': ([1, 1], {'bool'}), 'last_event_id': ([1, 1], {'uint64'})})
+        if kind == 'packed':
+            if c['policy'] == 'latest_lru':
+                payload['recency'] = (slot, {'int64'})
+            if c['policy'] == 'recent':
+                payload['cursor'] = ([1, 1], {'int64'})
+        elif kind == 'reservoir':
+            payload.update({'total_writes': ([1, 1], {'int64'}), 'rng_counter': ([1, 1], {'uint64'}),
+                            'seed': ([1, 1], {'uint64'}), 'algorithm_version': ([1, 1], {'int64'}),
+                            'write_ordinals': (slot, {'int64'})})
+        else:
+            payload.update({'end_time_words': (slot, {'uint64'}), 'end_time_is_tick': (slot, {'bool'}),
+                            'counts': ([1, capacity, obs_width], {'int64'}), 'recency': (slot, {'int64'}),
+                            'sum_failed': ([1, capacity, v], {'bool'}),
+                            'total_writes': ([1, 1], {'int64'}), 'merges': ([1, 1], {'int64'}),
+                            'evicted_keys': ([1, 1], {'int64'}), 'algorithm_version': ([1, 1], {'int64'})})
+            if c['normalization'] == 'independent':
+                payload['event_counts'] = (slot, {'int64'})
+    if set(s['payload']) != set(payload):
+        raise ValueError('registered snapshot payload inventory mismatch')
+    for name, (shape, dtypes) in payload.items():
+        _record_layout(s['payload'][name], shape, dtypes, name)
+    for name, dtypes in (('last_time', {'int64', 'float64'}), ('valid', {'bool'}), ('event_offset', {'int64'})):
+        _record_layout(s[name], [1], dtypes, name)
+    if (type(q) is not dict or set(q) != {'history_ids', 'tasks', *_QUERY_TENSORS} or
+            q['history_ids'] != [expected['history_id']] or type(q['tasks']) is not list or len(q['tasks']) != 1):
+        raise ValueError('registered query field/identity schema mismatch')
+    qshape = q['query_ids'].get('shape') if type(q['query_ids']) is dict else None
+    if type(qshape) is not list or len(qshape) != 2 or qshape[0] != 1 or type(qshape[1]) is not int or qshape[1] <= 0:
+        raise ValueError('registered query shape mismatch')
+    count = qshape[1]
+    if (type(q['tasks'][0]) is not list or len(q['tasks'][0]) != count or
+            any(type(task) is not str or not task for task in q['tasks'][0]) or
+            len(expected['query_ids']) > count):
+        raise ValueError('registered query task/ID inventory mismatch')
+    layouts = {'query_ids': ([1, count], {'int64'}), 'T': ([1, count], {'int64', 'float64'}),
+               'key_ids': ([1, count], {'int64', 'uint64'}),
+               'key_features': ([1, count, k], {'float32', 'float64'}),
+               'age_start': ([1, count], {'float64'}), 'age_end': ([1, count], {'float64'}),
+               'present': ([1, count], {'bool'}), 'lengths': ([1], {'int64'})}
+    for name, (shape, dtypes) in layouts.items():
+        _record_layout(q[name], shape, dtypes, name)
 
 
 def _exact_attributes(model, names):
@@ -231,7 +342,6 @@ def encode_request(statics, pairs, expected_ids, limits):
     limits = _limits(limits)
     _preflight_statics(statics, limits)
     _preflight_arrays(statics, limits)
-    _reconstruct(statics)
     if type(pairs) is not list or not pairs or len(pairs) > limits['max_histories'] or len(pairs) > 64:
         raise ValueError('worker supports 1..64 histories')
     if type(expected_ids) is not list or len(expected_ids) != len(pairs):
@@ -256,28 +366,40 @@ def encode_request(statics, pairs, expected_ids, limits):
                         'queries': _query_record(query), 'time_unit': pair['time_unit']})
     body = {'schema_version': 1, 'e1_source': source_sha256(), 'e3_source': e3_source_sha256(),
             'statics': statics, 'statics_hash': canonical_hash(statics), 'writer_hash': statics['writer_hash'],
-            'request_id': canonical_hash({'statics': statics, 'pairs': encoded, 'expected_ids': expected_ids}),
+            'limits': limits,
+            'request_id': canonical_hash({'statics': statics, 'pairs': encoded, 'expected_ids': expected_ids,
+                                          'limits': limits}),
             'expected_ids': expected_ids, 'pairs': encoded}
+    _preflight_arrays(body, limits)
+    for pair, expected in zip(encoded, expected_ids):
+        _preflight_pair(pair, statics, expected)
     raw = canonical_json(body)
     if len(raw) > limits['max_frame_bytes']:
         raise ValueError('frame byte ceiling exceeded')
+    _reconstruct(statics)
     return struct.pack('>Q', len(raw)) + raw
 
 
 def decode_request(raw, limits):
-    limits = _limits(limits)
-    if len(raw) > limits['max_frame_bytes']:
+    maximum = _limits(limits)
+    if len(raw) > maximum['max_frame_bytes']:
         raise ValueError('frame byte ceiling exceeded')
     body = json.loads(raw)
     required = {'schema_version', 'e1_source', 'e3_source', 'statics', 'statics_hash', 'writer_hash',
-                'request_id', 'expected_ids', 'pairs'}
+                'request_id', 'expected_ids', 'pairs', 'limits'}
     if type(body) is not dict or set(body) != required or body['schema_version'] != 1:
         raise ValueError('request field/schema mismatch')
+    limits = _limits(body['limits'])
+    if any(limits[key] > maximum[key] for key in _LIMIT_FIELDS) or len(raw) > limits['max_frame_bytes']:
+        raise ValueError('request exceeds admitted caller/worker limits')
     if (body['e1_source'] != source_sha256() or body['e3_source'] != e3_source_sha256() or
             body['statics_hash'] != canonical_hash(body['statics']) or body['writer_hash'] != body['statics'].get('writer_hash') or
-            body['request_id'] != canonical_hash({'statics': body['statics'], 'pairs': body['pairs'], 'expected_ids': body['expected_ids']})):
+            body['request_id'] != canonical_hash({'statics': body['statics'], 'pairs': body['pairs'],
+                                                  'expected_ids': body['expected_ids'], 'limits': limits})):
         raise ValueError('request source/hash mismatch')
-    if type(body['pairs']) is not list or not 0 < len(body['pairs']) <= min(64, limits['max_histories']) or len(body['expected_ids']) != len(body['pairs']):
+    if (type(body['pairs']) is not list or type(body['expected_ids']) is not list or
+            not 0 < len(body['pairs']) <= min(64, limits['max_histories']) or
+            len(body['expected_ids']) != len(body['pairs'])):
         raise ValueError('worker history count exceeds 64')
     _preflight_statics(body['statics'], limits)
     seen = set()
@@ -290,13 +412,9 @@ def decode_request(raw, limits):
                 len(set(expected['query_ids'])) != len(expected['query_ids'])):
             raise ValueError('expected history/query ID schema mismatch')
         seen.add(expected['history_id'])
-    for pair in body['pairs']:
-        if type(pair) is not dict or set(pair) != {'snapshot', 'snapshot_hash', 'queries', 'time_unit'}:
-            raise ValueError('pair field inventory mismatch')
-        s, q = pair['snapshot'], pair['queries']
-        if type(s) is not dict or set(s) != {'schema_version', 'parameter_hash', 'payload', 'last_time', 'valid', 'event_offset'} or type(s['payload']) is not dict or type(q) is not dict or set(q) != {'history_ids', 'tasks', *_QUERY_TENSORS}:
-            raise ValueError('snapshot/query field inventory mismatch')
     _preflight_arrays(body, limits)
+    for pair, expected in zip(body['pairs'], body['expected_ids']):
+        _preflight_pair(pair, body['statics'], expected)
     return body
 
 

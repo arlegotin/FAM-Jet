@@ -86,11 +86,21 @@ def test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure():
     from famjet_poc.study import select_candidate
 
     ledger = [{'config_hash': 'a', 'status': 'failed', 'loss': None},
-              {'config_hash': 'b', 'status': 'qualified', 'loss': 0.2, 'static_bytes': 110},
-              {'config_hash': 'c', 'status': 'qualified', 'loss': 0.2 + 5e-13, 'static_bytes': 100},
-              {'config_hash': 'd', 'status': 'qualified', 'loss': 0.3, 'static_bytes': 50}]
+              {'config_hash': 'b', 'status': 'qualified', 'loss': 0.2, 'active_static_bytes': 110},
+              {'config_hash': 'c', 'status': 'qualified', 'loss': 0.2 + 5e-13, 'active_static_bytes': 100},
+              {'config_hash': 'd', 'status': 'qualified', 'loss': 0.3, 'active_static_bytes': 50}]
     assert select_candidate(ledger)['config_hash'] == 'c'
     assert ledger[0]['status'] == 'failed'
+
+
+def test_selection_tied_active_storage_ignores_wire_json_length():
+    from famjet_poc.study import select_candidate
+
+    ledger = [{'config_hash': 'a', 'status': 'qualified', 'loss': .2,
+               'active_static_bytes': 512, 'wire_static_bytes': 900},
+              {'config_hash': 'b', 'status': 'qualified', 'loss': .2 + 5e-13,
+               'active_static_bytes': 512, 'wire_static_bytes': 800}]
+    assert select_candidate(ledger)['config_hash'] == 'a'
 
 
 def test_score_results_matches_causal_score_episode_on_valid_tiny_case():
@@ -182,6 +192,66 @@ def test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast(tm
     assert result['forecast']['development_event_steps'] >= 36 * 128
 
 
+def test_probe_existing_output_rejects_different_manifest_before_generation(tmp_path, monkeypatch):
+    import json
+    from famjet_poc import study
+
+    manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                     'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                     'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                     'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                       'max_array_bytes': 4_000_000, 'max_histories': 64}})
+    (tmp_path / 'probe.json').write_text(json.dumps({'phase': 'probe', 'manifest_sha256': '0' * 64}))
+    monkeypatch.setattr(study, '_cache_for', lambda *a, **k: (_ for _ in ()).throw(AssertionError('cache touched')))
+    allocation = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                  'allocation_id': 'unit-probe-bind', 'max_wall_seconds': 60.,
+                  'max_disk_bytes': 8_000_000, 'max_rss_bytes': 2_000_000_000}
+    with pytest.raises(ValueError, match='manifest|probe'):
+        study.probe_feasibility(manifest, tmp_path, allocation)
+
+
+def test_resume_allocation_clock_charges_previous_wall_time(monkeypatch):
+    from famjet_poc import study
+
+    monkeypatch.setattr(study.time, 'time', lambda: 103.)
+    monkeypatch.setattr(study.time, 'monotonic', lambda: 1000.)
+    monkeypatch.setattr(study, '_rss_bytes', lambda: 1)
+    started = study._resume_allocation_started({'allocation_started_epoch_seconds': 100.})
+    allocation = {'max_wall_seconds': 10., 'max_disk_bytes': 1000, 'max_rss_bytes': 1000}
+    assert study._admit(started, allocation)['remaining_wall_seconds'] == pytest.approx(7.)
+    monkeypatch.setattr(study.time, 'monotonic', lambda: 1007.1)
+    with pytest.raises(RuntimeError, match='allocation'):
+        study._admit(started, allocation)
+
+
+def test_development_resume_exhausted_clock_blocks_before_cache_reopen(tmp_path, monkeypatch):
+    import hashlib
+    import json
+    from famjet_poc import study
+
+    manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                     'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                     'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                     'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                       'max_array_bytes': 4_000_000, 'max_histories': 64}})
+    probe = tmp_path / 'probe.json'
+    probe.write_text(json.dumps({'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                                 'status': 'measured', 'feasible': True}))
+    allocation = {'schema_version': 1, 'phase': 'development', 'manifest_sha256': manifest['manifest_sha256'],
+                  'allocation_id': 'unit-resume-expired', 'max_wall_seconds': 10.,
+                  'max_disk_bytes': 8_000_000, 'max_rss_bytes': 2_000_000_000,
+                  'probe_ref': {'path': str(probe), 'sha256': hashlib.sha256(probe.read_bytes()).hexdigest()}}
+    (tmp_path / 'development.json').write_text(json.dumps({
+        'manifest_sha256': manifest['manifest_sha256'], 'allocation': allocation,
+        'allocation_started_epoch_seconds': 100.}))
+    monkeypatch.setattr(study.time, 'time', lambda: 111.)
+    monkeypatch.setattr(study.time, 'monotonic', lambda: 1000.)
+    monkeypatch.setattr(study, '_rss_bytes', lambda: 1)
+    monkeypatch.setattr(study, '_cache_for', lambda *a, **k: (_ for _ in ()).throw(AssertionError('cache reopened')))
+    with pytest.raises(RuntimeError, match='allocation'):
+        study.run_development(manifest, tmp_path, allocation)
+
+
 def test_normalized_score_rows_roundtrip_policy_and_reject_tampering(tmp_path):
     import hashlib
     import json
@@ -232,6 +302,27 @@ def test_resume_audits_terminal_score_aggregate_and_paths(tmp_path):
     journal['controls']['ridge']['rows_ref'] = {**ref, 'path': str(tmp_path.parent / 'rows.json')}
     with pytest.raises(ValueError, match='escapes'):
         _audit_terminal_entries(journal, policy, tmp_path)
+
+
+def test_resume_accepts_bound_primary_and_partial_eligibility_diagnostics(tmp_path):
+    from famjet_poc.study import _audit_terminal_entries, freeze_score_policy, load_score_rows, persist_score_rows, score_results
+
+    original = _episode()
+    invalid = next(j for j, task in enumerate(original.queries.tasks[0]) if task == 'mean')
+    ep = _invalidate(original, [invalid])
+    stats = fit_target_statistics([replace(original, metadata={**original.metadata, 'split': 'training'})])
+    policy = freeze_score_policy([ep])
+    failure = torch.zeros_like(ep.queries.present)
+    result = ReadResult(torch.zeros_like(ep.labels), None, ~failure, failure,
+                        {'prediction_valid': ~failure, 'numeric_supported': ~failure})
+    rows = score_results([ep], [{'result': result, 'trigger': None, 'state_bytes': 10}], stats, policy, 'ridge')
+    assert {r['score_scope'] for r in rows} == {'primary', 'ineligible_diagnostic'}
+    ref = persist_score_rows(rows, tmp_path / 'partial.json')
+    assert load_score_rows(ref) == rows
+    summary = aggregate_scores([r for r in rows if r['score_scope'] == 'primary'])
+    journal = {'candidate_ledger': [], 'prefix_ledger': [],
+               'controls': {'ridge': {'status': 'measured', 'rows_ref': ref, 'score': summary}}}
+    _audit_terminal_entries(journal, policy, tmp_path)
 
 
 def test_public_panel_evaluator_reuses_worker_and_normalized_rows(tmp_path):

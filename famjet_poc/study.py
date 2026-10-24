@@ -218,6 +218,20 @@ def _admit(started, allocation, disk_bytes=0, *, directory=None):
             'remaining_rss_bytes': allocation['max_rss_bytes'] - rss}
 
 
+def _resume_allocation_started(journal):
+    """Rebase a finite allocation clock without granting time on resume."""
+    stamp = journal.get('allocation_started_epoch_seconds')
+    if type(stamp) not in (int, float) or not math.isfinite(stamp) or stamp <= 0:
+        raise ValueError('resumed allocation lacks a durable start time')
+    age = time.time() - stamp
+    if not math.isfinite(age) or age < 0:
+        raise ValueError('allocation wall clock moved before durable start')
+    prior = journal.get('admission', {}).get('elapsed_seconds', 0.)
+    if type(prior) not in (int, float) or not math.isfinite(prior) or prior < 0:
+        raise ValueError('invalid previous allocation admission')
+    return time.monotonic() - max(age, prior)
+
+
 def _regime(ep):
     value = ep.metadata.get('regime')
     if value is None and ep.metadata.get('preparation_version') == 'beijing_observed_v2_targets' and ep.metadata.get('normalization') == 'training_standardized':
@@ -279,6 +293,14 @@ def freeze_score_policy(episodes, *, tasks=('mean', 'contrast'), task_weights=No
             'manifest_hash': manifest_hash}
 
 
+def _diagnostic_score_policy(policy):
+    tasks = {task for item in policy['full_inventory'] for task in item['tasks']}
+    return {'version': 2, 'primary_tasks': [], 'support_calibration': None,
+            'expected_inventory': policy['full_inventory'],
+            'task_weights': {task: 1 / len(tasks) for task in tasks},
+            'regime_weights': policy['regime_weights']}
+
+
 def score_results(episodes, results, statistics, policy, method, *, _allow_partial=False) -> list[dict]:
     if type(method) is not str or not method or type(policy) is not dict or not {'full_inventory', 'full_inventory_hash', 'eligible_inventory_hash', 'eligible_counts', 'manifest_hash'} <= set(policy):
         raise ValueError('frozen scoring policy and method required')
@@ -286,11 +308,7 @@ def score_results(episodes, results, statistics, policy, method, *, _allow_parti
         raise ValueError('scoring inventory hash mismatch')
     full_by_h = {item['history_id']: item for item in policy['full_inventory']}
     eligible_by_h = {item['history_id']: item for item in policy['expected_inventory']}
-    diagnostic_policy = {'version': 2, 'primary_tasks': [], 'support_calibration': None,
-                         'expected_inventory': policy['full_inventory'],
-                         'task_weights': {task: 1 / len({t for item in policy['full_inventory'] for t in item['tasks']})
-                                          for task in {t for item in policy['full_inventory'] for t in item['tasks']}},
-                         'regime_weights': policy['regime_weights']}
+    diagnostic_policy = _diagnostic_score_policy(policy)
     rows = []
     seen = set()
     for ep, envelope in itertools.zip_longest(episodes, results, fillvalue=None):
@@ -368,12 +386,12 @@ def score_results(episodes, results, statistics, policy, method, *, _allow_parti
 def select_candidate(ledger):
     qualified = [item for item in ledger if item.get('status') == 'qualified' and
                  type(item.get('loss')) in (int, float) and math.isfinite(item['loss']) and
-                 type(item.get('static_bytes')) is int and item['static_bytes'] > 0]
+                 type(item.get('active_static_bytes')) is int and item['active_static_bytes'] > 0]
     if not qualified:
         raise ValueError('no qualified finite development candidate')
     minimum = min(item['loss'] for item in qualified)
     tied = [item for item in qualified if item['loss'] <= minimum + 1e-12]
-    return min(tied, key=lambda item: (item['static_bytes'], item['config_hash']))
+    return min(tied, key=lambda item: (item['active_static_bytes'], item['config_hash']))
 
 
 def _stream_snapshot(model, ep, *, chunk_size=128, return_audit=False):
@@ -498,6 +516,7 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
         nonlocal batches, worker_seconds, score_seconds
         if not episodes:
             return
+        _admit(started, allocation, directory=out)
         positions = [i for i, item in enumerate(envelopes) if item['trigger'] is None]
         if positions:
             pairs = [{'snapshot': envelopes[i].pop('snapshot'), 'queries': episodes[i].queries,
@@ -518,6 +537,7 @@ def _evaluate(model, factory, policy, statistics, method_name, worker_limits, ou
         episodes.clear(); envelopes.clear(); batches += 1
         _admit(started, allocation, directory=out)
     for ep in factory():
+        _admit(started, allocation, directory=out)
         stream_started = time.perf_counter()
         if equivalent:
             measured = laguerre_control(model, ep.events, ep.queries)
@@ -637,6 +657,7 @@ def _probe_forecast(manifest, probe_training, probe_development, cache_seconds, 
 
 
 def _fit_one(reader, shape, train_cache, train_ids, out, allocation, started, workspace):
+    _admit(started, allocation, directory=workspace)
     factory = episode_factory(train_cache, train_ids)
     meta = fit_training_metadata(factory)
     model = attach_training_cache(build_model(shape, ReaderSpec.from_json(reader), meta['t_ref'],
@@ -657,8 +678,15 @@ def _cache_for(specs, inventory, root, limits):
     if path.exists():
         raw = path.read_bytes()
         cache = load_episode_cache(root, hashlib.sha256(raw).hexdigest())
-        if [e['history_id'] for e in cache.entries] != [e['history_id'] for e in inventory]:
-            raise ValueError('resumed cache inventory mismatch')
+        requested_specs = {canonical_hash(s) for s in specs}
+        requested = [(item['history_id'], canonical_hash(item['spec'])) for item in inventory]
+        saved = [(entry['history_id'], entry['spec_sha256']) for entry in cache.entries]
+        if requested != saved or any(spec_hash not in requested_specs for _, spec_hash in requested):
+            raise ValueError('resumed cache history/spec inventory mismatch')
+        if (type(limits) is not dict or set(limits) != {'disk_bytes', 'lru_bytes'} or
+                type(limits['disk_bytes']) is not int or limits['disk_bytes'] < cache.disk_bytes or
+                type(limits['lru_bytes']) is not int or limits['lru_bytes'] != cache.lru_bytes):
+            raise ValueError('resumed cache ceiling/admission mismatch')
         return cache
     return prepare_episode_cache([PopulationSpec.from_json(s) for s in specs], inventory, root, limits)
 
@@ -669,6 +697,12 @@ def probe_feasibility(manifest, out, allocation) -> dict:
     started = time.monotonic()
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
+    prior_probe = out / 'probe.json'
+    if prior_probe.exists():
+        existing = json.loads(prior_probe.read_bytes())
+        if (existing.get('manifest_sha256') != manifest['manifest_sha256'] or
+                'allocation' in existing and existing['allocation'] != allocation):
+            raise ValueError('probe output directory belongs to a different manifest/allocation')
     record = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
               'allocation': allocation, 'status': 'incomplete'}
     try:
@@ -721,6 +755,12 @@ def _audit_terminal_entries(journal, policy, out):
     """Revalidate persisted model and normalized score evidence before resume skips it."""
     root = Path(out).resolve()
     policy_hash = canonical_hash(policy)
+    diagnostic = _diagnostic_score_policy(policy)
+    diagnostic_hash = canonical_hash(diagnostic)
+    full = {(item['history_id'], task, query_id) for item in policy['full_inventory']
+            for task, query_ids in item['tasks'].items() for query_id in query_ids}
+    eligible = {(item['history_id'], task, query_id) for item in policy['expected_inventory']
+                for task, query_ids in item['tasks'].items() for query_id in query_ids}
     def local_ref(ref):
         path = Path(ref['path']).resolve()
         if not path.is_relative_to(root):
@@ -730,8 +770,21 @@ def _audit_terminal_entries(journal, policy, out):
         ref = entry['rows_ref']
         local_ref(ref)
         rows = load_score_rows(ref)
-        if not rows or any(row['method'] != method or row['policy_hash'] != policy_hash for row in rows):
-            raise ValueError('resumed score row method/policy mismatch')
+        observed = set()
+        for row in rows:
+            identity = (row['history_id'], row['task'], row['query_id'])
+            primary = identity in eligible
+            expected_policy = policy if primary else diagnostic
+            expected_hash = policy_hash if primary else diagnostic_hash
+            if (identity not in full or identity in observed or row['method'] != method or
+                    row['score_scope'] != ('primary' if primary else 'ineligible_diagnostic') or
+                    row['policy_hash'] != expected_hash or row['policy'] != expected_policy or
+                    row['full_inventory_hash'] != policy['full_inventory_hash'] or
+                    row['eligible_inventory_hash'] != policy['eligible_inventory_hash']):
+                raise ValueError('resumed score row method/policy/inventory mismatch')
+            observed.add(identity)
+        if observed != full:
+            raise ValueError('resumed full scoring query inventory mismatch')
         summary = aggregate_scores([row for row in rows if row['score_scope'] == 'primary'])
         if canonical_hash(summary) != canonical_hash(entry['score']):
             raise ValueError('resumed score aggregate mismatch')
@@ -758,7 +811,7 @@ def _audit_terminal_entries(journal, policy, out):
 def run_development(manifest, out, allocation) -> dict:
     shape = _validate_manifest(manifest)
     _allocation(allocation, 'development', manifest)
-    started = time.monotonic()
+    invocation_started = time.monotonic()
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     journal_path = out / 'development.json'
@@ -767,11 +820,16 @@ def run_development(manifest, out, allocation) -> dict:
         journal = json.loads(journal_path.read_bytes())
         if journal.get('manifest_sha256') != manifest['manifest_sha256'] or journal.get('allocation') != allocation:
             raise ValueError('development resume allocation/manifest mismatch')
+        started = _resume_allocation_started(journal)
     else:
+        started = invocation_started
         journal = {'schema_version': 1, 'status': 'incomplete', 'manifest_sha256': manifest['manifest_sha256'],
                    'allocation': allocation, 'candidate_ledger': [], 'prefix_ledger': [], 'controls': {},
-                   'expected_fit_count': manifest['expected_fit_count'], 'completed_fit_count': 0}
+                   'expected_fit_count': manifest['expected_fit_count'], 'completed_fit_count': 0,
+                   'allocation_started_epoch_seconds': time.time(),
+                   'allocation_clock_kind': 'continuous_wall_since_first_development_invocation'}
         _atomic_json(journal_path, journal)
+    _admit(started, allocation, directory=out)
     limits = manifest['config']['cache_limits']
     train_disk_limit = min(limits['disk_bytes'], int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
     if train_disk_limit <= 0:
@@ -857,7 +915,9 @@ def run_development(manifest, out, allocation) -> dict:
                 max_bytes=int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
             row_seconds = time.perf_counter() - row_started
             item.update(status='qualified' if summary['status'] == 'ok' else 'failed',
-                        loss=summary['loss'], score=summary, static_bytes=costs['statics_bytes'],
+                        loss=summary['loss'], score=summary,
+                        active_static_bytes=model.parameter_nbytes(),
+                        wire_static_bytes=costs['statics_bytes'],
                         numeric_parameter_bytes=model.parameter_nbytes(),
                         fit_ref={'path': str(ref.path), 'sha256': ref.sha256},
                         statistics_sha256=canonical_hash(meta['target_statistics']),
@@ -898,8 +958,10 @@ def run_development(manifest, out, allocation) -> dict:
             journal['fit_attempt_count'] = journal.get('fit_attempt_count', 0) + 1
             _atomic_json(journal_path, journal)
             try:
+                fit_started = time.perf_counter()
                 model, meta, fit, ref, cache_stats, admission = _fit_one(winner['reader'], shape, train_cache,
                     train_ids[:prefix], out / 'models' / f'{family}-prefix-{prefix}.json', allocation, started, out)
+                fit_wall = time.perf_counter() - fit_started
                 journal['completed_fit_count'] += 1
             except ArithmeticError as exc:
                 item.update(status='failed', error=f'{type(exc).__name__}: {exc}', failure_stage='numerical_fit')
@@ -914,12 +976,23 @@ def run_development(manifest, out, allocation) -> dict:
             try:
                 rows, summary, costs = _evaluate(model, dev_factory, policy, meta['target_statistics'],
                     f'{family}-prefix-{prefix}', manifest['config']['worker_limits'], out, started, allocation)
+                row_started = time.perf_counter()
                 row_ref = persist_score_rows(rows, out / 'rows' / f'{family}-prefix-{prefix}.json',
                     max_bytes=int(_admit(started, allocation, directory=out)['remaining_disk_bytes']))
+                row_seconds = time.perf_counter() - row_started
                 item.update(status='measured', fit_ref={'path': str(ref.path), 'sha256': ref.sha256},
                             training_data_sha256=meta['data_sha256'], statistics_sha256=canonical_hash(meta['target_statistics']),
                             score=summary, rows_ref=row_ref,
-                            costs=costs, cache_stats=cache_stats, admission=admission)
+                            costs={**costs, 'fit_wall_seconds': fit_wall,
+                                   'row_persistence_seconds': row_seconds,
+                                   'standalone_seconds': fit_wall + costs['evaluation_seconds'] + row_seconds +
+                                       shared['training_cache_seconds'] + shared['development_cache_seconds'] +
+                                       shared['resume_training_cache_open_seconds'] +
+                                       shared['resume_development_cache_open_seconds'],
+                                   'amortized_seconds': fit_wall + costs['evaluation_seconds'] + row_seconds +
+                                       shared['amortized_training_cache_seconds_per_fit'] +
+                                       shared['amortized_development_cache_seconds_per_panel']},
+                            cache_stats=cache_stats, admission=admission)
             except Exception as exc:
                 item.update(status='incomplete', error=f'{type(exc).__name__}: {exc}',
                             failure_stage='evaluation_or_persistence')
