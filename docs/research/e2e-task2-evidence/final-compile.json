@@ -1,0 +1,13 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/inference.py",
+    "tests/test_poc_inference.py"
+  ],
+  "elapsed_seconds": 0.034004834000370465,
+  "exit_code": 0,
+  "log_bytes": 0,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

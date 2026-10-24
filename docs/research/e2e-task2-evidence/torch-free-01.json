@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "import sys; import famjet_poc.inference; print(\"torch_loaded\", \"torch\" in sys.modules)"
+  ],
+  "elapsed_seconds": 0.46712037500037695,
+  "exit_code": 0,
+  "log_bytes": 19,
+  "log_sha256": "09b6fcc73b76fff0888b30c0b82f9aedc4912b0d8059cc9207229d7f3e9c9fd5"
+}

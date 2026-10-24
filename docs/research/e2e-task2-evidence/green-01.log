@@ -1,0 +1,21 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/test_poc_inference.py _________________
+tests/test_poc_inference.py:12: in <module>
+    from famjet_poc import inference as inf
+famjet_poc/inference.py:50: in <module>
+    FIXTURE_HASH = canonical_hash({'laws': LAW_DESCRIPTORS, 'strata': STRATA,
+famjet/provenance.py:41: in canonical_hash
+    return hashlib.sha256(canonical_json(value)).hexdigest()
+                          ^^^^^^^^^^^^^^^^^^^^^
+famjet/provenance.py:35: in canonical_json
+    _check_json(value)
+famjet/provenance.py:28: in _check_json
+    _check_json(item)
+famjet/provenance.py:27: in _check_json
+    raise TypeError('JSON object keys must be strings')
+E   TypeError: JSON object keys must be strings
+=========================== short test summary info ============================
+ERROR tests/test_poc_inference.py - TypeError: JSON object keys must be strings
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.76s

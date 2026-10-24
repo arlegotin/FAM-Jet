@@ -1,0 +1,25 @@
+........F...                                                             [100%]
+=================================== FAILURES ===================================
+___________ test_primary_manifest_requires_fixed_12_cell_allocation ____________
+
+    def test_primary_manifest_requires_fixed_12_cell_allocation():
+        ids = {str(g): [f'{g}-{i}' for i in range(16)] for g in range(12)}
+        manifest = {'units': 'history', 'panel': 'nuisance', 'strata': list(inf.STRATA),
+                    'history_ids_by_stratum': ids, 'weights': [1/12]*12}
+        rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0.,
+                 'bank_loss': float(i), 'units': 'history'}
+                for g in range(12) for i, hid in enumerate(ids[str(g)])]
+        d, g = inf.validate_history_pairs(rows, manifest)
+        assert len(d) == 192 and len(g) == 192
+        with pytest.raises(ValueError):
+            inf.validate_history_pairs(rows[:-1], manifest)
+        with pytest.raises(ValueError):
+            inf.validate_history_pairs(rows, {**manifest, 'panel': 'confirmation'})
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_inference.py:132: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_primary_manifest_requires_fixed_12_cell_allocation
+1 failed, 11 passed in 0.52s

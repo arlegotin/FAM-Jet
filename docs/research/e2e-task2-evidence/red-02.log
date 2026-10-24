@@ -1,0 +1,50 @@
+........FF                                                               [100%]
+=================================== FAILURES ===================================
+___________ test_primary_manifest_requires_fixed_12_cell_allocation ____________
+
+    def test_primary_manifest_requires_fixed_12_cell_allocation():
+        ids = {str(g): [f'{g}-{i}' for i in range(16)] for g in range(12)}
+        manifest = {'units': 'history', 'panel': 'nuisance',
+                    'history_ids_by_stratum': ids, 'weights': [1/12]*12}
+        rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0.,
+                 'bank_loss': float(i), 'units': 'history'}
+                for g in range(12) for i, hid in enumerate(ids[str(g)])]
+        d, g = inf.validate_history_pairs(rows, manifest)
+        assert len(d) == 192 and len(g) == 192
+        with pytest.raises(ValueError):
+            inf.validate_history_pairs(rows[:-1], manifest)
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_inference.py:130: Failed
+__________ test_small_probe_records_forecast_without_calibration_gate __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-153/test_small_probe_records_forec0')
+
+    def test_small_probe_records_forecast_without_calibration_gate(tmp_path):
+        out = tmp_path/'small-probe'
+>       evidence = inf._run(out, deadline_monotonic=math.inf, attempt=0,
+                            role=inf.PROBE, kind='probe', total=1)
+
+tests/test_poc_inference.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+out = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-153/test_small_probe_records_forec0/small-probe')
+deadline_monotonic = inf, attempt = 0
+role = (2026102401900, 'e2e-inference-probe-v1', 128), kind = 'probe', total = 1
+
+    def _run(out, *, deadline_monotonic, attempt, role, kind, total):
+        out = Path(out)
+        out.mkdir(parents=True, exist_ok=False)
+        evidence = _initial_evidence(attempt, role, role[2], kind)
+        _atomic_json(out/'evidence.json', evidence)
+        if type(deadline_monotonic) not in (float, int) or not math.isfinite(deadline_monotonic):
+>           raise ValueError('finite monotonic deadline required')
+E           ValueError: finite monotonic deadline required
+
+famjet_poc/inference.py:361: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_primary_manifest_requires_fixed_12_cell_allocation
+FAILED tests/test_poc_inference.py::test_small_probe_records_forecast_without_calibration_gate
+2 failed, 8 passed in 0.92s

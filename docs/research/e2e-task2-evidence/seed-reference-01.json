@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "import numpy as np; from famjet_poc import inference as i; s=i._counter_seed(i.ATTEMPTS[1][0],i.ATTEMPTS[1][1],1,0,0); print(s); print([float(x) for x in i._draw(1,s,4)])"
+  ],
+  "elapsed_seconds": 0.4782093750000058,
+  "exit_code": 0,
+  "log_bytes": 104,
+  "log_sha256": "35638a75449428831a682dc094b92f54108d923b3d5b52e04721a1c60044da52"
+}

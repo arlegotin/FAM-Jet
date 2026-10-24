@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "from famjet_poc import inference as i; print(i.calibration_boundaries()); print(i._counter_seed(i.ATTEMPTS[1][0],i.ATTEMPTS[1][1],1,0,0)); print(i._draw(1,i._counter_seed(i.ATTEMPTS[1][0],i.ATTEMPTS[1][1],1,0,0),4))"
+  ],
+  "elapsed_seconds": 0.47151733300052,
+  "exit_code": 0,
+  "log_bytes": 326,
+  "log_sha256": "c466549a64aa42cd24c5f3e838a29850720b88914cfcf9080540c581121e0d88"
+}

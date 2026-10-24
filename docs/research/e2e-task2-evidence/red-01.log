@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/test_poc_inference.py _________________
+ImportError while importing test module '/Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_inference.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_poc_inference.py:12: in <module>
+    from famjet_poc import inference as inf
+E   ImportError: cannot import name 'inference' from 'famjet_poc' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__init__.py)
+=========================== short test summary info ============================
+ERROR tests/test_poc_inference.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.84s

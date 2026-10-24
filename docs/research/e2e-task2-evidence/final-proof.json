@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "import hashlib,json,sys; from pathlib import Path; from famjet_poc import inference as i; p=Path(\"docs/research/e2e-task2-evidence/preservation.json\"); d=json.loads(p.read_text()); assert all(hashlib.sha256(Path(k).read_bytes()).hexdigest()==v for k,v in d[\"preserved_sha256\"].items()); assert \"torch\" not in sys.modules; print(len(d[\"preserved_sha256\"]), i.source_identity()[\"sha256\"])"
+  ],
+  "elapsed_seconds": 0.5020627910016628,
+  "exit_code": 0,
+  "log_bytes": 68,
+  "log_sha256": "082a4efede9151717e952234ddfcf24510281ceb17ed866f8da635fbb56f0804"
+}

@@ -1,0 +1,23 @@
+...........F                                                             [100%]
+=================================== FAILURES ===================================
+_________ test_validator_rejects_wrong_per_cell_and_tampered_endpoints _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-155/test_validator_rejects_wrong_p0')
+
+    def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
+        out = tmp_path/'mini'
+        out.mkdir()
+        evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration')
+        inf._atomic_json(out/'evidence.json', evidence)
+        wrong = inf.calibration_batch(1, 0, 2, per_cell=4)
+        inf._store_batch(out, evidence, wrong)
+>       assert inf.validate_calibration(evidence, {'out': out})['status'] == 'fail'
+E       AssertionError: assert 'incomplete' == 'fail'
+E         
+E         - fail
+E         + incomplete
+
+tests/test_poc_inference.py:163: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_validator_rejects_wrong_per_cell_and_tampered_endpoints
+1 failed, 11 passed in 0.51s
