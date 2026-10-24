@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "utc_start": "2026-10-24T18:51:58.507277+00:00",
+  "source_head": "70602b36deea147d4a2d8702d42b98efaa1cff7b",
+  "allocation": {
+    "expected_head": "70602b36deea147d4a2d8702d42b98efaa1cff7b",
+    "argv": [
+      ".venv/bin/python",
+      "-c",
+      "from pathlib import Path\nimport json\nfrom famjet_poc.study import study_manifest,probe_feasibility\nconfig=json.loads(Path(\"docs/research/e2e-study-config.json\").read_bytes())\nm=study_manifest(config)\na={\"schema_version\":1,\"phase\":\"probe\",\"manifest_sha256\":m[\"manifest_sha256\"],\"allocation_id\":\"e2e-study-probe-01\",\"max_wall_seconds\":120,\"max_disk_bytes\":134217728,\"max_rss_bytes\":1610612736}\nPath(\"artifacts/e2e-study-probe-01-prep/study-manifest.json\").write_text(json.dumps(m,indent=2)+\"\\n\")\nPath(\"artifacts/e2e-study-probe-01-prep/phase-allocation.json\").write_text(json.dumps(a,indent=2)+\"\\n\")\nr=probe_feasibility(m,Path(\"artifacts/e2e-study-probe-01\"),a)\nprint(json.dumps({k:r.get(k) for k in (\"status\",\"feasible\",\"elapsed_seconds\",\"forecast\",\"work_forecast\")}))\nraise SystemExit(0 if r.get(\"status\")==\"measured\" and r.get(\"feasible\") is True else 1)\n"
+    ],
+    "out": "artifacts/e2e-study-probe-01",
+    "prep": "artifacts/e2e-study-probe-01-prep",
+    "total_seconds": 180,
+    "finalization_reserve_seconds": 20,
+    "rss_cap_bytes": 1610612736,
+    "output_cap_bytes": 134217728
+  },
+  "allocation_sha256": "25d238d5fa2df0f01d599dcd495bfb81cc042606e45f32f6d91f2e4bfd0cf057",
+  "witness_sha256": "047a80489be5cb149c7c3e7fc38accf286648628970af4e6c6e91bd1c3d7ed65",
+  "start_monotonic": 25339.093693791,
+  "work_deadline": 25499.093693791,
+  "deadline": 25519.093693791,
+  "free_plus_speculative": 8007892992,
+  "free_disk_bytes": 263468118016,
+  "measurement": "sum of current RSS for this wrapper and the owned process group; conservative on shared pages",
+  "status": "returned",
+  "child_pid": 61715,
+  "actual_returncode": 0,
+  "guard_failure": null,
+  "end_monotonic": 25340.663579541,
+  "elapsed_seconds": 1.56988574999923,
+  "utc_end": "2026-10-24T18:52:00.096551+00:00",
+  "source_after": "70602b36deea147d4a2d8702d42b98efaa1cff7b",
+  "samples": [
+    {
+      "monotonic": 25339.095635333,
+      "rss_sum_bytes": 27607040,
+      "owned_pids": [
+        61711,
+        61715
+      ],
+      "output_bytes_last_sample": 1945
+    },
+    {
+      "monotonic": 25339.620692916,
+      "rss_sum_bytes": 238927872,
+      "owned_pids": [
+        61711,
+        61715
+      ],
+      "output_bytes_last_sample": 1945
+    },
+    {
+      "monotonic": 25340.138143875,
+      "rss_sum_bytes": 445677568,
+      "owned_pids": [
+        61711,
+        61715,
+        61726
+      ],
+      "output_bytes_last_sample": 1945
+    }
+  ],
+  "maximum_sampled_rss_sum_bytes": 445677568,
+  "child_lifetime_peak_rss_bytes": 231030784,
+  "output_bytes": 602641
+}

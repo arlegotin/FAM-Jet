@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "purpose": "resource_only_no_method_selection",
+  "e3_source_sha256": "e02e4750995cf7614be45c46a839b7ce1717e0e4a88e60eef5012946f93f8608",
+  "study_config_path": "docs/research/e2e-study-config.json",
+  "training_histories": 96,
+  "inventory": "first96 of balanced768 training manifest;8percell; fixed training root2026102401801",
+  "fits": [
+    {
+      "family": "jet",
+      "query_width": 8,
+      "ridge": 1e-06,
+      "alpha_min": 0.00019142419601837673,
+      "alpha_max": 1.0,
+      "epsilon": 1e-06,
+      "support_floor": 1e-12
+    },
+    {
+      "family": "jet",
+      "query_width": 16,
+      "ridge": 1e-06,
+      "alpha_min": 0.00019142419601837673,
+      "alpha_max": 1.0,
+      "epsilon": 1e-06,
+      "support_floor": 1e-12
+    },
+    {
+      "family": "bank",
+      "query_width": 8,
+      "ridge": 1e-06,
+      "alpha_min": 0.00019142419601837673,
+      "alpha_max": 1.0,
+      "epsilon": 1e-06,
+      "support_floor": 1e-12
+    },
+    {
+      "family": "bank",
+      "query_width": 16,
+      "ridge": 1e-06,
+      "alpha_min": 0.00019142419601837673,
+      "alpha_max": 1.0,
+      "epsilon": 1e-06,
+      "support_floor": 1e-12
+    }
+  ],
+  "max_phase_wall_seconds": 180,
+  "wrapper_total_seconds": 240,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 536870912,
+  "cache_disk_ceiling_bytes": 268435456,
+  "cache_lru_bytes": 67108864,
+  "out": "artifacts/e2e-study-scale-probe-01",
+  "prep": "artifacts/e2e-study-scale-probe-01-prep",
+  "frozen_scientific_settings": "unchanged; resource fits excluded from selection/confirmation; all costs retained"
+}
