@@ -448,3 +448,7 @@ Best selected Bank.1918295624 beats Jet.2804328338 at equal9345B, and Bank leads
 ## 24 October 2026 — reader adequacy first source acceptance
 
 Independent review found unbound original768 feature provenance and zero-query handling; Root additionally caught FP32-before-FP64 initialization. All three were corrected and independently re-reviewed. Nineteen focused tests passed, all15invocations/failures retained. Root verified26delivered Git paths,18evidence files, all53core/15StageA/lock/88historical rows and unchanged first10logs. [Acceptance and proof](docs/research/task18-reader-adequacy-v1-source-acceptance.json). No numerical/tiny-fit or production-training result follows from source acceptance.
+
+## 24 October2026 — actual reader qualification failure
+
+Numerical check02 passed its scoped fixture/equivalence checks; all six4096-update fixture readers failed the fixed1e-4task/key gate. Independent read-only diagnosis identified no wiring defect. Exact oracle reconstruction proves fixture information sufficiency, not optimization success. All198observations/24576updates retained, source unchanged; runtime66.846s/additional sampledRSS382.11MiB within caps. Larger development remains blocked. [Full evidence and limits](docs/research/task18-reader-adequacy-v1-checks-run02-report.md).

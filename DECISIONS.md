@@ -464,3 +464,7 @@ Ruling: binding01 remains FAILED with no Publication or qualification. Preserve 
 ## 24 October 2026 — reader adequacy source and next numerical scope
 
 The first reader source component is accepted after independent review, three corrections and19 focused tests. Production fitting stays blocked until ordered row binding is verified. Next implement only the bounded numerical/tiny-fit runner, keeping its actual campaign separately gated. Numerical-only admission may use2GiB free-plus-speculative memory with1GiB incremental cap and25% reserve; no file cache is counted wholesale. See [dated scope and rationale](docs/amendments/2026-10-24-reader-adequacy-v1-numerical-checks.md).
+
+## 24 October2026 — treat failed fixture learning as a blocker
+
+Keep the strict qualification threshold and all six failures; do not add steps or RAM to hide them. Numerical reconstruction shows the information exists in the fixture states, while full-state readers trained poorly. The independent diagnosis proposes a single no-update gradient audit before another training design. The existing Bank-leading development result remains separate; no family ranking or capacity claim follows from these training diagnostics.

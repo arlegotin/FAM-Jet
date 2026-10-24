@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-24T13:04:21.613356+00:00",
+  "source_head": "c60f37a2fb5543da151133965773d11b58786557",
+  "wrapper_sha256": "05ac47184f961800eedc90454ccecf970c88608acbe35ded1c0cbe9bab849240",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "validation.reader_adequacy_v1.check_run",
+    "--mode",
+    "numerical_then_tiny_fit",
+    "--out",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/task18-reader-adequacy-v1-checks-02"
+  ],
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "start_monotonic": 8542.891392375,
+  "deadline_monotonic": 9742.891392375,
+  "work_deadline_monotonic": 9722.891392375,
+  "finalization_reserve_seconds": 20,
+  "output": "artifacts/task18-reader-adequacy-v1-checks-02",
+  "status": "STARTING",
+  "external_time_cap_seconds": 1200,
+  "scope": "Numerical and known-sufficient tiny fit only; no development/protection",
+  "pid": 31438
+}

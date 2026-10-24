@@ -36,6 +36,8 @@ The first [empty launch check](docs/research/task18-kernel-stage-b-binding01-rep
 
 Task18 now needs a bounded generic-contracted versus full-state reader-adequacy comparison, with comparable parameter/compute budgets and explicit fitting and convergence criteria. The kernel result is an achievable reference from these states, not an optimal decoder. Broader comparator learning curves, learned writers, resource frontiers, calibrated inference and real transfer remain open.
 
+The [reader qualification check](docs/research/task18-reader-adequacy-v1-checks-run02-report.md) completed numerical validation and six tiny training runs. All six missed the fixed accuracy threshold on a fixture whose answers are provably recoverable from both memories. Larger training is blocked while the reader/optimization issue is investigated. This67-second diagnostic used about382MiB additional sampled process memory; RAM was sufficient. Its training errors are not a new Jet/Bank benchmark.
+
 The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [evidence map](docs/research/task18-epsilon1em6-learning-promotion.md) preserve exact provenance. Earlier FP32 results used different scales and state budgets and remain separate. The [clock audit](docs/research/task18-cpu64-clock-accounting.json) distinguishes execution timers from elapsed time during host sleep.
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.

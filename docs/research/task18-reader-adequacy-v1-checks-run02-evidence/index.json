@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "run/progress.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02/progress.json",
+      "bytes": 266821,
+      "sha256": "8e83039960d009447dc27b321cf970eba3469d142aff4abe9f2c05a60ba06e67"
+    },
+    {
+      "path": "run/result.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02/result.json",
+      "bytes": 266821,
+      "sha256": "8e83039960d009447dc27b321cf970eba3469d142aff4abe9f2c05a60ba06e67"
+    },
+    {
+      "path": "run/status.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02/status.json",
+      "bytes": 241306,
+      "sha256": "59c097395bca04b2d839d3f013c0b9ec1f4c52a218e7093a9fa6f4c1b1efa022"
+    },
+    {
+      "path": "preparation/allocation.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02-prep/allocation.json",
+      "bytes": 1039,
+      "sha256": "271f7180347ca89a5b837aada4e9a60ec7a8b77ea831c0cb6aa8859e25218009"
+    },
+    {
+      "path": "preparation/exit-witness.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02-prep/exit-witness.json",
+      "bytes": 1926,
+      "sha256": "de9e74014b1f75849c9395d458f233b63f06bb83f4eb898b992bd7d6c5967e3a"
+    },
+    {
+      "path": "preparation/stderr.log",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02-prep/stderr.log",
+      "bytes": 436,
+      "sha256": "8f1fc9e7fcc442ee470024c2a4ee8c8512ec9efa70f832df0e96238f0d114f4f"
+    },
+    {
+      "path": "preparation/stdout.log",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-02-prep/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "executed-witness.py",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/task-18-reader-adequacy-run02-witness.py",
+      "bytes": 4252,
+      "sha256": "05ac47184f961800eedc90454ccecf970c88608acbe35ded1c0cbe9bab849240"
+    }
+  ],
+  "source_head": "c60f37a2fb5543da151133965773d11b58786557",
+  "originals_immutable": true
+}

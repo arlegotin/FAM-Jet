@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-24T13:50:46.620614+00:00",
+  "scope": "Root raw-byte and recorded-outcome audit, not a rerun",
+  "source_head": "c60f37a2fb5543da151133965773d11b58786557",
+  "raw_files": 8,
+  "raw_bytes": 782601,
+  "originals_byte_equal": true,
+  "runtime_six_module_hashes_equal": true,
+  "closed_arms": 6,
+  "observations": 198,
+  "optimizer_updates_attempted_and_completed": 24576,
+  "numerical_status": "PASS_SCOPED",
+  "tiny_fit_status": "FAIL_ALL_SIX",
+  "outer_actual_exit": 1,
+  "timeout": false,
+  "numerical_scope": "independent fixture references plus terminal-stream/input equivalence on12cells",
+  "development_release": false,
+  "protected": "CLOSED"
+}

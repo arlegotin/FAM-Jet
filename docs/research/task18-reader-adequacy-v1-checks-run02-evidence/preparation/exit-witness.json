@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-24T13:04:21.613356+00:00",
+  "source_head": "c60f37a2fb5543da151133965773d11b58786557",
+  "wrapper_sha256": "05ac47184f961800eedc90454ccecf970c88608acbe35ded1c0cbe9bab849240",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "validation.reader_adequacy_v1.check_run",
+    "--mode",
+    "numerical_then_tiny_fit",
+    "--out",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/task18-reader-adequacy-v1-checks-02"
+  ],
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "start_monotonic": 8542.891392375,
+  "deadline_monotonic": 9742.891392375,
+  "work_deadline_monotonic": 9722.891392375,
+  "finalization_reserve_seconds": 20,
+  "output": "artifacts/task18-reader-adequacy-v1-checks-02",
+  "status": "FAILED_RETURN",
+  "external_time_cap_seconds": 1200,
+  "scope": "Numerical and known-sufficient tiny fit only; no development/protection",
+  "pid": 31438,
+  "actual_returncode": 1,
+  "timed_out": false,
+  "end_monotonic": 8609.737547,
+  "elapsed_seconds": 66.84614725000029,
+  "git_head_after": "c60f37a2fb5543da151133965773d11b58786557",
+  "output_bytes_before_exit_witness": 776423,
+  "child_json_after_return": [
+    {
+      "path": "artifacts/task18-reader-adequacy-v1-checks-02/progress.json",
+      "bytes": 266821,
+      "sha256": "8e83039960d009447dc27b321cf970eba3469d142aff4abe9f2c05a60ba06e67"
+    },
+    {
+      "path": "artifacts/task18-reader-adequacy-v1-checks-02/result.json",
+      "bytes": 266821,
+      "sha256": "8e83039960d009447dc27b321cf970eba3469d142aff4abe9f2c05a60ba06e67"
+    },
+    {
+      "path": "artifacts/task18-reader-adequacy-v1-checks-02/status.json",
+      "bytes": 241306,
+      "sha256": "59c097395bca04b2d839d3f013c0b9ec1f4c52a218e7093a9fa6f4c1b1efa022"
+    }
+  ],
+  "interrupted_work_note": null
+}
