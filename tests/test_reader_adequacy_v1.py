@@ -37,6 +37,19 @@ def test_primary_ledger_matches_real_module(family, access, width, d, params, ma
     assert all(p.dtype == torch.float64 and p.device.type == 'cpu' for p in reader.parameters())
 
 
+def test_initialization_matches_direct_fp64_linear_construction():
+    spec = ReaderSpec('jet', 'C', 128)
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(20261024)
+        actual = PrimaryReader(spec)
+        torch.manual_seed(20261024)
+        expected = torch.nn.Sequential(
+            torch.nn.Linear(92, 128, device='cpu', dtype=torch.float64), torch.nn.SiLU(),
+            torch.nn.Linear(128, 128, device='cpu', dtype=torch.float64), torch.nn.SiLU(),
+            torch.nn.Linear(128, 8, device='cpu', dtype=torch.float64))
+    assert all(torch.equal(actual.network.state_dict()[k], v) for k, v in expected.state_dict().items())
+
+
 def test_spec_rejects_unsupported_arms():
     for fields in [('jet', 'F', 128), ('bank', 'C', 256), ('other', 'C', 128)]:
         with pytest.raises(ValueError): ReaderSpec(*fields)

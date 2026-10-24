@@ -86,9 +86,9 @@ class PrimaryReader(nn.Module):
         _require(type(spec) is ReaderSpec, 'closed ReaderSpec required')
         self.spec = spec
         self.source = pinned_source(spec.family)[1]
-        self.network = nn.Sequential(nn.Linear(spec.input_dim, spec.width), nn.SiLU(),
-                                     nn.Linear(spec.width, spec.width), nn.SiLU(),
-                                     nn.Linear(spec.width, 8)).to(dtype=torch.float64, device='cpu')
+        self.network = nn.Sequential(nn.Linear(spec.input_dim, spec.width, device='cpu', dtype=torch.float64), nn.SiLU(),
+                                     nn.Linear(spec.width, spec.width, device='cpu', dtype=torch.float64), nn.SiLU(),
+                                     nn.Linear(spec.width, 8, device='cpu', dtype=torch.float64))
         _, _, stats = pinned_source(spec.family)
         self.register_buffer('feature_mean', torch.zeros(spec.input_dim, dtype=torch.float64))
         self.register_buffer('feature_scale', torch.ones(spec.input_dim, dtype=torch.float64))
