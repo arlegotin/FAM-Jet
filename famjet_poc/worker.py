@@ -12,6 +12,7 @@ os.environ['VECLIB_MAXIMUM_THREADS'] = '1'
 os.environ['NUMEXPR_NUM_THREADS'] = '1'
 
 import torch
+import numpy as np
 
 from famjet.data.schema import validate_queries
 from famjet.eval.state_io import snapshot_from_record, snapshot_hash, tensor_record
@@ -21,6 +22,12 @@ from .models import RidgeMemoryModel
 from .wire import _query_from_record, _query_record, _reconstruct, decode_request, export_statics
 
 _DEFAULT_LIMITS = {'max_frame_bytes': 64_000_000, 'max_array_bytes': 32_000_000, 'max_histories': 64}
+
+
+def _prewarm_static_dependencies():
+    """Resolve NumPy's lazy set-operation import before the read I/O guard."""
+    if len(np.unique(np.array([0, 1, 1], dtype=np.uint64))) != 2:
+        raise RuntimeError('NumPy static set-operation initialization failed')
 
 
 def _install_guard():
@@ -89,6 +96,8 @@ def _read(body):
 
 def worker_main():
     try:
+        # This uses only a fixed public dummy: no request histories or queries.
+        _prewarm_static_dependencies()
         prefix = sys.stdin.buffer.read(8)
         if len(prefix) != 8:
             raise ValueError('missing request frame')

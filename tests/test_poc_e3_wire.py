@@ -151,8 +151,11 @@ def test_export_rejects_hidden_history_attribute():
 
 
 def test_worker_audit_guard_forbids_disk_and_network_after_imports():
-    script = """from famjet_poc.worker import _install_guard
+    script = """from famjet_poc.worker import _install_guard, _prewarm_static_dependencies
+_prewarm_static_dependencies()
 _install_guard()
+import numpy as np
+assert np.unique(np.array([1, 1], dtype=np.uint64)).tolist() == [1]
 for operation in (lambda: open('/tmp/no-such-file', 'rb'), lambda: __import__('socket').socket()):
     try:
         operation()
@@ -164,6 +167,35 @@ for operation in (lambda: open('/tmp/no-such-file', 'rb'), lambda: __import__('s
     completed = subprocess.run([sys.executable, '-c', script], capture_output=True, text=True,
                                env={**os.environ, 'OMP_NUM_THREADS': '1'})
     assert completed.returncode == 0, completed.stderr
+
+
+def test_fresh_worker_reads_all_registered_controls_after_strict_guard(tmp_path):
+    from famjet.eval.state_io import snapshot_hash
+    from famjet.memory.reservoir import ReservoirMemory
+    from famjet.memory.buckets import TemporalBucketsMemory
+    from famjet_poc.wire import export_statics, isolated_read_batch
+
+    episode = generate_episode(PopulationSpec('poc_numeric_v1', ShapeSpec(16, 8), 'unit_test', 92,
+                                               (128,), ('piecewise_stationary',), 8, 512),
+                               'unit-audit-controls-0')
+    methods = {'exact': PackedHistoryMemory(None, 8, 'exact', key_dim=16),
+               'recent': PackedHistoryMemory(8, 8, 'recent', key_dim=16),
+               'latest_lru': PackedHistoryMemory(16, 8, 'latest_lru', key_dim=16),
+               'reservoir': ReservoirMemory(8, 8, 7, key_dim=16),
+               'buckets': TemporalBucketsMemory(8, 8, key_dim=16, normalization='shared')}
+    for name, method in methods.items():
+        snapshot = method.encode(episode.events, mode='terminal')
+        before = snapshot_hash(snapshot)
+        pair = {'snapshot': snapshot, 'queries': episode.queries, 'time_unit': episode.events.time_unit}
+        expected = method.read(snapshot, episode.queries)
+        journal = tmp_path / f'{name}.json'
+        result = isolated_read_batch(export_statics(method), [pair],
+                                     {'limits': _limits(), 'timeout_seconds': 30., 'journal_path': str(journal)})[0]
+        torch.testing.assert_close(result.prediction, expected.prediction, equal_nan=True, atol=0., rtol=0.)
+        assert torch.equal(result.support, expected.support)
+        assert torch.equal(result.failure, expected.failure)
+        assert snapshot_hash(snapshot) == before
+        assert json.loads(journal.read_bytes())['status'] == 'ok'
 
 
 def test_sixty_four_histories_admitted_but_sixty_five_rejected():
