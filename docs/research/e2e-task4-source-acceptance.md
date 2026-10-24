@@ -1,0 +1,5 @@
+# E4 source acceptance —24 October2026
+
+Independent spec+quality review approved source through c319e394 after two correction rounds. All seven Important findings and introduced atomic-output observation race are addressed. Root verified all raw E4 invocation bytes, unchanged previous records, 84 old source paths, report mirrors and standalone witness mirror. The initial/fix covering suites (24,39,21 affected tests) and named integration checks are supplied evidence; Root did not regenerate them.
+
+The runtime pipeline is source-approved, not an executed scientific result. E5 CLI/report/plots are still to implement and review. Actual40-fit development studies, real-profile probe and fits, selected-reference behavior, protected confirmation/replication, real test, stress and complete timings remain unexecuted. Existing reader/calibration qualifications stay separately scoped and old failures remain failed. Source/pre-registered protocol Gitcommit precedes actual CLI; actual fitted-weight/inventory runtime seal precedes protected access.

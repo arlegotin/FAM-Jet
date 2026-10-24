@@ -1,0 +1,54 @@
+{
+  "status": "pass",
+  "base": "55c6f105ae516e72c73c69436f56e1a27f482d0f",
+  "head": "c319e394d160e5e1e5447c1cc65f16c18b4c0b98",
+  "new_invocations": [
+    {
+      "file": "round2-evidence-integrity-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "witness-mirror-byte-proof.json",
+      "exit_code": 0
+    },
+    {
+      "file": "compile-changed-sources-tests.json",
+      "exit_code": 0
+    },
+    {
+      "file": "red-observer-rename.json",
+      "exit_code": 1
+    },
+    {
+      "file": "final-two-affected-files.json",
+      "exit_code": 0
+    },
+    {
+      "file": "witness-mirror-cmp.json",
+      "exit_code": 0
+    },
+    {
+      "file": "round2-evidence-integrity.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-two-affected-files.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-focused-regressions.json",
+      "exit_code": 0
+    },
+    {
+      "file": "red-race-after-host-stub.json",
+      "exit_code": 1
+    }
+  ],
+  "nonzero": 2,
+  "old_evidence_files_preserved": 217,
+  "old_source_paths_preserved": 84,
+  "report_mirror_equal": true,
+  "witness_mirror_equal": true,
+  "witness_sha256": "f7d820def776bc78a05d6f39895111ef746c1a69619e083b8be5ba29b8709761",
+  "tests_rerun": false
+}

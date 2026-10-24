@@ -1,0 +1,48 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "venv",
+      "/private/tmp/famjet-report-20261024-01"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.1644972499998403,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "log_bytes": 0
+  },
+  {
+    "argv": [
+      "/private/tmp/famjet-report-20261024-01/bin/python",
+      "-m",
+      "pip",
+      "download",
+      "--only-binary=:all:",
+      "--dest",
+      "/private/tmp/famjet-report-wheels-20261024-01",
+      "matplotlib"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.501344166998024,
+    "log_sha256": "fc764d5da80c09e94af55dcb13c23d3aa2a448f4919e2f03884548ed9e7851d1",
+    "log_bytes": 4100
+  },
+  {
+    "argv": [
+      "/private/tmp/famjet-report-20261024-01/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--find-links",
+      "/private/tmp/famjet-report-wheels-20261024-01",
+      "--require-hashes",
+      "-r",
+      "artifacts/e2e-report-env-01/requirements.lock"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.727428875001351,
+    "log_sha256": "8684ec01f1f9fce3307cefd9358de169c24cb9f44741ab57e0a059c871d2fe7e",
+    "log_bytes": 2404
+  }
+]

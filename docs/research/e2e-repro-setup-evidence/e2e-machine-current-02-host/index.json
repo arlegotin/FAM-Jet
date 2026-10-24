@@ -1,0 +1,39 @@
+{
+  "observed_at_utc": "2026-10-24T20:51:46.222726+00:00",
+  "access": "approved_host_read_only",
+  "records": {
+    "chip": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "machdep.cpu.brand_string"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.00302541599739925,
+      "log_bytes": 13,
+      "log_sha256": "0bfe1f9f5bdbdff2a51661a657909368109f8d547bc65624b5f89dcd3480af02"
+    },
+    "memory": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0024576670002716128,
+      "log_bytes": 12,
+      "log_sha256": "e4b19ed1f4c2ac48ddf8e24f615e0c466b1ddb8e77aafdf84d87bea76e37ee55"
+    },
+    "physical_cpus": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.physicalcpu"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0023795410015736707,
+      "log_bytes": 3,
+      "log_sha256": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25"
+    }
+  }
+}

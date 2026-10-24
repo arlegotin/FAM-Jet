@@ -1,0 +1,29 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "venv",
+      "/private/tmp/famjet-clean-20261024-01"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.2887889169978735,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "log_bytes": 0
+  },
+  {
+    "argv": [
+      "/private/tmp/famjet-clean-20261024-01/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--require-hashes",
+      "-r",
+      "requirements.lock"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 16.928261042001395,
+    "log_sha256": "7644c18b447bcb63e6fabc2d48fe82e8d602683c249339fe7c71a32fe6b491cb",
+    "log_bytes": 3383
+  }
+]

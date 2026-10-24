@@ -1,0 +1,98 @@
+{
+  "observed_at_utc": "2026-10-24T20:51:07.244817+00:00",
+  "records": {
+    "architecture": {
+      "argv": [
+        "uname",
+        "-m"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.002923416999692563,
+      "log_bytes": 6,
+      "log_sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+    },
+    "os": {
+      "argv": [
+        "sw_vers"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.008145332998537924,
+      "log_bytes": 66,
+      "log_sha256": "0b74dee9f2004e79e0ebb6e94909916c30d37db5dfb5c1f733b7ca7f723a701d"
+    },
+    "chip": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "machdep.cpu.brand_string"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.003237000000808621,
+      "log_bytes": 54,
+      "log_sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    "memory": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.002299540999956662,
+      "log_bytes": 54,
+      "log_sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    "physical_cpus": {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.physicalcpu"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.0020803750012419187,
+      "log_bytes": 54,
+      "log_sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    "disk": {
+      "argv": [
+        "df",
+        "-k",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.003157333001581719,
+      "log_bytes": 190,
+      "log_sha256": "6654e34e808ef75a502c471ec1f9bd33c3fe94307ff064cf78ba2451e699e7fb"
+    },
+    "vm": {
+      "argv": [
+        "vm_stat"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0028306250023888424,
+      "log_bytes": 1247,
+      "log_sha256": "9559dd029d017e1aca20f908d3855977330954eb30bf58a8dcbd791ddf4fc68d"
+    },
+    "swap": {
+      "argv": [
+        "sysctl",
+        "vm.swapusage"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.0020943749987054616,
+      "log_bytes": 54,
+      "log_sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    "power": {
+      "argv": [
+        "pmset",
+        "-g",
+        "batt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.008803667002212023,
+      "log_bytes": 106,
+      "log_sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    }
+  }
+}

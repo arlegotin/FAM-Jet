@@ -1,0 +1,152 @@
+{
+  "files": [
+    {
+      "file": "e2e-clean-install-01/environment.json",
+      "bytes": 189,
+      "sha256": "4fceac7ce90448e3b3f80af5b378fadaf86b46954dcb7dd1f5c7e0141f1e27fe"
+    },
+    {
+      "file": "e2e-clean-install-01/execute.py",
+      "bytes": 1312,
+      "sha256": "2bd8aba00797b8f2dfeea18de295af43fd30bd4e13fba4840523565f2278d1f1"
+    },
+    {
+      "file": "e2e-clean-install-01/imports.json",
+      "bytes": 708,
+      "sha256": "fdd93ce453710076f30b194f63cd97c06ff0e0aa315d5dc526658f3164b88586"
+    },
+    {
+      "file": "e2e-clean-install-01/imports.log",
+      "bytes": 666,
+      "sha256": "77f760793936663088c57814c0b14ea718697a7293d34637288e7932cfa51df9"
+    },
+    {
+      "file": "e2e-clean-install-01/install.log",
+      "bytes": 3383,
+      "sha256": "7644c18b447bcb63e6fabc2d48fe82e8d602683c249339fe7c71a32fe6b491cb"
+    },
+    {
+      "file": "e2e-clean-install-01/invocations.json",
+      "bytes": 664,
+      "sha256": "eec48729609f95c0e1fe82748d67d5e465d9bdb898197885d627d0b6ddb7adb0"
+    },
+    {
+      "file": "e2e-clean-install-01/venv.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "e2e-report-env-01/assets.json",
+      "bytes": 3793,
+      "sha256": "c897f405c22118b6f22c7bd9afccf221ec7152738f213d1c2ba2c743ba0ead6a"
+    },
+    {
+      "file": "e2e-report-env-01/download.log",
+      "bytes": 4100,
+      "sha256": "fc764d5da80c09e94af55dcb13c23d3aa2a448f4919e2f03884548ed9e7851d1"
+    },
+    {
+      "file": "e2e-report-env-01/environment.json",
+      "bytes": 198,
+      "sha256": "71fd4ea9989b78aa008af6437e1705a04df27b4a9fef3f4b733912fb81b45485"
+    },
+    {
+      "file": "e2e-report-env-01/execute.py",
+      "bytes": 2330,
+      "sha256": "27ef62db09652937c833d83fa7b6191a5cbdb0fd4db1db016c64062da6f764d6"
+    },
+    {
+      "file": "e2e-report-env-01/install.log",
+      "bytes": 2404,
+      "sha256": "8684ec01f1f9fce3307cefd9358de169c24cb9f44741ab57e0a059c871d2fe7e"
+    },
+    {
+      "file": "e2e-report-env-01/invocations.json",
+      "bytes": 1211,
+      "sha256": "0eed53226e086a67070391efcd6941c2b4cb3123d8a89bec46ef32c4e22e11cb"
+    },
+    {
+      "file": "e2e-report-env-01/requirements.lock",
+      "bytes": 1240,
+      "sha256": "132d9a7822f2a2bd502f2deabdef30e7d3190802d9f5df18f1d2d8a3af062cf1"
+    },
+    {
+      "file": "e2e-report-env-01/venv.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "e2e-machine-current-01/architecture.log",
+      "bytes": 6,
+      "sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+    },
+    {
+      "file": "e2e-machine-current-01/chip.log",
+      "bytes": 54,
+      "sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    {
+      "file": "e2e-machine-current-01/disk.log",
+      "bytes": 190,
+      "sha256": "6654e34e808ef75a502c471ec1f9bd33c3fe94307ff064cf78ba2451e699e7fb"
+    },
+    {
+      "file": "e2e-machine-current-01/index.json",
+      "bytes": 2496,
+      "sha256": "f27287135eb430014234c458328e35bfd76b5893bf69c1ec75aae78190c0673f"
+    },
+    {
+      "file": "e2e-machine-current-01/memory.log",
+      "bytes": 54,
+      "sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    {
+      "file": "e2e-machine-current-01/os.log",
+      "bytes": 66,
+      "sha256": "0b74dee9f2004e79e0ebb6e94909916c30d37db5dfb5c1f733b7ca7f723a701d"
+    },
+    {
+      "file": "e2e-machine-current-01/physical_cpus.log",
+      "bytes": 54,
+      "sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    {
+      "file": "e2e-machine-current-01/power.log",
+      "bytes": 106,
+      "sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    },
+    {
+      "file": "e2e-machine-current-01/swap.log",
+      "bytes": 54,
+      "sha256": "4b48e95fc2c708e90935b4eb0c7fdbef56360fded00e57f1b083e052354d3774"
+    },
+    {
+      "file": "e2e-machine-current-01/vm.log",
+      "bytes": 1247,
+      "sha256": "9559dd029d017e1aca20f908d3855977330954eb30bf58a8dcbd791ddf4fc68d"
+    },
+    {
+      "file": "e2e-machine-current-02-host/chip.log",
+      "bytes": 13,
+      "sha256": "0bfe1f9f5bdbdff2a51661a657909368109f8d547bc65624b5f89dcd3480af02"
+    },
+    {
+      "file": "e2e-machine-current-02-host/index.json",
+      "bytes": 981,
+      "sha256": "77a4679b6c84a1d4356fd7a266489122bff8ef4f17256afd6b248a1f34d965a1"
+    },
+    {
+      "file": "e2e-machine-current-02-host/memory.log",
+      "bytes": 12,
+      "sha256": "e4b19ed1f4c2ac48ddf8e24f615e0c466b1ddb8e77aafdf84d87bea76e37ee55"
+    },
+    {
+      "file": "e2e-machine-current-02-host/physical_cpus.log",
+      "bytes": 3,
+      "sha256": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25"
+    }
+  ],
+  "core_cli_status": "pending_E5",
+  "report_rendering_status": "pending_E5",
+  "initial_machine_sysctl": "sandbox_denied_retained; host_observation_succeeded"
+}

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "-c",
+    "import platform,numpy,scipy,torch,json; from famjet_poc.contracts import source_sha256; from famjet_poc.inference import source_identity; print(json.dumps({\"python\":platform.python_version(),\"numpy\":numpy.__version__,\"scipy\":scipy.__version__,\"torch\":torch.__version__,\"model_source\":source_sha256(),\"inference_source\":source_identity(),\"cpu64_product\":float((torch.ones(2,dtype=torch.float64)@torch.ones(2,dtype=torch.float64)).item())}))"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 16.78694645900032,
+  "log_sha256": "77f760793936663088c57814c0b14ea718697a7293d34637288e7932cfa51df9",
+  "log_bytes": 666
+}

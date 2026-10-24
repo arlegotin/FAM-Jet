@@ -1,0 +1,439 @@
+{
+  "status": "pass",
+  "base": "253885afe6ed5adf991e1ad0a9de8e40ebd1763a",
+  "head": "55c6f105ae516e72c73c69436f56e1a27f482d0f",
+  "raw_invocations": [
+    {
+      "file": "compile-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "compile-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "compile-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "compile-post-worker.json",
+      "exit_code": 0
+    },
+    {
+      "file": "evidence-integrity.json",
+      "exit_code": 0
+    },
+    {
+      "file": "final-e4-pytest.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/compile-final-fix.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/compile-mid-fix.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/e4-fixround1-scoped-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/e4-fixround1-scoped-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/e4-fixround1-scoped-final.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/fixround1-evidence-integrity.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i1-i2-i6-unitcell-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i1-i2-i6-unitcell.json",
+      "exit_code": 4
+    },
+    {
+      "file": "fixround1/green-i2-i6-strict-policy.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i2-real-shape-contract.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i3-i4-interrupt-live.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i3-real-e3-probe.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i3-resume-clock.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i4-live-resource.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i4-monitored-stage.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i5-i7-real-gates-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i5-i7-real-gates.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/green-i5-probe-rss-forecast.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i6-replay-counts.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-i7-partial-reference.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-measured-probe-contract.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/green-real-mode-admission-order.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/real-profile-unit-probe-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "fixround1/real-profile-unit-probe.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/red-i1-model-before-data.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/red-i2-i6-contract-counts.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/red-i3-real-e3-probe.json",
+      "exit_code": 4
+    },
+    {
+      "file": "fixround1/red-i3-resume-clock.json",
+      "exit_code": 4
+    },
+    {
+      "file": "fixround1/red-i4-live-resource.json",
+      "exit_code": 2
+    },
+    {
+      "file": "fixround1/red-i4-monitored-stage.json",
+      "exit_code": 1
+    },
+    {
+      "file": "fixround1/red-i5-i7-real-gates.json",
+      "exit_code": 4
+    },
+    {
+      "file": "fixround1/red-i6-replay-counts.json",
+      "exit_code": 4
+    },
+    {
+      "file": "green-beijing-grant.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-bundle-grant.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-cell-output.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-equivalent-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "green-equivalent-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "green-equivalent-03.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-inference-release.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-ledger-chain.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-model-commit.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-native-clusters.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-pipeline-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-plan-roots-fix.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-plan-roots.json",
+      "exit_code": 4
+    },
+    {
+      "file": "green-prefreeze-cache.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-protected-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-public-resume.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-real-method.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-real-output.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-real-release.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-real-stats.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-secondary.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-stream-release.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-stress-inventory.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-stress-missing.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-timing-admission.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-transfer-01.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-transfer-allocation.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-transfer-freeze.json",
+      "exit_code": 0
+    },
+    {
+      "file": "green-worker-cell-and-probe-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "green-worker-cell-and-probe.json",
+      "exit_code": 4
+    },
+    {
+      "file": "inference-admission.json",
+      "exit_code": 0
+    },
+    {
+      "file": "inference-attestation-v2.json",
+      "exit_code": 1
+    },
+    {
+      "file": "inference-attestation-v3.json",
+      "exit_code": 0
+    },
+    {
+      "file": "integration-cell-01.json",
+      "exit_code": 1
+    },
+    {
+      "file": "integration-cell-02.json",
+      "exit_code": 1
+    },
+    {
+      "file": "integration-cell-ridge-stable.json",
+      "exit_code": 0
+    },
+    {
+      "file": "laguerre-condition-diagnostic-02.json",
+      "exit_code": 0
+    },
+    {
+      "file": "laguerre-condition-diagnostic.json",
+      "exit_code": 1
+    },
+    {
+      "file": "latest-lru-audit-probe.json",
+      "exit_code": 1
+    },
+    {
+      "file": "reader-admission.json",
+      "exit_code": 0
+    },
+    {
+      "file": "red-beijing-grant.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-bundle-grant.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-cell-output.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-equivalent.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-fresh-k16-probe.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-inference-release.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-ledger-chain.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-model-commit.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-native-clusters.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-pipeline.json",
+      "exit_code": 2
+    },
+    {
+      "file": "red-plan-roots.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-prefreeze-cache.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-protected.json",
+      "exit_code": 2
+    },
+    {
+      "file": "red-public-resume.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-real-method.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-real-output.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-real-release.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-real-stats.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-secondary.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-stream-release.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-stress-inventory.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-stress-missing.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-timing-admission.json",
+      "exit_code": 4
+    },
+    {
+      "file": "red-transfer-allocation.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-transfer-freeze.json",
+      "exit_code": 1
+    },
+    {
+      "file": "red-transfer.json",
+      "exit_code": 2
+    },
+    {
+      "file": "resource-observe-fix.json",
+      "exit_code": 1
+    },
+    {
+      "file": "resource-observe-host.json",
+      "exit_code": 0
+    },
+    {
+      "file": "resource-observe.json",
+      "exit_code": 1
+    }
+  ],
+  "previous_evidence_files_preserved": 152,
+  "old_paths_preserved": 84,
+  "report_mirror_equal": true,
+  "tests_rerun": false
+}
