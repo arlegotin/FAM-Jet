@@ -1,0 +1,19 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py",
+    "-k",
+    "candidate_model_and_rows"
+  ],
+  "bytes": 113,
+  "elapsed_seconds": 1.2941434169988497,
+  "environment": {
+    "FAMJET_REPORT_PYTHON": "/private/tmp/famjet-report-20261024-01/bin/python"
+  },
+  "exit_code": 0,
+  "sha256": "37060c29ac5271db18adab12c669218d786557911ccb1cb3b1727462768bf995",
+  "stdout_stderr_log": "green-candidate-refs-02.log"
+}

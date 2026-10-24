@@ -39,3 +39,7 @@ The final report can only summarize the one executed state budget. It does not c
 ## Fix round 1 review repair
 
 Independent review found four E5 production-adapter/report defects and two adjacent test issues after the first handoff. The complete review is `.superpowers/sdd/2026-10-16-famjet/e2e-task-5-review.md`; all four scoped fixes, producer-shaped semantic fixtures, exact RED/green commands and remaining full-run limit are recorded in [E5 fix round 1](e2e-task5-fixround1-report.md). Source/tests commit `9fff3f68` passed the amended focused E5 gate: **20 passed in 22.26 seconds**. Compilation and staged source whitespace checks passed. Root's entered scientific run and independent rereview remain pending; no production result is claimed by this repair.
+
+## Fix round 2 review repair
+
+The scoped fix-round rereview accepted I1–I4 and both minor repairs but found that qualified candidates could omit both model and row references. [E5 fix round 2](e2e-task5-fixround2-report.md) records the paired-reference repair, ten hash-bound negative cases, exact retained RED/green commands and results. Source/tests commit `83bbd072` passed the scoped scientific/input/report gate: **26 passed in 1.37 seconds**; affected compilation passed. No full scientific execution or production report replay occurred in this repair.

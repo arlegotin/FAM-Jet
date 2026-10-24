@@ -1,0 +1,19 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report.py"
+  ],
+  "bytes": 99,
+  "elapsed_seconds": 1.698861457996827,
+  "environment": {
+    "FAMJET_REPORT_PYTHON": "/private/tmp/famjet-report-20261024-01/bin/python"
+  },
+  "exit_code": 0,
+  "sha256": "728329000b9d0aaa73d0805f3cfe7f4eabaf5976378011f720cdb5232567d7cc",
+  "stdout_stderr_log": "final-fix2-pytest-01.log"
+}
