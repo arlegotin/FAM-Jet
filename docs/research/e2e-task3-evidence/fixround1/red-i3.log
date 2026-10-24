@@ -1,0 +1,49 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_worker_caller_limits_cover_snapshot_and_query_input_arrays ________
+
+    def test_worker_caller_limits_cover_snapshot_and_query_input_arrays():
+        from famjet_poc.wire import encode_request, export_statics, isolated_read_batch
+    
+        method, pair = _pair()
+        limits = {'max_frame_bytes': 8_000_000, 'max_array_bytes': 256, 'max_histories': 64}
+        expected = [{'history_id': pair['queries'].history_ids[0],
+                     'query_ids': pair['queries'].query_ids[0].tolist()}]
+>       with pytest.raises(ValueError, match='tensor|array|byte|ceiling'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_wire.py:57: Failed
+_ test_worker_preflights_registered_payload_and_byte_valid_layout_before_reconstruction _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b8ca060>
+
+    def test_worker_preflights_registered_payload_and_byte_valid_layout_before_reconstruction(monkeypatch):
+        import copy
+        from famjet.provenance import canonical_hash
+        from famjet_poc import wire
+    
+        method, pair = _pair()
+        expected = [{'history_id': pair['queries'].history_ids[0],
+                     'query_ids': pair['queries'].query_ids[0].tolist()}]
+        base = json.loads(wire.encode_request(wire.export_statics(method), [pair], expected, _limits())[8:])
+        def rehash(body):
+            body['pairs'][0]['snapshot_hash'] = canonical_hash(body['pairs'][0]['snapshot'])
+            identity = {'statics': body['statics'], 'pairs': body['pairs'], 'expected_ids': body['expected_ids']}
+            if 'limits' in body:
+                identity['limits'] = body['limits']
+            body['request_id'] = canonical_hash(identity)
+            return json.dumps(body).encode()
+        monkeypatch.setattr(wire, 'tensor_from_record', lambda *_: (_ for _ in ()).throw(AssertionError('tensor allocated')))
+        monkeypatch.setattr(wire, '_reconstruct', lambda *_: (_ for _ in ()).throw(AssertionError('model reconstructed')))
+        extra = copy.deepcopy(base)
+        extra['pairs'][0]['snapshot']['payload']['labels'] = copy.deepcopy(extra['pairs'][0]['snapshot']['payload']['values'])
+>       with pytest.raises(ValueError, match='payload|schema'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_wire.py:83: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_worker_caller_limits_cover_snapshot_and_query_input_arrays
+FAILED tests/test_poc_e3_wire.py::test_worker_preflights_registered_payload_and_byte_valid_layout_before_reconstruction
+2 failed in 0.68s

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_cache.py::test_reused_cache_rejects_changed_spec_and_lower_ceiling",
+    "-q"
+  ],
+  "elapsed_seconds": 1.0330825829987589,
+  "exit": 1,
+  "stdout_bytes": 3185,
+  "stdout_sha256": "dc5dee4e0a42b498e89d09220d3b6821296df19c4270fad03ef439e4a6fe9063",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_study.py::test_resume_accepts_bound_primary_and_partial_eligibility_diagnostics",
+    "tests/test_poc_e3_study.py::test_probe_existing_output_rejects_different_manifest_before_generation",
+    "tests/test_poc_e3_study.py::test_resume_allocation_clock_charges_previous_wall_time",
+    "tests/test_poc_e3_study.py::test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure",
+    "tests/test_poc_e3_study.py::test_selection_tied_active_storage_ignores_wire_json_length",
+    "-q"
+  ],
+  "elapsed_seconds": 0.9682855829996697,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "1997c803566c9ea96ab164bee3c2f662c3c0ed368416a49a4483ec63a25ee54e",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

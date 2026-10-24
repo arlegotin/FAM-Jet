@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_reused_cache_rejects_changed_spec_and_lower_ceiling ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-261/test_reused_cache_rejects_chan0')
+
+    def test_reused_cache_rejects_changed_spec_and_lower_ceiling(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+        from famjet_poc.study import _cache_for
+    
+        spec = _population()
+        inventory = [{'history_id': 'unit-cache-spec-0', 'spec': spec.to_json()}]
+        cache = prepare_episode_cache([spec], inventory, tmp_path / 'cache',
+                                      {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000})
+        changed = dataclasses.replace(spec, seed=spec.seed + 1)
+        changed_inventory = [{'history_id': 'unit-cache-spec-0', 'spec': changed.to_json()}]
+>       with pytest.raises(ValueError, match='spec|inventory'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_cache.py:85: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_cache.py::test_reused_cache_rejects_changed_spec_and_lower_ceiling
+1 failed in 0.67s

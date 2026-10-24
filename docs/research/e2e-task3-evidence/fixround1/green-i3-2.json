@@ -1,0 +1,21 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_poc_e3_wire.py::test_worker_caller_limits_cover_snapshot_and_query_input_arrays",
+    "tests/test_poc_e3_wire.py::test_worker_preflights_registered_payload_and_byte_valid_layout_before_reconstruction",
+    "-q"
+  ],
+  "elapsed_seconds": 0.8212608750000072,
+  "exit": 0,
+  "stdout_bytes": 98,
+  "stdout_sha256": "4d4324b86087ac7c37dae6b8dbfadf37a051796a0d773b900a32b6a8e3e201ad",
+  "thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  }
+}

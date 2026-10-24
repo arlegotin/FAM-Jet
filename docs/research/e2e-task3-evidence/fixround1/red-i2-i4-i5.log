@@ -1,0 +1,142 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+____ test_resume_accepts_bound_primary_and_partial_eligibility_diagnostics _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-260/test_resume_accepts_bound_prim0')
+
+    def test_resume_accepts_bound_primary_and_partial_eligibility_diagnostics(tmp_path):
+        from famjet_poc.study import _audit_terminal_entries, freeze_score_policy, load_score_rows, persist_score_rows, score_results
+    
+        original = _episode()
+        invalid = next(j for j, task in enumerate(original.queries.tasks[0]) if task == 'mean')
+        ep = _invalidate(original, [invalid])
+        stats = fit_target_statistics([replace(original, metadata={**original.metadata, 'split': 'training'})])
+        policy = freeze_score_policy([ep])
+        failure = torch.zeros_like(ep.queries.present)
+        result = ReadResult(torch.zeros_like(ep.labels), None, ~failure, failure,
+                            {'prediction_valid': ~failure, 'numeric_supported': ~failure})
+        rows = score_results([ep], [{'result': result, 'trigger': None, 'state_bytes': 10}], stats, policy, 'ridge')
+        assert {r['score_scope'] for r in rows} == {'primary', 'ineligible_diagnostic'}
+        ref = persist_score_rows(rows, tmp_path / 'partial.json')
+        assert load_score_rows(ref) == rows
+        summary = aggregate_scores([r for r in rows if r['score_scope'] == 'primary'])
+        journal = {'candidate_ledger': [], 'prefix_ledger': [],
+                   'controls': {'ridge': {'status': 'measured', 'rows_ref': ref, 'score': summary}}}
+>       _audit_terminal_entries(journal, policy, tmp_path)
+
+tests/test_poc_e3_study.py:297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/study.py:755: in _audit_terminal_entries
+    score_entry(entry, name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+entry = {'status': 'measured', 'rows_ref': {'path': '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-arteml...'bytes': 13076}, 'score': {'status': 'ok', 'loss': 1.147204787529295, 'infinite_loss_count': 0, 'query_count': 7, ...}}
+method = 'ridge'
+
+    def score_entry(entry, method):
+        ref = entry['rows_ref']
+        local_ref(ref)
+        rows = load_score_rows(ref)
+        if not rows or any(row['method'] != method or row['policy_hash'] != policy_hash for row in rows):
+>           raise ValueError('resumed score row method/policy mismatch')
+E           ValueError: resumed score row method/policy mismatch
+
+famjet_poc/study.py:734: ValueError
+___ test_probe_existing_output_rejects_different_manifest_before_generation ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-260/test_probe_existing_output_rej0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10fb755b0>
+
+    def test_probe_existing_output_rejects_different_manifest_before_generation(tmp_path, monkeypatch):
+        import json
+        from famjet_poc import study
+    
+        manifest = study.study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                         'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                         'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                         'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                           'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        (tmp_path / 'probe.json').write_text(json.dumps({'phase': 'probe', 'manifest_sha256': '0' * 64}))
+        monkeypatch.setattr(study, '_cache_for', lambda *a, **k: (_ for _ in ()).throw(AssertionError('cache touched')))
+        allocation = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                      'allocation_id': 'unit-probe-bind', 'max_wall_seconds': 60.,
+                      'max_disk_bytes': 8_000_000, 'max_rss_bytes': 2_000_000_000}
+>       with pytest.raises(ValueError, match='manifest|probe'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_e3_study.py:209: Failed
+___________ test_resume_allocation_clock_charges_previous_wall_time ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10fb75350>
+
+    def test_resume_allocation_clock_charges_previous_wall_time(monkeypatch):
+        from famjet_poc import study
+    
+        monkeypatch.setattr(study.time, 'time', lambda: 103.)
+        monkeypatch.setattr(study.time, 'monotonic', lambda: 1000.)
+        monkeypatch.setattr(study, '_rss_bytes', lambda: 1)
+>       started = study._resume_allocation_started({'allocation_started_epoch_seconds': 100.})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'famjet_poc.study' has no attribute '_resume_allocation_started'
+
+tests/test_poc_e3_study.py:219: AttributeError
+____ test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure ____
+
+    def test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure():
+        from famjet_poc.study import select_candidate
+    
+        ledger = [{'config_hash': 'a', 'status': 'failed', 'loss': None},
+                  {'config_hash': 'b', 'status': 'qualified', 'loss': 0.2, 'active_static_bytes': 110},
+                  {'config_hash': 'c', 'status': 'qualified', 'loss': 0.2 + 5e-13, 'active_static_bytes': 100},
+                  {'config_hash': 'd', 'status': 'qualified', 'loss': 0.3, 'active_static_bytes': 50}]
+>       assert select_candidate(ledger)['config_hash'] == 'c'
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_study.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ledger = [{'config_hash': 'a', 'status': 'failed', 'loss': None}, {'config_hash': 'b', 'status': 'qualified', 'loss': 0.2, 'act...0005, 'active_static_bytes': 100}, {'config_hash': 'd', 'status': 'qualified', 'loss': 0.3, 'active_static_bytes': 50}]
+
+    def select_candidate(ledger):
+        qualified = [item for item in ledger if item.get('status') == 'qualified' and
+                     type(item.get('loss')) in (int, float) and math.isfinite(item['loss']) and
+                     type(item.get('static_bytes')) is int and item['static_bytes'] > 0]
+        if not qualified:
+>           raise ValueError('no qualified finite development candidate')
+E           ValueError: no qualified finite development candidate
+
+famjet_poc/study.py:373: ValueError
+_________ test_selection_tied_active_storage_ignores_wire_json_length __________
+
+    def test_selection_tied_active_storage_ignores_wire_json_length():
+        from famjet_poc.study import select_candidate
+    
+        ledger = [{'config_hash': 'a', 'status': 'qualified', 'loss': .2,
+                   'active_static_bytes': 512, 'wire_static_bytes': 900},
+                  {'config_hash': 'b', 'status': 'qualified', 'loss': .2 + 5e-13,
+                   'active_static_bytes': 512, 'wire_static_bytes': 800}]
+>       assert select_candidate(ledger)['config_hash'] == 'a'
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_study.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ledger = [{'config_hash': 'a', 'status': 'qualified', 'loss': 0.2, 'active_static_bytes': 512, ...}, {'config_hash': 'b', 'status': 'qualified', 'loss': 0.2000000000005, 'active_static_bytes': 512, ...}]
+
+    def select_candidate(ledger):
+        qualified = [item for item in ledger if item.get('status') == 'qualified' and
+                     type(item.get('loss')) in (int, float) and math.isfinite(item['loss']) and
+                     type(item.get('static_bytes')) is int and item['static_bytes'] > 0]
+        if not qualified:
+>           raise ValueError('no qualified finite development candidate')
+E           ValueError: no qualified finite development candidate
+
+famjet_poc/study.py:373: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_study.py::test_resume_accepts_bound_primary_and_partial_eligibility_diagnostics
+FAILED tests/test_poc_e3_study.py::test_probe_existing_output_rejects_different_manifest_before_generation
+FAILED tests/test_poc_e3_study.py::test_resume_allocation_clock_charges_previous_wall_time
+FAILED tests/test_poc_e3_study.py::test_selection_uses_loss_then_static_bytes_then_hash_and_keeps_failure
+FAILED tests/test_poc_e3_study.py::test_selection_tied_active_storage_ignores_wire_json_length
+5 failed in 0.74s

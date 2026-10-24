@@ -1,0 +1,108 @@
+...........F.F...........F..............                                 [100%]
+=================================== FAILURES ===================================
+_____ test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history _____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-266/test_ridge_worker_uses_loaded_0')
+
+    def test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+        from famjet_poc.contracts import ReaderSpec
+        from famjet_poc.models import build_model, fit_reader, fit_training_metadata, load_model, make_fit_manifest, save_model
+        from famjet_poc.wire import export_statics, isolated_read_batch
+    
+        spec = PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'training', 412,
+                              (128,), ('piecewise_stationary',), 8, 512)
+        ids = ['unit-ridge-wire-0', 'unit-ridge-wire-1']
+        cache = prepare_episode_cache([spec], [{'history_id': h, 'spec': spec.to_json()} for h in ids],
+                                      tmp_path / 'cache', {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000})
+        factory = episode_factory(cache, ids)
+        meta = fit_training_metadata(factory)
+        reader = ReaderSpec('ridge_v1', 'jet', 8, 1e-6, 1 / 5224, 1., 1e-6, 1e-12)
+        fitted = attach_training_cache(build_model(spec.shape, reader, meta['t_ref'], meta['target_statistics']),
+                                       cache, {'lru_bytes': 8_000_000})
+        fit_reader(fitted, factory, make_fit_manifest(fitted, meta), chunk_rows=32)
+        with pytest.raises(ValueError, match='subclass|class'):
+            export_statics(fitted)
+        ref = save_model(fitted, tmp_path / 'loaded.json')
+        model = load_model(ref.path, ref.sha256)
+        assert type(model).__name__ == 'RidgeMemoryModel'
+        ep = generate_episode(PopulationSpec('poc_numeric_v1', ShapeSpec(12, 1), 'unit_test', 991,
+                                             (128,), ('piecewise_stationary',), 8, 512), 'unit-ridge-read-0')
+        pair = {'snapshot': model.encode(ep.events, mode='terminal'), 'queries': ep.queries,
+                'time_unit': ep.events.time_unit}
+        statics = export_statics(model)
+>       result = isolated_read_batch(statics, [pair], {'limits': _limits(), 'timeout_seconds': 30.})[0]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_wire.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/wire.py:489: in isolated_read_batch
+    frame = encode_request(statics, pairs, expected, policy['limits'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/wire.py:367: in encode_request
+    _preflight_pair(pair, statics, expected)
+famjet_poc/wire.py:212: in _preflight_pair
+    _record_layout(s['payload'][name], shape, dtypes, name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+record = {'dtype': 'float64', 'shape': [1, 1, 4, 12, 2], 'data': 'MEtGQPiqJcBWsxQWg5YjQM2UrPXG0/M/PmteQfVEJ0C4fKWdIEcmwPBjZSppJ...j7Q6aIy/jO0m7u1UiTaW9Bn1Kzr68nj1G92IhDMa1Olu8yIw/BrQ6oOQ59mjCUrqQgDQn/nhXOkXdd1yZ/sO/V+8sNlaL1z8g/nMT8/UkPjKUMRDDZFA+'}
+shape = [1, 1, 8, 12, 2], dtypes = {'float64'}, name = 'z'
+
+    def _record_layout(record, shape, dtypes, name):
+        if (type(record) is not dict or set(record) != {'dtype', 'shape', 'data'} or
+                record.get('shape') != shape or record.get('dtype') not in dtypes):
+>           raise ValueError(f'invalid registered tensor layout: {name}')
+E           ValueError: invalid registered tensor layout: z
+
+famjet_poc/wire.py:158: ValueError
+____ test_wire_rejects_huge_control_capacity_before_constructor_allocation _____
+
+    def test_wire_rejects_huge_control_capacity_before_constructor_allocation():
+        from famjet.provenance import canonical_hash
+        from famjet_poc.wire import decode_request, encode_request, export_statics
+    
+        method, pair = _pair()
+        body = json.loads(encode_request(export_statics(method), [pair],
+                          [{'history_id': pair['queries'].history_ids[0],
+                            'query_ids': pair['queries'].query_ids[0].tolist()}], _limits())[8:])
+        body['statics']['constructor']['capacity'] = 2**60
+        body['statics']['constructor']['policy'] = 'recent'
+        body['statics_hash'] = canonical_hash(body['statics'])
+        body['request_id'] = canonical_hash({'statics': body['statics'], 'pairs': body['pairs'],
+                                             'expected_ids': body['expected_ids']})
+>       with pytest.raises(ValueError, match='capacity|allocation'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'capacity|allocation'
+E         Actual message: 'request source/hash mismatch'
+
+tests/test_poc_e3_wire.py:254: AssertionError
+__ test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-266/test_probe_measures_one_tiny_f0')
+
+    def test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast(tmp_path):
+        from famjet_poc.study import probe_feasibility, study_manifest
+    
+        manifest = study_manifest({'profile': 'unit_test', 'shape': ShapeSpec(12, 1).to_json(),
+                                   'training_seed': 412, 'development_seed': 318, 'max_query_attempts': 512,
+                                   'cache_limits': {'disk_bytes': 8_000_000, 'lru_bytes': 8_000_000},
+                                   'worker_limits': {'max_frame_bytes': 8_000_000,
+                                                     'max_array_bytes': 4_000_000, 'max_histories': 64}})
+        allocation = {'schema_version': 1, 'phase': 'probe', 'manifest_sha256': manifest['manifest_sha256'],
+                      'allocation_id': 'unit-probe', 'max_wall_seconds': 60.,
+                      'max_disk_bytes': 8_000_000, 'max_rss_bytes': 2_000_000_000}
+        result = probe_feasibility(manifest, tmp_path, allocation)
+>       assert result['status'] == 'measured', result.get('error')
+E       AssertionError: ValueError: invalid registered tensor layout: z
+E       assert 'failed' == 'measured'
+E         
+E         - measured
+E         + failed
+
+tests/test_poc_e3_study.py:188: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_wire.py::test_ridge_worker_uses_loaded_base_and_rejects_hidden_writer_history
+FAILED tests/test_poc_e3_wire.py::test_wire_rejects_huge_control_capacity_before_constructor_allocation
+FAILED tests/test_poc_e3_study.py::test_probe_measures_one_tiny_fit_and_worker_batch_with_full_work_forecast
+3 failed, 37 passed in 5.06s

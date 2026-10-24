@@ -1,0 +1,55 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_reused_cache_rejects_changed_spec_and_lower_ceiling ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-264/test_reused_cache_rejects_chan0')
+
+    def test_reused_cache_rejects_changed_spec_and_lower_ceiling(tmp_path):
+        from famjet_poc.cache import attach_training_cache, episode_factory, prepare_episode_cache
+        from famjet_poc.study import _cache_for
+    
+        spec = _population()
+        inventory = [{'history_id': 'unit-cache-spec-0', 'spec': spec.to_json()}]
+        cache = prepare_episode_cache([spec], inventory, tmp_path / 'cache',
+                                      {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000})
+        changed = dataclasses.replace(spec, seed=spec.seed + 1)
+        changed_inventory = [{'history_id': 'unit-cache-spec-0', 'spec': changed.to_json()}]
+        with pytest.raises(ValueError, match='spec|inventory'):
+            _cache_for([changed.to_json()], changed_inventory, tmp_path / 'cache',
+                       {'disk_bytes': 8_000_000, 'lru_bytes': 1_000_000})
+        with pytest.raises((MemoryError, ValueError), match='ceiling|limit|admission'):
+            _cache_for([spec.to_json()], inventory, tmp_path / 'cache',
+                       {'disk_bytes': cache.disk_bytes - 1, 'lru_bytes': 1_000_000})
+>       meta = fit_training_metadata(episode_factory(cache, ['unit-cache-spec-0']))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_e3_cache.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/models.py:244: in fit_training_metadata
+    stats = fit_target_statistics(inspected())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet/eval/metrics.py:33: in fit_target_statistics
+    for ep in episodes:
+              ^^^^^^^^
+famjet_poc/models.py:220: in inspected
+    for ep in _checked_factory(episode_factory):
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+factory = <function episode_factory.<locals>.factory at 0x10bd500e0>
+
+    def _checked_factory(factory):
+        if not callable(factory):
+            raise TypeError('episode_factory must be replayable callable')
+        episodes = factory()
+        if episodes is factory or not hasattr(episodes, '__iter__'):
+            raise TypeError('episode_factory must return fresh iterable')
+        for ep in episodes:
+            if ep.metadata.get('split') != 'training' or ep.metadata.get('target_semantics') != 'observed_event_targets_v2':
+>               raise ValueError('fit admits current-v2 training episodes only')
+E               ValueError: fit admits current-v2 training episodes only
+
+famjet_poc/models.py:199: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_e3_cache.py::test_reused_cache_rejects_changed_spec_and_lower_ceiling
+1 failed in 0.70s
