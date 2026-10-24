@@ -1,0 +1,89 @@
+{
+  "old_evidence_files_unchanged": 36,
+  "old_evidence_bytes": 66722,
+  "source_head": "19d9f8e4727451fc8d7a8d2beba50d3f181e8194",
+  "e1": "f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475",
+  "e2": "5cdbae0a61810a0f9d509ed1d462530d708439021f8f9fc81ce04fd12f39bfb4",
+  "e3": "e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba",
+  "all_production_admission_calls": [
+    {
+      "path": "famjet_poc/study.py",
+      "line": 590,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    },
+    {
+      "path": "famjet_poc/study.py",
+      "line": 813,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    },
+    {
+      "path": "famjet_poc/protected.py",
+      "line": 579,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    },
+    {
+      "path": "famjet_poc/protected.py",
+      "line": 829,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/transfer.py",
+      "line": 274,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    },
+    {
+      "path": "famjet_poc/transfer.py",
+      "line": 831,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/transfer.py",
+      "line": 832,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/transfer.py",
+      "line": 770,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/report_inputs.py",
+      "line": 748,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/report_inputs.py",
+      "line": 749,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/report_inputs.py",
+      "line": 297,
+      "call": "validate_scored_receipt",
+      "required_keyword": "coordinate_model"
+    },
+    {
+      "path": "famjet_poc/report_inputs.py",
+      "line": 619,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    },
+    {
+      "path": "famjet_poc/report_inputs.py",
+      "line": 652,
+      "call": "validate_coordinate_audits",
+      "required_keyword": "expected_model"
+    }
+  ],
+  "core_e1_e2_worker_wire_cache_timing_pipeline_config_locks_unchanged": true
+}

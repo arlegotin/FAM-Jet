@@ -59,3 +59,72 @@ All failed attempts remain visible: `red-01` included an invalid frozen-Episode 
 This source task establishes the explicit diagnostic contract and focused artifact validation, not successful FP64 coordinate equivalence. Later public, stress, protected or real histories may still fail a mandatory state/mask check. Such failures must stop execution; no test or report allows them through. The observed Decimal case supplies no universal bound. The selected-reference validator checks immutable numeric provenance and consistent recorded diagnostics, not a fresh scientific reevaluation during report replay.
 
 **HOLD:** Root should read this report, verify evidence and unchanged prior run bytes, and dispatch a fresh independent spec/quality review. Root owns any bounded public qualification, the new source-matched full CLI under the remaining original overall clock, old/new selected numeric-artifact comparison, first protected access after freeze, deterministic/copied final replay, and whole-branch final review. No reviewer was spawned by this source owner.
+
+## Fix round 1 — independent model binding and empty-comparison consistency
+
+25 October 2026. Fix base `254424b0f91f7517af503ca04ae9a49f5bc8a00f`; source/tests/resource commit **`19d9f8e4727451fc8d7a8d2beba50d3f181e8194`**. **R1 and R2 addressed; HOLD for scoped independent rereview.** The preceding section is retained as the original implementation record. Its optional-identity validator interface and completeness claim are superseded by this section: independent review found that most consumers verified only internal digest consistency, and the original source gate did not pass.
+
+The review was read in full from `.superpowers/sdd/2026-10-16-famjet/e2e-coordinate-source-review.md`. R1's coherent wrong-model substitution was reproduced at development resume. R2's zero-finite-scalar record with a scaled maximum of 0.5 was also reproduced. Both failed-regression logs are retained. No actual public preflight, full study, protected generation, Beijing array access, or recalibration was executed during this fix.
+
+### R1: required independent checkpoint relationship
+
+`validate_coordinate_audits(costs, rows, *, expected_model, require_summary=True)` now requires an independently supplied `RidgeMemoryModel` Jet object. There is no optional digest argument and no omission path that reduces admission to internal consistency. The validator derives the expected numeric digest itself and requires every history's value dimension to equal that model's value dimension. A `None` model is rejected. Existing counts, masks, original tolerances, maxima, audit-hash and summary checks are retained.
+
+`load_coordinate_model(reference, expected_shape=None, *, resolve=Path)` loads the selected checkpoint through the existing content-verifying model loader, requires Jet family and, where the phase fixes it, the expected shape. Portable callers supply `ArtifactPaths.resolve`; serialized paths and JSON remain untouched. This helper obtains no model identity from costs or diagnostic fields.
+
+Every production admission now supplies the independent model:
+
+| Consumer | Independent authority and additional closure |
+| --- | --- |
+| E3 equivalent producer | The actual evaluated Jet object; its model bytes are unchanged. |
+| E3 development resume | Recompute the Jet winner with existing `select_candidate`, require the journal's selected reference to agree, enforce local allocation path, and load the winner's checkpoint. Selection behavior is unchanged; this is verification of the saved selection. |
+| E4 synthetic release sealing | Load the freeze's selected Jet, verify the selected checkpoint-pair commitment, require K16/V8 for the study profile and the cell population shape at the receipt boundary. |
+| E4 real release sealing | Load the selected K12/V1 Jet from the independently bound receipt mode; pass it to normalized and native-row receipt validation. |
+| E4 real release reading | Resolve the verified frozen mode and its K12/V1 Jet before validating the saved coordinate receipt. |
+| Selected real pre-test reference | Retain its existing actual selected-model manifest/numeric check and exact four-by-120 inventory; additionally bind value dimension through the required model object. |
+| E5 development replay | Require the journal's selected Jet reference to equal the freeze's shape-specific reference; resolve/load that K16/V8 or K12/V1 checkpoint before audit validation. |
+| E5 stress replay | Pass the existing verified freeze into `_verify_stress`, then resolve/load its selected K16/V8 Jet. |
+| E5 synthetic release replay | Resolve/load the freeze's selected Jet and require the declared population shape before shared receipt admission. |
+| E5 real release replay | Resolve/load each bound mode's K12/V1 Jet and pass it to both normalized and native validation. |
+
+`validate_scored_receipt` has an additional keyword `coordinate_model`; it remains optional for other methods but is mandatory in effect for any Laguerre receipt or row. All original policy/count/label/source/grant/model/resource/row checks still execute. A unit release containing the coordinate control must now freeze selected checkpoint references and their pair commitment too; the existing producer-shaped unit test was updated to provide that authority, rather than weakening the validator. It also now attempts a coherent wrong-model substitution through the actual `seal_release` entry point and requires rejection.
+
+No `pipeline.py` edit was needed: E5 already has the independently verified freeze and can pass it to stress validation. No report metric, scoring formula, model parameter, candidate, seed, fallback, inference setting, or numerical acceptance threshold changed.
+
+### R2: impossible empty-comparison maxima
+
+When `evaluated_scalar_count == 0`, both `max_prediction_absolute_error` and `max_prediction_scaled_error` must be exactly zero. The producer already emits this pair. A forged 0.5 scaled maximum is rejected even after recomputing the audit hash and matching summary. No wider numerical acceptance rule was added.
+
+The all-fallback regression also coherently changes value dimension, total scalar count, summary and raw-prediction lengths; the independently selected model's value dimension rejects it. Matching ordinary fallback itself remains accepted and scored for the full inventory.
+
+### Fix verification and retained attempts
+
+[Fix-round evidence directory](e2e-coordinate-source-evidence/fix-round1/) contains exact argv, exit code, wall duration, raw combined output bytes and SHA-256 for every command. All new files are separate from the original evidence.
+
+- `red-01`: exit 1, reproduced acceptance of scaled maximum 0.5 with zero evaluated scalars.
+- `red-02`: exit 1, reproduced development-resume acceptance of a coherent wrong numeric digest. Three shared synthetic/real receipt cases also failed because the independent-model keyword was not yet implemented.
+- `green-01`: exit 0, 15 focused tests passed in 13.03 seconds.
+- `integration-01`: exit 0, copied K16/K12 development and stress replay passed, including coherent substituted digests with recomputed journal/stress hashes and unchanged frozen checkpoint references, after removal of the original run directory.
+- `covering-01`: exit 1, 88 passed and one failure. The existing all-control unit release had not frozen its selected checkpoint references; the new required independent binding rejected it. The fixture now freezes those references and checks a seal-level coherent substitution. The failure and traceback remain in the raw log.
+- **`covering-02`: exit 0, 89 passed in 29.42 seconds**, 29.713821750003262 seconds including process startup. Raw log: 180 bytes, SHA-256 `60c11aa55c8bd60f2cc34dd939c9657928a8955ebfe9fc91b7fac8e9ae6d75b2`.
+- `compile-final`: exit 0, all five changed production modules and both changed test files compiled; empty output.
+- `diff-check`: exit 0, `git diff --check`; empty output.
+- `verification-final`: exit 0, source/policy preservation and caller inventory verified; 2563 output bytes, SHA-256 `316bfd1108a02611720dc3169e225538bda11ed2186721bcda6e2255631d610d`.
+
+The exact final covering command is unchanged in scope:
+
+```sh
+.venv/bin/python -m pytest -q tests/test_poc_coordinate_diagnostic.py tests/test_poc_e3_comparators.py tests/test_poc_e3_study.py tests/test_poc_transfer.py tests/test_poc_report_inputs.py tests/test_poc_report.py tests/test_poc_report_scientific.py tests/test_poc_protected.py
+```
+
+The new tests use actual small public-unit fitted/serialized models, E3 worker-scored rows, and producer-shaped policy/count/audit artifacts. They cover coherent digest substitution at E3 resume, shared synthetic and both real-mode admission, actual synthetic sealing, and portable development/stress replay. The complete development ledger fixture reuses unit-produced row/model evidence across fixture entries; it does not run a scientific 36-candidate grid or claim those fixture losses are scientific results. Real admission coverage tests the shared receipt boundary with each mode's independently loaded model; a full real 56-block release was not manufactured or executed. Existing complete selected-reference portable checks remain in the covering suite.
+
+[Read-only fix verifier](e2e-coordinate-source-evidence/fix-round1/verify_fix.py) checks all **36 original evidence files / 66722 bytes** against the original evidence index, verifies that index against the fix base, and checks every new command receipt. Thus the original 17 invocations, including all seven RED attempts, remain byte-identical. It also records all 13 production audit/shared-receipt call sites with their explicit independent-model arguments. This source inventory complements the runtime regressions; it is not a substitute for them.
+
+### Current identity and remaining gate
+
+Current E3 is **`e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba`**. Transfer and resource policy pin it. The compatibility record retains the previous `c88b3898…` source as revision history and retains the original `bbd4772c…` historical policy/probe facts. E1 remains `f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475`; E2 remains `5cdbae0a61810a0f9d509ed1d462530d708439021f8f9fc81ce04fd12f39bfb4`. The verifier confirms core/E1/E2/worker/wire/cache/timing/pipeline/configs/locks unchanged from the fix base.
+
+The prospective 3600-second stage cap, original absolute six-hour deadline ending 03:41:39Z, and Root's remaining-time witness are unchanged. Original run01 remains failed and closed; its 1245-file inventory was not touched. This task did not independently reread those ignored run files; Root retains the byte check. The report's SDD mirror is updated byte-for-byte.
+
+**HOLD for scoped rereview of R1/R2 and their integration.** Root owns public preflight and all actual scientific execution after approval. The patch does not predict whether later mandatory state/mask checks will pass and does not turn strict-read diagnostic failures into equivalence success.

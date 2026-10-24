@@ -1,0 +1,21 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_coordinate_diagnostic.py",
+    "tests/test_poc_e3_comparators.py",
+    "tests/test_poc_e3_study.py",
+    "tests/test_poc_transfer.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report.py",
+    "tests/test_poc_report_scientific.py",
+    "tests/test_poc_protected.py"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 29.351445708001847,
+  "log": "docs/research/e2e-coordinate-source-evidence/fix-round1/covering-01.log",
+  "bytes": 4185,
+  "sha256": "71635dec5154589dff551deb3acc24312b21b32fc9be2597bb583af56b7453b5"
+}

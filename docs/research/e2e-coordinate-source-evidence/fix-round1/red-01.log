@@ -1,0 +1,60 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_e3_producer_scores_every_query_and_validates_audit ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-476/test_e3_producer_scores_every_0')
+
+    def test_e3_producer_scores_every_query_and_validates_audit(tmp_path):
+        from famjet_poc.study import _evaluate, freeze_score_policy
+        from famjet_poc.comparators import validate_coordinate_audits
+        import time
+        model, train = case(cancellation=False)
+        from famjet_poc.models import fit_training_metadata, fit_reader, make_fit_manifest
+        metadata = fit_training_metadata(lambda: iter([train]))
+        model = build_model(model.shape, model.spec, metadata['t_ref'], metadata['target_statistics'])
+        fit_reader(model, lambda: iter([train]), make_fit_manifest(model, metadata))
+        _, ep = case()
+        policy = freeze_score_policy([ep])
+        allocation = {'max_wall_seconds': 60, 'max_rss_bytes': 2**30, 'max_disk_bytes': 2**24}
+        limits = {'max_frame_bytes': 2**22, 'max_array_bytes': 2**21, 'max_histories': 64}
+        rows, summary, costs = _evaluate(model, lambda: iter([ep]), policy, model.target_statistics,
+                                        'laguerre', limits, tmp_path, time.monotonic(), allocation,
+                                        equivalent=True)
+        assert len(rows) == 8
+        assert all(row['prediction'] is not None for row in rows)
+        assert summary['status'] == 'ok'
+        diagnostic = validate_coordinate_audits(costs, rows)
+        assert diagnostic['strict_prediction_failed_histories'] == 1
+        assert diagnostic['query_count'] == 8
+        from famjet_poc.protected import (episode_count_records, write_count_sidecar,
+                                          validate_scored_receipt, _write_once)
+        receipt = {'method': 'laguerre', 'costs': costs,
+                   'score_contract': {'policy_ref': _write_once(tmp_path / 'policy.json', policy),
+                                      'statistics_sha256': canonical_hash(model.target_statistics)},
+                   'counts_ref': write_count_sidecar(episode_count_records(ep), policy['manifest_hash'], tmp_path / 'counts')}
+        assert validate_scored_receipt(receipt, rows, policy['manifest_hash'],
+                                      list(ep.events.history_ids), list(range(8)))['query_count'] == 8
+        missing = {**receipt, 'costs': {}}
+        with pytest.raises(ValueError, match='coordinate'):
+            validate_scored_receipt(missing, rows, policy['manifest_hash'],
+                                    list(ep.events.history_ids), list(range(8)))
+        fallback_ep = replace(ep, events=replace(ep.events, observed=torch.zeros_like(ep.events.observed)))
+        fallback_rows, fallback_summary, fallback_costs = _evaluate(model, lambda: iter([fallback_ep]),
+            policy, model.target_statistics, 'laguerre', limits, tmp_path / 'fallback', time.monotonic(),
+            allocation, equivalent=True)
+        assert len(fallback_rows) == 8 and all(row['fallback'] for row in fallback_rows)
+        assert all(np.isfinite(row['loss']) for row in fallback_rows)
+        assert fallback_summary['fallback_count'] == 8
+        assert validate_coordinate_audits(fallback_costs, fallback_rows)['evaluated_scalar_count'] == 0
+        empty_bad = copy.deepcopy(fallback_costs)
+        empty_bad['stream_audits'][ep.events.history_ids[0]]['coordinate_diagnostic']['max_prediction_scaled_error'] = .5
+        empty_bad['stream_audits_sha256'] = canonical_hash(empty_bad['stream_audits'])
+        empty_bad['coordinate_diagnostic_summary']['max_prediction_scaled_error'] = .5
+>       with pytest.raises(ValueError, match='coordinate'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_coordinate_diagnostic.py:136: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_coordinate_diagnostic.py::test_e3_producer_scores_every_query_and_validates_audit
+1 failed, 10 deselected in 2.28s

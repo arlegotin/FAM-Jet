@@ -1,0 +1,119 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_resume_rejects_coherent_wrong_numeric_model _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-477/test_resume_rejects_coherent_w0')
+
+    def test_resume_rejects_coherent_wrong_numeric_model(tmp_path):
+        from famjet_poc.study import _audit_terminal_entries, load_score_rows
+        modes = selected_producer(tmp_path)
+        selected = modes['selected_reference']
+        rows = load_score_rows(selected['rows_ref'])
+        policy = next(row['policy'] for row in rows if row['score_scope'] == 'primary')
+        journal = {'candidate_ledger': [], 'prefix_ledger': [],
+                   'selected': {'jet': {'fit_ref': modes['task_adapted']['jet']}},
+                   'controls': {'laguerre': {'status': 'measured', 'rows_ref': selected['rows_ref'],
+                       'score': selected['summary'], 'costs': selected['costs']}}}
+        _audit_terminal_entries(journal, policy, tmp_path)
+        journal['controls']['laguerre']['costs'] = forge_coordinate_model(selected['costs'])
+>       with pytest.raises(ValueError, match='coordinate'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_coordinate_diagnostic.py:275: Failed
+_______ test_shared_release_validator_binds_phase_checkpoint[synthetic] ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-477/test_shared_release_validator_0')
+phase = 'synthetic'
+
+    @pytest.mark.parametrize('phase', ['synthetic', 'synthetic_frozen', 'task_adapted'])
+    def test_shared_release_validator_binds_phase_checkpoint(tmp_path, phase):
+        from famjet_poc.models import load_model
+        from famjet_poc.study import load_score_rows
+        from famjet_poc.protected import (_write_once, episode_count_records, write_count_sidecar,
+                                          validate_scored_receipt)
+        modes = selected_producer(tmp_path)
+        selected = modes['selected_reference']
+        rows = load_score_rows(selected['rows_ref'])
+        ref = modes['task_adapted']['jet']
+        model = load_model(ref['path'], ref['sha256'])
+        policy = next(row['policy'] for row in rows if row['score_scope'] == 'primary')
+        records = [record for i in range(4) for record in episode_count_records(case(f'dev-{i}', queries=120)[1])]
+        receipt = {'method': 'laguerre', 'mode': phase,
+                   'model_pair_sha256': canonical_hash({'jet': ref}),
+                   'costs': selected['costs'],
+                   'score_contract': {'policy_ref': _write_once(tmp_path / 'policy.json', policy),
+                                      'statistics_sha256': canonical_hash(model.target_statistics)},
+                   'counts_ref': write_count_sidecar(records, 'a' * 64, tmp_path / 'counts')}
+        arguments = (receipt, rows, 'a' * 64, [f'dev-{i}' for i in range(4)], list(range(120)))
+>       assert validate_scored_receipt(*arguments, coordinate_model=model)['query_count'] == 480
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: validate_scored_receipt() got an unexpected keyword argument 'coordinate_model'
+
+tests/test_poc_coordinate_diagnostic.py:299: TypeError
+____ test_shared_release_validator_binds_phase_checkpoint[synthetic_frozen] ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-477/test_shared_release_validator_1')
+phase = 'synthetic_frozen'
+
+    @pytest.mark.parametrize('phase', ['synthetic', 'synthetic_frozen', 'task_adapted'])
+    def test_shared_release_validator_binds_phase_checkpoint(tmp_path, phase):
+        from famjet_poc.models import load_model
+        from famjet_poc.study import load_score_rows
+        from famjet_poc.protected import (_write_once, episode_count_records, write_count_sidecar,
+                                          validate_scored_receipt)
+        modes = selected_producer(tmp_path)
+        selected = modes['selected_reference']
+        rows = load_score_rows(selected['rows_ref'])
+        ref = modes['task_adapted']['jet']
+        model = load_model(ref['path'], ref['sha256'])
+        policy = next(row['policy'] for row in rows if row['score_scope'] == 'primary')
+        records = [record for i in range(4) for record in episode_count_records(case(f'dev-{i}', queries=120)[1])]
+        receipt = {'method': 'laguerre', 'mode': phase,
+                   'model_pair_sha256': canonical_hash({'jet': ref}),
+                   'costs': selected['costs'],
+                   'score_contract': {'policy_ref': _write_once(tmp_path / 'policy.json', policy),
+                                      'statistics_sha256': canonical_hash(model.target_statistics)},
+                   'counts_ref': write_count_sidecar(records, 'a' * 64, tmp_path / 'counts')}
+        arguments = (receipt, rows, 'a' * 64, [f'dev-{i}' for i in range(4)], list(range(120)))
+>       assert validate_scored_receipt(*arguments, coordinate_model=model)['query_count'] == 480
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: validate_scored_receipt() got an unexpected keyword argument 'coordinate_model'
+
+tests/test_poc_coordinate_diagnostic.py:299: TypeError
+______ test_shared_release_validator_binds_phase_checkpoint[task_adapted] ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-477/test_shared_release_validator_2')
+phase = 'task_adapted'
+
+    @pytest.mark.parametrize('phase', ['synthetic', 'synthetic_frozen', 'task_adapted'])
+    def test_shared_release_validator_binds_phase_checkpoint(tmp_path, phase):
+        from famjet_poc.models import load_model
+        from famjet_poc.study import load_score_rows
+        from famjet_poc.protected import (_write_once, episode_count_records, write_count_sidecar,
+                                          validate_scored_receipt)
+        modes = selected_producer(tmp_path)
+        selected = modes['selected_reference']
+        rows = load_score_rows(selected['rows_ref'])
+        ref = modes['task_adapted']['jet']
+        model = load_model(ref['path'], ref['sha256'])
+        policy = next(row['policy'] for row in rows if row['score_scope'] == 'primary')
+        records = [record for i in range(4) for record in episode_count_records(case(f'dev-{i}', queries=120)[1])]
+        receipt = {'method': 'laguerre', 'mode': phase,
+                   'model_pair_sha256': canonical_hash({'jet': ref}),
+                   'costs': selected['costs'],
+                   'score_contract': {'policy_ref': _write_once(tmp_path / 'policy.json', policy),
+                                      'statistics_sha256': canonical_hash(model.target_statistics)},
+                   'counts_ref': write_count_sidecar(records, 'a' * 64, tmp_path / 'counts')}
+        arguments = (receipt, rows, 'a' * 64, [f'dev-{i}' for i in range(4)], list(range(120)))
+>       assert validate_scored_receipt(*arguments, coordinate_model=model)['query_count'] == 480
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: validate_scored_receipt() got an unexpected keyword argument 'coordinate_model'
+
+tests/test_poc_coordinate_diagnostic.py:299: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_poc_coordinate_diagnostic.py::test_resume_rejects_coherent_wrong_numeric_model
+FAILED tests/test_poc_coordinate_diagnostic.py::test_shared_release_validator_binds_phase_checkpoint[synthetic]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_shared_release_validator_binds_phase_checkpoint[synthetic_frozen]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_shared_release_validator_binds_phase_checkpoint[task_adapted]
+4 failed, 11 deselected in 8.05s

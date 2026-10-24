@@ -1,0 +1,66 @@
+........................................................................ [ 80%]
+................F                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_unit_cell_runs_selected_pair_and_all_fixed_controls ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-480/test_unit_cell_runs_selected_p0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1117f8520>
+
+    def test_unit_cell_runs_selected_pair_and_all_fixed_controls(tmp_path, monkeypatch):
+        from famjet_poc.contracts import ReaderSpec
+        from famjet_poc.data import generate_episode
+        from famjet_poc.models import (build_model, fit_training_metadata,
+                                       make_fit_manifest, fit_reader, save_model)
+        spec = _spec()
+        episodes = [generate_episode(spec, history) for history in ('tiny-0', 'tiny-1')]
+        for episode in episodes:
+            episode.metadata['split'] = 'training'
+        factory = lambda: iter(episodes)
+        metadata = fit_training_metadata(factory)
+        refs = {}
+        for family in ('jet', 'bank'):
+            reader = ReaderSpec('ridge_v1', family, 8, 1e-2, 1 / 5224, 1., 1e-6, 1e-12)
+            model = build_model(spec.shape, reader, metadata['t_ref'], metadata['target_statistics'])
+            fit_reader(model, factory, make_fit_manifest(model, metadata))
+            ref = save_model(model, tmp_path / (family + '.json'))
+            refs[family] = {'path': str(ref.path), 'sha256': ref.sha256}
+        inputs = _inputs()
+        inputs['model_pair_sha256'] = canonical_hash({name: ref['sha256'] for name, ref in refs.items()})
+        inputs['populations'][0]['cell_id'] = 'tiny-cell'
+        frozen = freeze_study(inputs, tmp_path / 'freeze')
+        grant = grant_for(frozen, 'unit_test', 'pilot', spec, inputs['model_pair_sha256'])
+        cell = {'cell_id': 'tiny-cell', 'phase': 'unit_test', 'spec': spec.to_json(),
+                'episode_ids': ['tiny-0', 'tiny-1'], 'models': refs,
+                'allocation': {'schema_version': 1, 'phase': 'unit_test',
+                               'manifest_sha256': frozen.sha256, 'allocation_id': 'tiny',
+                               'max_wall_seconds': 30, 'max_disk_bytes': 16 * 2**20,
+                               'max_rss_bytes': 2**30},
+                'worker_limits': {'max_frame_bytes': 2**20,
+                                  'max_array_bytes': 2**19, 'max_histories': 64}}
+        receipts = evaluate_cell(frozen, cell, grant, tmp_path / 'cell')
+        assert {item['method'] for item in receipts} == {
+            'jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre'}
+        assert all(item['counts_ref']['sha256'] == receipts[0]['counts_ref']['sha256']
+                   and item['score_contract']['policy_ref']['sha256'] == receipts[0]['score_contract']['policy_ref']['sha256']
+                   for item in receipts)
+>       release = seal_release(frozen, receipts, tmp_path / 'release',
+                               expected_methods=tuple(item['method'] for item in receipts))
+
+tests/test_poc_protected.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+famjet_poc/protected.py:823: in seal_release
+    validate_scored_receipt(receipt, rows, freeze.sha256,
+famjet_poc/protected.py:579: in validate_scored_receipt
+    validate_coordinate_audits(receipt.get('costs'), rows, expected_model=coordinate_model)
+famjet_poc/comparators.py:209: in validate_coordinate_audits
+    reject()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def reject():
+>       raise ValueError('coordinate diagnostic audit/model/inventory/status mismatch')
+E       ValueError: coordinate diagnostic audit/model/inventory/status mismatch
+
+famjet_poc/comparators.py:206: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_protected.py::test_unit_cell_runs_selected_pair_and_all_fixed_controls
+1 failed, 88 passed in 29.06s
