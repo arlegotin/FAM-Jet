@@ -1,0 +1,14 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_report_exposes_failed_read_criteria_for_every_phase_and_prior_cost ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-469/test_report_exposes_failed_rea0')
+
+    def test_report_exposes_failed_read_criteria_for_every_phase_and_prior_cost(tmp_path):
+>       from famjet_poc.report import coordinate_report, coordinate_markdown
+E       ImportError: cannot import name 'coordinate_report' from 'famjet_poc.report' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report.py)
+
+tests/test_poc_coordinate_diagnostic.py:202: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_coordinate_diagnostic.py::test_report_exposes_failed_read_criteria_for_every_phase_and_prior_cost
+1 failed, 10 deselected in 0.49s

@@ -1,0 +1,262 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+___________ test_small_cancellation_keeps_original_failure_and_model ___________
+
+    def test_small_cancellation_keeps_original_failure_and_model():
+>       from famjet_poc.comparators import coordinate_model_sha256
+E       ImportError: cannot import name 'coordinate_model_sha256' from 'famjet_poc.comparators' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/comparators.py)
+
+tests/test_poc_coordinate_diagnostic.py:35: ImportError
+_________________ test_ordinary_strict_pass_keeps_diagnostics __________________
+
+    def test_ordinary_strict_pass_keeps_diagnostics():
+        model, ep = case(cancellation=False)
+        result = laguerre_control(model, ep.events, ep.queries)
+>       assert result['coordinate_diagnostics'][ep.events.history_ids[0]]['strict_prediction_status'] == 'PASSED'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'coordinate_diagnostics'
+
+tests/test_poc_coordinate_diagnostic.py:56: KeyError
+____ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[state] ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082aa650>
+corruption = 'state'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+___ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[finite] ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10dedcd60>
+corruption = 'finite'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+___ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[support] ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10deba8d0>
+corruption = 'support'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+___ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[failure] ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ddbf680>
+corruption = 'failure'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+_ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[prediction_valid] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ddbdbf0>
+corruption = 'prediction_valid'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+_ test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[numeric_supported] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10deb2550>
+corruption = 'numeric_supported'
+
+    @pytest.mark.parametrize('corruption', ['state', 'finite', 'support', 'failure', 'prediction_valid', 'numeric_supported'])
+    def test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal(monkeypatch, corruption):
+        import famjet_poc.comparators as module
+        model, ep = case(cancellation=False)
+        if corruption == 'state':
+            original = module.from_laguerre
+            def damaged(*args):
+                value = original(*args)
+                value.h.add_(1.)
+                return value
+            monkeypatch.setattr(module, 'from_laguerre', damaged)
+        else:
+            original = model.read
+            calls = 0
+            def damaged(*args):
+                nonlocal calls
+                result = original(*args)
+                calls += 1
+                if calls == 2:
+                    if corruption == 'finite':
+                        result.prediction[0, 0, 0] = float('nan')
+                    elif corruption in ('support', 'failure'):
+                        getattr(result, corruption)[0, 0].logical_not_()
+                    else:
+                        result.diagnostics[corruption][0, 0].logical_not_()
+                return result
+            monkeypatch.setattr(model, 'read', damaged)
+        with pytest.raises(ArithmeticError):
+>           laguerre_control(model, ep.events, ep.queries, diagnostic_mode=True)
+E           TypeError: laguerre_control() got an unexpected keyword argument 'diagnostic_mode'
+
+tests/test_poc_coordinate_diagnostic.py:87: TypeError
+___________ test_e3_producer_scores_every_query_and_validates_audit ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-465/test_e3_producer_scores_every_0')
+
+    def test_e3_producer_scores_every_query_and_validates_audit(tmp_path):
+        from famjet_poc.study import _evaluate, freeze_score_policy
+>       from famjet_poc.comparators import validate_coordinate_audits
+E       ImportError: cannot import name 'validate_coordinate_audits' from 'famjet_poc.comparators' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/comparators.py)
+
+tests/test_poc_coordinate_diagnostic.py:92: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_coordinate_diagnostic.py::test_small_cancellation_keeps_original_failure_and_model
+FAILED tests/test_poc_coordinate_diagnostic.py::test_ordinary_strict_pass_keeps_diagnostics
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[state]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[finite]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[support]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[failure]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[prediction_valid]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_diagnostic_mode_keeps_state_and_all_five_mask_checks_fatal[numeric_supported]
+FAILED tests/test_poc_coordinate_diagnostic.py::test_e3_producer_scores_every_query_and_validates_audit
+9 failed in 0.86s

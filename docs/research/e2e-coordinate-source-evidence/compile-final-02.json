@@ -1,0 +1,21 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/comparators.py",
+    "famjet_poc/study.py",
+    "famjet_poc/transfer.py",
+    "famjet_poc/report_inputs.py",
+    "famjet_poc/report.py",
+    "famjet_poc/protected.py",
+    "tests/test_poc_coordinate_diagnostic.py",
+    "tests/test_poc_report_scientific.py",
+    "tests/test_poc_transfer.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.059176709000894334,
+  "log": "docs/research/e2e-coordinate-source-evidence/compile-final-02.log",
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

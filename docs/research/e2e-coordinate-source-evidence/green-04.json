@@ -1,0 +1,15 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_coordinate_diagnostic.py",
+    "tests/test_poc_protected.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 11.733150624997506,
+  "log": "docs/research/e2e-coordinate-source-evidence/green-04.log",
+  "bytes": 100,
+  "sha256": "afdae4976fcc500892d0c420b0e050c9f04903e38890d10c9b9267660e778b5a"
+}

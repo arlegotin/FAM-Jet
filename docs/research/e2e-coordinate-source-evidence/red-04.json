@@ -1,0 +1,16 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_coordinate_diagnostic.py",
+    "-k",
+    "e4_e5"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 2.669056874998205,
+  "log": "docs/research/e2e-coordinate-source-evidence/red-04.log",
+  "bytes": 2309,
+  "sha256": "c3f190a2e024dfa108d3423e835300e7d658401915194ae5aa4ab30e1deb9cc7"
+}

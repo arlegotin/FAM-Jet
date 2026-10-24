@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_e4_e5_selected_model_complete_inventory_and_status_are_bound _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-467/test_e4_e5_selected_model_comp0')
+
+    def test_e4_e5_selected_model_complete_inventory_and_status_are_bound(tmp_path):
+        from famjet_poc.transfer import verify_selected_reference
+        from famjet_poc.report_inputs import ArtifactPaths, verify_selected_reference_rebased
+        import shutil
+        root = tmp_path / 'original'
+        modes = selected_producer(root)
+>       assert verify_selected_reference(modes)['status'] == 'diagnostic_complete'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_coordinate_diagnostic.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+modes = {'task_adapted': {'jet': {'path': '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pyt...64_coordinate_diagnostic_v2', 'model_sha256': 'ffed70784713808a0bd359e4ca0415e35cff25382f6b221712c226795ad1978c', ...}}
+
+    def verify_selected_reference(modes):
+        """Bind public equivalent-reference success to the selected adapted Jet."""
+        ref = modes.get('selected_reference') if type(modes) is dict else None
+        selected = modes.get('task_adapted', {}).get('jet') if type(modes) is dict else None
+        if (type(ref) is not dict or type(selected) is not dict or
+                ref.get('status') != 'passed' or ref.get('model_sha256') != selected.get('sha256') or
+                ref.get('manifest_sha256') != modes.get('beijing_manifest_sha256') or
+                type(ref.get('rows_ref')) is not dict):
+>           raise ValueError('selected task-adapted Jet equivalent reference missing/mismatched')
+E           ValueError: selected task-adapted Jet equivalent reference missing/mismatched
+
+famjet_poc/transfer.py:252: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_coordinate_diagnostic.py::test_e4_e5_selected_model_complete_inventory_and_status_are_bound
+1 failed, 9 deselected in 2.40s
