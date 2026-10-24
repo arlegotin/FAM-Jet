@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "run/progress.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01/progress.json",
+      "bytes": 5589,
+      "sha256": "7c253fcba7f40f44fc73779eb06ec7391ad04e14c9571ca9b32cc88d4505f0c1"
+    },
+    {
+      "path": "run/status.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01/status.json",
+      "bytes": 794,
+      "sha256": "022a915c5a13eca31ed632b1963f18e711e7e94880f53260e6185124e3ea9749"
+    },
+    {
+      "path": "preparation/allocation.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01-prep/allocation.json",
+      "bytes": 1036,
+      "sha256": "bd8c35d476f7837cec1f748a8aaf8b652c52866e149b104bb43d41edb68740f4"
+    },
+    {
+      "path": "preparation/exit-witness.json",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01-prep/exit-witness.json",
+      "bytes": 1726,
+      "sha256": "3de9216745b478750cf1c2ac90ddacf86409c143f0ed745099cdf3cea7c9e116"
+    },
+    {
+      "path": "preparation/stderr.log",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01-prep/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "preparation/stdout.log",
+      "original_path": "artifacts/task18-reader-adequacy-v1-checks-01-prep/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "executed-witness.py",
+      "original_path": ".superpowers/sdd/2026-10-16-famjet/task-18-reader-adequacy-run01-witness.py",
+      "bytes": 4252,
+      "sha256": "9ce44779d987b7c4b1b0136421f1a07df1b5db87c76175ce16e9e100970723d5"
+    }
+  ],
+  "status": "FAILED_BEFORE_SCIENTIFIC_WORK",
+  "reason": {
+    "message": "[Errno 1] Operation not permitted: 'ps'",
+    "type": "PermissionError"
+  },
+  "source_head": "e63a8c1824e94dad347de92039544d5dd0a5e4c0",
+  "outer_elapsed_seconds": 0.9361523330007913,
+  "model_work": "zero numerical cells and zero optimizer updates; closed inventory retained"
+}

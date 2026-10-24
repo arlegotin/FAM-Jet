@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-24T13:03:57.154799+00:00",
+  "raw_vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   367399.\nPages active:                                 876185.\nPages inactive:                               837120.\nPages speculative:                             53310.\nPages throttled:                                   0.\nPages wired down:                             165919.\nPages purgeable:                               15133.\n\"Translation faults\":                       72641326.\nPages copy-on-write:                         3764543.\nPages zero filled:                          28815918.\nPages reactivated:                             79470.\nPages purged:                                  76289.\nFile-backed pages:                            865112.\nAnonymous pages:                              901503.\nPages stored in compressor:                     1628.\nPages occupied by compressor:                    465.\nDecompressions:                                 1792.\nCompressions:                                   3447.\nPageins:                                     2448277.\nPageouts:                                        965.\nSwapins:                                           0.\nSwapouts:                                          0.\n",
+  "free_plus_speculative_bytes": 6892896256,
+  "file_backed_bytes_not_counted_as_spare": 14173995008,
+  "disk_free_bytes": 293361741824,
+  "status": "PASSED_PRE_RELEASE_ONLY",
+  "actual_cli_must_repeat": true
+}

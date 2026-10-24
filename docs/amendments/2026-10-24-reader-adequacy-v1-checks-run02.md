@@ -1,0 +1,7 @@
+# Reader adequacy check02 — execution permission correction
+
+The [first attempt](../research/task18-reader-adequacy-v1-checks-run01-report.md) failed before admission because sandboxed `ps` was prohibited. Its actual failure and full cost remain preserved. A separate approved host-tool read-only process-RSS probe succeeded. Root selects that execution path for one fresh invocation; no source fix, numerical tolerance change or memory-policy relaxation is needed.
+
+Release exactly one `numerical_then_tiny_fit` run using the already reviewed source and exact [run01 scientific settings and caps](2026-10-24-reader-adequacy-v1-checks-run01.md). Use fresh one-use `artifacts/task18-reader-adequacy-v1-checks-02` and sibling `-02-prep`; bind actual clean HEAD after this metadata commit and use the tool's approved host execution mode so the monitor can read this job's RSS. The coordinator differs only in new paths and source literal. Keep1200seconds total/1180work+20finalization,1GiB incrementalRSS,2GiB output, CPU1 and pre-import thread variables. Fresh pre-release free-plus-speculative RAM is6.420GiB, disk273.214GiB; actual CLI repeats admission.
+
+This is a specific permission correction based on an observed failure, not an automatic model retry. No earlier model outcome exists to select or discard. No original768/96fit, development, protected work, other-job termination or system change. The same fixed numerical/tiny-fit stopping/failure rules apply; any new failure remains failed and requires diagnosis rather than an automatic rerun.
