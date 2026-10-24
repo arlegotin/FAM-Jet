@@ -1,0 +1,3 @@
+# Root post-return publication — 24 October 2026
+
+Root observed the one-use witness command finish with actual returncode 0. Its retained terminal bytes agree with the wrapper commitment. The recorded observation includes final witness-result, stdout, preparation and output trees after the wrapper returned; no model or scientific work was released. Original deadline, receipt reserve and output caps passed. The separately recorded observer bookkeeping and this validation are external custody outside the self-measured program/receipt boundary, not a claim of zero cost. This accepts only the empty binding and leaves any numerical panel separately unreleased. Binding01 remains FAILED.
