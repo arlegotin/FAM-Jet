@@ -1,0 +1,5 @@
+# Representative fit resource calibration —24 October2026
+
+Four declared resource-only fits completed on96 balanced training histories,6144 coordinate rows each. Jet q8/q16 took1.9583/1.9273s; Bank q8/q16 took1.9118/1.9178s including metadata, fitting, serialization and reload. Cache construction took4.6328s. The monitored process completed in13.1241s, maximum sampled currentRSSsum297926656B, output19428974B. All model/cache/input/witness bytes are retained. No development score or protected history was used, and these four fits cannot select the primary pair.
+
+The representative component forecast is1034.921536171627s for the40-fit/46-panel study, before unmeasured variation. Adopted guard:2400s continuous phase wall time,2GiB output,1.5GiB currentRSSsum, with original cache/worker ceilings unchanged. This is an allocation derived from timing, not a promised duration or scientific outcome. The earlier tiny probe forecast remains retained, explicitly superseded for fitting-time planning. Both resource probes and all four extra fit expenditures enter the final cost inventory.

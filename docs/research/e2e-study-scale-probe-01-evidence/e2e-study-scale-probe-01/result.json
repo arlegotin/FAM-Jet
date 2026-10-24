@@ -1,0 +1,119 @@
+{
+  "purpose": "resource_only_no_method_selection",
+  "status": "complete",
+  "cache_seconds": 4.632753458998195,
+  "history_count": 96,
+  "event_count": 86016,
+  "fits": [
+    {
+      "family": "jet",
+      "query_width": 8,
+      "seconds": 1.9582639999971434,
+      "fit_rows": 6144,
+      "fit_objective": 1.6177877182033584,
+      "model_ref": {
+        "path": "artifacts/e2e-study-scale-probe-01/jet-q8.json",
+        "sha256": "146a027de387d7fe56c3fbaefa429e68f66679d76f2d30931576b250f2e05bf7"
+      },
+      "cache_stats": {
+        "terminal_hits": 96,
+        "terminal_misses": 96,
+        "raw_hits": 96,
+        "raw_misses": 96
+      },
+      "admission": {
+        "elapsed_seconds": 6.590819875000307,
+        "rss_bytes": 239878144,
+        "disk_bytes": 19304666,
+        "remaining_wall_seconds": 173.4091801249997,
+        "remaining_disk_bytes": 517566246,
+        "remaining_rss_bytes": 1370734592
+      }
+    },
+    {
+      "family": "jet",
+      "query_width": 16,
+      "seconds": 1.9272662080002192,
+      "fit_rows": 6144,
+      "fit_objective": 1.2338876742314049,
+      "model_ref": {
+        "path": "artifacts/e2e-study-scale-probe-01/jet-q16.json",
+        "sha256": "495bc1e725a16e3fa0f7359bdb343dd90990d89d30a72db7d91980b2dec86a67"
+      },
+      "cache_stats": {
+        "terminal_hits": 96,
+        "terminal_misses": 96,
+        "raw_hits": 96,
+        "raw_misses": 96
+      },
+      "admission": {
+        "elapsed_seconds": 8.518257083000208,
+        "rss_bytes": 267042816,
+        "disk_bytes": 19346635,
+        "remaining_wall_seconds": 171.4817429169998,
+        "remaining_disk_bytes": 517524277,
+        "remaining_rss_bytes": 1343569920
+      }
+    },
+    {
+      "family": "bank",
+      "query_width": 8,
+      "seconds": 1.911752374999196,
+      "fit_rows": 6144,
+      "fit_objective": 1.6107625836196726,
+      "model_ref": {
+        "path": "artifacts/e2e-study-scale-probe-01/bank-q8.json",
+        "sha256": "d5a6f3ea6103d6472258ca0e430971d1f7f6987eb4e06c646fd83b00199c70db"
+      },
+      "cache_stats": {
+        "terminal_hits": 96,
+        "terminal_misses": 96,
+        "raw_hits": 96,
+        "raw_misses": 96
+      },
+      "admission": {
+        "elapsed_seconds": 10.430507541001134,
+        "rss_bytes": 271138816,
+        "disk_bytes": 19381904,
+        "remaining_wall_seconds": 169.56949245899887,
+        "remaining_disk_bytes": 517489008,
+        "remaining_rss_bytes": 1339473920
+      }
+    },
+    {
+      "family": "bank",
+      "query_width": 16,
+      "seconds": 1.9178002500011644,
+      "fit_rows": 6144,
+      "fit_objective": 1.2675059062468885,
+      "model_ref": {
+        "path": "artifacts/e2e-study-scale-probe-01/bank-q16.json",
+        "sha256": "f944e2ef588eb2f9013f5f0fd50332e9fefdb73afa8226d06cb9bc56f7efee77"
+      },
+      "cache_stats": {
+        "terminal_hits": 96,
+        "terminal_misses": 96,
+        "raw_hits": 96,
+        "raw_misses": 96
+      },
+      "admission": {
+        "elapsed_seconds": 12.348518916001922,
+        "rss_bytes": 275513344,
+        "disk_bytes": 19423984,
+        "remaining_wall_seconds": 167.65148108399808,
+        "remaining_disk_bytes": 517446928,
+        "remaining_rss_bytes": 1335099392
+      }
+    }
+  ],
+  "manifest_sha256": "9ce2fdc47f3d9dd22caff9e97a61399e2a5d1594fd24eaa2a42506f95dcb29e7",
+  "elapsed_seconds": 12.349650791002205,
+  "final_admission": {
+    "elapsed_seconds": 12.349651125001401,
+    "rss_bytes": 275513344,
+    "disk_bytes": 19424753,
+    "remaining_wall_seconds": 167.6503488749986,
+    "remaining_disk_bytes": 517446159,
+    "remaining_rss_bytes": 1335099392
+  }
+}

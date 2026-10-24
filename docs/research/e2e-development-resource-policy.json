@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "phase": "development",
+  "allocation_policy_id": "e2e-measured-development-v1",
+  "expected_e3_source_sha256": "e02e4750995cf7614be45c46a839b7ce1717e0e4a88e60eef5012946f93f8608",
+  "study_config_path": "docs/research/e2e-study-config.json",
+  "probe_ref": {
+    "path": "docs/research/e2e-study-probe-01-evidence/e2e-study-probe-01/probe.json",
+    "sha256": "e64755a4fb4d58ae0dfa310c3bcb46ee652e6ef13bb4b265cb09d73d68a17e32"
+  },
+  "resource_probe_result_ref": {
+    "path": "docs/research/e2e-study-scale-probe-01-evidence/e2e-study-scale-probe-01/result.json",
+    "sha256": "eaf8e215d1fe72c4c6d8d370f700cf83825f0a8e9852b8f1e9d69892346857ef"
+  },
+  "forecast_seconds": {
+    "36_candidate_fits": 555.4859639758361,
+    "four_prefix_fits_upper": 23.49916799996572,
+    "shared_cache_construction": 46.32753458998195,
+    "46_stream_panels": 332.91970501374453,
+    "138_cold_worker_batches": 76.68916459209868,
+    "total": 1034.921536171627
+  },
+  "max_wall_seconds": 2400,
+  "deadline_rule": "ceil_to_300(2*representative_component_forecast+180)",
+  "max_rss_bytes": 1610612736,
+  "max_disk_bytes": 2147483648,
+  "scope": "K16/V8 study,36candidates+4prefixfits+6controlpanels; actual through finalCLI",
+  "resource_only_extra_fits": 4,
+  "resource_only_extra_training_histories": 96,
+  "selection_uses_extra_fits": false,
+  "unknowns": "unmeasured ridge/grid variability, baseline costs, scoring/row volume and runtime scaling; guarded, not completion promise"
+}
