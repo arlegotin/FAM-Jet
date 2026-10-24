@@ -371,7 +371,7 @@ class Backend:
         from famjet.eval.state_io import snapshot_hash, snapshot_record
         from validation.kernel_stage_a import commands
         from validation.kernel_stage_a.production import owned_reader_dispatch
-        from .authority import canonical, digest, strict_json
+        from .authority import canonical, digest, project_launcher, strict_json
 
         if self.candidate_deadline is None or time.monotonic() >= self.candidate_deadline:
             raise TimeoutError("candidate/original deadline before read")
@@ -404,7 +404,7 @@ class Backend:
         env.update(PYTORCH_ENABLE_MPS_FALLBACK="0", PYTORCH_MPS_FAST_MATH="0")
         vector = commands.reader_command(self.root, self.out / "monitor-events.jsonl",
                                          self.candidate_deadline)
-        if vector[0] != self.plan["execution"]["runtime"]["executable"]:
+        if vector[0] != project_launcher(self.root, self.plan["execution"]["runtime"]):
             raise ValueError("reader Python image mismatch")
         with (tempfile.TemporaryDirectory(prefix="reader-", dir=self.out) as work,
               stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr):

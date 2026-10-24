@@ -95,6 +95,7 @@ def test_external_read_request_types_query_features_for_fp64_state(family, tmp_p
     """Serializing raw FP32 query features would fail the real reader contract."""
     from validation.kernel_stage_a import commands
     from validation.kernel_stage_a import production as stage_a_production
+    from validation.kernel_stage_b import authority
 
     plan = json.loads((ROOT / "validation/kernel_stage_b/prospective-plan.json").read_bytes())
     candidate = next(c for c in plan["candidates"] if c["family"] == family)
@@ -130,6 +131,7 @@ def test_external_read_request_types_query_features_for_fp64_state(family, tmp_p
         pass
 
     monkeypatch.setattr(commands, "reader_command", lambda *args: ["python"])
+    monkeypatch.setattr(authority, "project_launcher", lambda root, runtime: "python")
     monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
                         lambda *args, **kwargs: (_ for _ in ()).throw(ReachedDispatch()))
     backend = Backend.__new__(Backend)
