@@ -1,0 +1,45 @@
+....................FF                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_run_binds_real_production_shift_and_scale_sign_controls _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-183/test_run_binds_real_production0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a351e50>
+
+    def test_run_binds_real_production_shift_and_scale_sign_controls(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'controls'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+>       assert evidence['transform_control']['passed'] is True
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'transform_control'
+
+tests/test_poc_inference.py:328: KeyError
+________ test_corrupt_production_scale_control_blocks_run_before_counts ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-183/test_corrupt_production_scale_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a33e210>
+
+    def test_corrupt_production_scale_control_blocks_run_before_counts(tmp_path, monkeypatch):
+        original = inf.conditional_interval
+        calls = [0]
+        def corrupt_fourth_input(d, strata, **kwargs):
+            result = original(d, strata, **kwargs)
+            calls[0] += 1
+            if calls[0] == 4:
+                result['upper'] += 1.
+            return result
+        monkeypatch.setattr(inf, 'conditional_interval', corrupt_fourth_input)
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'bad-control'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+>       assert evidence['status'] == 'fail'
+E       AssertionError: assert 'incomplete' == 'fail'
+E         
+E         - fail
+E         + incomplete
+
+tests/test_poc_inference.py:349: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_run_binds_real_production_shift_and_scale_sign_controls
+FAILED tests/test_poc_inference.py::test_corrupt_production_scale_control_blocks_run_before_counts
+2 failed, 20 passed in 0.63s

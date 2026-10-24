@@ -1,0 +1,31 @@
+...........F..........                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_validator_rejects_wrong_per_cell_and_tampered_endpoints _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-184/test_validator_rejects_wrong_p0')
+
+    def test_validator_rejects_wrong_per_cell_and_tampered_endpoints(tmp_path):
+        out = tmp_path/'mini'
+        out.mkdir()
+        evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+        inf._atomic_json(out/'evidence.json', evidence)
+        wrong = inf.calibration_batch(1, 0, 2, per_cell=4)
+        inf._store_batch(out, evidence, wrong)
+        assert inf.validate_calibration(evidence, {'out': out})['status'] == 'fail'
+        out = tmp_path/'proper-mini'
+        out.mkdir()
+        evidence = inf._initial_evidence(1, inf.ATTEMPTS[1], 128, 'calibration', deadline_monotonic=1e12)
+        inf._atomic_json(out/'evidence.json', evidence)
+        inf._store_batch(out, evidence, inf.calibration_batch(1, 0, 2))
+        record = evidence['fixtures']['1']['batches'][0]
+        assert record['per_cell'] == 128
+>       assert inf.validate_calibration(evidence, {'out': out})['status'] == 'incomplete'
+E       AssertionError: assert 'fail' == 'incomplete'
+E         
+E         - incomplete
+E         + fail
+
+tests/test_poc_inference.py:175: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_validator_rejects_wrong_per_cell_and_tampered_endpoints
+1 failed, 21 passed in 0.61s

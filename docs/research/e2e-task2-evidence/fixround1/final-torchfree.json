@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "import sys; from famjet_poc import inference; assert \"torch\" not in sys.modules; print(inference.source_identity()[\"sha256\"])"
+  ],
+  "elapsed_seconds": 0.5043623339988699,
+  "exit_code": 0,
+  "log_bytes": 65,
+  "log_sha256": "d8ebcc12c41398064d8f58a40ef6addc00972e42c941c6b11428196c0ac64eee"
+}

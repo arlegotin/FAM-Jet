@@ -1,0 +1,160 @@
+...............FFFFF                                                     [100%]
+=================================== FAILURES ===================================
+_________ test_batch_uses_production_interval_for_real_shifted_inputs __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bf7e580>
+
+    def test_batch_uses_production_interval_for_real_shifted_inputs(monkeypatch):
+        original = inf.conditional_interval
+        calls = [0]
+        def corrupt_second_input(d, strata, **kwargs):
+            result = original(d, strata, **kwargs)
+            calls[0] += 1
+            if calls[0] % 3 == 2:
+                result['upper'] += 1.
+            return result
+        monkeypatch.setattr(inf, 'conditional_interval', corrupt_second_input)
+        batch = inf.calibration_batch(1, 0, 2, per_cell=4)
+>       assert batch['shift_coverage_equal'] is False
+E       assert True is False
+
+tests/test_poc_inference.py:247: AssertionError
+__________ test_batch_matches_production_interval_and_affine_controls __________
+
+    def test_batch_matches_production_interval_and_affine_controls():
+        strata = np.repeat(np.arange(12), 4)
+        for fixture in range(1, 9):
+            batch = inf.calibration_batch(fixture, 0, 2, per_cell=4)
+            for r in range(2):
+                d = np.concatenate([.25*inf.fixture_scales(fixture)[g]*inf._draw(
+                    fixture, inf._counter_seed(2026102401901, 'e2e-inference-calibration-v1', fixture, r, g), 4)
+                    for g in range(12)])
+>               actual = inf.conditional_interval(d, strata)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_inference.py:258: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+d = array([-0.03571429, -0.03571429, -0.03571429, -0.03571429, -0.03571429,
+       -0.03571429, -0.03571429, -0.03571429, ...
+       -0.03571429, -0.03571429, -0.03571429, -0.03571429, -0.03571429,
+       -0.03571429, -0.03571429, -0.03571429])
+strata = array([ 0,  0,  0,  0,  1,  1,  1,  1,  2,  2,  2,  2,  3,  3,  3,  3,  4,
+        4,  4,  4,  5,  5,  5,  5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,
+        8,  8,  9,  9,  9,  9, 10, 10, 10, 10, 11, 11, 11, 11])
+weights = None, identical_method = False
+
+    def conditional_interval(d, strata, *, weights=None, identical_method=False):
+        """Finite JSON-compatible stratified Welch interval for paired history losses."""
+        d = np.asarray(d, dtype=np.float64)
+        strata = np.asarray(strata)
+        if d.ndim != 1 or strata.ndim != 1 or len(d) != len(strata) or not len(d) or not _finite(d):
+            raise ValueError('finite one-dimensional paired history data required')
+        if strata.dtype.kind not in 'iu' or np.any(strata < 0):
+            raise ValueError('integer contiguous strata required')
+        g = int(np.max(strata)) + 1
+        if set(strata.tolist()) != set(range(g)):
+            raise ValueError('all contiguous strata required')
+        w = np.full(g, 1/g) if weights is None else np.asarray(weights, dtype=np.float64)
+        if w.shape != (g,) or not _finite(w) or np.any(w <= 0) or not math.isclose(float(w.sum()), 1., abs_tol=1e-14):
+            raise ValueError('positive normalized weights required')
+        if identical_method and np.any(d != 0):
+            raise ValueError('identical-method claim contradicts paired losses')
+        counts = [int(np.count_nonzero(strata == i)) for i in range(g)]
+        if any(n < 2 for n in counts):
+            raise ValueError('at least two histories per stratum required')
+        means = np.array([np.mean(d[strata == i]) for i in range(g)])
+        vars_ = np.array([np.var(d[strata == i], ddof=1) for i in range(g)])
+        a = w*w*vars_/counts
+        D = float(w @ means)
+        V = float(np.sum(a))
+        if not math.isfinite(D) or not math.isfinite(V) or V < 0:
+            raise ValueError('nonrepresentable Welch estimate')
+        if V == 0:
+            if not identical_method or D != 0:
+>               raise ValueError('zero variance blocks non-identical inference')
+E               ValueError: zero variance blocks non-identical inference
+
+famjet_poc/inference.py:119: ValueError
+____ test_revised_scientific_panel_binds_attempt_allocation_and_calibration ____
+
+    def test_revised_scientific_panel_binds_attempt_allocation_and_calibration():
+        ids = {str(g): [f'{g}-{i}' for i in range(256)] for g in range(12)}
+        rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0., 'bank_loss': float(i), 'units': 'history'}
+                for g in range(12) for i, hid in enumerate(ids[str(g)])]
+        manifest = {'panel': 'confirmation', 'units': 'history', 'strata': list(inf.STRATA),
+                    'history_ids_by_stratum': ids, 'weights': [1/12]*12, 'attempt': 2,
+                    'per_cell': 256, 'source_sha256': inf.source_identity()['sha256'],
+                    'calibration_evidence_sha256': 'a'*64}
+>       assert len(inf.validate_history_pairs(rows, manifest)[0]) == 3072
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_inference.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+rows = [{'history_id': '0-0', 'stratum': 0, 'jet_loss': 0.0, 'bank_loss': 0.0, ...}, {'history_id': '0-1', 'stratum': 0, 'jet...t_loss': 0.0, 'bank_loss': 4.0, ...}, {'history_id': '0-5', 'stratum': 0, 'jet_loss': 0.0, 'bank_loss': 5.0, ...}, ...]
+manifest = {'panel': 'confirmation', 'units': 'history', 'strata': ['128:piecewise_stationary', '128:trend_reset', '128:periodic_... '2': ['2-0', '2-1', '2-2', '2-3', '2-4', '2-5', ...], '3': ['3-0', '3-1', '3-2', '3-3', '3-4', '3-5', ...], ...}, ...}
+
+    def validate_history_pairs(rows, manifest):
+        """Require exactly one pre-averaged paired loss per committed history ID."""
+        if type(manifest) is not dict or manifest.get('units') != 'history' or manifest.get('panel') not in {'unit_test', 'nuisance', 'confirmation', 'replication'}:
+            raise ValueError('history manifest required')
+        inventory = manifest.get('history_ids_by_stratum')
+        if type(inventory) is not dict or sorted(inventory, key=lambda x: int(x)) != [str(i) for i in range(len(inventory))]:
+            raise ValueError('contiguous stratum inventory required')
+        panel = manifest['panel']
+        if panel != 'unit_test':
+            if manifest.get('strata') != list(STRATA):
+                raise ValueError('primary stratum labels and order required')
+            expected_per_cell = 16 if panel == 'nuisance' else 128
+            if len(inventory) != 12 or any(len(ids) != expected_per_cell for ids in inventory.values()):
+>               raise ValueError('fixed 12-stratum panel allocation required')
+E               ValueError: fixed 12-stratum panel allocation required
+
+famjet_poc/inference.py:151: ValueError
+________ test_final_batch_deadline_overrun_is_incomplete_and_persisted _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-175/test_final_batch_deadline_over0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bf7f020>
+
+    def test_final_batch_deadline_overrun_is_incomplete_and_persisted(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf, 'N', 1)
+        monkeypatch.setattr(inf, 'FIXTURES', (1,))
+        ticks = iter([0., 0., 100., 100., 100.])
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+        out = tmp_path/'last-batch-overrun'
+        evidence = inf.run_calibration(out, deadline_monotonic=50.)
+>       assert evidence['status'] == 'incomplete'
+E       AssertionError: assert 'complete' == 'incomplete'
+E         
+E         - incomplete
+E         ? --
+E         + complete
+
+tests/test_poc_inference.py:303: AssertionError
+_______________ test_timing_and_canonical_metadata_are_validated _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-175/test_timing_and_canonical_meta0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10c022650>
+
+    def test_timing_and_canonical_metadata_are_validated(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'incomplete'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+        for key, value in (('schema', 2), ('engine', 'other'), ('strata', list(reversed(inf.STRATA)))):
+            changed = {**evidence, key: value}
+            inf._atomic_json(out/'evidence.json', changed)
+>           assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+E           AssertionError: assert 'incomplete' == 'fail'
+E             
+E             - fail
+E             + incomplete
+
+tests/test_poc_inference.py:316: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_batch_uses_production_interval_for_real_shifted_inputs
+FAILED tests/test_poc_inference.py::test_batch_matches_production_interval_and_affine_controls
+FAILED tests/test_poc_inference.py::test_revised_scientific_panel_binds_attempt_allocation_and_calibration
+FAILED tests/test_poc_inference.py::test_final_batch_deadline_overrun_is_incomplete_and_persisted
+FAILED tests/test_poc_inference.py::test_timing_and_canonical_metadata_are_validated
+5 failed, 15 passed in 0.60s

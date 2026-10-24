@@ -1,0 +1,98 @@
+....F............FFF                                                     [100%]
+=================================== FAILURES ===================================
+_________________ test_laws_seeds_and_translation_small_batch __________________
+
+    def test_laws_seeds_and_translation_small_batch():
+        for fixture in range(1, 9):
+            batch = inf.calibration_batch(fixture, 0, 3, per_cell=4)
+            assert len(batch['D']) == 3
+            assert len(batch['status']) == 3
+            assert batch['counts']['total'] == 3
+            assert batch['counter_commitment'] == inf.calibration_batch(fixture, 0, 3, per_cell=4)['counter_commitment']
+>           assert np.array_equal(batch['D'], inf.calibration_batch(fixture, 0, 3, per_cell=4)['D'])
+E           assert False
+E            +  where False = <function array_equal at 0x106c096f0>(array([0.0014881,       nan,       nan]), array([0.0014881,       nan,       nan]))
+E            +    where <function array_equal at 0x106c096f0> = np.array_equal
+
+tests/test_poc_inference.py:71: AssertionError
+____ test_revised_scientific_panel_binds_attempt_allocation_and_calibration ____
+
+    def test_revised_scientific_panel_binds_attempt_allocation_and_calibration():
+        ids = {str(g): [f'{g}-{i}' for i in range(256)] for g in range(12)}
+        rows = [{'history_id': hid, 'stratum': g, 'jet_loss': 0., 'bank_loss': float(i), 'units': 'history'}
+                for g in range(12) for i, hid in enumerate(ids[str(g)])]
+        manifest = {'panel': 'confirmation', 'units': 'history', 'strata': list(inf.STRATA),
+                    'history_ids_by_stratum': ids, 'weights': [1/12]*12, 'attempt': 2,
+                    'per_cell': 256, 'source_sha256': inf.source_identity()['sha256'],
+                    'calibration_evidence_sha256': 'a'*64}
+>       assert len(inf.validate_history_pairs(rows, manifest)[0]) == 3072
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_inference.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+rows = [{'history_id': '0-0', 'stratum': 0, 'jet_loss': 0.0, 'bank_loss': 0.0, ...}, {'history_id': '0-1', 'stratum': 0, 'jet...t_loss': 0.0, 'bank_loss': 4.0, ...}, {'history_id': '0-5', 'stratum': 0, 'jet_loss': 0.0, 'bank_loss': 5.0, ...}, ...]
+manifest = {'panel': 'confirmation', 'units': 'history', 'strata': ['128:piecewise_stationary', '128:trend_reset', '128:periodic_... '2': ['2-0', '2-1', '2-2', '2-3', '2-4', '2-5', ...], '3': ['3-0', '3-1', '3-2', '3-3', '3-4', '3-5', ...], ...}, ...}
+
+    def validate_history_pairs(rows, manifest):
+        """Require exactly one pre-averaged paired loss per committed history ID."""
+        if type(manifest) is not dict or manifest.get('units') != 'history' or manifest.get('panel') not in {'unit_test', 'nuisance', 'confirmation', 'replication'}:
+            raise ValueError('history manifest required')
+        inventory = manifest.get('history_ids_by_stratum')
+        if type(inventory) is not dict or sorted(inventory, key=lambda x: int(x)) != [str(i) for i in range(len(inventory))]:
+            raise ValueError('contiguous stratum inventory required')
+        panel = manifest['panel']
+        if panel != 'unit_test':
+            if manifest.get('strata') != list(STRATA):
+                raise ValueError('primary stratum labels and order required')
+            expected_per_cell = 16 if panel == 'nuisance' else 128
+            if len(inventory) != 12 or any(len(ids) != expected_per_cell for ids in inventory.values()):
+>               raise ValueError('fixed 12-stratum panel allocation required')
+E               ValueError: fixed 12-stratum panel allocation required
+
+famjet_poc/inference.py:151: ValueError
+________ test_final_batch_deadline_overrun_is_incomplete_and_persisted _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-177/test_final_batch_deadline_over0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ac9acf0>
+
+    def test_final_batch_deadline_overrun_is_incomplete_and_persisted(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf, 'N', 1)
+        monkeypatch.setattr(inf, 'FIXTURES', (1,))
+        ticks = iter([0., 0., 100., 100., 100.])
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+        out = tmp_path/'last-batch-overrun'
+        evidence = inf.run_calibration(out, deadline_monotonic=50.)
+>       assert evidence['status'] == 'incomplete'
+E       AssertionError: assert 'complete' == 'incomplete'
+E         
+E         - incomplete
+E         ? --
+E         + complete
+
+tests/test_poc_inference.py:303: AssertionError
+_______________ test_timing_and_canonical_metadata_are_validated _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-177/test_timing_and_canonical_meta0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ad3e150>
+
+    def test_timing_and_canonical_metadata_are_validated(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'incomplete'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+        for key, value in (('schema', 2), ('engine', 'other'), ('strata', list(reversed(inf.STRATA)))):
+            changed = {**evidence, key: value}
+            inf._atomic_json(out/'evidence.json', changed)
+>           assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+E           AssertionError: assert 'incomplete' == 'fail'
+E             
+E             - fail
+E             + incomplete
+
+tests/test_poc_inference.py:316: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_laws_seeds_and_translation_small_batch
+FAILED tests/test_poc_inference.py::test_revised_scientific_panel_binds_attempt_allocation_and_calibration
+FAILED tests/test_poc_inference.py::test_final_batch_deadline_overrun_is_incomplete_and_persisted
+FAILED tests/test_poc_inference.py::test_timing_and_canonical_metadata_are_validated
+4 failed, 16 passed in 0.62s

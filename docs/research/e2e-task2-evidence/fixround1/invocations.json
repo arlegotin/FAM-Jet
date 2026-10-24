@@ -1,0 +1,156 @@
+{
+  "final-compile": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "py_compile",
+      "famjet_poc/inference.py",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.07283812500099884,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "final-pytest": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7309404169973277,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "b7456fe1c73277ed8a41d0de67f445660ef54ae8186642ae68ec93519cc7ba5b"
+  },
+  "final-torchfree": {
+    "argv": [
+      ".venv/bin/python",
+      "-c",
+      "import sys; from famjet_poc import inference; assert \"torch\" not in sys.modules; print(inference.source_identity()[\"sha256\"])"
+    ],
+    "elapsed_seconds": 0.5043623339988699,
+    "exit_code": 0,
+    "log_bytes": 65,
+    "log_sha256": "d8ebcc12c41398064d8f58a40ef6addc00972e42c941c6b11428196c0ac64eee"
+  },
+  "green-01": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7502431250031805,
+    "exit_code": 1,
+    "log_bytes": 6183,
+    "log_sha256": "f26361aaa43649b7706123ebe8132a000065e77246d84d9ff96950d90282d20b"
+  },
+  "green-02": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.8049290830022073,
+    "exit_code": 1,
+    "log_bytes": 2417,
+    "log_sha256": "7fd10d0ae6f432939aee36dd330b93eaca0f0aa45890998777848b40798d5d15"
+  },
+  "green-03": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7269638750003651,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "6813a01e443ba0b5d2b51dba6b1f9d7dd7a49d5522a726c16a47b9e2fe03e4e9"
+  },
+  "green-04": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7422855000004347,
+    "exit_code": 1,
+    "log_bytes": 1713,
+    "log_sha256": "d0a3d4236fc8658802a59aff36a4341d4ebce25b93be0fd2a2332623e1710b90"
+  },
+  "green-05": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7493635409991839,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "647f250cad6dc10d1c2147747c0c30111060e43f2802bac26eef0f37b9890ae9"
+  },
+  "green-06": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7485006669994618,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "647f250cad6dc10d1c2147747c0c30111060e43f2802bac26eef0f37b9890ae9"
+  },
+  "green-07": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.744970709001791,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_sha256": "1098d5b484eb74c8355af313e2292f4460a2c998c5011daf0bde3f0507b8f1c6"
+  },
+  "red-01": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.8027705839995178,
+    "exit_code": 1,
+    "log_bytes": 9445,
+    "log_sha256": "c2232a6162860e97c9428a029c46105a9695d5ef91f8e29bcac08c56710ad1d4"
+  },
+  "red-02": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_inference.py"
+    ],
+    "elapsed_seconds": 0.7666563339989807,
+    "exit_code": 1,
+    "log_bytes": 2348,
+    "log_sha256": "adb0d270243da18e2c20628120b8e012c457c6183b98d16f8e92489fe4933035"
+  }
+}

@@ -1,0 +1,45 @@
+..................FF                                                     [100%]
+=================================== FAILURES ===================================
+________ test_final_batch_deadline_overrun_is_incomplete_and_persisted _________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-180/test_final_batch_deadline_over0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e47a8b0>
+
+    def test_final_batch_deadline_overrun_is_incomplete_and_persisted(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf, 'N', 1)
+        monkeypatch.setattr(inf, 'FIXTURES', (1,))
+        ticks = iter([0., 0., 100., 100., 100.])
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: next(ticks))
+        out = tmp_path/'last-batch-overrun'
+        evidence = inf.run_calibration(out, deadline_monotonic=50.)
+>       assert evidence['status'] == 'incomplete'
+E       AssertionError: assert 'complete' == 'incomplete'
+E         
+E         - incomplete
+E         ? --
+E         + complete
+
+tests/test_poc_inference.py:305: AssertionError
+_______________ test_timing_and_canonical_metadata_are_validated _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-180/test_timing_and_canonical_meta0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e525c50>
+
+    def test_timing_and_canonical_metadata_are_validated(tmp_path, monkeypatch):
+        monkeypatch.setattr(inf.time, 'monotonic', lambda: 100.)
+        out = tmp_path/'incomplete'
+        evidence = inf.run_calibration(out, deadline_monotonic=99.)
+        for key, value in (('schema', 2), ('engine', 'other'), ('strata', list(reversed(inf.STRATA)))):
+            changed = {**evidence, key: value}
+            inf._atomic_json(out/'evidence.json', changed)
+>           assert inf.validate_calibration(changed, {'out': out})['status'] == 'fail'
+E           AssertionError: assert 'incomplete' == 'fail'
+E             
+E             - fail
+E             + incomplete
+
+tests/test_poc_inference.py:318: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_inference.py::test_final_batch_deadline_overrun_is_incomplete_and_persisted
+FAILED tests/test_poc_inference.py::test_timing_and_canonical_metadata_are_validated
+2 failed, 18 passed in 0.68s
