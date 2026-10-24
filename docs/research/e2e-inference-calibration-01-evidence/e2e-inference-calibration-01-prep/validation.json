@@ -1,0 +1,119 @@
+{
+  "status": "fail",
+  "guards": {
+    "1": {
+      "coverage": true,
+      "null_rejection": true,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "2": {
+      "coverage": false,
+      "null_rejection": false,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "3": {
+      "coverage": false,
+      "null_rejection": false,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "4": {
+      "coverage": true,
+      "null_rejection": true,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "5": {
+      "coverage": false,
+      "null_rejection": false,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "6": {
+      "coverage": true,
+      "null_rejection": true,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "7": {
+      "coverage": true,
+      "null_rejection": true,
+      "positive_power": true,
+      "negative_power": true
+    },
+    "8": {
+      "coverage": true,
+      "null_rejection": true,
+      "positive_power": true,
+      "negative_power": true
+    }
+  },
+  "counts": {
+    "1": {
+      "total": 20000,
+      "coverage": 18959,
+      "null_rejection": 1041,
+      "positive_power": 20000,
+      "negative_power": 20000,
+      "invalid": 0
+    },
+    "2": {
+      "total": 20000,
+      "coverage": 18894,
+      "null_rejection": 1106,
+      "positive_power": 20000,
+      "negative_power": 19996,
+      "invalid": 0
+    },
+    "3": {
+      "total": 20000,
+      "coverage": 18917,
+      "null_rejection": 1083,
+      "positive_power": 19999,
+      "negative_power": 20000,
+      "invalid": 0
+    },
+    "4": {
+      "total": 20000,
+      "coverage": 18983,
+      "null_rejection": 1017,
+      "positive_power": 19999,
+      "negative_power": 20000,
+      "invalid": 0
+    },
+    "5": {
+      "total": 20000,
+      "coverage": 18903,
+      "null_rejection": 1097,
+      "positive_power": 20000,
+      "negative_power": 19999,
+      "invalid": 0
+    },
+    "6": {
+      "total": 20000,
+      "coverage": 18966,
+      "null_rejection": 1034,
+      "positive_power": 20000,
+      "negative_power": 20000,
+      "invalid": 0
+    },
+    "7": {
+      "total": 20000,
+      "coverage": 18942,
+      "null_rejection": 1058,
+      "positive_power": 20000,
+      "negative_power": 20000,
+      "invalid": 0
+    },
+    "8": {
+      "total": 20000,
+      "coverage": 18993,
+      "null_rejection": 1007,
+      "positive_power": 19998,
+      "negative_power": 20000,
+      "invalid": 0
+    }
+  }
+}

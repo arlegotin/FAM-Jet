@@ -1,0 +1,62 @@
+{
+  "utc_start": "2026-10-24T17:06:29.954243+00:00",
+  "source_head": "f6fe6552b62d5b8ed892e6c15eccf5b93a20c876",
+  "wrapper_sha256": "4e20b2fbc8791892331a84eb0f34004b93bcb7b02419c7c42c07e1683e3b78fe",
+  "start_monotonic": 20995.6512945,
+  "work_deadline": 21035.6512945,
+  "deadline": 21055.6512945,
+  "free_plus_speculative": 5405753344,
+  "rss_sum_cap": 268435456,
+  "output_cap": 134217728,
+  "status": "RETURNED",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-c",
+    "from famjet_poc.inference import probe_calibration; import json; r=probe_calibration('/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-inference-probe-01'); print(json.dumps({\"status\":r[\"status\"],\"resource\":r[\"resource\"]})); raise SystemExit(0 if r[\"status\"]==\"complete\" else 1)"
+  ],
+  "child_pid": 52445,
+  "actual_returncode": 0,
+  "guard_failure": null,
+  "elapsed_seconds": 1.0824378750003234,
+  "utc_end": "2026-10-24T17:06:31.036669+00:00",
+  "samples": [
+    {
+      "monotonic": 20995.664370833,
+      "rss_sum": 26820608,
+      "pids": [
+        52441,
+        52445
+      ],
+      "output_bytes": 851
+    },
+    {
+      "monotonic": 20995.93549475,
+      "rss_sum": 99024896,
+      "pids": [
+        52441,
+        52445
+      ],
+      "output_bytes": 851
+    },
+    {
+      "monotonic": 20996.206298875,
+      "rss_sum": 117129216,
+      "pids": [
+        52441,
+        52445
+      ],
+      "output_bytes": 12118
+    },
+    {
+      "monotonic": 20996.476712791,
+      "rss_sum": 117260288,
+      "pids": [
+        52441,
+        52445
+      ],
+      "output_bytes": 37034
+    }
+  ],
+  "child_lifetime_peak_rss": 96206848,
+  "source_after": "f6fe6552b62d5b8ed892e6c15eccf5b93a20c876"
+}

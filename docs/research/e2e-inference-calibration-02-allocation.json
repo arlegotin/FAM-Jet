@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "phase": "calibration",
+  "attempt": 2,
+  "per_cell": 256,
+  "datasets_per_fixture": 20000,
+  "fixtures": 8,
+  "attempt1_actual_seconds": 173.65302775000237,
+  "forecast_main_seconds": 347.30605550000473,
+  "deadline_total_seconds": 745,
+  "rule": "ceil(2*(2*attempt1_actual_seconds)+50)",
+  "finalization_reserve_seconds": 20,
+  "rss_sum_cap_bytes": 268435456,
+  "output_cap_bytes": 134217728,
+  "revision": "only predeclared H3072 revision, no third attempt",
+  "thresholds": "unchanged 32 CP guards",
+  "science_protected": "unentered"
+}
