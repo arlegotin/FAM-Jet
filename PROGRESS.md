@@ -1,5 +1,7 @@
 # Progress
 
+**End-to-end core delivery active:** The user requested completion. The [dated completion plan](docs/superpowers/plans/2026-10-24-famjet-core-delivery.md) adopts an independently qualified convex reader, explicitly conditional fitted-model inference, both real-transfer modes, and artifact-generated reporting. Historical failed procedures remain failed. A fresh builder check found no important unanswered build question. Source implementation follows in the existing branch.
+
 **Current — 24 October 2026:** RAM no longer blocks the completed fixed-reader experiment. All six configurations finished on the Mac in10.63minutes, using about396MiB additional sampled worker memory. The selected ordinary exponential bank had loss0.1918 versus Jet0.2804 at the same9345bytes, and led at every tested history length. These are exposed development results, with no demonstrated Jet advantage. [Completed experiment](docs/research/task18-kernel-stage-b-panel04-report.md).
 
 The reader-attribution source and runner passed independent review and23 focused runner tests. Its actual numerical/tiny-training diagnostic finished in66.85seconds with382.11MiB maximum additional sampled process memory. Numerical checks passed, but all six readers missed the strict known-solvable fixture threshold after4096updates each; larger development is blocked. An independent diagnosis found no wiring defect. The next proposal is a no-update gradient audit; no extra training is released. [Completed diagnostic](docs/research/task18-reader-adequacy-v1-checks-run02-report.md).
