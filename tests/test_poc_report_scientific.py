@@ -133,6 +133,55 @@ def test_incomplete_subset_remains_blocking():
         project_development_journal(journal)
 
 
+@pytest.mark.parametrize('status,mutation', [
+    ('qualified', 'both_missing'),
+    ('qualified', 'fit_missing'),
+    ('qualified', 'rows_missing'),
+    ('qualified', 'fit_wrong_type'),
+    ('qualified', 'rows_wrong_type'),
+    ('qualified', 'fit_incomplete'),
+    ('qualified', 'rows_incomplete'),
+    ('scored_failure', 'both_missing'),
+    ('scored_failure', 'fit_missing'),
+    ('scored_failure', 'rows_missing'),
+])
+def test_candidate_model_and_rows_are_paired_in_hash_bound_development(
+        tmp_path, status, mutation):
+    """Missing candidate evidence must fail after the journal's own SHA check."""
+    from famjet_poc.report_inputs import _verify_development, project_development_journal
+    journal = _producer_journal()
+    candidate = journal['candidate_ledger'][0 if status == 'qualified' else 1]
+    if status == 'scored_failure':
+        candidate.update(status='failed', failure_stage='score', loss=.4,
+                         score={'status': 'failed', 'loss': .4},
+                         fit_ref={'path': '/fixture/model', 'sha256': 'a'*64},
+                         rows_ref={'path': '/fixture/rows', 'sha256': 'b'*64, 'bytes': 1})
+    if mutation == 'both_missing':
+        candidate.pop('fit_ref', None)
+        candidate.pop('rows_ref', None)
+    elif mutation == 'fit_missing':
+        candidate.pop('fit_ref')
+    elif mutation == 'rows_missing':
+        candidate.pop('rows_ref')
+    elif mutation == 'fit_wrong_type':
+        candidate['fit_ref'] = '/fixture/model'
+    elif mutation == 'rows_wrong_type':
+        candidate['rows_ref'] = ['/fixture/rows']
+    elif mutation == 'fit_incomplete':
+        candidate['fit_ref'] = {'path': '/fixture/model'}
+    elif mutation == 'rows_incomplete':
+        candidate['rows_ref'] = {'path': '/fixture/rows', 'sha256': 'b'*64}
+    with pytest.raises(ValueError, match='candidate model/row evidence'):
+        project_development_journal(journal)
+    paths, root = _paths(tmp_path)
+    ref = _write_once(root / 'development-journal.json', journal)
+    stages = {'development_k16': {'result': {'journal_path': ref['path'],
+                                             'journal_sha256': ref['sha256']}}}
+    freeze = {'inputs': {'study_k16_sha256': ref['sha256']}}
+    with pytest.raises(ValueError, match='candidate model/row evidence'):
+        _verify_development(paths, stages, freeze)
+
+
 def _score_row(method, history, query, manifest):
     policy = {'version': 2}
     return {'method': method, 'history_id': history, 'query_id': query,

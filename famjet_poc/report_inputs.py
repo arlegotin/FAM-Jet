@@ -485,6 +485,15 @@ def _verify_frozen_science(paths, freeze):
 
 def project_development_journal(journal):
     """Project exact E3 terminal records, preserving unavailable subset metrics."""
+    def complete_ref(ref, fields):
+        if type(ref) is not dict or set(ref) != fields:
+            return False
+        if (type(ref['path']) is not str or not ref['path'] or
+                type(ref['sha256']) is not str or len(ref['sha256']) != 64 or
+                any(char not in '0123456789abcdef' for char in ref['sha256'])):
+            return False
+        return 'bytes' not in fields or (type(ref['bytes']) is int and ref['bytes'] >= 0)
+
     if (journal.get('status') != 'complete' or len(journal.get('candidate_ledger', [])) != 36 or
             len(journal.get('prefix_ledger', [])) != 4 or
             set(journal.get('selected', {})) != {'jet', 'bank'} or
@@ -509,11 +518,17 @@ def project_development_journal(journal):
                     type(item.get('loss')) not in (int, float) or
                     not math.isfinite(item['loss'])):
                 raise ValueError('qualified candidate storage/loss schema mismatch')
-        elif 'fit_ref' not in item:
-            if (item.get('failure_stage') != 'numerical_fit' or
-                    type(item.get('error')) is not str or not item['error'] or
-                    item.get('loss') is not None or 'rows_ref' in item):
+        elif 'fit_ref' not in item and 'rows_ref' not in item:
+            if item.get('failure_stage') != 'numerical_fit':
+                raise ValueError('candidate model/row evidence incomplete')
+            if (type(item.get('error')) is not str or not item['error'] or
+                    item.get('loss') is not None or 'score' in item or 'costs' in item):
                 raise ValueError('candidate failure is not terminal numerical fit')
+        if (item['status'] == 'qualified' or 'fit_ref' in item or 'rows_ref' in item or
+                item.get('failure_stage') != 'numerical_fit') and not (
+                    complete_ref(item.get('fit_ref'), {'path', 'sha256'}) and
+                    complete_ref(item.get('rows_ref'), {'path', 'sha256', 'bytes'})):
+            raise ValueError('candidate model/row evidence incomplete')
         candidates.append({key: item.get(key) for key in
             ('family', 'reader', 'config_hash', 'status', 'loss', 'score',
              'active_static_bytes', 'wire_static_bytes', 'numeric_parameter_bytes',
@@ -578,9 +593,8 @@ def _verify_development(paths, stages, freeze):
             raise ValueError('development journal differs from frozen study')
         projected = project_development_journal(journal)
         for item in journal['candidate_ledger']:
-            if 'fit_ref' in item:
+            if item['status'] == 'qualified' or 'fit_ref' in item:
                 load_model(paths.resolve(item['fit_ref']['path']), item['fit_ref']['sha256'])
-            if 'rows_ref' in item:
                 load_score_rows(paths.ref(item['rows_ref']))
         for item in journal['prefix_ledger']:
             if item['status'] == 'measured':
