@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "status": "FAILED_NOT_QUALIFIED",
+  "executed_source": "73c31c6a0f4b71550f699354d2c081d98c88ac26",
+  "actual_wrapper_returncode": 1,
+  "files": [
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/admission.json",
+      "bytes": 1881,
+      "sha256": "00d9efb8668eec4a2daf7cf70590a3134aa92332304fc57ca99f5baa55271d89"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/allocation-summary.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/allocation-summary.json",
+      "bytes": 635,
+      "sha256": "c80f4f01c944d374f8f5339f7a040e8b9979d7e0ccbd506cceef2e93b7165986"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/exit-witness.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/exit-witness.json",
+      "bytes": 883,
+      "sha256": "483adc341ca160ce33f43e785130adea49fbb6306378cb6c0717a31667905473"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/launched.once",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/launched.once",
+      "bytes": 65,
+      "sha256": "708c09d2a17999ca0fe2b59339f5dfd19e3de8fe850f6819d76fdef9fd22a840"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/manual-source-and-failure-ruling.md",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/manual-source-and-failure-ruling.md",
+      "bytes": 2414,
+      "sha256": "984a664f77f92a64971919d92df656a9621dba4c4e40a8e321edb17104f3a6d5"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/memory-pressure.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/memory-pressure.json",
+      "bytes": 439,
+      "sha256": "529ca5641999aae19ecc37347c1ea9c56f7921b4e8eca7c9ae31e5574c50d087"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/memory-pressure.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/memory-pressure.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/memory-pressure.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/memory-pressure.stdout",
+      "bytes": 110,
+      "sha256": "96f8df51d63cfa460bf647959f91705c99a56fd9a141dd24d2cff45b516dea59"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/panel-release.md",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/panel-release.md",
+      "bytes": 2155,
+      "sha256": "dd3d201d3e15ef19817f2304a43f408972f26a7684387132256357817e3e35e0"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/parent.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/parent.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/parent.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/parent.stdout",
+      "bytes": 5485,
+      "sha256": "179220580fd344dd237d5c70889f3f72a787c6b6bbbd4cd5f585a8a9ca9aef8a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/plan.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/plan.json",
+      "bytes": 732378,
+      "sha256": "b39d90db5bf52e836fee84c35cbb9b70906f24cdb490f9489c54629fcfef644e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-admission.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-admission.json",
+      "bytes": 436,
+      "sha256": "542da8e2c2e80936acfa759d35e9bd2dc7482a5063aeb0c5ff145ffa59dd2cfb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-admission.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-admission.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-admission.stdout",
+      "bytes": 106,
+      "sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-launch.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-launch.json",
+      "bytes": 430,
+      "sha256": "e3a5127d9789f0537177e19fb9c4a52130c86395171a20abc1c73e850a4d7d97"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-launch.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-launch.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/power-launch.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/power-launch.stdout",
+      "bytes": 106,
+      "sha256": "aa967401977371d011dd7d3d0b150869257dce2280f7d5df19c466acadab877c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/vm-stat.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/vm-stat.json",
+      "bytes": 411,
+      "sha256": "0d664740edfb2c9c4e930f31d7175e4af61fe2f82f3f8c53806696d771deaa35"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/vm-stat.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/vm-stat.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/vm-stat.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/vm-stat.stdout",
+      "bytes": 1247,
+      "sha256": "905f33cb78b88109b1d9ed6ad544d2ba8d1c850c39d1ef394f43cdf375795ccb"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/witness-result.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/witness-result.json",
+      "bytes": 1174,
+      "sha256": "cb42fbe2260e7c8931164693b212cbeee048703163ca5a3ff50c9e072c7bf82a"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/witness.stderr",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/witness.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-prep/witness.stdout",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/preparation/witness.stdout",
+      "bytes": 54,
+      "sha256": "6f94217c2cd8b65d2e6c7064d2c5b27fd4ae57557e12283e3551274a82a794d3"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/monitor-events.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/monitor-events.jsonl",
+      "bytes": 4307,
+      "sha256": "d7eaf3617caddc747895a5798c64afc3775950c1e803596d08601b7e8f6c0db4"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/monitor-evidence.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/monitor-evidence.jsonl",
+      "bytes": 658764,
+      "sha256": "b6c4f298c0a6507785e7825e22055fac8aac09f89e94f9c6a3ef3bb7be61eecf"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/monitor.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/monitor.json",
+      "bytes": 8192,
+      "sha256": "2ac82e14fc9ddafa6fc91b65dd9fc8ff92bf283c85ff162a69b24bdc830976ca"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/requests.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/requests.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/resolved-panel-config.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/resolved-panel-config.json",
+      "bytes": 2637,
+      "sha256": "2e4cc32b9e5ff9c29b97473aa526eec5cc75f50de7e6d9f8016799028824c423"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/scores.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/scores.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/snapshots.jsonl",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/snapshots.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/stage-b-external.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/stage-b-external.json",
+      "bytes": 242,
+      "sha256": "8fb9af6c1879f19f42cae2ae9de56dc2054e7ce437be1c2081c960392d6d8b2e"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/stage-b.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/stage-b.json",
+      "bytes": 82810,
+      "sha256": "2b6eca43ac87e860824d2d0fffb342c1971edd4ee93347a46bf2633fc754bd8c"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/stderr.log",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/stdout.log",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02/terminal-report.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/output/terminal-report.json",
+      "bytes": 3880,
+      "sha256": "a15d342cf2682a1dc24f323304704515df5c41805c5f3b9942fb9d329828c748"
+    },
+    {
+      "original": "artifacts/task18-kernel-stage-b-panel-02-custody/root-invocation-failed.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/custody/root-invocation-failed.json",
+      "bytes": 398,
+      "sha256": "d1897b5173319c51d128006147cc7f21451217bc4521e0032fb8cf6a3ff62e00"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-prepare-panel02.py",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/allocation-builder.py",
+      "bytes": 13598,
+      "sha256": "e718c72393759dc3b906b415a1988c719d1e2bfb259a14faf7d03ddf1d1d51fa"
+    },
+    {
+      "original": ".superpowers/sdd/2026-10-16-famjet/task-18-publish-panel02.py",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/unexecuted-root-publisher.py",
+      "bytes": 3959,
+      "sha256": "efe35eac719b2cb4726a08eb1f7cf9d709a4b60d209c067031701e473185aaec"
+    },
+    {
+      "original": "docs/research/task18-kernel-stage-b-source-evidence/source-manifest.json",
+      "archive": "docs/research/task18-kernel-stage-b-panel02-evidence/executed-source-manifest.json",
+      "bytes": 11776,
+      "sha256": "3a9b3d6e0fb788d7431578ae7df19fb626945ef2b2572227c4f6e252e445e938"
+    }
+  ],
+  "files_verified": 40,
+  "total_bytes": 1540972,
+  "publication_approved": false,
+  "raw_whitespace_exception": "output/monitor.json reserved original trailing padding is preserved byte-for-byte"
+}
