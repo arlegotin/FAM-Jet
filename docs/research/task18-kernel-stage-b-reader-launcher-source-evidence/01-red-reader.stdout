@@ -1,0 +1,293 @@
+FF.FF                                                                    [100%]
+=================================== FAILURES ===================================
+____ test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher _____
+
+reader_case = (<validation.kernel_stage_b.production.Backend object at 0x1119d41a0>, {'config_sha256': '6d7c3847fc69b0f2bcc8f17f6938...), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1117e4770>
+
+    def test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher(reader_case, monkeypatch):
+        backend, candidate, entry, snapshot = reader_case
+        expected = commands.reader_command(backend.root, backend.out / "monitor-events.jsonl",
+                                           backend.candidate_deadline)
+        assert len(expected) == 6
+        assert expected[0] == str(ROOT / ".venv/bin/python")
+        assert expected[1:3] == ["-I", "-c"]
+        assert expected[-1] == repr(float(backend.candidate_deadline))
+        seen = []
+    
+        class ReachedDispatch(Exception):
+            pass
+    
+        def intercept(vector, **kwargs):
+            seen.append(vector)
+            assert vector == expected
+            assert kwargs["deadline"] == backend.candidate_deadline
+            assert kwargs["runtime_identity"] == backend.plan["execution"]["runtime"]
+            witness = stage_a_authority.python_launch(vector, kwargs["runtime_identity"], "reader")
+            assert witness["executable"] == expected[0]
+            assert witness["launcher"] == {
+                "path": str(Path(expected[0]).resolve(strict=True)),
+                "sha256": hashlib.sha256(Path(expected[0]).read_bytes()).hexdigest(),
+            }
+            assert witness["expected_image"] == kwargs["runtime_identity"]["process_image"]
+            raise ReachedDispatch
+    
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch", intercept)
+        with pytest.raises(ReachedDispatch):
+>           backend.read(candidate, entry, snapshot)
+
+tests/test_kernel_stage_b_reader_launcher.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <validation.kernel_stage_b.production.Backend object at 0x1119d41a0>
+candidate = {'config_sha256': '6d7c3847fc69b0f2bcc8f17f69383057c324664776c114b851e00587dd492ecf', 'family': 'jet', 'id': 'jet:0x1....etup/worker-output/rates-jet.json', 'sha256': '007f3cdbc32407f1a905026bc5a5033c82ab0003e328cc8359b0674f4b167a2b'}, ...}
+entry = {'episode_id': 'tiny', 'query_ids': [0], 'hashes': {'queries': '70acbb2d688baf50b01cc4fcada625d7a28fef9af51e3752b1d94130bd96d5f2'}}
+snapshot = {'state': Snapshot(payload={'z': tensor([[[[[1., 1., 1., 1., 1., 1., 1., 1., 1.],
+           [0., 0., 0., 0., 0., 0., ...]), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}}
+
+    def read(self, candidate, entry, snapshot):
+        from dataclasses import replace
+        import json
+        import os
+        import tempfile
+        import time
+        from famjet.eval import isolation
+        from famjet.eval.state_io import snapshot_hash, snapshot_record
+        from validation.kernel_stage_a import commands
+        from validation.kernel_stage_a.production import owned_reader_dispatch
+        from .authority import canonical, digest, strict_json
+    
+        if self.candidate_deadline is None or time.monotonic() >= self.candidate_deadline:
+            raise TimeoutError("candidate/original deadline before read")
+        state = snapshot["state"]
+        before = snapshot_hash(state)
+        if before != snapshot["record"]["snapshot_hash"] or state.parameter_hash != candidate["writer_sha256"]:
+            raise ValueError("saved state identity mismatch")
+        ep = self.episodes[entry["episode_id"]]
+        if ep.queries.query_ids[0].cpu().tolist() != entry["query_ids"]:
+            raise ValueError("ordered query IDs changed")
+        from famjet.data.synthetic import batch_hash
+        if batch_hash(ep.queries) != entry["hashes"]["queries"]:
+            raise ValueError("ordered query bytes changed")
+        spec = self.specs[candidate["id"]]
+        model = self.models[candidate["id"]]
+        reader_queries = replace(ep.queries,
+                                 key_features=ep.queries.key_features.to(model.kernel.reference_tensor))
+        request = dict(method=spec, state=snapshot_record(state),
+                       queries=isolation._query_record(reader_queries), operation="read",
+                       model_hash=digest(spec), source_hash=self.source_hash)
+        raw = canonical(request)
+        index = self.read_ordinal
+        req_path = self.out / f"request-{index:03}.json"
+        stdout_path = self.out / f"reader-{index:03}.jsonl"
+        stderr_path = self.out / f"reader-{index:03}.stderr"
+        req_path.write_bytes(raw)
+        self.on_attempt(self._ref(req_path, "request"))
+        env = {k: "1" for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                                 "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS")}
+        env.update(PYTORCH_ENABLE_MPS_FALLBACK="0", PYTORCH_MPS_FAST_MATH="0")
+        vector = commands.reader_command(self.root, self.out / "monitor-events.jsonl",
+                                         self.candidate_deadline)
+        if vector[0] != self.plan["execution"]["runtime"]["executable"]:
+>           raise ValueError("reader Python image mismatch")
+E           ValueError: reader Python image mismatch
+
+validation/kernel_stage_b/production.py:408: ValueError
+___ test_reader_rejects_nonproject_literal_argv0_before_dispatch[canonical] ____
+
+reader_case = (<validation.kernel_stage_b.production.Backend object at 0x1117edbd0>, {'config_sha256': '6d7c3847fc69b0f2bcc8f17f6938...), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1117e4b00>
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-5/test_reader_rejects_nonproject0')
+alternate = 'canonical'
+
+    @pytest.mark.parametrize("alternate", ["canonical", "other_symlink"])
+    def test_reader_rejects_nonproject_literal_argv0_before_dispatch(
+            reader_case, monkeypatch, tmp_path, alternate):
+        backend, candidate, entry, snapshot = reader_case
+        canonical = backend.plan["execution"]["runtime"]["executable"]
+        if alternate == "canonical":
+            launcher = canonical
+        else:
+            other = tmp_path / "other-python"
+            other.symlink_to(canonical)
+            launcher = str(other)
+        monkeypatch.setattr(commands.sys, "executable", launcher)
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
+                            lambda *args, **kwargs: pytest.fail("reader dispatched"))
+        with pytest.raises(ValueError, match="reader Python image mismatch"):
+>           backend.read(candidate, entry, snapshot)
+
+tests/test_kernel_stage_b_reader_launcher.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_b/production.py:411: in read
+    result = owned_reader_dispatch(vector, input=raw, stdout=stdout, stderr=stderr,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (['/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13', '-I', '-c', "imp...8p8r0000gn/T/pytest-of-artemlegotin/pytest-5/test_reader_rejects_nonproject0/monitor-events.jsonl', '3128.198729916'],)
+kwargs = {'input': b'{"method":{"kind":"kernel_projection","registry_version":2,"schema":{"fit_provenance":{"feature_rows":6144...tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-5/test_reader_rejects_nonproject0/reader-do6r7iiy', ...}
+
+>   lambda *args, **kwargs: pytest.fail("reader dispatched"))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: reader dispatched
+
+tests/test_kernel_stage_b_reader_launcher.py:120: Failed
+_____ test_reader_rejects_wrong_canonical_identity_before_dispatch[target] _____
+
+reader_case = (<validation.kernel_stage_b.production.Backend object at 0x1117e5e00>, {'config_sha256': '6d7c3847fc69b0f2bcc8f17f6938...), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x111884050>
+wrong = 'target'
+
+    @pytest.mark.parametrize("wrong", ["target", "hash"])
+    def test_reader_rejects_wrong_canonical_identity_before_dispatch(
+            reader_case, monkeypatch, wrong):
+        backend, candidate, entry, snapshot = reader_case
+        runtime = backend.plan["execution"]["runtime"]
+        if wrong == "target":
+            runtime["executable"] = str(backend.out / "different-python")
+        else:
+            runtime["executable_sha256"] = "0" * 64
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
+                            lambda *args, **kwargs: pytest.fail("reader dispatched"))
+        with pytest.raises(AuthorityError, match="project launcher target"):
+>           backend.read(candidate, entry, snapshot)
+
+tests/test_kernel_stage_b_reader_launcher.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <validation.kernel_stage_b.production.Backend object at 0x1117e5e00>
+candidate = {'config_sha256': '6d7c3847fc69b0f2bcc8f17f69383057c324664776c114b851e00587dd492ecf', 'family': 'jet', 'id': 'jet:0x1....etup/worker-output/rates-jet.json', 'sha256': '007f3cdbc32407f1a905026bc5a5033c82ab0003e328cc8359b0674f4b167a2b'}, ...}
+entry = {'episode_id': 'tiny', 'query_ids': [0], 'hashes': {'queries': '70acbb2d688baf50b01cc4fcada625d7a28fef9af51e3752b1d94130bd96d5f2'}}
+snapshot = {'state': Snapshot(payload={'z': tensor([[[[[1., 1., 1., 1., 1., 1., 1., 1., 1.],
+           [0., 0., 0., 0., 0., 0., ...]), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}}
+
+    def read(self, candidate, entry, snapshot):
+        from dataclasses import replace
+        import json
+        import os
+        import tempfile
+        import time
+        from famjet.eval import isolation
+        from famjet.eval.state_io import snapshot_hash, snapshot_record
+        from validation.kernel_stage_a import commands
+        from validation.kernel_stage_a.production import owned_reader_dispatch
+        from .authority import canonical, digest, strict_json
+    
+        if self.candidate_deadline is None or time.monotonic() >= self.candidate_deadline:
+            raise TimeoutError("candidate/original deadline before read")
+        state = snapshot["state"]
+        before = snapshot_hash(state)
+        if before != snapshot["record"]["snapshot_hash"] or state.parameter_hash != candidate["writer_sha256"]:
+            raise ValueError("saved state identity mismatch")
+        ep = self.episodes[entry["episode_id"]]
+        if ep.queries.query_ids[0].cpu().tolist() != entry["query_ids"]:
+            raise ValueError("ordered query IDs changed")
+        from famjet.data.synthetic import batch_hash
+        if batch_hash(ep.queries) != entry["hashes"]["queries"]:
+            raise ValueError("ordered query bytes changed")
+        spec = self.specs[candidate["id"]]
+        model = self.models[candidate["id"]]
+        reader_queries = replace(ep.queries,
+                                 key_features=ep.queries.key_features.to(model.kernel.reference_tensor))
+        request = dict(method=spec, state=snapshot_record(state),
+                       queries=isolation._query_record(reader_queries), operation="read",
+                       model_hash=digest(spec), source_hash=self.source_hash)
+        raw = canonical(request)
+        index = self.read_ordinal
+        req_path = self.out / f"request-{index:03}.json"
+        stdout_path = self.out / f"reader-{index:03}.jsonl"
+        stderr_path = self.out / f"reader-{index:03}.stderr"
+        req_path.write_bytes(raw)
+        self.on_attempt(self._ref(req_path, "request"))
+        env = {k: "1" for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                                 "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS")}
+        env.update(PYTORCH_ENABLE_MPS_FALLBACK="0", PYTORCH_MPS_FAST_MATH="0")
+        vector = commands.reader_command(self.root, self.out / "monitor-events.jsonl",
+                                         self.candidate_deadline)
+        if vector[0] != self.plan["execution"]["runtime"]["executable"]:
+>           raise ValueError("reader Python image mismatch")
+E           ValueError: reader Python image mismatch
+
+validation/kernel_stage_b/production.py:408: ValueError
+______ test_reader_rejects_wrong_canonical_identity_before_dispatch[hash] ______
+
+reader_case = (<validation.kernel_stage_b.production.Backend object at 0x1117e68b0>, {'config_sha256': '6d7c3847fc69b0f2bcc8f17f6938...), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1118847c0>
+wrong = 'hash'
+
+    @pytest.mark.parametrize("wrong", ["target", "hash"])
+    def test_reader_rejects_wrong_canonical_identity_before_dispatch(
+            reader_case, monkeypatch, wrong):
+        backend, candidate, entry, snapshot = reader_case
+        runtime = backend.plan["execution"]["runtime"]
+        if wrong == "target":
+            runtime["executable"] = str(backend.out / "different-python")
+        else:
+            runtime["executable_sha256"] = "0" * 64
+        monkeypatch.setattr(stage_a_production, "owned_reader_dispatch",
+                            lambda *args, **kwargs: pytest.fail("reader dispatched"))
+        with pytest.raises(AuthorityError, match="project launcher target"):
+>           backend.read(candidate, entry, snapshot)
+
+tests/test_kernel_stage_b_reader_launcher.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <validation.kernel_stage_b.production.Backend object at 0x1117e68b0>
+candidate = {'config_sha256': '6d7c3847fc69b0f2bcc8f17f69383057c324664776c114b851e00587dd492ecf', 'family': 'jet', 'id': 'jet:0x1....etup/worker-output/rates-jet.json', 'sha256': '007f3cdbc32407f1a905026bc5a5033c82ab0003e328cc8359b0674f4b167a2b'}, ...}
+entry = {'episode_id': 'tiny', 'query_ids': [0], 'hashes': {'queries': '70acbb2d688baf50b01cc4fcada625d7a28fef9af51e3752b1d94130bd96d5f2'}}
+snapshot = {'state': Snapshot(payload={'z': tensor([[[[[1., 1., 1., 1., 1., 1., 1., 1., 1.],
+           [0., 0., 0., 0., 0., 0., ...]), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}}
+
+    def read(self, candidate, entry, snapshot):
+        from dataclasses import replace
+        import json
+        import os
+        import tempfile
+        import time
+        from famjet.eval import isolation
+        from famjet.eval.state_io import snapshot_hash, snapshot_record
+        from validation.kernel_stage_a import commands
+        from validation.kernel_stage_a.production import owned_reader_dispatch
+        from .authority import canonical, digest, strict_json
+    
+        if self.candidate_deadline is None or time.monotonic() >= self.candidate_deadline:
+            raise TimeoutError("candidate/original deadline before read")
+        state = snapshot["state"]
+        before = snapshot_hash(state)
+        if before != snapshot["record"]["snapshot_hash"] or state.parameter_hash != candidate["writer_sha256"]:
+            raise ValueError("saved state identity mismatch")
+        ep = self.episodes[entry["episode_id"]]
+        if ep.queries.query_ids[0].cpu().tolist() != entry["query_ids"]:
+            raise ValueError("ordered query IDs changed")
+        from famjet.data.synthetic import batch_hash
+        if batch_hash(ep.queries) != entry["hashes"]["queries"]:
+            raise ValueError("ordered query bytes changed")
+        spec = self.specs[candidate["id"]]
+        model = self.models[candidate["id"]]
+        reader_queries = replace(ep.queries,
+                                 key_features=ep.queries.key_features.to(model.kernel.reference_tensor))
+        request = dict(method=spec, state=snapshot_record(state),
+                       queries=isolation._query_record(reader_queries), operation="read",
+                       model_hash=digest(spec), source_hash=self.source_hash)
+        raw = canonical(request)
+        index = self.read_ordinal
+        req_path = self.out / f"request-{index:03}.json"
+        stdout_path = self.out / f"reader-{index:03}.jsonl"
+        stderr_path = self.out / f"reader-{index:03}.stderr"
+        req_path.write_bytes(raw)
+        self.on_attempt(self._ref(req_path, "request"))
+        env = {k: "1" for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                                 "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS")}
+        env.update(PYTORCH_ENABLE_MPS_FALLBACK="0", PYTORCH_MPS_FAST_MATH="0")
+        vector = commands.reader_command(self.root, self.out / "monitor-events.jsonl",
+                                         self.candidate_deadline)
+        if vector[0] != self.plan["execution"]["runtime"]["executable"]:
+>           raise ValueError("reader Python image mismatch")
+E           ValueError: reader Python image mismatch
+
+validation/kernel_stage_b/production.py:408: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_b_reader_launcher.py::test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher
+FAILED tests/test_kernel_stage_b_reader_launcher.py::test_reader_rejects_nonproject_literal_argv0_before_dispatch[canonical]
+FAILED tests/test_kernel_stage_b_reader_launcher.py::test_reader_rejects_wrong_canonical_identity_before_dispatch[target]
+FAILED tests/test_kernel_stage_b_reader_launcher.py::test_reader_rejects_wrong_canonical_identity_before_dispatch[hash]
+4 failed, 1 passed in 0.70s

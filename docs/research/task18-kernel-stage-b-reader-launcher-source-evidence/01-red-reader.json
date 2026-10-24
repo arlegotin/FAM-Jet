@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_kernel_stage_b_reader_launcher.py"
+  ],
+  "elapsed_seconds": 0.9750702080000337,
+  "exit_code": 1,
+  "raw": {
+    "stdout": {
+      "path": "docs/research/task18-kernel-stage-b-reader-launcher-source-evidence/01-red-reader.stdout",
+      "bytes": 18321,
+      "sha256": "b81d323d84705ffc2d49b8567ff85d4804edde438a850c48a308bb01f7836465"
+    },
+    "stderr": {
+      "path": "docs/research/task18-kernel-stage-b-reader-launcher-source-evidence/01-red-reader.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "base": "38093b1ec1d0489a5d3d6247f76ce8baa07d6e74",
+  "source_commit": "58014373c8f3b542b978d621f3c83652115526aa",
+  "material_rows": 88,
+  "historical_rows_equal": 79,
+  "changed_material_rows": [
+    "validation/kernel_stage_b/production.py"
+  ],
+  "material_sha256": "d0669ad0c20a1dc810f0eb6a79b4e9b81f71496cc76a2430e3e91fe833ec49d8",
+  "package_files": 53,
+  "package_sha256": "15cf84c28136d4f5ec34c173316d0db1f2aab1da97c6d68993a5c22bf18ec050",
+  "lock_sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1",
+  "stage_a_files_byte_equal": 15,
+  "protected_diff_empty": true,
+  "test_exit_codes": [
+    1,
+    0,
+    0
+  ],
+  "final_test_result": "67 passed in 9.63s",
+  "prospective_authority_null": true,
+  "experiment_executed": false
+}
