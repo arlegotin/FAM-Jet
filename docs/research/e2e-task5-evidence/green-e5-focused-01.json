@@ -1,0 +1,17 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_cli.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report.py",
+    "tests/test_poc_plots.py"
+  ],
+  "bytes": 100,
+  "elapsed_seconds": 21.788210749997234,
+  "exit_code": 0,
+  "sha256": "6e43e4e1ce29b73908897b7229153d59313e497f865b311eb23e0b05e746ad01",
+  "stdout_stderr_log": "green-e5-focused-01.log"
+}

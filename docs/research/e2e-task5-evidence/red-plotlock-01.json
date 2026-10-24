@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_plots.py"
+  ],
+  "bytes": 2247,
+  "elapsed_seconds": 10.197369166999124,
+  "exit_code": 1,
+  "sha256": "158cef75e9d8d5304a9502b66504423b143f19765ab95412c5a02e8f32535b41",
+  "stdout_stderr_log": "red-plotlock-01.log"
+}

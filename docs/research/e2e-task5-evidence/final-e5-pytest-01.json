@@ -1,0 +1,17 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_cli.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report.py",
+    "tests/test_poc_plots.py"
+  ],
+  "bytes": 100,
+  "elapsed_seconds": 22.003342915995745,
+  "exit_code": 0,
+  "sha256": "d9b526bb67f52b0cce5efb480da83a279a11b26f65129dc19ec7e21f78956fc8",
+  "stdout_stderr_log": "final-e5-pytest-01.log"
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report.py::test_render_before_and_after_report_stage_completion_is_byte_identical"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 1.3098229580064071,
+  "exit_code": 0,
+  "sha256": "818471def591c9f64bfe0125b52112f949d00ec9633edcbbf0414328a7f152ef",
+  "stdout_stderr_log": "green-report-stage-01.log"
+}

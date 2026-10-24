@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py::test_scientific_profile_requires_all_entered_stages_and_real_pairs"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 0.5491577920001873,
+  "exit_code": 0,
+  "sha256": "791acbb2840ecff621592488f8e65512e312896e3865560d4000495c22ef5d13",
+  "stdout_stderr_log": "green-science-01.log"
+}

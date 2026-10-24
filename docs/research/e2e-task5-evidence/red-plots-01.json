@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_plots.py"
+  ],
+  "bytes": 2466,
+  "elapsed_seconds": 0.14492199999949662,
+  "exit_code": 1,
+  "sha256": "daa10a9e065a2fc850e57cedb716b7e903efb123e795ea4ddcb8e0a7b0963e2f",
+  "stdout_stderr_log": "red-plots-01.log"
+}

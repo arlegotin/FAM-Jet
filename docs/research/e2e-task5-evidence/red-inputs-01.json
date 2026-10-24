@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py"
+  ],
+  "bytes": 2646,
+  "elapsed_seconds": 0.5810421669993957,
+  "exit_code": 1,
+  "sha256": "d8eb19327c75a1d3e16a106849a34be5b58e1e42e414489d864bc989f4b439b5",
+  "stdout_stderr_log": "red-inputs-01.log"
+}

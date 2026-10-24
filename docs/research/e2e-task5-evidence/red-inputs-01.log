@@ -1,0 +1,44 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+______________ test_tiny_release_admits_only_non_scientific_smoke ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-393/test_tiny_release_admits_only_0')
+
+    def test_tiny_release_admits_only_non_scientific_smoke(tmp_path):
+>       from famjet_poc.report_inputs import load_report_inputs
+E       ModuleNotFoundError: No module named 'famjet_poc.report_inputs'
+
+tests/test_poc_report_inputs.py:53: ModuleNotFoundError
+________________ test_missing_pair_and_row_tamper_refuse_report ________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-393/test_missing_pair_and_row_tamp0')
+
+    def test_missing_pair_and_row_tamper_refuse_report(tmp_path):
+>       from famjet_poc.report_inputs import load_report_inputs
+E       ModuleNotFoundError: No module named 'famjet_poc.report_inputs'
+
+tests/test_poc_report_inputs.py:62: ModuleNotFoundError
+_______ test_copied_run_replays_with_original_removed_and_rejects_escape _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-393/test_copied_run_replays_with_o0')
+
+    def test_copied_run_replays_with_original_removed_and_rejects_escape(tmp_path):
+>       from famjet_poc.report_inputs import load_report_inputs
+E       ModuleNotFoundError: No module named 'famjet_poc.report_inputs'
+
+tests/test_poc_report_inputs.py:76: ModuleNotFoundError
+______ test_report_stage_may_finish_after_render_without_changing_inputs _______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-393/test_report_stage_may_finish_a0')
+
+    def test_report_stage_may_finish_after_render_without_changing_inputs(tmp_path):
+>       from famjet_poc.report_inputs import load_report_inputs
+E       ModuleNotFoundError: No module named 'famjet_poc.report_inputs'
+
+tests/test_poc_report_inputs.py:92: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_inputs.py::test_tiny_release_admits_only_non_scientific_smoke
+FAILED tests/test_poc_report_inputs.py::test_missing_pair_and_row_tamper_refuse_report
+FAILED tests/test_poc_report_inputs.py::test_copied_run_replays_with_original_removed_and_rejects_escape
+FAILED tests/test_poc_report_inputs.py::test_report_stage_may_finish_after_render_without_changing_inputs
+4 failed in 0.46s

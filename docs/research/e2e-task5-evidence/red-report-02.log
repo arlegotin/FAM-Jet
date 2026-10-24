@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_explicit_plot_interpreter_must_exist ___________________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-404/test_explicit_plot_interpreter0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10cb5a780>
+
+    def test_explicit_plot_interpreter_must_exist(tmp_path, monkeypatch):
+>       from famjet_poc.report import _plot_python
+E       ImportError: cannot import name '_plot_python' from 'famjet_poc.report' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report.py)
+
+tests/test_poc_report.py:40: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report.py::test_explicit_plot_interpreter_must_exist - ...
+1 failed in 0.47s

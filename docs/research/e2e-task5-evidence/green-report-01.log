@@ -1,0 +1,31 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_test_only_report_is_deterministic_and_never_claims_science ________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-399/test_test_only_report_is_deter0')
+
+    def test_test_only_report_is_deterministic_and_never_claims_science(tmp_path):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        first = render_report(run, tmp_path / 'one' / 'final.md')
+        second = render_report(run, tmp_path / 'two' / 'final.md')
+        assert first['sha256'] == second['sha256']
+        assert first['bytes'] == second['bytes']
+        text = (tmp_path / 'one' / 'final.md').read_text()
+        assert 'non_scientific_smoke' in text
+>       assert 'scientific conclusion' not in text.lower()
+E       AssertionError: assert 'scientific conclusion' not in '# fam-jet a...y fixture.\n'
+E         
+E         'scientific conclusion' is contained here:
+E           support a scientific conclusion.
+E           
+E           frozen source sha-256: `f78761891876540011e577293e31a89c7661ef66adbb522d2cbcd36c331d8475`.  
+E           frozen executable sha-256: `e966dadbbd09b6655a00465fe7e1ac7f98bc081b667f51dc3412505ad39913f8`.  
+E           release sha-256: `09f6b398c8a21715d9922d6cb4e58f2297bd90f60ad1a46956dcd598a78216d4`....
+E         
+E         ...Full output truncated (4 lines hidden), use '-vv' to show
+
+tests/test_poc_report.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report.py::test_test_only_report_is_deterministic_and_never_claims_science
+1 failed, 1 passed in 0.99s

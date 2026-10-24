@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report.py::test_explicit_plot_interpreter_must_exist"
+  ],
+  "bytes": 959,
+  "elapsed_seconds": 0.60009166600139,
+  "exit_code": 1,
+  "sha256": "c893625c20ea6122f0bb8132f0f7db103faabe1e39b72a9d03fe71fc1a9f5c16",
+  "stdout_stderr_log": "red-report-02.log"
+}

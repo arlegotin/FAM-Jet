@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report.py"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 1.8995281669995165,
+  "exit_code": 0,
+  "sha256": "2b5ed8f88f5d4aba2bb00363dc3650435dc8faf20f56c6b9829163245f610d43",
+  "stdout_stderr_log": "green-report-02.log"
+}

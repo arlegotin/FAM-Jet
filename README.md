@@ -2,6 +2,36 @@
 
 FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
 
+## Fixed-reader PoC and artifact replay
+
+The `famjet_poc` CLI runs the adopted finite CPU64 study. `run` executes the actual E4 stage ledger, public fits, protected paired panels, both Beijing transfer modes and the report. `report` reads frozen run artifacts and checks the full stage, source, model, grant, score, row and cost inventories before rebuilding the output. A copied run can be replayed at a different path; frozen JSON bytes are preserved. No result is implied until a complete run finishes and its report is reviewed.
+
+From the repository root, in the pinned main environment:
+
+```sh
+.venv/bin/python -m famjet_poc --help
+.venv/bin/python -m famjet_poc run --help
+.venv/bin/python -m famjet_poc report --help
+.venv/bin/python -m famjet_poc run --out artifacts/poc-core
+# If an eligible public stage was interrupted, keep its original run root:
+.venv/bin/python -m famjet_poc run --out artifacts/poc-core --resume
+.venv/bin/python -m famjet_poc report --run artifacts/poc-core --out reports/final.md
+```
+
+The current-v2 Beijing manifest and pinned official source asset must be available for a full run. A failed protected cell is not silently retried by `--resume`. The report command does not refit, select configurations or generate data. It produces Markdown, canonical JSON and chart data; a test-only release is labeled `non_scientific_smoke`. A copied-run report verifies the manifest's frozen array-hash inventory and the evaluated rows/counts/grants, labeling external prepared arrays `verified_inventory_not_rehashed`; it does not reopen those source array bytes. Re-executing the full pipeline is a separate data validation step.
+
+Scientific SVG charts use a separate Matplotlib environment. Keep `requirements.lock` unchanged and install the independent hash lock with native CPython 3.13:
+
+```sh
+python3.13 -m venv .report-venv
+.report-venv/bin/python -m pip install --require-hashes -r docs/reporting-requirements.lock
+FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m famjet_poc report --run artifacts/poc-core --out reports/final.md
+```
+
+The current Mac's installed report interpreter is `/private/tmp/famjet-report-20261024-01/bin/python`; its wheel hashes and package versions are recorded in [report environment evidence](docs/research/e2e-repro-setup-evidence/e2e-report-env-01/environment.json). Chart export uses fixed SVG metadata and font settings. The report fails if the plotting dependency or a required chart is unavailable. The machine JSON retains per-method costs and unsupported/null metric statuses; the SVGs depict entered configurations at the single declared state budget and separate confirmation/replication effects.
+
+The sections below retain historical Task18 results and failures. The new fitted reader does not retroactively change those outcomes.
+
 The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is assessing CPU development comparisons at 128, 512 and 2048 events.
 
 The latest completed experiment used fixed mathematical readers on 96 development histories, with eight questions per history. All six declared configurations finished: 192 saved states, 576 reader requests and 4608 scored predictions, with no fallback or quarantine. The best configuration in each family was:

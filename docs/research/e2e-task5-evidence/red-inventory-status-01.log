@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_external_beijing_arrays_are_inventory_verified_not_rehashed _______
+
+    def test_external_beijing_arrays_are_inventory_verified_not_rehashed():
+>       from famjet_poc.report_inputs import verify_beijing_inventory
+E       ImportError: cannot import name 'verify_beijing_inventory' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_inputs.py:122: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_inputs.py::test_external_beijing_arrays_are_inventory_verified_not_rehashed
+1 failed in 0.49s

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report.py",
+    "tests/test_poc_cli.py"
+  ],
+  "bytes": 99,
+  "elapsed_seconds": 1.5199631249997765,
+  "exit_code": 0,
+  "sha256": "cccc105c4729c139d57bf78fe1feaa9dc85e80781b7367e611405d8054556e25",
+  "stdout_stderr_log": "green-inputs-02.log"
+}

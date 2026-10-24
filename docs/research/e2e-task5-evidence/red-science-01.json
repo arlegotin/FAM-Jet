@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py::test_scientific_profile_requires_all_entered_stages_and_real_pairs"
+  ],
+  "bytes": 826,
+  "elapsed_seconds": 0.5759503750014119,
+  "exit_code": 1,
+  "sha256": "cb7fe21411cd6c00d2449c2f07b3ff173a1c996e4f99fd7df679b91736f58b0a",
+  "stdout_stderr_log": "red-science-01.log"
+}

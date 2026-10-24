@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py::test_relative_runroot_artifacts_replay_after_copy"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 1.4049856249985169,
+  "exit_code": 0,
+  "sha256": "033cfb085ee02f8d8e516c6dddf96f5f3719bd8b0c411f963e67c7de458e5e62",
+  "stdout_stderr_log": "green-relative-01.log"
+}

@@ -1,0 +1,36 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_chart_export_is_deterministic_from_frozen_json ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-402/test_chart_export_is_determini0')
+
+    def test_chart_export_is_deterministic_from_frozen_json(tmp_path):
+        assert REPORT_PYTHON.is_file()
+        data = {'schema_version': 1, 'kind': 'famjet_e5_chart_data',
+                'methods': [
+                    {'name': 'jet', 'loss': 0.3, 'state_bytes': 9345,
+                     'static_bytes': 1000, 'query_seconds': 0.2},
+                    {'name': 'bank', 'loss': 0.2, 'state_bytes': 9345,
+                     'static_bytes': 1100, 'query_seconds': 0.3}],
+                'effects': [
+                    {'panel': 'confirmation', 'estimate': -0.1, 'lower': -0.2, 'upper': 0.0},
+                    {'panel': 'replication', 'estimate': -0.05, 'lower': -0.15, 'upper': 0.05}]}
+        source = tmp_path / 'chart.json'
+        source.write_text(json.dumps(data))
+        script = Path(__file__).resolve().parents[1] / 'famjet_poc' / 'plots.py'
+        receipts = []
+        for name in ('first', 'second'):
+            out = tmp_path / name
+            result = subprocess.run([str(REPORT_PYTHON), str(script), '--data', str(source),
+                                     '--out', str(out)], capture_output=True, text=True,
+                                    timeout=60)
+>           assert result.returncode == 0, result.stderr
+E           AssertionError: /opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/plots.py': [Errno 2] No such file or directory
+E             
+E           assert 2 == 0
+E            +  where 2 = CompletedProcess(args=['/private/tmp/famjet-report-20261024-01/bin/python', '/Users/artemlegotin/Documents/git_alter/F...pen file '/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/plots.py': [Errno 2] No such file or directory\n").returncode
+
+tests/test_poc_plots.py:32: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_poc_plots.py::test_chart_export_is_deterministic_from_frozen_json
+1 failed in 0.04s

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_cli.py"
+  ],
+  "bytes": 2950,
+  "elapsed_seconds": 0.15298320800138754,
+  "exit_code": 1,
+  "sha256": "6e5ebbfc3a89333d30990ea029aabf5d575e90c083604796bddb2b4d21a6542e",
+  "stdout_stderr_log": "red-cli-01.log"
+}

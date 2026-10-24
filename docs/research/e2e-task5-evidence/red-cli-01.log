@@ -1,0 +1,48 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+________________ test_help_and_subcommand_help_are_lightweight _________________
+
+    def test_help_and_subcommand_help_are_lightweight():
+        for args in (('--help',), ('run', '--help'), ('report', '--help')):
+            script = (
+                "import sys; from famjet_poc.__main__ import main; "
+                "main(sys.argv[1:]); assert 'torch' not in sys.modules"
+            )
+            result = subprocess.run([sys.executable, '-c', script, *args],
+                                    capture_output=True, text=True, timeout=10)
+>           assert result.returncode == 0, result.stderr
+E           AssertionError: Traceback (most recent call last):
+E               File "<string>", line 1, in <module>
+E                 import sys; from famjet_poc.__main__ import main; main(sys.argv[1:]); assert 'torch' not in sys.modules
+E                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             ModuleNotFoundError: No module named 'famjet_poc.__main__'
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python', '-c', "import sys; from fam...n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'famjet_poc.__main__\'\n').returncode
+
+tests/test_poc_cli.py:17: AssertionError
+__________ test_run_dispatches_actual_pipeline_and_propagates_failure __________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-390/test_run_dispatches_actual_pip0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1066328b0>
+
+    def test_run_dispatches_actual_pipeline_and_propagates_failure(tmp_path, monkeypatch):
+>       from famjet_poc.__main__ import main
+E       ModuleNotFoundError: No module named 'famjet_poc.__main__'
+
+tests/test_poc_cli.py:22: ModuleNotFoundError
+____________ test_report_dispatches_render_and_requires_content_ref ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-390/test_report_dispatches_render_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106633360>
+
+    def test_report_dispatches_render_and_requires_content_ref(tmp_path, monkeypatch):
+>       from famjet_poc.__main__ import main
+E       ModuleNotFoundError: No module named 'famjet_poc.__main__'
+
+tests/test_poc_cli.py:37: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_poc_cli.py::test_help_and_subcommand_help_are_lightweight
+FAILED tests/test_poc_cli.py::test_run_dispatches_actual_pipeline_and_propagates_failure
+FAILED tests/test_poc_cli.py::test_report_dispatches_render_and_requires_content_ref
+3 failed in 0.05s

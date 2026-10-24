@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_cli.py"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 0.18818741599898203,
+  "exit_code": 0,
+  "sha256": "0c15948e3e16483bedf87bc0f9680c9fc3067d50fcb935f6c932a701a875dec8",
+  "stdout_stderr_log": "green-cli-01.log"
+}

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "py_compile",
+    "famjet_poc/__main__.py",
+    "famjet_poc/report.py",
+    "famjet_poc/report_inputs.py",
+    "famjet_poc/plots.py"
+  ],
+  "bytes": 0,
+  "elapsed_seconds": 0.03356008299306268,
+  "exit_code": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_stderr_log": "compile-01.log"
+}

@@ -1,0 +1,40 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______________ test_relative_runroot_artifacts_replay_after_copy _______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-410/test_relative_runroot_artifact0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e9c28b0>
+
+    def test_relative_runroot_artifacts_replay_after_copy(tmp_path, monkeypatch):
+        from famjet_poc.report_inputs import load_report_inputs
+        monkeypatch.chdir(tmp_path)
+        _tiny_run(Path('relative-run'))
+        copy = tmp_path / 'archive' / 'run'
+        shutil.copytree(tmp_path / 'relative-run', copy)
+        shutil.rmtree(tmp_path / 'relative-run')
+>       assert load_report_inputs(copy)['synthetic']['query_rows'] == 32
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/tests/test_poc_report_inputs.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py:652: in load_report_inputs
+    paths = ArtifactPaths(run, recorded_freeze)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <famjet_poc.report_inputs.ArtifactPaths object at 0x10e75be00>
+supplied_root = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-410/test_relative_runroot_artifact0/archive/run')
+recorded_freeze_path = 'relative-run/freeze/study-freeze-v1.json'
+recorded_project_root = None
+
+    def __init__(self, supplied_root, recorded_freeze_path, *, recorded_project_root=None):
+        self.root = Path(supplied_root).resolve(strict=True)
+        original = Path(recorded_freeze_path)
+        if (not original.is_absolute() or original.parts[-2:] != ('freeze', 'study-freeze-v1.json')):
+>           raise ValueError('frozen original run root path malformed')
+E           ValueError: frozen original run root path malformed
+
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py:43: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_inputs.py::test_relative_runroot_artifacts_replay_after_copy
+1 failed in 0.55s

@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_scientific_profile_requires_all_entered_stages_and_real_pairs ______
+
+    def test_scientific_profile_requires_all_entered_stages_and_real_pairs():
+>       from famjet_poc.report_inputs import require_scientific_stages
+E       ImportError: cannot import name 'require_scientific_stages' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_inputs.py:105: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_inputs.py::test_scientific_profile_requires_all_entered_stages_and_real_pairs
+1 failed in 0.45s

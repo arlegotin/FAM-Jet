@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py::test_external_beijing_arrays_are_inventory_verified_not_rehashed"
+  ],
+  "bytes": 98,
+  "elapsed_seconds": 0.5788261670022621,
+  "exit_code": 0,
+  "sha256": "ac03dc55bdc1ce87ab5a711fdf5a7d72d345e62c471c4cb4e9de283e03475f14",
+  "stdout_stderr_log": "green-inventory-status-01.log"
+}

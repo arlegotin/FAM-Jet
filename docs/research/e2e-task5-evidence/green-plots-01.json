@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_plots.py"
+  ],
+  "bytes": 99,
+  "elapsed_seconds": 22.458855083001254,
+  "exit_code": 0,
+  "sha256": "26ccf4f0e971f6b0acd5b2915f610dd4995b3aac34baa1c8bb9e2b6b2fa7c544",
+  "stdout_stderr_log": "green-plots-01.log"
+}

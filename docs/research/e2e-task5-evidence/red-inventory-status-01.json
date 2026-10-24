@@ -1,0 +1,14 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_inputs.py::test_external_beijing_arrays_are_inventory_verified_not_rehashed"
+  ],
+  "bytes": 820,
+  "elapsed_seconds": 0.6248638329998357,
+  "exit_code": 1,
+  "sha256": "cf633820edd170b3b72ac403732816291eeabac86ee0a52e56f70a7957c23c81",
+  "stdout_stderr_log": "red-inventory-status-01.log"
+}
