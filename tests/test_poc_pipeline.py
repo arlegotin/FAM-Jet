@@ -1,11 +1,64 @@
 import json
+import os
+from types import SimpleNamespace
 
 import pytest
 
+from famjet_poc import pipeline
 from famjet_poc.pipeline import (StageLedger, admit_resources, stress_inventory,
                                  diagnostic_policy, secondary_ledger, timing_accuracy_admission,
                                  k16_probe_allocation, remaining_probe_allocation,
                                  execute_study_probe)
+
+
+def _stub_host_processes(monkeypatch):
+    def observe_command(argv, **_kwargs):
+        if argv[0] == 'ps':
+            return SimpleNamespace(stdout=f'{os.getpid()} {os.getppid()} 1024\n')
+        if argv[0] == 'vm_stat':
+            return SimpleNamespace(stdout='Mach Virtual Memory Statistics: (page size of 4096 bytes)\nPages free: 1000000.\nPages speculative: 0.\n')
+        raise AssertionError(f'unexpected host command: {argv}')
+    monkeypatch.setattr(pipeline.subprocess, 'run', observe_command)
+
+
+def test_production_observer_survives_atomic_rename_during_file_stat(tmp_path, monkeypatch):
+    _stub_host_processes(monkeypatch)
+    temporary = tmp_path / '.e4-in-progress'
+    final = tmp_path / 'result.json'
+    temporary.write_bytes(b'completed output')
+    original_stat = os.stat
+    renamed = []
+
+    def rename_after_stat(path, *args, **kwargs):
+        if os.fspath(path) == str(temporary) and not renamed:
+            info = original_stat(path, *args, **kwargs)
+            os.replace(temporary, final)
+            renamed.append(True)
+            return info
+        return original_stat(path, *args, **kwargs)
+
+    monkeypatch.setattr(pipeline.os, 'stat', rename_after_stat)
+    first = pipeline.observe_resources(tmp_path)
+    second = pipeline.observe_resources(tmp_path)
+    assert renamed == [True]
+    assert final.read_bytes() == b'completed output'
+    assert first['run_output_bytes'] == second['run_output_bytes'] == len(b'completed output')
+
+
+def test_production_observer_fails_closed_on_output_stat_permission_error(tmp_path, monkeypatch):
+    _stub_host_processes(monkeypatch)
+    output = tmp_path / 'output.bin'
+    output.write_bytes(b'owned output')
+    original_stat = os.stat
+
+    def denied_stat(path, *args, **kwargs):
+        if os.fspath(path) == str(output):
+            raise PermissionError('output stat denied')
+        return original_stat(path, *args, **kwargs)
+
+    monkeypatch.setattr(pipeline.os, 'stat', denied_stat)
+    with pytest.raises(PermissionError, match='output stat denied'):
+        pipeline.observe_resources(tmp_path)
 
 
 def test_resume_skips_only_verified_completed_stage(tmp_path):

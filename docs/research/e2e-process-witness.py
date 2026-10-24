@@ -1,6 +1,6 @@
 """Root execution witness. Monitors only its newly created process group."""
 from pathlib import Path
-import datetime, hashlib, json, math, os, re, resource, shutil, signal, subprocess, sys, time
+import datetime, hashlib, json, math, os, re, resource, shutil, signal, stat, subprocess, sys, time
 ROOT=Path(__file__).resolve().parents[3]
 allocation_path=Path(sys.argv[1]).resolve(); allocation=json.loads(allocation_path.read_bytes())
 required={'expected_head','argv','out','prep','total_seconds','finalization_reserve_seconds','rss_cap_bytes','output_cap_bytes'}
@@ -17,6 +17,20 @@ if free<2*2**30 or .75*free<allocation['rss_cap_bytes'] or shutil.disk_usage(ROO
 prep.mkdir(parents=True)
 def save(name,value):
  p=prep/name;t=p.with_suffix(p.suffix+'.tmp');t.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n');t.replace(p)
+def _count_output_bytes(roots):
+ def scan_error(error):
+  if not isinstance(error,(FileNotFoundError,NotADirectoryError)):raise error
+ total=0
+ for root in roots:
+  try:root_info=Path(root).stat()
+  except FileNotFoundError:continue
+  if not stat.S_ISDIR(root_info.st_mode):raise NotADirectoryError(root)
+  for directory,_,filenames in os.walk(root,onerror=scan_error):
+   for filename in filenames:
+    try:info=os.stat(os.path.join(directory,filename))
+    except (FileNotFoundError,NotADirectoryError):continue
+    if stat.S_ISREG(info.st_mode):total+=info.st_size
+ return total
 start=time.monotonic();deadline=start+allocation['total_seconds'];work_deadline=deadline-allocation['finalization_reserve_seconds']
 rec={'schema':1,'utc_start':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_head':head,'allocation':allocation,'allocation_sha256':hashlib.sha256(allocation_path.read_bytes()).hexdigest(),'witness_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'start_monotonic':start,'work_deadline':work_deadline,'deadline':deadline,'free_plus_speculative':free,'free_disk_bytes':shutil.disk_usage(ROOT).free,'measurement':'sum of current RSS for this wrapper and the owned process group; conservative on shared pages','status':'starting'}
 save('admission.json',rec);samples=[];guard=None;actual=None;child=None;output_bytes=0;last_disk=-math.inf
@@ -34,7 +48,7 @@ try:
    owned=[r for r in processes if r[0]==os.getpid() or r[2]==child.pid]
    rss=sum(r[3]*1024 for r in owned)
    if now-last_disk>=5:
-    output_bytes=sum(p.stat().st_size for d in (out,prep) if d.exists() for p in d.rglob('*') if p.is_file());last_disk=now
+    output_bytes=_count_output_bytes((out,prep));last_disk=now
    samples.append({'monotonic':now,'rss_sum_bytes':rss,'owned_pids':[r[0] for r in owned],'output_bytes_last_sample':output_bytes})
    if rss>allocation['rss_cap_bytes'] or output_bytes>allocation['output_cap_bytes']:guard='resource_cap';break
    time.sleep(.5)
@@ -55,7 +69,7 @@ except BaseException as exc:
   except subprocess.TimeoutExpired:pass
 finally:
  end=time.monotonic();after=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
- rec.update(status='returned',actual_returncode=actual,guard_failure=guard,end_monotonic=end,elapsed_seconds=end-start,utc_end=datetime.datetime.now(datetime.timezone.utc).isoformat(),source_after=after,samples=samples,maximum_sampled_rss_sum_bytes=max((s['rss_sum_bytes'] for s in samples),default=None),child_lifetime_peak_rss_bytes=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,output_bytes=sum(p.stat().st_size for d in (out,prep) if d.exists() for p in d.rglob('*') if p.is_file()))
+ rec.update(status='returned',actual_returncode=actual,guard_failure=guard,end_monotonic=end,elapsed_seconds=end-start,utc_end=datetime.datetime.now(datetime.timezone.utc).isoformat(),source_after=after,samples=samples,maximum_sampled_rss_sum_bytes=max((s['rss_sum_bytes'] for s in samples),default=None),child_lifetime_peak_rss_bytes=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,output_bytes=_count_output_bytes((out,prep)))
  save('exit-witness.json',rec)
 print(json.dumps({k:rec[k] for k in ('actual_returncode','guard_failure','elapsed_seconds','maximum_sampled_rss_sum_bytes','output_bytes')}))
 raise SystemExit(0 if actual==0 and guard is None and after==head and end<deadline else 1)

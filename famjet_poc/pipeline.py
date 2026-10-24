@@ -5,6 +5,7 @@ import math
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import tempfile
 import time
@@ -156,6 +157,29 @@ class StageLedger:
             raise
 
 
+def _run_output_bytes(root):
+    """Count regular output files once each; tolerate only vanished scan entries."""
+    root = Path(root)
+    if not stat.S_ISDIR(root.stat().st_mode):
+        raise NotADirectoryError(root)
+
+    def scan_error(error):
+        if (error.filename == os.fspath(root) or
+                not isinstance(error, (FileNotFoundError, NotADirectoryError))):
+            raise error
+
+    total = 0
+    for directory, _, filenames in os.walk(root, onerror=scan_error):
+        for filename in filenames:
+            try:
+                info = os.stat(os.path.join(directory, filename))
+            except (FileNotFoundError, NotADirectoryError):
+                continue
+            if stat.S_ISREG(info.st_mode):
+                total += info.st_size
+    return total
+
+
 def observe_resources(root):
     """Observe host headroom and the current inherited process tree."""
     disk = shutil.disk_usage(root)
@@ -194,7 +218,7 @@ def observe_resources(root):
             'tree_rss_bytes': sum(table[pid][1] for pid in members if pid in table),
             'now_epoch_seconds': time.time(), 'child_processes': len(members) - 1,
             'descendant_pids': sorted(members - {os.getpid()}),
-            'run_output_bytes': sum(path.stat().st_size for path in Path(root).rglob('*') if path.is_file())}
+            'run_output_bytes': _run_output_bytes(root)}
 
 
 def admit_resources(observed, allocation):
