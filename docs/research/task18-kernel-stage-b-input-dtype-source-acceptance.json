@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "utc": "2026-10-24T11:26:40.964258+00:00",
+  "scope": "external_input_dtype_source_only",
+  "base": "ddb90e9c73a72588dbe33d53b66d9b91d163151c",
+  "reviewed_head": "7a5aba58fe86947e5fb4406957228903a9c342bd",
+  "spec": "YES",
+  "quality": "APPROVED",
+  "findings": [],
+  "review": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-input-dtype-source-review.md",
+    "archive": "docs/research/task18-kernel-stage-b-input-dtype-source-review/review.md",
+    "bytes": 3281,
+    "sha256": "39f798f0c8dd6e785e16af28c4b8abe499064cd864306a88114f600d12b0ebe7"
+  },
+  "root_custody": {
+    "original": ".superpowers/sdd/2026-10-16-famjet/task-18-input-dtype-root-custody.json",
+    "archive": "docs/research/task18-kernel-stage-b-input-dtype-source-review/root-custody.json",
+    "bytes": 978,
+    "sha256": "967cddef0d12e479dc262fdd930e490304121cca2a06868a32c6f5e268b47796"
+  },
+  "material_sha256": "3a32a9be241bab96dfb142dc8831fe7ecf50eae9eea8aebdb16d57c2cd66ca62",
+  "changed_material_rows": [
+    "validation/kernel_stage_b/production.py"
+  ],
+  "test_result": "62 passed in 9.51s",
+  "cannot_verify_items_resolved": "Root independently verified whole-tree byte/pin/null claims",
+  "native_invocations": 0,
+  "binding03_released": false,
+  "panel03_released": false,
+  "old_failed_attempts_unchanged": true
+}
