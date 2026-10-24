@@ -116,3 +116,14 @@ def test_relative_runroot_artifacts_replay_after_copy(tmp_path, monkeypatch):
     shutil.copytree(tmp_path / 'relative-run', copy)
     shutil.rmtree(tmp_path / 'relative-run')
     assert load_report_inputs(copy)['synthetic']['query_rows'] == 32
+
+
+def test_external_beijing_arrays_are_inventory_verified_not_rehashed():
+    from famjet_poc.report_inputs import verify_beijing_inventory
+    splits = ('training', 'development_fit', 'development_calibration', 'test')
+    frozen = {name: [{'history_id': name + ':0', 'sha256': 'a' * 64}] for name in splits}
+    manifest = {'splits': {name: {'blocks': frozen[name]} for name in splits}}
+    assert verify_beijing_inventory(frozen, manifest) == 'verified_inventory_not_rehashed'
+    manifest['splits']['test']['blocks'] = [{'history_id': 'test:0', 'sha256': 'b' * 64}]
+    with pytest.raises(ValueError, match='inventory'):
+        verify_beijing_inventory(frozen, manifest)

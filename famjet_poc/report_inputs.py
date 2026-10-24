@@ -129,6 +129,19 @@ def require_scientific_stages(stages, inputs):
     return expected
 
 
+def verify_beijing_inventory(frozen_inventory, manifest):
+    """Verify the sealed array SHA inventory without reopening external arrays."""
+    if set(frozen_inventory) != {'training', 'development_fit',
+                                 'development_calibration', 'test'}:
+        raise ValueError('Beijing four-split source inventory incomplete')
+    for split, expected in frozen_inventory.items():
+        observed = [{'history_id': item['history_id'], 'sha256': item['sha256']}
+                    for item in manifest['splits'][split]['blocks']]
+        if expected != observed:
+            raise ValueError('frozen Beijing source array inventory mismatch')
+    return 'verified_inventory_not_rehashed'
+
+
 def _release_rows(paths, release, freeze):
     """Validate release closure then read one method/cell at a time."""
     from .contracts import PopulationSpec
@@ -706,13 +719,7 @@ def load_report_inputs(run):
         beijing_manifest = _read_json(paths.resolve(recorded_beijing),
                                       frozen['inputs']['beijing_manifest_sha256'])
         inventory = frozen['inputs']['beijing_array_inventory']
-        if set(inventory) != {'training', 'development_fit', 'development_calibration', 'test'}:
-            raise ValueError('Beijing four-split source inventory incomplete')
-        for split, expected in inventory.items():
-            observed = [{'history_id': item['history_id'], 'sha256': item['sha256']}
-                        for item in beijing_manifest['splits'][split]['blocks']]
-            if expected != observed:
-                raise ValueError('frozen Beijing source array inventory mismatch')
+        array_status = verify_beijing_inventory(inventory, beijing_manifest)
         source = {'archive': beijing_manifest['archive'],
                   'attribution': beijing_manifest['attribution'],
                   'preparation_version': beijing_manifest['preparation_version'],
@@ -733,5 +740,6 @@ def load_report_inputs(run):
                                   if key != 'modes'},
                       development=development, timing=timing, stress=stress,
                       real=real, beijing_source_inventory=inventory,
-                      beijing_source=source)
+                      beijing_source=source,
+                      beijing_source_array_status=array_status)
     return output

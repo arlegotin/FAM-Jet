@@ -156,6 +156,7 @@ def _science_machine(inputs, plot):
             'stress': inputs['stress'],
             'beijing_source_inventory': inputs['beijing_source_inventory'],
             'beijing_source': inputs['beijing_source'],
+            'beijing_source_array_status': inputs['beijing_source_array_status'],
             'plot': plot,
             'metrics': {'native_rmse_status': 'see_real_mode_method_rows'},
             'historical_failures': [
@@ -296,7 +297,10 @@ def _science_markdown(machine):
               f"license: {machine['beijing_source']['attribution']['license']}; "
               f"revision: {machine['beijing_source']['preparation_version']}. "
               'Full per-split prepared-array hashes, source attribution and original archive identity '
-              'are retained in the machine JSON.', '',
+              'are retained in the machine JSON. External prepared arrays have status '
+              f"`{machine['beijing_source_array_status']}`: copied-run analysis checks their "
+              'sealed hash inventory and evaluated row/count/grant receipts without reopening '
+              'the source array bytes.', '',
               'The six earlier MLP qualification failures, extreme signed-cancellation numerical '
               'failures, and old crossed-bootstrap failure remain failed. The new qualified reader '
               'and conditional inference do not repair them.', '',
