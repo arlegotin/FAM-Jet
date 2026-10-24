@@ -1,0 +1,152 @@
+{
+  "cases": [
+    {
+      "fit": {
+        "coefficient_l2_norm": 30.73997156565128,
+        "coefficient_max_abs": 8.237048196184105,
+        "fit_objective": 0.0032562133422900964,
+        "fit_row_count": 128,
+        "fit_scaled_normal_residual": 5.325050662764768e-14,
+        "normal_condition_2": 53596042.46914239,
+        "normal_max_eigenvalue": 53.59604151237136,
+        "normal_min_eigenvalue": 9.99999982148476e-07
+      },
+      "histories": [
+        {
+          "error": "Laguerre FP64 state/prediction parity exceeded original tolerance",
+          "failure_equal": true,
+          "finite_mask_equal": true,
+          "history_id": "tiny-0",
+          "max_prediction_absolute_error": 1.1759482276829658e-12,
+          "max_state_absolute_error": 8.548717289613705e-15,
+          "numeric_supported_equal": true,
+          "prediction": {
+            "allclose_1e12": false,
+            "finite_count": 64,
+            "max_scaled_tolerance_ratio": 1.1590949200316685
+          },
+          "prediction_valid_equal": true,
+          "state": {
+            "h": {
+              "allclose_1e12": true,
+              "max_abs_error": 8.548717289613705e-15,
+              "max_scaled_tolerance_ratio": 0.004981974182855633
+            },
+            "z": {
+              "allclose_1e12": true,
+              "max_abs_error": 0.0,
+              "max_scaled_tolerance_ratio": 0.0
+            }
+          },
+          "status": "failed",
+          "support_equal": true
+        },
+        {
+          "error": null,
+          "failure_equal": true,
+          "finite_mask_equal": true,
+          "history_id": "tiny-1",
+          "max_prediction_absolute_error": 9.894307595459395e-13,
+          "max_state_absolute_error": 1.1435297153639112e-14,
+          "numeric_supported_equal": true,
+          "prediction": {
+            "allclose_1e12": true,
+            "finite_count": 64,
+            "max_scaled_tolerance_ratio": 0.8947867422405714
+          },
+          "prediction_valid_equal": true,
+          "state": {
+            "h": {
+              "allclose_1e12": true,
+              "max_abs_error": 1.1435297153639112e-14,
+              "max_scaled_tolerance_ratio": 0.007001689284752542
+            },
+            "z": {
+              "allclose_1e12": true,
+              "max_abs_error": 0.0,
+              "max_scaled_tolerance_ratio": 0.0
+            }
+          },
+          "status": "passed",
+          "support_equal": true
+        }
+      ],
+      "ridge": 1e-06
+    },
+    {
+      "fit": {
+        "coefficient_l2_norm": 0.5238225151976647,
+        "coefficient_max_abs": 0.17044216532473186,
+        "fit_objective": 0.01671866849004662,
+        "fit_row_count": 128,
+        "fit_scaled_normal_residual": 1.3918102252088456e-15,
+        "normal_condition_2": 5360.604051246378,
+        "normal_max_eigenvalue": 53.606040512371365,
+        "normal_min_eigenvalue": 0.00999999999998276
+      },
+      "histories": [
+        {
+          "error": null,
+          "failure_equal": true,
+          "finite_mask_equal": true,
+          "history_id": "tiny-0",
+          "max_prediction_absolute_error": 9.853229343548264e-15,
+          "max_state_absolute_error": 8.548717289613705e-15,
+          "numeric_supported_equal": true,
+          "prediction": {
+            "allclose_1e12": true,
+            "finite_count": 64,
+            "max_scaled_tolerance_ratio": 0.009355842256401901
+          },
+          "prediction_valid_equal": true,
+          "state": {
+            "h": {
+              "allclose_1e12": true,
+              "max_abs_error": 8.548717289613705e-15,
+              "max_scaled_tolerance_ratio": 0.004981974182855633
+            },
+            "z": {
+              "allclose_1e12": true,
+              "max_abs_error": 0.0,
+              "max_scaled_tolerance_ratio": 0.0
+            }
+          },
+          "status": "passed",
+          "support_equal": true
+        },
+        {
+          "error": null,
+          "failure_equal": true,
+          "finite_mask_equal": true,
+          "history_id": "tiny-1",
+          "max_prediction_absolute_error": 2.0788926136106056e-14,
+          "max_state_absolute_error": 1.1435297153639112e-14,
+          "numeric_supported_equal": true,
+          "prediction": {
+            "allclose_1e12": true,
+            "finite_count": 64,
+            "max_scaled_tolerance_ratio": 0.01856514118841427
+          },
+          "prediction_valid_equal": true,
+          "state": {
+            "h": {
+              "allclose_1e12": true,
+              "max_abs_error": 1.1435297153639112e-14,
+              "max_scaled_tolerance_ratio": 0.007001689284752542
+            },
+            "z": {
+              "allclose_1e12": true,
+              "max_abs_error": 0.0,
+              "max_scaled_tolerance_ratio": 0.0
+            }
+          },
+          "status": "passed",
+          "support_equal": true
+        }
+      ],
+      "ridge": 0.01
+    }
+  ],
+  "original_comparator_rtol_atol": 1e-12,
+  "scope": "two-history K16/V8 unit_test Jet-only diagnostic"
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "env",
+    "OPENBLAS_NUM_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "./.venv/bin/python",
+    "docs/research/e2e-task4-evidence/diagnose-laguerre.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "exit_code": 1,
+  "elapsed_seconds": 0.5334783329999482,
+  "log": "docs/research/e2e-task4-evidence/laguerre-condition-diagnostic.log",
+  "log_sha256": "89cebccc6f2651097d499ceb61cee2cba857f9ac3900ae738ab543c1aa902539",
+  "log_bytes": 273
+}
