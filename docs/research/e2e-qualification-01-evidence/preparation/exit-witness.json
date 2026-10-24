@@ -1,0 +1,251 @@
+{
+  "utc_start": "2026-10-24T16:36:54.482613+00:00",
+  "source_head": "3bee8b10becbbbd88c9cd87886b510932a50e3a2",
+  "wrapper_sha256": "16e89de40b72f9d853cda22bfb37fd177b5ddc6b55ef0c722f8807320cbc69e8",
+  "start_monotonic": 19220.143976208,
+  "work_deadline": 19500.143976208,
+  "deadline": 19520.143976208,
+  "free_plus_speculative": 5748916224,
+  "rss_sum_cap": 1610612736,
+  "output_cap": 134217728,
+  "status": "RETURNED",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-c",
+    "from pathlib import Path; from famjet_poc.models import qualify_models; import json; r=qualify_models(Path('/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-qualification-01')); print(json.dumps({\"all_passed\":r[\"all_passed\"],\"cases\":len(r[\"cases\"])})); raise SystemExit(0 if r[\"all_passed\"] and len(r[\"cases\"])==8 else 1)"
+  ],
+  "child_pid": 48407,
+  "actual_returncode": 0,
+  "guard_failure": null,
+  "elapsed_seconds": 6.64542016699852,
+  "utc_end": "2026-10-24T16:37:01.127985+00:00",
+  "samples": [
+    {
+      "monotonic": 19220.158153708,
+      "rss_sum": 27836416,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 901
+    },
+    {
+      "monotonic": 19220.423520416,
+      "rss_sum": 191610880,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 901
+    },
+    {
+      "monotonic": 19220.6875735,
+      "rss_sum": 232521728,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 2610
+    },
+    {
+      "monotonic": 19220.950439166,
+      "rss_sum": 233488384,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 2610
+    },
+    {
+      "monotonic": 19221.213404166,
+      "rss_sum": 246267904,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 2610
+    },
+    {
+      "monotonic": 19221.479529208,
+      "rss_sum": 269942784,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 2610
+    },
+    {
+      "monotonic": 19221.742986208,
+      "rss_sum": 270598144,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 32564
+    },
+    {
+      "monotonic": 19222.008991666,
+      "rss_sum": 270647296,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 32564
+    },
+    {
+      "monotonic": 19222.275089,
+      "rss_sum": 278249472,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 32564
+    },
+    {
+      "monotonic": 19222.541141416,
+      "rss_sum": 322109440,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 32564
+    },
+    {
+      "monotonic": 19222.807118,
+      "rss_sum": 322207744,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 72910
+    },
+    {
+      "monotonic": 19223.073848083,
+      "rss_sum": 322256896,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 72910
+    },
+    {
+      "monotonic": 19223.340602041,
+      "rss_sum": 325222400,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 72910
+    },
+    {
+      "monotonic": 19223.608002125,
+      "rss_sum": 329351168,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 72910
+    },
+    {
+      "monotonic": 19223.874621291,
+      "rss_sum": 329433088,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 102949
+    },
+    {
+      "monotonic": 19224.141008458,
+      "rss_sum": 329433088,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 102949
+    },
+    {
+      "monotonic": 19224.405780625,
+      "rss_sum": 331694080,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 102949
+    },
+    {
+      "monotonic": 19224.67126425,
+      "rss_sum": 331694080,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 102949
+    },
+    {
+      "monotonic": 19224.93864375,
+      "rss_sum": 331841536,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 143288
+    },
+    {
+      "monotonic": 19225.205293416,
+      "rss_sum": 332857344,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 143288
+    },
+    {
+      "monotonic": 19225.471372083,
+      "rss_sum": 332857344,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 170451
+    },
+    {
+      "monotonic": 19225.734585625,
+      "rss_sum": 332890112,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 176999
+    },
+    {
+      "monotonic": 19226.001588833,
+      "rss_sum": 332922880,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 207742
+    },
+    {
+      "monotonic": 19226.268092708,
+      "rss_sum": 332922880,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 235234
+    },
+    {
+      "monotonic": 19226.534191125,
+      "rss_sum": 332922880,
+      "pids": [
+        48403,
+        48407
+      ],
+      "output_bytes": 235234
+    }
+  ],
+  "child_lifetime_peak_rss": 320897024,
+  "source_after": "3bee8b10becbbbd88c9cd87886b510932a50e3a2"
+}

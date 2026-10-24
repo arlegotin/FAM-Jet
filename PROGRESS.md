@@ -1,6 +1,6 @@
 # Progress
 
-**End-to-end core delivery active:** The user requested completion. The [dated completion plan](docs/superpowers/plans/2026-10-24-famjet-core-delivery.md) adopts an independently qualified convex reader, explicitly conditional fitted-model inference, both real-transfer modes, and artifact-generated reporting. Historical failed procedures remain failed. A fresh builder check found no important unanswered build question. Source implementation follows in the existing branch.
+**End-to-end core delivery active:** The user requested completion. The [dated completion plan](docs/superpowers/plans/2026-10-24-famjet-core-delivery.md) adopts an independently qualified convex reader, explicitly conditional fitted-model inference, both real-transfer modes, and artifact-generated reporting. Historical failed procedures remain failed. A fresh builder check found no important unanswered build question. The new reader source passed independent review and its eight-case fit/fresh-history qualification; the remaining delivery phases are active in the existing branch.
 
 **Current — 24 October 2026:** RAM no longer blocks the completed fixed-reader experiment. All six configurations finished on the Mac in10.63minutes, using about396MiB additional sampled worker memory. The selected ordinary exponential bank had loss0.1918 versus Jet0.2804 at the same9345bytes, and led at every tested history length. These are exposed development results, with no demonstrated Jet advantage. [Completed experiment](docs/research/task18-kernel-stage-b-panel04-report.md).
 

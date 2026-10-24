@@ -1,0 +1,18 @@
+{
+  "utc_start": "2026-10-24T16:36:54.482613+00:00",
+  "source_head": "3bee8b10becbbbd88c9cd87886b510932a50e3a2",
+  "wrapper_sha256": "16e89de40b72f9d853cda22bfb37fd177b5ddc6b55ef0c722f8807320cbc69e8",
+  "start_monotonic": 19220.143976208,
+  "work_deadline": 19500.143976208,
+  "deadline": 19520.143976208,
+  "free_plus_speculative": 5748916224,
+  "rss_sum_cap": 1610612736,
+  "output_cap": 134217728,
+  "status": "STARTING",
+  "argv": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+    "-c",
+    "from pathlib import Path; from famjet_poc.models import qualify_models; import json; r=qualify_models(Path('/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-qualification-01')); print(json.dumps({\"all_passed\":r[\"all_passed\"],\"cases\":len(r[\"cases\"])})); raise SystemExit(0 if r[\"all_passed\"] and len(r[\"cases\"])==8 else 1)"
+  ],
+  "child_pid": 48407
+}
