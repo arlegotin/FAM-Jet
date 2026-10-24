@@ -151,9 +151,9 @@ def fixture_target_stats(targets):
         raise ValueError('complete finite fixture targets required')
     means = torch.stack((targets[:, :32].reshape(-1, 8).mean(0),
                          targets[:, 32:].reshape(-1, 8).mean(0)))
-    pooled = torch.stack((targets[:, :32].reshape(-1, 8)-means[0],
-                          targets[:, 32:].reshape(-1, 8)-means[1]))
-    scale = torch.sqrt(torch.mean(pooled.square(), dim=(0, 1)))
+    centered = torch.stack((targets[:, :32].reshape(-1, 8)-means[0],
+                            targets[:, 32:].reshape(-1, 8)-means[1]))
+    scale = torch.sqrt(torch.mean(centered.square(), dim=(1, 2)))[:, None]
     if not bool((scale > 0).all()) or not bool(torch.isfinite(scale).all()):
         raise ValueError('degenerate fixture target scale')
     return means, scale
@@ -167,7 +167,7 @@ def group_losses(prediction, target):
     for task in range(2):
         for key in range(16):
             indices = (key, key+16) if task == 0 else (key+32, key+48)
-            delta = (prediction[:, indices]-target[:, indices])/scale
+            delta = (prediction[:, indices]-target[:, indices])/scale[task]
             losses[f'{("mean", "contrast")[task]}:{key:02d}'] = float(delta.square().mean())
     return losses
 
@@ -176,7 +176,8 @@ def checkpoint_schedule():
     return tuple(range(0, 4097, 128))
 
 
-def run_bounded_steps(step, evaluate, resource_check, *, records=None):
+def run_bounded_steps(step, evaluate, resource_check, *, records=None,
+                      on_step=None, on_checkpoint=None):
     """Evaluate zero and complete 128-update boundaries; no retry/sweep."""
     observations = [] if records is None else records
     for n in range(4097):
@@ -184,6 +185,8 @@ def run_bounded_steps(step, evaluate, resource_check, *, records=None):
             resource_check()
             observation = dict(evaluate(n), step=n)
             observations.append(observation)
+            if on_checkpoint is not None:
+                on_checkpoint(n, observation)
             if observation['passed']:
                 break
         if n == 4096:
@@ -191,6 +194,8 @@ def run_bounded_steps(step, evaluate, resource_check, *, records=None):
         if n % 16 == 0:
             resource_check()
         step(n+1)
+        if on_step is not None:
+            on_step(n+1)
     return observations
 
 
@@ -201,11 +206,17 @@ def admission(free_plus_spec_bytes, disk_free_bytes):
 
 class ResourceGuard:
     """Incremental process RSS, monotonic lifetime and output bound."""
-    def __init__(self, root, *, start, deadline, baseline_rss, sample, clock=time.monotonic):
+    def __init__(self, root, *, start, deadline, baseline_rss, sample,
+                 clock=time.monotonic, publish=None):
         self.root = Path(root)
         self.start, self.deadline, self.baseline_rss = start, deadline, baseline_rss
         self.sample, self.clock = sample, clock
+        self.publish = publish
         self.samples = []
+
+    def persist_progress(self):
+        if self.publish is not None:
+            self.publish(self.progress)
 
     def check(self):
         now = self.clock()
@@ -221,6 +232,93 @@ class ResourceGuard:
         if size > 2*2**30:
             raise RuntimeError('output byte cap exceeded')
         return row
+
+
+def _empty_arm(family, access, width, *, status='NOT_RUN'):
+    spec = ReaderSpec(family, access, width)
+    unknown = ('parameter_count', 'first_weight_count', 'last_weight_count',
+               'feature_sha256', 'static_hash', 'writer_hash')
+    return {'family': family, 'access': access, 'width': width, 'status': status,
+            'failure': None, 'observations': [], 'optimizer_steps_completed': 0,
+            'optimizer_steps_attempted': 0,
+            'last_durable_step': 0, 'interrupted_unknown_range': None,
+            'elapsed_seconds': None, 'frozen_parameter_count': spec.parameter_count,
+            'parameter_count': None, 'first_weight_count': None,
+            'last_weight_count': None, 'feature_sha256': None, 'static_hash': None,
+            'static_hash_step': None, 'writer_hash': None,
+            'public_cached_max_error': None,
+            'unavailable': {name: 'not yet observed' for name in unknown}}
+
+
+def new_campaign_progress(mode):
+    if mode not in ('numerical', 'numerical_then_tiny_fit'):
+        raise ValueError('closed campaign mode required')
+    return {'numerical': {'status': 'NOT_RUN', 'fixture': [],
+            'terminal_cells': [{'length': length, 'regime': regime,
+                                'episode_id': f't18ra1-check-{length}-{regime}',
+                                'status': 'NOT_RUN'} for length in LENGTHS for regime in REGIMES]},
+            'tiny_fit': {'status': 'NOT_RUN' if mode == 'numerical_then_tiny_fit' else 'NOT_REQUESTED',
+                         'arms': [_empty_arm(family, access, width,
+                                             status='NOT_RUN' if mode == 'numerical_then_tiny_fit' else 'NOT_REQUESTED')
+                                  for family in ('jet', 'bank') for access, width in ARMS]}}
+
+
+def _resource_abort(exc):
+    return isinstance(exc, RuntimeError) and any(
+        phrase in str(exc) for phrase in ('cap exceeded', 'deadline reached'))
+
+
+class CommonInputFailure(RuntimeError):
+    """A common fixed source/fixture failure blocks the remaining arms."""
+
+
+def run_arm_inventory(executor, budget):
+    """Durable six-arm orchestration; executor may be a cheap injected step."""
+    outcome = budget.progress['tiny_fit']
+    arms = outcome['arms']
+    if len(arms) != 6 or any(arm['status'] != 'NOT_RUN' for arm in arms):
+        raise ValueError('fresh closed six-arm inventory required')
+    outcome['status'] = 'ACTIVE'
+    budget.persist_progress()
+    for index, arm in enumerate(arms):
+        arm['status'] = 'ACTIVE'
+        arm['interrupted_unknown_range'] = [0, 128]
+        budget.persist_progress()  # Survives a hard stop during setup.
+        started = time.monotonic()
+        try:
+            budget.check()
+            executor(arm, budget)
+            if arm['status'] not in ('PASS', 'FAIL'):
+                raise RuntimeError('arm executor did not record terminal outcome')
+        except Exception as exc:
+            arm['status'] = 'FAIL'
+            arm['failure'] = f'{type(exc).__name__}: {exc}'
+            arm['elapsed_seconds'] = time.monotonic()-started
+            arm['interrupted_unknown_range'] = None
+            for name in tuple(arm['unavailable']):
+                if arm[name] is not None:
+                    del arm['unavailable'][name]
+                else:
+                    arm['unavailable'][name] = f'unavailable after {type(exc).__name__}: {exc}'
+            outcome['status'] = 'FAIL'
+            if _resource_abort(exc) or isinstance(exc, CommonInputFailure):
+                for remaining in arms[index+1:]:
+                    remaining['status'] = 'BLOCKED'
+                    remaining['failure'] = f'blocked by {type(exc).__name__} in prior arm'
+                    remaining['unavailable'] = {name: 'not attempted after prior-arm failure'
+                                                for name in remaining['unavailable']}
+                budget.persist_progress()
+                break
+        else:
+            arm['elapsed_seconds'] = time.monotonic()-started
+            arm['interrupted_unknown_range'] = None
+            if arm['status'] == 'FAIL':
+                outcome['status'] = 'FAIL'
+        budget.persist_progress()
+    if outcome['status'] != 'FAIL':
+        outcome['status'] = 'PASS'
+    budget.persist_progress()
+    return outcome
 
 
 def _tensor_sha(value):
@@ -454,64 +552,72 @@ def _edge_case_numerical(kernel, family):
     return errors
 
 
+def _record_terminal_cell(budget, index, cell):
+    budget.progress['numerical']['terminal_cells'][index] = cell
+    budget.persist_progress()
+
+
 def _terminal_cells(budget):
     from famjet.config import load_config
     from famjet.data.synthetic import batch_hash
     base = load_config(ROOT/'configs/development/jet_finite_raw_32768.yaml')
     seed = derive_seed(20261024, 'task18_reader_adequacy_v1', 'numerical')
-    rows = []
-    for length in LENGTHS:
-        for regime in REGIMES:
+    rows = budget.progress['numerical']['terminal_cells']
+    for index, (length, regime) in enumerate((length, regime) for length in LENGTHS for regime in REGIMES):
+        _record_terminal_cell(budget, index, {**rows[index], 'status': 'ACTIVE'})
+        budget.check()
+        identifier = f't18ra1-check-{length}-{regime}'
+        config = replace(base, data=replace(base.data, length=length,
+                         generator=replace(base.data.generator, namespace='training', regime=regime)))
+        episode = generate_episode(config, seed, identifier)
+        if episode.metadata['target_semantics'] != 'observed_event_targets_v2' or not all(
+                bool(value) for row in episode.metadata['target_valid'] for value in row):
+            raise ArithmeticError(f'invalid primary targets in {identifier}; no redraw')
+        episode = move_episode(episode, 'cpu', dtype=torch.float64)
+        cell = {'length': length, 'regime': regime, 'episode_id': identifier,
+                'status': 'PASS', 'seed': seed, 'source_hashes': episode.metadata['hashes'],
+                'promoted_hashes': {'events': batch_hash(episode.events),
+                                    'queries': batch_hash(episode.queries)},
+                'families': {}}
+        for family in ('jet', 'bank'):
             budget.check()
-            identifier = f't18ra1-check-{length}-{regime}'
-            config = replace(base, data=replace(base.data, length=length,
-                             generator=replace(base.data.generator, namespace='training', regime=regime)))
-            episode = generate_episode(config, seed, identifier)
-            if episode.metadata['target_semantics'] != 'observed_event_targets_v2' or not all(
-                    bool(value) for row in episode.metadata['target_valid'] for value in row):
-                raise ArithmeticError(f'invalid primary targets in {identifier}; no redraw')
-            episode = move_episode(episode, 'cpu', dtype=torch.float64)
-            cell = {'length': length, 'regime': regime, 'episode_id': identifier,
-                    'seed': seed, 'source_hashes': episode.metadata['hashes'],
-                    'promoted_hashes': {'events': batch_hash(episode.events),
-                                        'queries': batch_hash(episode.queries)},
-                    'families': {}}
-            for family in ('jet', 'bank'):
-                budget.check()
-                kernel = load_pinned_kernel(family)
-                kernel.chunk_size = 32
-                terminal = kernel.encode(episode.events, mode='terminal')
-                stream = kernel.encode(episode.events, mode='stream')
-                errors = {name: _close(terminal.payload[name], stream.payload[name],
-                                       f'{identifier} {family} {name}') for name in kernel._state_keys}
-                for access, width in (('C', 128), ('F', 256)):
-                    spec = ReaderSpec(family, access, width)
-                    t = features(kernel, terminal, episode.queries, spec)
-                    s = features(kernel, stream, episode.queries, spec)
-                    errors[f'{access}_input'] = _close(t.values, s.values,
-                                                       f'{identifier} {family} {access} inputs')
-                    if not torch.equal(t.supported, s.supported):
-                        raise ArithmeticError('terminal/stream support mismatch')
-                cell['families'][family] = {'errors': errors,
-                    'terminal_sha256': {name: _tensor_sha(terminal.payload[name]) for name in kernel._state_keys},
-                    'stream_sha256': {name: _tensor_sha(stream.payload[name]) for name in kernel._state_keys}}
-            rows.append(cell)
-            budget.progress['terminal_cells'] = rows
+            kernel = load_pinned_kernel(family)
+            kernel.chunk_size = 32
+            terminal = kernel.encode(episode.events, mode='terminal')
+            stream = kernel.encode(episode.events, mode='stream')
+            errors = {name: _close(terminal.payload[name], stream.payload[name],
+                                   f'{identifier} {family} {name}') for name in kernel._state_keys}
+            for access, width in (('C', 128), ('F', 256)):
+                spec = ReaderSpec(family, access, width)
+                t = features(kernel, terminal, episode.queries, spec)
+                s = features(kernel, stream, episode.queries, spec)
+                errors[f'{access}_input'] = _close(t.values, s.values,
+                                                   f'{identifier} {family} {access} inputs')
+                if not torch.equal(t.supported, s.supported):
+                    raise ArithmeticError('terminal/stream support mismatch')
+            cell['families'][family] = {'errors': errors,
+                'terminal_sha256': {name: _tensor_sha(terminal.payload[name]) for name in kernel._state_keys},
+                'stream_sha256': {name: _tensor_sha(stream.payload[name]) for name in kernel._state_keys}}
+        _record_terminal_cell(budget, index, cell)
     return rows, seed
 
 
 def numerical_checks(*, budget):
     """Full diagnostic campaign. Source tests never call this function."""
     torch.set_num_threads(1)
+    report = budget.progress['numerical']
+    report.update(status='ACTIVE', tolerance={'atol': ATOL, 'rtol': RTOL},
+                  fixture_seed=2026102401, unit_public_transport='canonical_only',
+                  diagnostic_only=True)
+    budget.persist_progress()
     fixture = make_two_age_fixture()
-    report = {'status': 'PASS', 'tolerance': {'atol': ATOL, 'rtol': RTOL},
-              'fixture_seed': 2026102401, 'fixture': [], 'terminal_cells': [],
-              'unit_public_transport': 'canonical_only', 'diagnostic_only': True}
-    budget.progress = report
     for family in ('jet', 'bank'):
         budget.check()
         report['fixture'].append(_fixture_numerical(fixture, family, budget))
+        budget.persist_progress()
     report['terminal_cells'], report['terminal_seed'] = _terminal_cells(budget)
+    report['status'] = 'PASS'
+    budget.persist_progress()
     return report
 
 
@@ -537,113 +643,148 @@ def tiny_fit(*, budget):
     and pooled scales normalize physical prediction errors in the loss only.
     """
     torch.set_num_threads(1)
-    fixture = make_two_age_fixture()
-    fixture_mean, fixture_scale = fixture_target_stats(fixture.targets)
-    outcome = {'status': 'PASS', 'fixture_seed': 2026102401, 'init_seed': 2026102402,
-               'rows': 256, 'fixture_target_mean': fixture_mean.tolist(),
-               'fixture_target_scale': fixture_scale.tolist(),
-               'arms': [], 'optimizer': {'lr': 0.003, 'betas': [0.9, 0.999],
-               'eps': 1e-8, 'weight_decay': 0., 'clip_global_norm': 1., 'batch': 64,
-               'maximum_updates': 4096},
-               'loss_parameterization': 'physical predictions via frozen production inverse; fixture-only pooled target scale in loss; no development statistic'}
-    budget.progress = {'numerical': getattr(budget, 'progress', {}), 'tiny_fit': outcome}
+    outcome = budget.progress['tiny_fit']
+    outcome.update(status='ACTIVE', fixture_seed=2026102401, init_seed=2026102402,
+                   rows=256, fixture_target_mean=None, fixture_target_scale=None,
+                   optimizer={'lr': 0.003, 'betas': [0.9, 0.999],
+                              'eps': 1e-8, 'weight_decay': 0., 'clip_global_norm': 1.,
+                              'batch': 64, 'maximum_updates': 4096},
+                   loss_parameterization='physical predictions via frozen production inverse; fixture-only per-task population scale in loss; no development statistic')
+    budget.persist_progress()
+    try:
+        budget.check()
+        fixture = make_two_age_fixture()
+        fixture_mean, fixture_scale = fixture_target_stats(fixture.targets)
+    except Exception as exc:
+        outcome['status'] = 'FAIL'
+        outcome['failure'] = f'common fixture setup: {type(exc).__name__}: {exc}'
+        for arm in outcome['arms']:
+            arm['status'] = 'BLOCKED'
+            arm['failure'] = outcome['failure']
+            arm['unavailable'] = {name: 'not attempted after common fixture setup failure'
+                                  for name in arm['unavailable']}
+        budget.persist_progress()
+        return outcome
+    outcome['fixture_target_mean'] = fixture_mean.tolist()
+    outcome['fixture_target_scale'] = fixture_scale.tolist()
+    budget.persist_progress()
     from famjet.provenance import canonical_hash
-    for family in ('jet', 'bank'):
-        kernel = load_pinned_kernel(family)
-        kernel.chunk_size = 32
-        snapshot = kernel.encode(fixture.events, mode='stream')
-        cached_features = {}
-        for access, width in ARMS:
-            budget.check()
-            spec = ReaderSpec(family, access, width)
-            reader = _fresh_reader(spec)
-            if access not in cached_features:
+    kernels = {}
+    cached_features = {}
+    task = _query_task_index(fixture.queries).reshape(-1)
+    labels = fixture.targets.reshape(256, 8)
+
+    def execute(arm, guard):
+        family, access, width = arm['family'], arm['access'], arm['width']
+        spec = ReaderSpec(family, access, width)
+        if family not in kernels:
+            try:
+                kernel = load_pinned_kernel(family)
+                kernel.chunk_size = 32
+                kernels[family] = (kernel, kernel.encode(fixture.events, mode='stream'))
+            except Exception as exc:
+                raise CommonInputFailure(f'{family} fixed fixture/source setup: {exc}') from exc
+        kernel, snapshot = kernels[family]
+        arm['writer_hash'] = kernel._parameter_hash()
+        arm['unavailable'].pop('writer_hash', None)
+        reader = _fresh_reader(spec)
+        parameters = tuple(reader.parameters())
+        arm.update(parameter_count=sum(p.numel() for p in parameters),
+                   first_weight_count=reader.network[0].weight.numel(),
+                   last_weight_count=reader.network[4].weight.numel(),
+                   static_hash=canonical_hash(reader.export_static()), static_hash_step=0)
+        for name in ('parameter_count', 'first_weight_count', 'last_weight_count', 'static_hash'):
+            arm['unavailable'].pop(name, None)
+        guard.persist_progress()
+        key = (family, access)
+        if key not in cached_features:
+            try:
                 batch = features(kernel, snapshot, fixture.queries, spec)
                 if not bool(batch.supported.all()) or bool(batch.diagnostics['failure'].any()):
                     raise ArithmeticError('fixture reader input unsupported')
-                cached_features[access] = batch.values.reshape(256, spec.input_dim)
-            raw = cached_features[access]
-            reader.fit_feature_statistics(({'split': 'training', 'values': raw,
-                                            'supported': torch.ones(256, dtype=torch.bool)},),
-                                          provenance={'scope': 'fixture_only',
-                                                      'fixture_id': 'task18-reader-adequacy-v1-two-age-2026102401'})
-            task = _query_task_index(fixture.queries).reshape(-1)
-            labels = fixture.targets.reshape(256, 8)
-            scale = fixture_scale[None, :]
-            parameters = tuple(reader.parameters())
-            optimizer = torch.optim.AdamW(parameters, lr=0.003, betas=(0.9, 0.999),
-                                          eps=1e-8, weight_decay=0.)
-            gradient_activity = {'input': False, 'output': False}
-            arm_start = time.monotonic()
-
-            def train_step(n):
-                start = ((n-1)*64) % 256
-                index = torch.arange(start, start+64) % 256
-                optimizer.zero_grad(set_to_none=True)
-                physical = _physical(reader, raw[index], task[index])
-                center = fixture_mean[task[index]]
-                loss = (((physical-center)/scale-(labels[index]-center)/scale)**2).mean()
-                if not bool(torch.isfinite(loss)):
-                    raise FloatingPointError('nonfinite fixture loss')
-                loss.backward()
-                for name, parameter in (('input', reader.network[0].weight),
-                                        ('output', reader.network[4].weight)):
-                    grad = parameter.grad
-                    if grad is None or not bool(torch.isfinite(grad).all()):
-                        raise FloatingPointError(f'nonfinite {name} gradient')
-                    gradient_activity[name] |= bool((grad != 0).any())
-                torch.nn.utils.clip_grad_norm_(parameters, 1., error_if_nonfinite=True)
-                optimizer.step()
-                if not all(bool(torch.isfinite(p).all()) for p in parameters):
-                    raise FloatingPointError('nonfinite fixture weights')
-
-            def evaluate(n):
-                with torch.no_grad():
-                    prediction = _physical(reader, raw, task).reshape(4, 64, 8)
-                    losses = group_losses(prediction, fixture.targets)
-                    maximum = max(losses.values())
-                    selection = _key_sensitive(prediction, fixture.targets)
-                    active = all(gradient_activity.values())
-                    return {'losses': losses, 'maximum': maximum,
-                            'gradient_activity': dict(gradient_activity),
-                            'key_selection_changed': selection,
-                            'passed': maximum <= 1e-4 and active and selection,
-                            'elapsed_seconds': time.monotonic()-arm_start}
-
-            observations = []
-            try:
-                run_bounded_steps(train_step, evaluate, budget.check, records=observations)
-                passed = observations[-1]['passed']
-                with torch.no_grad():
-                    public = reader.read(kernel, snapshot, fixture.queries)
-                    cached = _physical(reader, raw, task).reshape(4, 64, 8)
-                    equality_error = _close(public.prediction, cached, 'fixture public/cached read')
-                static_hash = canonical_hash(reader.export_static())
-                arm = {'family': family, 'access': access, 'width': width,
-                       'status': 'PASS' if passed else 'FAIL', 'observations': observations,
-                       'optimizer_steps': observations[-1]['step'],
-                       'elapsed_seconds': time.monotonic()-arm_start,
-                       'parameter_count': sum(p.numel() for p in parameters),
-                       'frozen_parameter_count': spec.parameter_count,
-                       'first_weight_count': reader.network[0].weight.numel(),
-                       'last_weight_count': reader.network[4].weight.numel(),
-                       'feature_sha256': _tensor_sha(raw), 'static_hash': static_hash,
-                       'public_cached_max_error': equality_error,
-                       'writer_hash': reader.source['writer_hash']}
+                cached_features[key] = batch.values.reshape(256, spec.input_dim)
             except Exception as exc:
-                arm = {'family': family, 'access': access, 'width': width, 'status': 'FAIL',
-                       'failure': f'{type(exc).__name__}: {exc}',
-                       'observations': observations,
-                       'elapsed_seconds': time.monotonic()-arm_start,
-                       'parameter_count': sum(p.numel() for p in parameters),
-                       'feature_sha256': _tensor_sha(raw)}
-                outcome['arms'].append(arm)
-                outcome['status'] = 'FAIL'
-                # Budget failure ends this campaign; it cannot hide later arms.
-                if isinstance(exc, RuntimeError) and any(x in str(exc) for x in ('cap exceeded', 'deadline reached')):
-                    raise
-                continue
-            outcome['arms'].append(arm)
-            if not passed:
-                outcome['status'] = 'FAIL'
-    return outcome
+                raise CommonInputFailure(f'{family} {access} fixed fixture features: {exc}') from exc
+        raw = cached_features[key]
+        arm['feature_sha256'] = _tensor_sha(raw)
+        arm['unavailable'].pop('feature_sha256', None)
+        reader.fit_feature_statistics(({'split': 'training', 'values': raw,
+                                        'supported': torch.ones(256, dtype=torch.bool)},),
+                                      provenance={'scope': 'fixture_only',
+                                                  'fixture_id': 'task18-reader-adequacy-v1-two-age-2026102401'})
+        arm['static_hash'] = canonical_hash(reader.export_static())
+        guard.persist_progress()
+        optimizer = torch.optim.AdamW(parameters, lr=0.003, betas=(0.9, 0.999),
+                                      eps=1e-8, weight_decay=0.)
+        gradient_activity = {'input': False, 'output': False}
+        arm_start = time.monotonic()
+
+        def train_step(n):
+            start = ((n-1)*64) % 256
+            index = torch.arange(start, start+64) % 256
+            optimizer.zero_grad(set_to_none=True)
+            physical = _physical(reader, raw[index], task[index])
+            center = fixture_mean[task[index]]
+            scale = fixture_scale[task[index]]
+            loss = (((physical-center)/scale-(labels[index]-center)/scale)**2).mean()
+            if not bool(torch.isfinite(loss)):
+                raise FloatingPointError('nonfinite fixture loss')
+            loss.backward()
+            for name, parameter in (('input', reader.network[0].weight),
+                                    ('output', reader.network[4].weight)):
+                grad = parameter.grad
+                if grad is None or not bool(torch.isfinite(grad).all()):
+                    raise FloatingPointError(f'nonfinite {name} gradient')
+                gradient_activity[name] |= bool((grad != 0).any())
+            torch.nn.utils.clip_grad_norm_(parameters, 1., error_if_nonfinite=True)
+            optimizer.step()
+            arm['optimizer_steps_attempted'] = n
+            if not all(bool(torch.isfinite(p).all()) for p in parameters):
+                raise FloatingPointError('nonfinite fixture weights')
+
+        def evaluate(n):
+            with torch.no_grad():
+                prediction = _physical(reader, raw, task).reshape(4, 64, 8)
+                losses = group_losses(prediction, fixture.targets)
+                maximum = max(losses.values())
+                selection = _key_sensitive(prediction, fixture.targets)
+                active = all(gradient_activity.values())
+                return {'losses': losses, 'maximum': maximum,
+                        'gradient_activity': dict(gradient_activity),
+                        'key_selection_changed': selection,
+                        'passed': maximum <= 1e-4 and active and selection,
+                        'elapsed_seconds': time.monotonic()-arm_start}
+
+        def checkpoint(n, _):
+            arm['optimizer_steps_completed'] = n
+            arm['last_durable_step'] = n
+            arm['interrupted_unknown_range'] = [n, min(n+128, 4096)]
+            arm['static_hash'] = canonical_hash(reader.export_static())
+            arm['static_hash_step'] = n
+            guard.persist_progress()
+
+        try:
+            run_bounded_steps(train_step, evaluate, guard.check, records=arm['observations'],
+                              on_step=lambda n: arm.__setitem__('optimizer_steps_completed', n),
+                              on_checkpoint=checkpoint)
+        except Exception as exc:
+            if not _resource_abort(exc):
+                try:
+                    arm['static_hash'] = canonical_hash(reader.export_static())
+                    arm['static_hash_step'] = arm['optimizer_steps_completed']
+                except Exception as static_exc:
+                    arm['static_hash'] = None
+                    arm['unavailable']['static_hash'] = f'failure-state export unavailable: {static_exc}'
+            raise
+        with torch.no_grad():
+            public = reader.read(kernel, snapshot, fixture.queries)
+            cached = _physical(reader, raw, task).reshape(4, 64, 8)
+            arm['public_cached_max_error'] = _close(public.prediction, cached,
+                                                     'fixture public/cached read')
+        arm['static_hash'] = canonical_hash(reader.export_static())
+        arm['static_hash_step'] = arm['optimizer_steps_completed']
+        arm['status'] = 'PASS' if arm['observations'][-1]['passed'] else 'FAIL'
+        if arm['status'] == 'FAIL':
+            arm['failure'] = 'finite 4096-update stopping criterion not met'
+
+    return run_arm_inventory(execute, budget)

@@ -60,6 +60,13 @@ def _sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def _publish_start(out, status, progress):
+    """Persist admission status and the closed work inventory before work."""
+    from famjet.artifacts import atomic_json
+    atomic_json(Path(out)/'status.json', status)
+    atomic_json(Path(out)/'progress.json', progress)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Bounded Task18 reader diagnostics (fresh output only)')
     parser.add_argument('--mode', required=True, choices=('numerical', 'numerical_then_tiny_fit'))
@@ -71,19 +78,22 @@ def main(argv=None):
     if out.exists():
         parser.error('--out must name a fresh, nonexistent directory')
     out.mkdir(parents=True, exist_ok=False)
-    status = {'status': 'FAILED', 'mode': args.mode,
+    status = {'status': 'RUNNING', 'phase': 'admission', 'mode': args.mode,
               'utc_start': datetime.now(timezone.utc).isoformat(),
               'monotonic_start': start, 'monotonic_deadline': deadline,
               'argv': sys.argv if argv is None else [sys.argv[0], *argv],
               'environment': {name: os.environ.get(name) for name in THREAD_ENV},
               'platform': platform.platform()}
+    from famjet.artifacts import atomic_json
+    atomic_json(out/'status.json', status)
     try:
         _launch_threads()
         # Import only after verifying the launch contract. -m package import
         # has already happened, so the parent shell is the true pre-import gate.
         import torch
-        from famjet.artifacts import atomic_json
-        from .checks import ResourceGuard, admission, numerical_checks, tiny_fit
+        from .checks import ResourceGuard, admission, numerical_checks, tiny_fit, new_campaign_progress
+        progress = new_campaign_progress(args.mode)
+        _publish_start(out, status, progress)
         if torch.get_num_threads() != 1:
             raise RuntimeError('actual torch CPU thread count differs from 1')
         baseline, highwater = _rss_sample()
@@ -108,24 +118,43 @@ def main(argv=None):
         if not admission(free, disk):
             raise RuntimeError('fresh resource admission failed')
         guard = ResourceGuard(out, start=start, deadline=deadline,
-                              baseline_rss=baseline, sample=_rss_sample)
-        guard.progress = {}
+                              baseline_rss=baseline, sample=_rss_sample,
+                              publish=lambda value: atomic_json(out/'progress.json', value))
+        guard.progress = progress
         guard.check()
+        status['phase'] = 'numerical'
+        atomic_json(out/'status.json', status)
         numerical = numerical_checks(budget=guard)
         result = {'numerical': numerical}
         if args.mode == 'numerical_then_tiny_fit':
+            status['phase'] = 'tiny_fit'
+            atomic_json(out/'status.json', status)
             result['tiny_fit'] = tiny_fit(budget=guard)
         guard.check()
         atomic_json(out/'result.json', result)
         guard.check()
         status.update(status='PASS' if all(x['status'] == 'PASS' for x in result.values()) else 'FAIL',
+                      phase='complete',
                       result_sha256=_sha(out/'result.json'), samples=guard.samples,
                       result_bytes=(out/'result.json').stat().st_size)
     except Exception as exc:
+        status['status'] = 'FAILED'
         status['failure'] = {'type': type(exc).__name__, 'message': str(exc)}
         if 'guard' in locals():
             status['samples'] = guard.samples
             try:
+                if status['phase'] == 'numerical':
+                    guard.progress['numerical']['status'] = 'FAIL'
+                    if args.mode == 'numerical_then_tiny_fit':
+                        guard.progress['tiny_fit']['status'] = 'BLOCKED'
+                        for arm in guard.progress['tiny_fit']['arms']:
+                            arm['status'] = 'BLOCKED'
+                            arm['failure'] = 'blocked by failed numerical checks'
+                            arm['unavailable'] = {name: 'not attempted after numerical failure'
+                                                  for name in arm['unavailable']}
+                elif status['phase'] == 'tiny_fit':
+                    guard.progress['tiny_fit']['status'] = 'FAIL'
+                guard.persist_progress()
                 atomic_json(out/'partial-result.json', guard.progress)
                 status['partial_result_sha256'] = _sha(out/'partial-result.json')
             except Exception as write_exc:

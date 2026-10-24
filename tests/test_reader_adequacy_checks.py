@@ -12,9 +12,11 @@ from validation.reader_adequacy_v1.reader import PrimaryReader, features
 from validation.reader_adequacy_v1.checks import (
     direct_state, direct_features, recover_two_ages, explicit_network,
     analytic_ratio, group_losses, checkpoint_schedule, run_bounded_steps, admission,
-    ResourceGuard,
+    ResourceGuard, fixture_target_stats, new_campaign_progress, run_arm_inventory,
 )
-from validation.reader_adequacy_v1.check_run import _launch_threads, THREAD_ENV
+from validation.reader_adequacy_v1.check_run import _launch_threads, THREAD_ENV, _publish_start
+from famjet.artifacts import atomic_json
+import json
 
 
 def small_case():
@@ -149,6 +151,20 @@ def test_group_loss_requires_all_32_non_degenerate_groups():
     assert len(losses) == 32 and max(losses.values()) == 0
 
 
+def test_fixture_task_scales_are_distinct_pooled_population_scalars():
+    labels = torch.empty(4, 64, 8, dtype=torch.float64)
+    labels[:, :32] = torch.tensor([-1., 1., -1., 1.])[:, None, None]
+    labels[:, 32:] = torch.tensor([-2., 2., -2., 2.])[:, None, None]
+    coordinate_offsets = 10*torch.arange(8, dtype=torch.float64)
+    labels += coordinate_offsets
+    means, scales = fixture_target_stats(labels)
+    assert means.shape == (2, 8) and torch.equal(means, coordinate_offsets[None].expand(2, -1))
+    assert scales.shape == (2, 1) and torch.equal(scales, torch.tensor([[1.], [2.]], dtype=torch.float64))
+    losses = group_losses(labels+1., labels)
+    assert all(losses[f'mean:{key:02d}'] == 1. for key in range(16))
+    assert all(losses[f'contrast:{key:02d}'] == .25 for key in range(16))
+
+
 def test_fixed_checkpoint_and_injected_step_recording():
     assert checkpoint_schedule() == tuple(range(0, 4097, 128))
     calls = []
@@ -164,8 +180,138 @@ def test_fixed_checkpoint_and_injected_step_recording():
     for phrase in ('torch.optim.AdamW(parameters, lr=0.003', 'betas=(0.9, 0.999)',
                    'eps=1e-8, weight_decay=0.', 'clip_grad_norm_(parameters, 1.',
                    '_physical(reader, raw[index], task[index])',
-                   'reader.target_scale'):
+                   'reader.target_scale', 'fixture_scale[task[index]]',
+                   'run_arm_inventory(execute, budget)', 'on_checkpoint=checkpoint',
+                   "arm['optimizer_steps_attempted'] = n"):
         assert phrase in source
+
+
+def test_initial_status_and_closed_inventory_are_durable(tmp_path):
+    progress = new_campaign_progress('numerical_then_tiny_fit')
+    _publish_start(tmp_path, {'status': 'RUNNING', 'phase': 'admission'}, progress)
+    assert json.loads((tmp_path/'status.json').read_text())['phase'] == 'admission'
+    saved = json.loads((tmp_path/'progress.json').read_text())
+    assert len(saved['tiny_fit']['arms']) == 6
+    assert all(arm['status'] == 'NOT_RUN' for arm in saved['tiny_fit']['arms'])
+    assert len(saved['numerical']['terminal_cells']) == 12
+
+
+def test_completed_cell_is_durable_before_numerical_return(tmp_path):
+    module = __import__('validation.reader_adequacy_v1.checks', fromlist=['_record_terminal_cell'])
+    path = tmp_path/'progress.json'
+    budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                           sample=lambda: (0, 0), clock=lambda: 1.,
+                           publish=lambda value: atomic_json(path, value))
+    budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    completed = {'length': 128, 'regime': 'piecewise_stationary',
+                 'episode_id': 't18ra1-check-128-piecewise_stationary',
+                 'status': 'PASS', 'families': {'jet': {'errors': {'z': 0.}}}}
+    module._record_terminal_cell(budget, 0, completed)
+    saved = json.loads(path.read_text())
+    assert saved['numerical']['terminal_cells'][0] == completed
+    assert saved['numerical']['terminal_cells'][1]['status'] == 'NOT_RUN'
+
+
+def test_setup_failure_preserves_full_inventory_and_unavailable_fields(tmp_path):
+    progress_path = tmp_path/'progress.json'
+    budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                           sample=lambda: (0, 0), clock=lambda: 1.,
+                           publish=lambda value: atomic_json(progress_path, value))
+    budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    def executor(arm, _):
+        if arm['family'] == 'jet' and arm['access'] == 'C' and arm['width'] == 128:
+            raise ValueError('setup failed')
+        arm['status'] = 'PASS'
+    run_arm_inventory(executor, budget)
+    arms = json.loads(progress_path.read_text())['tiny_fit']['arms']
+    assert len(arms) == 6 and arms[0]['status'] == 'FAIL'
+    assert arms[0]['optimizer_steps_completed'] == 0
+    assert arms[0]['feature_sha256'] is None and arms[0]['static_hash'] is None
+    assert arms[0]['unavailable']['feature_sha256']
+    assert all(arm['status'] == 'PASS' for arm in arms[1:])
+
+
+def test_update_failure_retains_exact_completed_steps_and_durable_checkpoints(tmp_path):
+    progress_path = tmp_path/'progress.json'
+    budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                           sample=lambda: (0, 0), clock=lambda: 1.,
+                           publish=lambda value: atomic_json(progress_path, value))
+    budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    def executor(arm, guard):
+        if arm['family'] == 'jet' and arm['access'] == 'C' and arm['width'] == 128:
+            arm['writer_hash'] = 'a'*64
+            arm['feature_sha256'] = 'b'*64
+            arm['parameter_count'] = 29448
+            arm['first_weight_count'] = 11776
+            arm['last_weight_count'] = 1024
+            arm['static_hash'] = 'c'*64
+            guard.persist_progress()
+            for n in range(1, 8):
+                arm['optimizer_steps_completed'] = n
+            raise FloatingPointError('update failed')
+        arm['status'] = 'PASS'
+    run_arm_inventory(executor, budget)
+    saved = json.loads(progress_path.read_text())['tiny_fit']['arms']
+    assert saved[0]['optimizer_steps_completed'] == 7
+    assert saved[0]['writer_hash'] == 'a'*64 and saved[0]['static_hash'] == 'c'*64
+    assert saved[0]['parameter_count'] == 29448
+    assert len(saved) == 6
+
+
+def test_resource_abort_blocks_remaining_arms_and_active_state_survives_hard_stop(tmp_path):
+    progress_path = tmp_path/'progress.json'
+    budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                           sample=lambda: (0, 0), clock=lambda: 1.,
+                           publish=lambda value: atomic_json(progress_path, value))
+    budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    def hard_stop(arm, _):
+        assert json.loads(progress_path.read_text())['tiny_fit']['arms'][0]['status'] == 'ACTIVE'
+        raise KeyboardInterrupt
+    with pytest.raises(KeyboardInterrupt):
+        run_arm_inventory(hard_stop, budget)
+    interrupted = json.loads(progress_path.read_text())['tiny_fit']['arms']
+    assert interrupted[0]['status'] == 'ACTIVE'
+    assert interrupted[0]['interrupted_unknown_range'] == [0, 128]
+    assert all(arm['status'] == 'NOT_RUN' for arm in interrupted[1:])
+    abort_path = tmp_path/'abort-progress.json'
+    aborted_budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                                   sample=lambda: (0, 0), clock=lambda: 1.,
+                                   publish=lambda value: atomic_json(abort_path, value))
+    aborted_budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    aborted_budget.check = lambda: (_ for _ in ()).throw(RuntimeError('campaign deadline reached'))
+    run_arm_inventory(lambda *_: None, aborted_budget)
+    aborted = json.loads(abort_path.read_text())['tiny_fit']['arms']
+    assert aborted[0]['status'] == 'FAIL'
+    assert all(arm['status'] == 'BLOCKED' for arm in aborted[1:])
+
+
+def test_checkpoint_observation_is_durable_before_hard_stop(tmp_path):
+    progress_path = tmp_path/'progress.json'
+    budget = ResourceGuard(tmp_path, start=0., deadline=20., baseline_rss=0,
+                           sample=lambda: (0, 0), clock=lambda: 1.,
+                           publish=lambda value: atomic_json(progress_path, value))
+    budget.progress = new_campaign_progress('numerical_then_tiny_fit')
+    arm = budget.progress['tiny_fit']['arms'][0]
+    arm['status'] = 'ACTIVE'
+    budget.persist_progress()
+    def step(n):
+        if n == 130:
+            raise KeyboardInterrupt
+    def evaluate(n):
+        return {'maximum': 1., 'passed': False}
+    def checkpoint(n, _):
+        arm['optimizer_steps_completed'] = n
+        arm['last_durable_step'] = n
+        arm['interrupted_unknown_range'] = [n, min(n+128, 4096)]
+        budget.persist_progress()
+    with pytest.raises(KeyboardInterrupt):
+        run_bounded_steps(step, evaluate, lambda: None, records=arm['observations'],
+                          on_step=lambda n: arm.__setitem__('optimizer_steps_completed', n),
+                          on_checkpoint=checkpoint)
+    saved = json.loads(progress_path.read_text())['tiny_fit']['arms'][0]
+    assert [row['step'] for row in saved['observations']] == [0, 128]
+    assert saved['optimizer_steps_completed'] == 128
+    assert saved['interrupted_unknown_range'] == [128, 256]
 
 
 def test_admission_expiry_and_resource_failure(tmp_path):
