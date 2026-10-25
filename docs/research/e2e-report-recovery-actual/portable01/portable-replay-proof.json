@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "run06_portable_unavailable_originals_replay",
+  "utc_start": "2026-10-25T12:10:36.970869+00:00",
+  "wrapper_sha256": "cfafb2e8e7536ff81f64a85f5b616feb30f55020d550837b860ed749c816ba74",
+  "original_locations": [
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-core-run-06",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-core-run-06-prep",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/docs/research/e2e-run06-execution-source"
+  ],
+  "copied_run": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-run06-original-archive/run",
+  "copied_source": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-run06-original-archive/execution-source",
+  "clean_python": "/private/tmp/famjet-clean-20261024-01/bin/python",
+  "status": "passed",
+  "unavailable_before_render": true,
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/scripts/report_run06_recovery.py",
+    "--run",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-run06-original-archive/run",
+    "--out",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-run06-portable-replay-01/report/final.md",
+    "--archived-source",
+    "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-run06-original-archive/execution-source",
+    "--compatibility-id",
+    "run06-report-order-v1"
+  ],
+  "returncode": 0,
+  "unavailable_after_render": true,
+  "originals_restored": true,
+  "utc_restored": "2026-10-25T12:11:45.599594+00:00",
+  "original_run_files_unchanged": 4813,
+  "original_prep_files_unchanged": 4,
+  "original_execution_files_unchanged": 74,
+  "deterministic_output_files": {
+    "final-chart-data.json": {
+      "bytes": 1440,
+      "sha256": "c30d0431e8649b4d144018c972fb4d12489e57ccde194a43ba46bf4767f62c2b"
+    },
+    "final.md": {
+      "bytes": 34285,
+      "sha256": "901fc33e27d9f3a57645e5e5c023dfe9e38267da4d7b409e498b103df8820985"
+    },
+    "final.json": {
+      "bytes": 45115143,
+      "sha256": "07720475ce12ff85156b124d71e5be94d1c169bcdd86816d7a6ee25599bc37c0"
+    },
+    "final-charts/primary-effect.svg": {
+      "bytes": 7568,
+      "sha256": "e4a4217b7dacd0d430d7fb9349d9c54902d0386c427fa1f637c881b07cf215f9"
+    },
+    "final-charts/accuracy-memory.svg": {
+      "bytes": 16298,
+      "sha256": "7403f90f69ab0342f35a542aa6cfb5e08b310fa91d3f17a0f9af5cc5e2af49d9"
+    },
+    "final-charts/cost.svg": {
+      "bytes": 16364,
+      "sha256": "ae15a1bbf9a24bb098ee5c7462ad6d99cd3f3a30031e9963e4435e9016373ac4"
+    },
+    "final-charts/plots-receipt.json": {
+      "bytes": 1032,
+      "sha256": "b006256696b2a9ad85a898ca79af4bf2f208f520c121346b8ec6211b9e3dc39b"
+    }
+  },
+  "deterministic_output_count": 7,
+  "utc_end": "2026-10-25T12:11:46.728596+00:00"
+}

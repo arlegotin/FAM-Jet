@@ -1,0 +1,21 @@
+{
+  "expected_head": "4e073f86cfadea7ef2793bf0f1bf91850d8856d7",
+  "argv": [
+    ".venv/bin/python",
+    "scripts/report_run06_recovery.py",
+    "--run",
+    "artifacts/e2e-core-run-06",
+    "--out",
+    "artifacts/e2e-run06-recovery-01/report/final.md",
+    "--archived-source",
+    "docs/research/e2e-run06-execution-source",
+    "--compatibility-id",
+    "run06-report-order-v1"
+  ],
+  "out": "artifacts/e2e-run06-recovery-01",
+  "prep": "artifacts/e2e-run06-recovery-01-prep",
+  "total_seconds": 900,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 134217728
+}

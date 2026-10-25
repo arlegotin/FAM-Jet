@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T12:13:56.822973+00:00",
+  "status": "artifact_recovery_and_clean_unavailable_originals_replay_PASSED",
+  "original_cli_exit": 1,
+  "original_scientific_stages_complete": true,
+  "original_report_failed": true,
+  "registered_compatibility_id": "run06-report-order-v1",
+  "execution_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+  "reporter_sha256": "1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703",
+  "records": {
+    "recovery01": {
+      "owner_elapsed_seconds": 68.61546475000796,
+      "owner_sampled_peak_rss_sum_bytes": 1057259520,
+      "source_head": "4e073f86cfadea7ef2793bf0f1bf91850d8856d7",
+      "owner_guard_failure": null,
+      "witness_ref": {
+        "path": "docs/research/e2e-report-recovery-actual/recovery01/owner-witness/exit-witness.json",
+        "bytes": 27345,
+        "sha256": "fb745f2fc13c4579ee4cdd08156e6265527ccfb040b1964e3178334c1e7abea3"
+      },
+      "receipt_ref": {
+        "path": "docs/research/e2e-report-recovery-actual/recovery01/recovery-receipt.json",
+        "bytes": 3143,
+        "sha256": "ba9cf8c9f683ccf849c96b276b986891ab77e35a19201d6596f084640d1ea142"
+      }
+    },
+    "portable01": {
+      "owner_elapsed_seconds": 70.18822999999975,
+      "owner_sampled_peak_rss_sum_bytes": 1083965440,
+      "source_head": "4e073f86cfadea7ef2793bf0f1bf91850d8856d7",
+      "owner_guard_failure": null,
+      "witness_ref": {
+        "path": "docs/research/e2e-report-recovery-actual/portable01/owner-witness/exit-witness.json",
+        "bytes": 29637,
+        "sha256": "6146f95959dcb517b7e8a292a8f774eca95beac4f9fa2a24e7ada06cab3836ae"
+      },
+      "receipt_ref": {
+        "path": "docs/research/e2e-report-recovery-actual/portable01/recovery-receipt.json",
+        "bytes": 3198,
+        "sha256": "ea5d5d9ef7082e8f5c975555fe6f3c665a12130c2630a638857ad9f3675a848a"
+      }
+    }
+  },
+  "canonical_report_root": "reports/famjet-poc",
+  "canonical_files": {
+    "final-chart-data.json": {
+      "bytes": 1440,
+      "sha256": "c30d0431e8649b4d144018c972fb4d12489e57ccde194a43ba46bf4767f62c2b"
+    },
+    "final.md": {
+      "bytes": 34285,
+      "sha256": "901fc33e27d9f3a57645e5e5c023dfe9e38267da4d7b409e498b103df8820985"
+    },
+    "final.json": {
+      "bytes": 45115143,
+      "sha256": "07720475ce12ff85156b124d71e5be94d1c169bcdd86816d7a6ee25599bc37c0"
+    },
+    "final-charts/primary-effect.svg": {
+      "bytes": 7568,
+      "sha256": "e4a4217b7dacd0d430d7fb9349d9c54902d0386c427fa1f637c881b07cf215f9"
+    },
+    "final-charts/accuracy-memory.svg": {
+      "bytes": 16298,
+      "sha256": "7403f90f69ab0342f35a542aa6cfb5e08b310fa91d3f17a0f9af5cc5e2af49d9"
+    },
+    "final-charts/cost.svg": {
+      "bytes": 16364,
+      "sha256": "ae15a1bbf9a24bb098ee5c7462ad6d99cd3f3a30031e9963e4435e9016373ac4"
+    },
+    "final-charts/plots-receipt.json": {
+      "bytes": 1032,
+      "sha256": "b006256696b2a9ad85a898ca79af4bf2f208f520c121346b8ec6211b9e3dc39b"
+    }
+  },
+  "original_run_files_unchanged": 4813,
+  "original_prep_files_unchanged": 4,
+  "original_execution_source_files_unchanged": 74,
+  "current_reporter_git_revision": "4e073f86cfadea7ef2793bf0f1bf91850d8856d7",
+  "volatile_receipt_excluded_from_canonical_comparison": true
+}
