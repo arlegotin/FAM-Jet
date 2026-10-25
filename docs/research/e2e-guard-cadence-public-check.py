@@ -54,28 +54,28 @@ def select_history_ids(entries):
     return ids
 
 
-def _project(row):
+def _project(row, method):
     if type(row) is not dict or not set(PROJECTION_FIELDS) <= set(row):
         raise ValueError('scientific row projection incomplete')
-    return {key: row[key] for key in PROJECTION_FIELDS}
+    return {key: method if key == 'method' else row[key] for key in PROJECTION_FIELDS}
 
 
-def compare_scientific_rows(expected, observed, history_ids, method):
+def compare_scientific_rows(expected, observed, history_ids, method, *, source_method=None):
     """Compare exact numerical rows while omitting policy/path/cost commitments."""
     ids = set(history_ids)
-    def indexed(rows):
+    def indexed(rows, stored_method):
         selected = {}
         for row in rows:
             if row.get('history_id') not in ids:
                 continue
-            if row.get('method') != method:
+            if row.get('method') != stored_method:
                 raise ValueError('scientific method coverage mismatch')
             key = (row['history_id'], row['query_id'])
             if key in selected:
                 raise ValueError('duplicate scientific row coverage')
-            selected[key] = _project(row)
+            selected[key] = _project(row, method)
         return selected
-    left, right = indexed(expected), indexed(observed)
+    left, right = indexed(expected, source_method or method), indexed(observed, method)
     keys = {(history_id, query_id) for history_id in history_ids for query_id in range(8)}
     if set(left) != keys or set(right) != keys:
         raise ValueError('scientific row coverage incomplete')
@@ -124,11 +124,13 @@ def _old_public_sources(old_public_root):
     for family in ('jet', 'bank'):
         chosen = journal['selected'][family]
         role = baseline['roles']['k16_' + family]
-        if chosen['fit_ref'] != role['source_model_ref']:
+        if (chosen['fit_ref'] != role['source_model_ref'] or
+                chosen['reader'] != role['reader']):
             raise ValueError('old public selected reference changed')
         entry, = [item for item in journal['candidate_ledger']
                   if item['config_hash'] == chosen['config_hash']]
-        if entry['status'] != 'qualified' or entry['fit_ref'] != chosen['fit_ref']:
+        if (entry['status'] != 'qualified' or entry['fit_ref'] != chosen['fit_ref'] or
+                entry['family'] != family):
             raise ValueError('old public selected row ledger changed')
         row_refs[family] = entry['rows_ref']
     for method in METHODS[2:]:
@@ -200,7 +202,10 @@ def run(out, old_public_root):
                             method, directory, allocation,
                             worker_limits)
             current_rows = load_score_rows(evaluated['rows_ref'])
-            matched = compare_scientific_rows(old_rows[method], current_rows, ids, method)
+            source_method = (journal['selected'][method]['config_hash']
+                             if method in ('jet', 'bank') else method)
+            matched = compare_scientific_rows(old_rows[method], current_rows, ids,
+                                              method, source_method=source_method)
             if method == 'laguerre':
                 validate_coordinate_audits(evaluated['costs'], current_rows,
                                            expected_model=selected['jet'])

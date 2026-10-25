@@ -31,6 +31,12 @@ def test_projection_requires_complete_exact_scientific_rows():
     rows = [{**row, 'query_id': i} for i in range(8)]
     changed_policy = [{**row, 'policy_hash': 'new'} for row in rows]
     assert driver.compare_scientific_rows(rows, changed_policy, ['h1'], 'exact')['row_count'] == 8
+    old_selected = [{**row, 'method': 'old-config-hash'} for row in rows]
+    assert driver.compare_scientific_rows(old_selected, rows, ['h1'], 'exact',
+                                          source_method='old-config-hash')['row_count'] == 8
+    with pytest.raises(ValueError, match='method coverage'):
+        driver.compare_scientific_rows(old_selected, rows, ['h1'], 'exact',
+                                       source_method='different-config-hash')
     with pytest.raises(ValueError, match='scientific row mismatch'):
         driver.compare_scientific_rows(rows, [{**row, 'prediction': [2.]} for row in rows], ['h1'], 'exact')
     with pytest.raises(ValueError, match='coverage'):
@@ -45,3 +51,16 @@ def test_selection_is_first_four_2048_histories_per_regime():
     assert len(ids) == 16
     assert ids[:4] == [f'development_fit-2048-{regime}-000' for regime in driver.REGIMES]
     assert ids[-4:] == [f'development_fit-2048-{regime}-003' for regime in driver.REGIMES]
+
+
+def test_archived_public_row_shapes_cover_all_eight_projection_bindings():
+    driver = _driver()
+    _, journal, _, ids, _, rows, _ = driver._old_public_sources(driver.DEFAULT_PUBLIC_ROOT)
+    assert set(rows) == set(driver.METHODS)
+    for method, original in rows.items():
+        source_method = (journal['selected'][method]['config_hash']
+                         if method in ('jet', 'bank') else method)
+        relabeled = [{**row, 'method': method} for row in original]
+        matched = driver.compare_scientific_rows(original, relabeled, ids, method,
+                                                 source_method=source_method)
+        assert matched['row_count'] == 128
