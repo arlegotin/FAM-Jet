@@ -4,11 +4,11 @@
   "status": "all_final_gates_passed",
   "source_head": "4b21c7ac9b1289aba993dbad9b91c33375e96b58",
   "source_executable_sha256": "5d3b8e9f028250c90da4ca5f7d23a720d4c52fc59dea97b5ad217d90fbee2b64",
-  "ruling_lines": 189,
-  "literal_ruling_colon_lines": 178,
-  "ledger_line_count": 1737,
-  "ledger_sha256": "56315d2406c2da16b345b8fe84a0c9cd4403309dbd31fe36912a3f90c8822364",
-  "rulings_sha256": "fca8c1d18e035f359a8215187be5beeb1223cef58d447f9327bd631aa2753ea4",
+  "ruling_lines": 190,
+  "literal_ruling_colon_lines": 179,
+  "ledger_line_count": 1740,
+  "ledger_sha256": "4444a6708d152905cd869a1b8f68c67e9a9fbe5d001518d978f83a839a34ed8f",
+  "rulings_sha256": "981841b4bec2e55ec771476b5a44d911b444d4e00a91e734cfcc94e38a81b2a7",
   "original_cli_exit": 1,
   "v1_seven_files_unchanged": true,
   "v2_scientific_payload_identical": true,
@@ -26,5 +26,7 @@
   },
   "archive_integration_source_only": {
     "passed": 2
-  }
+  },
+  "workspace_archive_ledger_sha256": "56315d2406c2da16b345b8fe84a0c9cd4403309dbd31fe36912a3f90c8822364",
+  "post_archive_cleanup_adjudication": true
 }

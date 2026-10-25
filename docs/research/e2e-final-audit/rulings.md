@@ -1135,3 +1135,9 @@ Ruling: finish on the user-requested current main branch with meaningful local c
 Ruling: after preserving final reviews, exact ordered rulings and full ledger in Git plus a verified complete local tar/index of this plan workspace, retire ONLY .superpowers/sdd/2026-10-16-famjet. Preserve sibling workspaces, current checkout, all scientific inputs, canonical reports and raw archives. Historical workspace-relative links retain original context in the full archive; durable final review links are provided in the final audit. Cost if wrong: restoring that local archive is required to revisit omitted scratch context; tar/member hashes and source-file counts must pass before cleanup.
 
 **Cost if wrong:** The consequence or risk stated in the verbatim ruling applies; no additional quantitative estimate is inferred.
+
+## 190. Post-archive cleanup adjudication
+
+Ruling: after verified retirement of the plan workspace, remove only the obsolete test assertion comparing the committed witness with its ignored scratch mirror. The test continues to parse and exercise the committed witness source, including rename and permission-error behavior. Preserve the 13 tracked historical workspace files verbatim under retired-workspace/. Cost if wrong: scratch-mirror equality is no longer checked, but that retired copy is outside the executable product; the actual witness behavior assertions and source identity remain checked.
+
+**Cost if wrong:** The discarded scratch-mirror equality check no longer runs; committed witness behavior and every existing behavioral assertion remain covered.

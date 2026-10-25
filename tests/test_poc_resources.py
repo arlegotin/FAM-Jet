@@ -83,9 +83,6 @@ def test_live_guard_production_observer_permission_error_blocks_completion(
 def test_witness_output_counter_survives_rename_and_rejects_permission_error(
         tmp_path, monkeypatch):
     source = Path(__file__).resolve().parents[1] / 'docs/research/e2e-process-witness.py'
-    mirror = (Path(__file__).resolve().parents[1] /
-              '.superpowers/sdd/2026-10-16-famjet/e2e-process-witness.py')
-    assert source.read_bytes() == mirror.read_bytes()
     function = next(node for node in ast.parse(source.read_text()).body
                     if isinstance(node, ast.FunctionDef) and node.name == '_count_output_bytes')
     namespace = {'os': os, 'stat': stat, 'Path': Path}
