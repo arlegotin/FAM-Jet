@@ -1,0 +1,12 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 90, in <module>
+    resume_binding=validate_resume(allocation['resume_baseline_ref'])
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 59, in validate_resume
+    for name,record in immutable.items():_check_record(_safe(ROOT,name),record)
+                                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 29, in _check_record
+    if type(record) is not dict or set(record)!={'bytes','sha256'} or type(record['bytes']) is not int or record['bytes']<0 or type(record['sha256']) is not str or re.fullmatch('[0-9a-f]{64}',record['sha256']) is None or _record(path)!=record:raise ValueError('baseline byte/hash mismatch: '+str(path))
+                                                                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: baseline byte/hash mismatch: /private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/famjet-witness-fixture-4f0_nda8/famjet/core.py

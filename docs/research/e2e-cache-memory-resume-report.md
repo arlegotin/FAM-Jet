@@ -53,3 +53,27 @@ The [verification receipt](e2e-cache-memory-resume-evidence/verification.json) r
 ## Root gate before any real resume
 
 Root must independently review the helper and this report, bind its already authored baseline to the actual old run04 OUT and old revision, verify the exact clean new HEAD and source exemptions, verify old OUT bytes and stage/global clocks have remaining allowance, check the total existing OUT plus PREP budget, promote the helper, and choose whether to launch its own guarded resume. The first timing start is `1792890563.801858`, so its deadline is `1792892363.801858` (about 01:39:23.802 UTC); that clock is never reset. The original global end is about 03:41:39.663497 UTC. A review or launch after the timing deadline must remain HOLD and reject before child launch. No actual run04 resume was attempted here, and no scientific result is claimed.
+
+## Fix round 1 — original global deadline on child exit
+
+The scoped independent review found one blocking helper gap: the external monitor checked the original global deadline only inside its `while child.poll() is None` loop. A child exiting just after that deadline, before the next poll, could return 0 with no guard and be accepted against only the new wrapper deadline. This finding is valid. The original helper SHA-256 `d1fb1fdb48e9aa5ded8a1fb851698ddf027eed80230e8dc00b506e69d78a78e6` and its 20-case evidence remain historical.
+
+The ignored helper now retains `original_global_deadline_epoch_seconds` in the baseline binding and admission/exit receipts, records `end_epoch_seconds`, sets `guard_failure=original_global_deadline` when finalization reaches or passes the old deadline, and requires `end_epoch_seconds < original_global_deadline_epoch_seconds` in its final success predicate. Fresh mode has no original global deadline. The new helper SHA-256 is `38c47eb064e23c1949f21560b49ebe30c9b708b0fe3fac6f5819659f4a78391f`. No tracked source, pipeline test, old run04 output, or original clock was changed in this round.
+
+**RED:** The new `global_expiry_during_poll` disposable repository case delayed one monitor poll while the fake child exited after the original global deadline. Against the reviewed helper it failed as intended: the child returned 0, `guard_failure` was null, and the wrapper wrongly exited 0. The case also asserts that a real child marker exists, so an earlier prelaunch refusal cannot satisfy it.
+
+**GREEN:** The same case now records child return 0, final `guard_failure=original_global_deadline`, wrapper exit 1, clean source, and `end_epoch_seconds=1792891348.203813` after the retained original deadline `1792891345.2139552`. A deterministic direct test of the helper's final predicate accepts `999.999` before a `1000.0` deadline, rejects equality and `1000.001`, and preserves fresh mode with no original global clock. The original 20 fake repository cases remain green. The covering test file is `.superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py`.
+
+Exact commands, selected output lines, and the full raw logs with byte SHA-256 are in [fix round 1 verification](e2e-cache-memory-resume-evidence/fix-round-1/verification.json):
+
+```text
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python /Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py
+global_expiry_during_poll PASS
+21 fixture cases passed
+exit 0
+
+/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python -m py_compile /Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py /Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py
+exit 0
+```
+
+The earlier 142 passed/1 skipped affected source suite was not rerun because this round touched only the ignored helper and its fixture. Status remains **HOLD** pending root's scoped re-review and any actual resume decision; no actual resume was launched.

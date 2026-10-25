@@ -1,0 +1,7 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 105, in <module>
+    if free<2*2**30 or .75*free<allocation['rss_cap_bytes'] or shutil.disk_usage(ROOT).free<allocation['output_cap_bytes']+4*2**30:raise RuntimeError('fresh admission refused')
+                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: fresh admission refused

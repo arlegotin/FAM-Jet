@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "label": "helper-fixtures",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:22:15.652642+00:00",
+      "end_utc": "2026-10-25T01:22:28.256356+00:00",
+      "elapsed_seconds": 12.603713989257812,
+      "exit_code": 0,
+      "stdout_bytes": 498,
+      "stdout_sha256": "57e79e598ff28ab8f207aadc553cded046d6d009d59f55c8ee29846480cf22cb",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "helper-compile",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "py_compile",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py",
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:22:28.256908+00:00",
+      "end_utc": "2026-10-25T01:22:28.290580+00:00",
+      "elapsed_seconds": 0.03367209434509277,
+      "exit_code": 0,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "helper_sha256": "38c47eb064e23c1949f21560b49ebe30c9b708b0fe3fac6f5819659f4a78391f",
+  "fixture_sha256": "a6a985bb644115d6ecf270c626eb9447a3b7aecf294ab311525a6b02b0ec0aaa",
+  "overall_exit": 0
+}
