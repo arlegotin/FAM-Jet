@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-25T11:47:05.886456+00:00",
+  "source_review_head": "3056df79",
+  "raw_log_receipts_verified": [
+    "compile",
+    "diff-check",
+    "green-targeted",
+    "launcher-help",
+    "source-preservation"
+  ],
+  "sole_executable_change": [
+    "famjet_poc/report_inputs.py"
+  ],
+  "old_current_maps_files": 74,
+  "status": "verified_receipts_and_byte_preservation_only_not_source_approval",
+  "actual_recovery": "NOT_RUN"
+}

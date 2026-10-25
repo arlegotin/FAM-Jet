@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T12:00:24.543350+00:00",
+  "reviewed_head": "108c958cf090b0c112a35186a39b2a3afe88d9c4",
+  "source_commit": "42940514",
+  "verdict": "SPEC_YES_QUALITY_APPROVED_R7_R1_through_R5_ADDRESSED",
+  "original_execution_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+  "reporter_sha256": "1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703",
+  "manifest_sha256": "881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27",
+  "actual_recovery": "NOT_RUN_NEXT_GATE",
+  "old_science_unchanged": true,
+  "files": {
+    "review-initial.md": {
+      "bytes": 11521,
+      "sha256": "4a0096fdadfb760f7349630075fbeb3c9392cea0d6030985b2a21583b0930590"
+    },
+    "root-audit-initial.json": {
+      "bytes": 437,
+      "sha256": "0c011083572eba82f8ac54feff5e1e709ac05e7e8adebe767814e37d31cdeec2"
+    },
+    "review-fix1.md": {
+      "bytes": 9928,
+      "sha256": "a539f0beb0ee444785ee6a13fe58785639f9dafc2cc7175620caf42a12d0d2f8"
+    },
+    "root-audit-fix1.json": {
+      "bytes": 391,
+      "sha256": "57565a99e86f2e5fd8aac1ac66ee666d2f4bfb072983db0fe9713b7ba6062825"
+    }
+  }
+}
