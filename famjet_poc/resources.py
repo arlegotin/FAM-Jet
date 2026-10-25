@@ -42,14 +42,79 @@ class LiveStageGuard:
         self.cancelled = set()
         self.cancellation_seconds = 0.0
         self._lock = threading.Lock()
+        self._sampling_lock = threading.RLock()
         self._stop = threading.Event()
         self._thread = None
         self.receipt_ref = None
+        self.reuse_count = 0
+        self.forced_count = 0
+        self.background_count = 0
+        self.maximum_sample_age_seconds = 0.0
+        self.observer_timeout_seconds = .25
+        self._last_success_monotonic = None
+        self._observer_blocked = False
 
-    def _record(self):
+    def _observe(self):
+        """Bound a host observation even when ps or a directory walk stalls."""
+        result = {}
+        def call():
+            try:
+                result['value'] = self.observer(self.root)
+            except BaseException as exc:
+                result['error'] = exc
+        worker = threading.Thread(target=call, daemon=True)
+        worker.start()
+        worker.join(self.observer_timeout_seconds)
+        if worker.is_alive():
+            self._observer_blocked = True
+            raise TimeoutError('host resource observer blocked')
+        if 'error' in result:
+            raise result['error']
+        return result['value']
+
+    def _latch(self, reason):
+        with self._lock:
+            if self.violation is None:
+                self.violation = reason
+
+    def _record(self, *, force=False, background=False):
+        now = time.monotonic()
+        if now - self.started >= self.allocation['max_wall_seconds']:
+            self._latch('wall deadline exceeded')
+            with self._lock:
+                suspects = next((sample['descendant_pids'] for sample in reversed(self.samples)
+                                 if 'descendant_pids' in sample), [])
+            self._cancel_verified(suspects)
+        if self.violation:
+            return
+        if not self._sampling_lock.acquire(timeout=self.observer_timeout_seconds):
+            self._latch('host resource observer blocked')
+            return
+        try:
+            now = time.monotonic()
+            if now - self.started >= self.allocation['max_wall_seconds']:
+                self._latch('wall deadline exceeded')
+                return
+            if self.violation:
+                return
+            if self._last_success_monotonic is not None:
+                age = now - self._last_success_monotonic
+                self.maximum_sample_age_seconds = max(self.maximum_sample_age_seconds, age)
+                if not force and not background and age <= .25:
+                    self.reuse_count += 1
+                    return
+            if force:
+                self.forced_count += 1
+            if background:
+                self.background_count += 1
+            self._observe_and_record()
+        finally:
+            self._sampling_lock.release()
+
+    def _observe_and_record(self):
         observed_started = time.perf_counter()
         try:
-            observed = self.observer(self.root)
+            observed = self._observe()
             if (type(observed) is not dict or
                     any(type(observed.get(k)) not in (int, float) or
                         not math.isfinite(observed[k]) or observed[k] < 0
@@ -79,8 +144,14 @@ class LiveStageGuard:
             reason = 'host resource observer failed'
         with self._lock:
             self.samples.append(sample)
+            if self._last_success_monotonic is not None:
+                self.maximum_sample_age_seconds = max(
+                    self.maximum_sample_age_seconds,
+                    time.monotonic() - self._last_success_monotonic)
             if reason and self.violation is None:
                 self.violation = reason
+            if reason is None:
+                self._last_success_monotonic = time.monotonic()
         if reason:
             suspects = sample.get('descendant_pids')
             if suspects is None:
@@ -90,11 +161,17 @@ class LiveStageGuard:
 
     def _cancel_verified(self, suspects):
         started = time.perf_counter()
+        if not self._sampling_lock.acquire(timeout=self.observer_timeout_seconds):
+            return
         try:
-            current = self.observer(self.root)
+            if self._observer_blocked:
+                return
+            current = self._observe()
             verified = set(current['descendant_pids']) & set(suspects)
         except Exception:
             verified = set()
+        finally:
+            self._sampling_lock.release()
         for pid in sorted(verified):
             if pid == os.getpid() or pid in self.cancelled:
                 continue
@@ -112,7 +189,7 @@ class LiveStageGuard:
 
     def _watch(self):
         while not self._stop.wait(self.sample_interval):
-            self._record()
+            self._record(background=True)
             if self.violation:
                 return
 
@@ -130,6 +207,11 @@ class LiveStageGuard:
                 'cancellation_seconds': self.cancellation_seconds,
                 'cancelled_owned_descendants': sorted(self.cancelled),
                 'sample_interval_seconds': self.sample_interval,
+                'reuse_count': self.reuse_count,
+                'forced_count': self.forced_count,
+                'background_count': self.background_count,
+                'maximum_sample_age_seconds': self.maximum_sample_age_seconds,
+                'observer_timeout_seconds': self.observer_timeout_seconds,
                 'scope': 'current_parent_plus_verified_live_descendants'}
         raw = canonical_json(body)
         measured_output = next((sample['output_bytes'] for sample in reversed(self.samples)
@@ -152,7 +234,7 @@ class LiveStageGuard:
 
     def __enter__(self):
         self.started = time.monotonic()
-        self._record()
+        self._record(force=True)
         if self.violation:
             self._write_receipt()
             raise RuntimeError(self.violation)
@@ -174,7 +256,7 @@ class LiveStageGuard:
             if self._thread.is_alive():
                 self.violation = self.violation or 'host resource observer did not stop'
         if not self.violation:
-            self._record()
+            self._record(force=True)
         self._write_receipt(None if exc is None else f'{type(exc).__name__}: {exc}')
         if exc is None and self.violation:
             raise RuntimeError(self.violation)

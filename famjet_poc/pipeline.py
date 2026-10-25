@@ -73,7 +73,8 @@ class StageLedger:
         return records[0]['start_epoch_seconds']
 
     def stage(self, name, inputs, action, *, resume=False, retryable=False,
-              monitor=False, monitor_observer=None, monitor_cancel=None):
+              monitor=False, monitor_observer=None, monitor_cancel=None,
+              scientific_policy=None):
         if type(name) is not str or not name or '/' in name or name.startswith('.') or not callable(action):
             raise ValueError('valid stage and action required')
         digest = canonical_hash(inputs)
@@ -89,6 +90,12 @@ class StageLedger:
             if _files(directory) != receipt['output_files']:
                 raise ValueError('resumed stage output hash mismatch')
             return receipt['result']
+        if scientific_policy is not None:
+            from .execution_policy import admit_scientific_work
+            allocation = inputs.get('allocation') if type(inputs) is dict else None
+            if type(allocation) is not dict:
+                raise ValueError('scientific stage requires declared allocation')
+            admit_scientific_work(scientific_policy, allocation.get('max_wall_seconds'))
         if records and records[-1]['status'] == 'running' and retryable and resume:
             interrupted = records[-1]
             directory = self.root / name
@@ -520,29 +527,33 @@ def run(out, resume=False):
     from .contracts import PopulationSpec, ShapeSpec
     from .models import load_model
     from .inference import STRATA
+    from .execution_policy import (load_execution_policy, new_run_policy,
+                                   verify_run_policy, bind_run_policy,
+                                   verify_public_selection,
+                                   verify_public_gate_ref, BASELINE_SHA256)
     out = Path(out)
-    ledger = StageLedger(out)
     manifest, policy = _study_inputs(out)
+    dated_policy = load_execution_policy()
     repository = Path(__file__).resolve().parent.parent
     master_path = out / 'run-policy.json'
     if master_path.exists():
         master = json.loads(master_path.read_bytes())
-        if not resume or master.get('study_manifest_sha256') != manifest['manifest_sha256']:
+        if not resume:
             raise ValueError('existing run policy requires matching --resume')
+        verify_run_policy(master, manifest['manifest_sha256'])
+        bind_run_policy(master_path)
     else:
         if resume:
             raise ValueError('nothing to resume')
-        free_disk = shutil.disk_usage(out).free
-        output_envelope = min(32 * 2**30, free_disk - 4 * 2**30)
-        if output_envelope < 2 * 2**30:
+        disk_root = next(path for path in (out, *out.parents) if path.exists())
+        free_disk = shutil.disk_usage(disk_root).free
+        if free_disk < dated_policy['output_envelope_bytes'] + 4 * 2**30:
             raise RuntimeError('whole-run output cannot preserve four GiB disk reserve')
-        master = {'schema_version': 1, 'study_manifest_sha256': manifest['manifest_sha256'],
-                  'start_epoch_seconds': time.time(), 'global_wall_seconds': 21600,
-                  'resource_envelope_bytes': 1610612736,
-                  'output_envelope_bytes': output_envelope,
-                  'profile': 'scientific_study'}
+        master = new_run_policy(manifest['manifest_sha256'])
         _atomic(master_path, master)
-    global_deadline = master['start_epoch_seconds'] + master['global_wall_seconds']
+        bind_run_policy(master_path, create=True)
+    ledger = StageLedger(out)
+    global_deadline = master['global_deadline_epoch_seconds']
 
     def admit(max_output=2 * 2**30, max_rss=1610612736):
         observed = observe_resources(out)
@@ -579,7 +590,8 @@ def run(out, resume=False):
     probe16 = ledger.stage('probe_k16', {'manifest_sha256': manifest['manifest_sha256'],
                                         'e3_source_sha256': manifest['e3_source_sha256'],
                                         'allocation': probe16_allocation},
-                           probe16, resume=resume, retryable=True, monitor=True)
+                           probe16, resume=resume, retryable=True, monitor=True,
+                           scientific_policy=master)
     if _sha(probe16['probe_path']) != probe16['probe_sha256'] or (
             probe16['e3_source_sha256'] != manifest['e3_source_sha256']):
         raise ValueError('current-source K16 probe bytes/source changed')
@@ -603,7 +615,7 @@ def run(out, resume=False):
         return result
     developed16 = ledger.stage('development_k16', {'manifest_sha256': manifest['manifest_sha256'],
                                       'allocation': allocation}, develop, resume=resume,
-                               retryable=True, monitor=True)
+                               retryable=True, monitor=True, scientific_policy=master)
     journal16 = json.loads(Path(developed16['journal_path']).read_bytes())
     if _sha(developed16['journal_path']) != developed16['journal_sha256']:
         raise ValueError('K16 development journal hash mismatch')
@@ -650,7 +662,8 @@ def run(out, resume=False):
                 'break_even_queries': result['break_even_queries']}
     ledger.stage('timing_k16', {'timing_manifest_sha256': timing_manifest_sha,
                                  'policy': timing_policy, 'allocation': timing_allocation},
-                 timing_action, resume=resume, retryable=True, monitor=True)
+                 timing_action, resume=resume, retryable=True, monitor=True,
+                 scientific_policy=master)
 
     config12 = {**manifest['config'], 'shape': ShapeSpec(12, 1).to_json(),
                 'training_seed': 2026102401803, 'development_seed': 2026102401804}
@@ -665,7 +678,8 @@ def run(out, resume=False):
                                    probe12_allocation, directory)
     p12 = ledger.stage('probe_k12', {'manifest_sha256': manifest12['manifest_sha256'],
                                     'allocation': probe12_allocation}, probe12,
-                       resume=resume, retryable=True, monitor=True)
+                       resume=resume, retryable=True, monitor=True,
+                       scientific_policy=master)
     if _sha(p12['probe_path']) != p12['probe_sha256']:
         raise ValueError('K12 probe bytes changed')
     probe12 = json.loads(Path(p12['probe_path']).read_bytes())
@@ -694,7 +708,8 @@ def run(out, resume=False):
         return result
     developed12 = ledger.stage('development_k12', {'manifest_sha256': manifest12['manifest_sha256'],
                                                     'allocation': allocation12},
-                               develop12, resume=resume, retryable=True, monitor=True)
+                               develop12, resume=resume, retryable=True, monitor=True,
+                               scientific_policy=master)
     if _sha(developed12['journal_path']) != developed12['journal_sha256']:
         raise ValueError('K12 development journal hash mismatch')
     journal12 = json.loads(Path(developed12['journal_path']).read_bytes())
@@ -729,7 +744,8 @@ def run(out, resume=False):
                  {'beijing_manifest_sha256': beijing_sha,
                   'transfer_source_sha256': _sha(transfer_module.__file__),
                   'allocation': real_probe_allocation},
-                 real_probe_action, resume=resume, retryable=True, monitor=True)
+                 real_probe_action, resume=resume, retryable=True, monitor=True,
+                 scientific_policy=master)
     measured_real = verify_transfer_probe(real_probe['probe_ref'], beijing_sha,
                                           manifest['config']['worker_limits'])
     transfer_allocation = {'schema_version': 1, 'phase': 'development',
@@ -754,7 +770,7 @@ def run(out, resume=False):
                                  'transfer_source_sha256': _sha(transfer_module.__file__),
                                  'real_probe_sha256': real_probe['probe_ref']['sha256'],
                                  'allocation': transfer_allocation}, fit_real, resume=resume,
-                                   retryable=False, monitor=True)
+                                   retryable=False, monitor=True, scientific_policy=master)
     mode_ref = ModeRefs(Path(transfer_result['modes_ref']['path']),
                         transfer_result['modes_ref']['sha256'])
     modes = mode_ref.read()
@@ -765,6 +781,24 @@ def run(out, resume=False):
         if model.shape != ShapeSpec(16, 8) or model.spec.family != name:
             raise ValueError('K16 selected checkpoint mismatch')
     pair_sha = canonical_hash({name: ref['sha256'] for name, ref in selected16.items()})
+    def public_gate_action(directory):
+        started = time.perf_counter()
+        result = verify_public_selection(selected16, selected12, modes)
+        result['verification_seconds'] = time.perf_counter() - started
+        _atomic(directory / 'gate.json', result)
+        return {'status': 'matched', 'gate_ref': {'path': str(directory / 'gate.json'),
+                'sha256': _sha(directory / 'gate.json')}}
+    gate_result = ledger.stage('public_selection_gate',
+                 {'selected_k16_sha256': canonical_hash(selected16),
+                  'selected_k12_sha256': canonical_hash(selected12),
+                  'transfer_modes_sha256': mode_ref.sha256,
+                  'baseline_sha256': BASELINE_SHA256,
+                  'allocation': {'allocation_id': 'e4-public-selection-gate-v2',
+                                 'max_wall_seconds': 300, 'max_disk_bytes': 64 * 2**20,
+                                 'max_rss_bytes': 1610612736}},
+                 public_gate_action, resume=resume, monitor=True)
+    gate_ref = gate_result['gate_ref']
+    verify_public_gate_ref(gate_ref, selected16, selected12, modes)
     populations = []
     for phase, seed, count in (('pilot', 2026102401902, 16),
                                ('confirmation', 2026102401904, 256),
@@ -777,7 +811,7 @@ def run(out, resume=False):
             populations.append({'phase': phase, 'split': phase,
                                 'cell_id': f'{phase}-{length}-{regime}',
                                 'spec': spec.to_json(),
-                                'episode_ids': [f'{phase}-{length}-{regime}-{i:03d}'
+                                'episode_ids': [f"{dated_policy['cohort_prefix']}-{phase}-{length}-{regime}-{i:03d}"
                                                 for i in range(count)]})
     from famjet.data import beijing as beijing_core
     beijing_metadata = beijing_core._verify_manifest(beijing)
@@ -801,6 +835,8 @@ def run(out, resume=False):
                          for item in beijing_metadata['splits'][name]['blocks']]
                          for name in ('training', 'development_fit', 'development_calibration', 'test')},
                      'real_model_commitments': real_commitments,
+                     'public_selection_gate_ref': gate_ref,
+                     'execution_policy_sha256': master['execution_policy_sha256'],
                      'populations': populations,
                      'public_training_inventory_sha256': manifest['training_inventory_hash'],
                      'public_development_inventory_sha256': manifest['development_inventory_hash'],
@@ -812,8 +848,12 @@ def run(out, resume=False):
                                         'fallback': 'training_prior_full_loss',
                                         'missing_primary_task': 'block_panel'},
                      'resource_policy': master,
+                     'run_policy_anchor_ref': {
+                         'path': str(out / 'run-policy-anchor.json'),
+                         'sha256': _sha(out / 'run-policy-anchor.json')},
                      'protected_cell_allocation_template': {
-                         'max_wall_seconds': 600, 'max_disk_bytes': 256 * 2**20,
+                         'max_wall_seconds': dated_policy['synthetic_cell_wall_seconds'],
+                         'max_disk_bytes': 256 * 2**20,
                          'max_rss_bytes': 1610612736},
                      'real_method_allocation_template': {
                          'max_wall_seconds': 1200, 'max_disk_bytes': 512 * 2**20,
@@ -857,7 +897,7 @@ def run(out, resume=False):
     ledger.stage('stress', {'freeze_sha256': freeze.sha256,
                             'inventory_sha256': canonical_hash(stress_inventory()),
                             'allocation': stress_allocation}, stress_action,
-                 resume=resume, monitor=True)
+                 resume=resume, monitor=True, scientific_policy=master)
 
     protected_receipts = []
     for item in populations:
@@ -866,7 +906,7 @@ def run(out, resume=False):
         phase_allocation = {'schema_version': 1, 'phase': item['phase'],
                             'manifest_sha256': freeze.sha256,
                             'allocation_id': 'e4-' + item['cell_id'],
-                            'max_wall_seconds': 600,
+                            'max_wall_seconds': dated_policy['synthetic_cell_wall_seconds'],
                             'max_disk_bytes': 256 * 2**20,
                             'max_rss_bytes': 1610612736}
         def protected_action(directory, item=item, spec=spec, allocation=phase_allocation):
@@ -882,7 +922,8 @@ def run(out, resume=False):
                     'calibration_digest_costs': calibration_costs()[previous_costs:]}
         result = ledger.stage(cell_name, {'freeze_sha256': freeze.sha256,
                                            'cell': item, 'allocation': phase_allocation},
-                              protected_action, resume=resume, monitor=True)
+                              protected_action, resume=resume, monitor=True,
+                              scientific_policy=master)
         protected_receipts.extend(result['receipts'])
 
     real_receipts = []
@@ -915,7 +956,8 @@ def run(out, resume=False):
             real_receipts.append(ledger.stage('beijing-' + mode_name + '-' + family,
                                  {'freeze_sha256': freeze.sha256, 'mode': mode_name,
                                   'family': family, 'allocation': allocation_real},
-                                 real_action, resume=resume, monitor=True))
+                                 real_action, resume=resume, monitor=True,
+                                 scientific_policy=master))
 
     def release_action(directory):
         admit()

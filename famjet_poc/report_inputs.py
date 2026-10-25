@@ -121,7 +121,7 @@ def require_scientific_stages(stages, inputs):
     """Reject an opened or selectively omitted production phase."""
     core = {'preflight', 'probe_k16', 'development_k16', 'timing_k16',
             'probe_k12', 'development_k12', 'probe_beijing_fit',
-            'transfer_fit', 'freeze', 'stress', 'release'}
+            'transfer_fit', 'public_selection_gate', 'freeze', 'stress', 'release'}
     cells = {'cell-' + item['cell_id'] for item in inputs['populations']}
     real = {'beijing-' + mode + '-' + method
             for mode in ('synthetic_frozen', 'task_adapted')
@@ -391,6 +391,18 @@ def _verify_frozen_science(paths, freeze):
     from .cache import e3_source_sha256
 
     inputs = freeze['inputs']
+    from .execution_policy import verify_run_policy, verify_public_gate_ref, bind_run_policy
+    run_policy = _read_json(paths.root / 'run-policy.json')
+    verify_run_policy(run_policy, inputs['resource_policy']['study_manifest_sha256'])
+    if run_policy != inputs['resource_policy'] or (
+            inputs.get('execution_policy_sha256') != run_policy['execution_policy_sha256']):
+        raise ValueError('frozen run execution policy mismatch')
+    anchor_ref = inputs.get('run_policy_anchor_ref')
+    if (type(anchor_ref) is not dict or
+            anchor_ref.get('path') != str(paths.original_root / 'run-policy-anchor.json') or
+            _file_sha(paths.resolve(anchor_ref['path']))[0] != anchor_ref.get('sha256') or
+            bind_run_policy(paths.root / 'run-policy.json') != run_policy):
+        raise ValueError('frozen original run clock anchor mismatch')
     validate_scientific_plan(inputs['populations'])
     if (freeze['acceptance']['reader'] != _accepted_qualification() or
             freeze['acceptance']['inference'] != _accepted_calibration() or
@@ -418,6 +430,9 @@ def _verify_frozen_science(paths, freeze):
         raise ValueError('frozen selected model pair commitment mismatch')
     modes = _read_json(paths.resolve(inputs['transfer_modes_path']),
                        inputs['transfer_modes_sha256'])
+    gate = verify_public_gate_ref(inputs.get('public_selection_gate_ref'),
+                                  inputs['selected_models'], inputs['selected_k12_models'],
+                                  modes, resolve=paths.resolve)
     if (modes.get('prefreeze') is not True or
             modes.get('beijing_manifest_sha256') != inputs['beijing_manifest_sha256'] or
             modes.get('e3_source_sha256') != e3_source_sha256() or
@@ -485,7 +500,7 @@ def _verify_frozen_science(paths, freeze):
                 'cache_bytes': modes['cache_bytes'],
                 'elapsed_seconds': modes['elapsed_seconds'],
                 'fit_allocation': allocation}
-    return {'pairs': pairs, 'modes': modes, 'transfer': transfer,
+    return {'pairs': pairs, 'modes': modes, 'gate': gate, 'transfer': transfer,
             'calibration': freeze['acceptance']['inference'],
             'qualification': freeze['acceptance']['reader']}
 
@@ -874,6 +889,8 @@ def load_report_inputs(run):
         status = 'non_scientific_smoke'
     elif profile == 'study':
         require_scientific_stages(stages, frozen['inputs'])
+        if stages['public_selection_gate']['result']['gate_ref'] != frozen['inputs']['public_selection_gate_ref']:
+            raise ValueError('public selection gate stage/freeze reference mismatch')
         scientific = _verify_frozen_science(paths, frozen)
         frozen['_expected_statistics_sha256'] = scientific['pairs']['selected_models']['jet'][
             'target_statistics_sha256']

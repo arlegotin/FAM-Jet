@@ -124,8 +124,12 @@ def test_scientific_plan_rejects_changed_protected_root_before_grant():
             spec = PopulationSpec('poc_numeric_v1', ShapeSpec(16, 8), phase, seed,
                                   (int(length),), (regime,), 8, 4096)
             items.append({'phase': phase, 'split': phase, 'cell_id': f'{phase}-{label}',
-                          'spec': spec.to_json(), 'episode_ids': [f'{phase}-{label}-{i}' for i in range(count)]})
+                          'spec': spec.to_json(), 'episode_ids': [f'budget-v2-20261025-{phase}-{length}-{regime}-{i:03d}' for i in range(count)]})
     assert validate_scientific_plan(items)['history_count'] == 6336
+    old_ids = [dict(item) for item in items]
+    old_ids[0]['episode_ids'] = [f'pilot-128-piecewise_stationary-{i:03d}' for i in range(16)]
+    with pytest.raises(ValueError, match='history inventory'):
+        validate_scientific_plan(old_ids)
     changed = [dict(item) for item in items]
     changed[12]['spec'] = {**changed[12]['spec'], 'seed': 1}
     with pytest.raises(ValueError, match='root'):

@@ -180,6 +180,8 @@ def _verify_calibration_attestation(attestation):
 def validate_scientific_plan(populations):
     """Reject altered protected roots, strata, shape or panel size before grant."""
     from .inference import STRATA
+    from .execution_policy import load_execution_policy
+    prefix = load_execution_policy()['cohort_prefix']
     if type(populations) is not list or len(populations) != 36:
         raise ValueError('scientific plan needs 36 frozen cells')
     expected = {('pilot', label): (2026102401902, 16) for label in STRATA}
@@ -206,7 +208,8 @@ def validate_scientific_plan(populations):
             raise ValueError('protected shape/generator/query plan mismatch')
         ids = item['episode_ids']
         if (type(ids) is not list or len(ids) != count or len(ids) != len(set(ids)) or
-                any(type(h) is not str or not h for h in ids) or history_ids.intersection(ids)):
+                ids != [f'{prefix}-{item["phase"]}-{spec.lengths[0]}-{spec.regimes[0]}-{i:03d}'
+                        for i in range(count)] or history_ids.intersection(ids)):
             raise ValueError('protected panel history inventory mismatch')
         history_ids.update(ids)
     if seen != set(expected):
@@ -335,6 +338,25 @@ def freeze_study(inputs, out) -> FrozenStudyRef:
     else:
         validate_scientific_plan(populations)
         validate_model_commitments(inputs)
+        from .execution_policy import (load_execution_policy, verify_run_policy,
+                                       verify_public_gate_ref, bind_run_policy)
+        master = inputs.get('resource_policy')
+        if (type(master) is not dict or
+                inputs.get('execution_policy_sha256') != master.get('execution_policy_sha256')):
+            raise ValueError('frozen dated execution policy missing')
+        verify_run_policy(master, master.get('study_manifest_sha256'))
+        anchor_ref = inputs.get('run_policy_anchor_ref')
+        if type(anchor_ref) is not dict or set(anchor_ref) != {'path', 'sha256'}:
+            raise ValueError('frozen original run clock anchor missing')
+        anchor = Path(anchor_ref['path'])
+        if _sha(anchor.read_bytes()) != anchor_ref['sha256'] or (
+                bind_run_policy(anchor.with_name('run-policy.json')) != master):
+            raise ValueError('frozen original run clock anchor mismatch')
+        if inputs['protected_cell_allocation_template'].get('max_wall_seconds') != load_execution_policy()['synthetic_cell_wall_seconds']:
+            raise ValueError('frozen synthetic cell ceiling mismatch')
+        modes = json.loads(Path(inputs['transfer_modes_path']).read_bytes())
+        verify_public_gate_ref(inputs.get('public_selection_gate_ref'),
+                               inputs['selected_models'], inputs['selected_k12_models'], modes)
         methods = ('jet', 'bank', 'exact', 'recent', 'latest_lru',
                    'reservoir', 'buckets', 'laguerre')
         if (inputs.get('expected_methods') != list(methods) or
