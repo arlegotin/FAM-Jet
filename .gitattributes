@@ -1,0 +1,12 @@
+# Keep documentation, archived source copies and generated evidence out of code statistics.
+reports/** linguist-generated=true
+artifacts/** linguist-generated=true
+configs/manifests/** linguist-generated=true
+docs/research/** linguist-documentation=true
+docs/research/**/*-evidence/** linguist-generated=true
+docs/research/e2e-run06-execution-source/** linguist-generated=true
+docs/research/e2e-final-audit/retired-workspace/** linguist-generated=true
+docs/superpowers/** linguist-documentation=true
+*.npz binary
+*.npy binary
+*.pt binary

@@ -5,9 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "famjet"
 version = "0.1.0"
-description = "Reproducible local gates for exponential-moment memory research"
+description = "Exact temporal moments and byte-matched experiments for deferred memory queries"
+readme = "README.md"
+authors = [{name = "Artem Legotin"}]
+license = "AGPL-3.0-only AND CC-BY-4.0"
+license-files = ["LICENSE", "licenses/CC-BY-4.0.txt", "NOTICE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.12,<3.14"
 dependencies = ["numpy>=2.1", "scipy>=1.15", "torch>=2.6", "pytest>=8", "PyYAML>=6"]
+
+[project.urls]
+Repository = "https://github.com/arlegotin/FAM-Jet"
+Report = "https://github.com/arlegotin/FAM-Jet/blob/main/reports/famjet-poc/final.md"
+Issues = "https://github.com/arlegotin/FAM-Jet/issues"
 
 [tool.setuptools.packages.find]
 include = ["famjet*"]
