@@ -1,0 +1,17 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_recovery.py",
+    "-k",
+    "output_guard or coordinated_launcher or failed_post_admission or publication_failure or volatile_plot"
+  ],
+  "elapsed_seconds": 1.4114916660037125,
+  "end_utc": "2026-10-25T11:49:58.534780+00:00",
+  "exit_code": 1,
+  "log_bytes": 15298,
+  "log_sha256": "aaec648d3568bc3282e40921b7c445ca9907a1f3e75d859f0e6a0366822283b3",
+  "start_utc": "2026-10-25T11:49:57.123232+00:00"
+}

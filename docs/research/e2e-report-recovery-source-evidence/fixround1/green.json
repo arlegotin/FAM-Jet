@@ -1,0 +1,78 @@
+{
+  "compile": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "famjet_poc/report_inputs.py",
+      "scripts/report_run06_recovery.py",
+      "tests/test_poc_report_inputs.py",
+      "tests/test_poc_report_recovery.py"
+    ],
+    "elapsed_seconds": 0.030271208001067862,
+    "end_utc": "2026-10-25T11:54:45.458484+00:00",
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "start_utc": "2026-10-25T11:54:45.428220+00:00"
+  },
+  "diff-check": {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "elapsed_seconds": 0.05462912500661332,
+    "end_utc": "2026-10-25T11:54:49.253496+00:00",
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "start_utc": "2026-10-25T11:54:49.198873+00:00"
+  },
+  "green-targeted": {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_poc_report_inputs.py",
+      "tests/test_poc_report_recovery.py",
+      "tests/test_poc_report.py",
+      "tests/test_poc_report_scientific.py",
+      "tests/test_poc_cli.py",
+      "tests/test_measured_execution.py"
+    ],
+    "elapsed_seconds": 17.356532625010004,
+    "end_utc": "2026-10-25T11:54:45.428183+00:00",
+    "exit_code": 0,
+    "log_bytes": 180,
+    "log_sha256": "beefacb5e1c92854318a0fbb72576c0ec8a6ca3527d64edcc1dbf534be2857c6",
+    "start_utc": "2026-10-25T11:54:28.071734+00:00"
+  },
+  "launcher-help": {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/report_run06_recovery.py",
+      "--help"
+    ],
+    "elapsed_seconds": 0.5897622499905992,
+    "end_utc": "2026-10-25T11:54:46.048247+00:00",
+    "exit_code": 0,
+    "log_bytes": 435,
+    "log_sha256": "542ae7094d551d8d6c61a59c694ec1919cdeeb574089bc90e7430dd0dfc99c91",
+    "start_utc": "2026-10-25T11:54:45.458508+00:00"
+  },
+  "source-preservation": {
+    "argv": [
+      ".venv/bin/python",
+      "docs/research/e2e-report-recovery-source-evidence/verify_source.py"
+    ],
+    "elapsed_seconds": 3.150606416995288,
+    "end_utc": "2026-10-25T11:54:49.198839+00:00",
+    "exit_code": 0,
+    "log_bytes": 282,
+    "log_sha256": "ef5c79ca1a59bdaa0c799566931e622b73d4f3dcc8a4049afe137261b9476272",
+    "start_utc": "2026-10-25T11:54:46.048279+00:00"
+  }
+}

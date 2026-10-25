@@ -1,0 +1,225 @@
+..FF..FFFF                                                               [100%]
+=================================== FAILURES ===================================
+_____ test_output_guard_protects_every_input_before_writing[prep-layout0] ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve2')
+layout = ('run', 'prep'), input_name = 'prep'
+
+    @pytest.mark.parametrize('layout', [('run', 'prep'), ('e2e-core-run-06', 'e2e-core-run-06-prep')])
+    @pytest.mark.parametrize('input_name', ['run', 'prep', 'source'])
+    def test_output_guard_protects_every_input_before_writing(tmp_path, layout, input_name):
+        from scripts.report_run06_recovery import main
+        run = tmp_path / layout[0]
+        prep = tmp_path / layout[1]
+        source = tmp_path / 'source'
+        for directory in (run, prep, source):
+            directory.mkdir()
+            (directory / 'sentinel').write_bytes(directory.name.encode())
+        selected = {'run': run, 'prep': prep, 'source': source}[input_name]
+        before = {str(p): p.read_bytes() for directory in (run, prep, source)
+                  for p in directory.rglob('*') if p.is_file()}
+        with pytest.raises(ValueError, match='outside sealed inputs'):
+>           main(['--run', str(run), '--out', str(selected / 'recovery' / 'final.md'),
+                  '--archived-source', str(source), '--compatibility-id', 'run06-report-order-v1'])
+
+tests/test_poc_report_recovery.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/report_run06_recovery.py:115: in main
+    provenance = _render(run, attempt / target.name, archive)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/report_run06_recovery.py:51: in _render
+    inputs = load_report_inputs(run, compatibility_id='run06-report-order-v1',
+famjet_poc/report_inputs.py:1061: in load_report_inputs
+    recovery = _admit_report_migration(run, compatibility_id, archived_source)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/report_inputs.py:156: in _admit_report_migration
+    if (_file_sha(archive / 'identity.json')[0] != _ARCHIVED_IDENTITY_SHA256 or
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/report_inputs.py:44: in _file_sha
+    with Path(path).open('rb') as stream:
+         ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve2/source/identity.json')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve2/source/identity.json'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+_____ test_output_guard_protects_every_input_before_writing[prep-layout1] ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve3')
+layout = ('e2e-core-run-06', 'e2e-core-run-06-prep'), input_name = 'prep'
+
+    @pytest.mark.parametrize('layout', [('run', 'prep'), ('e2e-core-run-06', 'e2e-core-run-06-prep')])
+    @pytest.mark.parametrize('input_name', ['run', 'prep', 'source'])
+    def test_output_guard_protects_every_input_before_writing(tmp_path, layout, input_name):
+        from scripts.report_run06_recovery import main
+        run = tmp_path / layout[0]
+        prep = tmp_path / layout[1]
+        source = tmp_path / 'source'
+        for directory in (run, prep, source):
+            directory.mkdir()
+            (directory / 'sentinel').write_bytes(directory.name.encode())
+        selected = {'run': run, 'prep': prep, 'source': source}[input_name]
+        before = {str(p): p.read_bytes() for directory in (run, prep, source)
+                  for p in directory.rglob('*') if p.is_file()}
+        with pytest.raises(ValueError, match='outside sealed inputs'):
+>           main(['--run', str(run), '--out', str(selected / 'recovery' / 'final.md'),
+                  '--archived-source', str(source), '--compatibility-id', 'run06-report-order-v1'])
+
+tests/test_poc_report_recovery.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/report_run06_recovery.py:115: in main
+    provenance = _render(run, attempt / target.name, archive)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/report_run06_recovery.py:51: in _render
+    inputs = load_report_inputs(run, compatibility_id='run06-report-order-v1',
+famjet_poc/report_inputs.py:1061: in load_report_inputs
+    recovery = _admit_report_migration(run, compatibility_id, archived_source)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/report_inputs.py:156: in _admit_report_migration
+    if (_file_sha(archive / 'identity.json')[0] != _ARCHIVED_IDENTITY_SHA256 or
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+famjet_poc/report_inputs.py:44: in _file_sha
+    with Path(path).open('rb') as stream:
+         ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve3/source/identity.json')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_output_guard_protects_eve3/source/identity.json'
+
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+___________ test_coordinated_launcher_and_manifest_rewrite_rejected ____________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_coordinated_launcher_and_0')
+
+    def test_coordinated_launcher_and_manifest_rewrite_rejected(tmp_path):
+>       from famjet_poc.report_inputs import _verify_launcher_authorization
+E       ImportError: cannot import name '_verify_launcher_authorization' from 'famjet_poc.report_inputs' (/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py)
+
+tests/test_poc_report_recovery.py:163: ImportError
+____ test_failed_post_admission_receipt_keeps_provenance_and_partial_hashes ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_failed_post_admission_rec0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f65d350>
+
+    def test_failed_post_admission_receipt_keeps_provenance_and_partial_hashes(tmp_path, monkeypatch):
+        from scripts import report_run06_recovery as launcher
+        repository = Path(__file__).resolve().parents[1]
+        run = repository / 'artifacts/e2e-run06-original-archive/run'
+        source = repository / 'docs/research/e2e-run06-execution-source'
+        def fail_after_admission(run, out, archive):
+            out.with_name('partial-chart-data.json').write_bytes(b'partial-scientific-output')
+            raise RuntimeError('controlled downstream failure')
+        monkeypatch.setattr(launcher, '_render', fail_after_admission)
+        out = tmp_path / 'publication/final.md'
+        with pytest.raises(RuntimeError, match='controlled downstream'):
+            launcher.main(['--run', str(run), '--out', str(out), '--archived-source', str(source),
+                           '--compatibility-id', 'run06-report-order-v1'])
+        receipt = json.loads((tmp_path / 'publication-attempt-001/recovery-receipt.json').read_bytes())
+        assert receipt['status'] == 'failed'
+>       assert receipt['admission_state'] == 'verified'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'admission_state'
+
+tests/test_poc_report_recovery.py:244: KeyError
+______________ test_publication_failure_does_not_claim_completion ______________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_publication_failure_does_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f65d6e0>
+
+    def test_publication_failure_does_not_claim_completion(tmp_path, monkeypatch):
+        from scripts import report_run06_recovery as launcher
+        repository = Path(__file__).resolve().parents[1]
+        run = repository / 'artifacts/e2e-run06-original-archive/run'
+        source = repository / 'docs/research/e2e-run06-execution-source'
+        def render_fixture(run, out, archive):
+            out.write_bytes(b'report')
+            return {'execution_sha256': 'old', 'reporter_sha256': 'new'}
+        monkeypatch.setattr(launcher, '_render', render_fixture)
+        monkeypatch.setattr(launcher.os, 'replace', lambda *_: (_ for _ in ()).throw(OSError('publication failed')))
+        out = tmp_path / 'publication/final.md'
+        with pytest.raises(OSError, match='publication failed'):
+            launcher.main(['--run', str(run), '--out', str(out), '--archived-source', str(source),
+                           '--compatibility-id', 'run06-report-order-v1'])
+        receipt = json.loads((tmp_path / 'publication-attempt-001/recovery-receipt.json').read_bytes())
+>       assert receipt['status'] == 'failed'
+E       AssertionError: assert 'completed' == 'failed'
+E         
+E         - failed
+E         + completed
+
+tests/test_poc_report_recovery.py:268: AssertionError
+_____ test_volatile_plot_invocation_is_only_in_receipt_and_outputs_replay ______
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_volatile_plot_invocation_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f626d50>
+
+    def test_volatile_plot_invocation_is_only_in_receipt_and_outputs_replay(tmp_path, monkeypatch):
+        from scripts import report_run06_recovery as launcher
+        repository = Path(__file__).resolve().parents[1]
+        run = repository / 'artifacts/e2e-run06-original-archive/run'
+        source = repository / 'docs/research/e2e-run06-execution-source'
+        counter = [0]
+        def render_fixture(run, out, archive):
+            counter[0] += 1
+            out.write_bytes(b'fixed report')
+            out.with_suffix('.json').write_bytes(b'{"scientific":"fixed"}')
+            out.with_name(out.stem + '-chart-data.json').write_bytes(b'{"chart":"fixed"}')
+            plots = out.with_name(out.stem + '-charts')
+            plots.mkdir()
+            (plots / 'figure.svg').write_bytes(b'<svg>fixed</svg>')
+            (plots / 'plot-invocation.json').write_text(json.dumps({'argv': [str(out)], 'elapsed_seconds': counter[0]}))
+            (plots / 'plot-invocation.log').write_bytes(f'volatile-{counter[0]}'.encode())
+            return {'execution_sha256': 'old', 'reporter_sha256': 'new'}
+        monkeypatch.setattr(launcher, '_render', render_fixture)
+        out = tmp_path / 'publication/final.md'
+        for _ in range(2):
+            launcher.main(['--run', str(run), '--out', str(out), '--archived-source', str(source),
+                           '--compatibility-id', 'run06-report-order-v1'])
+        first, second = out.parent, tmp_path / 'publication-replay-002'
+        first_receipt = json.loads((first / 'recovery-receipt.json').read_bytes())
+        second_receipt = json.loads((second / 'recovery-receipt.json').read_bytes())
+>       assert first_receipt['output_files'] == second_receipt['output_files']
+E       AssertionError: assert {'final-chart...6d5407'}, ...} == {'final-chart...5fc297'}, ...}
+E         
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'final-charts/plot-invocation.log': {'bytes': 10, 'sha256': 'b570243389697d2923535e4e21ee7be7d7f5e3b7c0b30fab628bc356f96d5407'}} != {'final-charts/plot-invocation.log': {'bytes': 10, 'sha256': 'bb11728eb325f7f4c19475811d0b6c824ec015d7d1bb704934e099f6625fc297'}}
+E         {'final-charts/plot-invocation.json': {'bytes': 191, 'sha256': '897fbd6d892ad639f0d8d2c49367a9f0d086a6f94f27375658bb342c638c41cd'}} != {'final-charts/plot-invocation.json': {'bytes': 202, 'sha256': 'eca3faaf3be5f37ffea7992e991a5d2fee0d28c9742eb2ef47acd15084d87e42'}}
+E         Use -v to get more diff
+
+tests/test_poc_report_recovery.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"path":"/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_volatile_plot_invocation_0/publication/final.md","receipt":"/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_volatile_plot_invocation_0/publication/recovery-receipt.json","sha256":"956df2d4bb265cf19ef1d2082ddd629807234be502b6ce56c3b3cc1733307591"}{"path":"/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_volatile_plot_invocation_0/publication-replay-002/final.md","receipt":"/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-580/test_volatile_plot_invocation_0/publication-replay-002/recovery-receipt.json","sha256":"956df2d4bb265cf19ef1d2082ddd629807234be502b6ce56c3b3cc1733307591"}
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_recovery.py::test_output_guard_protects_every_input_before_writing[prep-layout0]
+FAILED tests/test_poc_report_recovery.py::test_output_guard_protects_every_input_before_writing[prep-layout1]
+FAILED tests/test_poc_report_recovery.py::test_coordinated_launcher_and_manifest_rewrite_rejected
+FAILED tests/test_poc_report_recovery.py::test_failed_post_admission_receipt_keeps_provenance_and_partial_hashes
+FAILED tests/test_poc_report_recovery.py::test_publication_failure_does_not_claim_completion
+FAILED tests/test_poc_report_recovery.py::test_volatile_plot_invocation_is_only_in_receipt_and_outputs_replay
+6 failed, 4 passed, 15 deselected in 1.13s

@@ -1,0 +1,12 @@
+usage: report_run06_recovery.py [-h] --run RUNROOT --out MARKDOWN
+                                --archived-source DIR
+                                --compatibility-id {run06-report-order-v1}
+
+Render the one registered run06 report recovery from sealed artifacts.
+
+options:
+  -h, --help            show this help message and exit
+  --run RUNROOT
+  --out MARKDOWN
+  --archived-source DIR
+  --compatibility-id {run06-report-order-v1}
