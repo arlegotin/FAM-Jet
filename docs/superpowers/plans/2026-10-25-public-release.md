@@ -30,4 +30,4 @@
 - [x] Audit current/history/source assets and read recent public-repo conventions and exact writing skill.
 - [x] Rewrite README, archive old README with working links, add reproduction/publication guides and licensing/citation/package metadata; remove broken temporary aliases with inventory. Validate and commit.
 - [x] Review the public entrypoints, run appropriate checks, build the package and replay the public-bundle command. Record results and commit.
-- [ ] Push private main, create versioned evidence release with checksums/licenses, verify it, set public visibility and check anonymous access.
+- [x] Push private main, create versioned evidence release with checksums/licenses, verify it, set public visibility and check anonymous access.

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T17:20:51.469534+00:00",
+  "status": "public_verified_without_authorization_header",
+  "repository": "https://github.com/arlegotin/FAM-Jet",
+  "private": false,
+  "default_branch": "main",
+  "github_license": "AGPL-3.0",
+  "public_files": [
+    {
+      "path": "README.md",
+      "http_status": 200,
+      "sha256": "85b281e8fe15b64ab4235281e6874b72e013563b9378be4333c2af4a189736a4"
+    },
+    {
+      "path": "CITATION.cff",
+      "http_status": 200,
+      "sha256": "cefd91824ff8f0a632dd50dff8d4e491e07ceaec22079476ce75128e524be925"
+    },
+    {
+      "path": "LICENSE",
+      "http_status": 200,
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+    },
+    {
+      "path": "REPRODUCE.md",
+      "http_status": 200,
+      "sha256": "97427598256f6b997207be69e6f7af4a38127d4303f51c5c3d1b2bf415ebe52c"
+    }
+  ],
+  "citation_ui_present": true,
+  "release": "https://github.com/arlegotin/FAM-Jet/releases/tag/v0.1.0",
+  "tag": "v0.1.0",
+  "draft": false,
+  "published_at": "2026-10-25T17:19:33Z",
+  "release_asset_count": 6,
+  "all_asset_sha256_digests_verified": true,
+  "evidence_download_http_status": 200,
+  "evidence_bytes": 285608419,
+  "evidence_download_host": "release-assets.githubusercontent.com"
+}

@@ -28,3 +28,9 @@ The fresh publication review found no Critical, Important or Minor defect. [Revi
 - Actual report replay from a **fresh extraction of the exact release bundle** passed in 73.014 s, sampled peak RSS 1,048,150,016 B, no guard violation. The full scientific JSON matches canonical v1 excluding only `report_recovery`; chart data, all three SVGs and renderer receipt are byte-identical. Source before/after was clean prepared commit `c7774301`. [Witness and comparison](verification/replay-comparison.json).
 
 The run06 archive remains exactly 285,608,419 bytes / SHA-256 `b6de6ba91c234a30bf885f5695b26244358749597bd9f043621f1a44bbd624ae`. Release assets carry the evidence notice, both full licenses, author notice and SHA256SUMS. Visibility and unauthenticated access are checked only after the release is uploaded.
+
+## Publication verified
+
+Published **25 October 2026, 17:19 UTC**: [repository](https://github.com/arlegotin/FAM-Jet) and [v0.1.0 release](https://github.com/arlegotin/FAM-Jet/releases/tag/v0.1.0). Main and the annotated version tag were pushed privately; all six uploaded assets matched GitHub-computed SHA-256 digests before release publication and the final visibility change.
+
+An unauthenticated HTTP check confirmed `private: false`, default branch `main`, GitHub AGPL license recognition, exact public README/CFF/LICENSE/REPRODUCE bytes, the citation UI, a nondraft release, all six public asset digests and the 285,608,419-byte evidence download (HTTP200). See [published.json](published.json). The tag points to the verified release snapshot; the subsequent main-only documentation commit records this completed publication. No scientific source/result bytes changed.
