@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T01:24:42.296705+00:00",
+  "reviewed_head": "3e1ebb427f3692f4e305c8afb4bbaf57910035da",
+  "scope_review": "SPEC YES / QUALITY APPROVED; R1 ADDRESSED",
+  "fix_raw_log_pairs_verified": 25,
+  "original_output_files_verified": 1247,
+  "immutable_sources_verified": 77,
+  "baseline": {
+    "bytes": 247608,
+    "sha256": "64cc14db3303b7dc0dc79c648476a029c9d3ead3548aec1f87e9ed5d56b88ef8"
+  },
+  "actual_helper": {
+    "bytes": 15785,
+    "sha256": "38c47eb064e23c1949f21560b49ebe30c9b708b0fe3fac6f5819659f4a78391f"
+  },
+  "review": {
+    "bytes": 2175,
+    "sha256": "b2129f00d4aa79a09251a40033463d60c27da386ae2679744d98c4ca62b038c9"
+  },
+  "timing_first_start_epoch_seconds": 1792890563.801858,
+  "timing_original_deadline_epoch_seconds": 1792892363.801858,
+  "timing_remaining_seconds": 881.4992668628693,
+  "project_absolute_deadline_utc": "2026-10-25T03:41:39.663497+00:00",
+  "actual_resume": "not_yet_entered; external exact clean HEAD allocation next",
+  "numerical_source_change": false,
+  "numerical_refit": false
+}

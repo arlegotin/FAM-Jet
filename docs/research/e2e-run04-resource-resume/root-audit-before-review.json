@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T01:19:07.027147+00:00",
+  "base": "27dc49a0f61a12e9cf319d20c6cc9aeefe2a84dc",
+  "source_head": "48a63f71819044f4c414764d2f086807295fb155",
+  "verified_raw_log_pairs": 30,
+  "pipeline_scope": "observer+re_import+only_timing_k16_retryable_keyword_AST_verified",
+  "unchanged_original_immutable_files": 77,
+  "unchanged_original_output_files": 1247,
+  "unchanged_output_bytes": 351603196,
+  "baseline": {
+    "bytes": 247608,
+    "sha256": "64cc14db3303b7dc0dc79c648476a029c9d3ead3548aec1f87e9ed5d56b88ef8"
+  },
+  "helper": {
+    "bytes": 15052,
+    "sha256": "d1fb1fdb48e9aa5ded8a1fb851698ddf027eed80230e8dc00b506e69d78a78e6"
+  },
+  "original_timing_start_epoch_seconds": 1792890563.801858,
+  "original_timing_deadline_epoch_seconds": 1792892363.801858,
+  "timing_remaining_seconds": 1216.7696371078491,
+  "review_status": "pending_independent",
+  "actual_resume": "not_entered"
+}

@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 20, in main
+    result = run(arguments.out, resume=arguments.resume)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 631, in run
+    ledger.stage('timing_k16', {'timing_manifest_sha256': timing_manifest_sha,
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 'policy': timing_policy, 'allocation': timing_allocation},
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 timing_action, resume=resume, monitor=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 136, in stage
+    result = action(directory)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 620, in timing_action
+    admit(1 * 2**30)
+    ~~~~~^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 531, in admit
+    return admit_resources(observed,
+                           {'max_incremental_rss_bytes': max_rss,
+                            'max_output_bytes': max_output,
+                            'deadline_epoch_seconds': global_deadline})
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 238, in admit_resources
+    raise RuntimeError('RAM admission failed')
+RuntimeError: RAM admission failed

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/bin/zsh",
+    "-c",
+    "vm_stat; sysctl vm.swapusage; memory_pressure -Q; sysctl -n kern.memorystatus_vm_pressure_level"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-25T01:11:31.736835+00:00",
+  "elapsed_seconds": 0.020240166995790787,
+  "timeout_seconds": 30.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-run04-memory-diagnosis/host.log",
+  "log_sha256": "3f1fe7dbf2955776cfe2626a9f161869131fab16ec873762fce7c52ed2a9861f",
+  "log_bytes": 1428,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": null
+}
