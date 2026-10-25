@@ -127,3 +127,47 @@ def test_external_beijing_arrays_are_inventory_verified_not_rehashed():
     manifest['splits']['test']['blocks'] = [{'history_id': 'test:0', 'sha256': 'b' * 64}]
     with pytest.raises(ValueError, match='inventory'):
         verify_beijing_inventory(frozen, manifest)
+
+
+def test_copied_scientific_policy_and_gate_refs_resolve_after_original_removed(tmp_path):
+    from famjet.provenance import canonical_json
+    from famjet_poc.execution_policy import (new_run_policy, bind_run_policy,
+                                              verify_public_selection,
+                                              verify_public_gate_ref)
+    from famjet_poc.report_inputs import ArtifactPaths
+    repository = Path(__file__).resolve().parents[1]
+    baseline = json.loads((repository / 'docs/research/e2e-evaluation-v2-selection-baseline.json').read_bytes())
+    modes_public = json.loads((repository / 'artifacts/e2e-core-run-04/transfer_fit/modes/transfer-modes.json').read_bytes())
+    original = tmp_path / 'original'
+    (original / 'freeze').mkdir(parents=True)
+    (original / 'freeze/study-freeze-v1.json').write_text('{}')
+    refs = {}
+    for role, item in baseline['roles'].items():
+        source = repository / item['archived_model_ref']['path']
+        directory = original / 'public-models' / role
+        directory.mkdir(parents=True)
+        for suffix in ('.json', '.npz'):
+            shutil.copy2(source.with_suffix(suffix), directory / source.with_suffix(suffix).name)
+        refs[role] = {'path': str(directory / source.name),
+                      'sha256': item['archived_model_ref']['sha256']}
+    selected16 = {'jet': refs['k16_jet'], 'bank': refs['k16_bank']}
+    selected12 = {'jet': refs['k12_jet'], 'bank': refs['k12_bank']}
+    modes = {'task_adapted': {'jet': refs['real_jet'], 'bank': refs['real_bank']},
+             'normalization': modes_public['normalization']}
+    gate = verify_public_selection(selected16, selected12, modes)
+    gate_path = original / 'public_selection_gate/gate.json'
+    gate_path.parent.mkdir()
+    gate_path.write_bytes(canonical_json({**gate, 'verification_seconds': .01}))
+    gate_ref = {'path': str(gate_path),
+                'sha256': hashlib.sha256(gate_path.read_bytes()).hexdigest()}
+    policy_path = original / 'run-policy.json'
+    policy = new_run_policy('a' * 64, start_epoch_seconds=1000)
+    policy_path.write_bytes(canonical_json(policy))
+    bind_run_policy(policy_path, create=True)
+    copy = tmp_path / 'copy'
+    shutil.copytree(original, copy)
+    shutil.rmtree(original)
+    paths = ArtifactPaths(copy, original / 'freeze/study-freeze-v1.json')
+    assert verify_public_gate_ref(gate_ref, selected16, selected12, modes,
+                                  resolve=paths.resolve)['status'] == 'matched'
+    assert bind_run_policy(copy / 'run-policy.json') == policy

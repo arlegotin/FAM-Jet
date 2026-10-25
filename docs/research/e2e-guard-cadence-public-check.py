@@ -5,10 +5,12 @@ This command evaluates archived development histories; it never opens a
 protected grant, factory, row or score. Root runs it only after source review.
 """
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import sys
 import time
@@ -20,6 +22,8 @@ sys.path.insert(0, str(ROOT))
 DEFAULT_PUBLIC_ROOT = ROOT / 'artifacts/e2e-core-run-04'
 REGIMES = ('piecewise_stationary', 'trend_reset', 'periodic_impulses', 'irregular_revisions')
 METHODS = ('jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', 'buckets', 'laguerre')
+PUBLIC_JOURNAL_SHA256 = 'ef5f2c6e4d32934df3ff22397906cd9dd1664dd4b3c54e216b2fc26471a05309'
+PUBLIC_CACHE_SHA256 = '90673f30d722c262c18363fd3482b3b35f40d17c78659e66992b1a92483b7ec1'
 PROJECTION_FIELDS = ('history_id', 'query_id', 'method', 'task', 'regime', 'event_count',
                      'target', 'prediction', 'raw_prediction', 'factual_supported',
                      'numeric_supported', 'prediction_valid', 'eligible', 'accepted',
@@ -62,12 +66,18 @@ def _project(row, method):
 
 def compare_scientific_rows(expected, observed, history_ids, method, *, source_method=None):
     """Compare exact numerical rows while omitting policy/path/cost commitments."""
+    if (type(history_ids) not in (list, tuple) or not history_ids or
+            any(type(history_id) is not str or not history_id for history_id in history_ids) or
+            len(set(history_ids)) != len(history_ids)):
+        raise ValueError('declared scientific history inventory malformed')
     ids = set(history_ids)
-    def indexed(rows, stored_method):
+    def indexed(rows, stored_method, *, archived_subset):
         selected = {}
         for row in rows:
             if row.get('history_id') not in ids:
-                continue
+                if archived_subset:
+                    continue
+                raise ValueError('observed scientific row coverage exceeds declared histories')
             if row.get('method') != stored_method:
                 raise ValueError('scientific method coverage mismatch')
             key = (row['history_id'], row['query_id'])
@@ -75,7 +85,8 @@ def compare_scientific_rows(expected, observed, history_ids, method, *, source_m
                 raise ValueError('duplicate scientific row coverage')
             selected[key] = _project(row, method)
         return selected
-    left, right = indexed(expected, source_method or method), indexed(observed, method)
+    left = indexed(expected, source_method or method, archived_subset=True)
+    right = indexed(observed, method, archived_subset=False)
     keys = {(history_id, query_id) for history_id in history_ids for query_id in range(8)}
     if set(left) != keys or set(right) != keys:
         raise ValueError('scientific row coverage incomplete')
@@ -87,10 +98,43 @@ def compare_scientific_rows(expected, observed, history_ids, method, *, source_m
 
 
 def _projection_sha(rows):
-    from famjet.provenance import canonical_hash
+    from famjet.provenance import canonical_hash, canonical_json
+    from famjet_poc.pipeline import _run_output_bytes
     if type(rows) is dict:
         rows = [rows[key] for key in sorted(rows)]
     return canonical_hash(rows)
+
+
+def _public_file(old_public_root, relative, *, kind):
+    root = Path(old_public_root).absolute()
+    relative = Path(relative)
+    parts = relative.parts
+    if (relative.is_absolute() or len(parts) < 3 or '..' in parts or
+            '..' in Path(old_public_root).parts or
+            parts[:2] != ('development_k16', 'study')):
+        raise ValueError('file outside exact public development subtree')
+    allowed = {
+        'journal': parts == ('development_k16', 'study', 'development.json'),
+        'cache_manifest': parts == ('development_k16', 'study', 'development-cache',
+                                    'cache-manifest.json'),
+        'row': len(parts) == 4 and parts[2] == 'rows' and parts[3].endswith('.json'),
+        'episode': len(parts) == 4 and parts[2] == 'development-cache' and
+                   re.fullmatch(r'episode-[0-9]{6}\.json', parts[3]) is not None,
+    }
+    if not allowed.get(kind, False):
+        raise ValueError('file outside committed public file class')
+    if any(path.is_symlink() for path in (root, *root.parents)):
+        raise ValueError('symlink in public development root')
+    path = root
+    for part in parts:
+        path = path / part
+        if path.is_symlink():
+            raise ValueError('symlink in public development path')
+    if (not path.is_file() or
+            not path.resolve(strict=True).is_relative_to(
+                (root / 'development_k16/study').resolve(strict=True))):
+        raise ValueError('public development file missing or escaped')
+    return path
 
 
 def _rebase_ref(ref, old_public_root):
@@ -100,26 +144,59 @@ def _rebase_ref(ref, old_public_root):
         relative = source.relative_to(canonical)
     except ValueError:
         raise ValueError('reference outside old public run') from None
-    path = old_public_root / relative
-    if not path.resolve(strict=True).is_relative_to(old_public_root.resolve(strict=True)):
-        raise ValueError('unsafe old public reference')
+    path = _public_file(old_public_root, relative, kind='row')
     return {**ref, 'path': str(path)}
+
+
+def _repository_public_file(relative):
+    relative = Path(relative)
+    fixed = {Path('docs/research/e2e-evaluation-v2-selection-baseline.json'),
+             Path('docs/research/e2e-study-config.json')}
+    archive = Path('docs/research/e2e-evaluation-v2-public-model-baseline')
+    if (relative.is_absolute() or '..' in relative.parts or
+            relative not in fixed and not (
+                len(relative.parts) == len(archive.parts) + 2 and
+                relative.parts[:len(archive.parts)] == archive.parts and
+                relative.suffix in {'.json', '.npz'})):
+        raise ValueError('file outside committed public repository allowlist')
+    path = ROOT
+    for part in relative.parts:
+        path = path / part
+        if path.is_symlink():
+            raise ValueError('symlink in committed public repository file')
+    if not path.is_file() or not path.resolve(strict=True).is_relative_to(ROOT.resolve(strict=True)):
+        raise ValueError('committed public repository file missing or escaped')
+    return path
 
 
 def _old_public_sources(old_public_root):
     from famjet_poc.cache import load_episode_cache
-    from famjet_poc.execution_policy import BASELINE_PATH, BASELINE_SHA256
+    from famjet_poc.execution_policy import BASELINE_SHA256
     from famjet_poc.study import load_score_rows
-    if _sha(BASELINE_PATH) != BASELINE_SHA256:
+    baseline_path = _repository_public_file(
+        'docs/research/e2e-evaluation-v2-selection-baseline.json')
+    baseline_raw = baseline_path.read_bytes()
+    if hashlib.sha256(baseline_raw).hexdigest() != BASELINE_SHA256:
         raise ValueError('public model baseline changed')
-    baseline = json.loads(BASELINE_PATH.read_bytes())
-    study_root = old_public_root / 'development_k16/study'
-    journal_path = study_root / 'development.json'
-    journal = json.loads(journal_path.read_bytes())
+    baseline = json.loads(baseline_raw)
+    journal_path = _public_file(old_public_root, 'development_k16/study/development.json',
+                                kind='journal')
+    journal_raw = journal_path.read_bytes()
+    if hashlib.sha256(journal_raw).hexdigest() != PUBLIC_JOURNAL_SHA256:
+        raise ValueError('committed public development journal changed')
+    journal = json.loads(journal_raw)
     if journal.get('status') != 'complete' or set(journal.get('selected', {})) != {'jet', 'bank'}:
         raise ValueError('old public development journal incomplete')
-    cache = load_episode_cache(study_root / 'development-cache', journal['development_cache_sha256'])
+    cache_manifest = _public_file(old_public_root,
+        'development_k16/study/development-cache/cache-manifest.json', kind='cache_manifest')
+    if journal['development_cache_sha256'] != PUBLIC_CACHE_SHA256:
+        raise ValueError('committed public development cache changed')
+    cache = load_episode_cache(cache_manifest.parent, PUBLIC_CACHE_SHA256)
     ids = select_history_ids(cache.entries)
+    for entry in cache.entries:
+        if entry['history_id'] in ids:
+            _public_file(old_public_root,
+                Path('development_k16/study/development-cache') / entry['file'], kind='episode')
     row_refs = {}
     for family in ('jet', 'bank'):
         chosen = journal['selected'][family]
@@ -140,17 +217,69 @@ def _old_public_sources(old_public_root):
     rows = {method: load_score_rows(_rebase_ref(ref, old_public_root))
             for method, ref in row_refs.items()}
     return baseline, journal, cache, ids, row_refs, rows, {'path': str(journal_path),
-           'sha256': _sha(journal_path)}
+           'sha256': PUBLIC_JOURNAL_SHA256}
+
+
+def _archived_model_file(ref, family):
+    relative = Path(ref['path'])
+    prefix = Path('docs/research/e2e-evaluation-v2-public-model-baseline') / ('k16_' + family)
+    if (relative.is_absolute() or '..' in relative.parts or
+            relative.parent != prefix or relative.suffix != '.json'):
+        raise ValueError('model outside committed public archive')
+    for candidate in (relative, relative.with_suffix('.npz')):
+        _repository_public_file(candidate)
+    return ROOT / relative
+
+
+@contextmanager
+def public_guard_pair(out, allocation, *, observer=None, sample_interval=.1):
+    """Match the stage-root and nested run-root guard topology of protected cells."""
+    from famjet_poc.resources import LiveStageGuard
+    out = Path(out)
+    outer = LiveStageGuard(out, allocation, out / 'outer-live-guard.json',
+                           observer=observer, sample_interval=sample_interval)
+    with outer:
+        inner_root = out / 'runs'
+        inner_root.mkdir(exist_ok=False)
+        inner = LiveStageGuard(inner_root, allocation, inner_root / 'live-guard.json',
+                               observer=observer, sample_interval=sample_interval)
+        with inner:
+            yield outer, inner
+
+
+def build_public_controls(selected_jet, expected_manifest_sha256):
+    """Use the exact K16 development builder and training seed, not timing seed."""
+    from famjet_poc.comparators import build_controls
+    from famjet_poc.contracts import ShapeSpec
+    from famjet_poc.study import study_manifest
+    config = json.loads(_repository_public_file(
+        'docs/research/e2e-study-config.json').read_bytes())
+    if (study_manifest(config)['manifest_sha256'] != expected_manifest_sha256 or
+            config['shape'] != ShapeSpec(16, 8).to_json() or
+            config['training_seed'] != 2026102401801):
+        raise ValueError('committed K16 public development config/seed changed')
+    worker_limits = config['worker_limits']
+    if worker_limits != {'max_frame_bytes': 33554432,
+                         'max_array_bytes': 16777216, 'max_histories': 64}:
+        raise ValueError('public CPU64 worker limits changed')
+    return (build_controls(ShapeSpec(16, 8), 9345, selected_jet.target_statistics,
+                           config['training_seed']), worker_limits)
+
+
+def write_qualification_receipt(out, body, max_disk_bytes):
+    from famjet.provenance import canonical_json
+    from famjet_poc.pipeline import _run_output_bytes
+    if _run_output_bytes(out) + len(canonical_json(body)) > max_disk_bytes:
+        raise RuntimeError('public qualification output including final receipt exceeded')
+    _write(Path(out) / 'qualification.json', body)
 
 
 def run(out, old_public_root):
     work_started = time.monotonic()
     import torch
     from famjet_poc.cache import episode_factory
-    from famjet_poc.comparators import build_controls, validate_coordinate_audits
-    from famjet_poc.contracts import ShapeSpec
+    from famjet_poc.comparators import validate_coordinate_audits
     from famjet_poc.models import load_model
-    from famjet_poc.resources import LiveStageGuard
     from famjet_poc.study import evaluate_panel, freeze_score_policy, load_score_rows
     from famjet_poc.transfer import evaluate_equivalent_control
     from famjet_poc.execution_policy import BASELINE_SHA256
@@ -161,15 +290,12 @@ def run(out, old_public_root):
     out.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(1)
     baseline, journal, cache, ids, old_refs, old_rows, journal_ref = _old_public_sources(old_public_root)
-    selected = {family: load_model(ROOT / baseline['roles']['k16_' + family]['archived_model_ref']['path'],
+    selected = {family: load_model(_archived_model_file(
+                                   baseline['roles']['k16_' + family]['archived_model_ref'], family),
                                    baseline['roles']['k16_' + family]['archived_model_ref']['sha256'])
                 for family in ('jet', 'bank')}
-    controls = build_controls(ShapeSpec(16, 8), 9345, selected['jet'].target_statistics,
-                              2026102401906)
-    worker_limits = json.loads((ROOT / 'docs/research/e2e-study-config.json').read_bytes())['worker_limits']
-    if worker_limits != {'max_frame_bytes': 33554432,
-                         'max_array_bytes': 16777216, 'max_histories': 64}:
-        raise ValueError('public CPU64 worker limits changed')
+    controls, worker_limits = build_public_controls(selected['jet'],
+                                                   journal['manifest_sha256'])
     methods = {**selected, **{name: item['method'] for name, item in controls.items()},
                'laguerre': selected['jet']}
     remaining_work = 180 - (time.monotonic() - work_started)
@@ -180,17 +306,16 @@ def run(out, old_public_root):
                   'allocation_id': 'e2e-public-guard-cadence-v2',
                   'max_wall_seconds': remaining_work, 'max_disk_bytes': 128 * 2**20,
                   'max_rss_bytes': 1610612736}
-    guard = LiveStageGuard(out, allocation, out / 'live-guard.json', sample_interval=.1)
     results = {}
-    with guard:
+    with public_guard_pair(out, allocation) as (outer_guard, inner_guard):
         def factory():
             for episode in episode_factory(cache, ids)():
-                guard.check()
+                inner_guard.check()
                 yield episode
         policy = freeze_score_policy(factory(), manifest_hash=journal['manifest_sha256'])
         for method in METHODS:
-            guard.check()
-            directory = out / method
+            inner_guard.check()
+            directory = out / 'runs' / method
             statistics = (selected[method].target_statistics if method in ('jet', 'bank')
                           else selected['jet'].target_statistics)
             if method == 'laguerre':
@@ -215,8 +340,10 @@ def run(out, old_public_root):
             matched['evaluation_seconds'] = evaluated['costs']['evaluation_seconds']
             matched['maximum_state_bytes'] = evaluated['costs']['maximum_state_bytes']
             results[method] = matched
-            guard.check()
-    guard_receipt = json.loads((out / 'live-guard.json').read_bytes())
+            inner_guard.check()
+    guard_receipts = {name: json.loads(path.read_bytes()) for name, path in (
+        ('outer', out / 'outer-live-guard.json'),
+        ('inner', out / 'runs/live-guard.json'))}
     body = {'schema_version': 1, 'kind': 'famjet_public_guard_cadence_qualification',
             'status': 'matched', 'boundary': 'public_development_only_no_protected_access',
             'history_ids': ids, 'history_count': 16, 'event_count_per_history': 2048,
@@ -230,16 +357,18 @@ def run(out, old_public_root):
             'e3_source_sha256': cache.e3_sha256,
             'study_config_sha256': _sha(ROOT / 'docs/research/e2e-study-config.json'),
             'source_sha256': _sha(__file__),
-            'guard_ref': guard.receipt_ref,
-            'guard_cadence': {key: guard_receipt[key] for key in
+            'outer_guard_ref': outer_guard.receipt_ref,
+            'inner_guard_ref': inner_guard.receipt_ref,
+            'guard_cadence': {name: {key: receipt[key] for key in
                               ('reuse_count', 'forced_count', 'background_count',
                                'maximum_sample_age_seconds', 'observer_seconds',
-                               'sample_count', 'status')},
+                               'sample_count', 'status')}
+                              for name, receipt in guard_receipts.items()},
             'peak_sampled_tree_rss_bytes': max(sample.get('tree_rss_bytes', 0)
-                                               for sample in guard_receipt['samples']),
+                for receipt in guard_receipts.values() for sample in receipt['samples']),
             'elapsed_seconds': time.monotonic() - work_started,
             'failing_inputs': []}
-    _write(out / 'qualification.json', body)
+    write_qualification_receipt(out, body, allocation['max_disk_bytes'])
     return body
 
 

@@ -513,6 +513,32 @@ def run_stress(selected_models, worker_limits, allocation, out):
             'results_sha256': _sha(out / 'results.json'), 'history_count': 144}
 
 
+def stage_public_selection_gate(ledger, selected16, selected12, modes, mode_sha256,
+                                *, resume=False, monitor_observer=None):
+    """Complete the numerical reproduction gate before freeze can be entered."""
+    from .execution_policy import (verify_public_selection, verify_public_gate_ref,
+                                   BASELINE_SHA256)
+    def action(directory):
+        started = time.perf_counter()
+        result = verify_public_selection(selected16, selected12, modes)
+        result['verification_seconds'] = time.perf_counter() - started
+        _atomic(directory / 'gate.json', result)
+        return {'status': 'matched', 'gate_ref': {'path': str(directory / 'gate.json'),
+                'sha256': _sha(directory / 'gate.json')}}
+    stage = ledger.stage('public_selection_gate',
+                 {'selected_k16_sha256': canonical_hash(selected16),
+                  'selected_k12_sha256': canonical_hash(selected12),
+                  'transfer_modes_sha256': mode_sha256,
+                  'baseline_sha256': BASELINE_SHA256,
+                  'allocation': {'allocation_id': 'e4-public-selection-gate-v2',
+                                 'max_wall_seconds': 300, 'max_disk_bytes': 64 * 2**20,
+                                 'max_rss_bytes': 1610612736}},
+                 action, resume=resume, monitor=True, monitor_observer=monitor_observer)
+    ref = stage['gate_ref']
+    verify_public_gate_ref(ref, selected16, selected12, modes)
+    return ref
+
+
 def run(out, resume=False):
     """Execute fixed public fitting, freeze, panels, transfer and report in order."""
     from .study import probe_feasibility, run_development, study_manifest
@@ -528,9 +554,7 @@ def run(out, resume=False):
     from .models import load_model
     from .inference import STRATA
     from .execution_policy import (load_execution_policy, new_run_policy,
-                                   verify_run_policy, bind_run_policy,
-                                   verify_public_selection,
-                                   verify_public_gate_ref, BASELINE_SHA256)
+                                   verify_run_policy, bind_run_policy)
     out = Path(out)
     manifest, policy = _study_inputs(out)
     dated_policy = load_execution_policy()
@@ -781,24 +805,8 @@ def run(out, resume=False):
         if model.shape != ShapeSpec(16, 8) or model.spec.family != name:
             raise ValueError('K16 selected checkpoint mismatch')
     pair_sha = canonical_hash({name: ref['sha256'] for name, ref in selected16.items()})
-    def public_gate_action(directory):
-        started = time.perf_counter()
-        result = verify_public_selection(selected16, selected12, modes)
-        result['verification_seconds'] = time.perf_counter() - started
-        _atomic(directory / 'gate.json', result)
-        return {'status': 'matched', 'gate_ref': {'path': str(directory / 'gate.json'),
-                'sha256': _sha(directory / 'gate.json')}}
-    gate_result = ledger.stage('public_selection_gate',
-                 {'selected_k16_sha256': canonical_hash(selected16),
-                  'selected_k12_sha256': canonical_hash(selected12),
-                  'transfer_modes_sha256': mode_ref.sha256,
-                  'baseline_sha256': BASELINE_SHA256,
-                  'allocation': {'allocation_id': 'e4-public-selection-gate-v2',
-                                 'max_wall_seconds': 300, 'max_disk_bytes': 64 * 2**20,
-                                 'max_rss_bytes': 1610612736}},
-                 public_gate_action, resume=resume, monitor=True)
-    gate_ref = gate_result['gate_ref']
-    verify_public_gate_ref(gate_ref, selected16, selected12, modes)
+    gate_ref = stage_public_selection_gate(ledger, selected16, selected12,
+                                           modes, mode_ref.sha256, resume=resume)
     populations = []
     for phase, seed, count in (('pilot', 2026102401902, 16),
                                ('confirmation', 2026102401904, 256),

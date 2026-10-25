@@ -35,6 +35,12 @@ def load_execution_policy():
     return policy
 
 
+def execution_source_sha256():
+    """Use the same complete executable byte inventory committed at freeze."""
+    from .protected import executable_identity
+    return executable_identity()['sha256']
+
+
 def new_run_policy(study_manifest_sha256, *, start_epoch_seconds=None):
     policy = load_execution_policy()
     start = time.time() if start_epoch_seconds is None else start_epoch_seconds
@@ -42,6 +48,8 @@ def new_run_policy(study_manifest_sha256, *, start_epoch_seconds=None):
             type(start) not in (int, float) or not math.isfinite(start) or start <= 0):
         raise ValueError('valid original run start and manifest required')
     return {**policy, 'execution_policy_sha256': _sha(POLICY_PATH),
+            'execution_source_sha256': execution_source_sha256(),
+            'public_selection_baseline_sha256': _sha(BASELINE_PATH),
             'study_manifest_sha256': study_manifest_sha256,
             'start_epoch_seconds': start,
             'global_deadline_epoch_seconds': start + policy['global_wall_seconds'],
@@ -69,6 +77,7 @@ def bind_run_policy(master_path, *, create=False):
     verify_run_policy(master, master.get('study_manifest_sha256'))
     expected = {'schema_version': 1, 'kind': 'famjet_run_policy_anchor_v2',
                 'run_policy_sha256': hashlib.sha256(raw).hexdigest(),
+                'execution_source_sha256': master['execution_source_sha256'],
                 'original_start_epoch_seconds': master['start_epoch_seconds'],
                 'global_deadline_epoch_seconds': master['global_deadline_epoch_seconds'],
                 'work_deadline_epoch_seconds': master['work_deadline_epoch_seconds']}

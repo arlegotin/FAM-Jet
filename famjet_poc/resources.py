@@ -16,6 +16,9 @@ import time
 from famjet.provenance import canonical_json
 
 
+_HOST_OBSERVATION_LOCK = threading.Lock()
+
+
 class LiveStageGuard:
     def __init__(self, root, allocation, receipt_path, *, observer=None,
                  cancel=None, sample_interval=.1):
@@ -56,14 +59,23 @@ class LiveStageGuard:
 
     def _observe(self):
         """Bound a host observation even when ps or a directory walk stalls."""
+        if not _HOST_OBSERVATION_LOCK.acquire(timeout=self.observer_timeout_seconds):
+            self._observer_blocked = True
+            raise TimeoutError('host resource observer serialization blocked')
         result = {}
         def call():
             try:
                 result['value'] = self.observer(self.root)
             except BaseException as exc:
                 result['error'] = exc
+            finally:
+                _HOST_OBSERVATION_LOCK.release()
         worker = threading.Thread(target=call, daemon=True)
-        worker.start()
+        try:
+            worker.start()
+        except BaseException:
+            _HOST_OBSERVATION_LOCK.release()
+            raise
         worker.join(self.observer_timeout_seconds)
         if worker.is_alive():
             self._observer_blocked = True
