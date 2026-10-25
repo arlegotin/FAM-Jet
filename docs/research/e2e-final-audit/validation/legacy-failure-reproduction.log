@@ -1,0 +1,146 @@
+F.FFF.............                                                       [100%]
+=================================== FAILURES ===================================
+_ test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-610/test_observed_helper_peak_is_c0')
+
+    def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
+        m=module('monitor'); import os,sys
+        code='''
+    import json,os,time
+    from pathlib import Path
+    p=Path('monitor-events.jsonl')
+    p.write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
+    time.sleep(.08)
+    with p.open('a') as f:
+     f.write(json.dumps(dict(event='observer_helper',pid=os.getpid()+100000,parent=os.getpid(),executable='/bin/ps',argv=['/bin/ps','-axo','pid=,ppid=,rss=,comm=,args=']))+'\\n')
+    time.sleep(10)
+    '''
+        polls=[0]
+        def sample(pid):
+            polls[0]+=1
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            readings={pid:100}
+            if polls[0]<3: readings[pid+100000]=20
+            return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code]),pid+100000:helper})
+        result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
+                            free_disk_bytes=0,incremental_bytes=100,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight.py:381: AssertionError
+____ test_f3_final_reconciliation_charges_all_retained_late_peaks[observer] ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-610/test_f3_final_reconciliation_c1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a8d62c0>
+late = 'observer'
+
+    @pytest.mark.parametrize('late',['worker','observer'])
+    def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkeypatch,late):
+        from validation.kernel_stage_a import monitor as m
+        out=tmp_path/late; sampled=[]; original_sleep=time.sleep
+        code='from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)'
+        def sample(pid):
+            sampled.append(pid)
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code])}
+            if late=='worker': return m.ResidentTree({pid:100},identities)
+            (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            identities[helper['pid']]=helper
+            return m.ResidentTree({pid:20,helper['pid']:100},identities)
+        finished=[False]
+        def finish_after_last_sample(seconds):
+            if seconds==.02 and sampled and not finished[0]:
+                pid=sampled[-1]
+                entry=(dict(event='baseline',pid=pid,rss=10) if late=='worker' else
+                       dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV))
+                with (out/'monitor-events.jsonl').open('a') as stream: stream.write(json.dumps(entry)+'\n')
+                (out/'finish').touch(); finished[0]=True; original_sleep(.08)
+            else: original_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish_after_last_sample)
+        result=m.supervise([sys.executable,'-c',code],out,outer_seconds=1,free_disk_bytes=0,
+                           incremental_bytes=50,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix1.py:172: AssertionError
+__ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-610/test_live_authority_helper_is_0')
+stop_for = 'cap'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+>       assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix2.py:32: AssertionError
+_ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-610/test_live_authority_helper_is_1')
+stop_for = 'foreign'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+>       assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+E       AssertionError: assert 'monitor common failure' == 'foreign process identity'
+E         
+E         - foreign process identity
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix2.py:32: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks[observer]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign]
+4 failed, 14 passed in 4.56s

@@ -1,3 +1,11 @@
+# Final delivery audit — 25 October 2026
+
+The original-base whole-branch review and exactly one scoped correction review are complete. All three Important findings and the Minor link finding are addressed. The current renderer guards sealed run/preparation inputs; ordinary unit tests no longer depend on ignored historical archives; lifecycle fixtures reach their intended accounting cases. Production scientific and monitor source remains unchanged by the final correction.
+
+The [durable final audit](docs/research/e2e-final-audit/README.md) contains both reviews, complete progress ledger, exhaustive ordered rulings, raw red/green receipts and the actual guarded v2 report-only witness/comparison. Tests: 1,774 passed / 58 skipped / two subtests, plus 22 isolated inference passes. Archive-unavailable affected units: 131 passed / two intentional integration skips. Full source-only archive integrations: two passed. Earlier failed and interrupted runs remain recorded.
+
+The actual v2 replay exited zero in 67.666 seconds at sampled peak 1,047,920,640 B, with no guard violation. Only `report_recovery` provenance differs in machine JSON; the complete scientific payload and all five chart/data/renderer files are identical to the canonical v1 result. Original CLI exit 1 and its failed report record remain unchanged. No science, fitting, selection or inference was rerun during final correction. Historical entries below retain their original stage-specific claims and limits.
+
 # Planning audit — 16 October 2026
 
 Historical snapshots follow in append order. Statements about pending work and absent assets describe the time of each record; the current acceptance overview is in PROGRESS.md.

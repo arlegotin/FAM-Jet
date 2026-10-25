@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "docs/research/e2e-report-recovery-source-evidence/verify_source.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-25T12:33:59.477158+00:00",
+  "elapsed_seconds": 4.20362791599473,
+  "timeout_seconds": 120.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-handoff-validation-01/sealed-source-preservation.log",
+  "log_sha256": "ef5c79ca1a59bdaa0c799566931e622b73d4f3dcc8a4049afe137261b9476272",
+  "log_bytes": 282,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": null
+}

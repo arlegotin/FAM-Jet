@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "/private/tmp/famjet-clean-20261024-01/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_inference.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "utc_start": "2026-10-25T12:32:54.636162+00:00",
+  "elapsed_seconds": 0.8137385839945637,
+  "timeout_seconds": 180.0,
+  "actual_returncode": 0,
+  "status": "completed",
+  "log": "artifacts/e2e-handoff-validation-01/inference-isolated.log",
+  "log_sha256": "6dc6ec7270ff84f2b172bce2ba010dd2f77281223591fe26e54dee56bdec4133",
+  "log_bytes": 99,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "report_python": null
+}

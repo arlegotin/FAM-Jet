@@ -52,6 +52,8 @@ The v2 migration binds the preserved original execution source, the historical v
 
 For a **fresh execution** of the registered study, the normal CLI is `FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m famjet_poc run --out artifacts/NEW-RUN`. A new output path reuses the fixed registered seeds and populations; it is a reproduction, **not a new independent confirmation**. The ordinary `report --run RUNROOT --out MARKDOWN` is for runs frozen under the current reporter identity. Do not run or resume the historical run06 pipeline under changed source. An eligible public-stage `run --out RUNROOT --resume` keeps the same source, root and original clocks; failed/begun protected cells are not routine-resumable.
 
+The [final independent audit](docs/research/e2e-final-audit/README.md) is complete. The current guarded v2 replay passed in 67.666 seconds with no guard violation: its scientific JSON content and all chart/data/renderer bytes match v1, while its provenance is recorded separately. Final tests passed in the documented split processes (1,774 broad + 22 inference; 58 explicit skips). See [the full ordered decision record](docs/research/e2e-final-audit/rulings.md).
+
 ## Historical Task18 archive
 
 The sections below preserve earlier Task18 development evidence and failures. Their historical status statements refer to the checkpoint before the completed narrow run06 study; the new fitted reader does not retroactively change them.

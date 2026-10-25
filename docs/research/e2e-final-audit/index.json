@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T13:37:13.530178+00:00",
+  "status": "all_final_gates_passed",
+  "source_head": "4b21c7ac9b1289aba993dbad9b91c33375e96b58",
+  "source_executable_sha256": "5d3b8e9f028250c90da4ca5f7d23a720d4c52fc59dea97b5ad217d90fbee2b64",
+  "ruling_lines": 189,
+  "literal_ruling_colon_lines": 178,
+  "ledger_line_count": 1737,
+  "ledger_sha256": "56315d2406c2da16b345b8fe84a0c9cd4403309dbd31fe36912a3f90c8822364",
+  "rulings_sha256": "fca8c1d18e035f359a8215187be5beeb1223cef58d447f9327bd631aa2753ea4",
+  "original_cli_exit": 1,
+  "v1_seven_files_unchanged": true,
+  "v2_scientific_payload_identical": true,
+  "full_suite": {
+    "passed": 1774,
+    "skipped": 58,
+    "subtests_passed": 2
+  },
+  "inference_separate": {
+    "passed": 22
+  },
+  "archive_unavailable_units": {
+    "passed": 131,
+    "skipped": 2
+  },
+  "archive_integration_source_only": {
+    "passed": 2
+  }
+}

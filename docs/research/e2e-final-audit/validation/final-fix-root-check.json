@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "receipts": [
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/archive-unavailable-units.json",
+      "exit": 0,
+      "sha256": "8e5edf3be4911aa2fd9f7b3e6380b1ff372fbb834990d97a95b4de92006370c9"
+    },
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/full-suite-final.json",
+      "exit": 0,
+      "sha256": "f8b3b326e9557c54e80ea87f592afb483a471444aa031f85b5442751510c7265"
+    },
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/i1-red.json",
+      "exit": 1,
+      "sha256": "8950a5a9d9317131b2aa95a1cb3c50afc208dd7781f7c0262c4536442482a5bc"
+    },
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/archive-unavailable-units-final.json",
+      "exit": 0,
+      "sha256": "edf9a1ea76762b43d6ece4b587b565d48e3653854efc89392cffca0cdadfef77"
+    },
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/inference-final.json",
+      "exit": 0,
+      "sha256": "faf87b968a21dc9776dbf5150352179ee6058140c360a7acece0335ab894600c"
+    },
+    {
+      "receipt": "docs/research/e2e-final-fix-evidence/v2-source-only-admission.json",
+      "exit": 0,
+      "sha256": "2870fa0b9e98df46e6d1c35ee40563d278cb7afe931048888fda4e94c53a0282"
+    }
+  ],
+  "new_source_files_verified": 74,
+  "changed_from_v1": [
+    "famjet_poc/report.py",
+    "famjet_poc/report_inputs.py"
+  ],
+  "canonical_files_verified": 7
+}

@@ -1,3 +1,11 @@
+# Current completed delivery — 25 October 2026
+
+The adopted numeric PoC is complete on `main`: streaming memory and baselines, qualified fixed-writer fitting, protected confirmation and independent replication, both sensor transfer modes, generated reports, raw custody, portable replay, independent whole-branch review, one final correction pass and one scoped rereview. The [final report](reports/famjet-poc/final.md) finds no demonstrated overall Jet advantage. Both synthetic intervals include zero; the real-trained Bank has lower RMSE and simple temporal summaries remain strong.
+
+Final verification: 1,774 broad tests passed (58 explicit skips, two subtests), plus 22 inference tests in a separate process; 131 affected unit tests passed with ignored archives unavailable (two integration skips), and both opted-in complete-archive admission tests passed. The final guard-version report replay passed in 67.666 seconds, with identical scientific payload and chart bytes and distinct provenance. The original experiment's CLI exit 1 at report assembly remains preserved; historical v1 recovery and portable replay also remain unchanged. See the [final audit, reviews and exact receipts](docs/research/e2e-final-audit/README.md) and [all 189 recorded ruling lines](docs/research/e2e-final-audit/rulings.md).
+
+No further core experiment is pending. Learned-writer/dense-key/all-family superiority, language/agent integration and multi-budget frontiers remain unentered. The following entries are historical snapshots; their active/blocked/protected-closed statements do not supersede this completion record.
+
 # Progress
 
 **End-to-end core delivery active:** The user requested completion. The [dated completion plan](docs/superpowers/plans/2026-10-24-famjet-core-delivery.md) adopts an independently qualified convex reader, explicitly conditional fitted-model inference, both real-transfer modes, and artifact-generated reporting. Historical failed procedures remain failed. A fresh builder check found no important unanswered build question. The new reader source passed independent review and its eight-case fit/fresh-history qualification; the remaining delivery phases are active in the existing branch.

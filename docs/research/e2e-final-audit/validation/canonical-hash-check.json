@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-25T12:31:59.473772+00:00",
+  "status": "pass",
+  "deterministic_files_checked": [
+    "reports/famjet-poc/final-chart-data.json",
+    "reports/famjet-poc/final.md",
+    "reports/famjet-poc/final.json",
+    "reports/famjet-poc/final-charts/primary-effect.svg",
+    "reports/famjet-poc/final-charts/accuracy-memory.svg",
+    "reports/famjet-poc/final-charts/cost.svg",
+    "reports/famjet-poc/final-charts/plots-receipt.json",
+    "artifacts/e2e-run06-recovery-01/report/final-chart-data.json",
+    "artifacts/e2e-run06-recovery-01/report/final.md",
+    "artifacts/e2e-run06-recovery-01/report/final.json",
+    "artifacts/e2e-run06-recovery-01/report/final-charts/primary-effect.svg",
+    "artifacts/e2e-run06-recovery-01/report/final-charts/accuracy-memory.svg",
+    "artifacts/e2e-run06-recovery-01/report/final-charts/cost.svg",
+    "artifacts/e2e-run06-recovery-01/report/final-charts/plots-receipt.json",
+    "artifacts/e2e-run06-portable-replay-01/report/final-chart-data.json",
+    "artifacts/e2e-run06-portable-replay-01/report/final.md",
+    "artifacts/e2e-run06-portable-replay-01/report/final.json",
+    "artifacts/e2e-run06-portable-replay-01/report/final-charts/primary-effect.svg",
+    "artifacts/e2e-run06-portable-replay-01/report/final-charts/accuracy-memory.svg",
+    "artifacts/e2e-run06-portable-replay-01/report/final-charts/cost.svg",
+    "artifacts/e2e-run06-portable-replay-01/report/final-charts/plots-receipt.json"
+  ],
+  "current_source_paths_checked": 74,
+  "changed_old_paths": [
+    "famjet_poc/report_inputs.py"
+  ]
+}

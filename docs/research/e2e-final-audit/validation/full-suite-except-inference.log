@@ -1,0 +1,380 @@
+..s..s..s....ss.....s..s...s............................................ [  3%]
+..........................................s............................. [  7%]
+...........................................s...s..s............sss...... [ 11%]
+..s.....s..............s..........................................s..s [ 15%]
+..s..s.........s....s..s...s..........................................s. [ 19%]
+.s.......................s............ss.........s...................... [ 23%]
+.ssssss................................................................. [ 27%]
+........................................................................ [ 31%]
+.................................................F.............F......FF [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 43%]
+........................................................................ [ 47%]
+......................................................FFFF.F............ [ 51%]
+........................................................................ [ 55%]
+.......................................ss.............s................. [ 59%]
+..sss.s.s.................................s............................. [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 71%]
+........................................................................ [ 74%]
+.........................................s.............................. [ 78%]
+........................................................................ [ 82%]
+........................................................................ [ 86%]
+...ss................................................................... [ 90%]
+..................................................ss.................... [ 94%]
+..ss.................................................................... [ 98%]
+..s....s................                                                 [100%]
+=================================== FAILURES ===================================
+_ test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-608/test_observed_helper_peak_is_c0')
+
+    def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
+        m=module('monitor'); import os,sys
+        code='''
+    import json,os,time
+    from pathlib import Path
+    p=Path('monitor-events.jsonl')
+    p.write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
+    time.sleep(.08)
+    with p.open('a') as f:
+     f.write(json.dumps(dict(event='observer_helper',pid=os.getpid()+100000,parent=os.getpid(),executable='/bin/ps',argv=['/bin/ps','-axo','pid=,ppid=,rss=,comm=,args=']))+'\\n')
+    time.sleep(10)
+    '''
+        polls=[0]
+        def sample(pid):
+            polls[0]+=1
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            readings={pid:100}
+            if polls[0]<3: readings[pid+100000]=20
+            return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code]),pid+100000:helper})
+        result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
+                            free_disk_bytes=0,incremental_bytes=100,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight.py:381: AssertionError
+____ test_f3_final_reconciliation_charges_all_retained_late_peaks[observer] ____
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-608/test_f3_final_reconciliation_c1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110d810f0>
+late = 'observer'
+
+    @pytest.mark.parametrize('late',['worker','observer'])
+    def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkeypatch,late):
+        from validation.kernel_stage_a import monitor as m
+        out=tmp_path/late; sampled=[]; original_sleep=time.sleep
+        code='from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)'
+        def sample(pid):
+            sampled.append(pid)
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code])}
+            if late=='worker': return m.ResidentTree({pid:100},identities)
+            (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
+            helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
+            identities[helper['pid']]=helper
+            return m.ResidentTree({pid:20,helper['pid']:100},identities)
+        finished=[False]
+        def finish_after_last_sample(seconds):
+            if seconds==.02 and sampled and not finished[0]:
+                pid=sampled[-1]
+                entry=(dict(event='baseline',pid=pid,rss=10) if late=='worker' else
+                       dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV))
+                with (out/'monitor-events.jsonl').open('a') as stream: stream.write(json.dumps(entry)+'\n')
+                (out/'finish').touch(); finished[0]=True; original_sleep(.08)
+            else: original_sleep(seconds)
+        monkeypatch.setattr(m.time,'sleep',finish_after_last_sample)
+        result=m.supervise([sys.executable,'-c',code],out,outer_seconds=1,free_disk_bytes=0,
+                           incremental_bytes=50,sampler=sample)
+>       assert result['reason']=='incremental worker memory cap'
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix1.py:172: AssertionError
+__ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap] __
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-608/test_live_authority_helper_is_0')
+stop_for = 'cap'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+>       assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+E       AssertionError: assert 'monitor common failure' == 'incremental ...er memory cap'
+E         
+E         - incremental worker memory cap
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix2.py:32: AssertionError
+_ test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-608/test_live_authority_helper_is_1')
+stop_for = 'foreign'
+
+    @pytest.mark.parametrize('stop_for', ['cap','foreign'])
+    def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
+        out=tmp_path/stop_for
+        command=[sys.executable,'-c','import time; time.sleep(10)']
+        helpers=[]
+        def sample(pid):
+            helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                        argv=authority.git_commands(tmp_path)[0])
+            if not helpers:
+                authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+                authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
+                helpers.append(helper['pid'])
+            readings={pid:60,helper['pid']:70}
+            identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command),helper['pid']:helper}
+            if stop_for=='foreign':
+                foreign=dict(pid=pid+200000,parent=pid,executable='/unowned',argv=['foreign'])
+                identities[foreign['pid']]=foreign; readings[foreign['pid']]=7
+            return monitor.ResidentTree(readings,identities)
+        result=monitor.supervise(command,out,outer_seconds=.4,free_disk_bytes=0,
+                                  incremental_bytes=100 if stop_for=='cap' else 1000,
+                                  sampler=sample,authority_root=tmp_path)
+        assert result['status']=='STOPPED'
+>       assert result['reason']==('incremental worker memory cap' if stop_for=='cap' else 'foreign process identity')
+E       AssertionError: assert 'monitor common failure' == 'foreign process identity'
+E         
+E         - foreign process identity
+E         + monitor common failure
+
+tests/test_kernel_stage_a_preflight_fix2.py:32: AssertionError
+__________ test_live_authority_requires_literal_project_argv[worker] ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110cc11d0>
+which = 'worker'
+
+    @pytest.mark.parametrize("which", ["worker", "parent"])
+    def test_live_authority_requires_literal_project_argv(monkeypatch, which):
+        from validation.kernel_stage_a import authority as a_authority
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, runtime, now, tick = _released_binding(Path(name))
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority.time, "time", lambda: now)
+            monkeypatch.setattr(authority.time, "monotonic", lambda: tick)
+            if which == "worker":
+                launch = plan["execution"]["launch"]
+                launch["argv"][0] = runtime["executable"]
+                launch["argv_sha256"] = vector_hash(launch["argv"])
+                message = "literal worker argv"
+            else:
+                terminal = plan["execution"]["terminal"]
+                terminal["parent_argv"][0] = runtime["executable"]
+                terminal["parent_argv_sha256"] = vector_hash(terminal["parent_argv"])
+                message = "literal witnessed parent argv"
+>           with pytest.raises(authority.AuthorityError, match=message):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'literal worker argv'
+E             Actual message: 'active project environment'
+
+tests/test_kernel_stage_b_lifecycle.py:191: AssertionError
+__________ test_live_authority_requires_literal_project_argv[parent] ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x118166190>
+which = 'parent'
+
+    @pytest.mark.parametrize("which", ["worker", "parent"])
+    def test_live_authority_requires_literal_project_argv(monkeypatch, which):
+        from validation.kernel_stage_a import authority as a_authority
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, _, runtime, now, tick = _released_binding(Path(name))
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority.time, "time", lambda: now)
+            monkeypatch.setattr(authority.time, "monotonic", lambda: tick)
+            if which == "worker":
+                launch = plan["execution"]["launch"]
+                launch["argv"][0] = runtime["executable"]
+                launch["argv_sha256"] = vector_hash(launch["argv"])
+                message = "literal worker argv"
+            else:
+                terminal = plan["execution"]["terminal"]
+                terminal["parent_argv"][0] = runtime["executable"]
+                terminal["parent_argv_sha256"] = vector_hash(terminal["parent_argv"])
+                message = "literal witnessed parent argv"
+>           with pytest.raises(authority.AuthorityError, match=message):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'literal witnessed parent argv'
+E             Actual message: 'active project environment'
+
+tests/test_kernel_stage_b_lifecycle.py:191: AssertionError
+___ test_real_worker_authority_lifecycle_with_only_low_level_doubles[False] ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1108e25f0>
+helper_fails = False
+
+    @pytest.mark.parametrize("helper_fails", [False, True])
+    def test_real_worker_authority_lifecycle_with_only_low_level_doubles(monkeypatch, helper_fails):
+        from validation.kernel_stage_a import authority as a_authority
+        from validation.kernel_stage_b.__main__ import _worker
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, out, runtime, now, tick = _released_binding(Path(name))
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority.time, "time", lambda: now)
+            monkeypatch.setattr(authority.time, "monotonic", lambda: tick)
+            monkeypatch.setattr(authority.shutil, "disk_usage", lambda _: SimpleNamespace(free=2**40))
+            calls = []
+            monkeypatch.setattr(a_authority, "helper_artifact",
+                                lambda path: {"path": path, "sha256": "0" * 64})
+            class ControlledGitProcess:
+                def __init__(self, command, **kwargs):
+                    calls.append(tuple(command[-2:]))
+                    self.pid = 700 + len(calls)
+                    self.returncode = 1 if helper_fails and len(calls) == 2 else 0
+                    self.stdout = io.StringIO()
+                    self.stderr = io.StringIO()
+                def communicate(self, timeout=None):
+                    return (plan["execution"]["source_full_git"] + "\n" if len(calls) == 1
+                            else "", "controlled helper failure" if self.returncode else "")
+                def poll(self):
+                    return self.returncode
+                def kill(self):
+                    self.returncode = -9
+            monkeypatch.setattr(a_authority.subprocess, "Popen", ControlledGitProcess)
+            if helper_fails:
+                import builtins
+                original_import = builtins.__import__
+                def import_guard(name, *args, **kwargs):
+                    if name == "torch" or name.startswith("famjet"):
+                        raise AssertionError("science imported after failed authority")
+                    return original_import(name, *args, **kwargs)
+                monkeypatch.setattr(builtins, "__import__", import_guard)
+                assert _worker(plan, ROOT) == 1
+                assert json.loads((out / "stage-b.json").read_bytes())["failure"]["phase"] == "authority"
+            else:
+>               assert authority.verify_worker(plan, ROOT, out / "monitor-events.jsonl") == tick + 1000
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_kernel_stage_b_lifecycle.py:235: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+validation/kernel_stage_b/authority.py:1510: in verify_worker
+    deadline = _entry(plan, root, True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+validation/kernel_stage_b/authority.py:1492: in _entry
+    return _execution_live(plan, root, worker)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+validation/kernel_stage_b/authority.py:1328: in _execution_live
+    _need(sys.executable == launcher and
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+condition = False, message = 'active project environment'
+
+    def _need(condition, message):
+        if not condition:
+>           raise AuthorityError(message)
+E           validation.kernel_stage_b.authority.AuthorityError: active project environment
+
+validation/kernel_stage_b/authority.py:90: AuthorityError
+____ test_real_worker_authority_lifecycle_with_only_low_level_doubles[True] ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x118655c50>
+helper_fails = True
+
+    @pytest.mark.parametrize("helper_fails", [False, True])
+    def test_real_worker_authority_lifecycle_with_only_low_level_doubles(monkeypatch, helper_fails):
+        from validation.kernel_stage_a import authority as a_authority
+        from validation.kernel_stage_b.__main__ import _worker
+    
+        with tempfile.TemporaryDirectory(prefix=".task18-controlled-", dir=ROOT) as name:
+            plan, out, runtime, now, tick = _released_binding(Path(name))
+            monkeypatch.setattr(a_authority, "runtime", lambda: runtime)
+            monkeypatch.setattr(authority.time, "time", lambda: now)
+            monkeypatch.setattr(authority.time, "monotonic", lambda: tick)
+            monkeypatch.setattr(authority.shutil, "disk_usage", lambda _: SimpleNamespace(free=2**40))
+            calls = []
+            monkeypatch.setattr(a_authority, "helper_artifact",
+                                lambda path: {"path": path, "sha256": "0" * 64})
+            class ControlledGitProcess:
+                def __init__(self, command, **kwargs):
+                    calls.append(tuple(command[-2:]))
+                    self.pid = 700 + len(calls)
+                    self.returncode = 1 if helper_fails and len(calls) == 2 else 0
+                    self.stdout = io.StringIO()
+                    self.stderr = io.StringIO()
+                def communicate(self, timeout=None):
+                    return (plan["execution"]["source_full_git"] + "\n" if len(calls) == 1
+                            else "", "controlled helper failure" if self.returncode else "")
+                def poll(self):
+                    return self.returncode
+                def kill(self):
+                    self.returncode = -9
+            monkeypatch.setattr(a_authority.subprocess, "Popen", ControlledGitProcess)
+            if helper_fails:
+                import builtins
+                original_import = builtins.__import__
+                def import_guard(name, *args, **kwargs):
+                    if name == "torch" or name.startswith("famjet"):
+                        raise AssertionError("science imported after failed authority")
+                    return original_import(name, *args, **kwargs)
+                monkeypatch.setattr(builtins, "__import__", import_guard)
+                assert _worker(plan, ROOT) == 1
+                assert json.loads((out / "stage-b.json").read_bytes())["failure"]["phase"] == "authority"
+            else:
+                assert authority.verify_worker(plan, ROOT, out / "monitor-events.jsonl") == tick + 1000
+            events = [json.loads(line) for line in (out / "monitor-events.jsonl").read_bytes().splitlines()]
+>           assert [event["event"] for event in events] == [
+                "authority_start", "authority_helper", "authority_helper_end",
+                "authority_helper", "authority_helper_end", "authority_end"]
+E           AssertionError: assert ['authority_s...uthority_end'] == ['authority_s...uthority_end']
+E             
+E             At index 1 diff: 'authority_end' != 'authority_helper'
+E             Right contains 4 more items, first extra item: 'authority_helper_end'
+E             Use -v to get more diff
+
+tests/test_kernel_stage_b_lifecycle.py:237: AssertionError
+____ test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher _____
+
+reader_case = (<validation.kernel_stage_b.production.Backend object at 0x117efec40>, {'config_sha256': '6d7c3847fc69b0f2bcc8f17f6938...), schema_version=1), 'record': {'snapshot_hash': '01944ae574f53a83360990b35d007b4ed9bafd770caa55d18be3eb51919ed755'}})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11807bd90>
+
+    def test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher(reader_case, monkeypatch):
+        backend, candidate, entry, snapshot = reader_case
+        expected = commands.reader_command(backend.root, backend.out / "monitor-events.jsonl",
+                                           backend.candidate_deadline)
+        assert len(expected) == 6
+>       assert expected[0] == str(ROOT / ".venv/bin/python")
+E       AssertionError: assert '/private/tmp...01/bin/python' == '/Users/artem...nv/bin/python'
+E         
+E         - /Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python
+E         + /private/tmp/famjet-clean-20261024-01/bin/python
+
+tests/test_kernel_stage_b_reader_launcher.py:79: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_kernel_stage_a_preflight.py::test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit
+FAILED tests/test_kernel_stage_a_preflight_fix1.py::test_f3_final_reconciliation_charges_all_retained_late_peaks[observer]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[cap]
+FAILED tests/test_kernel_stage_a_preflight_fix2.py::test_live_authority_helper_is_charged_before_end_and_retained_on_stop[foreign]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_live_authority_requires_literal_project_argv[worker]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_live_authority_requires_literal_project_argv[parent]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_real_worker_authority_lifecycle_with_only_low_level_doubles[False]
+FAILED tests/test_kernel_stage_b_lifecycle.py::test_real_worker_authority_lifecycle_with_only_low_level_doubles[True]
+FAILED tests/test_kernel_stage_b_reader_launcher.py::test_real_reader_command_reaches_owned_dispatch_with_lexical_launcher
+9 failed, 1757 passed, 56 skipped, 2 subtests passed in 249.14s (0:04:09)

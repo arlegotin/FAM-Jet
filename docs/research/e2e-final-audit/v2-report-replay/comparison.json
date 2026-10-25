@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "source_head": "4b21c7ac9b1289aba993dbad9b91c33375e96b58",
+  "owner_elapsed_seconds": 67.66626487499161,
+  "maximum_sampled_rss_sum_bytes": 1047920640,
+  "owner_guard_failure": null,
+  "changed_top_level_json_keys": [
+    "report_recovery"
+  ],
+  "scientific_payload_sha256_excluding_report_recovery": "70bd4970203fb535fe6a3360989d128632f0e78a51dc08202f1dde2bec497e3d",
+  "byte_identical_chart_files": [
+    "final-chart-data.json",
+    "final-charts/primary-effect.svg",
+    "final-charts/accuracy-memory.svg",
+    "final-charts/cost.svg",
+    "final-charts/plots-receipt.json"
+  ],
+  "canonical_seven_unchanged": true,
+  "original_cli_exit": 1,
+  "v1_reporter": {
+    "archive_index_sha256": "f00aac585d16237cc546259df85c69f5f65a9b6ea6d63fcc4b8b65a67f9ad43c",
+    "compatibility_id": "run06-report-order-v1",
+    "description": "sealed scientific run completed; initial report failed; audited report-only recovery completed",
+    "execution_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+    "launcher_sha256": "9bcb1724fd16793314f5fcd5f8faef87d78fccfc70343705540ff92f206eb83e",
+    "manifest_sha256": "881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27",
+    "original_exit_code": 1,
+    "original_report_error": "protected run ID inventory differs from freeze",
+    "original_report_status": "failed",
+    "reporter_sha256": "1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703",
+    "status": "audited_report_only_recovery"
+  },
+  "v2_reporter": {
+    "archive_index_sha256": "f00aac585d16237cc546259df85c69f5f65a9b6ea6d63fcc4b8b65a67f9ad43c",
+    "compatibility_id": "run06-report-safety-v2",
+    "description": "sealed scientific run completed; initial report failed; audited report-only recovery completed",
+    "execution_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+    "launcher_sha256": "35ef59c74a792fba1d34280ad647a9729aee3832e102cc7bbf68c14b565221bb",
+    "manifest_sha256": "e4a5b0942c4f9b8717660ada23416650b00117cbdde6d03b2aefe51ce94ae066",
+    "original_exit_code": 1,
+    "original_report_error": "protected run ID inventory differs from freeze",
+    "original_report_status": "failed",
+    "prior_manifest_sha256": "881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27",
+    "prior_reporter_sha256": "1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703",
+    "reporter_sha256": "5d3b8e9f028250c90da4ca5f7d23a720d4c52fc59dea97b5ad217d90fbee2b64",
+    "status": "audited_report_only_recovery"
+  },
+  "markdown_diff": [
+    "--- \n",
+    "+++ \n",
+    "@@ -6,3 +6,3 @@\n",
+    "-Reporter executable SHA-256: `1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703`.  ",
+    "-Migration manifest SHA-256: `881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27`.  ",
+    "-Recovery launcher SHA-256: `9bcb1724fd16793314f5fcd5f8faef87d78fccfc70343705540ff92f206eb83e`.  ",
+    "+Reporter executable SHA-256: `5d3b8e9f028250c90da4ca5f7d23a720d4c52fc59dea97b5ad217d90fbee2b64`.  ",
+    "+Migration manifest SHA-256: `e4a5b0942c4f9b8717660ada23416650b00117cbdde6d03b2aefe51ce94ae066`.  ",
+    "+Recovery launcher SHA-256: `35ef59c74a792fba1d34280ad647a9729aee3832e102cc7bbf68c14b565221bb`.  "
+  ]
+}
