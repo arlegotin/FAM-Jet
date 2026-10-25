@@ -59,9 +59,11 @@ def test_blocked_observer_fails_closed_with_bounded_teardown(tmp_path):
         return _observation()
     started = time.monotonic()
     try:
+        guard = LiveStageGuard(tmp_path, _allocation(), tmp_path / 'guard.json',
+                               observer=blocked)
+        guard.observer_timeout_seconds = .05
         with pytest.raises(RuntimeError, match='observer'):
-            with LiveStageGuard(tmp_path, _allocation(), tmp_path / 'guard.json',
-                                observer=blocked):
+            with guard:
                 pass
         assert time.monotonic() - started < 2
         assert json.loads((tmp_path / 'guard.json').read_bytes())['status'] == 'failed'
@@ -147,11 +149,14 @@ def test_blocked_nested_observer_fails_both_guards_without_parallel_call(tmp_pat
     inner_root.mkdir(parents=True)
     started = time.monotonic()
     try:
+        outer = LiveStageGuard(outer_root, _allocation(), outer_root / 'outer.json',
+                               observer=observe, sample_interval=.01)
+        inner = LiveStageGuard(inner_root, _allocation(), inner_root / 'inner.json',
+                               observer=observe, sample_interval=.01)
+        outer.observer_timeout_seconds = inner.observer_timeout_seconds = .05
         with pytest.raises(RuntimeError, match='observer'):
-            with LiveStageGuard(outer_root, _allocation(), outer_root / 'outer.json',
-                                observer=observe, sample_interval=.01) as outer:
-                with LiveStageGuard(inner_root, _allocation(), inner_root / 'inner.json',
-                                    observer=observe, sample_interval=.01):
+            with outer:
+                with inner:
                     outer.check()
         assert time.monotonic() - started < 2
         assert maximum == 1
@@ -168,17 +173,59 @@ def test_stale_background_observer_cannot_serve_cached_success(tmp_path):
             hold.wait(10)
         return _observation()
     try:
+        guard = LiveStageGuard(tmp_path, _allocation(), tmp_path / 'guard.json',
+                               observer=observe, sample_interval=.01)
+        guard.observer_timeout_seconds = .05
         with pytest.raises(RuntimeError, match='observer'):
-            with LiveStageGuard(tmp_path, _allocation(), tmp_path / 'guard.json',
-                                observer=observe, sample_interval=.01) as guard:
+            with guard:
                 time.sleep(.3)
                 guard.check()
         receipt = json.loads((tmp_path / 'guard.json').read_bytes())
         assert receipt['status'] == 'failed'
         assert len(calls) >= 2
-        assert receipt['maximum_sample_age_seconds'] >= .25
+        assert receipt['maximum_reused_sample_age_seconds'] == 0
+        assert receipt['maximum_sample_age_seconds'] >= .05
     finally:
         hold.set()
+
+
+def test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays_quarter_second(tmp_path):
+    calls = []
+    def observe(_):
+        calls.append(time.monotonic())
+        if len(calls) == 2:
+            time.sleep(.31)
+        return _observation()
+    with LiveStageGuard(tmp_path, _allocation(2), tmp_path / 'guard.json',
+                        observer=observe, sample_interval=10) as guard:
+        assert guard.observer_timeout_seconds == 5.0
+        time.sleep(.26)
+        guard.check()
+        guard.check()
+    receipt = json.loads((tmp_path / 'guard.json').read_bytes())
+    assert receipt['status'] == 'completed'
+    assert len(calls) == 3
+    assert receipt['reuse_count'] == 1
+    assert 0 <= receipt['maximum_reused_sample_age_seconds'] <= .25
+    assert .30 <= receipt['maximum_observer_operation_seconds'] < 5
+    assert receipt['maximum_sample_age_seconds'] > .25
+
+
+def test_wall_deadline_still_fails_during_accepted_slow_observation(tmp_path):
+    calls = []
+    def observe(_):
+        calls.append(1)
+        if len(calls) == 2:
+            time.sleep(.31)
+        return _observation()
+    with pytest.raises(RuntimeError, match='wall deadline'):
+        with LiveStageGuard(tmp_path, _allocation(.4), tmp_path / 'guard.json',
+                            observer=observe, sample_interval=10) as guard:
+            guard.check()
+            time.sleep(.26)
+            guard.check()
+    receipt = json.loads((tmp_path / 'guard.json').read_bytes())
+    assert receipt['status'] == 'failed'
 
 
 def test_background_interval_observes_even_with_fresh_foreground_cache(tmp_path):

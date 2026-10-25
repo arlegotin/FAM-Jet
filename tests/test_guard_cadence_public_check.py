@@ -2,6 +2,7 @@ import importlib.util
 import json
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -172,6 +173,74 @@ def test_public_driver_uses_outer_and_nested_inner_guard_roots(tmp_path):
     assert set(roots) == {'.', 'runs'}
     assert json.loads((tmp_path / 'outer-live-guard.json').read_bytes())['background_count'] >= 1
     assert json.loads((tmp_path / 'runs/live-guard.json').read_bytes())['background_count'] >= 1
+
+
+def test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_guards(tmp_path):
+    driver = _driver()
+    from famjet_poc.pipeline import _run_output_bytes
+    old = tmp_path / 'old-public'
+    study = old / 'development_k16/study'
+    study.mkdir(parents=True)
+    for index in range(1100):
+        (study / f'public-{index:04d}.json').write_bytes(b'abcd')
+    private = old / 'confirmation'
+    private.mkdir()
+    (private / 'forbidden.json').write_bytes(b'secret')
+    tree = driver.verified_public_scale_tree(old)
+    assert tree['file_count'] == 1100
+    assert tree['file_bytes'] == 4400
+    assert tree['root'] == str(old / 'development_k16')
+    out = tmp_path / 'new-output'
+    out.mkdir()
+    seen = []
+    active = 0
+    maximum = 0
+    lock = threading.Lock()
+    def observe(root):
+        nonlocal active, maximum
+        with lock:
+            active += 1
+            maximum = max(maximum, active)
+            seen.append(root)
+            first_full = root == old / 'development_k16' and seen.count(root) == 1
+        try:
+            if first_full:
+                time.sleep(.27)
+            return {'tree_rss_bytes': 2, 'run_output_bytes': _run_output_bytes(root),
+                    'now_epoch_seconds': time.time(), 'descendant_pids': []}
+        finally:
+            with lock:
+                active -= 1
+    output_allocation = {'allocation_id': 'output', 'max_wall_seconds': 10,
+                         'max_disk_bytes': 128 * 2**20, 'max_rss_bytes': 1610612736}
+    full_allocation = {**output_allocation, 'allocation_id': 'public-input',
+                       'max_disk_bytes': 512 * 2**20}
+    with driver.public_guard_triplet(out, tree, output_allocation, full_allocation,
+                                     observer=observe, sample_interval=.01) as (_, _, full):
+        full.check()
+        time.sleep(.06)
+    receipt = json.loads((out / 'fullscale-guard.json').read_bytes())
+    assert receipt['status'] == 'completed'
+    assert receipt['allocation']['max_disk_bytes'] == 512 * 2**20
+    assert receipt['samples'][0]['output_bytes'] == 4400
+    assert receipt['maximum_observer_operation_seconds'] >= .25
+    assert {out, out / 'runs', old / 'development_k16'} <= set(seen)
+    assert maximum == 1
+    assert all('confirmation' not in str(path) for path in seen)
+
+
+def test_public_scale_tree_rejects_symlink_to_private_sibling(tmp_path):
+    driver = _driver()
+    old = tmp_path / 'old-public'
+    study = old / 'development_k16/study'
+    study.mkdir(parents=True)
+    private = old / 'confirmation'
+    private.mkdir()
+    forbidden = private / 'forbidden.json'
+    forbidden.write_text('private fixture')
+    (study / 'link.json').symlink_to(forbidden)
+    with pytest.raises(ValueError, match='symlink'):
+        driver.verified_public_scale_tree(old)
 
 
 def test_archived_model_parent_symlink_is_rejected_before_model_open(tmp_path, monkeypatch):

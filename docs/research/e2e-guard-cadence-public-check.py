@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import re
 import signal
+import stat
 import sys
 import time
 import traceback
@@ -231,6 +232,38 @@ def _archived_model_file(ref, family):
     return ROOT / relative
 
 
+def verified_public_scale_tree(old_public_root):
+    """Inventory only the old public K16 tree before a full-tree observation."""
+    from famjet.provenance import canonical_hash
+    root = Path(old_public_root).absolute()
+    if ('..' in Path(old_public_root).parts or
+            any(path.is_symlink() for path in (root, *root.parents))):
+        raise ValueError('symlink or traversal in public scale root')
+    tree = root / 'development_k16'
+    if tree.is_symlink() or not tree.is_dir():
+        raise ValueError('public scale tree missing or symlinked')
+    files = []
+    def scan_error(error):
+        raise error
+    for directory, subdirectories, filenames in os.walk(tree, onerror=scan_error,
+                                                       followlinks=False):
+        for name in subdirectories + filenames:
+            path = Path(directory) / name
+            mode = path.lstat().st_mode
+            if stat.S_ISLNK(mode):
+                raise ValueError('symlink in public scale tree')
+            if name in filenames:
+                if not stat.S_ISREG(mode):
+                    raise ValueError('non-regular file in public scale tree')
+                files.append((path.relative_to(tree).as_posix(), path.stat().st_size))
+    files.sort()
+    if len(files) < 1000:
+        raise ValueError('public scale tree has fewer than 1000 files')
+    return {'root': str(tree), 'file_count': len(files),
+            'file_bytes': sum(size for _, size in files),
+            'inventory_sha256': canonical_hash(files)}
+
+
 @contextmanager
 def public_guard_pair(out, allocation, *, observer=None, sample_interval=.1):
     """Match the stage-root and nested run-root guard topology of protected cells."""
@@ -245,6 +278,20 @@ def public_guard_pair(out, allocation, *, observer=None, sample_interval=.1):
                                observer=observer, sample_interval=sample_interval)
         with inner:
             yield outer, inner
+
+
+@contextmanager
+def public_guard_triplet(out, public_tree, output_allocation, full_allocation, *,
+                         observer=None, sample_interval=.1):
+    from famjet_poc.resources import LiveStageGuard
+    out = Path(out)
+    with public_guard_pair(out, output_allocation, observer=observer,
+                           sample_interval=sample_interval) as (outer, inner):
+        full = LiveStageGuard(public_tree['root'], full_allocation,
+                              out / 'fullscale-guard.json', observer=observer,
+                              sample_interval=sample_interval)
+        with full:
+            yield outer, inner, full
 
 
 def build_public_controls(selected_jet, expected_manifest_sha256):
@@ -290,6 +337,7 @@ def run(out, old_public_root):
     out.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(1)
     baseline, journal, cache, ids, old_refs, old_rows, journal_ref = _old_public_sources(old_public_root)
+    public_tree = verified_public_scale_tree(old_public_root)
     selected = {family: load_model(_archived_model_file(
                                    baseline['roles']['k16_' + family]['archived_model_ref'], family),
                                    baseline['roles']['k16_' + family]['archived_model_ref']['sha256'])
@@ -306,8 +354,11 @@ def run(out, old_public_root):
                   'allocation_id': 'e2e-public-guard-cadence-v2',
                   'max_wall_seconds': remaining_work, 'max_disk_bytes': 128 * 2**20,
                   'max_rss_bytes': 1610612736}
+    full_allocation = {**allocation, 'allocation_id': 'e2e-public-fullscale-input-v2',
+                       'max_disk_bytes': 512 * 2**20}
     results = {}
-    with public_guard_pair(out, allocation) as (outer_guard, inner_guard):
+    with public_guard_triplet(out, public_tree, allocation, full_allocation) as (
+            outer_guard, inner_guard, full_guard):
         def factory():
             for episode in episode_factory(cache, ids)():
                 inner_guard.check()
@@ -343,7 +394,8 @@ def run(out, old_public_root):
             inner_guard.check()
     guard_receipts = {name: json.loads(path.read_bytes()) for name, path in (
         ('outer', out / 'outer-live-guard.json'),
-        ('inner', out / 'runs/live-guard.json'))}
+        ('inner', out / 'runs/live-guard.json'),
+        ('fullscale', out / 'fullscale-guard.json'))}
     body = {'schema_version': 1, 'kind': 'famjet_public_guard_cadence_qualification',
             'status': 'matched', 'boundary': 'public_development_only_no_protected_access',
             'history_ids': ids, 'history_count': 16, 'event_count_per_history': 2048,
@@ -354,14 +406,20 @@ def run(out, old_public_root):
                                          if entry['history_id'] in set(ids)],
             'old_public_policy_ref': journal['policy_ref'],
             'old_public_row_refs_sha256': canonical_hash(old_refs),
+            'old_public_fullscale_tree': public_tree,
             'e3_source_sha256': cache.e3_sha256,
             'study_config_sha256': _sha(ROOT / 'docs/research/e2e-study-config.json'),
             'source_sha256': _sha(__file__),
             'outer_guard_ref': outer_guard.receipt_ref,
             'inner_guard_ref': inner_guard.receipt_ref,
+            'fullscale_guard_ref': full_guard.receipt_ref,
             'guard_cadence': {name: {key: receipt[key] for key in
                               ('reuse_count', 'forced_count', 'background_count',
-                               'maximum_sample_age_seconds', 'observer_seconds',
+                               'maximum_sample_age_seconds',
+                               'maximum_reused_sample_age_seconds',
+                               'maximum_observer_operation_seconds',
+                               'maximum_observer_contention_seconds',
+                               'observer_seconds',
                                'sample_count', 'status')}
                               for name, receipt in guard_receipts.items()},
             'peak_sampled_tree_rss_bytes': max(sample.get('tree_rss_bytes', 0)

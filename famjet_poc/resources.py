@@ -53,15 +53,26 @@ class LiveStageGuard:
         self.forced_count = 0
         self.background_count = 0
         self.maximum_sample_age_seconds = 0.0
-        self.observer_timeout_seconds = .25
+        self.maximum_reused_sample_age_seconds = 0.0
+        self.maximum_observer_operation_seconds = 0.0
+        self.maximum_observer_contention_seconds = 0.0
+        self.observer_timeout_seconds = 5.0
         self._last_success_monotonic = None
         self._observer_blocked = False
 
     def _observe(self):
         """Bound a host observation even when ps or a directory walk stalls."""
+        contention_started = time.perf_counter()
         if not _HOST_OBSERVATION_LOCK.acquire(timeout=self.observer_timeout_seconds):
+            self.maximum_observer_contention_seconds = max(
+                self.maximum_observer_contention_seconds,
+                time.perf_counter() - contention_started)
             self._observer_blocked = True
             raise TimeoutError('host resource observer serialization blocked')
+        self.maximum_observer_contention_seconds = max(
+            self.maximum_observer_contention_seconds,
+            time.perf_counter() - contention_started)
+        operation_started = time.perf_counter()
         result = {}
         def call():
             try:
@@ -80,6 +91,9 @@ class LiveStageGuard:
         if worker.is_alive():
             self._observer_blocked = True
             raise TimeoutError('host resource observer blocked')
+        self.maximum_observer_operation_seconds = max(
+            self.maximum_observer_operation_seconds,
+            time.perf_counter() - operation_started)
         if 'error' in result:
             raise result['error']
         return result['value']
@@ -114,6 +128,8 @@ class LiveStageGuard:
                 self.maximum_sample_age_seconds = max(self.maximum_sample_age_seconds, age)
                 if not force and not background and age <= .25:
                     self.reuse_count += 1
+                    self.maximum_reused_sample_age_seconds = max(
+                        self.maximum_reused_sample_age_seconds, age)
                     return
             if force:
                 self.forced_count += 1
@@ -223,6 +239,9 @@ class LiveStageGuard:
                 'forced_count': self.forced_count,
                 'background_count': self.background_count,
                 'maximum_sample_age_seconds': self.maximum_sample_age_seconds,
+                'maximum_reused_sample_age_seconds': self.maximum_reused_sample_age_seconds,
+                'maximum_observer_operation_seconds': self.maximum_observer_operation_seconds,
+                'maximum_observer_contention_seconds': self.maximum_observer_contention_seconds,
                 'observer_timeout_seconds': self.observer_timeout_seconds,
                 'scope': 'current_parent_plus_verified_live_descendants'}
         raw = canonical_json(body)
