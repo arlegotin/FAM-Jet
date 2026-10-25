@@ -1,0 +1,21 @@
+{
+  "expected_head": "c77743012fbe25e8fcae6a482b17991d91f3d6ca",
+  "argv": [
+    ".venv/bin/python",
+    "scripts/report_run06_recovery_v2.py",
+    "--run",
+    "artifacts/public-replay-assets/e2e-run06-original-archive/run",
+    "--out",
+    "artifacts/public-replay/report/final.md",
+    "--archived-source",
+    "artifacts/public-replay-assets/e2e-run06-original-archive/execution-source",
+    "--compatibility-id",
+    "run06-report-safety-v2"
+  ],
+  "out": "artifacts/public-replay",
+  "prep": "artifacts/public-replay-prep",
+  "total_seconds": 900,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 134217728
+}

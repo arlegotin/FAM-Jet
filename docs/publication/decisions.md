@@ -1,0 +1,17 @@
+# SDD ledger — plan: docs/superpowers/plans/2026-10-25-public-release.md
+
+Spec: docs/superpowers/specs/2026-10-25-public-release-design.md. Native execution on user-requested current main; independent read-only history/package audit and one final fresh reviewer. User explicitly authorized license selection, citation, README rewrite in write-like-me, and final public visibility. No additional approval gate is needed.
+
+Pre-flight: task2 consumes current code/result identities and recent-repo conventions from task1; task3 validates metadata/replay without changing scientific source; task4 consumes a verified committed main plus exact licensed evidence asset. Interfaces consistent.
+
+Ruling: choose AGPL-3.0-only for original software and CC-BY-4.0 for original prose/results, following the last10 public research repos and their explicit scope split. Cost if wrong: copyleft can reduce adoption; previous public grants cannot simply be revoked. The user delegated the license choice, and owns the original material; external rights remain separate.
+Ruling: retain and disclose the owner's nonsecret local path provenance in the unchanged sealed run06 bundle rather than rehashing scientific records. No credentials or third-party personal records were found in scanned text. Cost if wrong: owner filesystem layout remains public; exact historical hashes and reproducibility are preserved.
+Ruling: remove only1066 broken absolute temp aliases outside all pinned source/canonical paths; record path/blob inventory and preserve Git history. Cost if wrong: an old scratch link must be reconstructed from history, but no available payload is removed.
+
+Task1 complete: recent public README/licensing/CFF conventions fetched; exact remote write-like-me SKILL+3refs match fully read installed version; native gh read authworks/private emptyrepo confirmed. Read-only audit302commits/25858objects/14922historytextblobs+4776bundletext scanned no credentialhits; excluded17run04path blobs/binarypayload content not certified. Bundle safe member paths, no rawsourceCSV/ZIP, no excludedrun04members.
+Task2 prepared: public README1036words, archived oldREADME/rebasedlinks, licensing/CFF/metadata/REPRODUCE/PUBLICATION/CONTRIBUTING/gitattributes and symlinkremoval. Initialchecks92localLinks0missing/74sources+canonical7unchanged/licensehashes/CFF-TOMLversionsPASS; wheelbuildPASS354456bytes. Commit follows.
+
+Task2 complete: preparedc7774301(publicREADME/licenses/CFF/reproduction/metadata/aliascleanup), wheelmetadata+source/canonical/linkchecksPASS.
+Task3 complete: freshreviewNOFINDINGS/fullread; fullsuite1774PASS58SKIP2subtests256.43s+isolated22PASS. Freshlyextractedpublicbundle actualwitness73.013772333s/1048150016BRSS/0/no guard/sourceclean; whole scientificJSONequal strippingonlyreport_recovery,5chart/data/receiptfilesbyteequal. Publicreceiptcopiesandreadinessappended; no sourceorcanonicalmutation.
+Ruling: keep prior scientific validation rather than rerun fits; all74currentbytes andcanonical7unchanged andnewbundle report matches allscientificcontent. Costifwrong: a preexisting scientificdefect couldsurvive; currentclaimsremainlimitedandpreviousauditsarelinked.
+Ruling: publish unchanged run06tar asversionedreleaseasset withfulllicenses/notices/checksums; do not uploadprivate scratchworkspace tar. Costifwrong: evidence download/storage remains285MB/2GBexpanded andpubliccopiescannotberecalled, but userexplicitlyauthorized publicrepositorypreparation andpublication.

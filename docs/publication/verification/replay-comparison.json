@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "utc": "2026-10-25T17:11:43.953265+00:00",
+  "source_head": "c77743012fbe25e8fcae6a482b17991d91f3d6ca",
+  "owner_elapsed_seconds": 73.01377233299718,
+  "maximum_sampled_rss_sum_bytes": 1048150016,
+  "guard_failure": null,
+  "source_after_clean": true,
+  "copied_bundle_replay": true,
+  "original_inputs": "fresh extraction of published SHA-identical tar",
+  "changed_top_level_json_fields": [
+    "report_recovery"
+  ],
+  "complete_scientific_payload_sha256": "70bd4970203fb535fe6a3360989d128632f0e78a51dc08202f1dde2bec497e3d",
+  "byte_identical_chart_files": [
+    "final-chart-data.json",
+    "final-charts/primary-effect.svg",
+    "final-charts/accuracy-memory.svg",
+    "final-charts/cost.svg",
+    "final-charts/plots-receipt.json"
+  ],
+  "original_cli_exit_unchanged": 1
+}

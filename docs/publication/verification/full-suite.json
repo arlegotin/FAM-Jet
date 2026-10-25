@@ -1,0 +1,15 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--ignore=tests/test_poc_inference.py"
+  ],
+  "start_utc": "2026-10-25T17:02:46.788785+00:00",
+  "end_utc": "2026-10-25T17:07:03.806325+00:00",
+  "elapsed_seconds": 257.0169217079965,
+  "exit_code": 0,
+  "log_sha256": "397f0dfd3d32f76b774ac33e6244c61f605dea4dec9b558cc157e879ea0f58b3",
+  "log_bytes": 2142
+}
