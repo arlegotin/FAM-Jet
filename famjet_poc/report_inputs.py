@@ -24,6 +24,7 @@ _OLD_COMMIT = 'f886e3c41517fd935a642cb83233dd72faf083b0'
 _OLD_EXECUTABLE = 'b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260'
 _ARCHIVED_IDENTITY_SHA256 = 'e08af6dfbeeb3c31909a180f8d5ca6fb44b78ae14bc2b3293b533b6dbeb70cc8'
 _REPORT_LOCK_SHA256 = '132d9a7822f2a2bd502f2deabdef30e7d3190802d9f5df18f1d2d8a3af062cf1'
+_LAUNCHER_SHA256 = '9bcb1724fd16793314f5fcd5f8faef87d78fccfc70343705540ff92f206eb83e'
 _RUN_PINS = {
     'freeze/study-freeze-v1.json': 'a0a1a66bc15de891b3bd365008e8ea24be74008d6fdc06bba958c619e6828845',
     'release/release.json': '8b1ed1eec3c3899a4a2d5d8efb38329dbc33545ed88b5ca76e04ddf8dcb9b635',
@@ -113,6 +114,23 @@ def _inventory(root, names):
     return observed
 
 
+def _prep_root(run):
+    run = Path(run).resolve(strict=True)
+    return run.with_name('prep' if run.name == 'run' else run.name + '-prep')
+
+
+def _verify_launcher_authorization(manifest, launcher_path):
+    observed = _file_sha(launcher_path)[0]
+    if manifest.get('launcher_sha256') != _LAUNCHER_SHA256 or observed != _LAUNCHER_SHA256:
+        raise ValueError('run06 recovery launcher authorization mismatch')
+
+
+def _verify_reporting_lock(manifest, lock_path):
+    observed = _file_sha(lock_path)[0]
+    if manifest.get('report_lock_sha256') != _REPORT_LOCK_SHA256 or observed != _REPORT_LOCK_SHA256:
+        raise ValueError('run06 reporting lock authorization mismatch')
+
+
 def _admit_report_migration(run, compatibility_id, archived_source):
     """Read only the one committed run06 authorization before any score access."""
     from .protected import executable_identity
@@ -145,13 +163,10 @@ def _admit_report_migration(run, compatibility_id, archived_source):
             any(index['files'].get(name, {}).get('sha256') != sha for name, sha in _RUN_PINS.items()) or
             any(index['prep_files'].get(name, {}).get('sha256') != sha for name, sha in _PREP_PINS.items()) or
             manifest.get('pinned') != _RUN_PINS or manifest.get('prep_pinned') != _PREP_PINS or
-            manifest.get('report_lock_sha256') !=
-                _REPORT_LOCK_SHA256 or
-            _file_sha(_ROOT / 'docs/reporting-requirements.lock')[0] !=
-                _REPORT_LOCK_SHA256 or
-            manifest.get('launcher_sha256') !=
-                _file_sha(_ROOT / 'scripts/report_run06_recovery.py')[0]):
+            manifest.get('launcher_sha256') != _LAUNCHER_SHA256):
         raise ValueError('run06 report migration authorization mismatch')
+    _verify_launcher_authorization(manifest, _ROOT / 'scripts/report_run06_recovery.py')
+    _verify_reporting_lock(manifest, _ROOT / 'docs/reporting-requirements.lock')
     archive = Path(archived_source).resolve(strict=True)
     if (_file_sha(archive / 'identity.json')[0] != _ARCHIVED_IDENTITY_SHA256 or
             _read_json(archive / 'identity.json') != index['frozen_executable']):
@@ -170,7 +185,7 @@ def _admit_report_migration(run, compatibility_id, archived_source):
             current['sha256'] != manifest['new_sha256']):
         raise ValueError('run06 report transition source mismatch')
     _inventory(run, index['files'])
-    prep = run.with_name('prep' if run.name == 'run' else run.name + '-prep')
+    prep = _prep_root(run)
     _inventory(prep, index['prep_files'])
     return {'compatibility_id': _MIGRATION_ID,
             'manifest_sha256': manifest_sha,

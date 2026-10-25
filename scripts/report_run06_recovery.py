@@ -1,6 +1,7 @@
 """Render the one registered run06 report recovery from sealed artifacts."""
 
 import argparse
+import base64
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -15,7 +16,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT))
 
 from famjet.provenance import canonical_json
-from famjet_poc.report_inputs import load_report_inputs
+from famjet_poc.report_inputs import load_report_inputs, _admit_report_migration, _prep_root
 from famjet_poc import report
 
 
@@ -33,6 +34,36 @@ def _files(directory):
             path.name != 'recovery-receipt.json'}
 
 
+def _capture_plot_invocations(directory):
+    """Move volatile renderer commands, paths, clocks and logs into the attempt receipt."""
+    captured = []
+    plot_directories = {path.parent for name in ('plot-invocation.json', 'plot-invocation.log')
+                        for path in directory.rglob(name)}
+    for plot_directory in sorted(plot_directories):
+        path = plot_directory / 'plot-invocation.json'
+        log_path = plot_directory / 'plot-invocation.log'
+        metadata_raw = path.read_bytes() if path.is_file() else b''
+        log_raw = log_path.read_bytes() if log_path.is_file() else b''
+        if metadata_raw:
+            try:
+                metadata = json.loads(metadata_raw)
+            except json.JSONDecodeError:
+                metadata = {'raw_base64': base64.b64encode(metadata_raw).decode('ascii')}
+        else:
+            metadata = None
+        captured.append({'directory': str(plot_directory.relative_to(directory)),
+                         'metadata': metadata,
+                         'metadata_sha256': hashlib.sha256(metadata_raw).hexdigest() if metadata_raw else None,
+                         'stdout_stderr_base64': base64.b64encode(log_raw).decode('ascii'),
+                         'stdout_stderr_sha256': hashlib.sha256(log_raw).hexdigest(),
+                         'stdout_stderr_bytes': len(log_raw)})
+        if path.is_file():
+            path.unlink()
+        if log_path.is_file():
+            log_path.unlink()
+    return captured
+
+
 def _destination(requested):
     requested = Path(requested)
     if not requested.parent.exists():
@@ -45,6 +76,10 @@ def _destination(requested):
         if not replay.exists():
             return replay / requested.name
         number += 1
+
+
+def _publish(attempt, target_directory):
+    os.replace(attempt, target_directory)
 
 
 def _render(run, out, archive):
@@ -87,8 +122,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
     run = args.run.resolve(strict=True)
     archive = args.archived_source.resolve(strict=True)
+    prep = _prep_root(run).resolve()
     requested = args.out.resolve()
-    if requested.parent.is_relative_to(run) or requested.parent.is_relative_to(archive):
+    if any(requested.parent.is_relative_to(root) for root in (run, prep, archive)):
         raise ValueError('report output must be a new sibling directory outside sealed inputs')
     target = _destination(requested)
     target.parent.parent.mkdir(parents=True, exist_ok=True)
@@ -106,28 +142,50 @@ def main(argv=None):
                'invocation': {'run': str(run), 'requested_out': str(requested),
                               'published_out': str(target), 'archived_source': str(archive)},
                'started_utc': started_utc, 'reporter_git_revision': None,
-               'status': 'failed'}
+               'admission_state': 'unverified', 'status': 'failed',
+               'output_files': {}, 'plot_invocations': []}
+    published = False
+    captured_plots = False
     try:
         import subprocess
         receipt['reporter_git_revision'] = subprocess.run(
             ['git', 'rev-parse', 'HEAD'], cwd=_ROOT, check=True,
             capture_output=True, text=True).stdout.strip()
-        provenance = _render(run, attempt / target.name, archive)
+        provenance = _admit_report_migration(run, args.compatibility_id, archive)
         receipt.update(provenance)
+        receipt['admission_state'] = 'verified'
+        _render(run, attempt / target.name, archive)
+        receipt['plot_invocations'] = _capture_plot_invocations(attempt)
+        captured_plots = True
         receipt['output_files'] = _files(attempt)
-        receipt['status'] = 'completed'
-    except BaseException as error:
-        receipt['error'] = f'{type(error).__name__}: {error}'
-        receipt['traceback'] = traceback.format_exc()
-        raise
-    finally:
+        receipt['status'] = 'validated_pending_publication'
         receipt['ended_utc'] = _utc()
         receipt['elapsed_seconds'] = time.perf_counter() - started
         rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         receipt['maximum_rss_bytes'] = rss if sys.platform == 'darwin' else rss * 1024
-        (attempt / 'recovery-receipt.json').write_bytes(canonical_json(receipt))
-        if receipt['status'] == 'completed':
-            os.replace(attempt, target.parent)
+        report._write(attempt / 'recovery-receipt.json', canonical_json(receipt))
+        _publish(attempt, target.parent)
+        published = True
+        receipt['status'] = 'completed'
+        receipt['ended_utc'] = _utc()
+        receipt['elapsed_seconds'] = time.perf_counter() - started
+        report._write(target.parent / 'recovery-receipt.json', canonical_json(receipt))
+    except BaseException as error:
+        remaining = target.parent if published else attempt
+        receipt['error'] = f'{type(error).__name__}: {error}'
+        receipt['traceback'] = traceback.format_exc()
+        if not captured_plots and remaining.is_dir():
+            receipt['plot_invocations'] = _capture_plot_invocations(remaining)
+        if remaining.is_dir():
+            receipt['output_files'] = _files(remaining)
+        receipt['status'] = 'failed'
+        receipt['ended_utc'] = _utc()
+        receipt['elapsed_seconds'] = time.perf_counter() - started
+        rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        receipt['maximum_rss_bytes'] = rss if sys.platform == 'darwin' else rss * 1024
+        if remaining.is_dir():
+            report._write(remaining / 'recovery-receipt.json', canonical_json(receipt))
+        raise
     print(canonical_json({'path': str(target), 'sha256': _sha(target),
                           'receipt': str(target.parent / 'recovery-receipt.json')}).decode(), end='')
 
