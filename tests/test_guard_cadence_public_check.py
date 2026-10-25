@@ -216,7 +216,7 @@ def test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_g
     full_allocation = {**output_allocation, 'allocation_id': 'public-input',
                        'max_disk_bytes': 512 * 2**20}
     with driver.public_guard_triplet(out, tree, output_allocation, full_allocation,
-                                     observer=observe, sample_interval=.01) as (_, _, full):
+                                     observer=observe, sample_interval=.01) as (outer, inner, full):
         full.check()
         time.sleep(.06)
     receipt = json.loads((out / 'fullscale-guard.json').read_bytes())
@@ -227,6 +227,34 @@ def test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_g
     assert {out, out / 'runs', old / 'development_k16'} <= set(seen)
     assert maximum == 1
     assert all('confirmation' not in str(path) for path in seen)
+
+
+def test_qualification_guard_evidence_binds_actual_roots_and_observer_source(tmp_path):
+    driver = _driver()
+    from famjet_poc.protected import executable_identity
+    old = tmp_path / 'old-public/development_k16'
+    old.mkdir(parents=True)
+    out = tmp_path / 'new-output'
+    out.mkdir()
+    def observe(_):
+        return {'tree_rss_bytes': 2, 'run_output_bytes': 0,
+                'now_epoch_seconds': time.time(), 'descendant_pids': []}
+    allocation = {'allocation_id': 'fixture', 'max_wall_seconds': 5,
+                  'max_disk_bytes': 128 * 2**20, 'max_rss_bytes': 1610612736}
+    tree = {'root': str(old), 'file_count': 1100, 'file_bytes': 4400,
+            'inventory_sha256': 'a' * 64}
+    with driver.public_guard_triplet(out, tree, allocation,
+                                     {**allocation, 'max_disk_bytes': 512 * 2**20},
+                                     observer=observe, sample_interval=10) as guards:
+        pass
+    evidence = driver.qualification_guard_evidence(out, guards)
+    assert evidence['guard_roots'] == {'outer': str(out), 'inner': str(out / 'runs'),
+                                       'fullscale': str(old)}
+    source = executable_identity()
+    assert {'famjet_poc/resources.py', 'famjet_poc/pipeline.py'} <= set(source['files'])
+    assert evidence['execution_source_sha256'] == source['sha256']
+    assert set(evidence['guard_refs']) == {'outer', 'inner', 'fullscale'}
+    assert all(evidence['guard_refs'][name]['sha256'] for name in evidence['guard_roots'])
 
 
 def test_public_scale_tree_rejects_symlink_to_private_sibling(tmp_path):

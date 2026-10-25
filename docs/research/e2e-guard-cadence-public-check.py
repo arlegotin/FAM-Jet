@@ -321,6 +321,25 @@ def write_qualification_receipt(out, body, max_disk_bytes):
     _write(Path(out) / 'qualification.json', body)
 
 
+def qualification_guard_evidence(out, guards):
+    """Bind the actual three observed roots and the runner containing their observer."""
+    from famjet_poc.execution_policy import execution_source_sha256
+    names = ('outer', 'inner', 'fullscale')
+    roots = {name: str(guard.root.resolve(strict=True))
+             for name, guard in zip(names, guards, strict=True)}
+    out = Path(out).resolve(strict=True)
+    if roots['outer'] != str(out) or roots['inner'] != str(out / 'runs'):
+        raise ValueError('qualification output guard roots changed')
+    refs = {}
+    for name, guard in zip(names, guards, strict=True):
+        ref = guard.receipt_ref
+        if ref is None or _sha(ref['path']) != ref['sha256']:
+            raise ValueError('qualification guard receipt changed')
+        refs[name] = ref
+    return {'guard_roots': roots, 'guard_refs': refs,
+            'execution_source_sha256': execution_source_sha256()}
+
+
 def run(out, old_public_root):
     work_started = time.monotonic()
     import torch
@@ -396,6 +415,8 @@ def run(out, old_public_root):
         ('outer', out / 'outer-live-guard.json'),
         ('inner', out / 'runs/live-guard.json'),
         ('fullscale', out / 'fullscale-guard.json'))}
+    guard_evidence = qualification_guard_evidence(
+        out, (outer_guard, inner_guard, full_guard))
     body = {'schema_version': 1, 'kind': 'famjet_public_guard_cadence_qualification',
             'status': 'matched', 'boundary': 'public_development_only_no_protected_access',
             'history_ids': ids, 'history_count': 16, 'event_count_per_history': 2048,
@@ -410,6 +431,7 @@ def run(out, old_public_root):
             'e3_source_sha256': cache.e3_sha256,
             'study_config_sha256': _sha(ROOT / 'docs/research/e2e-study-config.json'),
             'source_sha256': _sha(__file__),
+            **guard_evidence,
             'outer_guard_ref': outer_guard.receipt_ref,
             'inner_guard_ref': inner_guard.receipt_ref,
             'fullscale_guard_ref': full_guard.receipt_ref,

@@ -211,6 +211,29 @@ def test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays
     assert receipt['maximum_sample_age_seconds'] > .25
 
 
+def test_exit_waits_for_valid_inflight_background_observation_then_forces_fresh_sample(tmp_path):
+    active = threading.Event()
+    calls = []
+    def observe(_):
+        calls.append(1)
+        if len(calls) == 2:
+            active.set()
+            time.sleep(2.2)
+        return _observation()
+    guard = LiveStageGuard(tmp_path, _allocation(8), tmp_path / 'guard.json',
+                           observer=observe, sample_interval=.01)
+    started = time.monotonic()
+    with guard:
+        assert active.wait(1)
+    elapsed = time.monotonic() - started
+    receipt = json.loads((tmp_path / 'guard.json').read_bytes())
+    assert 2.1 < elapsed < 7
+    assert receipt['status'] == 'completed'
+    assert receipt['forced_count'] == 2
+    assert receipt['sample_count'] >= 3
+    assert receipt['maximum_observer_operation_seconds'] >= 2.1
+
+
 def test_wall_deadline_still_fails_during_accepted_slow_observation(tmp_path):
     calls = []
     def observe(_):
