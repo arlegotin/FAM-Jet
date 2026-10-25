@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T04:09:44.235070+00:00",
+  "reviewed_head": "4f90cd2a030bec24a2afdd17e56291c9eaa5e1c2",
+  "source_commit": "c8e48a088239c7af39616acdc3709be99e6ab837",
+  "verdict": "SPEC_YES_QUALITY_APPROVED_R6_F2_1_and2_addressed",
+  "operation_timeout_seconds": 5,
+  "maximum_completed_successful_sample_reuse_seconds": 0.25,
+  "teardown_limit": "18 seconds per guard, external witness enforces aggregate total; receipt filesystem IO not guaranteed in per-guard wait",
+  "native_fullscale_qualification": "NOT_RUN_NEXT",
+  "fresh_run06": "NOT_RUN",
+  "no_scientific_result_claim": true,
+  "files": {
+    "requirements.md": {
+      "bytes": 4254,
+      "sha256": "c9f2641b235dc68cb61546a3ba864ca8f43bdb1827995717c6e283618fdf8eb8"
+    },
+    "root-audit-fix2.json": {
+      "bytes": 355,
+      "sha256": "989ae367298bb078403da075036894ebbe9ac8e34350db484c733b81f89a573f"
+    },
+    "root-audit-fix3.json": {
+      "bytes": 264,
+      "sha256": "8c093e767ad77680da364334ada2d1fa9d63e44d89c9ea56f68249ea28ccf5b4"
+    },
+    "review-fix2.md": {
+      "bytes": 11011,
+      "sha256": "95d5d61318aa28b643e9e621f4e14aa46df5e06b56ee2463e3698d1b255a30af"
+    },
+    "review-fix3.md": {
+      "bytes": 7922,
+      "sha256": "5df9368db96aa2b57c0b3c8c46d1137c992205edc8d0ffabba6c399bc2acc38e"
+    }
+  }
+}
