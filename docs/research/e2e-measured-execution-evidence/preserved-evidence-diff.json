@@ -1,0 +1,24 @@
+{
+  "name": "preserved-evidence-diff",
+  "argv": [
+    "git",
+    "diff",
+    "--exit-code",
+    "17ce406d596c1a50a306c6af0d0f08769eca7c07",
+    "--",
+    "docs/research/e2e-qualification-01-evidence",
+    "docs/research/e2e-qualification-01-report.md",
+    "docs/research/e2e-inference-qualification.json",
+    "docs/research/e2e-evaluation-v2-selection-baseline.json",
+    "docs/research/e2e-evaluation-v2-public-model-baseline",
+    "docs/research/e2e-development-resource-policy.json",
+    "docs/research/e2e-study-config.json"
+  ],
+  "start_utc": "2026-10-25T02:45:39.039305+00:00",
+  "end_utc": "2026-10-25T02:45:39.049793+00:00",
+  "elapsed_seconds": 0.010588291996100452,
+  "exit_code": 0,
+  "log_path": "docs/research/e2e-measured-execution-evidence/preserved-evidence-diff.log",
+  "log_bytes": 0,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

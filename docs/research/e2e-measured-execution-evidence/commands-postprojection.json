@@ -1,0 +1,109 @@
+[
+  {
+    "name": "affected-tests-postprojection",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_measured_execution.py",
+      "tests/test_guard_cadence_public_check.py",
+      "tests/test_poc_resources.py",
+      "tests/test_poc_pipeline.py",
+      "tests/test_poc_protected.py",
+      "tests/test_poc_transfer.py",
+      "tests/test_poc_report_inputs.py",
+      "tests/test_poc_report.py",
+      "tests/test_poc_report_scientific.py",
+      "tests/test_kernel_stage_a_completion_resources.py",
+      "-q"
+    ],
+    "start_utc": "2026-10-25T02:44:12.836308+00:00",
+    "end_utc": "2026-10-25T02:44:26.148766+00:00",
+    "elapsed_seconds": 13.312700083995878,
+    "exit_code": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/affected-tests-postprojection.log",
+    "log_bytes": 181,
+    "log_sha256": "149c49d0e90943e7265e28ffcc9808e332a433d834a96dd161463af41f759603"
+  },
+  {
+    "name": "compile-postprojection",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "famjet_poc",
+      "docs/research/e2e-guard-cadence-public-check.py"
+    ],
+    "start_utc": "2026-10-25T02:44:26.149090+00:00",
+    "end_utc": "2026-10-25T02:44:26.175130+00:00",
+    "elapsed_seconds": 0.026171249999606516,
+    "exit_code": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/compile-postprojection.log",
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "diff-check-postprojection",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "start_utc": "2026-10-25T02:44:26.175306+00:00",
+    "end_utc": "2026-10-25T02:44:26.224363+00:00",
+    "elapsed_seconds": 0.04931287500221515,
+    "exit_code": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/diff-check-postprojection.log",
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "public-driver-help-postprojection",
+    "argv": [
+      ".venv/bin/python",
+      "docs/research/e2e-guard-cadence-public-check.py",
+      "--help"
+    ],
+    "start_utc": "2026-10-25T02:44:26.224669+00:00",
+    "end_utc": "2026-10-25T02:44:26.255004+00:00",
+    "elapsed_seconds": 0.030584333995648194,
+    "exit_code": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/public-driver-help-postprojection.log",
+    "log_bytes": 459,
+    "log_sha256": "8171bcc062440c485a1a50b13da7c174dbe1575b120454ade3e141663ece0eac"
+  },
+  {
+    "name": "preserved-source-diff-postprojection",
+    "argv": [
+      "git",
+      "diff",
+      "--exit-code",
+      "17ce406d596c1a50a306c6af0d0f08769eca7c07",
+      "--",
+      "famjet",
+      "famjet_poc/contracts.py",
+      "famjet_poc/data.py",
+      "famjet_poc/models.py",
+      "famjet_poc/inference.py",
+      "famjet_poc/cache.py",
+      "famjet_poc/wire.py",
+      "famjet_poc/worker.py",
+      "famjet_poc/comparators.py",
+      "famjet_poc/study.py",
+      "famjet_poc/timing.py",
+      "famjet_poc/transfer.py",
+      "requirements.lock",
+      "docs/reporting-requirements.lock",
+      "docs/research/e2e-study-config.json",
+      "configs/manifests/beijing_v2_targets.json"
+    ],
+    "start_utc": "2026-10-25T02:44:26.255292+00:00",
+    "end_utc": "2026-10-25T02:44:26.267416+00:00",
+    "elapsed_seconds": 0.012340958004642744,
+    "exit_code": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/preserved-source-diff-postprojection.log",
+    "log_bytes": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]
