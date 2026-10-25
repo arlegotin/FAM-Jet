@@ -1,0 +1,26 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report.py",
+    "tests/test_poc_report_inputs.py",
+    "tests/test_poc_report_recovery.py",
+    "tests/test_measured_execution.py",
+    "tests/test_kernel_stage_a_preflight.py",
+    "tests/test_kernel_stage_a_preflight_fix1.py",
+    "tests/test_kernel_stage_a_preflight_fix2.py"
+  ],
+  "end_utc": "2026-10-25T13:18:29.384132+00:00",
+  "exit_code": 0,
+  "log_bytes": 192,
+  "log_sha256": "8e5edf3be4911aa2fd9f7b3e6380b1ff372fbb834990d97a95b4de92006370c9",
+  "restored_inode_equal": true,
+  "start_utc": "2026-10-25T13:18:18.120894+00:00",
+  "unavailable_roots": [
+    "artifacts/e2e-core-run-04",
+    "artifacts/e2e-core-run-06",
+    "artifacts/e2e-run06-original-archive"
+  ]
+}

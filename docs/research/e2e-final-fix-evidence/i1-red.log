@@ -1,0 +1,120 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_report_preflight_rejects_sealed_destinations_without_writes[release_json] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-611/test_report_preflight_rejects_0')
+target_kind = 'release_json'
+
+    @pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink', 'chart_symlink'])
+    def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        external = tmp_path / 'external'
+        external.mkdir()
+        if target_kind == 'release_json':
+            out = run / 'release/release.md'
+        elif target_kind == 'stage_child':
+            out = run / 'freeze/new-report.md'
+        elif target_kind == 'parent_symlink':
+            (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'alias/release.md'
+        else:
+            (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'final.md'
+        before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+                  for p in run.rglob('*') if p.is_file()}
+>       with pytest.raises(ValueError, match='report output|sealed|destination'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_report.py:79: Failed
+_ test_report_preflight_rejects_sealed_destinations_without_writes[stage_child] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-611/test_report_preflight_rejects_1')
+target_kind = 'stage_child'
+
+    @pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink', 'chart_symlink'])
+    def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        external = tmp_path / 'external'
+        external.mkdir()
+        if target_kind == 'release_json':
+            out = run / 'release/release.md'
+        elif target_kind == 'stage_child':
+            out = run / 'freeze/new-report.md'
+        elif target_kind == 'parent_symlink':
+            (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'alias/release.md'
+        else:
+            (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'final.md'
+        before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+                  for p in run.rglob('*') if p.is_file()}
+>       with pytest.raises(ValueError, match='report output|sealed|destination'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_report.py:79: Failed
+_ test_report_preflight_rejects_sealed_destinations_without_writes[parent_symlink] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-611/test_report_preflight_rejects_2')
+target_kind = 'parent_symlink'
+
+    @pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink', 'chart_symlink'])
+    def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        external = tmp_path / 'external'
+        external.mkdir()
+        if target_kind == 'release_json':
+            out = run / 'release/release.md'
+        elif target_kind == 'stage_child':
+            out = run / 'freeze/new-report.md'
+        elif target_kind == 'parent_symlink':
+            (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'alias/release.md'
+        else:
+            (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'final.md'
+        before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+                  for p in run.rglob('*') if p.is_file()}
+>       with pytest.raises(ValueError, match='report output|sealed|destination'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_report.py:79: Failed
+_ test_report_preflight_rejects_sealed_destinations_without_writes[chart_symlink] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-611/test_report_preflight_rejects_3')
+target_kind = 'chart_symlink'
+
+    @pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink', 'chart_symlink'])
+    def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        external = tmp_path / 'external'
+        external.mkdir()
+        if target_kind == 'release_json':
+            out = run / 'release/release.md'
+        elif target_kind == 'stage_child':
+            out = run / 'freeze/new-report.md'
+        elif target_kind == 'parent_symlink':
+            (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'alias/release.md'
+        else:
+            (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'final.md'
+        before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+                  for p in run.rglob('*') if p.is_file()}
+>       with pytest.raises(ValueError, match='report output|sealed|destination'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_report.py:79: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes[release_json]
+FAILED tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes[stage_child]
+FAILED tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes[parent_symlink]
+FAILED tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes[chart_symlink]
+4 failed in 2.33s

@@ -1,0 +1,43 @@
+{
+  "canonical_files": {
+    "final-chart-data.json": {
+      "bytes": 1440,
+      "sha256": "c30d0431e8649b4d144018c972fb4d12489e57ccde194a43ba46bf4767f62c2b"
+    },
+    "final-charts/accuracy-memory.svg": {
+      "bytes": 16298,
+      "sha256": "7403f90f69ab0342f35a542aa6cfb5e08b310fa91d3f17a0f9af5cc5e2af49d9"
+    },
+    "final-charts/cost.svg": {
+      "bytes": 16364,
+      "sha256": "ae15a1bbf9a24bb098ee5c7462ad6d99cd3f3a30031e9963e4435e9016373ac4"
+    },
+    "final-charts/plots-receipt.json": {
+      "bytes": 1032,
+      "sha256": "b006256696b2a9ad85a898ca79af4bf2f208f520c121346b8ec6211b9e3dc39b"
+    },
+    "final-charts/primary-effect.svg": {
+      "bytes": 7568,
+      "sha256": "e4a4217b7dacd0d430d7fb9349d9c54902d0386c427fa1f637c881b07cf215f9"
+    },
+    "final.json": {
+      "bytes": 45115143,
+      "sha256": "07720475ce12ff85156b124d71e5be94d1c169bcdd86816d7a6ee25599bc37c0"
+    },
+    "final.md": {
+      "bytes": 34285,
+      "sha256": "901fc33e27d9f3a57645e5e5c023dfe9e38267da4d7b409e498b103df8820985"
+    }
+  },
+  "historical_v1_launcher_sha256": "9bcb1724fd16793314f5fcd5f8faef87d78fccfc70343705540ff92f206eb83e",
+  "historical_v1_manifest_sha256": "881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27",
+  "status": "passed",
+  "utc": "2026-10-25T13:21:16.373353+00:00",
+  "v1_to_v2_changed_files": [
+    "famjet_poc/report.py",
+    "famjet_poc/report_inputs.py"
+  ],
+  "v2_executable_sha256": "5d3b8e9f028250c90da4ca5f7d23a720d4c52fc59dea97b5ad217d90fbee2b64",
+  "v2_launcher_sha256": "35ef59c74a792fba1d34280ad647a9729aee3832e102cc7bbf68c14b565221bb",
+  "v2_manifest_sha256": "e4a5b0942c4f9b8717660ada23416650b00117cbdde6d03b2aefe51ce94ae066"
+}

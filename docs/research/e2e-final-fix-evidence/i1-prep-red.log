@@ -1,0 +1,50 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_report_preflight_rejects_sealed_destinations_without_writes[prep_child_symlink] _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-630/test_report_preflight_rejects_0')
+target_kind = 'prep_child_symlink'
+
+    @pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink',
+                                             'chart_symlink', 'chart_child_symlink',
+                                             'prep_child_symlink', 'suffix_collision'])
+    def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+        from famjet_poc.report import render_report
+        run = _tiny_run(tmp_path / 'run')
+        external = tmp_path / 'external'
+        external.mkdir()
+        if target_kind == 'release_json':
+            out = run / 'release/release.md'
+        elif target_kind == 'stage_child':
+            out = run / 'freeze/new-report.md'
+        elif target_kind == 'parent_symlink':
+            (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'alias/release.md'
+        elif target_kind == 'chart_symlink':
+            (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+            out = external / 'final.md'
+        elif target_kind == 'chart_child_symlink':
+            charts = external / 'final-charts'
+            charts.mkdir()
+            (charts / 'primary-effect.svg').symlink_to(run / 'release/release.json')
+            out = external / 'final.md'
+        elif target_kind == 'prep_child_symlink':
+            prep = tmp_path / 'prep'
+            prep.mkdir()
+            (prep / 'sealed.json').write_bytes(b'sealed preparation')
+            charts = external / 'final-charts'
+            charts.mkdir()
+            (charts / 'primary-effect.svg').symlink_to(prep / 'sealed.json')
+            out = external / 'final.md'
+        else:
+            out = external / 'final.json'
+        before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+                  for p in run.rglob('*') if p.is_file()}
+>       with pytest.raises(ValueError, match='report output|sealed|destination'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_poc_report.py:96: Failed
+=========================== short test summary info ============================
+FAILED tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes[prep_child_symlink]
+1 failed in 1.41s

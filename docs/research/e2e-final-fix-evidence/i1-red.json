@@ -1,0 +1,15 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report.py::test_report_preflight_rejects_sealed_destinations_without_writes"
+  ],
+  "elapsed_seconds": 2.6547619589982787,
+  "end_utc": "2026-10-25T12:44:08.656360+00:00",
+  "exit_code": 1,
+  "log_bytes": 6766,
+  "log_sha256": "8950a5a9d9317131b2aa95a1cb3c50afc208dd7781f7c0262c4536442482a5bc",
+  "start_utc": "2026-10-25T12:44:06.001536+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "logs": {
+    "archive-unavailable-units": {
+      "end_utc": "2026-10-25T13:18:29.384132+00:00",
+      "exit_code": 0,
+      "log_bytes": 192,
+      "log_sha256": "8e5edf3be4911aa2fd9f7b3e6380b1ff372fbb834990d97a95b4de92006370c9",
+      "start_utc": "2026-10-25T13:18:18.120894+00:00"
+    },
+    "archive-unavailable-units-final": {
+      "end_utc": "2026-10-25T13:25:49.274081+00:00",
+      "exit_code": 0,
+      "log_bytes": 192,
+      "log_sha256": "edf9a1ea76762b43d6ece4b587b565d48e3653854efc89392cffca0cdadfef77",
+      "start_utc": "2026-10-25T13:25:37.111910+00:00"
+    },
+    "final-targeted-green": {
+      "end_utc": null,
+      "exit_code": 0,
+      "log_bytes": 110,
+      "log_sha256": "080f9ed7e801aaf6fb71d79532e547aabf689267ee2bd9acf706d78968aef9ca",
+      "start_utc": null
+    },
+    "full-suite-except-inference": {
+      "end_utc": null,
+      "exit_code": 1,
+      "log_bytes": 4411,
+      "log_sha256": "17243991af4b273257f84f3c7090673282e8a282d2c508b3810eedba59135aa3",
+      "start_utc": null
+    },
+    "full-suite-final": {
+      "end_utc": "2026-10-25T13:25:14.642989+00:00",
+      "exit_code": 0,
+      "log_bytes": 2142,
+      "log_sha256": "f8b3b326e9557c54e80ea87f592afb483a471444aa031f85b5442751510c7265",
+      "start_utc": "2026-10-25T13:21:06.707224+00:00"
+    },
+    "full-suite-interrupted-for-prep-guard": {
+      "end_utc": null,
+      "exit_code": 130,
+      "log_bytes": 1361,
+      "log_sha256": "8c8283f7f3d1c34602e3e21702054a76fda9d32f5d4a9454870fdc6cd9873345",
+      "start_utc": null
+    },
+    "full-suite-restarted-for-utc-receipt": {
+      "end_utc": null,
+      "exit_code": 130,
+      "log_bytes": 529,
+      "log_sha256": "53dcdf7c3a520196c88a44c78ca4d6fa02495b6ad67f27793a1b75bb90514beb",
+      "start_utc": null
+    },
+    "i1-green": {
+      "end_utc": null,
+      "exit_code": 0,
+      "log_bytes": 99,
+      "log_sha256": "4d9e4e3d98546834ba09d8d69a5f8e35bc9897fde82715b7d3caf8183b3258a3",
+      "start_utc": null
+    },
+    "i1-prep-red": {
+      "end_utc": null,
+      "exit_code": 1,
+      "log_bytes": 2768,
+      "log_sha256": "4d1a3f4791b9300401e62b5ff74b69178603eceb2b24ba49fa7cf795bb19ce5a",
+      "start_utc": null
+    },
+    "i1-red": {
+      "end_utc": "2026-10-25T12:44:08.656360+00:00",
+      "exit_code": 1,
+      "log_bytes": 6766,
+      "log_sha256": "8950a5a9d9317131b2aa95a1cb3c50afc208dd7781f7c0262c4536442482a5bc",
+      "start_utc": "2026-10-25T12:44:06.001536+00:00"
+    },
+    "inference-final": {
+      "end_utc": "2026-10-25T13:25:25.679796+00:00",
+      "exit_code": 0,
+      "log_bytes": 99,
+      "log_sha256": "faf87b968a21dc9776dbf5150352179ee6058140c360a7acece0335ab894600c",
+      "start_utc": "2026-10-25T13:25:24.911927+00:00"
+    },
+    "native-journal-green": {
+      "end_utc": null,
+      "exit_code": 0,
+      "log_bytes": 98,
+      "log_sha256": "a073d88c1b947ec34432fbe034bdc858d9ae3a3e36e10925ba62442f94fc64c7",
+      "start_utc": null
+    },
+    "native-partial-isolated": {
+      "end_utc": null,
+      "exit_code": 0,
+      "log_bytes": 98,
+      "log_sha256": "866432d567eb30f716ad0380ad29e9453b6fd80645780de4fbe94565dc3eab20",
+      "start_utc": null
+    },
+    "v2-source-only-admission": {
+      "end_utc": "2026-10-25T13:26:01.330195+00:00",
+      "exit_code": 0,
+      "log_bytes": 113,
+      "log_sha256": "2870fa0b9e98df46e6d1c35ee40563d278cb7afe931048888fda4e94c53a0282",
+      "start_utc": "2026-10-25T13:25:56.867035+00:00"
+    }
+  },
+  "note": "Null timestamps were not measured; no inferred wall times. Interrupted runs are preserved as intermediate evidence.",
+  "schema_version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_recovery.py",
+    "-k",
+    "registered_admission or copied_admission"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "end_utc": "2026-10-25T13:26:01.330195+00:00",
+  "environment": {
+    "FAMJET_RUN06_INTEGRATION": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "exit_code": 0,
+  "interpreter": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+  "log_bytes": 113,
+  "log_sha256": "2870fa0b9e98df46e6d1c35ee40563d278cb7afe931048888fda4e94c53a0282",
+  "scope": "source-only admission; no report rendering",
+  "start_utc": "2026-10-25T13:25:56.867035+00:00"
+}

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--ignore=tests/test_poc_inference.py"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "end_utc": "2026-10-25T13:25:14.642989+00:00",
+  "environment": {
+    "FAMJET_REPORT_PYTHON": "/private/tmp/famjet-report-20261024-01/bin/python",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "exit_code": 0,
+  "interpreter": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+  "log_bytes": 2142,
+  "log_sha256": "f8b3b326e9557c54e80ea87f592afb483a471444aa031f85b5442751510c7265",
+  "start_utc": "2026-10-25T13:21:06.707224+00:00"
+}
