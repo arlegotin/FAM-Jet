@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/__main__.py", line 20, in main
+    result = run(arguments.out, resume=arguments.resume)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 1019, in run
+    ledger.stage('report', {'release_sha256': released['release_sha256'],
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            'inference_sha256': released['inference_sha256'],
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            'allocation': report_allocation},
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 report_action, resume=resume, monitor=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 144, in stage
+    result = action(directory)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/pipeline.py", line 999, in report_action
+    reference = render_report(out, directory / 'final.md')
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report.py", line 420, in render_report
+    inputs = load_report_inputs(run)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py", line 900, in load_report_inputs
+    synthetic = _release_rows(paths, release, frozen)
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/famjet_poc/report_inputs.py", line 223, in _release_rows
+    raise ValueError('protected run ID inventory differs from freeze')
+ValueError: protected run ID inventory differs from freeze

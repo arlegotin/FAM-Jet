@@ -1,0 +1,64 @@
+{
+  "scope": "read-only host conditions during slower real stage; no primary outcomes inspected",
+  "records": [
+    {
+      "argv": [
+        "vm_stat"
+      ],
+      "utc_start": "2026-10-25T10:59:46.397718+00:00",
+      "elapsed_seconds": 0.014840584000921808,
+      "exit": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    32499.\nPages active:                                 862778.\nPages inactive:                               850328.\nPages speculative:                             18726.\nPages throttled:                                   0.\nPages wired down:                             231018.\nPages purgeable:                               18599.\n\"Translation faults\":                     2212164029.\nPages copy-on-write:                       402589940.\nPages zero filled:                         611122818.\nPages reactivated:                           2029996.\nPages purged:                                 888838.\nFile-backed pages:                            636863.\nAnonymous pages:                             1094969.\nPages stored in compressor:                   610757.\nPages occupied by compressor:                 305337.\nDecompressions:                               899097.\nCompressions:                                2172110.\nPageins:                                    10777429.\nPageouts:                                      12014.\nSwapins:                                           0.\nSwapouts:                                          0.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "vm.swapusage"
+      ],
+      "utc_start": "2026-10-25T10:59:46.413379+00:00",
+      "elapsed_seconds": 0.01200995800900273,
+      "exit": 0,
+      "stdout": "vm.swapusage: total = 0.00M  used = 0.00M  free = 0.00M  (encrypted)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "top",
+        "-l",
+        "1",
+        "-n",
+        "0"
+      ],
+      "utc_start": "2026-10-25T10:59:46.425467+00:00",
+      "elapsed_seconds": 2.550778791002813,
+      "exit": 0,
+      "stdout": "Processes: 836 total, 4 running, 832 sleeping, 4936 threads \n2026/10/25 11:59:48\nLoad Avg: 6.84, 6.35, 5.01 \nCPU usage: 14.91% user, 16.68% sys, 68.39% idle \nSharedLibs: 1043M resident, 163M data, 185M linkedit.\nMemRegions: 594330 total, 14G resident, 462M private, 4720M shared.\nPhysMem: 35G used (3616M wired, 4771M compressor), 611M unused.\nVM: 384T vsize, 6144M framework vsize, 0(0) swapins, 0(0) swapouts.\nNetworks: packets: 20833891/26G in, 3489346/1491M out.\nDisks: 5319767/153G read, 6769105/126G written.\n\n\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "pmset",
+        "-g",
+        "therm"
+      ],
+      "utc_start": "2026-10-25T10:59:48.976367+00:00",
+      "elapsed_seconds": 0.06836795801064,
+      "exit": 0,
+      "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "df",
+        "-h",
+        "."
+      ],
+      "utc_start": "2026-10-25T10:59:49.044817+00:00",
+      "elapsed_seconds": 0.01135950000025332,
+      "exit": 0,
+      "stdout": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   867Gi   606Gi   240Gi    72%    5.4M  2.5G    0%   /System/Volumes/Data\n",
+      "stderr": ""
+    }
+  ]
+}

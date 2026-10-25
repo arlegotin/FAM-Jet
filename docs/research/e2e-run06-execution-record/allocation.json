@@ -1,0 +1,19 @@
+{
+  "expected_head": "f886e3c41517fd935a642cb83233dd72faf083b0",
+  "argv": [
+    "/usr/bin/caffeinate",
+    "-i",
+    ".venv/bin/python",
+    "-m",
+    "famjet_poc",
+    "run",
+    "--out",
+    "artifacts/e2e-core-run-06"
+  ],
+  "out": "artifacts/e2e-core-run-06",
+  "prep": "artifacts/e2e-core-run-06-prep",
+  "total_seconds": 28800,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 34359738368
+}
