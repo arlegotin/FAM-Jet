@@ -1,0 +1,65 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays_quarter_second _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-538/test_slow_fresh_observation_us0')
+
+    def test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays_quarter_second(tmp_path):
+        calls = []
+        def observe(_):
+            calls.append(time.monotonic())
+            if len(calls) == 2:
+                time.sleep(.31)
+            return _observation()
+        with LiveStageGuard(tmp_path, _allocation(2), tmp_path / 'guard.json',
+                            observer=observe, sample_interval=10) as guard:
+>           assert guard.observer_timeout_seconds == 5.0
+E           assert 0.25 == 5.0
+E            +  where 0.25 = <famjet_poc.resources.LiveStageGuard object at 0x1083d3cb0>.observer_timeout_seconds
+
+tests/test_measured_execution.py:200: AssertionError
+_ test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_guards _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-538/test_public_scale_guard_observ0')
+
+    def test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_guards(tmp_path):
+        driver = _driver()
+        from famjet_poc.pipeline import observe_resources
+        old = tmp_path / 'old-public'
+        study = old / 'development_k16/study'
+        study.mkdir(parents=True)
+        for index in range(1100):
+            (study / f'public-{index:04d}.json').write_bytes(b'abcd')
+        private = old / 'confirmation'
+        private.mkdir()
+        (private / 'forbidden.json').write_bytes(b'secret')
+>       tree = driver.verified_public_scale_tree(old)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'public_guard_check' has no attribute 'verified_public_scale_tree'
+
+tests/test_guard_cadence_public_check.py:188: AttributeError
+__________ test_public_scale_tree_rejects_symlink_to_private_sibling ___________
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-538/test_public_scale_tree_rejects0')
+
+    def test_public_scale_tree_rejects_symlink_to_private_sibling(tmp_path):
+        driver = _driver()
+        old = tmp_path / 'old-public'
+        study = old / 'development_k16/study'
+        study.mkdir(parents=True)
+        private = old / 'confirmation'
+        private.mkdir()
+        forbidden = private / 'forbidden.json'
+        forbidden.write_text('private fixture')
+        (study / 'link.json').symlink_to(forbidden)
+        with pytest.raises(ValueError, match='symlink'):
+>           driver.verified_public_scale_tree(old)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'public_guard_check' has no attribute 'verified_public_scale_tree'
+
+tests/test_guard_cadence_public_check.py:226: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_measured_execution.py::test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays_quarter_second
+FAILED tests/test_guard_cadence_public_check.py::test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_guards
+FAILED tests/test_guard_cadence_public_check.py::test_public_scale_tree_rejects_symlink_to_private_sibling
+3 failed in 0.43s

@@ -1,0 +1,11 @@
+usage: e2e-guard-cadence-public-check.py [-h] --out OUT
+                                         [--old-public-root OLD_PUBLIC_ROOT]
+
+Bounded, public-only 16 x 2048 guard-cadence qualification. This command
+evaluates archived development histories; it never opens a protected grant,
+factory, row or score. Root runs it only after source review.
+
+options:
+  -h, --help            show this help message and exit
+  --out OUT
+  --old-public-root OLD_PUBLIC_ROOT

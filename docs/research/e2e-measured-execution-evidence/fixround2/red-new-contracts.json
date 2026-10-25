@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_measured_execution.py::test_slow_fresh_observation_uses_five_second_operation_bound_but_reuse_stays_quarter_second",
+    "tests/test_guard_cadence_public_check.py::test_public_scale_guard_observes_verified_1100_file_tree_with_three_serial_guards",
+    "tests/test_guard_cadence_public_check.py::test_public_scale_tree_rejects_symlink_to_private_sibling",
+    "-q"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "elapsed_seconds": 0.5356991659937194,
+  "exit_code": 1,
+  "log_bytes": 3591,
+  "log_path": "docs/research/e2e-measured-execution-evidence/fixround2/red-new-contracts.log",
+  "log_sha256": "448ffbfa78e601491b56c02e1d23661223933a6836308560cceb04560503a7f2",
+  "name": "red-new-contracts",
+  "utc_end": "2026-10-25T03:55:46.014811+00:00",
+  "utc_start": "2026-10-25T03:55:45.479353+00:00"
+}
