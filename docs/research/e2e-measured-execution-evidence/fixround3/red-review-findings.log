@@ -1,0 +1,72 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_exit_waits_for_valid_inflight_background_observation_then_forces_fresh_sample _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-547/test_exit_waits_for_valid_infl0')
+
+    def test_exit_waits_for_valid_inflight_background_observation_then_forces_fresh_sample(tmp_path):
+        active = threading.Event()
+        calls = []
+        def observe(_):
+            calls.append(1)
+            if len(calls) == 2:
+                active.set()
+                time.sleep(2.2)
+            return _observation()
+        guard = LiveStageGuard(tmp_path, _allocation(8), tmp_path / 'guard.json',
+                               observer=observe, sample_interval=.01)
+        started = time.monotonic()
+>       with guard:
+             ^^^^^
+
+tests/test_measured_execution.py:226: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <famjet_poc.resources.LiveStageGuard object at 0x10a65c590>
+exc_type = None, exc = None, tb = None
+
+    def __exit__(self, exc_type, exc, tb):
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join(timeout=2)
+            if self._thread.is_alive():
+                self.violation = self.violation or 'host resource observer did not stop'
+        if not self.violation:
+            self._record(force=True)
+        self._write_receipt(None if exc is None else f'{type(exc).__name__}: {exc}')
+        if exc is None and self.violation:
+>           raise RuntimeError(self.violation)
+E           RuntimeError: host resource observer did not stop
+
+famjet_poc/resources.py:293: RuntimeError
+___ test_qualification_guard_evidence_binds_actual_roots_and_observer_source ___
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-547/test_qualification_guard_evide0')
+
+    def test_qualification_guard_evidence_binds_actual_roots_and_observer_source(tmp_path):
+        driver = _driver()
+        from famjet_poc.protected import executable_identity
+        old = tmp_path / 'old-public/development_k16'
+        old.mkdir(parents=True)
+        out = tmp_path / 'new-output'
+        out.mkdir()
+        def observe(_):
+            return {'tree_rss_bytes': 2, 'run_output_bytes': 0,
+                    'now_epoch_seconds': time.time(), 'descendant_pids': []}
+        allocation = {'allocation_id': 'fixture', 'max_wall_seconds': 5,
+                      'max_disk_bytes': 128 * 2**20, 'max_rss_bytes': 1610612736}
+        tree = {'root': str(old), 'file_count': 1100, 'file_bytes': 4400,
+                'inventory_sha256': 'a' * 64}
+        with driver.public_guard_triplet(out, tree, allocation,
+                                         {**allocation, 'max_disk_bytes': 512 * 2**20},
+                                         observer=observe, sample_interval=10) as guards:
+            pass
+>       evidence = driver.qualification_guard_evidence(out, guards)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'public_guard_check' has no attribute 'qualification_guard_evidence'
+
+tests/test_guard_cadence_public_check.py:250: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_measured_execution.py::test_exit_waits_for_valid_inflight_background_observation_then_forces_fresh_sample
+FAILED tests/test_guard_cadence_public_check.py::test_qualification_guard_evidence_binds_actual_roots_and_observer_source
+2 failed in 2.60s

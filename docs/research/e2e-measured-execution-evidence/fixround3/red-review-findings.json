@@ -1,0 +1,19 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_measured_execution.py::test_exit_waits_for_valid_inflight_background_observation_then_forces_fresh_sample",
+    "tests/test_guard_cadence_public_check.py::test_qualification_guard_evidence_binds_actual_roots_and_observer_source",
+    "-q"
+  ],
+  "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+  "elapsed_seconds": 2.7306156659979024,
+  "exit_code": 1,
+  "log_bytes": 3693,
+  "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/red-review-findings.log",
+  "log_sha256": "a69b13f9d365b93f8b8350378d1d416b402094a0f2c5066dfb2133ff66e401aa",
+  "name": "red-review-findings",
+  "utc_end": "2026-10-25T04:05:41.424330+00:00",
+  "utc_start": "2026-10-25T04:05:38.693626+00:00"
+}

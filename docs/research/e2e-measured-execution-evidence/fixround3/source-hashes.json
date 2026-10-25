@@ -1,0 +1,114 @@
+{
+  "base_revision": "1e627d84a08fc5c48f1d32a77936d2cd24a25dd7",
+  "changed": {
+    "docs/research/e2e-guard-cadence-public-check.py": {
+      "bytes": 24388,
+      "sha256": "d2e14a54a6f7e80ef673d7545a5cbebd83c1622e7301ab887e7734cb6ab21144"
+    },
+    "famjet_poc/resources.py": {
+      "bytes": 13944,
+      "sha256": "0ecc3c7b16451823dbee69163e0a05b1c3f00ac6bf5da0636c7dde0e0f4eb85e"
+    },
+    "tests/test_guard_cadence_public_check.py": {
+      "bytes": 14658,
+      "sha256": "39ca6f87676611b2a05f7e4a14af436cc8cd4524336e285c21845e8634dc20ad"
+    },
+    "tests/test_measured_execution.py": {
+      "bytes": 23136,
+      "sha256": "d45b9b8c70ffca71536fe11c834f8d3eaf3802dfa4ae1a588789e2fe7146bfc1"
+    }
+  },
+  "e3_source_sha256": "e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba",
+  "execution_source_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+  "preserved": {
+    "configs/manifests/beijing_v2_targets.json": {
+      "bytes": 46527,
+      "sha256": "5bf4ead56d916538944ed7c3145e2800d281f567c19c1bc204233044d832d21c"
+    },
+    "docs/reporting-requirements.lock": {
+      "bytes": 1240,
+      "sha256": "132d9a7822f2a2bd502f2deabdef30e7d3190802d9f5df18f1d2d8a3af062cf1"
+    },
+    "docs/research/e2e-evaluation-v2-selection-baseline.json": {
+      "bytes": 6593,
+      "sha256": "dd49488b03f78fb7b0818ed837fd53b6272304c0f8497030b4a239c78c5abe43"
+    },
+    "docs/research/e2e-execution-policy-v2.json": {
+      "bytes": 310,
+      "sha256": "05b81ec4ca8f4a02ca2f5e02a859f58c62d0fc67418b7094500e0dfd0d8db0c1"
+    },
+    "docs/research/e2e-study-config.json": {
+      "bytes": 379,
+      "sha256": "cee86c77af5a483c61d3d0338be0fdf83df9347d9cdcc04ad65f960467844547"
+    },
+    "famjet_poc/cache.py": {
+      "bytes": 13609,
+      "sha256": "421fdd1da1ab57322d83c73bdf9f5892acb0f3ca9e500ff0127d968c4e518423"
+    },
+    "famjet_poc/comparators.py": {
+      "bytes": 17801,
+      "sha256": "3be6bf16f2c2fc3dd86f6addead1ebff178ba1e1d7e322768297023e7df96f1b"
+    },
+    "famjet_poc/contracts.py": {
+      "bytes": 7701,
+      "sha256": "9a710e2613ceb84c9a632cd57792a7c81e63fbba75070d22f0b411a40a1691c5"
+    },
+    "famjet_poc/data.py": {
+      "bytes": 12418,
+      "sha256": "2f0af90ffa9ec10cf6539d1eb076777883ed603332e3fd33a330cdce9acc6bc3"
+    },
+    "famjet_poc/execution_policy.py": {
+      "bytes": 8841,
+      "sha256": "e5c18759169ef3558de2de604618fc67117a3f8375d9a2c1277e1d626b661582"
+    },
+    "famjet_poc/inference.py": {
+      "bytes": 31266,
+      "sha256": "4bba9ad0561ea7c285d194f8a20d0b0ad9227c373ffa3cf8e818a467f67633ee"
+    },
+    "famjet_poc/models.py": {
+      "bytes": 51304,
+      "sha256": "754f2936305e04b5d4e4436517221cf036dcd72451579cdca0f730d2282d0216"
+    },
+    "famjet_poc/pipeline.py": {
+      "bytes": 60317,
+      "sha256": "97d09d148d0696ec23dcdb0c03e0e3b40cc27b9be20fd8b30174e94e8294cf24"
+    },
+    "famjet_poc/protected.py": {
+      "bytes": 55968,
+      "sha256": "1e226da3dc06c5dda0e3f0cd5472e563b63b7ddffb6ac7d3fce6c84e03edec3f"
+    },
+    "famjet_poc/report_inputs.py": {
+      "bytes": 54570,
+      "sha256": "4ad4a4e43b9b6134c7c86efb7a8a39279255ff13e4c243b99e5c380c694490cb"
+    },
+    "famjet_poc/study.py": {
+      "bytes": 66153,
+      "sha256": "0b8e4f7235d01e6c5cb87d86fc41a53b18401120776423e70c7f48cb2ebc5514"
+    },
+    "famjet_poc/timing.py": {
+      "bytes": 15329,
+      "sha256": "0b01f45ab5fb52d7ae9dd186133307e226bff807194ea563d27802dc0561fe7e"
+    },
+    "famjet_poc/transfer.py": {
+      "bytes": 52221,
+      "sha256": "c93b4fb67361f6da5a97c644049898ac30fd0d9d83fe71808922cb3a99255acf"
+    },
+    "famjet_poc/wire.py": {
+      "bytes": 35173,
+      "sha256": "8d2fe4b437e0bf13ffbed05f4f6a2b575470f62468967be700d58d695c1bc10b"
+    },
+    "famjet_poc/worker.py": {
+      "bytes": 6899,
+      "sha256": "37ca7e8c36699976bb94b5e890231e9bb83b317497e9c7938da0e056cf8d5600"
+    },
+    "requirements.lock": {
+      "bytes": 2658,
+      "sha256": "2b1931e022c8e2555c45a9f9fb5feead7077b9043bfc088fc2db3e811bbe21d1"
+    }
+  },
+  "public_selection_baseline": {
+    "bytes": 6593,
+    "sha256": "dd49488b03f78fb7b0818ed837fd53b6272304c0f8497030b4a239c78c5abe43"
+  },
+  "source_revision": "c8e48a088239c7af39616acdc3709be99e6ab837"
+}

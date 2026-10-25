@@ -1,0 +1,115 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_measured_execution.py",
+      "tests/test_guard_cadence_public_check.py",
+      "tests/test_poc_resources.py",
+      "-q"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 7.670835249999072,
+    "exit_code": 0,
+    "log_bytes": 99,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/affected-tests-source-final.log",
+    "log_sha256": "e0d8349621d3448ccd1fc412a674bd0a989922cde4fd145d0110722e74d15b8c",
+    "name": "affected-tests-source-final",
+    "utc_end": "2026-10-25T04:07:07.197647+00:00",
+    "utc_start": "2026-10-25T04:06:59.526742+00:00"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "py_compile",
+      "famjet_poc/resources.py",
+      "docs/research/e2e-guard-cadence-public-check.py"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.02878466700349236,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/compile-source-final.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "compile-source-final",
+    "utc_end": "2026-10-25T04:07:07.226824+00:00",
+    "utc_start": "2026-10-25T04:07:07.198031+00:00"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "1e627d84a08fc5c48f1d32a77936d2cd24a25dd7",
+      "HEAD"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.007150541998271365,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/diff-check-source-final.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "diff-check-source-final",
+    "utc_end": "2026-10-25T04:07:07.234212+00:00",
+    "utc_start": "2026-10-25T04:07:07.227055+00:00"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "docs/research/e2e-guard-cadence-public-check.py",
+      "--help"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.029232541004603263,
+    "exit_code": 0,
+    "log_bytes": 459,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/public-driver-help-source-final.log",
+    "log_sha256": "8171bcc062440c485a1a50b13da7c174dbe1575b120454ade3e141663ece0eac",
+    "name": "public-driver-help-source-final",
+    "utc_end": "2026-10-25T04:07:07.263644+00:00",
+    "utc_start": "2026-10-25T04:07:07.234407+00:00"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--exit-code",
+      "1e627d84a08fc5c48f1d32a77936d2cd24a25dd7",
+      "HEAD",
+      "--",
+      "famjet",
+      "famjet_poc/contracts.py",
+      "famjet_poc/data.py",
+      "famjet_poc/models.py",
+      "famjet_poc/inference.py",
+      "famjet_poc/cache.py",
+      "famjet_poc/wire.py",
+      "famjet_poc/worker.py",
+      "famjet_poc/comparators.py",
+      "famjet_poc/study.py",
+      "famjet_poc/timing.py",
+      "famjet_poc/transfer.py",
+      "famjet_poc/execution_policy.py",
+      "famjet_poc/protected.py",
+      "famjet_poc/report_inputs.py",
+      "famjet_poc/pipeline.py",
+      "requirements.lock",
+      "docs/reporting-requirements.lock",
+      "docs/research/e2e-study-config.json",
+      "configs/manifests/beijing_v2_targets.json",
+      "docs/research/e2e-execution-policy-v2.json",
+      "docs/research/e2e-evaluation-v2-selection-baseline.json"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.005870374996447936,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround3/preserved-source-diff-source-final.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "preserved-source-diff-source-final",
+    "utc_end": "2026-10-25T04:07:07.269812+00:00",
+    "utc_start": "2026-10-25T04:07:07.263937+00:00"
+  }
+]
