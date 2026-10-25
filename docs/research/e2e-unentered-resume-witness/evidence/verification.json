@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "checked_log_pairs": 17,
+  "paths": [
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/existing_without_baseline.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/host-fixture-run.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/valid_resume_report_commit.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/immutable_set_missing.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/symlink_output.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/existing_without_baseline.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/existing_prep.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/changed_output.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/extra_output.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/valid_resume_report_commit.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/missing_resume.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/changed_numeric.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/invalid_baseline_sha.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/wrong_out.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/clock_changed.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/fresh_mode.json",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-resume-witness-evidence/attempt-1792888179812912000/protected_ledger.json"
+  ],
+  "helper_sha256": "b6a41b5d0fe059271fe1967819a0fb858c53e3dfa9cadc5095188a5015fe6c48",
+  "helper_bytes": 13263,
+  "fixture_cases": 14,
+  "elapsed_seconds": 0.0033020829941960983,
+  "verification": "stdlib byte/hash validation and AST parse; no model execution"
+}

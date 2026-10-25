@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T00:40:36.538440+00:00",
+  "base": "95c9557edda09eea02f3ff3296edd6f87155ef1c",
+  "reviewed_head": "174793a3745f147ca4cccb8a87c6927fddd26d12",
+  "unchanged_existing_tracked_files": 26601,
+  "changed_existing_files": [
+    "famjet_poc/report.py",
+    "famjet_poc/report_inputs.py",
+    "tests/test_poc_report_scientific.py"
+  ],
+  "raw_log_receipts_verified": [
+    "docs/research/e2e-report-timing-fix-evidence/verification-final.json",
+    "docs/research/e2e-report-timing-fix-evidence/red-01.json",
+    "docs/research/e2e-report-timing-fix-evidence/green-01.json",
+    "docs/research/e2e-report-timing-fix-evidence/compile-final.json",
+    "docs/research/e2e-report-timing-fix-evidence/diff-check.json",
+    "docs/research/e2e-report-timing-fix-evidence/green-final.json"
+  ],
+  "named_function_AST_scope_verified": true,
+  "review": {
+    "bytes": 4016,
+    "sha256": "2e47a57ac1ca08769b0cd6c3f726558c593cd1d71504aa89acb3a095cad56a8b"
+  },
+  "run03": {
+    "files": 1240,
+    "bytes": 346206438,
+    "expired_original_stage_clock": true,
+    "no_resume": true
+  },
+  "next": "fresh run04, original absolute six-hour overall deadline retained; no protected outcomes inspected; all earlier failures/interruption/costs retained"
+}

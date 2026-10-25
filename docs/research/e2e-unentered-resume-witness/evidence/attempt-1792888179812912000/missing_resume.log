@@ -1,0 +1,9 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-resume-witness.py", line 82, in <module>
+    resume_binding=validate_resume(allocation['resume_baseline_ref'])
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-resume-witness.py", line 51, in validate_resume
+    if type(argv) is not list or not all(type(v) is str for v in argv) or len(argv)!=7 or argv[1:3]!=['-m','famjet_poc'] or argv.count('--resume')!=1 or argv.count('--out')!=1:raise ValueError('exact public CLI --resume argv required')
+                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: exact public CLI --resume argv required

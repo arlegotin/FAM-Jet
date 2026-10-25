@@ -1,0 +1,8 @@
+{
+  "action": "SIGTERM_owned_public_process_group",
+  "pid": 25157,
+  "pgid": 25157,
+  "verified_command": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -m famjet_poc run --out artifacts/e2e-core-run-03",
+  "reason": "pre-freeze report timing inventory mismatch; preserve40fit checkpoint andoriginalclocks",
+  "protected_access": "not_entered"
+}

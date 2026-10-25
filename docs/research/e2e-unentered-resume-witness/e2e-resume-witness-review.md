@@ -1,0 +1,13 @@
+# Scoped review: existing-output resume witness
+
+**SPEC: NO. QUALITY: NOT APPROVED for a real existing-output resume.** Reviewed `e2e-resume-witness.py` at SHA-256 `b6a41b5d0fe059271fe1967819a0fb858c53e3dfa9cadc5095188a5015fe6c48`, against `e2e-resume-witness-brief.md`, the supplied review-package diff, the original `e2e-process-witness.py`, and the recorded fixture receipts. This is a review of the helper change only. No actual resume or scientific execution was run in this review.
+
+## Findings
+
+1. **Resume can launch after the original stage deadline (blocking).** Lines 71–80 validate and record the original development start and global policy clock, but do not test either remaining allowance before line 112 launches the child. The original `development_k16` allocation is 3,600 seconds. In the real pipeline, `StageLedger.stage()` first appends `failed` and a new `running` generation (`famjet_poc/pipeline.py` lines 91–119), then checks the original stage deadline (lines 124–128). An expired resume therefore changes the existing ledger before failing. Run03's first development start is `1792883423.796244`; its original stage allowance has expired. The fixture's valid case uses a stage start of `1234.0` and a fake CLI that does not check deadlines, so its pass does not cover this condition. Reject before `Popen` when the original stage or global allowance is exhausted, with the stage duration read from the immutable policy. Root has decided not to resume run03, which avoids this failure in the current run.
+
+2. **The claimed exact CLI gate leaves the executable unrestricted (blocking).** Lines 50–53 validate six argument positions but never validate `argv[0]`. An arbitrary executable supplied in that position passes admission if followed by `-m famjet_poc run --out ... --resume`; line 112 executes it. This does not enforce the required exact Python CLI. Bind the executable to the reviewed Python interpreter (for example, the resolved interpreter used to invoke the witness) before launch.
+
+## Verified scope and limits
+
+The helper correctly requires a clean expected HEAD (lines 8–9, 143–147), a fresh disjoint PREP and a baseline for existing OUT (lines 13–18, 81–83), exact baseline output bytes and immutable source/config files (lines 43–59), public ledger stages and a chained ledger (lines 60–76), and counts existing OUT plus PREP toward the output cap (lines 103–125). The unchanged process monitor launches a new session and signals only its child process group (lines 112, 127–140). The supplied 14 miniature-repository fixtures and their hash-checked receipts passed; they do not establish actual run03 resumability or cover the two findings above. No tracked source or Git state was changed by this review.

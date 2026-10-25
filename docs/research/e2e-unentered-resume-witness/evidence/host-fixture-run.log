@@ -1,0 +1,15 @@
+existing_without_baseline PASS
+valid_resume_report_commit PASS
+changed_output PASS
+changed_numeric PASS
+invalid_baseline_sha PASS
+protected_ledger PASS
+wrong_out PASS
+missing_resume PASS
+fresh_mode PASS
+clock_changed PASS
+extra_output PASS
+symlink_output PASS
+immutable_set_missing PASS
+existing_prep PASS
+14 fixture cases passed
