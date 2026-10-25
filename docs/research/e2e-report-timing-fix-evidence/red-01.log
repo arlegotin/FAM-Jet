@@ -1,0 +1,86 @@
+FF.....                                                                  [100%]
+=================================== FAILURES ===================================
+______ test_producer_candidate_storage_and_terminal_subset_failure_render ______
+
+    def test_producer_candidate_storage_and_terminal_subset_failure_render():
+        from famjet_poc.report_inputs import project_development_journal
+        from famjet_poc.report import _science_chart_data, _science_machine, _science_markdown
+        journal = _producer_journal()
+        journal['prefix_ledger'][0] = {'family': 'jet', 'prefix': 192, 'status': 'failed',
+                                       'error': 'ArithmeticError: singular subset',
+                                       'failure_stage': 'numerical_fit'}
+        projected = project_development_journal(journal)
+        assert projected['candidates'][0]['active_static_bytes'] == 1234
+        assert projected['prefixes'][0]['score'] is None
+        inputs = {'development': {'K16/V8': projected},
+                  'timing': {'summaries': {name: {'8': {'read_output_seconds': {'p50': .1}}}
+                                          for name in ('jet', 'bank', *journal['controls']) if name != 'laguerre'}},
+                  'synthetic': {'paired_panels': {
+                      name: {'D': .1, 'lower': .01, 'upper': .2}
+                      for name in ('confirmation', 'replication')}},
+                  'freeze_sha256': 'a'*64, 'release_sha256': 'b'*64,
+                  'source_sha256': 'c'*64, 'executable_sha256': 'd'*64}
+>       chart = _science_chart_data(inputs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_report_scientific.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = {'development': {'K16/V8': {'candidates': [{'family': 'jet', 'reader': {'family': 'jet', 'ridge': 1e-06}, 'config_hash...ower': 0.01, 'upper': 0.2}}}, 'freeze_sha256': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', ...}
+
+    def _science_chart_data(inputs):
+        development = inputs['development']['K16/V8']
+        timing = inputs['timing']['summaries']
+        methods = []
+        for family in ('jet', 'bank'):
+            chosen = development['selected'][family]['config_hash']
+            candidate = next(item for item in development['candidates']
+                             if item['config_hash'] == chosen)
+            methods.append({'name': family, 'loss': candidate['loss'],
+                 'state_bytes': candidate['costs']['maximum_state_bytes'],
+                 'static_bytes': candidate['wire_static_bytes'],
+                 'query_seconds': timing[family]['8']['read_output_seconds']['p50']})
+        for name, entry in development['controls'].items():
+            methods.append({'name': name, 'loss': entry['score']['loss'],
+                 'state_bytes': entry['costs']['maximum_state_bytes'],
+                 'static_bytes': entry['costs']['statics_bytes'],
+>                'query_seconds': timing[name]['8']['read_output_seconds']['p50']})
+                                  ^^^^^^^^^^^^
+E           KeyError: 'laguerre'
+
+famjet_poc/report.py:91: KeyError
+_ test_seven_actual_timings_admit_eight_scored_methods_with_explicit_unmeasured_gamma _
+
+tmp_path = PosixPath('/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-484/test_seven_actual_timings_admi0')
+
+    def test_seven_actual_timings_admit_eight_scored_methods_with_explicit_unmeasured_gamma(tmp_path):
+        from famjet_poc.report_inputs import _verify_timing
+        paths, root = _paths(tmp_path)
+        body = _seven_method_timing()
+        ref = _write_once(root / 'timing.json', body)
+        stage = {'result': {'timing_path': ref['path'], 'timing_sha256': ref['sha256']}}
+>       result = _verify_timing(paths, stage, (*body['summaries'], 'laguerre'))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_poc_report_scientific.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = <famjet_poc.report_inputs.ArtifactPaths object at 0x112df3770>
+stage = {'result': {'timing_path': '/private/var/folders/q3/tm7kkng56417wgzydc4q8p8r0000gn/T/pytest-of-artemlegotin/pytest-484...l_timings_admi0/run/timing.json', 'timing_sha256': 'c8c5ee2786fa0884fdb98ed15d7c512b53507bcb163cf3c9194b83e242854f3c'}}
+expected_methods = ('jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', ...)
+
+    def _verify_timing(paths, stage, expected_methods):
+        body = _stage_json(paths, stage, 'timing_path', 'timing_sha256')
+        if (body.get('schema_version') != 1 or body['policy'].get('warmups') != 3 or
+                body['policy'].get('blocks') != 12 or
+                body['policy'].get('query_counts') != [1, 8, 64] or
+                set(body.get('summaries', {})) != set(expected_methods) or
+                len(body.get('records', [])) != 12 * 3 * len(expected_methods)):
+>           raise ValueError('paired timing inventory incomplete')
+E           ValueError: paired timing inventory incomplete
+
+famjet_poc/report_inputs.py:631: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_poc_report_scientific.py::test_producer_candidate_storage_and_terminal_subset_failure_render
+FAILED tests/test_poc_report_scientific.py::test_seven_actual_timings_admit_eight_scored_methods_with_explicit_unmeasured_gamma
+2 failed, 5 passed, 14 deselected in 0.96s

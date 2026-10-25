@@ -1,0 +1,16 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py",
+    "-k",
+    "producer_candidate_storage or seven_actual_timings or only_gamma"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 1.219367040997895,
+  "log": "docs/research/e2e-report-timing-fix-evidence/red-01.log",
+  "bytes": 5523,
+  "sha256": "b5c55d84fc613b2ffbb430a450829078cee5cb13e91bc206a780a2a75f2254c9"
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_poc_report_scientific.py",
+    "tests/test_poc_report.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 2.86409604200162,
+  "log": "docs/research/e2e-report-timing-fix-evidence/green-final.log",
+  "bytes": 99,
+  "sha256": "47aec6ca5bb9131f9e6d5cd4e410239b2f48ceb34ecfdc1ab047399e0375c9bd"
+}
