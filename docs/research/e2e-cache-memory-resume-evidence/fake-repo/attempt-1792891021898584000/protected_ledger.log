@@ -1,0 +1,9 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 90, in <module>
+    resume_binding=validate_resume(allocation['resume_baseline_ref'])
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 65, in validate_resume
+    if type(row) is not dict or row.get('stage') not in allowed or row.get('status') not in {'running','completed','failed'}:raise ValueError('nonpublic/protected stage ledger rejected')
+                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: nonpublic/protected stage ledger rejected

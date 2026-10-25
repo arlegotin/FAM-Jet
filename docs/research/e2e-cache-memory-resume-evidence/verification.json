@@ -1,0 +1,112 @@
+{
+  "checks": [
+    {
+      "label": "affected-pytest",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_poc_pipeline.py",
+        "tests/test_poc_resources.py",
+        "tests/test_poc_cli.py",
+        "tests/test_poc_report_inputs.py",
+        "tests/test_poc_report.py",
+        "tests/test_poc_report_scientific.py",
+        "tests/test_poc_transfer.py",
+        "tests/test_resume.py",
+        "-q"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:16:51.031936+00:00",
+      "end_utc": "2026-10-25T01:17:01.869578+00:00",
+      "elapsed_seconds": 10.837641954421997,
+      "exit_code": 0,
+      "stdout_bytes": 192,
+      "stdout_sha256": "8a5992b9954142868fb5bdf19ed8a8826022d38c7855559ec79095045f88a61a",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "fake-repo-witness",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        ".superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:17:01.869994+00:00",
+      "end_utc": "2026-10-25T01:17:09.789008+00:00",
+      "elapsed_seconds": 7.919013977050781,
+      "exit_code": 0,
+      "stdout_bytes": 467,
+      "stdout_sha256": "962584f545a4b6b09384464cbbca794255703d42cc53e05ffb8141626ad1fd3b",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile",
+      "argv": [
+        "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.venv/bin/python",
+        "-m",
+        "py_compile",
+        "famjet_poc/pipeline.py",
+        "tests/test_poc_pipeline.py",
+        "tests/test_poc_resources.py",
+        ".superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py",
+        ".superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:17:09.789374+00:00",
+      "end_utc": "2026-10-25T01:17:09.835293+00:00",
+      "elapsed_seconds": 0.045918941497802734,
+      "exit_code": 0,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "committed-diff-check",
+      "argv": [
+        "git",
+        "show",
+        "--check",
+        "--oneline",
+        "HEAD"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:17:09.835506+00:00",
+      "end_utc": "2026-10-25T01:17:09.843128+00:00",
+      "elapsed_seconds": 0.0076220035552978516,
+      "exit_code": 0,
+      "stdout_bytes": 74,
+      "stdout_sha256": "bddc7c681c58bcd97eba3a2165210668511e1a83abee87a9556275a20db239e8",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "base-change-inventory",
+      "argv": [
+        "git",
+        "diff",
+        "--name-only",
+        "27dc49a0f61a12e9cf319d20c6cc9aeefe2a84dc",
+        "HEAD"
+      ],
+      "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+      "start_utc": "2026-10-25T01:17:09.843384+00:00",
+      "end_utc": "2026-10-25T01:17:09.849388+00:00",
+      "elapsed_seconds": 0.0060040950775146484,
+      "exit_code": 0,
+      "stdout_bytes": 78,
+      "stdout_sha256": "b8cd436897a21282c88c2bc6a396b7042a764fac60c30c2a2d66b8204d0483ca",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_sha256": {
+    "famjet_poc/pipeline.py": "7c10df2e486217eaeeea38adf8ef8bab66ab8aa031e2aa833f3f0044066a58d9",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py": "d1fb1fdb48e9aa5ded8a1fb851698ddf027eed80230e8dc00b506e69d78a78e6",
+    ".superpowers/sdd/2026-10-16-famjet/e2e-cache-memory-resume-test-witness.py": "8f263de098ac97a3b1da87e9c6bf0fa4fcd02f3433a12d87b0a87795cc594ea4"
+  },
+  "overall_exit": 0
+}

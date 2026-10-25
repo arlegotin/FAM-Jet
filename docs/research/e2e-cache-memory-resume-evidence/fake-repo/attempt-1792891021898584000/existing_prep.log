@@ -1,0 +1,7 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 14, in <module>
+    if not out.is_relative_to(ROOT/'artifacts') or not prep.is_relative_to(ROOT/'artifacts') or prep.exists():raise ValueError('artifact output and fresh prep required')
+                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: artifact output and fresh prep required

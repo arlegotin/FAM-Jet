@@ -1,0 +1,7 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 92, in <module>
+    elif out.exists():raise ValueError('fresh artifact directories required; existing output needs resume baseline')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: fresh artifact directories required; existing output needs resume baseline

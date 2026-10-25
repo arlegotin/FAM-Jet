@@ -1,0 +1,9 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 90, in <module>
+    resume_binding=validate_resume(allocation['resume_baseline_ref'])
+  File "/Users/artemlegotin/Documents/git_alter/FAM-Jet/.superpowers/sdd/2026-10-16-famjet/e2e-run04-resume-witness.py", line 74, in validate_resume
+    if type(clock) not in (int,float) or not math.isfinite(clock) or clock<=0 or not starts or starts[0]!=clock:raise ValueError('original stage clock mismatch')
+                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: original stage clock mismatch
