@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T03:12:41.683650+00:00",
+  "status": "PASSED_public_native_parity_and_guard_only",
+  "source_revision": "da67fbef216ee61287a61541e2b6473731f65a10",
+  "history_count": 16,
+  "events_per_history": 2048,
+  "methods": 8,
+  "row_count_per_method": 128,
+  "total_rows": 1024,
+  "matched_old_and_new_row_refs": 16,
+  "guard_cadence": {
+    "inner": {
+      "background_count": 252,
+      "forced_count": 2,
+      "maximum_sample_age_seconds": 0.2229704160054098,
+      "observer_seconds": 11.025751037981536,
+      "reuse_count": 160,
+      "sample_count": 254,
+      "status": "completed"
+    },
+    "outer": {
+      "background_count": 253,
+      "forced_count": 2,
+      "maximum_sample_age_seconds": 0.1930349589965772,
+      "observer_seconds": 10.837105291924672,
+      "reuse_count": 0,
+      "sample_count": 255,
+      "status": "completed"
+    }
+  },
+  "elapsed_owner_seconds": 40.226293374995294,
+  "peak_owner_current_rss_sum_bytes": 676986880,
+  "peak_inner_tree_rss_bytes": 647659520,
+  "guard_failure": null,
+  "coordinate_strict_prediction_status": "FAILED_preserved_2_histories_4_scalars",
+  "files": {
+    "public-run/outer-live-guard.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/outer-live-guard.json",
+      "bytes": 49804,
+      "sha256": "87254f470050cfd62888823d4b08859e9904801da8498eaf31bde6d59b8ae01d"
+    },
+    "public-run/qualification.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/qualification.json",
+      "bytes": 16890,
+      "sha256": "8b7ffa2a2344c5a610f07584b849ddb8c1b6789dbba31c26a62d08f171f14575"
+    },
+    "public-run/runs/live-guard.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/live-guard.json",
+      "bytes": 49604,
+      "sha256": "e4690ced61c2238438dee559bc96d1cded68f3db9fdaf74b821382292f008300"
+    },
+    "public-run/runs/buckets/buckets-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/buckets/buckets-rows.json",
+      "bytes": 251543,
+      "sha256": "ab042b598ebaaef1c5161ef14965690b1284158f0fc6ac88b46fe87e4e7f6aeb"
+    },
+    "public-run/runs/latest_lru/latest_lru-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/latest_lru/latest_lru-rows.json",
+      "bytes": 248400,
+      "sha256": "26f202c57cddf6ba6c924d20e0240312e71417c8888b652e8c3b82640629b42b"
+    },
+    "public-run/runs/reservoir/reservoir-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/reservoir/reservoir-rows.json",
+      "bytes": 250707,
+      "sha256": "37c75a14494465941a226a3738b26748671de3989e6099e25ec8507f6223f22c"
+    },
+    "public-run/runs/jet/jet-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/jet/jet-rows.json",
+      "bytes": 256548,
+      "sha256": "3ddffb498bd0347251ba2c68122bb1b2bfa343bf5c4f7f67b0e66087b4f2c273"
+    },
+    "public-run/runs/bank/bank-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/bank/bank-rows.json",
+      "bytes": 256642,
+      "sha256": "0d3430e1f4dcabcdb0a8513f0a17183d6912d0a658588538adf27b86441b9718"
+    },
+    "public-run/runs/exact/exact-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/exact/exact-rows.json",
+      "bytes": 248738,
+      "sha256": "4499fbc0e487af0dce877f29e2a0f5841df2da1dec6232bfc485c555ca4b1ead"
+    },
+    "public-run/runs/laguerre/laguerre-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/laguerre/laguerre-rows.json",
+      "bytes": 257152,
+      "sha256": "12c62c0045fb88fb5a24d393f14daaeba1eb3b764c35c825948df6f129c53cc1"
+    },
+    "public-run/runs/recent/recent-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/recent/recent-rows.json",
+      "bytes": 247963,
+      "sha256": "585380a23bbff66471cb995e218feecee4206c474847a229ee058fb1750daabe"
+    },
+    "public-run/runs/recent/worker-attempts/recent-00000-1792897735698974000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/recent/worker-attempts/recent-00000-1792897735698974000.json",
+      "bytes": 1673,
+      "sha256": "01559fd3c5980a1e62b07cbf1c55f1af13af1e285f0f79aa8f7015f855981a76"
+    },
+    "public-run/runs/laguerre/worker-attempts/laguerre-00000-1792897763328107000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/laguerre/worker-attempts/laguerre-00000-1792897763328107000.json",
+      "bytes": 1673,
+      "sha256": "a68e2732932f13279f500776965d1ad071895f85eed35cf62a35f2807f900cc4"
+    },
+    "public-run/runs/exact/worker-attempts/exact-00000-1792897733474171000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/exact/worker-attempts/exact-00000-1792897733474171000.json",
+      "bytes": 1673,
+      "sha256": "d17ed6224b00b91daea9b667a92743f09a6e07e562d49607d6e1f72893365a94"
+    },
+    "public-run/runs/bank/worker-attempts/bank-00000-1792897729757646000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/bank/worker-attempts/bank-00000-1792897729757646000.json",
+      "bytes": 1674,
+      "sha256": "3f873d5831d29eaa2c941fffe554ceeafa655062aaaef68ed9b391b166bea40d"
+    },
+    "public-run/runs/jet/worker-attempts/jet-00000-1792897727531016000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/jet/worker-attempts/jet-00000-1792897727531016000.json",
+      "bytes": 1674,
+      "sha256": "62fb769fad1ee4548639cf42be7525f21d72549c6112f6d8915f3f0833f4ade3"
+    },
+    "public-run/runs/reservoir/worker-attempts/reservoir-00000-1792897739460296000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/reservoir/worker-attempts/reservoir-00000-1792897739460296000.json",
+      "bytes": 1673,
+      "sha256": "a13f84cfcc7885a987b5b847d35eeabc86c8c5fa8e6c6d77dd72470138b9dcaf"
+    },
+    "public-run/runs/latest_lru/worker-attempts/latest_lru-00000-1792897737619061000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/latest_lru/worker-attempts/latest_lru-00000-1792897737619061000.json",
+      "bytes": 1674,
+      "sha256": "2441397087d007888f2d1d17b8e7e0daae86482f151788d4c8df7dfcc0d61ff7"
+    },
+    "public-run/runs/buckets/worker-attempts/buckets-00000-1792897751759085000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01/runs/buckets/worker-attempts/buckets-00000-1792897751759085000.json",
+      "bytes": 1674,
+      "sha256": "184370d264b24996312e5aa8762bc8af486f451d01098971f226d26c0232c983"
+    },
+    "owner-witness/stderr.log": {
+      "original": "artifacts/e2e-guard-cadence-public-01-prep/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "owner-witness/stdout.log": {
+      "original": "artifacts/e2e-guard-cadence-public-01-prep/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "owner-witness/admission.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01-prep/admission.json",
+      "bytes": 2381,
+      "sha256": "9f52b83fe8ea199513030464c0c50d24a43e2f4b6ecdbe6cc1e6a458c56d6206"
+    },
+    "owner-witness/exit-witness.json": {
+      "original": "artifacts/e2e-guard-cadence-public-01-prep/exit-witness.json",
+      "bytes": 17500,
+      "sha256": "7f3733e1dc13d7114bd244dd41679f9e220cddd804ac394a6360903a9ae7d0e0"
+    }
+  },
+  "archive_file_count": 23,
+  "archive_bytes": 2167260,
+  "fresh_scientific_run": "NOT_RUN_NEXT_GATE",
+  "not_a_primary_accuracy_result": true
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T03:13:42.000618+00:00",
+  "read_only": true,
+  "commands": [
+    {
+      "argv": [
+        "uname",
+        "-m"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.002717291994486004,
+      "stdout": "arm64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sw_vers"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.00828745799663011,
+      "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t26.7.1\nBuildVersion:\t\t25G241\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "-n",
+        "machdep.cpu.brand_string"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.002467750004143454,
+      "stdout": "Apple M3 Max\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.memsize"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0022298340045381337,
+      "stdout": "38654705664\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.physicalcpu"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.00223116699635284,
+      "stdout": "14\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "vm_stat"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.002188124999520369,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                    55108.\nPages active:                                 940448.\nPages inactive:                               972285.\nPages speculative:                             51954.\nPages throttled:                                   0.\nPages wired down:                             130623.\nPages purgeable:                                5132.\n\"Translation faults\":                      619012735.\nPages copy-on-write:                        79479549.\nPages zero filled:                         214947869.\nPages reactivated:                           1247931.\nPages purged:                                 553090.\nFile-backed pages:                           1118134.\nAnonymous pages:                              846553.\nPages stored in compressor:                   307072.\nPages occupied by compressor:                 149698.\nDecompressions:                               670809.\nCompressions:                                1696642.\nPageins:                                     9074447.\nPageouts:                                       4754.\nSwapins:                                           0.\nSwapouts:                                          0.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "vm.swapusage"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0022139159991638735,
+      "stdout": "vm.swapusage: total = 0.00M  used = 0.00M  free = 0.00M  (encrypted)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "df",
+        "-h",
+        "."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.002468666003551334,
+      "stdout": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   867Gi   603Gi   243Gi    72%    5.4M  2.5G    0%   /System/Volumes/Data\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "pmset",
+        "-g",
+        "batt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.00946512500377139,
+      "stdout": "Now drawing from 'AC Power'\n -InternalBattery-0 (identifier omitted)\t79%; AC attached; not charging present: true\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "--version"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.007681709001190029,
+      "stdout": "Python 3.13.5\n",
+      "stderr": ""
+    }
+  ],
+  "planned_power_assertion": "caffeinate -i utility; temporary idle-sleep assertion for the child lifetime; no persistent settings",
+  "scientific_threads": 1,
+  "redaction": "battery identifier omitted; numerical power/AC status preserved",
+  "original_capture_sha256": "3c0008f4911ef8e517fb4c6c433ef3c729fd09c06faf235fe1e1a7965609fdc9"
+}
