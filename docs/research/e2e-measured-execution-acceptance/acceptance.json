@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T03:07:58.723996+00:00",
+  "base": "17ce406d596c1a50a306c6af0d0f08769eca7c07",
+  "reviewed_head": "08ca23facb4376df2ebcbb462d25068fe063e3b9",
+  "verdict": "R6SOURCEaccepted_SPEC_YES_QUALITY_APPROVED_R6_1_through4_addressed",
+  "raw_log_pairs_verified": 25,
+  "source_inventory_verified": true,
+  "preserved_source_and_assets_diff_empty": true,
+  "existing_old_paths_unchanged": 26819,
+  "existing_changed_paths": [
+    "famjet_poc/pipeline.py",
+    "famjet_poc/protected.py",
+    "famjet_poc/report_inputs.py",
+    "famjet_poc/resources.py",
+    "preregistration.md",
+    "tests/test_poc_protected.py",
+    "tests/test_poc_report_inputs.py"
+  ],
+  "old_run04_files_byte_unchanged": 3660,
+  "old_run04_bytes": 763803103,
+  "baseline": {
+    "bytes": 6593,
+    "sha256": "dd49488b03f78fb7b0818ed837fd53b6272304c0f8497030b4a239c78c5abe43"
+  },
+  "public_driver": {
+    "bytes": 20458,
+    "sha256": "24a424f5c617202ffac1941ef1ed25b6f225afcbcf154b2aee8a5a16477cce44"
+  },
+  "native_public_qualification": "NOT_RUN_NEXT_GATE",
+  "fresh_full_run": "NOT_RUN",
+  "uncaptured_interactive_RED_receipts": "disclosed_not_reconstructed"
+}
