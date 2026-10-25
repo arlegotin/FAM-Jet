@@ -1,40 +1,64 @@
 # FAM-Jet
 
-FAM-Jet explores a simple idea: compress a stream once, then answer different time-window questions from the saved memory. We compare ordinary exponential summaries with summaries that also retain a first temporal moment, measuring both answer quality and the memory and computation they use.
+**No overall Jet advantage was demonstrated.** The completed CPU64 fixed-writer study found slightly lower average normalized loss for Jet4 than Bank8 at equal recurrent bytes, but the calibrated confirmation and independent replication intervals both include zero. The prescribed Jet-superiority decision is false in both panels. A simple temporal-buckets control had lower average loss than either fitted memory. The two Beijing transfer modes give mixed, finite-period results; the real-trained Bank is substantially better than Jet on native RMSE.
 
-## Fixed-reader PoC and artifact replay
+The [final human report](reports/famjet-poc/final.md), [machine report](reports/famjet-poc/final.json), [charts](reports/famjet-poc/final-charts/primary-effect.svg), [recovery and portable replay proof](docs/research/e2e-report-recovery-actual/index.json), and [original run inventory](docs/research/e2e-run06-execution-record/index.json) give the full result and evidence. The narrow study uses fixed Jet4/Bank8 writers, a qualified coordinate-shared ridge reader, known one-hot keys, observed-event mean/contrast targets, three lengths and four regimes. It does not establish learned-writer, dense-key, generic full-state, all-family or agent-memory superiority.
 
-The `famjet_poc` CLI runs the adopted finite CPU64 study. `run` executes the actual E4 stage ledger, public fits, protected paired panels, both Beijing transfer modes and the report. `report` reads frozen run artifacts and checks the full stage, source, model, grant, score, row and cost inventories before rebuilding the output. A copied run can be replayed at a different path; frozen JSON bytes are preserved. No result is implied until a complete run finishes and its report is reviewed.
+| Result | Jet4 | Bank8 | Other evidence |
+| --- | ---: | ---: | --- |
+| Confirmation normalized loss | 0.15649 | 0.19184 | Buckets 0.12862; paired ΔL = Bank − Jet +0.0353537664622, interval [−0.019711263, +0.090418796] |
+| Independent replication normalized loss | 0.16638 | 0.20607 | Buckets 0.14074; paired ΔL +0.0396830788643, interval [−0.012747851, +0.092114009] |
+| Beijing synthetic-frozen RMSE / MAE (µg/m³) | 130.49 / 99.528 | 1069.5 / 621.09 | Both RMSEs exceed simple baselines near 54–63 |
+| Beijing task-adapted RMSE / MAE (µg/m³) | 68.642 / 15.354 | 21.36 / 12.705 | Bank is lower on both metrics |
 
-From the repository root, in the pinned main environment:
+Confirmation and replication each contain 3,072 histories (256 per each of 12 strata), use separate frozen cohorts, and score all eight entered methods. The Beijing modes share 56 test blocks × 120 queries, with 6,693 eligible and 27 invalid queries. Synthetic inference conditions on the fitted models, preprocessing, training corpus and development selection; it excludes retraining variation. Beijing findings cover the evaluated 2015–17 period; 28-/56-day block ranges are sensitivity checks, not a future-period population guarantee. The report gives per-method ingestion, fit, query, storage and deployment costs, failures and unsupported statuses. Gamma/Laguerre's eighth scored control has `not_measured`/`null` deployment latency.
+
+## Execution and report provenance
+
+Run06 completed the 192-history pilot, both 3,072-history panels, all 36 synthetic cells, 16 real evaluation stages, synthetic and real releases and sealed inference. Its original normal CLI exited **1 at report assembly** because an ordered run-ID comparison rejected the same 288 unique IDs in a different Bank/Jet order. The frozen source, releases, inference, failed report entry and clocks remain unchanged. The explicit `run06-report-order-v1` recovery produced the report separately, with original execution and corrected reporter identities recorded. Root's witnessed recovery passed (68.615 s, peak sampled RSS 1,057,259,520 B); a clean locked-environment replay with the original run, prep and tracked source paths unavailable also passed (70.188 s, peak sampled RSS 1,083,965,440 B). All seven deterministic report files were byte-identical across recovery and replay; only the separate recovery receipt contains volatile metadata. This is **sealed scientific execution plus audited report-only recovery**, not an uninterrupted exit-zero original CLI run.
+
+The original full run and prep remain locally ignored, with [4,813 run files / 2,062,164,087 B plus four prep files / 10,158,074 B](docs/research/e2e-run06-execution-record/index.json). Its 74-file execution source is [archived](docs/research/e2e-run06-execution-source/). The complete local `artifacts/e2e-run06-sealed-bundle.tar.gz` is **285,608,419 B**, SHA-256 `b6de6ba91c234a30bf885f5695b26244358749597bd9f043621f1a44bbd624ae`; [bundle receipt](docs/research/e2e-run06-execution-record/bundle-receipt.json). The bulk bundle and Beijing arrays are ignored and **not in Git**; retrieve them from this local workspace or an explicitly copied, hash-verified bundle. The committed report and proofs retain provenance but do not replace the bulk for report-only replay.
+
+## Install, prepare and replay
+
+Use native **CPython 3.13.5 exactly** on macOS 14+ arm64 from the repository root. The frozen E2 executable identity includes the patch version, and the main wheel lock is platform-specific. Install pinned main dependencies and the editable project; plots use a separate hash-locked Matplotlib environment:
 
 ```sh
-.venv/bin/python -m famjet_poc --help
-.venv/bin/python -m famjet_poc run --help
-.venv/bin/python -m famjet_poc report --help
-.venv/bin/python -m famjet_poc run --out artifacts/poc-core
-# If an eligible public stage was interrupted, keep its original run root:
-.venv/bin/python -m famjet_poc run --out artifacts/poc-core --resume
-.venv/bin/python -m famjet_poc report --run artifacts/poc-core --out reports/final.md
-```
-
-The current-v2 Beijing manifest and pinned official source asset must be available for a full run. A failed protected cell is not silently retried by `--resume`. The report command does not refit, select configurations or generate data. It produces Markdown, canonical JSON and chart data; a test-only release is labeled `non_scientific_smoke`. A copied-run report verifies the manifest's frozen array-hash inventory and the evaluated rows/counts/grants, labeling external prepared arrays `verified_inventory_not_rehashed`; it does not reopen those source array bytes. Re-executing the full pipeline is a separate data validation step.
-
-Scientific SVG charts use a separate Matplotlib environment. Keep `requirements.lock` unchanged and install the independent hash lock with native CPython 3.13:
-
-```sh
+python3.13 --version  # must print Python 3.13.5
+python3.13 -m venv .venv
+.venv/bin/python -m pip install --require-hashes -r requirements.lock
+.venv/bin/python -m pip install --no-deps --no-build-isolation -e .
 python3.13 -m venv .report-venv
 .report-venv/bin/python -m pip install --require-hashes -r docs/reporting-requirements.lock
-FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m famjet_poc report --run artifacts/poc-core --out reports/final.md
 ```
 
-The current Mac's installed report interpreter is `/private/tmp/famjet-report-20261024-01/bin/python`; its wheel hashes and package versions are recorded in [report environment evidence](docs/research/e2e-repro-setup-evidence/e2e-report-env-01/environment.json). Chart export uses fixed SVG metadata and font settings. The report fails if the plotting dependency or a required chart is unavailable. The machine JSON retains per-method costs and unsupported/null metric statuses; the SVGs depict entered configurations at the single declared state budget and separate confirmation/replication effects.
+Obtain the [official UCI Beijing Multi-Site Air Quality outer ZIP](https://archive.ics.uci.edu/static/public/501/beijing%2Bmulti%2Bsite%2Bair%2Bquality%2Bdata.zip) (Chen, 2017; DOI 10.24432/C5RK5G; CC BY 4.0), place it at `data/raw/beijing-uci501.zip`, and verify the **outer** archive hash. The nested PRSA ZIP alone is not the expected asset. Preparation selects the committed current-v2 manifest and reconstructs missing ignored arrays only when every regenerated inventory hash matches. Do not edit the committed manifest to accommodate a changed local path or timestamp.
 
-The sections below retain historical Task18 results and failures. The new fitted reader does not retroactively change those outcomes.
+```sh
+mkdir -p data/raw
+curl --fail --location --output data/raw/beijing-uci501.zip 'https://archive.ics.uci.edu/static/public/501/beijing%2Bmulti%2Bsite%2Bair%2Bquality%2Bdata.zip'
+printf '%s  %s\n' 'b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4' 'data/raw/beijing-uci501.zip' | shasum -a 256 -c -
+.venv/bin/python -m famjet.prepare --config configs/data.yaml
+.venv/bin/python -m famjet.prepare --config configs/beijing.yaml
+```
 
-The core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring are implemented. Tasks 1–17 are accepted; Task18 is assessing CPU development comparisons at 128, 512 and 2048 events.
+To render the **sealed run06** from the full original run, preparation and archived source, use the fixed report-only migration in a fresh sibling output directory:
 
-The latest completed experiment used fixed mathematical readers on 96 development histories, with eight questions per history. All six declared configurations finished: 192 saved states, 576 reader requests and 4608 scored predictions, with no fallback or quarantine. The best configuration in each family was:
+```sh
+FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python scripts/report_run06_recovery.py --run artifacts/e2e-core-run-06 --out artifacts/e2e-run06-replay-new/final.md --archived-source docs/research/e2e-run06-execution-source --compatibility-id run06-report-order-v1
+```
+
+The recovery verifies the original run, source, model, grant, score, row, cost and clock inventories before rendering. It does not fit, select models, generate histories, create grants or reseal the releases. A copied full run and archived source also replayed with original locations unavailable. External prepared Beijing arrays are labeled `verified_inventory_not_rehashed`; replay checks their sealed inventory but does not reopen those array bytes. A fresh full pipeline execution is the separate data-validation step.
+
+For a **fresh execution** of the registered study, the normal CLI is `FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m famjet_poc run --out artifacts/NEW-RUN`. A new output path reuses the fixed registered seeds and populations; it is a reproduction, **not a new independent confirmation**. The ordinary `report --run RUNROOT --out MARKDOWN` is for runs frozen under the current reporter identity. Do not run or resume the historical run06 pipeline under changed source. An eligible public-stage `run --out RUNROOT --resume` keeps the same source, root and original clocks; failed/begun protected cells are not routine-resumable.
+
+## Historical Task18 archive
+
+The sections below preserve earlier Task18 development evidence and failures. Their historical status statements refer to the checkpoint before the completed narrow run06 study; the new fitted reader does not retroactively change them.
+
+At the earlier Task18 checkpoint, the core generators, memory families, bounded snapshot reads, training/checkpointing and failure-complete scoring were implemented, Tasks 1–17 were accepted, and Task18 was assessing CPU development comparisons at 128, 512 and 2048 events.
+
+That checkpoint's fixed mathematical-reader experiment used 96 development histories, with eight questions per history. All six declared configurations finished: 192 saved states, 576 reader requests and 4608 scored predictions, with no fallback or quarantine. The best configuration in each family was:
 
 | Memory | Normalized loss | Persistent state |
 | --- | ---: | ---: |
@@ -54,17 +78,17 @@ An earlier trained comparison used structured readers. Both models passed their 
 | Ordinary exponential bank | 0.3888 | 9345 B |
 | Jet | 0.3945 | 9345 B |
 
-In that trained comparison, Jet's development loss flattened near the end; Bank improved modestly. Frozen training losses remained high too (Jet 0.4183, Bank 0.4687). Optimization, the reader and temporal compression remain unresolved explanations. Those exploratory CPU64 results used one initialization and a reused training corpus; they are not a convergence or statistical claim. The new fixed reader changes the decoder class and does not establish that the older models converged. Protected evaluation remains closed.
+In that trained comparison, Jet's development loss flattened near the end; Bank improved modestly. Frozen training losses remained high too (Jet 0.4183, Bank 0.4687). Optimization, the reader and temporal compression remain unresolved explanations. Those exploratory CPU64 results used one initialization and a reused training corpus; they are not a convergence or statistical claim. The later ridge reader changes the decoder class and does not establish that the older models converged. Protected evaluation was closed for that experiment.
 
-The [completed pair](docs/research/task18-epsilon1em6-learning-results.md) retains all curves, length/regime results, numerical checks and costs. An earlier structured Jet run failed a strict trained gradient check; the [failed result](docs/research/task18-structured-stopped8192-report.md) remains failed. The new pair uses a different numerical smoothing setting and does not repair that historical result. Earlier learned-rate and fixed-basis comparisons remain in the [development inventory](docs/research/task18-development-inventory.json); the learned-rate Bank's observed loss of 0.3871 also remains below the current pair.
+The [completed pair](docs/research/task18-epsilon1em6-learning-results.md) retains all curves, length/regime results, numerical checks and costs. An earlier structured Jet run failed a strict trained gradient check; the [failed result](docs/research/task18-structured-stopped8192-report.md) remains failed. That pair used a different numerical smoothing setting and did not repair the historical failure. Earlier learned-rate and fixed-basis comparisons remain in the [development inventory](docs/research/task18-development-inventory.json); the learned-rate Bank's observed loss of 0.3871 also remained below that pair.
 
 The fixed mathematical reader completed its [full numerical diagnostic](docs/research/task18-kernel-stage-a06-report.md): all720 finite reader comparisons and24 fallback-policy checks passed. All696 ordinary source-state comparisons passed too. One extreme signed-cancellation fixture failed across the six configurations and four transforms, so global numerical validation remains **FAILED**. The [independent audit](docs/research/task18-kernel-stage-a06-mathematical-audit.md) preserves that limitation. The completed development experiment describes the ordinary saved states; it does not repair those extreme failures.
 
-The memory hold cleared on21October when a fresh check passed the unchanged admission rule. The diagnostic's sampled worker process-tree peak was about471MiB; no hardware upgrade, process termination or system-setting change was needed. Earlier refused admissions and failed runs remain in the record. The full test ran within its shared time and execution/output limits. Protected evaluation remains closed.
+The memory hold cleared on21October when a fresh check passed the unchanged admission rule. The diagnostic's sampled worker process-tree peak was about471MiB; no hardware upgrade, process termination or system-setting change was needed. Earlier refused admissions and failed runs remain in the record. The full test ran within its shared time and execution/output limits. Protected evaluation was closed at that checkpoint.
 
 The first [empty launch check](docs/research/task18-kernel-stage-b-binding01-report.md) failed before the PyTorch baseline. Later attempts exposed FP32/FP64 input wiring and a reader-launcher path check. The [input correction](docs/research/task18-kernel-stage-b-input-dtype-source-report.md) and [reader-launcher correction](docs/research/task18-kernel-stage-b-reader-launcher-source-report.md) passed independent review and 67 focused covering tests before fresh qualification and the completed experiment. All failed attempts remain archived; no historical failure was reclassified as success.
 
-Task18 now needs a bounded generic-contracted versus full-state reader-adequacy comparison, with comparable parameter/compute budgets and explicit fitting and convergence criteria. The kernel result is an achievable reference from these states, not an optimal decoder. Broader comparator learning curves, learned writers, resource frontiers, calibrated inference and real transfer remain open.
+That historical Task18 work called for a bounded generic-contracted versus full-state reader-adequacy comparison, with comparable parameter/compute budgets and explicit fitting and convergence criteria. The kernel result was an achievable reference from those states, not an optimal decoder. Broader comparator learning curves, learned writers and resource frontiers remain open. The later narrow PoC entered conditional inference and finite-period Beijing transfer only for its adopted fixed-writer scope.
 
 The [reader qualification check](docs/research/task18-reader-adequacy-v1-checks-run02-report.md) completed numerical validation and six tiny training runs. All six missed the fixed accuracy threshold on a fixture whose answers are provably recoverable from both memories. Larger training is blocked while the reader/optimization issue is investigated. This67-second diagnostic used about382MiB additional sampled process memory; RAM was sufficient. Its training errors are not a new Jet/Bank benchmark.
 
@@ -72,16 +96,14 @@ The [simple controls](docs/research/task18-cpu64-simple9345-summary.json) and [e
 
 The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md) defines the experiment; [progress and executed evidence](PROGRESS.md) distinguish completed checks from future work.
 
-From the repository root, use an existing native CPython 3.13 interpreter:
+Historical core smoke/gate commands, after creating the exact 3.13.5 main environment above:
 
 ```sh
-python3.13 -m venv .venv
-.venv/bin/python -m pip install --require-hashes -r requirements.lock
 .venv/bin/python -m pytest
 .venv/bin/python -m famjet.doctor --out artifacts/environment
 ```
 
-The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The current project environment uses torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
+The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The original project environment used torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
 
 Preparation and a short pipeline check are executable now:
 
