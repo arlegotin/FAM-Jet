@@ -16,6 +16,26 @@ from .contracts import ShapeSpec
 
 
 _ROOT = Path(__file__).resolve().parent.parent
+_MIGRATION_ID = 'run06-report-order-v1'
+_MIGRATION_PATH = _ROOT / 'docs/research/e2e-run06-report-migration.json'
+_INDEX_PATH = _ROOT / 'docs/research/e2e-run06-execution-record/index.json'
+_INDEX_SHA256 = 'f00aac585d16237cc546259df85c69f5f65a9b6ea6d63fcc4b8b65a67f9ad43c'
+_OLD_COMMIT = 'f886e3c41517fd935a642cb83233dd72faf083b0'
+_OLD_EXECUTABLE = 'b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260'
+_ARCHIVED_IDENTITY_SHA256 = 'e08af6dfbeeb3c31909a180f8d5ca6fb44b78ae14bc2b3293b533b6dbeb70cc8'
+_REPORT_LOCK_SHA256 = '132d9a7822f2a2bd502f2deabdef30e7d3190802d9f5df18f1d2d8a3af062cf1'
+_RUN_PINS = {
+    'freeze/study-freeze-v1.json': 'a0a1a66bc15de891b3bd365008e8ea24be74008d6fdc06bba958c619e6828845',
+    'release/release.json': '8b1ed1eec3c3899a4a2d5d8efb38329dbc33545ed88b5ca76e04ddf8dcb9b635',
+    'release/real/real-release.json': 'dcc7549f5e1c710e53ba322876af69c51fdb9ab3eae98190e324fdeccded2846',
+    'release/inference.json': 'b6f6b0e5353353b6d7bdcebf752a4aada4e2bf7f709a0fe036ca6838e3d5ca7a',
+    'run-ledger.json': '9a731a11707b4c903f4806d8ca0767362107d31626a9985212ef2872b305f330',
+    'run-policy.json': '175433f8e414bca12fc4e1308e259e1d64e804aba0f65a551a2579b4a5accd24',
+    'run-policy-anchor.json': '87019266034d447e6dc7b1359bcce02a3a5117894388a8e7e3a22065fc41285d',
+    'report/live-guard-attempt-000.json': '5c4f1f9781fa0d273acbccb14a4b12577f49cd21761504c9da2cc2c0e5f75822',
+}
+_PREP_PINS = {'stderr.log': '2e7387bd39f3440c036c8fa1694d89aae15a584552f78bc865d53407711c2065',
+              'exit-witness.json': '567f5759da13b8d336a2cbe3a8dc9fce90cfff82512c730c386d2130e6261f71'}
 
 
 def _file_sha(path):
@@ -34,6 +54,176 @@ def _read_json(path, sha256=None, size=None):
     if (sha256 is not None and digest != sha256) or (size is not None and actual_size != size):
         raise ValueError(f'artifact hash/bytes mismatch: {path.name}')
     return json.loads(path.read_bytes())
+
+
+def _require_study_run_roster(expected_ids, receipts, *, cells, methods):
+    """Require the exact frozen roster while retaining sealed receipt order."""
+    if (type(expected_ids) is not list or type(receipts) is not list or
+            type(cells) is not list or type(methods) is not list or
+            any(type(value) is not str or not value for value in cells + methods) or
+            len(set(cells)) != len(cells) or len(set(methods)) != len(methods) or
+            expected_ids != [cell + '-' + method for cell in cells for method in methods] or
+            len(expected_ids) != len(receipts) or
+            any(type(value) is not str or not value for value in expected_ids) or
+            len(set(expected_ids)) != len(expected_ids)):
+        raise ValueError('protected run ID inventory differs from freeze')
+    actual = []
+    for receipt in receipts:
+        if type(receipt) is not dict:
+            raise ValueError('protected run ID receipt malformed')
+        run_id, cell, method = (receipt.get(key) for key in ('run_id', 'cell_id', 'method'))
+        if (any(type(value) is not str or not value for value in (run_id, cell, method)) or
+                run_id != cell + '-' + method):
+            raise ValueError('protected run ID cell/method binding differs')
+        actual.append(run_id)
+    if len(set(actual)) != len(actual) or set(actual) != set(expected_ids):
+        raise ValueError('protected run ID inventory differs from freeze')
+
+
+def _validate_report_transition(manifest, old_files, new_files, observed_pins):
+    """Check the one file transition and exact historical artifact anchors."""
+    if (type(manifest) is not dict or type(old_files) is not dict or type(new_files) is not dict or
+            set(old_files) != set(new_files) or
+            set(old_files) != set(manifest.get('old_files', {})) or
+            old_files != manifest['old_files'] or new_files != manifest.get('new_files') or
+            {name for name in old_files if old_files[name] != new_files[name]} !=
+                {'famjet_poc/report_inputs.py'} or
+            manifest.get('old_sha256') != canonical_hash(old_files) or
+            manifest.get('new_sha256') != canonical_hash(new_files)):
+        raise ValueError('report transition executable inventory mismatch')
+    if observed_pins != manifest.get('pinned'):
+        raise ValueError('report transition pinned artifact/clock mismatch')
+
+
+def _inventory(root, names):
+    """Hash an exact file roster without following links or accepting additions."""
+    root = Path(root).resolve(strict=True)
+    observed = {}
+    for path in root.rglob('*'):
+        if path.is_symlink():
+            raise ValueError('symlink in report migration inventory')
+        if path.is_file():
+            name = str(path.relative_to(root))
+            if name not in names:
+                raise ValueError('extra file in report migration inventory')
+            sha, size = _file_sha(path)
+            observed[name] = {'sha256': sha, 'bytes': size}
+    if observed != names:
+        raise ValueError('report migration inventory differs')
+    return observed
+
+
+def _admit_report_migration(run, compatibility_id, archived_source):
+    """Read only the one committed run06 authorization before any score access."""
+    from .protected import executable_identity
+    from .contracts import source_sha256
+    run = Path(run).resolve(strict=True)
+    if compatibility_id != _MIGRATION_ID or archived_source is None:
+        raise ValueError('unregistered report compatibility ID or missing archived source')
+    manifest_sha, _ = _file_sha(_MIGRATION_PATH)
+    manifest = _read_json(_MIGRATION_PATH)
+    index = _read_json(_INDEX_PATH, _INDEX_SHA256)
+    if (manifest.get('schema_version') != 1 or manifest.get('compatibility_id') != _MIGRATION_ID or
+            manifest.get('scope') != 'artifact_validation_and_reporting_only' or
+            manifest.get('old_commit') != _OLD_COMMIT or
+            manifest.get('old_sha256') != _OLD_EXECUTABLE or
+            manifest.get('old_report_inputs_sha256') !=
+                index.get('frozen_executable', {}).get('files', {}).get('famjet_poc/report_inputs.py') or
+            manifest.get('new_report_inputs_sha256') !=
+                manifest.get('new_files', {}).get('famjet_poc/report_inputs.py') or
+            manifest.get('launcher_path') != 'scripts/report_run06_recovery.py' or
+            manifest.get('original_exit_code') != 1 or
+            manifest.get('original_report_status') != 'failed' or
+            manifest.get('archive_index_sha256') != _INDEX_SHA256 or
+            manifest.get('archived_identity_sha256') != _ARCHIVED_IDENTITY_SHA256 or
+            index.get('source_revision') != _OLD_COMMIT or
+            index.get('frozen_executable') !=
+                {'files': manifest.get('old_files'), 'sha256': _OLD_EXECUTABLE} or
+            index.get('file_count') != 4813 or index.get('bytes') != 2062164087 or
+            index.get('prep_bytes') != 10158074 or
+            index.get('actual_returncode') != 1 or
+            any(index['files'].get(name, {}).get('sha256') != sha for name, sha in _RUN_PINS.items()) or
+            any(index['prep_files'].get(name, {}).get('sha256') != sha for name, sha in _PREP_PINS.items()) or
+            manifest.get('pinned') != _RUN_PINS or manifest.get('prep_pinned') != _PREP_PINS or
+            manifest.get('report_lock_sha256') !=
+                _REPORT_LOCK_SHA256 or
+            _file_sha(_ROOT / 'docs/reporting-requirements.lock')[0] !=
+                _REPORT_LOCK_SHA256 or
+            manifest.get('launcher_sha256') !=
+                _file_sha(_ROOT / 'scripts/report_run06_recovery.py')[0]):
+        raise ValueError('run06 report migration authorization mismatch')
+    archive = Path(archived_source).resolve(strict=True)
+    if (_file_sha(archive / 'identity.json')[0] != _ARCHIVED_IDENTITY_SHA256 or
+            _read_json(archive / 'identity.json') != index['frozen_executable']):
+        raise ValueError('archived original execution identity mismatch')
+    old_files = {name: _file_sha(archive / name)[0] for name in manifest['old_files']}
+    # Include additions, omissions, and links in the archived source inventory.
+    archived_inventory = {name: {'sha256': sha, 'bytes': (archive / name).stat().st_size}
+                          for name, sha in manifest['old_files'].items()}
+    archived_inventory['identity.json'] = {'sha256': _ARCHIVED_IDENTITY_SHA256,
+                                           'bytes': (archive / 'identity.json').stat().st_size}
+    _inventory(archive, archived_inventory)
+    current = executable_identity()
+    _validate_report_transition(manifest, old_files, current['files'], _RUN_PINS)
+    if (source_sha256() != _read_json(run / 'freeze/study-freeze-v1.json',
+                                     _RUN_PINS['freeze/study-freeze-v1.json'])['source_sha256'] or
+            current['sha256'] != manifest['new_sha256']):
+        raise ValueError('run06 report transition source mismatch')
+    _inventory(run, index['files'])
+    prep = run.with_name('prep' if run.name == 'run' else run.name + '-prep')
+    _inventory(prep, index['prep_files'])
+    return {'compatibility_id': _MIGRATION_ID,
+            'manifest_sha256': manifest_sha,
+            'launcher_sha256': manifest['launcher_sha256'],
+            'execution_sha256': _OLD_EXECUTABLE,
+            'reporter_sha256': current['sha256'],
+            'archive_index_sha256': _INDEX_SHA256,
+            'original_exit_code': 1,
+            'original_report_status': 'failed',
+            'original_report_error': 'protected run ID inventory differs from freeze'}
+
+
+def _verify_historical_run_policy(paths, inputs):
+    """Apply normal dated policy semantics to the pinned historical source."""
+    from .execution_policy import load_execution_policy, POLICY_PATH, BASELINE_PATH
+    master_path = paths.root / 'run-policy.json'
+    anchor_path = paths.root / 'run-policy-anchor.json'
+    master = _read_json(master_path, _RUN_PINS['run-policy.json'])
+    anchor = _read_json(anchor_path, _RUN_PINS['run-policy-anchor.json'])
+    policy = load_execution_policy()
+    start = master.get('start_epoch_seconds')
+    if type(start) not in (int, float) or not math.isfinite(start) or start <= 0:
+        raise ValueError('original report run policy clock invalid')
+    expected = {**policy,
+                'execution_policy_sha256': _file_sha(POLICY_PATH)[0],
+                'execution_source_sha256': _OLD_EXECUTABLE,
+                'public_selection_baseline_sha256': _file_sha(BASELINE_PATH)[0],
+                'study_manifest_sha256': inputs['resource_policy']['study_manifest_sha256'],
+                'start_epoch_seconds': start,
+                'global_deadline_epoch_seconds': start + policy['global_wall_seconds'],
+                'work_deadline_epoch_seconds': start + policy['global_wall_seconds'] -
+                                               policy['completion_reserve_seconds'],
+                'profile': 'scientific_study'}
+    if (set(master) != set(expected) or
+            any(type(master[key]) is not type(value) or master[key] != value
+                for key, value in expected.items()) or
+            master != inputs['resource_policy'] or
+            inputs.get('execution_policy_sha256') != master['execution_policy_sha256'] or
+            _file_sha(POLICY_PATH)[0] != '05b81ec4ca8f4a02ca2f5e02a859f58c62d0fc67418b7094500e0dfd0d8db0c1' or
+            _file_sha(BASELINE_PATH)[0] != 'dd49488b03f78fb7b0818ed837fd53b6272304c0f8497030b4a239c78c5abe43'):
+        raise ValueError('historical run policy semantics differ')
+    anchor_expected = {'schema_version': 1, 'kind': 'famjet_run_policy_anchor_v2',
+                       'run_policy_sha256': _RUN_PINS['run-policy.json'],
+                       'execution_source_sha256': _OLD_EXECUTABLE,
+                       'original_start_epoch_seconds': start,
+                       'global_deadline_epoch_seconds': expected['global_deadline_epoch_seconds'],
+                       'work_deadline_epoch_seconds': expected['work_deadline_epoch_seconds']}
+    ref = inputs.get('run_policy_anchor_ref')
+    if (anchor != anchor_expected or type(ref) is not dict or
+            ref.get('path') != str(paths.original_root / 'run-policy-anchor.json') or
+            ref.get('sha256') != _RUN_PINS['run-policy-anchor.json']):
+        raise ValueError('historical run policy clock anchor differs')
+    return master
 
 
 class ArtifactPaths:
@@ -217,11 +407,9 @@ def _release_rows(paths, release, freeze):
     if (type(receipts) is not list or len(receipts) != len(expected) or
             release.get('expected_cells') != len(expected)):
         raise ValueError('incomplete release cell/method pair inventory')
-    if (freeze['inputs']['profile'] == 'study' and
-            [receipt.get('run_id') for receipt in receipts] !=
-                freeze['inputs']['expected_protected_run_ids']):
-        raise ValueError('protected run ID inventory differs from freeze')
     if freeze['inputs']['profile'] == 'study':
+        _require_study_run_roster(freeze['inputs']['expected_protected_run_ids'], receipts,
+                                  cells=[item['cell_id'] for item in populations], methods=methods)
         require_shared_cell_counts(paths, receipts)
     seen = set()
     grouped = {}
@@ -382,7 +570,7 @@ def _stage_json(paths, stage, path_field, hash_field):
     return _read_json(paths.resolve(result[path_field]), result[hash_field])
 
 
-def _verify_frozen_science(paths, freeze):
+def _verify_frozen_science(paths, freeze, *, recovery=None):
     """Reapply the accepted source, calibration and fitted-model commitments."""
     from .contracts import ShapeSpec
     from .models import load_model
@@ -393,7 +581,10 @@ def _verify_frozen_science(paths, freeze):
     inputs = freeze['inputs']
     from .execution_policy import verify_run_policy, verify_public_gate_ref, bind_run_policy
     run_policy = _read_json(paths.root / 'run-policy.json')
-    verify_run_policy(run_policy, inputs['resource_policy']['study_manifest_sha256'])
+    if recovery is None:
+        verify_run_policy(run_policy, inputs['resource_policy']['study_manifest_sha256'])
+    else:
+        _verify_historical_run_policy(paths, inputs)
     if run_policy != inputs['resource_policy'] or (
             inputs.get('execution_policy_sha256') != run_policy['execution_policy_sha256']):
         raise ValueError('frozen run execution policy mismatch')
@@ -401,7 +592,8 @@ def _verify_frozen_science(paths, freeze):
     if (type(anchor_ref) is not dict or
             anchor_ref.get('path') != str(paths.original_root / 'run-policy-anchor.json') or
             _file_sha(paths.resolve(anchor_ref['path']))[0] != anchor_ref.get('sha256') or
-            bind_run_policy(paths.root / 'run-policy.json') != run_policy):
+            (bind_run_policy(paths.root / 'run-policy.json') != run_policy
+             if recovery is None else False)):
         raise ValueError('frozen original run clock anchor mismatch')
     validate_scientific_plan(inputs['populations'])
     if (freeze['acceptance']['reader'] != _accepted_qualification() or
@@ -857,10 +1049,16 @@ def _verify_real_release(paths, stage, freeze, modes):
             'beijing_manifest_sha256': manifest_sha}
 
 
-def load_report_inputs(run):
+def load_report_inputs(run, *, compatibility_id=None, archived_source=None):
     """Return small validated summaries; never fit, select, or generate rows."""
     from .protected import FrozenStudyRef
     run = Path(run).resolve(strict=True)
+    if compatibility_id is None:
+        if archived_source is not None:
+            raise ValueError('archived source requires registered report compatibility ID')
+        recovery = None
+    else:
+        recovery = _admit_report_migration(run, compatibility_id, archived_source)
     stages = _stage_records(run)
     if not {'freeze', 'release'} <= set(stages):
         raise ValueError('freeze and release stages required')
@@ -872,8 +1070,15 @@ def load_report_inputs(run):
     frozen = _read_json(freeze_path, freeze_result['sha256'])
     if frozen.get('kind') != 'famjet_e4_study_freeze':
         raise ValueError('study freeze schema mismatch')
-    FrozenStudyRef(freeze_path, freeze_result['sha256'], frozen['source_sha256'],
-                   frozen['executable']['sha256']).read()
+    if recovery is None:
+        FrozenStudyRef(freeze_path, freeze_result['sha256'], frozen['source_sha256'],
+                       frozen['executable']['sha256']).read()
+    elif (frozen.get('schema_version') != 1 or
+          frozen.get('executable') !=
+              {'sha256': recovery['execution_sha256'],
+               'files': _read_json(_MIGRATION_PATH)['old_files']} or
+          frozen.get('git', {}).get('revision') != _OLD_COMMIT):
+        raise ValueError('historical freeze execution identity mismatch')
     recorded_release = release_result['release_path']
     release_path = paths.resolve(recorded_release)
     release = _read_json(release_path, release_result['release_sha256'])
@@ -891,7 +1096,7 @@ def load_report_inputs(run):
         require_scientific_stages(stages, frozen['inputs'])
         if stages['public_selection_gate']['result']['gate_ref'] != frozen['inputs']['public_selection_gate_ref']:
             raise ValueError('public selection gate stage/freeze reference mismatch')
-        scientific = _verify_frozen_science(paths, frozen)
+        scientific = _verify_frozen_science(paths, frozen, recovery=recovery)
         frozen['_expected_statistics_sha256'] = scientific['pairs']['selected_models']['jet'][
             'target_statistics_sha256']
         development = _verify_development(paths, stages, frozen)
@@ -936,4 +1141,6 @@ def load_report_inputs(run):
                       beijing_source=source,
                       beijing_source_array_status=array_status,
                       transfer=scientific['transfer'])
+    if recovery is not None:
+        output['report_recovery'] = recovery
     return output

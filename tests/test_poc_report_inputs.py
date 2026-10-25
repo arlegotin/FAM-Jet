@@ -129,6 +129,37 @@ def test_external_beijing_arrays_are_inventory_verified_not_rehashed():
         verify_beijing_inventory(frozen, manifest)
 
 
+def test_reordered_run_roster_preserves_exact_inventory():
+    from famjet_poc.report_inputs import _require_study_run_roster
+    expected = ['cell-a-jet', 'cell-a-bank', 'cell-b-jet', 'cell-b-bank']
+    receipts = [{'run_id': name, 'cell_id': name.rsplit('-', 1)[0],
+                 'method': name.rsplit('-', 1)[1]} for name in reversed(expected)]
+    _require_study_run_roster(expected, receipts, cells=['cell-a', 'cell-b'],
+                              methods=['jet', 'bank'])
+    for changed in (
+        receipts + [receipts[0]],
+        receipts[:-1],
+        [{**receipts[0], 'run_id': 'cell-other-jet'}, *receipts[1:]],
+        [{**receipts[0], 'run_id': ''}, *receipts[1:]],
+    ):
+        with pytest.raises(ValueError, match='run ID'):
+            _require_study_run_roster(expected, changed, cells=['cell-a', 'cell-b'],
+                                      methods=['jet', 'bank'])
+    with pytest.raises(ValueError, match='run ID'):
+        _require_study_run_roster(expected[:-1], receipts, cells=['cell-a', 'cell-b'],
+                                  methods=['jet', 'bank'])
+
+
+def test_run_id_is_bound_to_cell_and_method():
+    from famjet_poc.report_inputs import _require_study_run_roster
+    expected = ['cell-a-jet', 'cell-a-bank']
+    receipts = [{'run_id': 'cell-a-bank', 'cell_id': 'cell-a', 'method': 'jet'},
+                {'run_id': 'cell-a-jet', 'cell_id': 'cell-a', 'method': 'bank'}]
+    with pytest.raises(ValueError, match='run ID'):
+        _require_study_run_roster(expected, receipts, cells=['cell-a'],
+                                  methods=['jet', 'bank'])
+
+
 def test_copied_scientific_policy_and_gate_refs_resolve_after_original_removed(tmp_path):
     from famjet.provenance import canonical_json
     from famjet_poc.execution_policy import (new_run_policy, bind_run_policy,
