@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-25T02:21:55.780981+00:00",
+  "action": "SIGTERM_owned_process_group",
+  "pid": 95761,
+  "pgid": 95761,
+  "verified_command": "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -m famjet_poc run --out artifacts/e2e-core-run-04 --resume",
+  "stage": "cell-confirmation-128-trend_reset",
+  "status_before": "running",
+  "reason": "resource-only forecast shows 256-history long cells exceed frozen600s cap; current partial protected effects unopened; new prospective resource/cohort amendment required",
+  "protected_effects_inspected": false,
+  "old_clocks_or_outputs_rewritten": false
+}

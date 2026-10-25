@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "kind": "public_selection_reproduction_baseline",
+  "old_run_root": "artifacts/e2e-core-run-04",
+  "original_frozen_revision": "14a879cb0bca1ca0097de26cc3a86d15d0b86b31",
+  "e3_source_sha256": "e25b63ee60f51ed511fc7af5d3f713c9a404301f51178283c0a2066d940e68ba",
+  "roles": {
+    "k16_jet": {
+      "numeric_sha256": "8011830c7b10ca8ca8122bd673373a1899bcd5f7e186e3aea63fa8b1e946b49d",
+      "shape": {
+        "key_dim": 16,
+        "value_dim": 8
+      },
+      "reader": {
+        "alpha_max": 0.5,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "jet",
+        "query_width": 16,
+        "ridge": 1e-06,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/development_k16/study/models/78d5f023a56f7eb040976507012ae80a9edbed16bfeeb8da26a43a6321c467f0.json",
+        "sha256": "4d936584820674a3897ea919336d48ba13e079465b98e8d50317fad2c63043a3"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/k16_jet/78d5f023a56f7eb040976507012ae80a9edbed16bfeeb8da26a43a6321c467f0.json",
+        "sha256": "4d936584820674a3897ea919336d48ba13e079465b98e8d50317fad2c63043a3"
+      }
+    },
+    "k16_bank": {
+      "numeric_sha256": "439e47f1e3efcb2ca01d19a93dfcd17c82eb1519ab8dc681795b05530cf03cf6",
+      "shape": {
+        "key_dim": 16,
+        "value_dim": 8
+      },
+      "reader": {
+        "alpha_max": 2.0,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "bank",
+        "query_width": 16,
+        "ridge": 1e-10,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/development_k16/study/models/7c376215b895ef13d2c4fc65f92ac24de94b20c855ed4c4efaf6dfdeb520f428.json",
+        "sha256": "3fd1d990a573a8fd24ebf2fe154e4d6098e3e68f99e3f7d27e1ba5688a59a172"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/k16_bank/7c376215b895ef13d2c4fc65f92ac24de94b20c855ed4c4efaf6dfdeb520f428.json",
+        "sha256": "3fd1d990a573a8fd24ebf2fe154e4d6098e3e68f99e3f7d27e1ba5688a59a172"
+      }
+    },
+    "k12_jet": {
+      "numeric_sha256": "c261a07e6e23893abc15e8f09af53683e475d7f7f1abfa4810e814d8f4e5e7ed",
+      "shape": {
+        "key_dim": 12,
+        "value_dim": 1
+      },
+      "reader": {
+        "alpha_max": 0.5,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "jet",
+        "query_width": 16,
+        "ridge": 0.01,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/development_k12/study/models/872e4b78d9b994ae7c75f7dd0b3c8079946b15f2f9cd5144e8286392b9495f34.json",
+        "sha256": "01276ff8b1b9457486272a557e5a020c5ad9e174805b47a224934424ddaf6de0"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/k12_jet/872e4b78d9b994ae7c75f7dd0b3c8079946b15f2f9cd5144e8286392b9495f34.json",
+        "sha256": "01276ff8b1b9457486272a557e5a020c5ad9e174805b47a224934424ddaf6de0"
+      }
+    },
+    "k12_bank": {
+      "numeric_sha256": "19eb958f658f860e0a74efbe7879f218b3721e1c2ef6fabe42a63bf7ed4bcffd",
+      "shape": {
+        "key_dim": 12,
+        "value_dim": 1
+      },
+      "reader": {
+        "alpha_max": 0.5,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "bank",
+        "query_width": 16,
+        "ridge": 1e-06,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/development_k12/study/models/9759bc22c17c9f0ddf5e034dc426c6d18c3c5b2ad6a44ab75deedd8ca41f45ae.json",
+        "sha256": "19a93ace350e78b02fb664d64890a82d97da2d6fe62b594cbaa37e31c9f96dc7"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/k12_bank/9759bc22c17c9f0ddf5e034dc426c6d18c3c5b2ad6a44ab75deedd8ca41f45ae.json",
+        "sha256": "19a93ace350e78b02fb664d64890a82d97da2d6fe62b594cbaa37e31c9f96dc7"
+      }
+    },
+    "real_jet": {
+      "numeric_sha256": "3e11c1de3c6dc36a458deb92683f8d3d7de2d5a59a1eef399848a5e97cbac3a2",
+      "shape": {
+        "key_dim": 12,
+        "value_dim": 1
+      },
+      "reader": {
+        "alpha_max": 1.0,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "jet",
+        "query_width": 16,
+        "ridge": 1e-10,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/transfer_fit/modes/models/07ef3ee8c915539ad53433e6197f95c464741f3a264c654deeda17cf93b80d9b.json",
+        "sha256": "5952217487d93996a460fc8ff159c667896283f18c0d69bcb834d28e967cc23a"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/real_jet/07ef3ee8c915539ad53433e6197f95c464741f3a264c654deeda17cf93b80d9b.json",
+        "sha256": "5952217487d93996a460fc8ff159c667896283f18c0d69bcb834d28e967cc23a"
+      }
+    },
+    "real_bank": {
+      "numeric_sha256": "af7ec1c8fa208222fb8bed0f8ea7d6184e4bcbb85c1d148a929f68315c68c405",
+      "shape": {
+        "key_dim": 12,
+        "value_dim": 1
+      },
+      "reader": {
+        "alpha_max": 1.0,
+        "alpha_min": 0.00019142419601837673,
+        "epsilon": 1e-06,
+        "family": "bank",
+        "query_width": 16,
+        "ridge": 1e-10,
+        "support_floor": 1e-12,
+        "version": "ridge_v1"
+      },
+      "source_model_ref": {
+        "path": "artifacts/e2e-core-run-04/transfer_fit/modes/models/d75d8dd704efc4b2a9daedc8f523d782068c37e8c3ff0407d50cbdb401b6167d.json",
+        "sha256": "6c2cba618cd1225aa211ca7dbd03fa4f6d41d0f9d374020af13089f9cb8585ef"
+      },
+      "archived_model_ref": {
+        "path": "docs/research/e2e-evaluation-v2-public-model-baseline/real_bank/d75d8dd704efc4b2a9daedc8f523d782068c37e8c3ff0407d50cbdb401b6167d.json",
+        "sha256": "6c2cba618cd1225aa211ca7dbd03fa4f6d41d0f9d374020af13089f9cb8585ef"
+      }
+    }
+  },
+  "real_normalization_sha256": "bbc264336d5f74b158bf2b3b3940cf0cecbe4dffe390f0e3bf8e1ee56be51626",
+  "private_effects_inspected": false,
+  "new_private_gate": "all_six_exact_numeric_digests_shapes_specs_and_real_normalization_match_before_new_freeze",
+  "interpretation": "deterministic_public_recomputation_only_no_favorable_model_choice"
+}
