@@ -11,12 +11,17 @@ from validation.kernel_stage_a import authority,monitor
 def test_live_authority_helper_is_charged_before_end_and_retained_on_stop(tmp_path,stop_for):
     out=tmp_path/stop_for
     command=[sys.executable,'-c','import time; time.sleep(10)']
-    helpers=[]
+    helpers=[]; phase_start=[None]
     def sample(pid):
-        helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
-                    argv=authority.git_commands(tmp_path)[0])
-        if not helpers:
+        if phase_start[0] is None:
             authority.event(out/'monitor-events.jsonl','authority_start',pid=pid)
+            phase_start[0]=json.loads((out/'monitor-events.jsonl').read_text().splitlines()[-1])['monotonic']
+            return monitor.ResidentTree({pid:60},
+                {pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=command)})
+        helper=dict(pid=pid+100000,parent=pid,executable=authority.GIT,
+                    argv=authority.git_commands(tmp_path)[0],launch_id='live-authority-git-1',
+                    launch_start=phase_start[0],reaped=False)
+        if not helpers:
             authority.event(out/'monitor-events.jsonl','authority_helper',**helper)
             helpers.append(helper['pid'])
         readings={pid:60,helper['pid']:70}

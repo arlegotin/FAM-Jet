@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -55,3 +56,48 @@ def test_render_before_and_after_report_stage_completion_is_byte_identical(tmp_p
     StageLedger(run).stage('report', {'test_only': True}, action)
     second = render_report(run, tmp_path / 'replay' / 'final.md')
     assert first['sha256'] == second['sha256']
+
+
+@pytest.mark.parametrize('target_kind', ['release_json', 'stage_child', 'parent_symlink',
+                                         'chart_symlink', 'chart_child_symlink',
+                                         'prep_child_symlink', 'suffix_collision'])
+def test_report_preflight_rejects_sealed_destinations_without_writes(tmp_path, target_kind):
+    from famjet_poc.report import render_report
+    run = _tiny_run(tmp_path / 'run')
+    external = tmp_path / 'external'
+    external.mkdir()
+    if target_kind == 'release_json':
+        out = run / 'release/release.md'
+    elif target_kind == 'stage_child':
+        out = run / 'freeze/new-report.md'
+    elif target_kind == 'parent_symlink':
+        (external / 'alias').symlink_to(run / 'release', target_is_directory=True)
+        out = external / 'alias/release.md'
+    elif target_kind == 'chart_symlink':
+        (external / 'final-charts').symlink_to(run / 'release', target_is_directory=True)
+        out = external / 'final.md'
+    elif target_kind == 'chart_child_symlink':
+        charts = external / 'final-charts'
+        charts.mkdir()
+        (charts / 'primary-effect.svg').symlink_to(run / 'release/release.json')
+        out = external / 'final.md'
+    elif target_kind == 'prep_child_symlink':
+        prep = tmp_path / 'prep'
+        prep.mkdir()
+        (prep / 'sealed.json').write_bytes(b'sealed preparation')
+        charts = external / 'final-charts'
+        charts.mkdir()
+        (charts / 'primary-effect.svg').symlink_to(prep / 'sealed.json')
+        out = external / 'final.md'
+    else:
+        out = external / 'final.json'
+    before = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+              for p in run.rglob('*') if p.is_file()}
+    with pytest.raises(ValueError, match='report output|sealed|destination'):
+        render_report(run, out)
+    after = {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_size)
+             for p in run.rglob('*') if p.is_file()}
+    assert after == before
+    if target_kind == 'prep_child_symlink':
+        assert (tmp_path / 'prep/sealed.json').read_bytes() == b'sealed preparation'
+    assert not (external / 'final.md').exists()

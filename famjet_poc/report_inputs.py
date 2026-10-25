@@ -18,6 +18,11 @@ from .contracts import ShapeSpec
 _ROOT = Path(__file__).resolve().parent.parent
 _MIGRATION_ID = 'run06-report-order-v1'
 _MIGRATION_PATH = _ROOT / 'docs/research/e2e-run06-report-migration.json'
+_SAFETY_ID = 'run06-report-safety-v2'
+_SAFETY_PATH = _ROOT / 'docs/research/e2e-run06-report-safety-migration.json'
+_V1_MANIFEST_SHA256 = '881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27'
+_V1_REPORTER_SHA256 = '1bd8aca2d561f7412995c87dd183f908918c5f0ad0aef2006c75f3362f3c0703'
+_SAFETY_LAUNCHER_SHA256 = '35ef59c74a792fba1d34280ad647a9729aee3832e102cc7bbf68c14b565221bb'
 _INDEX_PATH = _ROOT / 'docs/research/e2e-run06-execution-record/index.json'
 _INDEX_SHA256 = 'f00aac585d16237cc546259df85c69f5f65a9b6ea6d63fcc4b8b65a67f9ad43c'
 _OLD_COMMIT = 'f886e3c41517fd935a642cb83233dd72faf083b0'
@@ -96,6 +101,23 @@ def _validate_report_transition(manifest, old_files, new_files, observed_pins):
         raise ValueError('report transition pinned artifact/clock mismatch')
 
 
+def _validate_report_safety_transition(manifest, old_files, prior_files, new_files):
+    """Require the reviewed order fix, then only this dated report safety repair."""
+    if (any(type(value) is not dict for value in (manifest, old_files, prior_files, new_files)) or
+            not set(old_files) == set(prior_files) == set(new_files) or
+            manifest.get('old_files') != old_files or
+            manifest.get('prior_files') != prior_files or
+            manifest.get('new_files') != new_files or
+            manifest.get('old_sha256') != canonical_hash(old_files) or
+            manifest.get('prior_sha256') != canonical_hash(prior_files) or
+            manifest.get('new_sha256') != canonical_hash(new_files) or
+            {name for name in old_files if old_files[name] != prior_files[name]} !=
+                {'famjet_poc/report_inputs.py'} or
+            {name for name in prior_files if prior_files[name] != new_files[name]} !=
+                {'famjet_poc/report.py', 'famjet_poc/report_inputs.py'}):
+        raise ValueError('report safety transition executable inventory mismatch')
+
+
 def _inventory(root, names):
     """Hash an exact file roster without following links or accepting additions."""
     root = Path(root).resolve(strict=True)
@@ -136,6 +158,8 @@ def _admit_report_migration(run, compatibility_id, archived_source):
     from .protected import executable_identity
     from .contracts import source_sha256
     run = Path(run).resolve(strict=True)
+    if compatibility_id == _SAFETY_ID:
+        return _admit_report_safety_migration(run, archived_source)
     if compatibility_id != _MIGRATION_ID or archived_source is None:
         raise ValueError('unregistered report compatibility ID or missing archived source')
     manifest_sha, _ = _file_sha(_MIGRATION_PATH)
@@ -191,6 +215,80 @@ def _admit_report_migration(run, compatibility_id, archived_source):
             'manifest_sha256': manifest_sha,
             'launcher_sha256': manifest['launcher_sha256'],
             'execution_sha256': _OLD_EXECUTABLE,
+            'reporter_sha256': current['sha256'],
+            'archive_index_sha256': _INDEX_SHA256,
+            'original_exit_code': 1,
+            'original_report_status': 'failed',
+            'original_report_error': 'protected run ID inventory differs from freeze'}
+
+
+def _admit_report_safety_migration(run, archived_source):
+    """Admit only the reviewed original→order-v1→safety-v2 byte transition."""
+    from .protected import executable_identity
+    from .contracts import source_sha256
+    if archived_source is None:
+        raise ValueError('run06 safety recovery requires archived execution source')
+    prior = _read_json(_MIGRATION_PATH, _V1_MANIFEST_SHA256)
+    manifest_sha, _ = _file_sha(_SAFETY_PATH)
+    manifest = _read_json(_SAFETY_PATH)
+    index = _read_json(_INDEX_PATH, _INDEX_SHA256)
+    if (prior.get('compatibility_id') != _MIGRATION_ID or
+            prior.get('old_sha256') != _OLD_EXECUTABLE or
+            prior.get('new_sha256') != _V1_REPORTER_SHA256 or
+            prior.get('launcher_sha256') != _LAUNCHER_SHA256 or
+            _file_sha(_ROOT / 'scripts/report_run06_recovery.py')[0] != _LAUNCHER_SHA256 or
+            index.get('frozen_executable') !=
+                {'files': prior.get('old_files'), 'sha256': _OLD_EXECUTABLE} or
+            manifest.get('schema_version') != 1 or
+            manifest.get('compatibility_id') != _SAFETY_ID or
+            manifest.get('scope') != 'artifact_validation_and_reporting_only' or
+            manifest.get('reason') != 'dated ordinary report output safety repair' or
+            manifest.get('old_commit') != _OLD_COMMIT or
+            manifest.get('old_sha256') != _OLD_EXECUTABLE or
+            manifest.get('old_files') != prior['old_files'] or
+            manifest.get('prior_compatibility_id') != _MIGRATION_ID or
+            manifest.get('prior_manifest_sha256') != _V1_MANIFEST_SHA256 or
+            manifest.get('prior_sha256') != _V1_REPORTER_SHA256 or
+            manifest.get('prior_files') != prior['new_files'] or
+            manifest.get('archive_index_sha256') != _INDEX_SHA256 or
+            manifest.get('archived_identity_sha256') != _ARCHIVED_IDENTITY_SHA256 or
+            manifest.get('pinned') != _RUN_PINS or manifest.get('prep_pinned') != _PREP_PINS or
+            manifest.get('original_exit_code') != 1 or
+            manifest.get('original_report_status') != 'failed' or
+            manifest.get('launcher_path') != 'scripts/report_run06_recovery_v2.py' or
+            manifest.get('launcher_sha256') != _SAFETY_LAUNCHER_SHA256 or
+            _file_sha(_ROOT / 'scripts/report_run06_recovery_v2.py')[0] != _SAFETY_LAUNCHER_SHA256 or
+            manifest.get('report_lock_sha256') != _REPORT_LOCK_SHA256 or
+            _file_sha(_ROOT / 'docs/reporting-requirements.lock')[0] != _REPORT_LOCK_SHA256 or
+            index.get('file_count') != 4813 or index.get('bytes') != 2062164087 or
+            index.get('prep_bytes') != 10158074 or index.get('actual_returncode') != 1 or
+            any(index['files'].get(name, {}).get('sha256') != sha for name, sha in _RUN_PINS.items()) or
+            any(index['prep_files'].get(name, {}).get('sha256') != sha for name, sha in _PREP_PINS.items())):
+        raise ValueError('run06 report safety authorization mismatch')
+    archive = Path(archived_source).resolve(strict=True)
+    if (_file_sha(archive / 'identity.json')[0] != _ARCHIVED_IDENTITY_SHA256 or
+            _read_json(archive / 'identity.json') != index['frozen_executable']):
+        raise ValueError('archived original execution identity mismatch')
+    archived_inventory = {name: {'sha256': sha, 'bytes': (archive / name).stat().st_size}
+                          for name, sha in prior['old_files'].items()}
+    archived_inventory['identity.json'] = {'sha256': _ARCHIVED_IDENTITY_SHA256,
+                                           'bytes': (archive / 'identity.json').stat().st_size}
+    _inventory(archive, archived_inventory)
+    current = executable_identity()
+    _validate_report_safety_transition(manifest, prior['old_files'], prior['new_files'],
+                                       current['files'])
+    if (current['sha256'] != manifest['new_sha256'] or
+            source_sha256() != _read_json(run / 'freeze/study-freeze-v1.json',
+                                         _RUN_PINS['freeze/study-freeze-v1.json'])['source_sha256']):
+        raise ValueError('run06 report safety source mismatch')
+    _inventory(run, index['files'])
+    _inventory(_prep_root(run), index['prep_files'])
+    return {'compatibility_id': _SAFETY_ID,
+            'manifest_sha256': manifest_sha,
+            'launcher_sha256': _SAFETY_LAUNCHER_SHA256,
+            'execution_sha256': _OLD_EXECUTABLE,
+            'prior_reporter_sha256': _V1_REPORTER_SHA256,
+            'prior_manifest_sha256': _V1_MANIFEST_SHA256,
             'reporter_sha256': current['sha256'],
             'archive_index_sha256': _INDEX_SHA256,
             'original_exit_code': 1,

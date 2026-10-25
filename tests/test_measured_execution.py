@@ -25,6 +25,16 @@ def _observation(rss=10, disk=0):
             'now_epoch_seconds': time.time(), 'descendant_pids': []}
 
 
+def _public_normalization():
+    from pathlib import Path
+    from famjet.provenance import canonical_hash
+    root = Path(__file__).resolve().parents[1]
+    value = json.loads((root / 'tests/fixtures/e2e-public-real-normalization.json').read_bytes())
+    baseline = json.loads((root / 'docs/research/e2e-evaluation-v2-selection-baseline.json').read_bytes())
+    assert canonical_hash(value) == baseline['real_normalization_sha256']
+    return value
+
+
 def test_cached_checks_still_expire_original_deadline(tmp_path):
     with pytest.raises(RuntimeError, match='wall deadline'):
         with LiveStageGuard(tmp_path, _allocation(.04), tmp_path / 'guard.json',
@@ -395,8 +405,7 @@ def test_archived_public_models_and_normalization_match_six_role_baseline():
     refs = {role: {'path': str(root / item['archived_model_ref']['path']),
                    'sha256': item['archived_model_ref']['sha256']}
             for role, item in baseline['roles'].items()}
-    old_public_modes = json.loads((root / 'artifacts/e2e-core-run-04/transfer_fit/modes/transfer-modes.json').read_bytes())
-    modes = {'normalization': old_public_modes['normalization'],
+    modes = {'normalization': _public_normalization(),
              'task_adapted': {'jet': refs['real_jet'], 'bank': refs['real_bank']}}
     result = verify_public_selection({'jet': refs['k16_jet'], 'bank': refs['k16_bank']},
                                      {'jet': refs['k12_jet'], 'bank': refs['k12_bank']}, modes)
@@ -419,10 +428,9 @@ def test_public_gate_receipt_rejects_forged_match_and_changed_bytes(tmp_path):
     refs = {role: {'path': str(root / item['archived_model_ref']['path']),
                    'sha256': item['archived_model_ref']['sha256']}
             for role, item in baseline['roles'].items()}
-    old_modes = json.loads((root / 'artifacts/e2e-core-run-04/transfer_fit/modes/transfer-modes.json').read_bytes())
     selected16 = {'jet': refs['k16_jet'], 'bank': refs['k16_bank']}
     selected12 = {'jet': refs['k12_jet'], 'bank': refs['k12_bank']}
-    modes = {'normalization': old_modes['normalization'],
+    modes = {'normalization': _public_normalization(),
              'task_adapted': {'jet': refs['real_jet'], 'bank': refs['real_bank']}}
     correct = verify_public_selection(selected16, selected12, modes)
     path = tmp_path / 'gate.json'
@@ -467,16 +475,33 @@ def test_pipeline_run_stops_at_public_mismatch_before_freeze_factory(tmp_path, m
     from pathlib import Path
     from famjet_poc import pipeline, transfer
     root = Path(__file__).resolve().parents[1]
-    old = root / 'artifacts/e2e-core-run-04'
+    baseline = json.loads((root / 'docs/research/e2e-evaluation-v2-selection-baseline.json').read_bytes())
+    refs = {role: {'path': str(root / item['archived_model_ref']['path']),
+                   'sha256': item['archived_model_ref']['sha256']}
+            for role, item in baseline['roles'].items()}
+    public = tmp_path / 'public'
+    public.mkdir()
+    def fixture(name, value):
+        path = public / name
+        path.write_text(json.dumps(value))
+        return path
     out = tmp_path / 'new-run'
     manifest, _ = pipeline._study_inputs(out)
     def ref(path):
         return {'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
-    probe16 = old / 'probe_k16/attempt-000/probe/probe.json'
-    probe12 = old / 'probe_k12/attempt-000/probe/probe.json'
-    journal16 = old / 'development_k16/study/development.json'
-    journal12 = old / 'development_k12/study/development.json'
-    modes_path = old / 'transfer_fit/modes/transfer-modes.json'
+    probe16 = fixture('probe16.json', {'status': 'public_fixture'})
+    probe12 = fixture('probe12.json', {'forecast': {
+        'estimated_cache_construction_seconds': 1,
+        'estimated_cold_worker_seconds': 1,
+        'estimated_development_stream_seconds': 1,
+        'estimated_training_fit_seconds': 1}})
+    journal16 = fixture('journal16.json', {'selected': {
+        family: {'fit_ref': refs['k16_' + family]} for family in ('jet', 'bank')},
+        'development_cache_sha256': 'a' * 64})
+    journal12 = fixture('journal12.json', {'selected': {
+        family: {'fit_ref': refs['k12_' + family]} for family in ('jet', 'bank')}})
+    modes_path = fixture('modes.json', {'normalization': _public_normalization(),
+        'task_adapted': {'jet': refs['real_jet'], 'bank': refs['real_bank']}})
     public_modes = json.loads(modes_path.read_bytes())
     monkeypatch.setattr(transfer, 'verify_transfer_probe',
         lambda *_args: {'recommended_wall_seconds': 300,

@@ -42,13 +42,13 @@ printf '%s  %s\n' 'b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e3
 .venv/bin/python -m famjet.prepare --config configs/beijing.yaml
 ```
 
-To render the **sealed run06** from the full original run, preparation and archived source, use the fixed report-only migration in a fresh sibling output directory:
+To render the **sealed run06** from the full original run, preparation and archived source under the current guarded reporter, use the fixed v2 report-only migration in a fresh sibling output directory:
 
 ```sh
-FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python scripts/report_run06_recovery.py --run artifacts/e2e-core-run-06 --out artifacts/e2e-run06-replay-new/final.md --archived-source docs/research/e2e-run06-execution-source --compatibility-id run06-report-order-v1
+FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python scripts/report_run06_recovery_v2.py --run artifacts/e2e-core-run-06 --out artifacts/e2e-run06-replay-new/final.md --archived-source docs/research/e2e-run06-execution-source --compatibility-id run06-report-safety-v2
 ```
 
-The recovery verifies the original run, source, model, grant, score, row, cost and clock inventories before rendering. It does not fit, select models, generate histories, create grants or reseal the releases. A copied full run and archived source also replayed with original locations unavailable. External prepared Beijing arrays are labeled `verified_inventory_not_rehashed`; replay checks their sealed inventory but does not reopen those array bytes. A fresh full pipeline execution is the separate data-validation step.
+The v2 migration binds the preserved original execution source, the historical v1 reporter and the current guarded reporter through exact file maps. The historical v1 launcher and manifest remain at `scripts/report_run06_recovery.py` and `docs/research/e2e-run06-report-migration.json`; to execute that historical reporter, check out its source commit `4e073f86cfadea7ef2793bf0f1bf91850d8856d7` separately. The recovery verifies the original run, source, model, grant, score, row, cost and clock inventories before rendering. It does not fit, select models, generate histories, create grants or reseal the releases. External prepared Beijing arrays are labeled `verified_inventory_not_rehashed`; replay checks their sealed inventory but does not reopen those array bytes. A fresh full pipeline execution is the separate data-validation step.
 
 For a **fresh execution** of the registered study, the normal CLI is `FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m famjet_poc run --out artifacts/NEW-RUN`. A new output path reuses the fixed registered seeds and populations; it is a reproduction, **not a new independent confirmation**. The ordinary `report --run RUNROOT --out MARKDOWN` is for runs frozen under the current reporter identity. Do not run or resume the historical run06 pipeline under changed source. An eligible public-stage `run --out RUNROOT --resume` keeps the same source, root and original clocks; failed/begun protected cells are not routine-resumable.
 
@@ -99,11 +99,12 @@ The [technical specification](docs/superpowers/specs/2026-10-16-famjet-design.md
 Historical core smoke/gate commands, after creating the exact 3.13.5 main environment above:
 
 ```sh
-.venv/bin/python -m pytest
+FAMJET_REPORT_PYTHON=.report-venv/bin/python .venv/bin/python -m pytest -q --ignore=tests/test_poc_inference.py
+.venv/bin/python -m pytest -q tests/test_poc_inference.py
 .venv/bin/python -m famjet.doctor --out artifacts/environment
 ```
 
-The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The original project environment used torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
+The unit suite uses a committed compact public normalization fixture. The two full run06 admission tests are opt-in: with the verified complete ignored run and prep archive present, run `FAMJET_RUN06_INTEGRATION=1 .venv/bin/python -m pytest -q tests/test_poc_report_recovery.py -k 'registered_admission or copied_admission'`. Run inference separately because its process-lifetime 256-MiB RSS check must start without the rest of the suite loaded. The lock contains exact hashes for CPython 3.13 macOS 14+ arm64 wheels and universal wheels, verified on Python 3.13.5. It is not a cross-platform lock. Other interpreters/platforms need a separately resolved lock. The original project environment used torch 2.14.1, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1 and PyYAML 6.0.3. See [wheel and resolver provenance](docs/research/2026-10-16-native-wheels.json) and the [executed gate record](docs/research/2026-10-16-environment-gate.md) for clean-install checks and regeneration commands.
 
 Preparation and a short pipeline check are executable now:
 

@@ -95,7 +95,11 @@ def test_unrecoverable_source_journal_is_failed_with_incomplete_accounting(tmp_p
             root=sample(pid,os.getpid(),COMMAND,start=now,end=now+.001); root['rss_bytes']=900
             a.event(path,'observer_sample',processes=[root])
         return m.ResidentTree({pid:70},{pid:sample(pid,os.getpid(),COMMAND,start=now,end=now+.001)})
-    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.08,free_disk_bytes=0)
+    # This case probes journal failure after a sample, not the launch deadline.
+    result=m.supervise(COMMAND,out,sampler=sampler,outer_seconds=.5,free_disk_bytes=0)
+    assert polls, 'the malformed source journal must be sampled'
+    if failure=='partial':
+        assert (out/'monitor-events.jsonl').read_bytes().startswith(b'{"event":"observer_sample","processes":[')
     assert result['status']=='FAILED' and result['returncode'] is not None
     assert result['source_event_accounting']['complete'] is False
     assert result['source_event_accounting']['status']=='FAILED'

@@ -358,23 +358,27 @@ def test_observer_helper_requires_exact_declared_pid_parent_executable_and_argv(
 
 
 def test_observed_helper_peak_is_charged_even_if_declaration_arrives_after_exit(tmp_path):
-    m=module('monitor'); import os,sys
+    m=module('monitor'); import os,sys,time
+    helper_start=time.monotonic()
     code='''
 import json,os,time
 from pathlib import Path
 p=Path('monitor-events.jsonl')
 p.write_text(json.dumps(dict(event='baseline',pid=os.getpid(),rss=10))+'\\n')
-time.sleep(.08)
+while not Path('sampled-twice').exists(): time.sleep(.005)
+start=HELPER_START
 with p.open('a') as f:
- f.write(json.dumps(dict(event='observer_helper',pid=os.getpid()+100000,parent=os.getpid(),executable='/bin/ps',argv=['/bin/ps','-axo','pid=,ppid=,rss=,comm=,args=']))+'\\n')
+ f.write(json.dumps(dict(event='observer_helper',pid=os.getpid()+100000,parent=os.getpid(),executable='/bin/ps',argv=['/bin/ps','-axo','pid=,ppid=,rss=,comm=,args='],launch_id='late-observer-1',launch_start=start,reaped=False))+'\\n')
+ f.write(json.dumps(dict(event='observer_helper_end',pid=os.getpid()+100000,parent=os.getpid(),launch_id='late-observer-1',completion_end=time.monotonic(),reaped=True,returncode=0))+'\\n')
 time.sleep(10)
-'''
+'''.replace('HELPER_START',repr(helper_start))
     polls=[0]
     def sample(pid):
         polls[0]+=1
         helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
         readings={pid:100}
         if polls[0]<3: readings[pid+100000]=20
+        if polls[0]==2: (tmp_path/'helper/sampled-twice').touch()
         return m.ResidentTree(readings,{pid:dict(parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code]),pid+100000:helper})
     result=m.supervise([sys.executable,'-c',code],tmp_path/'helper',outer_seconds=.3,
                         free_disk_bytes=0,incremental_bytes=100,sampler=sample)

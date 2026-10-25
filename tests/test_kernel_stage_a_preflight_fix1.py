@@ -148,12 +148,15 @@ def test_f2_exact_git_authority_identity_is_distinct_and_foreign_stops_immediate
 def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkeypatch,late):
     from validation.kernel_stage_a import monitor as m
     out=tmp_path/late; sampled=[]; original_sleep=time.sleep
+    helper_start=time.monotonic()
     code='from pathlib import Path; import time\nwhile not Path("finish").exists(): time.sleep(.005)'
     def sample(pid):
         sampled.append(pid)
         identities={pid:dict(pid=pid,parent=os.getpid(),executable=sys.executable,argv=[sys.executable,'-c',code])}
         if late=='worker': return m.ResidentTree({pid:100},identities)
-        (out/'monitor-events.jsonl').write_text(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
+        events=out/'monitor-events.jsonl'
+        if not events.stat().st_size:
+            with events.open('a') as stream: stream.write(json.dumps(dict(event='baseline',pid=pid,rss=10))+'\n')
         helper=dict(pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV)
         identities[helper['pid']]=helper
         return m.ResidentTree({pid:20,helper['pid']:100},identities)
@@ -162,8 +165,15 @@ def test_f3_final_reconciliation_charges_all_retained_late_peaks(tmp_path,monkey
         if seconds==.02 and sampled and not finished[0]:
             pid=sampled[-1]
             entry=(dict(event='baseline',pid=pid,rss=10) if late=='worker' else
-                   dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,argv=m.PS_ARGV))
-            with (out/'monitor-events.jsonl').open('a') as stream: stream.write(json.dumps(entry)+'\n')
+                   dict(event='observer_helper',pid=pid+100000,parent=pid,executable=m.PS,
+                        argv=m.PS_ARGV,launch_id='late-final-observer-1',
+                        launch_start=helper_start,reaped=False))
+            with (out/'monitor-events.jsonl').open('a') as stream:
+                stream.write(json.dumps(entry)+'\n')
+                if late=='observer':
+                    stream.write(json.dumps(dict(event='observer_helper_end',pid=pid+100000,
+                        parent=pid,launch_id='late-final-observer-1',completion_end=time.monotonic(),
+                        reaped=True,returncode=0))+'\n')
             (out/'finish').touch(); finished[0]=True; original_sleep(.08)
         else: original_sleep(seconds)
     monkeypatch.setattr(m.time,'sleep',finish_after_last_sample)

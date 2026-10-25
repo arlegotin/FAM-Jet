@@ -415,8 +415,43 @@ def _science_markdown(machine):
     return '\n'.join(lines)
 
 
+def _check_report_destination(run, out):
+    """Keep every derived report path away from sealed input inventories."""
+    from .plots import _NAMES
+    run = Path(run).resolve(strict=True)
+    prep = run.with_name('prep' if run.name == 'run' else run.name + '-prep').resolve()
+    out = Path(out)
+    charts = out.with_name(out.stem + '-charts')
+    planned = (out, out.with_suffix('.json'),
+               out.with_name(out.stem + '-chart-data.json'), charts,
+               *(charts / name for name in (*_NAMES, 'plots-receipt.json',
+                                            'plot-invocation.json', 'plot-invocation.log')))
+    resolved = tuple(path.resolve() for path in planned)
+    if len(set(resolved)) != len(resolved):
+        raise ValueError('report output destination aliases another generated file')
+    inside = any(path.is_relative_to(root) for path in resolved for root in (run, prep))
+    if inside:
+        reserved = run / 'report'
+        allowed = (resolved[0] == reserved / 'final.md' and
+                   all(path.is_relative_to(reserved) for path in resolved) and
+                   not any(path.exists() or path.is_symlink() for path in planned))
+        if allowed:
+            ledger = json.loads((run / 'run-ledger.json').read_bytes())
+            generations = ledger.get('generations', [])
+            allowed = bool(generations and generations[-1].get('stage') == 'report' and
+                           generations[-1].get('status') == 'running')
+        if not allowed:
+            raise ValueError('report output destination overlaps sealed run inputs')
+    protected = (_ROOT / 'configs/manifests/beijing_v2_targets.json',
+                 _ROOT / 'docs/research/e2e-execution-policy-v2.json',
+                 _ROOT / 'docs/research/e2e-evaluation-v2-selection-baseline.json')
+    if any(path == item.resolve() for path in resolved for item in protected):
+        raise ValueError('report output destination overlaps sealed project inputs')
+
+
 def render_report(run, out):
     """Replay a closed run; publish outputs only after all validation succeeds."""
+    _check_report_destination(run, out)
     inputs = load_report_inputs(run)
     out = Path(out)
     if inputs['status'] == 'non_scientific_smoke':

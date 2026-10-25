@@ -168,7 +168,7 @@ def test_copied_scientific_policy_and_gate_refs_resolve_after_original_removed(t
     from famjet_poc.report_inputs import ArtifactPaths
     repository = Path(__file__).resolve().parents[1]
     baseline = json.loads((repository / 'docs/research/e2e-evaluation-v2-selection-baseline.json').read_bytes())
-    modes_public = json.loads((repository / 'artifacts/e2e-core-run-04/transfer_fit/modes/transfer-modes.json').read_bytes())
+    normalization = json.loads((repository / 'tests/fixtures/e2e-public-real-normalization.json').read_bytes())
     original = tmp_path / 'original'
     (original / 'freeze').mkdir(parents=True)
     (original / 'freeze/study-freeze-v1.json').write_text('{}')
@@ -184,7 +184,7 @@ def test_copied_scientific_policy_and_gate_refs_resolve_after_original_removed(t
     selected16 = {'jet': refs['k16_jet'], 'bank': refs['k16_bank']}
     selected12 = {'jet': refs['k12_jet'], 'bank': refs['k12_bank']}
     modes = {'task_adapted': {'jet': refs['real_jet'], 'bank': refs['real_bank']},
-             'normalization': modes_public['normalization']}
+             'normalization': normalization}
     gate = verify_public_selection(selected16, selected12, modes)
     gate_path = original / 'public_selection_gate/gate.json'
     gate_path.parent.mkdir()

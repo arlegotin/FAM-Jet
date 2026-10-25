@@ -9,6 +9,45 @@ import json
 import hashlib
 from types import SimpleNamespace
 import shutil
+import os
+from famjet.provenance import canonical_json
+
+
+_REPOSITORY = Path(__file__).resolve().parents[1]
+_FROZEN = _REPOSITORY / 'docs/research/e2e-run06-execution-record/study-freeze-v1.json'
+
+
+def _sealed_policy_fixture(root):
+    frozen = json.loads(_FROZEN.read_bytes())
+    policy = frozen['inputs']['resource_policy']
+    policy_raw = canonical_json(policy)
+    (root / 'run-policy.json').write_bytes(policy_raw)
+    anchor = {'schema_version': 1, 'kind': 'famjet_run_policy_anchor_v2',
+              'run_policy_sha256': hashlib.sha256(policy_raw).hexdigest(),
+              'execution_source_sha256': policy['execution_source_sha256'],
+              'original_start_epoch_seconds': policy['start_epoch_seconds'],
+              'global_deadline_epoch_seconds': policy['global_deadline_epoch_seconds'],
+              'work_deadline_epoch_seconds': policy['work_deadline_epoch_seconds']}
+    (root / 'run-policy-anchor.json').write_bytes(canonical_json(anchor))
+    return frozen
+
+
+def _run06_integration_root():
+    if os.environ.get('FAMJET_RUN06_INTEGRATION') != '1':
+        pytest.skip('set FAMJET_RUN06_INTEGRATION=1 with the verified local run06 archive')
+    root = _REPOSITORY / 'artifacts/e2e-run06-original-archive/run'
+    prep = root.parent / 'prep'
+    if not (root / 'run-ledger.json').is_file() or not (prep / 'exit-witness.json').is_file():
+        pytest.skip('verified complete run06 run/prep archive unavailable')
+    return root
+
+
+def _admitted_fixture(*_args):
+    return {'compatibility_id': 'run06-report-safety-v2',
+            'execution_sha256': 'b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260',
+            'reporter_sha256': 'fixture-reporter', 'manifest_sha256': 'fixture-manifest',
+            'launcher_sha256': 'fixture-launcher', 'archive_index_sha256': 'fixture-index',
+            'original_exit_code': 1, 'original_report_status': 'failed'}
 
 
 def test_report_migration_rejects_scientific_source_or_clock_change():
@@ -47,16 +86,22 @@ def test_recovery_launcher_exposes_only_fixed_migration(tmp_path):
     assert not (tmp_path / 'out').exists()
 
 
+def test_report_safety_v2_launcher_has_its_own_fixed_id():
+    launcher = _REPOSITORY / 'scripts/report_run06_recovery_v2.py'
+    result = subprocess.run([sys.executable, str(launcher), '--help'],
+                            capture_output=True, text=True)
+    assert result.returncode == 0
+    assert 'run06-report-safety-v2' in result.stdout
+    assert 'run06-report-order-v1' not in result.stdout
+
+
 def test_historical_policy_rejects_consistently_rewritten_clock(tmp_path):
     from famjet_poc.report_inputs import _verify_historical_run_policy
     repository = Path(__file__).resolve().parents[1]
-    archive = repository / 'docs/research/e2e-run06-execution-record'
     original = Path('artifacts/e2e-core-run-06')
     run = tmp_path / 'copy'
     run.mkdir()
-    for name in ('run-policy.json', 'run-policy-anchor.json'):
-        (run / name).write_bytes((repository / original / name).read_bytes())
-    freeze = json.loads((archive / 'study-freeze-v1.json').read_bytes())
+    freeze = _sealed_policy_fixture(run)
     paths = SimpleNamespace(root=run, original_root=original)
     assert _verify_historical_run_policy(paths, freeze['inputs']) == freeze['inputs']['resource_policy']
     policy = json.loads((run / 'run-policy.json').read_bytes())
@@ -74,12 +119,15 @@ def test_historical_policy_rejects_consistently_rewritten_clock(tmp_path):
         _verify_historical_run_policy(paths, freeze['inputs'])
 
 
-def test_old_execution_apis_remain_strict():
+def test_old_execution_apis_remain_strict(tmp_path):
     from famjet_poc.protected import FrozenStudyRef
     from famjet_poc.execution_policy import bind_run_policy
     repository = Path(__file__).resolve().parents[1]
-    run = repository / 'artifacts/e2e-core-run-06'
-    freeze = json.loads((run / 'freeze/study-freeze-v1.json').read_bytes())
+    run = tmp_path / 'run'
+    (run / 'freeze').mkdir(parents=True)
+    raw = _FROZEN.read_bytes()
+    (run / 'freeze/study-freeze-v1.json').write_bytes(raw)
+    freeze = _sealed_policy_fixture(run)
     reference = FrozenStudyRef(run / 'freeze/study-freeze-v1.json',
                                hashlib.sha256((run / 'freeze/study-freeze-v1.json').read_bytes()).hexdigest(),
                                freeze['source_sha256'], freeze['executable']['sha256'])
@@ -106,14 +154,14 @@ def test_registered_admission_binds_copied_run_and_all_source_bytes(tmp_path):
     archive = repository / 'docs/research/e2e-run06-execution-source'
     copied = tmp_path / 'source'
     shutil.copytree(archive, copied)
-    run = repository / 'artifacts/e2e-run06-original-archive/run'
-    admitted = _admit_report_migration(run, 'run06-report-order-v1', copied)
+    run = _run06_integration_root()
+    admitted = _admit_report_migration(run, 'run06-report-safety-v2', copied)
     assert admitted['original_exit_code'] == 1
     assert admitted['execution_sha256'] == 'b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260'
     protected = copied / 'famjet_poc/protected.py'
     protected.write_bytes(protected.read_bytes() + b'\n# altered\n')
     with pytest.raises(ValueError, match='inventory|transition|identity'):
-        _admit_report_migration(run, 'run06-report-order-v1', copied)
+        _admit_report_migration(run, 'run06-report-safety-v2', copied)
 
 
 @pytest.mark.parametrize('damage', ['requirements.lock', 'extra', 'missing'])
@@ -129,9 +177,10 @@ def test_archived_execution_inventory_mutations_rejected(tmp_path, damage):
         (copied / 'extra.py').write_text('pass')
     else:
         (copied / 'famjet_poc/protected.py').unlink()
-    run = repository / 'artifacts/e2e-run06-original-archive/run'
+    run = tmp_path / 'run'
+    run.mkdir()
     with pytest.raises((ValueError, FileNotFoundError)):
-        _admit_report_migration(run, 'run06-report-order-v1', copied)
+        _admit_report_migration(run, 'run06-report-safety-v2', copied)
 
 
 @pytest.mark.parametrize('damage', ['freeze', 'release', 'run', 'extra', 'missing'])
@@ -168,7 +217,7 @@ def test_copied_admission_avoids_original_run_and_protected_work(monkeypatch):
     from famjet_poc import protected, pipeline
     repository = Path(__file__).resolve().parents[1]
     original = (repository / 'artifacts/e2e-core-run-06').resolve()
-    copied = repository / 'artifacts/e2e-run06-original-archive/run'
+    copied = _run06_integration_root()
     source = repository / 'docs/research/e2e-run06-execution-source'
     real_open = Path.open
     def guarded_open(path, *args, **kwargs):
@@ -181,7 +230,7 @@ def test_copied_admission_avoids_original_run_and_protected_work(monkeypatch):
     monkeypatch.setattr(protected, 'freeze_study', forbidden)
     monkeypatch.setattr(protected, 'seal_release', forbidden)
     monkeypatch.setattr(pipeline, 'run', forbidden)
-    accepted = _admit_report_migration(copied, 'run06-report-order-v1', source)
+    accepted = _admit_report_migration(copied, 'run06-report-safety-v2', source)
     assert accepted['original_exit_code'] == 1
 
 
@@ -282,6 +331,46 @@ def test_report_transition_rejects_full_source_mutation_matrix():
         _validate_report_transition(changed_target, old, new, manifest['pinned'])
 
 
+def test_report_safety_v2_requires_exact_prior_and_two_report_paths():
+    from famjet_poc.report_inputs import _validate_report_safety_transition
+    old = {'famjet_poc/report_inputs.py': 'a' * 64,
+           'famjet_poc/report.py': 'b' * 64,
+           'famjet_poc/protected.py': 'c' * 64,
+           'requirements.lock': 'd' * 64}
+    prior = {**old, 'famjet_poc/report_inputs.py': 'e' * 64}
+    current = {**prior, 'famjet_poc/report_inputs.py': 'f' * 64,
+               'famjet_poc/report.py': 'g' * 64}
+    manifest = {'old_files': old, 'prior_files': prior, 'new_files': current,
+                'old_sha256': canonical_hash(old), 'prior_sha256': canonical_hash(prior),
+                'new_sha256': canonical_hash(current)}
+    _validate_report_safety_transition(manifest, old, prior, current)
+    for altered in ({**current, 'famjet_poc/protected.py': 'x' * 64},
+                    {**current, 'requirements.lock': 'x' * 64},
+                    {**current, 'famjet_poc/report.py': 'x' * 64},
+                    {**current, 'extra.py': 'x' * 64}):
+        with pytest.raises(ValueError, match='transition'):
+            _validate_report_safety_transition(manifest, old, prior, altered)
+    with pytest.raises(ValueError, match='transition'):
+        _validate_report_safety_transition(manifest, old,
+            {**prior, 'famjet_poc/protected.py': 'x' * 64}, current)
+
+
+def test_report_safety_v2_committed_chain_matches_current_source():
+    from famjet_poc.protected import executable_identity
+    from famjet_poc.report_inputs import _validate_report_safety_transition
+    v1 = json.loads((_REPOSITORY / 'docs/research/e2e-run06-report-migration.json').read_bytes())
+    v2 = json.loads((_REPOSITORY / 'docs/research/e2e-run06-report-safety-migration.json').read_bytes())
+    current = executable_identity()
+    assert hashlib.sha256((_REPOSITORY / 'docs/research/e2e-run06-report-migration.json').read_bytes()).hexdigest() == '881cf66a7a5b099e5620ab4e4d17699b1c1c005052e67dabb649ec1642b00e27'
+    assert hashlib.sha256((_REPOSITORY / 'scripts/report_run06_recovery.py').read_bytes()).hexdigest() == '9bcb1724fd16793314f5fcd5f8faef87d78fccfc70343705540ff92f206eb83e'
+    assert hashlib.sha256((_REPOSITORY / 'scripts/report_run06_recovery_v2.py').read_bytes()).hexdigest() == v2['launcher_sha256']
+    assert v2['prior_manifest_sha256'] == hashlib.sha256((_REPOSITORY / 'docs/research/e2e-run06-report-migration.json').read_bytes()).hexdigest()
+    assert v2['prior_files'] == v1['new_files']
+    assert v2['new_files'] == current['files']
+    assert v2['new_sha256'] == current['sha256']
+    _validate_report_safety_transition(v2, v1['old_files'], v1['new_files'], current['files'])
+
+
 @pytest.mark.parametrize('change', [
     {'schema_version': 2}, {'schema_version': 1.0},
     {'start_epoch_seconds': True}, {'global_deadline_epoch_seconds': 0},
@@ -294,9 +383,7 @@ def test_historical_policy_field_mutations_rejected(tmp_path, change):
     original = Path('artifacts/e2e-core-run-06')
     root = tmp_path / 'run'
     root.mkdir()
-    for name in ('run-policy.json', 'run-policy-anchor.json'):
-        (root / name).write_bytes((repository / original / name).read_bytes())
-    inputs = json.loads((repository / 'docs/research/e2e-run06-execution-record/study-freeze-v1.json').read_bytes())['inputs']
+    inputs = _sealed_policy_fixture(root)['inputs']
     policy_path = root / 'run-policy.json'
     body = json.loads(policy_path.read_bytes())
     body.update(change)
@@ -308,8 +395,10 @@ def test_historical_policy_field_mutations_rejected(tmp_path, change):
 def test_failed_post_admission_receipt_keeps_provenance_and_partial_hashes(tmp_path, monkeypatch):
     from scripts import report_run06_recovery as launcher
     repository = Path(__file__).resolve().parents[1]
-    run = repository / 'artifacts/e2e-run06-original-archive/run'
+    run = tmp_path / 'run'
+    run.mkdir()
     source = repository / 'docs/research/e2e-run06-execution-source'
+    monkeypatch.setattr(launcher, '_admit_report_migration', _admitted_fixture)
     def fail_after_admission(run, out, archive):
         out.with_name('partial-chart-data.json').write_bytes(b'partial-scientific-output')
         raise RuntimeError('controlled downstream failure')
@@ -332,8 +421,10 @@ def test_failed_post_admission_receipt_keeps_provenance_and_partial_hashes(tmp_p
 def test_publication_failure_does_not_claim_completion(tmp_path, monkeypatch):
     from scripts import report_run06_recovery as launcher
     repository = Path(__file__).resolve().parents[1]
-    run = repository / 'artifacts/e2e-run06-original-archive/run'
+    run = tmp_path / 'run'
+    run.mkdir()
     source = repository / 'docs/research/e2e-run06-execution-source'
+    monkeypatch.setattr(launcher, '_admit_report_migration', _admitted_fixture)
     def render_fixture(run, out, archive):
         out.write_bytes(b'report')
         return {'execution_sha256': 'old', 'reporter_sha256': 'new'}
@@ -353,8 +444,10 @@ def test_publication_failure_does_not_claim_completion(tmp_path, monkeypatch):
 def test_volatile_plot_invocation_is_only_in_receipt_and_outputs_replay(tmp_path, monkeypatch):
     from scripts import report_run06_recovery as launcher
     repository = Path(__file__).resolve().parents[1]
-    run = repository / 'artifacts/e2e-run06-original-archive/run'
+    run = tmp_path / 'run'
+    run.mkdir()
     source = repository / 'docs/research/e2e-run06-execution-source'
+    monkeypatch.setattr(launcher, '_admit_report_migration', _admitted_fixture)
     counter = [0]
     def render_fixture(run, out, archive):
         counter[0] += 1
