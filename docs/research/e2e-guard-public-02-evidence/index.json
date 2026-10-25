@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "utc": "2026-10-25T04:11:36.997262+00:00",
+  "status": "PASSED_public_native_exact_parity_and_three_guards",
+  "source_revision": "b4fff2dace4866e41ffc4f07340eb2729de1bf50",
+  "execution_source_sha256": "b994b3ef7b770fb50db7adba3a9125f75c7c5dc1a4cd3dc3d85843d3177e1260",
+  "history_count": 16,
+  "events_per_history": 2048,
+  "methods": 8,
+  "row_count_per_method": 128,
+  "total_rows": 1024,
+  "matched_old_and_new_row_refs": 16,
+  "guard_roots": {
+    "fullscale": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-core-run-04/development_k16",
+    "inner": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-guard-cadence-public-02/runs",
+    "outer": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-guard-cadence-public-02"
+  },
+  "guard_cadence": {
+    "fullscale": {
+      "background_count": 220,
+      "forced_count": 2,
+      "maximum_observer_contention_seconds": 0.08408879199851071,
+      "maximum_observer_operation_seconds": 0.49170612499437993,
+      "maximum_reused_sample_age_seconds": 0.0,
+      "maximum_sample_age_seconds": 0.6192425420013024,
+      "observer_seconds": 19.979088351057726,
+      "reuse_count": 0,
+      "sample_count": 222,
+      "status": "completed"
+    },
+    "inner": {
+      "background_count": 221,
+      "forced_count": 2,
+      "maximum_observer_contention_seconds": 0.5302504159990349,
+      "maximum_observer_operation_seconds": 0.09606470799917588,
+      "maximum_reused_sample_age_seconds": 0.10724766700150212,
+      "maximum_sample_age_seconds": 0.7004611250013113,
+      "observer_seconds": 20.314986380974005,
+      "reuse_count": 160,
+      "sample_count": 223,
+      "status": "completed"
+    },
+    "outer": {
+      "background_count": 221,
+      "forced_count": 2,
+      "maximum_observer_contention_seconds": 0.4514588750025723,
+      "maximum_observer_operation_seconds": 0.09755641700030537,
+      "maximum_reused_sample_age_seconds": 0.0,
+      "maximum_sample_age_seconds": 0.6631223329968634,
+      "observer_seconds": 20.174792334051745,
+      "reuse_count": 0,
+      "sample_count": 223,
+      "status": "completed"
+    }
+  },
+  "fullscale_public_input": {
+    "root": "/Users/artemlegotin/Documents/git_alter/FAM-Jet/artifacts/e2e-core-run-04/development_k16",
+    "file_count": 1231,
+    "file_bytes": 351252790,
+    "inventory_sha256": "8442ba2055079a45056865e5a457b80dba3f0d0d6fe88e6bd7b0c4609bb83efa"
+  },
+  "elapsed_owner_seconds": 45.93391687500116,
+  "peak_owner_current_rss_sum_bytes": 673579008,
+  "peak_inner_tree_rss_bytes": 654196736,
+  "guard_failure": null,
+  "coordinate_strict_prediction_status": "FAILED_preserved_2_histories_4_scalars",
+  "files": {
+    "public-run/outer-live-guard.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/outer-live-guard.json",
+      "bytes": 43765,
+      "sha256": "5854b0980d85d636787144b32c4c1f4b1a5eec6132d7bbda08aeec471cd94ff4"
+    },
+    "public-run/qualification.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/qualification.json",
+      "bytes": 18937,
+      "sha256": "c5622735d4c10c16618bd1c0c85d1833836607c43514ebb073996a99fa042b1b"
+    },
+    "public-run/fullscale-guard.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/fullscale-guard.json",
+      "bytes": 44177,
+      "sha256": "1d55323cdbc799ba036fef2369ddb5734e9353b868fa9e610551ac31908028c0"
+    },
+    "public-run/runs/live-guard.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/live-guard.json",
+      "bytes": 43770,
+      "sha256": "05d50634dcca06f2f849dedd5dfb673e9440f21cb1cd6d9b90c6968dc03a9bad"
+    },
+    "public-run/runs/buckets/buckets-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/buckets/buckets-rows.json",
+      "bytes": 251543,
+      "sha256": "ab042b598ebaaef1c5161ef14965690b1284158f0fc6ac88b46fe87e4e7f6aeb"
+    },
+    "public-run/runs/latest_lru/latest_lru-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/latest_lru/latest_lru-rows.json",
+      "bytes": 248400,
+      "sha256": "26f202c57cddf6ba6c924d20e0240312e71417c8888b652e8c3b82640629b42b"
+    },
+    "public-run/runs/reservoir/reservoir-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/reservoir/reservoir-rows.json",
+      "bytes": 250707,
+      "sha256": "37c75a14494465941a226a3738b26748671de3989e6099e25ec8507f6223f22c"
+    },
+    "public-run/runs/jet/jet-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/jet/jet-rows.json",
+      "bytes": 256548,
+      "sha256": "3ddffb498bd0347251ba2c68122bb1b2bfa343bf5c4f7f67b0e66087b4f2c273"
+    },
+    "public-run/runs/bank/bank-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/bank/bank-rows.json",
+      "bytes": 256642,
+      "sha256": "0d3430e1f4dcabcdb0a8513f0a17183d6912d0a658588538adf27b86441b9718"
+    },
+    "public-run/runs/exact/exact-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/exact/exact-rows.json",
+      "bytes": 248738,
+      "sha256": "4499fbc0e487af0dce877f29e2a0f5841df2da1dec6232bfc485c555ca4b1ead"
+    },
+    "public-run/runs/laguerre/laguerre-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/laguerre/laguerre-rows.json",
+      "bytes": 257152,
+      "sha256": "12c62c0045fb88fb5a24d393f14daaeba1eb3b764c35c825948df6f129c53cc1"
+    },
+    "public-run/runs/recent/recent-rows.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/recent/recent-rows.json",
+      "bytes": 247963,
+      "sha256": "585380a23bbff66471cb995e218feecee4206c474847a229ee058fb1750daabe"
+    },
+    "public-run/runs/recent/worker-attempts/recent-00000-1792901415948896000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/recent/worker-attempts/recent-00000-1792901415948896000.json",
+      "bytes": 1674,
+      "sha256": "4d501779ba485e797064bd82cf01ae883d2b12f8a9e6e938c4b9308be13fe81d"
+    },
+    "public-run/runs/laguerre/worker-attempts/laguerre-00000-1792901447046460000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/laguerre/worker-attempts/laguerre-00000-1792901447046460000.json",
+      "bytes": 1674,
+      "sha256": "ad372a8a0b4922d203a769833c75d79687ec9e8d24d2e7a098c15744d1090f3c"
+    },
+    "public-run/runs/exact/worker-attempts/exact-00000-1792901413293585000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/exact/worker-attempts/exact-00000-1792901413293585000.json",
+      "bytes": 1674,
+      "sha256": "3432a7076671a2f7617775803799ae931280f9510ef96c11e7b214551d333fd8"
+    },
+    "public-run/runs/bank/worker-attempts/bank-00000-1792901409167068000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/bank/worker-attempts/bank-00000-1792901409167068000.json",
+      "bytes": 1674,
+      "sha256": "3ac234916a62ebfa8350d13ef9edf7b6027fe2dc62d434c05fda5dc05dc0df6f"
+    },
+    "public-run/runs/jet/worker-attempts/jet-00000-1792901406511628000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/jet/worker-attempts/jet-00000-1792901406511628000.json",
+      "bytes": 1674,
+      "sha256": "9f31493d27849689128e742822e203ac4b804250c3b529f3f12d662d10eb8a6c"
+    },
+    "public-run/runs/reservoir/worker-attempts/reservoir-00000-1792901420650686000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/reservoir/worker-attempts/reservoir-00000-1792901420650686000.json",
+      "bytes": 1674,
+      "sha256": "328237eadae0d8f3d79d0120f19a4e6b6daa502c6be4ceca859fdee9437e1db8"
+    },
+    "public-run/runs/latest_lru/worker-attempts/latest_lru-00000-1792901418280677000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/latest_lru/worker-attempts/latest_lru-00000-1792901418280677000.json",
+      "bytes": 1672,
+      "sha256": "e0dba4c20c0091c34a39517481ac55306f559056da01162d5e70c1b96592cc79"
+    },
+    "public-run/runs/buckets/worker-attempts/buckets-00000-1792901433271847000.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02/runs/buckets/worker-attempts/buckets-00000-1792901433271847000.json",
+      "bytes": 1674,
+      "sha256": "520913d42a52f0eb73c4e5e3fe7a93eb45e778820500e56c078c3035da722dfc"
+    },
+    "owner-witness/stderr.log": {
+      "original": "artifacts/e2e-guard-cadence-public-02-prep/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "owner-witness/stdout.log": {
+      "original": "artifacts/e2e-guard-cadence-public-02-prep/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "owner-witness/admission.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02-prep/admission.json",
+      "bytes": 2380,
+      "sha256": "08548fcdba8f416a7a1d23a0986a733c6abf3491f3e395c4487cb31b344ebcc1"
+    },
+    "owner-witness/exit-witness.json": {
+      "original": "artifacts/e2e-guard-cadence-public-02-prep/exit-witness.json",
+      "bytes": 19711,
+      "sha256": "e7747f76bfb32b955a3ab1ef5245381079b0208347f9ae0e886ac784fa296f6f"
+    }
+  },
+  "archive_file_count": 24,
+  "archive_bytes": 2203823,
+  "fresh_scientific_run": "NOT_RUN_NEXT_GATE",
+  "not_a_primary_accuracy_result": true
+}

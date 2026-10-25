@@ -1,0 +1,15 @@
+{
+  "expected_head": "b4fff2dace4866e41ffc4f07340eb2729de1bf50",
+  "argv": [
+    ".venv/bin/python",
+    "docs/research/e2e-guard-cadence-public-check.py",
+    "--out",
+    "artifacts/e2e-guard-cadence-public-02"
+  ],
+  "out": "artifacts/e2e-guard-cadence-public-02",
+  "prep": "artifacts/e2e-guard-cadence-public-02-prep",
+  "total_seconds": 200,
+  "finalization_reserve_seconds": 20,
+  "rss_cap_bytes": 1610612736,
+  "output_cap_bytes": 134217728
+}
