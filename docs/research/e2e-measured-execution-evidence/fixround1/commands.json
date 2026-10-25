@@ -1,0 +1,115 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_measured_execution.py",
+      "tests/test_guard_cadence_public_check.py",
+      "tests/test_poc_pipeline.py",
+      "tests/test_poc_protected.py",
+      "tests/test_poc_report_inputs.py",
+      "tests/test_poc_resources.py",
+      "tests/test_poc_transfer.py",
+      "tests/test_poc_report.py",
+      "tests/test_poc_report_scientific.py",
+      "tests/test_kernel_stage_a_completion_resources.py",
+      "-q"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 14.803933624993078,
+    "exit_code": 0,
+    "log_bytes": 181,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround1/affected-tests.log",
+    "log_sha256": "43938c9196ff5358789e5b050715ddcbd5a944a55047b1f0398594f263dd196d",
+    "name": "affected-tests",
+    "utc_end": "2026-10-25T03:02:57.622683+00:00",
+    "utc_start": "2026-10-25T03:02:42.818741+00:00"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "py_compile",
+      "famjet_poc/resources.py",
+      "famjet_poc/execution_policy.py",
+      "famjet_poc/pipeline.py",
+      "docs/research/e2e-guard-cadence-public-check.py"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.034944250000989996,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround1/compile.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "compile",
+    "utc_end": "2026-10-25T03:02:57.658129+00:00",
+    "utc_start": "2026-10-25T03:02:57.623177+00:00"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.05593937500088941,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround1/diff-check.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "diff-check",
+    "utc_end": "2026-10-25T03:02:57.714302+00:00",
+    "utc_start": "2026-10-25T03:02:57.658353+00:00"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "docs/research/e2e-guard-cadence-public-check.py",
+      "--help"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.0342674999992596,
+    "exit_code": 0,
+    "log_bytes": 459,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround1/public-driver-help.log",
+    "log_sha256": "8171bcc062440c485a1a50b13da7c174dbe1575b120454ade3e141663ece0eac",
+    "name": "public-driver-help",
+    "utc_end": "2026-10-25T03:02:57.748994+00:00",
+    "utc_start": "2026-10-25T03:02:57.714720+00:00"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--exit-code",
+      "54427142",
+      "--",
+      "famjet",
+      "famjet_poc/contracts.py",
+      "famjet_poc/data.py",
+      "famjet_poc/models.py",
+      "famjet_poc/inference.py",
+      "famjet_poc/cache.py",
+      "famjet_poc/wire.py",
+      "famjet_poc/worker.py",
+      "famjet_poc/comparators.py",
+      "famjet_poc/study.py",
+      "famjet_poc/timing.py",
+      "famjet_poc/transfer.py",
+      "requirements.lock",
+      "docs/reporting-requirements.lock",
+      "docs/research/e2e-study-config.json",
+      "configs/manifests/beijing_v2_targets.json"
+    ],
+    "cwd": "/Users/artemlegotin/Documents/git_alter/FAM-Jet",
+    "elapsed_seconds": 0.011210541000764351,
+    "exit_code": 0,
+    "log_bytes": 0,
+    "log_path": "docs/research/e2e-measured-execution-evidence/fixround1/preserved-source-diff.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "name": "preserved-source-diff",
+    "utc_end": "2026-10-25T03:02:57.760666+00:00",
+    "utc_start": "2026-10-25T03:02:57.749450+00:00"
+  }
+]
