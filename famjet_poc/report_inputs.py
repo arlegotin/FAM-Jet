@@ -623,13 +623,24 @@ def _verify_development(paths, stages, freeze):
 
 def _verify_timing(paths, stage, expected_methods):
     body = _stage_json(paths, stage, 'timing_path', 'timing_sha256')
+    timed_methods = set(expected_methods) - {'laguerre'}
+    records = body.get('records', [])
+    expected_records = {(method, qcount, block) for method in timed_methods
+                        for qcount in (1, 8, 64) for block in range(12)}
     if (body.get('schema_version') != 1 or body['policy'].get('warmups') != 3 or
             body['policy'].get('blocks') != 12 or
             body['policy'].get('query_counts') != [1, 8, 64] or
-            set(body.get('summaries', {})) != set(expected_methods) or
-            len(body.get('records', [])) != 12 * 3 * len(expected_methods)):
+            set(body.get('summaries', {})) != timed_methods or
+            any(set(summary) != {'1', '8', '64'} for summary in body['summaries'].values()) or
+            len(records) != len(expected_records) or
+            any(type(row.get('method')) is not str or type(row.get('query_count')) is not int or
+                type(row.get('block')) is not int for row in records) or
+            {(row['method'], row['query_count'], row['block']) for row in records} != expected_records):
         raise ValueError('paired timing inventory incomplete')
+    unmeasured = {'laguerre': {'status': 'not_measured', 'query_seconds': None,
+                             'reason': 'coordinate_reference_validation_not_deployment_timing'}} if 'laguerre' in expected_methods else {}
     return {'policy': body['policy'], 'summaries': body['summaries'],
+            'unmeasured_methods': unmeasured,
             'break_even_queries': body['break_even_queries'],
             'rss_scope': body['rss_scope'], 'admission': body['admission']}
 

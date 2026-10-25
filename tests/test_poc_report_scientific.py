@@ -59,27 +59,42 @@ def _producer_journal():
             'fit_attempt_count': 40, 'completed_fit_count': 4}
 
 
-def test_producer_candidate_storage_and_terminal_subset_failure_render():
+def test_producer_candidate_storage_and_terminal_subset_failure_render(tmp_path):
     from famjet_poc.report_inputs import project_development_journal
     from famjet_poc.report import _science_chart_data, _science_machine, _science_markdown
     journal = _producer_journal()
     journal['prefix_ledger'][0] = {'family': 'jet', 'prefix': 192, 'status': 'failed',
                                    'error': 'ArithmeticError: singular subset',
                                    'failure_stage': 'numerical_fit'}
+    journal['controls']['laguerre']['costs']['diagnostic_reference_validation_seconds'] = .125
     projected = project_development_journal(journal)
     assert projected['candidates'][0]['active_static_bytes'] == 1234
     assert projected['prefixes'][0]['score'] is None
     inputs = {'development': {'K16/V8': projected},
               'timing': {'summaries': {name: {'8': {'read_output_seconds': {'p50': .1}}}
-                                      for name in ('jet', 'bank', *journal['controls'])}},
+                                      for name in ('jet', 'bank', *journal['controls']) if name != 'laguerre'}},
               'synthetic': {'paired_panels': {
                   name: {'D': .1, 'lower': .01, 'upper': .2}
                   for name in ('confirmation', 'replication')}},
               'freeze_sha256': 'a'*64, 'release_sha256': 'b'*64,
               'source_sha256': 'c'*64, 'executable_sha256': 'd'*64}
+    original_inputs = copy.deepcopy(inputs)
     chart = _science_chart_data(inputs)
+    assert inputs == original_inputs
     assert chart['methods'][0]['static_bytes'] == 1500
     assert chart['methods'][1]['static_bytes'] == 1600
+    assert len(chart['methods']) == 7
+    assert 'laguerre' not in {item['name'] for item in chart['methods']}
+    assert chart['omitted_methods']['laguerre']['status'] == 'not_measured'
+    assert chart['omitted_methods']['laguerre']['query_seconds'] is None
+    assert chart == _science_chart_data(inputs)
+    assert len(projected['controls']) + len(projected['selected']) == 8
+    assert projected['controls']['laguerre']['score']['loss'] == .5
+    from famjet_poc.report_inputs import _verify_timing
+    paths, root = _paths(tmp_path)
+    timing_ref = _write_once(root / 'timing.json', _seven_method_timing())
+    stage = {'result': {'timing_path': timing_ref['path'], 'timing_sha256': timing_ref['sha256']}}
+    inputs['timing'] = _verify_timing(paths, stage, ('jet', 'bank', *journal['controls']))
     machine = {'decision': 'jet_advantage_not_demonstrated',
                'executable_sha256': 'a'*64, 'source_sha256': 'b'*64,
                'release_sha256': 'c'*64, 'git': {'revision': 'test'},
@@ -87,7 +102,7 @@ def test_producer_candidate_storage_and_terminal_subset_failure_render():
                'calibration': {'evidence_sha256': 'd'*64, 'per_cell': 256},
                'development': {'K16/V8': projected},
                'plot': {'directory_name': 'final-charts'},
-               'timing': {'summaries': {}}, 'synthetic': {'paired_panels': {
+               'timing': inputs['timing'], 'synthetic': {'paired_panels': {
                    name: {'paired_history_count': 3072, 'D': .1, 'lower': .01,
                           'upper': .2, 'superiority': True}
                    for name in ('confirmation', 'replication')},
@@ -111,6 +126,9 @@ def test_producer_candidate_storage_and_terminal_subset_failure_render():
     assert 'jet-00' in markdown
     assert 'ridge' in markdown
     assert 'ArithmeticError: singular subset' in markdown
+    assert 'Gamma/Laguerre is omitted' in markdown
+    assert 'not_measured' in markdown and 'null' in markdown
+    assert '| laguerre | 0.5 |' in markdown
     inputs.update(freeze={'git': machine['git']},
                   scientific={'qualification': machine['qualification'],
                               'calibration': machine['calibration'], 'pairs': {}},
@@ -119,8 +137,12 @@ def test_producer_candidate_storage_and_terminal_subset_failure_render():
                   beijing_source_inventory={},
                   beijing_source=machine['beijing_source'],
                   beijing_source_array_status=machine['beijing_source_array_status'])
-    assert _science_machine(inputs, machine['plot'])['transfer']['real_development_ledger'][0][
-        'config_hash'] == 'adapted-jet'
+    result = _science_machine(inputs, machine['plot'])
+    assert result['transfer']['real_development_ledger'][0]['config_hash'] == 'adapted-jet'
+    assert result['development']['K16/V8']['controls']['laguerre'] == projected['controls']['laguerre']
+    assert result['development']['K16/V8']['controls']['laguerre']['costs']['diagnostic_reference_validation_seconds'] == .125
+    assert result['timing']['unmeasured_methods']['laguerre']['query_seconds'] is None
+    assert result['timing']['unmeasured_methods']['laguerre']['status'] == 'not_measured'
 
 
 def test_incomplete_subset_remains_blocking():
@@ -262,3 +284,54 @@ def test_distinct_hash_valid_cell_counts_and_real_method_mismatch_are_rejected(t
     from famjet_poc.study import load_score_rows
     with pytest.raises(ValueError, match='method'):
         require_real_method_rows('bank', load_score_rows(paths.ref(row_ref)))
+
+
+
+def _seven_method_timing():
+    methods = ('jet', 'bank', 'exact', 'recent', 'latest_lru', 'reservoir', 'buckets')
+    return {'schema_version': 1,
+            'policy': {'warmups': 3, 'blocks': 12, 'query_counts': [1, 8, 64]},
+            'summaries': {method: {str(q): {'read_output_seconds': {'p50': .01},
+                'preprocessing_seconds': {'p50': .02}, 'serialization_seconds': {'p50': .03}}
+                for q in (1, 8, 64)} for method in methods},
+            'records': [{'method': method, 'query_count': q, 'block': block}
+                        for block in range(12) for q in (1, 8, 64) for method in methods],
+            'break_even_queries': {method: None for method in methods if method != 'exact'},
+            'rss_scope': 'sum of lifetime peaks', 'admission': {'status': 'admitted'}}
+
+
+def test_seven_actual_timings_admit_eight_scored_methods_with_explicit_unmeasured_gamma(tmp_path):
+    from famjet_poc.report_inputs import _verify_timing
+    paths, root = _paths(tmp_path)
+    body = _seven_method_timing()
+    ref = _write_once(root / 'timing.json', body)
+    stage = {'result': {'timing_path': ref['path'], 'timing_sha256': ref['sha256']}}
+    result = _verify_timing(paths, stage, (*body['summaries'], 'laguerre'))
+    assert result['summaries'] == body['summaries']
+    assert result['unmeasured_methods']['laguerre']['status'] == 'not_measured'
+    assert result['unmeasured_methods']['laguerre']['query_seconds'] is None
+    assert 'laguerre' not in result['summaries']
+    assert result == _verify_timing(paths, stage, (*body['summaries'], 'laguerre'))
+
+
+@pytest.mark.parametrize('damage', ['missing_bank', 'missing_row', 'duplicate_block', 'wrong_qcount', 'missing_summary_qcount'])
+def test_only_gamma_may_be_absent_from_deployment_timing(tmp_path, damage):
+    from famjet_poc.report_inputs import _verify_timing
+    paths, root = _paths(tmp_path)
+    body = _seven_method_timing()
+    expected = (*body['summaries'], 'laguerre')
+    if damage == 'missing_bank':
+        body['summaries'].pop('bank')
+        body['records'] = [row for row in body['records'] if row['method'] != 'bank']
+    elif damage == 'missing_row':
+        body['records'].pop()
+    elif damage == 'duplicate_block':
+        body['records'][-1] = dict(body['records'][0])
+    elif damage == 'wrong_qcount':
+        body['records'][-1]['query_count'] = 7
+    else:
+        body['summaries']['bank'].pop('64')
+    ref = _write_once(root / 'timing.json', body)
+    stage = {'result': {'timing_path': ref['path'], 'timing_sha256': ref['sha256']}}
+    with pytest.raises(ValueError, match='timing'):
+        _verify_timing(paths, stage, expected)

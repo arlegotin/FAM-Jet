@@ -76,6 +76,7 @@ def _science_chart_data(inputs):
     development = inputs['development']['K16/V8']
     timing = inputs['timing']['summaries']
     methods = []
+    omitted = {}
     for family in ('jet', 'bank'):
         chosen = development['selected'][family]['config_hash']
         candidate = next(item for item in development['candidates']
@@ -85,6 +86,10 @@ def _science_chart_data(inputs):
              'static_bytes': candidate['wire_static_bytes'],
              'query_seconds': timing[family]['8']['read_output_seconds']['p50']})
     for name, entry in development['controls'].items():
+        if name == 'laguerre':
+            omitted[name] = {'status': 'not_measured', 'query_seconds': None,
+                             'reason': 'coordinate_reference_validation_not_deployment_timing'}
+            continue
         methods.append({'name': name, 'loss': entry['score']['loss'],
              'state_bytes': entry['costs']['maximum_state_bytes'],
              'static_bytes': entry['costs']['statics_bytes'],
@@ -93,7 +98,7 @@ def _science_chart_data(inputs):
                 'lower': panel['lower'], 'upper': panel['upper']}
                for phase, panel in inputs['synthetic']['paired_panels'].items()]
     return {'schema_version': 1, 'kind': 'famjet_e5_chart_data',
-            'methods': methods, 'effects': effects,
+            'methods': methods, 'omitted_methods': omitted, 'effects': effects,
             'freeze_sha256': inputs['freeze_sha256'],
             'release_sha256': inputs['release_sha256']}
 
@@ -299,7 +304,10 @@ def _science_markdown(machine):
                          f"{_fmt(item['costs']['evaluation_seconds'])} |")
         lines.append('')
     lines += ['## One-budget accuracy, state, static storage and cost', '',
-              'The chart contains entered configurations at the one declared persistent-state budget. '
+              'The charts contain the seven deployment-timed methods at the one declared persistent-state budget. '
+              'Gamma/Laguerre is omitted from these charts: deployment latency is `not_measured` '
+              '(machine value `null`). Its scored accuracy, state, coordinate diagnostics and '
+              'reference-validation costs remain in the tables and machine JSON. '
               'Full wire-export static bytes are separate from active numeric parameters and recurrent state; cache construction, fit, '
               'preprocessing, serialization, cold start and isolated worker costs remain in the '
               'machine JSON and timing receipts.', '',
