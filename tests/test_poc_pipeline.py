@@ -1,5 +1,8 @@
+import ast
 import json
 import os
+from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -17,6 +20,8 @@ def _stub_host_processes(monkeypatch):
             return SimpleNamespace(stdout=f'{os.getpid()} {os.getppid()} 1024\n')
         if argv[0] == 'vm_stat':
             return SimpleNamespace(stdout='Mach Virtual Memory Statistics: (page size of 4096 bytes)\nPages free: 1000000.\nPages speculative: 0.\n')
+        if argv[0] == 'sysctl':
+            return SimpleNamespace(stdout='1\n')
         raise AssertionError(f'unexpected host command: {argv}')
     monkeypatch.setattr(pipeline.subprocess, 'run', observe_command)
 
@@ -59,6 +64,78 @@ def test_production_observer_fails_closed_on_output_stat_permission_error(tmp_pa
     monkeypatch.setattr(pipeline.os, 'stat', denied_stat)
     with pytest.raises(PermissionError, match='output stat denied'):
         pipeline.observe_resources(tmp_path)
+
+
+@pytest.mark.parametrize(('inactive', 'filebacked', 'speculative', 'pressure', 'credit'), [
+    (400000, 400000, 10000, '1', 195000 * 16384),
+    (0, 400000, 10000, '1', 0),
+    (400000, 0, 10000, '1', 0),
+    (400000, 400000, 10000, '2', 0),
+    (400000, 400000, 10000, '', 0),
+    (400000, 400000, 10000, None, 0),
+    (400000, 400000, 10000, 'unknown', 0),
+])
+def test_darwin_observer_credits_only_half_reclaimable_filebacked_inactive_cache(
+        tmp_path, monkeypatch, inactive, filebacked, speculative, pressure, credit):
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def command(argv, **_kwargs):
+        if argv[0] == 'vm_stat':
+            return SimpleNamespace(stdout=(
+                'Mach Virtual Memory Statistics: (page size of 16384 bytes)\n'
+                'Pages free: 50000.\n'
+                f'Pages speculative: {speculative}.\n'
+                f'Pages inactive: {inactive}.\n'
+                f'File-backed pages: {filebacked}.\n'))
+        if argv[0] == 'sysctl':
+            if pressure is None:
+                raise FileNotFoundError('sysctl unavailable')
+            return SimpleNamespace(stdout=pressure)
+        if argv[0] == 'ps':
+            return SimpleNamespace(stdout=f'{os.getpid()} {os.getppid()} 1024\n')
+        raise AssertionError(argv)
+    monkeypatch.setattr(pipeline.subprocess, 'run', command)
+    observed = pipeline.observe_resources(tmp_path)
+    assert observed['raw_free_ram_bytes'] == 60000 * 16384
+    assert observed['cache_credit_bytes'] == credit
+    assert observed['free_ram_bytes'] == observed['raw_free_ram_bytes'] + credit
+    assert observed['vm_pressure_level'] == (pressure or '').strip()
+    assert observed['vm_pages']['Pages speculative'] == speculative
+    allocation = {'max_incremental_rss_bytes': 1610612736,
+                  'max_output_bytes': 1, 'deadline_epoch_seconds': observed['now_epoch_seconds'] + 10}
+    if credit:
+        assert pipeline.admit_resources(observed, allocation)['status'] == 'admitted'
+    else:
+        with pytest.raises(RuntimeError, match='RAM admission'):
+            pipeline.admit_resources(observed, allocation)
+
+
+def test_darwin_observer_missing_or_invalid_cache_statistics_get_no_credit(tmp_path, monkeypatch):
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def command(argv, **_kwargs):
+        if argv[0] == 'vm_stat':
+            return SimpleNamespace(stdout=('Mach Virtual Memory Statistics: (page size of 16384 bytes)\n'
+                                            'Pages free: 50000.\nPages speculative: 10000.\n'
+                                            'Pages inactive: nan.\n'))
+        if argv[0] == 'sysctl':
+            return SimpleNamespace(stdout='1\n')
+        if argv[0] == 'ps':
+            return SimpleNamespace(stdout=f'{os.getpid()} {os.getppid()} 1024\n')
+        raise AssertionError(argv)
+    monkeypatch.setattr(pipeline.subprocess, 'run', command)
+    observed = pipeline.observe_resources(tmp_path)
+    assert observed['cache_credit_bytes'] == 0
+    assert observed['free_ram_bytes'] == observed['raw_free_ram_bytes']
+
+
+def test_timing_pipeline_call_allows_existing_public_retry():
+    tree = ast.parse((Path(__file__).resolve().parents[1] / 'famjet_poc/pipeline.py').read_text())
+    calls = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
+             and isinstance(node.func, ast.Attribute) and node.func.attr == 'stage'
+             and node.args and isinstance(node.args[0], ast.Constant)
+             and node.args[0].value == 'timing_k16']
+    assert len(calls) == 1
+    flags = {keyword.arg: keyword.value for keyword in calls[0].keywords}
+    assert isinstance(flags['retryable'], ast.Constant) and flags['retryable'].value is True
 
 
 def test_resume_skips_only_verified_completed_stage(tmp_path):

@@ -4,6 +4,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 import subprocess
@@ -187,17 +188,36 @@ def observe_resources(root):
     if sys.platform == 'darwin':
         free_output = subprocess.run(['vm_stat'], check=True, capture_output=True, text=True).stdout
         page_size = int(free_output.split('page size of ')[1].split(' bytes')[0])
+        if page_size <= 0:
+            raise ValueError('positive vm_stat page size required')
         pages = {}
         for line in free_output.splitlines():
             if ':' in line:
                 key, value = line.split(':', 1)
-                number = value.strip().rstrip('.')
-                if number.isdigit():
-                    pages[key.strip()] = int(number)
-        free_ram = page_size * (pages.get('Pages free', 0) + pages.get('Pages speculative', 0))
+                number = value.strip()
+                if re.fullmatch(r'[0-9]+\.', number):
+                    pages[key.strip()] = int(number[:-1])
+        if 'Pages free' not in pages or 'Pages speculative' not in pages:
+            raise ValueError('vm_stat free/speculative pages required')
+        raw_free = page_size * (pages['Pages free'] + pages['Pages speculative'])
+        try:
+            pressure = subprocess.run(['sysctl', '-n', 'kern.memorystatus_vm_pressure_level'],
+                                      check=True, capture_output=True, text=True).stdout.strip()
+        except (OSError, subprocess.CalledProcessError):
+            pressure = ''
+        cache_pages = max(0, min(pages.get('Pages inactive', 0),
+                                 pages.get('File-backed pages', 0)) - pages['Pages speculative'])
+        cache_credit = (cache_pages * page_size) // 2 if pressure == '1' else 0
+        free_ram = raw_free + cache_credit
+        memory_receipt = {'vm_page_size_bytes': page_size, 'vm_pages': pages,
+                          'raw_free_ram_bytes': raw_free,
+                          'cache_credit_bytes': cache_credit,
+                          'vm_pressure_level': pressure,
+                          'ram_estimate_policy': 'raw_free_plus_half_non_speculative_filebacked_inactive_when_pressure_1'}
     else:
         lines = Path('/proc/meminfo').read_text().splitlines()
         free_ram = int(next(line.split()[1] for line in lines if line.startswith('MemAvailable:'))) * 1024
+        memory_receipt = {}
     output = subprocess.run(['ps', '-axo', 'pid=,ppid=,rss='], check=True,
                             capture_output=True, text=True).stdout
     table = {}
@@ -214,7 +234,7 @@ def observe_resources(root):
             if ppid == parent and pid not in members:
                 members.add(pid)
                 frontier.append(pid)
-    return {'free_ram_bytes': free_ram, 'free_disk_bytes': disk.free,
+    return {'free_ram_bytes': free_ram, **memory_receipt, 'free_disk_bytes': disk.free,
             'tree_rss_bytes': sum(table[pid][1] for pid in members if pid in table),
             'now_epoch_seconds': time.time(), 'child_processes': len(members) - 1,
             'descendant_pids': sorted(members - {os.getpid()}),
@@ -630,7 +650,7 @@ def run(out, resume=False):
                 'break_even_queries': result['break_even_queries']}
     ledger.stage('timing_k16', {'timing_manifest_sha256': timing_manifest_sha,
                                  'policy': timing_policy, 'allocation': timing_allocation},
-                 timing_action, resume=resume, monitor=True)
+                 timing_action, resume=resume, retryable=True, monitor=True)
 
     config12 = {**manifest['config'], 'shape': ShapeSpec(12, 1).to_json(),
                 'training_seed': 2026102401803, 'development_seed': 2026102401804}

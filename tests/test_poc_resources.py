@@ -20,6 +20,8 @@ def _stub_host_processes(monkeypatch):
             return SimpleNamespace(stdout=f'{os.getpid()} {os.getppid()} 1024\n')
         if argv[0] == 'vm_stat':
             return SimpleNamespace(stdout='Mach Virtual Memory Statistics: (page size of 4096 bytes)\nPages free: 1000000.\nPages speculative: 0.\n')
+        if argv[0] == 'sysctl':
+            return SimpleNamespace(stdout='1\n')
         raise AssertionError(f'unexpected host command: {argv}')
     monkeypatch.setattr(pipeline.subprocess, 'run', observe_command)
 
